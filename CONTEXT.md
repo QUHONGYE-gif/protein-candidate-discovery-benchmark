@@ -1,0 +1,41 @@
+# Domain Context
+
+## Mission
+
+Build a reproducible public-data benchmark that evaluates protein candidate discovery decisions
+under small-sample and fixed-budget conditions.
+
+## Ubiquitous language
+
+- **Candidate**: one selectable item in an assay-specific candidate pool.
+- **Candidate pool**: the finite offline pool available to an acquisition strategy.
+- **Hidden oracle**: the component that owns candidate truth and reveals labels only after selection.
+- **Observation**: a candidate whose high-fidelity label has been revealed.
+- **Surrogate model**: a model fitted on observations that returns predictive mean and uncertainty.
+- **Acquisition strategy**: a policy that selects candidate IDs without receiving hidden labels.
+- **Trajectory**: the ordered, immutable record of one active-learning replay.
+- **RunSpec**: the canonical configuration and provenance inputs that define one run.
+- **Run ID**: the content-derived identifier for a canonical RunSpec.
+- **Dataset manifest**: the source, license, version, checksum, label direction, and schema record for
+  a dataset version.
+- **Split manifest**: the immutable membership and leakage-control record for one evaluation split.
+- **Engineering readiness**: implementation and verification status only.
+- **Scientific gate**: a prospectively defined evidence threshold; never inferred from CI status.
+- **Held-out**: data that remains closed to method selection and development decisions.
+- **Structure-compatible sequence**: a sequence compatible with a structure; not automatically a
+  homolog.
+
+## Core invariants
+
+1. Hidden labels never enter surrogate or acquisition inputs before reveal.
+2. Preprocessing and calibration fit on allowed development observations only.
+3. Immutable scientific artifacts are content-addressed and checksum-bound.
+4. Public and private protein project data remain operationally separated.
+5. Engineering completion and scientific validation are reported independently.
+6. Frozen protocols are superseded, never silently edited.
+
+## Context boundary
+
+This repository is a single bounded context. Dataset-specific adapters translate source formats
+into the shared benchmark contracts. Cloud storage and execution infrastructure remain adapters,
+not domain concepts.

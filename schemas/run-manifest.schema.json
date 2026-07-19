@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/run-manifest.schema.json",
+  "title": "RunManifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "git_commit",
+    "environment_digest",
+    "dataset_manifest_sha256",
+    "split_sha256",
+    "feature_sha256",
+    "experiment_config_sha256",
+    "model_id",
+    "model_config_sha256",
+    "acquisition_id",
+    "acquisition_config_sha256",
+    "seed",
+    "initial_sample_size",
+    "batch_size",
+    "budget"
+  ],
+  "properties": {
+    "schema_version": { "const": "1" },
+    "protocol_version": { "type": "string", "minLength": 1 },
+    "git_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "environment_digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "dataset_manifest_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "split_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "feature_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "experiment_config_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "model_id": { "type": "string", "minLength": 1 },
+    "model_config_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "acquisition_id": { "type": "string", "minLength": 1 },
+    "acquisition_config_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "seed": { "type": "integer", "minimum": 0 },
+    "initial_sample_size": { "type": "integer", "minimum": 1 },
+    "batch_size": { "type": "integer", "minimum": 1 },
+    "budget": { "type": "integer", "minimum": 1 }
+  }
+}
