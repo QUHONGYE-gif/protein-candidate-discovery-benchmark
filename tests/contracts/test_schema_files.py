@@ -11,14 +11,7 @@ SCHEMA_DIRECTORY = Path(__file__).parents[2] / "schemas"
 REPOSITORY_ROOT = Path(__file__).parents[2]
 FIXTURE_DIRECTORY = REPOSITORY_ROOT / "tests/fixtures/contracts"
 
-SCHEMA_NAMES = [
-    "dataset-manifest.schema.json",
-    "processing-manifest.schema.json",
-    "split-manifest.schema.json",
-    "experiment.schema.json",
-    "run-spec.schema.json",
-    "run-attempt.schema.json",
-]
+SCHEMA_NAMES = [path.name for path in sorted(SCHEMA_DIRECTORY.glob("*.schema.json"))]
 
 
 @pytest.mark.parametrize(
@@ -42,6 +35,13 @@ def test_smoke_experiment_matches_experiment_schema() -> None:
     )
 
     Draft202012Validator(schema, format_checker=FormatChecker()).validate(config)
+
+
+@pytest.mark.parametrize("fixture_name", ["valid-manifests.json", "invalid-manifests.json"])
+def test_manifest_fixture_set_covers_every_schema(fixture_name: str) -> None:
+    fixtures = json.loads((FIXTURE_DIRECTORY / fixture_name).read_text(encoding="utf-8"))
+
+    assert set(fixtures) == set(SCHEMA_NAMES)
 
 
 @pytest.mark.parametrize("schema_name", SCHEMA_NAMES)
