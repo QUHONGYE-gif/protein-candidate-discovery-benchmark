@@ -9,19 +9,23 @@
     "experiment_id",
     "phase",
     "dataset_manifest_sha256",
+    "processing_manifest_sha256",
     "split_sha256",
     "models",
     "acquisitions",
     "seeds",
     "initial_sample_sizes",
     "batch_sizes",
-    "budgets"
+    "budgets",
+    "evaluation",
+    "held_out_authorized"
   ],
   "properties": {
     "schema_version": { "const": "1" },
     "experiment_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
     "phase": { "enum": ["smoke", "development", "pilot", "frozen"] },
     "dataset_manifest_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "processing_manifest_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
     "split_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
     "models": { "type": "array", "minItems": 1, "items": { "type": "string" } },
     "acquisitions": { "type": "array", "minItems": 1, "items": { "type": "string" } },
@@ -29,6 +33,61 @@
     "initial_sample_sizes": { "type": "array", "minItems": 1, "items": { "type": "integer", "minimum": 1 } },
     "batch_sizes": { "type": "array", "minItems": 1, "items": { "type": "integer", "minimum": 1 } },
     "budgets": { "type": "array", "minItems": 1, "items": { "type": "integer", "minimum": 1 } },
-    "held_out_authorized": { "type": "boolean", "default": false }
-  }
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["high_value_definition", "decision_metrics"],
+      "properties": {
+        "high_value_definition": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "value"],
+          "properties": {
+            "kind": { "enum": ["absolute", "quantile", "top_k", "near_optimal"] },
+            "value": { "type": "number" }
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "kind": { "const": "absolute" },
+                "value": { "type": "number" }
+              }
+            },
+            {
+              "properties": {
+                "kind": { "const": "quantile" },
+                "value": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 }
+              }
+            },
+            {
+              "properties": {
+                "kind": { "const": "top_k" },
+                "value": { "type": "integer", "minimum": 1 }
+              }
+            },
+            {
+              "properties": {
+                "kind": { "const": "near_optimal" },
+                "value": { "type": "number", "minimum": 0 }
+              }
+            }
+          ]
+        },
+        "decision_metrics": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "held_out_authorized": { "type": "boolean", "default": false },
+    "held_out_authorization_reference": { "type": "string", "minLength": 1 }
+  },
+  "if": {
+    "properties": { "held_out_authorized": { "const": true } },
+    "required": ["held_out_authorized"]
+  },
+  "then": { "required": ["held_out_authorization_reference"] },
+  "else": { "not": { "required": ["held_out_authorization_reference"] } }
 }

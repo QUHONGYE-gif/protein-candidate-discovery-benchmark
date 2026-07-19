@@ -1,10 +1,15 @@
 from __future__ import annotations
 
+import json
 from dataclasses import replace
+from pathlib import Path
 
 import pytest
+from jsonschema import Draft202012Validator
 
 from pcdb.contracts import RunSpec
+
+RUN_SPEC_SCHEMA = Path(__file__).parents[2] / "schemas/run-spec.schema.json"
 
 
 def make_run_spec() -> RunSpec:
@@ -14,9 +19,10 @@ def make_run_spec() -> RunSpec:
         git_commit="a" * 40,
         environment_digest="b" * 64,
         dataset_manifest_sha256="c" * 64,
-        split_sha256="d" * 64,
-        feature_sha256="e" * 64,
-        experiment_config_sha256="f" * 64,
+        processing_manifest_sha256="d" * 64,
+        split_sha256="e" * 64,
+        feature_sha256="f" * 64,
+        experiment_config_sha256="3" * 64,
         model_id="ridge",
         model_config_sha256="1" * 64,
         acquisition_id="random",
@@ -37,10 +43,22 @@ def test_run_id_is_deterministic() -> None:
     assert len(first.run_id) == 64
 
 
+def test_run_spec_canonical_json_matches_schema() -> None:
+    schema = json.loads(RUN_SPEC_SCHEMA.read_text(encoding="utf-8"))
+
+    Draft202012Validator(schema).validate(json.loads(make_run_spec().canonical_json()))
+
+
 def test_run_id_changes_when_seed_changes() -> None:
     original = make_run_spec()
 
     assert original.run_id != replace(original, seed=1).run_id
+
+
+def test_run_id_changes_when_processing_manifest_changes() -> None:
+    original = make_run_spec()
+
+    assert original.run_id != replace(original, processing_manifest_sha256="4" * 64).run_id
 
 
 def test_run_spec_rejects_abbreviated_git_commit() -> None:

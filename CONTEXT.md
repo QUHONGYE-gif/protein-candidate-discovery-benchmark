@@ -16,8 +16,12 @@ under small-sample and fixed-budget conditions.
 - **Trajectory**: the ordered, immutable record of one active-learning replay.
 - **RunSpec**: the canonical configuration and provenance inputs that define one run.
 - **Run ID**: the content-derived identifier for a canonical RunSpec.
-- **Dataset manifest**: the source, license, version, checksum, label direction, and schema record for
-  a dataset version.
+- **Run attempt**: one append-only execution record for a Run ID, including actual runtime state,
+  output checksums, and completion evidence.
+- **Dataset manifest**: the source, license, version, download time, checksum, and limitation record
+  for a dataset version.
+- **Processing manifest**: the immutable transformation, duplicate-handling, field-visibility, and
+  processed-output record derived from one dataset manifest.
 - **Split manifest**: the immutable membership and leakage-control record for one evaluation split.
 - **Engineering readiness**: implementation and verification status only.
 - **Scientific gate**: a prospectively defined evidence threshold; never inferred from CI status.

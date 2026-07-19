@@ -7,6 +7,7 @@
 - full Git commit；
 - Python/environment 或 container digest；
 - dataset manifest hash；
+- processing manifest hash；
 - split hash 与 feature hash；
 - model/acquisition config；
 - seed、budget 和 batch size；
@@ -18,6 +19,10 @@
 
 `run_id` 由 canonical `RunSpec` 内容计算，不包含提交时间、机器临时目录等不稳定信息。相同
 输入定义必须产生相同 `run_id`；不同数据、代码、配置或 seed 必须产生不同 ID。
+
+RunSpec 与 RunAttempt 使用独立 Schema。RunSpec 只保存影响科学运行身份的输入；每次实际
+执行都创建新的 append-only RunAttempt，记录实际 commit/environment、compute metadata、
+状态、输出 checksum、failure 和 completion marker。
 
 ## Artifact completion
 

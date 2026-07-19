@@ -7,20 +7,22 @@
   "required": [
     "schema_version",
     "dataset_id",
+    "dataset_version",
     "task_id",
     "source_url",
     "license",
+    "downloaded_at",
     "raw_files",
-    "candidate_id_field",
-    "label_field",
-    "label_direction"
+    "known_limitations"
   ],
   "properties": {
     "schema_version": { "const": "1" },
     "dataset_id": { "type": "string", "minLength": 1 },
+    "dataset_version": { "type": "string", "minLength": 1 },
     "task_id": { "type": "string", "minLength": 1 },
     "source_url": { "type": "string", "format": "uri" },
     "license": { "type": "string", "minLength": 1 },
+    "downloaded_at": { "type": "string", "format": "date-time" },
     "raw_files": {
       "type": "array",
       "minItems": 1,
@@ -35,9 +37,10 @@
         }
       }
     },
-    "candidate_id_field": { "type": "string", "minLength": 1 },
-    "label_field": { "type": "string", "minLength": 1 },
-    "label_direction": { "enum": ["higher_is_better", "lower_is_better"] },
-    "notes": { "type": "string" }
+    "known_limitations": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    }
   }
 }

@@ -11,7 +11,7 @@ from pcdb.storage.base import ArtifactMetadata
 
 
 class LocalArtifactStore:
-    """Store immutable artifacts under one local root using atomic replacement."""
+    """Store artifacts under one local root using atomic publication."""
 
     def __init__(self, root: Path) -> None:
         self._root = root.resolve()
@@ -29,8 +29,6 @@ class LocalArtifactStore:
     def put_bytes(self, key: str, data: bytes, *, overwrite: bool = False) -> ArtifactMetadata:
         """Write an object atomically and return its verified metadata."""
         path = self._path(key)
-        if path.exists() and not overwrite:
-            raise FileExistsError(key)
         path.parent.mkdir(parents=True, exist_ok=True)
 
         temporary_path: Path | None = None
@@ -40,7 +38,10 @@ class LocalArtifactStore:
                 handle.write(data)
                 handle.flush()
                 os.fsync(handle.fileno())
-            os.replace(temporary_path, path)
+            if overwrite:
+                os.replace(temporary_path, path)
+            else:
+                os.link(temporary_path, path)
         finally:
             if temporary_path is not None:
                 temporary_path.unlink(missing_ok=True)

@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/run-attempt.schema.json",
+  "title": "RunAttempt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "attempt_id",
+    "status",
+    "started_at",
+    "executed_git_commit",
+    "executed_environment_digest",
+    "compute",
+    "outputs"
+  ],
+  "properties": {
+    "schema_version": { "const": "1" },
+    "run_id": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "attempt_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "status": { "enum": ["running", "succeeded", "failed"] },
+    "started_at": { "type": "string", "format": "date-time" },
+    "finished_at": { "type": "string", "format": "date-time" },
+    "executed_git_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "executed_environment_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "compute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["executor_type", "runtime_version"],
+      "properties": {
+        "executor_type": { "enum": ["local", "compute_server"] },
+        "runtime_version": { "type": "string", "minLength": 1 },
+        "accelerator": { "type": "string", "minLength": 1 },
+        "region": { "type": "string", "minLength": 1 }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/artifact" }
+    },
+    "completion_marker": { "$ref": "#/$defs/completion_marker" },
+    "failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message", "retryable"],
+      "properties": {
+        "code": { "type": "string", "minLength": 1 },
+        "message": { "type": "string", "minLength": 1 },
+        "retryable": { "type": "boolean" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "running" } }, "required": ["status"] },
+      "then": {
+        "not": {
+          "anyOf": [
+            { "required": ["finished_at"] },
+            { "required": ["completion_marker"] },
+            { "required": ["failure"] }
+          ]
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "succeeded" } }, "required": ["status"] },
+      "then": {
+        "required": ["finished_at", "completion_marker"],
+        "properties": { "outputs": { "minItems": 1 } },
+        "not": { "required": ["failure"] }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "failed" } }, "required": ["status"] },
+      "then": {
+        "required": ["finished_at", "failure"],
+        "not": { "required": ["completion_marker"] }
+      }
+    }
+  ],
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["object_key", "sha256", "size_bytes"],
+      "properties": {
+        "object_key": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "size_bytes": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "completion_marker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["object_key", "sha256", "size_bytes"],
+      "properties": {
+        "object_key": { "type": "string", "pattern": "(^|/)_SUCCESS$" },
+        "sha256": {
+          "const": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "size_bytes": { "const": 0 }
+      }
+    }
+  }
+}

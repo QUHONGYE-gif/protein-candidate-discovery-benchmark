@@ -1,0 +1,125 @@
+{
+  "dataset-manifest.schema.json": {
+    "schema_version": "1",
+    "dataset_id": "public-assay",
+    "dataset_version": "2026-01",
+    "task_id": "activity",
+    "source_url": "https://example.org/public-assay",
+    "license": "CC-BY-4.0",
+    "downloaded_at": "2026-07-19T00:00:00Z",
+    "raw_files": [
+      {
+        "object_key": "raw/public-assay/source.csv",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "size_bytes": 128
+      }
+    ],
+    "known_limitations": ["Synthetic public fixture only"]
+  },
+  "processing-manifest.schema.json": {
+    "schema_version": "1",
+    "processing_id": "public-assay-clean-v1",
+    "dataset_manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "processing_config_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "git_commit": "cccccccccccccccccccccccccccccccccccccccc",
+    "candidate_id_field": "candidate_id",
+    "candidate_id_unique": true,
+    "observable_feature_fields": ["sequence"],
+    "hidden_label_field": "activity",
+    "label_direction": "higher_is_better",
+    "duplicate_policy": {
+      "exact_duplicates": "error",
+      "near_duplicates": "grouped",
+      "near_duplicate_method": "sequence-identity threshold"
+    },
+    "output_files": [
+      {
+        "object_key": "processed/public-assay/table.parquet",
+        "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "size_bytes": 256
+      }
+    ],
+    "known_limitations": ["Synthetic public fixture only"]
+  },
+  "split-manifest.schema.json": {
+    "schema_version": "1",
+    "split_id": "public-assay-development-v1",
+    "protocol_version": "1",
+    "processing_manifest_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "membership_file": {
+      "object_key": "splits/public-assay/membership.parquet",
+      "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "size_bytes": 64
+    },
+    "partitions": ["development", "validation", "held-out"],
+    "grouping_unit": "protein",
+    "leakage_controls": ["sequence groups remain within one partition"],
+    "held_out_partitions": ["held-out"]
+  },
+  "experiment.schema.json": {
+    "schema_version": "1",
+    "experiment_id": "fixture-smoke-v1",
+    "phase": "smoke",
+    "dataset_manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "processing_manifest_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "split_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "models": ["ridge"],
+    "acquisitions": ["random"],
+    "seeds": [0],
+    "initial_sample_sizes": [4],
+    "batch_sizes": [2],
+    "budgets": [4],
+    "evaluation": {
+      "high_value_definition": { "kind": "top_k", "value": 1 },
+      "decision_metrics": ["best_found_value"]
+    },
+    "held_out_authorized": false
+  },
+  "run-spec.schema.json": {
+    "schema_version": "1",
+    "protocol_version": "1",
+    "git_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "environment_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "dataset_manifest_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "processing_manifest_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "split_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "feature_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "experiment_config_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "model_id": "ridge",
+    "model_config_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "acquisition_id": "random",
+    "acquisition_config_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "seed": 0,
+    "initial_sample_size": 4,
+    "batch_size": 2,
+    "budget": 4
+  },
+  "run-attempt.schema.json": {
+    "schema_version": "1",
+    "run_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "attempt_id": "attempt-001",
+    "status": "succeeded",
+    "started_at": "2026-07-19T00:00:00Z",
+    "finished_at": "2026-07-19T00:01:00Z",
+    "executed_git_commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "executed_environment_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "compute": {
+      "executor_type": "compute_server",
+      "runtime_version": "python-3.11",
+      "accelerator": "none",
+      "region": "test-region"
+    },
+    "outputs": [
+      {
+        "object_key": "runs/run-1/attempts/attempt-001/metrics.json",
+        "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "size_bytes": 32
+      }
+    ],
+    "completion_marker": {
+      "object_key": "runs/run-1/attempts/attempt-001/_SUCCESS",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  }
+}

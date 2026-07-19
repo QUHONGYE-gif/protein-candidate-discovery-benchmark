@@ -17,18 +17,25 @@
 
 不得根据 held-out 结果重新选择 feature、model、acquisition、threshold 或 cost ratio。
 
-## 任务 Manifest
+## 任务 Manifest 集
 
-每个 dataset/task version 至少记录：
+每个 dataset/task version 由职责分离、checksum 绑定的 manifest 集共同描述：
 
-- dataset ID、task ID、source URL 和 license；
-- 下载时间、原始文件 SHA-256 和处理代码 commit；
-- candidate ID 唯一性与 label direction；
-- duplicate/near-duplicate 处理；
-- split membership 与 leakage control；
-- high-value threshold 的定义；
-- 可观察 feature 与 hidden label 字段；
-- 已知限制和不适用结论。
+- **Dataset Manifest**：dataset/task ID、source version、source URL、license、下载时间、
+  原始文件 SHA-256 和数据源限制；
+- **Processing Manifest**：输入 Dataset Manifest hash、处理配置 hash、处理代码 full commit、
+  candidate ID 唯一性、duplicate/near-duplicate 规则、可观察 feature、hidden label、label
+  direction、处理输出 checksum 和处理限制；
+- **Split Manifest**：输入 Processing Manifest hash、membership artifact、partition、grouping
+  unit、leakage control 和 held-out partition；
+- **Experiment Config**：high-value threshold、decision metrics、budget、model、acquisition 和
+  held-out authorization；
+- **RunSpec**：所有影响 run identity 的 canonical 输入；
+- **RunAttempt**：实际执行 commit/environment、attempt 状态、compute metadata、输出 checksum、
+  failure 和 `_SUCCESS` 记录。
+
+JSON Schema 负责结构、类型与局部约束。需要比较多个动态字段的规则，例如 hidden label 不得
+同时出现在 observable feature 列表中，由领域校验器执行，并必须 fail closed。
 
 ## 主动学习回放
 
@@ -46,6 +53,9 @@ initial observations
 
 相同 `RunSpec` 必须产生相同 initial selection、tie breaking 和随机序列。随机性必须由显式
 seed 控制，不得依赖进程启动顺序。
+
+只有 canonical `RunSpec` 参与 `run_id`。`attempt_id`、时间、compute metadata、运行状态、
+failure 和输出 artifact 不得改变 `run_id`。
 
 ## 指标
 

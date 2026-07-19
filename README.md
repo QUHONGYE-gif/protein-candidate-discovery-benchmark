@@ -38,7 +38,7 @@ make check
 
 ```text
 configs/       versioned experiment configuration
-schemas/       dataset, experiment and run manifests
+schemas/       dataset, processing, split, experiment, RunSpec and attempt contracts
 src/pcdb/      benchmark implementation
 tests/         unit, contract, leakage and integration tests
 docs/          科学协议、数据边界、复现说明和 ADR

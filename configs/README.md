@@ -1,7 +1,8 @@
 # Experiment configuration
 
 配置按照用途分为 `smoke`、`development`、`pilot` 和 `frozen`。配置文件进入正式执行前必须
-通过对应 JSON Schema，并在 RunSpec 中以 SHA-256 绑定。
+通过对应 JSON Schema，并在 RunSpec 中以 Dataset、Processing、Split 和实验配置的 SHA-256
+绑定。
 
 - `smoke`：只验证代码路径和 deterministic behavior；
 - `development`：允许方法开发和调参；

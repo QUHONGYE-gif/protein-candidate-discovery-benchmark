@@ -24,6 +24,7 @@ class RunSpec:
     git_commit: str
     environment_digest: str
     dataset_manifest_sha256: str
+    processing_manifest_sha256: str
     split_sha256: str
     feature_sha256: str
     experiment_config_sha256: str
@@ -47,6 +48,7 @@ class RunSpec:
         hash_fields = (
             "environment_digest",
             "dataset_manifest_sha256",
+            "processing_manifest_sha256",
             "split_sha256",
             "feature_sha256",
             "experiment_config_sha256",
