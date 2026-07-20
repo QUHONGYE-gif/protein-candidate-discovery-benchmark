@@ -1,0 +1,54 @@
+{
+  "inventory_version": "1",
+  "dataset_id": "flip2",
+  "dataset_version": "zenodo-18433203-v3",
+  "task_id": "amylase",
+  "source_url": "https://zenodo.org/records/18433203",
+  "doi": "10.5281/zenodo.18433203",
+  "license": "MIT",
+  "object_prefix": "raw/flip2/zenodo-18433203-v3",
+  "known_limitations": [
+    "This manifest records immutable raw source files only; processing and split audits are pending.",
+    "The random_split file is an upstream reference and is not a frozen benchmark split.",
+    "Raw CSV files contain target, set, and validation fields; downstream hidden-label enforcement is not established by raw ingest.",
+    "The task README declares MIT for the Amylase task files while the Zenodo record metadata declares CC-BY-4.0. The license field records task-level MIT; external releases must preserve the record-level attribution and both notices."
+  ],
+  "files": [
+    {
+      "key": "amylase/README.md",
+      "url": "https://zenodo.org/api/records/18433203/files/amylase/README.md/content",
+      "md5": "ecafdf5d14ac5fec70d32f1fd27824d8",
+      "size_bytes": 331
+    },
+    {
+      "key": "amylase/by_mutation.csv.gz",
+      "url": "https://zenodo.org/api/records/18433203/files/amylase/by_mutation.csv.gz/content",
+      "md5": "3acf90685dae45a534c4f12bc9dec6b6",
+      "size_bytes": 51507
+    },
+    {
+      "key": "amylase/close_to_far.csv.gz",
+      "url": "https://zenodo.org/api/records/18433203/files/amylase/close_to_far.csv.gz/content",
+      "md5": "0846c25b51a92e2c04e7b2d3edc504d2",
+      "size_bytes": 51387
+    },
+    {
+      "key": "amylase/far_to_close.csv.gz",
+      "url": "https://zenodo.org/api/records/18433203/files/amylase/far_to_close.csv.gz/content",
+      "md5": "2f0c9bfcaf9164afba66e5632b7fc53c",
+      "size_bytes": 51349
+    },
+    {
+      "key": "amylase/one_to_many.csv.gz",
+      "url": "https://zenodo.org/api/records/18433203/files/amylase/one_to_many.csv.gz/content",
+      "md5": "97006840cd899e93fc011202b7d008c2",
+      "size_bytes": 51532
+    },
+    {
+      "key": "amylase/random_split.csv.gz",
+      "url": "https://zenodo.org/api/records/18433203/files/amylase/random_split.csv.gz/content",
+      "md5": "7d76f918afa788bb0562f6f3e721a9f5",
+      "size_bytes": 51619
+    }
+  ]
+}

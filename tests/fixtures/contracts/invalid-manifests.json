@@ -4,7 +4,8 @@
     "dataset_id": "public-assay",
     "dataset_version": "2026-01",
     "task_id": "activity",
-    "source_url": "not a URI",
+    "source_url": "https://example.org/public-assay",
+    "doi": "not-a-doi",
     "license": "CC-BY-4.0",
     "downloaded_at": "2026-07-19T00:00:00Z",
     "raw_files": [
@@ -15,6 +16,53 @@
       }
     ],
     "known_limitations": []
+  },
+  "dataset-ingest-attempt.schema.json": {
+    "schema_version": "1",
+    "attempt_id": "flip2-amylase-20260720T050259Z",
+    "status": "succeeded",
+    "dataset_id": "flip2",
+    "dataset_version": "zenodo-18433203-v3",
+    "task_id": "amylase",
+    "raw_ingest_git_commit": "not-a-commit",
+    "manifest_revision_git_commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "source_inventory": {
+      "repository_path": "configs/datasets/flip2/amylase.json",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "dataset_manifest": {
+      "revision": 2,
+      "object_key": "manifests/flip2/amylase/dataset-manifest.v2.json",
+      "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "size_bytes": 512,
+      "supersedes_object_key": "manifests/flip2/amylase/dataset-manifest.json",
+      "supersedes_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "environment": {
+      "python_version": "3.14.4",
+      "platform": "macOS-15-arm64",
+      "coscli_version": "1.0.0",
+      "cos_region": "ap-beijing",
+      "cos_bucket_alias": "data"
+    },
+    "commands": ["coscli cp <local> cos://data/<object-key> --forbid-overwrite"],
+    "raw_objects": [
+      {
+        "object_key": "raw/flip2/amylase/example.csv.gz",
+        "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "size_bytes": 128
+      }
+    ],
+    "verification": {
+      "publisher_md5_and_size_verified": true,
+      "cos_readback_sha256_and_size_verified": true,
+      "manifest_schema_verified": true,
+      "manifest_exact_bytes_verified": true,
+      "duplicate_write_rejected": true,
+      "duplicate_write_status": "409 FileAlreadyExists",
+      "raw_object_count": 1
+    },
+    "verified_at": "2026-07-20T06:00:00Z"
   },
   "processing-manifest.schema.json": {
     "schema_version": "1",

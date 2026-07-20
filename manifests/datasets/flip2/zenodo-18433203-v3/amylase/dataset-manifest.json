@@ -1,0 +1,48 @@
+{
+  "dataset_id": "flip2",
+  "dataset_version": "zenodo-18433203-v3",
+  "doi": "10.5281/zenodo.18433203",
+  "downloaded_at": "2026-07-20T05:02:59.236853Z",
+  "known_limitations": [
+    "This manifest records immutable raw source files only; processing and split audits are pending.",
+    "The random_split file is an upstream reference and is not a frozen benchmark split.",
+    "Raw CSV files contain target, set, and validation fields; downstream hidden-label enforcement is not established by raw ingest.",
+    "The task README declares MIT for the Amylase task files while the Zenodo record metadata declares CC-BY-4.0. The license field records task-level MIT; external releases must preserve the record-level attribution and both notices."
+  ],
+  "license": "MIT",
+  "raw_files": [
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/amylase/README.md",
+      "sha256": "7c4022e3c2619508b2d149b8facb90705099d68e7d181533d0a75c980d5c4692",
+      "size_bytes": 331
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/amylase/by_mutation.csv.gz",
+      "sha256": "2e76acc9da3ef04a8ccecd8a3f631b84ee2e4e1f0cdea406f18153387b986d04",
+      "size_bytes": 51507
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/amylase/close_to_far.csv.gz",
+      "sha256": "a72384ae67e424777d51f97c661268e1e83236575c78cfe862921ce664e50695",
+      "size_bytes": 51387
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/amylase/far_to_close.csv.gz",
+      "sha256": "4af9f927432ee5f1e0b3a20f2f7b969aa778ba6d1f097409a73262be79fe80e8",
+      "size_bytes": 51349
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/amylase/one_to_many.csv.gz",
+      "sha256": "03c42ab34e7ba9e420234d44980ae1215b66f8cfca605d344ebd29140df2b711",
+      "size_bytes": 51532
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/amylase/random_split.csv.gz",
+      "sha256": "6bc0281e18362b4b04a2bed902fcf7dd13c41583046d6a657f0755d75da4baff",
+      "size_bytes": 51619
+    }
+  ],
+  "schema_version": "1",
+  "source_url": "https://zenodo.org/records/18433203",
+  "task_id": "amylase"
+}

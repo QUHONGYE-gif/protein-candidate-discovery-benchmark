@@ -38,6 +38,7 @@ make check
 
 ```text
 configs/       versioned experiment configuration
+manifests/     versioned compact manifest copies; large objects remain in COS
 schemas/       dataset, processing, split, experiment, RunSpec and attempt contracts
 src/pcdb/      benchmark implementation
 tests/         unit, contract, leakage and integration tests
