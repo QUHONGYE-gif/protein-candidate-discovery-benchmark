@@ -196,3 +196,48 @@ def test_tracked_amylase_manifest_matches_schema_and_inventory() -> None:
     assert {item["object_key"] for item in manifest["raw_files"]} == {
         f"{inventory.object_prefix}/{source.key}" for source in inventory.files
     }
+
+
+def test_tracked_amylase_ingest_attempt_is_successful_and_checksum_bound() -> None:
+    inventory_path = REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/amylase.json"
+    manifest_path = (
+        REPOSITORY_ROOT
+        / "manifests/datasets/flip2/zenodo-18433203-v3/amylase/dataset-manifest.json"
+    )
+    attempt_path = (
+        REPOSITORY_ROOT
+        / "manifests/datasets/flip2/zenodo-18433203-v3/amylase/ingest-attempts"
+        / "flip2-amylase-20260720T072736Z.json"
+    )
+    attempt = json.loads(attempt_path.read_text(encoding="utf-8"))
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    schema = json.loads(
+        (REPOSITORY_ROOT / "schemas/dataset-ingest-attempt.schema.json").read_text(encoding="utf-8")
+    )
+
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(attempt)
+    assert attempt["status"] == "succeeded"
+    assert attempt["raw_ingest_git_commit"] == "c0c30da025a6ba2654c267f3919652b21f29db57"
+    assert attempt["manifest_revision_git_commit"] == "d77b2d6a95915910deb5d1a6fd0ccf65ee032b49"
+    assert (
+        attempt["source_inventory"]["sha256"]
+        == hashlib.sha256(inventory_path.read_bytes()).hexdigest()
+    )
+    assert (
+        attempt["dataset_manifest"]["sha256"]
+        == hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+    )
+    assert attempt["dataset_manifest"]["object_key"].endswith("dataset-manifest.v2.json")
+    assert attempt["dataset_manifest"]["supersedes_sha256"] == (
+        "657111a8517c8cbc9a17a5ac98964af77839d4fee8efee16438464c9d8347ce9"
+    )
+    assert attempt["raw_objects"] == manifest["raw_files"]
+    assert attempt["verification"] == {
+        "publisher_md5_and_size_verified": True,
+        "cos_readback_sha256_and_size_verified": True,
+        "manifest_schema_verified": True,
+        "manifest_exact_bytes_verified": True,
+        "duplicate_write_rejected": True,
+        "duplicate_write_status": "409 FileAlreadyExists",
+        "raw_object_count": len(manifest["raw_files"]),
+    }

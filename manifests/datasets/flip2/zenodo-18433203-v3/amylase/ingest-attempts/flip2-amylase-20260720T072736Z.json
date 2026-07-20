@@ -1,0 +1,79 @@
+{
+  "attempt_id": "flip2-amylase-20260720T072736Z",
+  "commands": [
+    ".venv/bin/python scripts/prepare_dataset.py --inventory configs/datasets/flip2/zenodo-18433203-v3/amylase.json --staging-root <outside-repository-staging-root>",
+    "coscli cp cos://data/raw/flip2/zenodo-18433203-v3/amylase/ <temporary-readback-dir>/ --recursive",
+    "coscli cp <dataset-manifest.v2.json> cos://data/manifests/flip2/zenodo-18433203-v3/amylase/dataset-manifest.v2.json --forbid-overwrite",
+    "coscli cp cos://data/manifests/flip2/zenodo-18433203-v3/amylase/dataset-manifest.v2.json <temporary-readback-file>",
+    "cmp <dataset-manifest.v2.json> <temporary-readback-file>",
+    ".venv/bin/python -m pytest tests/datasets/test_ingest.py tests/contracts/test_schema_files.py"
+  ],
+  "dataset_id": "flip2",
+  "dataset_manifest": {
+    "object_key": "manifests/flip2/zenodo-18433203-v3/amylase/dataset-manifest.v2.json",
+    "revision": 2,
+    "sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+    "size_bytes": 2101,
+    "supersedes_object_key": "manifests/flip2/zenodo-18433203-v3/amylase/dataset-manifest.json",
+    "supersedes_sha256": "657111a8517c8cbc9a17a5ac98964af77839d4fee8efee16438464c9d8347ce9"
+  },
+  "dataset_version": "zenodo-18433203-v3",
+  "environment": {
+    "cos_bucket_alias": "data",
+    "cos_region": "ap-beijing",
+    "coscli_version": "v1.0.8",
+    "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+    "python_version": "3.14.4"
+  },
+  "manifest_revision_git_commit": "d77b2d6a95915910deb5d1a6fd0ccf65ee032b49",
+  "raw_ingest_git_commit": "c0c30da025a6ba2654c267f3919652b21f29db57",
+  "raw_objects": [
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/amylase/README.md",
+      "sha256": "7c4022e3c2619508b2d149b8facb90705099d68e7d181533d0a75c980d5c4692",
+      "size_bytes": 331
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/amylase/by_mutation.csv.gz",
+      "sha256": "2e76acc9da3ef04a8ccecd8a3f631b84ee2e4e1f0cdea406f18153387b986d04",
+      "size_bytes": 51507
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/amylase/close_to_far.csv.gz",
+      "sha256": "a72384ae67e424777d51f97c661268e1e83236575c78cfe862921ce664e50695",
+      "size_bytes": 51387
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/amylase/far_to_close.csv.gz",
+      "sha256": "4af9f927432ee5f1e0b3a20f2f7b969aa778ba6d1f097409a73262be79fe80e8",
+      "size_bytes": 51349
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/amylase/one_to_many.csv.gz",
+      "sha256": "03c42ab34e7ba9e420234d44980ae1215b66f8cfca605d344ebd29140df2b711",
+      "size_bytes": 51532
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/amylase/random_split.csv.gz",
+      "sha256": "6bc0281e18362b4b04a2bed902fcf7dd13c41583046d6a657f0755d75da4baff",
+      "size_bytes": 51619
+    }
+  ],
+  "schema_version": "1",
+  "source_inventory": {
+    "repository_path": "configs/datasets/flip2/zenodo-18433203-v3/amylase.json",
+    "sha256": "a5f5f34d7b267f41aa7aa43c25f76ff9d481873fdba2e2854476dfa9e137668a"
+  },
+  "status": "succeeded",
+  "task_id": "amylase",
+  "verification": {
+    "cos_readback_sha256_and_size_verified": true,
+    "duplicate_write_rejected": true,
+    "duplicate_write_status": "409 FileAlreadyExists",
+    "manifest_exact_bytes_verified": true,
+    "manifest_schema_verified": true,
+    "publisher_md5_and_size_verified": true,
+    "raw_object_count": 6
+  },
+  "verified_at": "2026-07-20T07:27:36Z"
+}

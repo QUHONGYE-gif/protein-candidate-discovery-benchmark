@@ -90,11 +90,20 @@ proxy secret。
 - 官方文件：6 个，总计 `257725` bytes。
 - 本机 staging：发布方 MD5 和 byte size 全部通过，并生成 SHA-256。
 - COS raw 回读：6/6 对象的 SHA-256 与 byte size 全部与 Dataset Manifest 一致。
-- Dataset Manifest：已通过 Draft 2020-12 Schema，SHA-256 为
-  `657111a8517c8cbc9a17a5ac98964af77839d4fee8efee16438464c9d8347ce9`。
-- COS manifest 回读：与 staging 原件 exact-byte 一致，再次通过 Schema。
-- 不可覆盖：相同 manifest key 二次上传返回 `409 FileAlreadyExists`。
-- 对象计数：批准的 raw prefix 为 6，manifest prefix 为 1，无额外对象。
+- 原始 raw ingest commit：`c0c30da025a6ba2654c267f3919652b21f29db57`。
+- 原始 Dataset Manifest 保留在 `dataset-manifest.json`，SHA-256 为
+  `657111a8517c8cbc9a17a5ac98964af77839d4fee8efee16438464c9d8347ce9`；该对象缺少 DOI，
+  已被 revision 2 supersede，不得作为正式冻结依据。
+- manifest revision commit：`d77b2d6a95915910deb5d1a6fd0ccf65ee032b49`。
+- revision 2 保存在 `dataset-manifest.v2.json`，大小 `2101` bytes，SHA-256 为
+  `c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac`；包含 DOI，已通过
+  Draft 2020-12 Schema，COS 回读与 Git 文件 exact-byte 一致。
+- 不可覆盖：revision 2 相同 key 二次上传明确返回 `409 FileAlreadyExists`。
+- `DatasetIngestAttempt`：`flip2-amylase-20260720T072736Z.json`，大小 `3482` bytes，
+  SHA-256 为 `29045efcc31614f2b092d1669f870b3fede2184cc52d154bc12a3dce724600ca`；COS
+  回读 exact-byte 一致，相同 evidence key 二次上传同样返回 `409 FileAlreadyExists`。
+- 对象计数：批准的 raw task prefix 为 6，manifest task root 为旧版与 revision 2 共 2 个，
+  `ingest-attempts/` 为 1 个；没有覆盖或删除旧对象。
 
 上述证据只表示 raw ingest runtime 完成。代码仍需 PR/CI 评审，Processing、Split、
 replay 和 scientific gate 仍未开始。
