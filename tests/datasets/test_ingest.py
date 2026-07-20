@@ -237,6 +237,9 @@ def test_tracked_ired_manifest_matches_schema_and_inventory() -> None:
     assert {item["object_key"] for item in manifest["raw_files"]} == {
         f"{inventory.object_prefix}/{source.key}" for source in inventory.files
     }
+    assert {item["object_key"]: item["size_bytes"] for item in manifest["raw_files"]} == {
+        f"{inventory.object_prefix}/{source.key}": source.size_bytes for source in inventory.files
+    }
 
 
 def test_tracked_amylase_ingest_attempt_is_successful_and_checksum_bound() -> None:
