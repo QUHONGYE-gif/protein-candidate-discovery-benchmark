@@ -1,0 +1,19 @@
+{
+  "schema_version": "1",
+  "experiment_id": "smoke-baseline-v1",
+  "phase": "smoke",
+  "dataset_manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "processing_manifest_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "split_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "models": ["ridge"],
+  "acquisitions": ["random"],
+  "seeds": [0],
+  "initial_sample_sizes": [4],
+  "batch_sizes": [2],
+  "budgets": [4],
+  "evaluation": {
+    "high_value_definition": { "kind": "top_k", "value": 1 },
+    "decision_metrics": ["best_found_value"]
+  },
+  "held_out_authorized": false
+}

@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/processing-manifest.schema.json",
+  "title": "ProcessingManifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "processing_id",
+    "dataset_manifest_sha256",
+    "processing_config_sha256",
+    "git_commit",
+    "candidate_id_field",
+    "candidate_id_unique",
+    "observable_feature_fields",
+    "hidden_label_field",
+    "label_direction",
+    "duplicate_policy",
+    "output_files",
+    "known_limitations"
+  ],
+  "properties": {
+    "schema_version": { "const": "1" },
+    "processing_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "dataset_manifest_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "processing_config_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "git_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "candidate_id_field": { "type": "string", "minLength": 1 },
+    "candidate_id_unique": { "const": true },
+    "observable_feature_fields": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "hidden_label_field": { "type": "string", "minLength": 1 },
+    "label_direction": { "enum": ["higher_is_better", "lower_is_better"] },
+    "duplicate_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exact_duplicates", "near_duplicates"],
+      "properties": {
+        "exact_duplicates": {
+          "enum": ["error", "drop_first", "drop_last", "aggregate", "retain"]
+        },
+        "near_duplicates": {
+          "enum": ["not_assessed", "allowed", "grouped", "excluded"]
+        },
+        "near_duplicate_method": { "type": "string", "minLength": 1 }
+      },
+      "if": {
+        "properties": {
+          "near_duplicates": { "enum": ["grouped", "excluded"] }
+        },
+        "required": ["near_duplicates"]
+      },
+      "then": { "required": ["near_duplicate_method"] }
+    },
+    "output_files": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/artifact" }
+    },
+    "known_limitations": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["object_key", "sha256", "size_bytes"],
+      "properties": {
+        "object_key": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "size_bytes": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

@@ -216,3 +216,40 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Repository-local agent resources and scratch work
+.agents/
+.scratch/
+.codex/
+.codex-log/
+
+# Secrets and local cloud configuration
+*.pem
+*.key
+*.secret
+credentials/
+
+# Public datasets are retrieved from COS or their original sources.
+data/*
+!data/README.md
+
+# Benchmark artifacts belong in COS. Keep only the directory policy in Git.
+results/*
+!results/README.md
+
+# Local compute caches and model artifacts
+.pcdb-cache/
+artifacts/
+checkpoints/
+*.ckpt
+*.safetensors
+*.parquet
+*.arrow
+*.feather
+*.npy
+*.npz
+
+# Local databases and task queues
+*.sqlite
+*.sqlite3
+redis-data/

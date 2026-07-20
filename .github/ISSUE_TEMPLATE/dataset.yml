@@ -1,0 +1,38 @@
+name: Dataset onboarding
+description: 引入或升级公开 dataset/task/assay
+title: "[Dataset] "
+labels: ["needs-triage"]
+body:
+  - type: input
+    id: source
+    attributes:
+      label: Source URL
+    validations:
+      required: true
+  - type: input
+    id: license
+    attributes:
+      label: License / redistribution terms
+    validations:
+      required: true
+  - type: textarea
+    id: task
+    attributes:
+      label: Task and label semantics
+      description: candidate unit、label direction、missing values 和 high-value definition。
+    validations:
+      required: true
+  - type: textarea
+    id: split
+    attributes:
+      label: Split and leakage controls
+      description: duplicate、similarity、protein/complex grouping 和 held-out boundary。
+    validations:
+      required: true
+  - type: textarea
+    id: manifest
+    attributes:
+      label: Manifest outputs
+      description: 计划生成的 checksum、COS prefix 和 audit artifacts。
+    validations:
+      required: true

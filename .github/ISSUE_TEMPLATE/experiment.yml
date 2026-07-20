@@ -1,0 +1,47 @@
+name: Experiment
+description: Development、pilot 或 frozen Benchmark 实验
+title: "[Experiment] "
+labels: ["needs-triage"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Research question
+      description: 要检验的问题或假设，避免预设结论。
+    validations:
+      required: true
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Phase
+      options: ["smoke", "development", "pilot", "frozen"]
+    validations:
+      required: true
+  - type: textarea
+    id: protocol
+    attributes:
+      label: Frozen protocol inputs
+      description: dataset/split/config hashes、model、acquisition、seed、budget 和 cost。
+    validations:
+      required: true
+  - type: textarea
+    id: gates
+    attributes:
+      label: Metrics, gates and stop conditions
+      description: 在查看结果前定义 acceptance、failure 和停止条件。
+    validations:
+      required: true
+  - type: checkboxes
+    id: heldout
+    attributes:
+      label: Held-out boundary
+      options:
+        - label: 本 Issue 不会在未授权时读取 held-out labels
+          required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Expected COS artifacts
+      description: 预期 run ID、object prefix、manifest 和 summary。
+    validations:
+      required: true

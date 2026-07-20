@@ -1,0 +1,40 @@
+name: Implementation
+description: 有明确接口与验收标准的工程实现
+title: "[Implementation] "
+labels: ["needs-triage"]
+body:
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景
+      description: 为什么现在需要这个实现？
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: 列出包含和明确不包含的内容。
+    validations:
+      required: true
+  - type: textarea
+    id: contract
+    attributes:
+      label: Contract / Interface
+      description: 涉及的 API、Schema、输入输出或 failure behavior。
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: 使用可验证的 checklist。
+    validations:
+      required: true
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Scientific claim boundary
+      description: 说明完成实现后仍不能声称什么。
+    validations:
+      required: true
