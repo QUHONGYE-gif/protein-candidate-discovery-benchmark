@@ -11,3 +11,9 @@
 
 `held_out_authorized` 默认必须为 `false`。只有对应 scientific gate 和人工授权完成后才能创建
 新的授权配置版本。
+
+## Dataset source inventory
+
+`configs/datasets/` 保存通过 Dataset Onboarding Issue 审核的官方下载计划，包括
+canonical URL、发布方 checksum、byte size、task-level license 和 COS object prefix。
+Source inventory 只决定 raw ingest，不替代 Dataset、Processing 或 Split Manifest。

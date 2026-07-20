@@ -1,7 +1,15 @@
 # 数据集登记
 
-当前尚未下载或冻结正式数据。候选数据源包括 FLIP2、ProteinGym 和 SKEMPI 2.0，但每个具体
-task/assay 必须通过 dataset onboarding Issue 后才能进入开发或主实验。
+FLIP2 v3 Alpha Amylase 已完成官方 raw source 下载、checksum 冻结和 COS 回读验证，
+但尚未进入 processing、split 审计或 replay。其他候选数据源包括 FLIP2 其他 task、
+ProteinGym 和 SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboarding Issue 后才能进入
+开发或主实验。
+
+## 进行中的 onboarding
+
+- FLIP2 v3 Alpha Amylase：GitHub Issue #3，raw ingest runtime 已完成；官方 source inventory、下载校验与
+  COS 对象布局见 [FLIP2 Amylase ingest](data/FLIP2_AMYLASE_INGEST.md)。
+- 当前分支仍需 PR/CI 评审；Processing、Split、replay 和 scientific validation 均未开始。
 
 ## Onboarding checklist
 
