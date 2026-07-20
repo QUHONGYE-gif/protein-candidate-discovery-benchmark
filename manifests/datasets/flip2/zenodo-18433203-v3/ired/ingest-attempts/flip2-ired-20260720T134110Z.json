@@ -1,0 +1,65 @@
+{
+  "attempt_id": "flip2-ired-20260720T134110Z",
+  "commands": [
+    ".venv/bin/python scripts/prepare_dataset.py --inventory configs/datasets/flip2/zenodo-18433203-v3/ired.json --staging-root <outside-repository-staging-root>",
+    "coscli cp <verified-task-file> cos://data/raw/flip2/zenodo-18433203-v3/ired/<source-filename> --forbid-overwrite",
+    "coscli cp cos://data/raw/flip2/zenodo-18433203-v3/ired/<source-filename> <temporary-readback-file>",
+    "shasum -a 256 <temporary-readback-files> && cmp <verified-files> <temporary-readback-files>",
+    "coscli cp <dataset-manifest.json> cos://data/manifests/flip2/zenodo-18433203-v3/ired/dataset-manifest.json --forbid-overwrite",
+    "coscli cp cos://data/manifests/flip2/zenodo-18433203-v3/ired/dataset-manifest.json <temporary-readback-file>",
+    "cmp <dataset-manifest.json> <temporary-readback-file>",
+    "coscli cp <dataset-manifest.json> cos://data/manifests/flip2/zenodo-18433203-v3/ired/dataset-manifest.json --forbid-overwrite --err-retry-num 0",
+    ".venv/bin/python -m pytest tests/datasets/test_ingest.py tests/contracts/test_schema_files.py"
+  ],
+  "dataset_id": "flip2",
+  "dataset_manifest": {
+    "object_key": "manifests/flip2/zenodo-18433203-v3/ired/dataset-manifest.json",
+    "revision": 1,
+    "sha256": "37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643",
+    "size_bytes": 1599
+  },
+  "dataset_version": "zenodo-18433203-v3",
+  "environment": {
+    "cos_bucket_alias": "data",
+    "cos_region": "ap-beijing",
+    "coscli_version": "v1.0.8",
+    "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+    "python_version": "3.14.4"
+  },
+  "manifest_revision_git_commit": "da8a8bd011b7cbb2f52fc7f02bae6a31fbb38a05",
+  "raw_ingest_git_commit": "da8a8bd011b7cbb2f52fc7f02bae6a31fbb38a05",
+  "raw_objects": [
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/ired/README.md",
+      "sha256": "6517ad1600c8705fe3a216a376f70d826571ccbf48f53cd570893502b34708e7",
+      "size_bytes": 632
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/ired/random.csv.gz",
+      "sha256": "45e911e990d77fe5e4413a0c96692323697b1222fd1f9adcf5dda05a52f16535",
+      "size_bytes": 194747
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/ired/two_to_many.csv.gz",
+      "sha256": "84d31e6c86209868f3993877a928358023f3414b6a18db4933e8222a761c3485",
+      "size_bytes": 194734
+    }
+  ],
+  "schema_version": "1",
+  "source_inventory": {
+    "repository_path": "configs/datasets/flip2/zenodo-18433203-v3/ired.json",
+    "sha256": "dbf720fc289faffdf8cded44be9eb1580f794ecb3072676eda6781daccc72095"
+  },
+  "status": "succeeded",
+  "task_id": "ired",
+  "verification": {
+    "cos_readback_sha256_and_size_verified": true,
+    "duplicate_write_rejected": true,
+    "duplicate_write_status": "409 FileAlreadyExists",
+    "manifest_exact_bytes_verified": true,
+    "manifest_schema_verified": true,
+    "publisher_md5_and_size_verified": true,
+    "raw_object_count": 3
+  },
+  "verified_at": "2026-07-20T13:41:10Z"
+}

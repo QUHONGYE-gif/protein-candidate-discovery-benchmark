@@ -69,8 +69,21 @@ Dataset Manifest 重新验证 SHA-256 与 byte size；raw readback 成功后才�
 - publisher MD5 与 byte size：3/3 通过；
 - 独立 SHA-256：3/3 已写入 Dataset Manifest；
 - Dataset Manifest：通过 Draft 2020-12 Schema 与 repository domain test；
-- COS upload/readback：尚未执行；
-- DatasetIngestAttempt：尚未生成。
+- raw ingest commit：`da8a8bd011b7cbb2f52fc7f02bae6a31fbb38a05`；
+- COS raw readback：3/3 对象的 SHA-256、byte size 与本机 verified bytes 全部一致；
+- Dataset Manifest：`dataset-manifest.json`，大小 `1599` bytes，SHA-256 为
+  `37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643`；COS 回读与 Git
+  文件 exact-byte 一致，并再次通过 Schema；
+- Dataset Manifest 相同 key 重复上传使用 `--forbid-overwrite --err-retry-num 0`，明确返回
+  `409 FileAlreadyExists`，远端修改时间与 ETag 未改变；
+- DatasetIngestAttempt：`flip2-ired-20260720T134110Z.json`，大小 `3007` bytes，SHA-256 为
+  `bbe790fbfd985f1d1add7d3e124450b48367763e06909bb3bb18c7e4faa08263`；COS 回读 exact-byte
+  一致并通过 Schema，相同 evidence key 重复上传同样返回 `409 FileAlreadyExists`；
+- 对象计数：批准的 raw task prefix 为 3，manifest task root 为 1，`ingest-attempts/` 为 1；
+  没有覆盖或删除对象。
+
+上述证据表示 IRED raw ingest runtime 完成。代码、证据与文档仍需 PR/CI 和人工审查；
+Processing、Split、replay 和 scientific gate 仍未开始。
 
 ## 原始字段边界
 

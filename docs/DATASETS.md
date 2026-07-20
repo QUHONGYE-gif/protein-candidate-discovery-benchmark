@@ -1,8 +1,8 @@
 # 数据集登记
 
 FLIP2 v3 Alpha Amylase 已完成官方 raw source 下载、checksum 冻结和 COS 回读验证；
-FLIP2 v3 Imine Reductase 正在执行独立 raw-ingest tracer。两者均尚未进入 processing、split
-审计或 replay。其他候选数据源包括 FLIP2 其他 task、
+FLIP2 v3 Imine Reductase 已完成独立 raw-ingest runtime 与 COS 回读验证。两者均尚未进入
+processing、split 审计或 replay。其他候选数据源包括 FLIP2 其他 task、
 ProteinGym 和 SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboarding Issue 后才能进入
 开发或主实验。
 
@@ -12,9 +12,9 @@ ProteinGym 和 SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboard
   machine-readable `DatasetIngestAttempt` 已回读验证；官方 source inventory、下载校验与 COS
   对象布局见
   [FLIP2 Amylase ingest](data/FLIP2_AMYLASE_INGEST.md)。
-- FLIP2 v3 Imine Reductase：GitHub Issue #8，本机 3/3 source objects 的 publisher checksum、
-  byte size、SHA-256 和 Dataset Manifest Schema 已验证；COS upload/readback 与
-  `DatasetIngestAttempt` 尚未执行，见 [FLIP2 IRED ingest](data/FLIP2_IRED_INGEST.md)。
+- FLIP2 v3 Imine Reductase：GitHub Issue #8，3/3 source objects、Dataset Manifest 和
+  machine-readable `DatasetIngestAttempt` 均已完成 COS exact-byte/readback 验证及不可覆盖
+  检查，见 [FLIP2 IRED ingest](data/FLIP2_IRED_INGEST.md)；代码与证据仍需 PR/CI 和人工审查。
 - Processing、Split、replay 和 scientific validation 均未开始。
 
 ## Onboarding checklist

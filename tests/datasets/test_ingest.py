@@ -282,3 +282,45 @@ def test_tracked_amylase_ingest_attempt_is_successful_and_checksum_bound() -> No
         "duplicate_write_status": "409 FileAlreadyExists",
         "raw_object_count": len(manifest["raw_files"]),
     }
+
+
+def test_tracked_ired_ingest_attempt_is_successful_and_checksum_bound() -> None:
+    inventory_path = REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/ired.json"
+    manifest_path = (
+        REPOSITORY_ROOT / "manifests/datasets/flip2/zenodo-18433203-v3/ired/dataset-manifest.json"
+    )
+    attempt_path = (
+        REPOSITORY_ROOT
+        / "manifests/datasets/flip2/zenodo-18433203-v3/ired/ingest-attempts"
+        / "flip2-ired-20260720T134110Z.json"
+    )
+    attempt = json.loads(attempt_path.read_text(encoding="utf-8"))
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    schema = json.loads(
+        (REPOSITORY_ROOT / "schemas/dataset-ingest-attempt.schema.json").read_text(encoding="utf-8")
+    )
+
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(attempt)
+    assert attempt["status"] == "succeeded"
+    assert attempt["raw_ingest_git_commit"] == "da8a8bd011b7cbb2f52fc7f02bae6a31fbb38a05"
+    assert attempt["manifest_revision_git_commit"] == attempt["raw_ingest_git_commit"]
+    assert (
+        attempt["source_inventory"]["sha256"]
+        == hashlib.sha256(inventory_path.read_bytes()).hexdigest()
+    )
+    assert (
+        attempt["dataset_manifest"]["sha256"]
+        == hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+    )
+    assert attempt["dataset_manifest"]["revision"] == 1
+    assert attempt["dataset_manifest"]["object_key"].endswith("dataset-manifest.json")
+    assert attempt["raw_objects"] == manifest["raw_files"]
+    assert attempt["verification"] == {
+        "publisher_md5_and_size_verified": True,
+        "cos_readback_sha256_and_size_verified": True,
+        "manifest_schema_verified": True,
+        "manifest_exact_bytes_verified": True,
+        "duplicate_write_rejected": True,
+        "duplicate_write_status": "409 FileAlreadyExists",
+        "raw_object_count": len(manifest["raw_files"]),
+    }
