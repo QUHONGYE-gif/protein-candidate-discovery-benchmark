@@ -7,8 +7,9 @@ ProteinGym 和 SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboard
 
 ## 进行中的 onboarding
 
-- FLIP2 v3 Alpha Amylase：GitHub Issue #3，raw ingest runtime 已完成；官方 source inventory、下载校验与
-  COS 对象布局见 [FLIP2 Amylase ingest](data/FLIP2_AMYLASE_INGEST.md)。
+- FLIP2 v3 Alpha Amylase：GitHub Issue #3，raw ingest runtime 已完成；官方 source
+  inventory、下载校验与 COS 对象布局见
+  [FLIP2 Amylase ingest](data/FLIP2_AMYLASE_INGEST.md)。
 - 当前分支仍需 PR/CI 评审；Processing、Split、replay 和 scientific validation 均未开始。
 
 ## Onboarding checklist
