@@ -36,10 +36,13 @@ Gate 时，后续日期顺延或缩减范围，不以跳过审计补进度。
 → 单保真 screening
 → 敏感性与预测—决策分析
 → 多保真实验
+→ 最小 SKEMPI 2.0 external validation
 → 证据冻结与发布
 ```
 
-SKEMPI 深结构特征、更多 assay、知识引导搜索和大型模型重算是增强线，不阻塞主线冻结。
+最小、可审计的 SKEMPI 2.0 external validation 属于 initial scope，并在主结果冻结前完成。
+SKEMPI complex-level normalization、深结构特征、更多 assay、知识引导搜索和大型模型重算是
+增强线，不与该最小验证混为同一范围。
 
 ## 阶段与 Gate
 
@@ -61,7 +64,8 @@ scientific evidence。
 **计划窗口**：7 月 20–28 日。
 
 **执行单位**：每个 dataset task/assay 一个 onboarding Issue。优先用一个 FLIP2 task 完成
-raw-ingest tracer bullet，再依据审计结果决定后续 FLIP2、ProteinGym 和 SKEMPI 范围。
+raw-ingest tracer bullet，再依据审计结果决定后续 FLIP2 和 ProteinGym 范围；最小 SKEMPI 2.0
+external validation 仍需独立 onboarding Issue，不因属于 initial scope 而跳过许可或字段审计。
 
 **交付物**：
 
@@ -128,8 +132,12 @@ TabPFN 或 Ensemble 中按 Issue 逐步引入；策略至少包含 Random、Gree
 研究初始样本量、噪声、高值稀疏度、初始化偏置、activity cliff 和候选池规模，并比较
 prediction ranking 与 decision ranking。输出应优先解释策略何时失效，而不是只给平均名次。
 
+在独立 onboarding Issue 与预先声明的 protocol 通过审核后，完成最小、可审计的 SKEMPI 2.0
+external validation。该切片只回答跨蛋白复合物的外部有效性，不自动扩展到 complex-level
+normalization、深结构特征或结构能量计算。
+
 **退出条件**：跨 task 的统计单位正确；关键差异提供置信区间和配对分析；探索性与确认性分析
-明确区分。
+明确区分；最小 SKEMPI external-validation 结果绑定 manifest、split、RunSpec 和 attempt。
 
 ### M6：E4/E5 多保真
 
@@ -163,7 +171,7 @@ prediction ranking 与 decision ranking。输出应优先解释策略何时失�
 按主线证据决定是否启动：
 
 1. 扩展 ProteinGym assay 与关键组合 seed；
-2. SKEMPI complex-level split 和轻量结构基线；
+2. SKEMPI complex-level normalization、扩展 split 和轻量结构基线；
 3. conformal calibration、activity-cliff-aware acquisition；
 4. FoldX/Rosetta 或更深结构代理；
 5. 知识引导粗到细搜索与解释模型。

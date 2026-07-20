@@ -53,10 +53,12 @@ Issue、许可核验和 manifest chain，不能因为数据源公开而批量授
 |---|---|---|
 | FLIP2 | 小样本景观与分布偏移任务 | task-level 来源、许可、字段、duplicate 和 split 审计 |
 | ProteinGym | DMS 高保真标签与公开 zero-shot 低保真代理 | assay 选择规则、方向、覆盖率和 held-out 边界冻结 |
-| SKEMPI 2.0 | 蛋白复合物与结构任务扩展 | 许可、突变规范化和 complex-level split 通过审计 |
+| SKEMPI 2.0 | 最小、可审计的蛋白复合物 external validation | task-level 许可与字段审计、候选定义和 external-validation protocol 冻结 |
 | 可控模拟标签 | 多保真相关性、偏差、噪声和成本敏感性 | 由公开真值可复现生成，参数在结果读取前冻结 |
 
-第一阶段目标是形成少量、互补、审计完整的代表任务，不追求一次覆盖数据源的全部 assay。
+第一阶段目标是形成少量、互补、审计完整的代表任务，其中包括最小 SKEMPI 2.0 external
+validation；不追求一次覆盖数据源的全部 assay。SKEMPI complex-level normalization、深结构特征、
+FoldX/Rosetta 等属于后续增强，不与最小 external validation 混为同一范围。
 
 ## 预期贡献
 

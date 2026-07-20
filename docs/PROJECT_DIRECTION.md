@@ -57,7 +57,8 @@ hidden-label 边界，成本比和相关性也不能根据 held-out 结果调节
 | P0 | 数据契约、hidden-label 边界、可复现 replay、核心 decision metrics | 无；属于主线基础 |
 | P1 | 代表性 FLIP2/ProteinGym 任务、强静态基线、单保真 E1、E2/E3 | 相应数据与 replay Gate 通过 |
 | P1 | 可控多保真 E4、ProteinGym 真实代理 E5 | 单保真结果和 cost model 冻结 |
-| P2 | SKEMPI 结构扩展、更多 assay、conformal、解释模型 | 不阻塞主结果且有独立 Issue |
+| P1 | 最小、可审计的 SKEMPI 2.0 external validation | task-level onboarding 与 external-validation protocol 冻结 |
+| P2 | SKEMPI complex-level normalization、结构特征扩展、更多 assay、conformal、解释模型 | 不阻塞主结果且有独立 Issue |
 | P2 | 知识引导粗到细搜索、大型 PLM 重算、FoldX/Rosetta | 主线证据完成后重新评估 |
 
 优先级不是数据访问授权。每个数据集和实验仍需独立 Issue、reviewed PR 与相应 manifest。
