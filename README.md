@@ -50,6 +50,11 @@ results/       仅保留产物政策；正式结果写入 COS
 [Benchmark Contract](docs/BENCHMARK_CONTRACT.md) 和
 [Privacy Boundary](docs/PRIVACY_BOUNDARY.md)。
 
+项目的长期研究定位、范围控制和阶段路线分别见
+[Project Background](docs/PROJECT_BACKGROUND.md)、
+[Project Direction](docs/PROJECT_DIRECTION.md) 和
+[Execution Roadmap](docs/EXECUTION_ROADMAP.md)。
+
 ## 当前状态
 
 - Engineering readiness：初始化中；
