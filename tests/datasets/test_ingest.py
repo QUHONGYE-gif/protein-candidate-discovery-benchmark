@@ -173,6 +173,22 @@ def test_repository_amylase_inventory_is_pinned_to_six_official_files() -> None:
     }
 
 
+def test_repository_ired_inventory_is_pinned_to_three_official_files() -> None:
+    inventory = load_source_inventory(
+        REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/ired.json"
+    )
+
+    assert inventory.dataset_version == "zenodo-18433203-v3"
+    assert inventory.task_id == "ired"
+    assert inventory.license == "CC-BY-4.0"
+    assert sum(source.size_bytes for source in inventory.files) == 390_113
+    assert {(source.key, source.md5, source.size_bytes) for source in inventory.files} == {
+        ("ired/README.md", "f8461790121caa6a2fcefcc5f20d1f6f", 632),
+        ("ired/random.csv.gz", "9f26de3ed0cc925d77604c07784debb1", 194_747),
+        ("ired/two_to_many.csv.gz", "f514fa09bb8ba5fd092d9417ed8642d9", 194_734),
+    }
+
+
 def test_tracked_amylase_manifest_matches_schema_and_inventory() -> None:
     inventory = load_source_inventory(
         REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/amylase.json"
@@ -181,6 +197,31 @@ def test_tracked_amylase_manifest_matches_schema_and_inventory() -> None:
         (
             REPOSITORY_ROOT
             / "manifests/datasets/flip2/zenodo-18433203-v3/amylase/dataset-manifest.json"
+        ).read_text(encoding="utf-8")
+    )
+    schema = json.loads(
+        (REPOSITORY_ROOT / "schemas/dataset-manifest.schema.json").read_text(encoding="utf-8")
+    )
+
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(manifest)
+    assert manifest["dataset_id"] == inventory.dataset_id
+    assert manifest["dataset_version"] == inventory.dataset_version
+    assert manifest["task_id"] == inventory.task_id
+    assert manifest["doi"] == inventory.doi
+    assert manifest["license"] == inventory.license
+    assert {item["object_key"] for item in manifest["raw_files"]} == {
+        f"{inventory.object_prefix}/{source.key}" for source in inventory.files
+    }
+
+
+def test_tracked_ired_manifest_matches_schema_and_inventory() -> None:
+    inventory = load_source_inventory(
+        REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/ired.json"
+    )
+    manifest = json.loads(
+        (
+            REPOSITORY_ROOT
+            / "manifests/datasets/flip2/zenodo-18433203-v3/ired/dataset-manifest.json"
         ).read_text(encoding="utf-8")
     )
     schema = json.loads(
