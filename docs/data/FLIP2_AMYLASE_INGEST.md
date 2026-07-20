@@ -8,8 +8,11 @@ gate 证据。
 
 Canonical source 是 Zenodo record `18433203` version `v3`，DOI 为
 `10.5281/zenodo.18433203`。Zenodo record 标记 CC-BY-4.0，但 task 自带的
-`amylase/README.md` 明确标记 MIT；本任务按更具体的 task-level README 记录 `MIT`，同时原样
-保留 README 与 Van der Flier et al. 论文 attribution。
+`amylase/README.md` 明确标记 MIT。经 maintainer 于 2026-07-20 确认，Dataset Manifest 的
+`license` 表示 task-level raw files 的许可，因此记录 `MIT`；Zenodo record-level
+`CC-BY-4.0` 继续作为 source provenance 保留。未来 external frozen release 必须附带 DOI、
+task README、record-level attribution 与两层 license notice。是否把两层许可泛化为独立 Schema
+字段不属于本 Issue，需另行设计和批准。
 
 ## 准备本机 staging
 
@@ -57,10 +60,30 @@ Dataset Manifest 写入：
 manifests/flip2/zenodo-18433203-v3/amylase/dataset-manifest.json
 ```
 
+若已发布的不可变 manifest 存在契约缺口，不得覆盖原 key。修正版使用递增的 artifact revision：
+
+```text
+manifests/flip2/zenodo-18433203-v3/amylase/dataset-manifest.v2.json
+```
+
+旧对象必须保留，并在 `DatasetIngestAttempt` 中记录 `supersedes_object_key` 与旧 SHA-256。
+artifact revision 不改变上游 dataset version，也不改变 Dataset Manifest 的 Schema version。
+
 上传必须逐文件使用 `coscli cp ... --forbid-overwrite`。上传后必须从 COS 回读到新的临时目录，
 逐项比较 manifest 中的 SHA-256 和 byte size。对任一相同 key 的重复上传必须返回
 `409 FileAlreadyExists`。全部 raw objects 验证完成后才上传 manifest；本切片不发布
 `_SUCCESS`，因为 `_SUCCESS` 属于完整处理或 run attempt 的完成契约。
+
+完成后的机器可读执行证据写入 Git：
+
+```text
+manifests/datasets/flip2/zenodo-18433203-v3/amylase/ingest-attempts/<attempt-id>.json
+```
+
+并以 `--forbid-overwrite` 发布到对应 COS `manifests/.../ingest-attempts/` prefix。证据必须绑定
+raw ingest commit、manifest revision commit、source inventory、运行环境、规范化命令、所有
+对象 checksum、COS 回读结果和重复写入的 409 结果；不得包含本机绝对路径、credential 或
+proxy secret。
 
 ## 2026-07-20 raw ingest 证据
 

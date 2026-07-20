@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/dataset-ingest-attempt.schema.json",
+  "title": "DatasetIngestAttempt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "attempt_id",
+    "status",
+    "dataset_id",
+    "dataset_version",
+    "task_id",
+    "raw_ingest_git_commit",
+    "manifest_revision_git_commit",
+    "source_inventory",
+    "dataset_manifest",
+    "environment",
+    "commands",
+    "raw_objects",
+    "verification",
+    "verified_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "1" },
+    "attempt_id": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["succeeded", "failed"] },
+    "dataset_id": { "type": "string", "minLength": 1 },
+    "dataset_version": { "type": "string", "minLength": 1 },
+    "task_id": { "type": "string", "minLength": 1 },
+    "raw_ingest_git_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "manifest_revision_git_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "source_inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository_path", "sha256"],
+      "properties": {
+        "repository_path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "dataset_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "revision",
+        "object_key",
+        "sha256",
+        "size_bytes"
+      ],
+      "properties": {
+        "revision": { "type": "integer", "minimum": 1 },
+        "object_key": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "size_bytes": { "type": "integer", "minimum": 1 },
+        "supersedes_object_key": { "type": "string", "minLength": 1 },
+        "supersedes_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "python_version",
+        "platform",
+        "coscli_version",
+        "cos_region",
+        "cos_bucket_alias"
+      ],
+      "properties": {
+        "python_version": { "type": "string", "minLength": 1 },
+        "platform": { "type": "string", "minLength": 1 },
+        "coscli_version": { "type": "string", "minLength": 1 },
+        "cos_region": { "type": "string", "minLength": 1 },
+        "cos_bucket_alias": { "type": "string", "minLength": 1 }
+      }
+    },
+    "commands": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "raw_objects": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["object_key", "sha256", "size_bytes"],
+        "properties": {
+          "object_key": { "type": "string", "minLength": 1 },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "size_bytes": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher_md5_and_size_verified",
+        "cos_readback_sha256_and_size_verified",
+        "manifest_schema_verified",
+        "manifest_exact_bytes_verified",
+        "duplicate_write_rejected",
+        "duplicate_write_status",
+        "raw_object_count"
+      ],
+      "properties": {
+        "publisher_md5_and_size_verified": { "type": "boolean" },
+        "cos_readback_sha256_and_size_verified": { "type": "boolean" },
+        "manifest_schema_verified": { "type": "boolean" },
+        "manifest_exact_bytes_verified": { "type": "boolean" },
+        "duplicate_write_rejected": { "type": "boolean" },
+        "duplicate_write_status": { "type": "string", "minLength": 1 },
+        "raw_object_count": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "verified_at": { "type": "string", "format": "date-time" }
+  }
+}

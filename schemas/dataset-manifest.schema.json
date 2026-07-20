@@ -10,6 +10,7 @@
     "dataset_version",
     "task_id",
     "source_url",
+    "doi",
     "license",
     "downloaded_at",
     "raw_files",
@@ -21,7 +22,12 @@
     "dataset_version": { "type": "string", "minLength": 1 },
     "task_id": { "type": "string", "minLength": 1 },
     "source_url": { "type": "string", "format": "uri" },
-    "license": { "type": "string", "minLength": 1 },
+    "doi": { "type": "string", "pattern": "^10\\.[0-9]{4,9}/[^\\s]+$" },
+    "license": {
+      "type": "string",
+      "minLength": 1,
+      "description": "License applying to the task-level raw files represented by this manifest."
+    },
     "downloaded_at": { "type": "string", "format": "date-time" },
     "raw_files": {
       "type": "array",

@@ -1,12 +1,13 @@
 {
   "dataset_id": "flip2",
   "dataset_version": "zenodo-18433203-v3",
+  "doi": "10.5281/zenodo.18433203",
   "downloaded_at": "2026-07-20T05:02:59.236853Z",
   "known_limitations": [
     "This manifest records immutable raw source files only; processing and split audits are pending.",
     "The random_split file is an upstream reference and is not a frozen benchmark split.",
     "Raw CSV files contain target, set, and validation fields; downstream hidden-label enforcement is not established by raw ingest.",
-    "The task README reports MIT while the Zenodo record reports CC-BY-4.0; this task-level inventory records MIT and retains the upstream README."
+    "The task README declares MIT for the Amylase task files while the Zenodo record metadata declares CC-BY-4.0. The license field records task-level MIT; external releases must preserve the record-level attribution and both notices."
   ],
   "license": "MIT",
   "raw_files": [

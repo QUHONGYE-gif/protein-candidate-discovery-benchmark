@@ -15,8 +15,9 @@ ProteinGym 和 SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboard
 ## Onboarding checklist
 
 - [ ] 来源页面和下载 URL 已确认；
-- [ ] license 与再分发限制已记录；
-- [ ] Dataset Manifest 已记录下载时间、原始文件 SHA-256 和已知限制；
+- [ ] task-level license、record-level provenance 与再分发限制已记录；
+- [ ] Dataset Manifest 已记录 DOI、下载时间、原始文件 SHA-256 和已知限制；
+- [ ] Dataset ingest attempt 已绑定 Git commit、环境、命令、COS 回读与不可覆盖证据；
 - [ ] label direction 和 missing-value 规则已确认；
 - [ ] candidate ID 唯一；
 - [ ] Processing Manifest 已绑定处理代码 commit、配置 hash、字段可见性和处理输出；

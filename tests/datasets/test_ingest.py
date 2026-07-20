@@ -146,6 +146,7 @@ def test_generated_dataset_manifest_matches_repository_schema(tmp_path: Path) ->
     )
 
     Draft202012Validator(schema, format_checker=FormatChecker()).validate(manifest)
+    assert manifest["doi"] == inventory.doi
     assert manifest["raw_files"] == [
         {
             "object_key": "raw/flip2/zenodo-18433203-v3/amylase/example.csv.gz",
@@ -190,6 +191,7 @@ def test_tracked_amylase_manifest_matches_schema_and_inventory() -> None:
     assert manifest["dataset_id"] == inventory.dataset_id
     assert manifest["dataset_version"] == inventory.dataset_version
     assert manifest["task_id"] == inventory.task_id
+    assert manifest["doi"] == inventory.doi
     assert manifest["license"] == inventory.license
     assert {item["object_key"] for item in manifest["raw_files"]} == {
         f"{inventory.object_prefix}/{source.key}" for source in inventory.files

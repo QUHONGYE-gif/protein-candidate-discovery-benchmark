@@ -271,6 +271,7 @@ def build_dataset_manifest(
         "dataset_version": inventory.dataset_version,
         "task_id": inventory.task_id,
         "source_url": inventory.source_url,
+        "doi": inventory.doi,
         "license": inventory.license,
         "downloaded_at": timestamp,
         "raw_files": raw_files,
