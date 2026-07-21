@@ -295,3 +295,38 @@ def test_repository_skempi_evidence_is_frozen_and_internally_consistent() -> Non
     assert archive["pdb_payload_member_count"] == 345
     assert archive["mapping_payload_member_count"] == 345
     assert inspection["observed_limitations"][-1] == manifest["known_limitations"][-1]
+
+
+def test_tracked_skempi_ingest_attempt_is_successful_and_checksum_bound() -> None:
+    inventory_path = REPOSITORY_ROOT / "configs/datasets/skempi/v2.0/2018-06/source-bundle.json"
+    evidence_root = REPOSITORY_ROOT / "manifests/datasets/skempi/v2.0/2018-06/source-bundle"
+    manifest_path = evidence_root / "dataset-manifest.json"
+    attempt_path = evidence_root / "ingest-attempts/skempi-v2-20260721T025812Z.json"
+    attempt = json.loads(attempt_path.read_text(encoding="utf-8"))
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    schema = json.loads(
+        (REPOSITORY_ROOT / "schemas/dataset-ingest-attempt.schema.json").read_text(encoding="utf-8")
+    )
+
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(attempt)
+    assert attempt["status"] == "succeeded"
+    assert attempt["raw_ingest_git_commit"] == ("022efc65b4a4d08f4656c3bd950a3695f300c1a1")
+    assert attempt["manifest_revision_git_commit"] == attempt["raw_ingest_git_commit"]
+    assert (
+        attempt["source_inventory"]["sha256"]
+        == hashlib.sha256(inventory_path.read_bytes()).hexdigest()
+    )
+    assert (
+        attempt["dataset_manifest"]["sha256"]
+        == hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+    )
+    assert attempt["raw_objects"] == manifest["raw_files"]
+    assert attempt["verification"] == {
+        "publisher_md5_and_size_verified": False,
+        "cos_readback_sha256_and_size_verified": True,
+        "manifest_schema_verified": True,
+        "manifest_exact_bytes_verified": True,
+        "duplicate_write_rejected": True,
+        "duplicate_write_status": "409 FileAlreadyExists",
+        "raw_object_count": 2,
+    }

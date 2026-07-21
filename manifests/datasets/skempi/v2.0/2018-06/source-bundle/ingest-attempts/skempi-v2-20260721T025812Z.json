@@ -1,0 +1,58 @@
+{
+  "attempt_id": "skempi-v2-20260721T025812Z",
+  "commands": [
+    ".venv/bin/python scripts/prepare_skempi.py --inventory configs/datasets/skempi/v2.0/2018-06/source-bundle.json --staging-root <outside-repository-staging-root>",
+    "coscli cp <verified-source-file> cos://data/raw/skempi/v2.0/2018-06/source-bundle/<source-filename> --forbid-overwrite --err-retry-num 0",
+    "coscli cp <dataset-manifest.json> cos://data/manifests/skempi/v2.0/2018-06/source-bundle/dataset-manifest.json --forbid-overwrite --err-retry-num 0",
+    "coscli cp <source-inspection.json> cos://data/manifests/skempi/v2.0/2018-06/source-bundle/source-inspection.json --forbid-overwrite --err-retry-num 0",
+    "coscli cp cos://data/<object-key> <fresh-temporary-readback-file> --err-retry-num 0",
+    "shasum -a 256 <temporary-readback-files> && wc -c <temporary-readback-files> && cmp <verified-files> <temporary-readback-files>",
+    ".venv/bin/python -m pytest tests/datasets/test_skempi_ingest.py && make check"
+  ],
+  "dataset_id": "skempi",
+  "dataset_manifest": {
+    "object_key": "manifests/skempi/v2.0/2018-06/source-bundle/dataset-manifest.json",
+    "revision": 1,
+    "sha256": "773d714ad10bbce46d3791da2bbd5feb75377239fb39a7785421bb1a014536ee",
+    "size_bytes": 1663
+  },
+  "dataset_version": "v2.0-2018-06",
+  "environment": {
+    "cos_bucket_alias": "data",
+    "cos_region": "ap-beijing",
+    "coscli_version": "v1.0.8",
+    "platform": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+    "python_version": "3.14.4"
+  },
+  "manifest_revision_git_commit": "022efc65b4a4d08f4656c3bd950a3695f300c1a1",
+  "raw_ingest_git_commit": "022efc65b4a4d08f4656c3bd950a3695f300c1a1",
+  "raw_objects": [
+    {
+      "object_key": "raw/skempi/v2.0/2018-06/source-bundle/skempi_v2.csv",
+      "sha256": "76f8e60d09eaa4f05fb265063886859a86895c0b2fb225e31fe82928a883972d",
+      "size_bytes": 1602208
+    },
+    {
+      "object_key": "raw/skempi/v2.0/2018-06/source-bundle/SKEMPI2_PDBs.tgz",
+      "sha256": "82418131a3864aa8484ea6ec300e58f9bc0349e21530f83f7ce336b41589a95a",
+      "size_bytes": 30482090
+    }
+  ],
+  "schema_version": "1",
+  "source_inventory": {
+    "repository_path": "configs/datasets/skempi/v2.0/2018-06/source-bundle.json",
+    "sha256": "3511ba8c00e8c31736b17a59fad946a10ecd1f7d779117e9f924ffa390b18f76"
+  },
+  "status": "succeeded",
+  "task_id": "source-bundle",
+  "verification": {
+    "cos_readback_sha256_and_size_verified": true,
+    "duplicate_write_rejected": true,
+    "duplicate_write_status": "409 FileAlreadyExists",
+    "manifest_exact_bytes_verified": true,
+    "manifest_schema_verified": true,
+    "publisher_md5_and_size_verified": false,
+    "raw_object_count": 2
+  },
+  "verified_at": "2026-07-21T02:58:12Z"
+}
