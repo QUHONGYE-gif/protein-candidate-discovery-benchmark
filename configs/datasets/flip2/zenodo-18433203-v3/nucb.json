@@ -1,0 +1,37 @@
+{
+  "inventory_version": "1",
+  "dataset_id": "flip2",
+  "dataset_version": "zenodo-18433203-v3",
+  "task_id": "nucb",
+  "source_url": "https://zenodo.org/records/18433203",
+  "doi": "10.5281/zenodo.18433203",
+  "license": "CC-BY-4.0",
+  "object_prefix": "raw/flip2/zenodo-18433203-v3",
+  "known_limitations": [
+    "This manifest records immutable raw source files only; processing and split audits are pending.",
+    "The random file is an upstream reference and is not a frozen benchmark split.",
+    "Raw ingest does not establish activity-bin semantics, label direction, missing-value rules, stable candidate identity, duplicate handling, or hidden-label authorization.",
+    "The two-to-many artifact is preserved as an upstream split reference; its membership and leakage controls require a separate Split Manifest.",
+    "The NucB task README declares CC-BY-4.0 and first-hand lab provenance; external releases must preserve the FLIP2 DOI and attribution to Thomas et al., bioRxiv 2024.03.21.585615."
+  ],
+  "files": [
+    {
+      "key": "nucb/README.md",
+      "url": "https://zenodo.org/api/records/18433203/files/nucb/README.md/content",
+      "md5": "6f6cef8efcdf701244c47830722f86b0",
+      "size_bytes": 733
+    },
+    {
+      "key": "nucb/random.csv.gz",
+      "url": "https://zenodo.org/api/records/18433203/files/nucb/random.csv.gz/content",
+      "md5": "8b8f333d2c96fe6f92d7ebd692d684d8",
+      "size_bytes": 629753
+    },
+    {
+      "key": "nucb/two_to_many.csv.gz",
+      "url": "https://zenodo.org/api/records/18433203/files/nucb/two_to_many.csv.gz/content",
+      "md5": "cdedaadd57f2b148950b357e9f24c238",
+      "size_bytes": 624937
+    }
+  ]
+}
