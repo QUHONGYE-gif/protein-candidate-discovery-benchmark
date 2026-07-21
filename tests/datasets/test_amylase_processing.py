@@ -175,6 +175,7 @@ def test_processing_builds_one_candidate_universe_and_separates_hidden_truth(
     assert manifest["hidden_label_field"] == "target"
     assert manifest["label_direction"] == "higher_is_better"
     output_files = cast(list[dict[str, object]], manifest["output_files"])
+    assert all("row_count" in item for item in output_files)
     row_counts = {
         Path(cast(str, item["object_key"])).name: item["row_count"] for item in output_files
     }

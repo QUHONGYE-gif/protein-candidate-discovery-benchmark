@@ -71,7 +71,7 @@
     "artifact": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["object_key", "sha256", "size_bytes", "row_count"],
+      "required": ["object_key", "sha256", "size_bytes"],
       "properties": {
         "object_key": { "type": "string", "minLength": 1 },
         "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
