@@ -24,9 +24,28 @@ REPOSITORY_ROOT = Path(__file__).parents[2]
 
 
 class FakeResponse(io.BytesIO):
-    def __init__(self, payload: bytes, *, status: int) -> None:
+    def __init__(
+        self,
+        payload: bytes,
+        *,
+        status: int,
+        headers: dict[str, str] | None = None,
+    ) -> None:
         super().__init__(payload)
         self.status = status
+        self.headers = headers or {}
+
+
+class InterruptingResponse(FakeResponse):
+    def __init__(self, payload: bytes, *, headers: dict[str, str]) -> None:
+        super().__init__(payload, status=200, headers=headers)
+        self._read_once = False
+
+    def read(self, size: int | None = -1) -> bytes:
+        if self._read_once:
+            raise OSError("simulated interrupted transfer")
+        self._read_once = True
+        return super().read(size)
 
 
 def test_repository_skempi_inventory_pins_two_official_source_objects() -> None:
@@ -58,7 +77,7 @@ def test_repository_skempi_inventory_pins_two_official_source_objects() -> None:
     }
 
 
-def test_skempi_download_resumes_and_binds_local_sha256(tmp_path: Path) -> None:
+def test_skempi_download_restarts_without_a_stable_validator(tmp_path: Path) -> None:
     payload = b"public SKEMPI fixture"
     source = SkempiSourceFile(
         key="skempi_v2.csv",
@@ -74,15 +93,184 @@ def test_skempi_download_resumes_and_binds_local_sha256(tmp_path: Path) -> None:
 
     def open_url(request: Request) -> FakeResponse:
         requests.append(request)
-        return FakeResponse(payload[7:], status=206)
+        return FakeResponse(payload, status=200)
 
     verified = download_skempi_source_file(source, tmp_path / "staging", open_url=open_url)
 
-    assert requests[0].get_header("Range") == "bytes=7-"
+    assert requests[0].get_header("Range") is None
+    assert requests[0].get_header("If-range") is None
     assert verified.path.read_bytes() == payload
     assert verified.sha256 == hashlib.sha256(payload).hexdigest()
     assert verified.size_bytes == len(payload)
     assert not part_path.exists()
+
+
+def test_skempi_download_resumes_with_matching_strong_validator(tmp_path: Path) -> None:
+    payload = b"public SKEMPI fixture"
+    etag = '"stable-source-v1"'
+    source = SkempiSourceFile(
+        key="skempi_v2.csv",
+        url="https://life.bsc.es/pid/skempi2/database/download/skempi_v2.csv",
+        published_date="2018-06-06",
+        size_bytes=len(payload),
+        content_type="text/csv; charset=utf-8",
+        etag=etag,
+    )
+    requests: list[Request] = []
+    responses = [
+        InterruptingResponse(payload[:7], headers={"ETag": etag}),
+        FakeResponse(
+            payload[7:],
+            status=206,
+            headers={
+                "Content-Range": f"bytes 7-{len(payload) - 1}/{len(payload)}",
+                "ETag": etag,
+            },
+        ),
+    ]
+
+    def open_url(request: Request) -> FakeResponse:
+        requests.append(request)
+        return responses.pop(0)
+
+    with pytest.raises(OSError, match="interrupted transfer"):
+        download_skempi_source_file(source, tmp_path / "staging", open_url=open_url)
+
+    verified = download_skempi_source_file(source, tmp_path / "staging", open_url=open_url)
+
+    assert requests[1].get_header("Range") == "bytes=7-"
+    assert requests[1].get_header("If-range") == etag
+    assert verified.path.read_bytes() == payload
+    assert verified.sha256 == hashlib.sha256(payload).hexdigest()
+
+
+def test_skempi_resume_rejects_missing_content_range(tmp_path: Path) -> None:
+    payload = b"public SKEMPI fixture"
+    etag = '"stable-source-v1"'
+    source = SkempiSourceFile(
+        key="skempi_v2.csv",
+        url="https://life.bsc.es/pid/skempi2/database/download/skempi_v2.csv",
+        published_date="2018-06-06",
+        size_bytes=len(payload),
+        content_type="text/csv; charset=utf-8",
+        etag=etag,
+    )
+    responses = [
+        InterruptingResponse(payload[:7], headers={"ETag": etag}),
+        FakeResponse(payload[7:], status=206, headers={"ETag": etag}),
+    ]
+
+    def open_url(_request: Request) -> FakeResponse:
+        return responses.pop(0)
+
+    with pytest.raises(OSError, match="interrupted transfer"):
+        download_skempi_source_file(source, tmp_path / "staging", open_url=open_url)
+    with pytest.raises(ValueError, match="Content-Range"):
+        download_skempi_source_file(source, tmp_path / "staging", open_url=open_url)
+
+    assert not (tmp_path / "staging/verified/skempi_v2.csv").exists()
+    assert not (tmp_path / "staging/incoming/skempi_v2.csv.part").exists()
+
+
+def test_skempi_resume_rejects_changed_validator(tmp_path: Path) -> None:
+    payload = b"public SKEMPI fixture"
+    etag = '"stable-source-v1"'
+    source = SkempiSourceFile(
+        key="skempi_v2.csv",
+        url="https://life.bsc.es/pid/skempi2/database/download/skempi_v2.csv",
+        published_date="2018-06-06",
+        size_bytes=len(payload),
+        content_type="text/csv; charset=utf-8",
+        etag=etag,
+    )
+    responses = [
+        InterruptingResponse(payload[:7], headers={"ETag": etag}),
+        FakeResponse(
+            payload[7:],
+            status=206,
+            headers={
+                "Content-Range": f"bytes 7-{len(payload) - 1}/{len(payload)}",
+                "ETag": '"changed-source-v2"',
+            },
+        ),
+    ]
+
+    def open_url(_request: Request) -> FakeResponse:
+        return responses.pop(0)
+
+    with pytest.raises(OSError, match="interrupted transfer"):
+        download_skempi_source_file(source, tmp_path / "staging", open_url=open_url)
+    with pytest.raises(ValueError, match="validator"):
+        download_skempi_source_file(source, tmp_path / "staging", open_url=open_url)
+
+    assert not (tmp_path / "staging/verified/skempi_v2.csv").exists()
+    assert not (tmp_path / "staging/incoming/skempi_v2.csv.part").exists()
+
+
+def test_skempi_resume_rejects_wrong_content_range(tmp_path: Path) -> None:
+    payload = b"public SKEMPI fixture"
+    etag = '"stable-source-v1"'
+    source = SkempiSourceFile(
+        key="skempi_v2.csv",
+        url="https://life.bsc.es/pid/skempi2/database/download/skempi_v2.csv",
+        published_date="2018-06-06",
+        size_bytes=len(payload),
+        content_type="text/csv; charset=utf-8",
+        etag=etag,
+    )
+    responses = [
+        InterruptingResponse(payload[:7], headers={"ETag": etag}),
+        FakeResponse(
+            payload[7:],
+            status=206,
+            headers={
+                "Content-Range": f"bytes 0-{len(payload) - 1}/{len(payload)}",
+                "ETag": etag,
+            },
+        ),
+    ]
+
+    def open_url(_request: Request) -> FakeResponse:
+        return responses.pop(0)
+
+    with pytest.raises(OSError, match="interrupted transfer"):
+        download_skempi_source_file(source, tmp_path / "staging", open_url=open_url)
+    with pytest.raises(ValueError, match="Content-Range"):
+        download_skempi_source_file(source, tmp_path / "staging", open_url=open_url)
+
+    assert not (tmp_path / "staging/verified/skempi_v2.csv").exists()
+    assert not (tmp_path / "staging/incoming/skempi_v2.csv.part").exists()
+
+
+def test_skempi_resume_restarts_when_server_ignores_range(tmp_path: Path) -> None:
+    payload = b"public SKEMPI fixture"
+    etag = '"stable-source-v1"'
+    source = SkempiSourceFile(
+        key="skempi_v2.csv",
+        url="https://life.bsc.es/pid/skempi2/database/download/skempi_v2.csv",
+        published_date="2018-06-06",
+        size_bytes=len(payload),
+        content_type="text/csv; charset=utf-8",
+        etag=etag,
+    )
+    requests: list[Request] = []
+    responses = [
+        InterruptingResponse(payload[:7], headers={"ETag": etag}),
+        FakeResponse(payload, status=200, headers={"ETag": etag}),
+    ]
+
+    def open_url(request: Request) -> FakeResponse:
+        requests.append(request)
+        return responses.pop(0)
+
+    with pytest.raises(OSError, match="interrupted transfer"):
+        download_skempi_source_file(source, tmp_path / "staging", open_url=open_url)
+    verified = download_skempi_source_file(source, tmp_path / "staging", open_url=open_url)
+
+    assert requests[1].get_header("Range") == "bytes=7-"
+    assert requests[1].get_header("If-range") == etag
+    assert verified.path.read_bytes() == payload
+    assert verified.sha256 == hashlib.sha256(payload).hexdigest()
 
 
 def test_skempi_size_mismatch_never_reaches_verified_directory(tmp_path: Path) -> None:

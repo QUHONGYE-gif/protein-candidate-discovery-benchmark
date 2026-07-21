@@ -40,6 +40,12 @@ Dataset Manifest 中 downloaded_at 为 2026-07-21T02:51:43.796908Z。source inve
 在下载前冻结了 canonical URL、页面日期、HTTP metadata、expected bytes、license 与
 已知限制。
 
+由于本次官方 response 没有提供 ETag 或 Last-Modified，下载器不会复用已有 partial
+prefix；发现 `.part` 时会从零重新下载，避免把不同上游对象的 bytes 拼接后冻结为本地
+baseline。只有 source inventory 冻结了 strong ETag 或 Last-Modified 时才允许 Range
+resume，并且必须同时发送 If-Range、校验 response validator 以及完整 Content-Range。
+本次实际 ingest 从空 staging 开始，不经过 resume 路径。
+
 ## Source inspection
 
 skempi_v2.csv 使用分号 delimiter，可解析出 29 列 header 与 7,085 条 data rows。本

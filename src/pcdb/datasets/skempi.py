@@ -6,6 +6,7 @@ import csv
 import hashlib
 import json
 import os
+import re
 import shutil
 import tarfile
 from collections.abc import Callable, Mapping, Sequence
@@ -242,6 +243,44 @@ def _verified_metadata(source: SkempiSourceFile, path: Path) -> VerifiedSkempiFi
     )
 
 
+def _stable_resume_validator(source: SkempiSourceFile) -> str | None:
+    if source.etag and not source.etag.startswith("W/"):
+        return source.etag
+    return source.last_modified
+
+
+def _response_header(response: BinaryIO, name: str) -> str | None:
+    headers = getattr(response, "headers", None)
+    value = headers.get(name) if headers is not None else None
+    return value if isinstance(value, str) and value else None
+
+
+def _validate_content_range(
+    source: SkempiSourceFile,
+    response: BinaryIO,
+    *,
+    offset: int,
+) -> None:
+    value = _response_header(response, "Content-Range")
+    match = re.fullmatch(r"bytes (\d+)-(\d+)/(\d+)", value or "")
+    if match is None:
+        raise ValueError("resume response must include a valid Content-Range")
+    start, end, total = (int(item) for item in match.groups())
+    if start != offset or end != source.size_bytes - 1 or total != source.size_bytes:
+        raise ValueError("resume Content-Range does not match the frozen source inventory")
+
+
+def _validate_response_validator(
+    source: SkempiSourceFile,
+    response: BinaryIO,
+    *,
+    validator: str,
+) -> None:
+    header_name = "ETag" if source.etag == validator else "Last-Modified"
+    if _response_header(response, header_name) != validator:
+        raise ValueError(f"response {header_name} does not match the frozen validator")
+
+
 def download_skempi_source_file(
     source: SkempiSourceFile,
     staging_root: Path,
@@ -257,22 +296,29 @@ def download_skempi_source_file(
     part_path.parent.mkdir(parents=True, exist_ok=True)
     verified_path.parent.mkdir(parents=True, exist_ok=True)
     offset = part_path.stat().st_size if part_path.exists() else 0
-    if part_path.exists() and offset >= source.size_bytes:
-        metadata = _verified_metadata(source, part_path)
-        os.link(part_path, verified_path)
+    validator = _stable_resume_validator(source)
+    if offset and (validator is None or offset >= source.size_bytes):
         part_path.unlink()
-        return VerifiedSkempiFile(
-            source=source,
-            path=verified_path,
-            sha256=metadata.sha256,
-            size_bytes=metadata.size_bytes,
-        )
+        offset = 0
 
-    request = Request(source.url, headers={"Range": f"bytes={offset}-"} if offset else {})
+    request_headers = (
+        {"Range": f"bytes={offset}-", "If-Range": validator} if offset and validator else {}
+    )
+    request = Request(source.url, headers=request_headers)
     with open_url(request) as response:
         status = int(getattr(response, "status", 200))
         if status not in {200, 206}:
             raise OSError(f"unexpected HTTP status {status} for {source.url}")
+        try:
+            if validator is not None:
+                _validate_response_validator(source, response, validator=validator)
+            if status == 206:
+                if not offset or validator is None:
+                    raise ValueError("unexpected partial response without a resumable request")
+                _validate_content_range(source, response, offset=offset)
+        except ValueError:
+            part_path.unlink(missing_ok=True)
+            raise
         mode = "ab" if offset and status == 206 else "wb"
         with part_path.open(mode) as handle:
             shutil.copyfileobj(response, handle)
