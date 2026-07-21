@@ -74,7 +74,8 @@ def main() -> int:
         for object_key, payload in sorted(payloads.items())
     ]
     processing_id = manifest["processing_id"]
-    assert isinstance(processing_id, str)
+    if not isinstance(processing_id, str):
+        raise ValueError("Processing Manifest processing_id must be a string")
     manifest_key = (
         f"manifests/{config.dataset_id}/{config.dataset_version}/{config.task_id}/"
         f"processing/{processing_id}/processing-manifest.json"
