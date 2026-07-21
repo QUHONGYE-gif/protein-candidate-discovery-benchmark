@@ -1,0 +1,30 @@
+{
+  "dataset_id": "skempi",
+  "dataset_version": "v2.0-2018-06",
+  "doi": "10.1093/bioinformatics/bty635",
+  "downloaded_at": "2026-07-21T02:51:43.796908Z",
+  "known_limitations": [
+    "The publisher page does not expose cryptographic checksums; immutable SHA-256 values are computed after exact download and bound by the Dataset Manifest.",
+    "The official HTTP responses did not expose ETag or Last-Modified metadata when this inventory was frozen.",
+    "This inventory records raw acquisition only; mutation normalization, delta-delta-G direction, unit handling, structure mapping, duplicate handling, and split policy are pending.",
+    "The cleaned PDB archive is preserved as a publisher object and does not establish that every table record has a valid structure mapping.",
+    "Raw acquisition does not authorize held-out external-validation use or any scientific gate claim.",
+    "The publisher archive contains 691 AppleDouble metadata member(s); they are preserved in the raw object and deterministic member inventory but excluded from PDB and mapping payload counts."
+  ],
+  "license": "CC-BY-4.0",
+  "raw_files": [
+    {
+      "object_key": "raw/skempi/v2.0/2018-06/source-bundle/skempi_v2.csv",
+      "sha256": "76f8e60d09eaa4f05fb265063886859a86895c0b2fb225e31fe82928a883972d",
+      "size_bytes": 1602208
+    },
+    {
+      "object_key": "raw/skempi/v2.0/2018-06/source-bundle/SKEMPI2_PDBs.tgz",
+      "sha256": "82418131a3864aa8484ea6ec300e58f9bc0349e21530f83f7ce336b41589a95a",
+      "size_bytes": 30482090
+    }
+  ],
+  "schema_version": "1",
+  "source_url": "https://life.bsc.es/pid/skempi2/database/index",
+  "task_id": "source-bundle"
+}

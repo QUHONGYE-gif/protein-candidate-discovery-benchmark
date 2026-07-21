@@ -1,0 +1,43 @@
+{
+  "inventory_version": "1",
+  "dataset_id": "skempi",
+  "dataset_version": "v2.0-2018-06",
+  "task_id": "source-bundle",
+  "source_url": "https://life.bsc.es/pid/skempi2/database/index",
+  "doi": "10.1093/bioinformatics/bty635",
+  "license": "CC-BY-4.0",
+  "license_url": "https://life.bsc.es/pid/skempi2/info/terms",
+  "attribution": "Jankauskaite J, Jimenez-Garcia B, Dapkunas J, Fernandez-Recio J, Moal IH. SKEMPI 2.0. Bioinformatics 35, 462-469. DOI 10.1093/bioinformatics/bty635; SKEMPI2 Copyright 2018 BSC.",
+  "publisher_checksum_policy": "not-provided",
+  "http_metadata_observed_at": "2026-07-21T02:39:21Z",
+  "object_prefix": "raw/skempi/v2.0/2018-06/source-bundle",
+  "known_limitations": [
+    "The publisher page does not expose cryptographic checksums; immutable SHA-256 values are computed after exact download and bound by the Dataset Manifest.",
+    "The official HTTP responses did not expose ETag or Last-Modified metadata when this inventory was frozen.",
+    "This inventory records raw acquisition only; mutation normalization, delta-delta-G direction, unit handling, structure mapping, duplicate handling, and split policy are pending.",
+    "The cleaned PDB archive is preserved as a publisher object and does not establish that every table record has a valid structure mapping.",
+    "Raw acquisition does not authorize held-out external-validation use or any scientific gate claim."
+  ],
+  "files": [
+    {
+      "key": "skempi_v2.csv",
+      "url": "https://life.bsc.es/pid/skempi2/database/download/skempi_v2.csv",
+      "published_date": "2018-06-06",
+      "size_bytes": 1602208,
+      "content_type": "text/csv; charset=utf-8",
+      "http_status": 200,
+      "etag": null,
+      "last_modified": null
+    },
+    {
+      "key": "SKEMPI2_PDBs.tgz",
+      "url": "https://life.bsc.es/pid/skempi2/database/download/SKEMPI2_PDBs.tgz",
+      "published_date": "2018-06-08",
+      "size_bytes": 30482090,
+      "content_type": "application/x-compressed-tar",
+      "http_status": 200,
+      "etag": null,
+      "last_modified": null
+    }
+  ]
+}

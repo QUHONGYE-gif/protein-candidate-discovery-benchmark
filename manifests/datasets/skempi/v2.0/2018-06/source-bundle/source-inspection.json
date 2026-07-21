@@ -1,0 +1,5580 @@
+{
+  "dataset_id": "skempi",
+  "dataset_version": "v2.0-2018-06",
+  "observed_limitations": [
+    "The publisher archive contains 691 AppleDouble metadata member(s); they are preserved in the raw object and deterministic member inventory but excluded from PDB and mapping payload counts."
+  ],
+  "schema_version": "1",
+  "structure_archive": {
+    "apple_double_member_count": 691,
+    "mapping_payload_member_count": 345,
+    "members": [
+      {
+        "path": "./._PDBs",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1A22.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1A22.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1A4Y.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1A4Y.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1ACB.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1ACB.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1AHW.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1AHW.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1AK4.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1AK4.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1AO7.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1AO7.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1B2S.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1B2S.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1B2U.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1B2U.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1B3S.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1B3S.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1B41.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1B41.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1BD2.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1BD2.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1BJ1.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1BJ1.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1BP3.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1BP3.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1BRS.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1BRS.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1C1Y.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1C1Y.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1C4Z.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1C4Z.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CBW.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CBW.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CHO.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CHO.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CSE.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CSE.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CSO.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CSO.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CT0.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CT0.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CT2.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CT2.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CT4.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CT4.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CZ8.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1CZ8.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1DAN.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1DAN.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1DQJ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1DQJ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1DVF.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1DVF.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1E50.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1E50.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1E96.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1E96.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1EAW.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1EAW.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1EFN.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1EFN.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1EMV.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1EMV.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1F47.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1F47.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1F5R.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1F5R.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1FC2.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1FC2.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1FCC.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1FCC.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1FFW.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1FFW.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1FR2.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1FR2.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1FSS.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1FSS.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1FY8.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1FY8.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1GC1.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1GC1.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1GCQ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1GCQ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1GL0.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1GL0.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1GL1.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1GL1.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1GRN.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1GRN.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1GUA.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1GUA.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1H9D.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1H9D.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1HE8.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1HE8.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1IAR.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1IAR.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1JCK.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1JCK.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1JRH.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1JRH.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1JTD.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1JTD.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1JTG.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1JTG.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1K8R.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1K8R.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1KAC.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1KAC.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1KBH.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1KBH.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1KIP.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1KIP.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1KIQ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1KIQ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1KIR.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1KIR.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1KNE.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1KNE.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1KTZ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1KTZ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1LFD.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1LFD.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1LP9.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1LP9.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1M9E.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1M9E.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1MAH.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1MAH.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1MHP.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1MHP.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1MI5.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1MI5.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1MLC.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1MLC.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1MQ8.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1MQ8.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1N8O.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1N8O.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1N8Z.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1N8Z.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1NCA.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1NCA.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1NMB.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1NMB.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1OGA.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1OGA.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1OHZ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1OHZ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1P69.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1P69.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1P6A.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1P6A.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1PPF.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1PPF.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1QAB.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1QAB.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1QRN.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1QRN.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1QSE.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1QSE.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1QSF.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1QSF.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1R0R.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1R0R.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1REW.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1REW.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1S0W.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1S0W.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1S1Q.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1S1Q.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SBB.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SBB.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SBN.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SBN.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SGD.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SGD.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SGE.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SGE.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SGN.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SGN.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SGP.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SGP.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SGQ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SGQ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SGY.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SGY.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SIB.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SIB.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SMF.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1SMF.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1TM1.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1TM1.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1TM3.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1TM3.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1TM4.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1TM4.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1TM5.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1TM5.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1TM7.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1TM7.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1TMG.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1TMG.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1TO1.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1TO1.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1U7F.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1U7F.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1UUZ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1UUZ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1VFB.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1VFB.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1WQJ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1WQJ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1X1W.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1X1W.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1X1X.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1X1X.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1XD3.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1XD3.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1XGP.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1XGP.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1XGQ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1XGQ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1XGR.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1XGR.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1XGT.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1XGT.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1XGU.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1XGU.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1XXM.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1XXM.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y1K.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y1K.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y33.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y33.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y34.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y34.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y3B.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y3B.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y3C.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y3C.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y3D.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y3D.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y48.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y48.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y4A.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Y4A.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1YCS.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1YCS.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1YQV.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1YQV.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1YY9.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1YY9.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Z7X.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._1Z7X.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2A9K.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2A9K.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2ABZ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2ABZ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2AJF.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2AJF.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2AK4.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2AK4.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2AW2.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2AW2.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2B0U.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2B0U.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2B0Z.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2B0Z.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2B10.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2B10.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2B11.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2B11.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2B12.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2B12.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2B2X.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2B2X.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2B42.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2B42.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2BDN.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2BDN.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2BNQ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2BNQ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2BNR.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2BNR.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2BTF.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2BTF.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2C0L.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2C0L.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2C5D.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2C5D.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2CCL.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2CCL.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2DSQ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2DSQ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2DVW.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2DVW.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2E7L.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2E7L.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2FTL.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2FTL.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2G2U.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2G2U.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2G2W.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2G2W.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2GOX.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2GOX.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2GYK.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2GYK.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2HLE.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2HLE.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2HRK.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2HRK.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2I26.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2I26.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2J0T.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2J0T.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2J12.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2J12.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2J1K.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2J1K.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2J8U.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2J8U.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2JCC.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2JCC.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2JEL.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2JEL.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2KSO.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2KSO.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NOJ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NOJ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NU0.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NU0.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NU1.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NU1.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NU2.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NU2.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NU4.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NU4.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NY7.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NY7.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NYY.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NYY.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NZ9.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2NZ9.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2O3B.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2O3B.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2OI9.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2OI9.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2OOB.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2OOB.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2P5E.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2P5E.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2PCB.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2PCB.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2PCC.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2PCC.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2PYE.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2PYE.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2QJ9.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2QJ9.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2QJA.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2QJA.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2QJB.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2QJB.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2REX.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2REX.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2SGP.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2SGP.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2SGQ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2SGQ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2SIC.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2SIC.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2UWE.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2UWE.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VIR.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VIR.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VIS.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VIS.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VLN.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VLN.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VLO.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VLO.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VLP.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VLP.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VLQ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VLQ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VLR.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VLR.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VN5.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2VN5.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2WPT.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._2WPT.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3AAA.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3AAA.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3B4V.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3B4V.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BDY.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BDY.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BE1.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BE1.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BIW.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BIW.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BK3.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BK3.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BN9.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BN9.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BP8.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BP8.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BT1.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BT1.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTD.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTD.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTE.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTE.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTF.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTF.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTG.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTG.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTH.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTH.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTM.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTM.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTQ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTQ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTT.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTT.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTW.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BTW.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BX1.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3BX1.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3C60.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3C60.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3D3V.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3D3V.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3D5R.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3D5R.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3D5S.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3D5S.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3EG5.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3EG5.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3EQS.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3EQS.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3EQY.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3EQY.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3F1S.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3F1S.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3G6D.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3G6D.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3H9S.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3H9S.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3HFM.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3HFM.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3HG1.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3HG1.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3HH2.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3HH2.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3IDX.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3IDX.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3KBH.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3KBH.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3KUD.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3KUD.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3L5X.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3L5X.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3LB6.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3LB6.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3LNZ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3LNZ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3LZF.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3LZF.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3M62.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3M62.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3M63.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3M63.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3MZG.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3MZG.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3MZW.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3MZW.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3N06.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3N06.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3N0P.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3N0P.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3N4I.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3N4I.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3N85.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3N85.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3NCB.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3NCB.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3NCC.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3NCC.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3NGB.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3NGB.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3NPS.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3NPS.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3NVN.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3NVN.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3NVQ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3NVQ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3PWP.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3PWP.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3Q3J.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3Q3J.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3Q8D.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3Q8D.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3QDG.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3QDG.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3QDJ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3QDJ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3QFJ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3QFJ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3QHY.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3QHY.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3QIB.mapping",
+        "size_bytes": 309
+      },
+      {
+        "path": "PDBs/._3QIB.pdb",
+        "size_bytes": 305
+      },
+      {
+        "path": "PDBs/._3R9A.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3R9A.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3RF3.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3RF3.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3S9D.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3S9D.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SE3.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SE3.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SE4.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SE4.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SE8.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SE8.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SE9.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SE9.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SEK.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SEK.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SF4.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SF4.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SGB.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SGB.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SZK.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3SZK.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3TGK.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3TGK.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3U82.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3U82.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3UIG.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3UIG.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3UIH.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3UIH.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3UII.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3UII.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3VR6.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3VR6.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3W2D.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3W2D.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3WWN.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._3WWN.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4B0M.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4B0M.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4BFI.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4BFI.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4CPA.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4CPA.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4CVW.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4CVW.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4E6K.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4E6K.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4EKD.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4EKD.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4FTV.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4FTV.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4FZA.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4FZA.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4G0N.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4G0N.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4G2V.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4G2V.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4GNK.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4GNK.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4GU0.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4GU0.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4GXU.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4GXU.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4HFK.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4HFK.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4HRN.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4HRN.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4HSA.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4HSA.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4I77.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4I77.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4J2L.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4J2L.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4JEU.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4JEU.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4JFD.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4JFD.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4JFE.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4JFE.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4JFF.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4JFF.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4JGH.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4JGH.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4JPK.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4JPK.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4K71.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4K71.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4KRL.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4KRL.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4KRO.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4KRO.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4KRP.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4KRP.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4L0P.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4L0P.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4L3E.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4L3E.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4LRX.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4LRX.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4MNQ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4MNQ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4MYW.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4MYW.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4N8V.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4N8V.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4NKQ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4NKQ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4NM8.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4NM8.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4NZW.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4NZW.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4O27.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4O27.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4OFY.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4OFY.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4OZG.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4OZG.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4P23.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4P23.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4P5T.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4P5T.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4PWX.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4PWX.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4RA0.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4RA0.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4RS1.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4RS1.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4U6H.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4U6H.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4UYP.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4UYP.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4UYQ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4UYQ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4WND.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4WND.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4X4M.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4X4M.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4Y61.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4Y61.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4YEB.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4YEB.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4YFD.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4YFD.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4YH7.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4YH7.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4ZS6.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._4ZS6.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5C6T.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5C6T.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5CXB.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5CXB.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5CYK.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5CYK.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5DWU.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5DWU.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5E6P.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5E6P.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5E9D.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5E9D.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5F4E.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5F4E.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5K39.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5K39.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5M2O.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5M2O.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5TAR.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5TAR.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5UFE.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5UFE.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5UFQ.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5UFQ.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5XCO.mapping",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/._5XCO.pdb",
+        "size_bytes": 213
+      },
+      {
+        "path": "PDBs/1A22.mapping",
+        "size_bytes": 5364
+      },
+      {
+        "path": "PDBs/1A22.pdb",
+        "size_bytes": 252161
+      },
+      {
+        "path": "PDBs/1A4Y.mapping",
+        "size_bytes": 8529
+      },
+      {
+        "path": "PDBs/1A4Y.pdb",
+        "size_bytes": 363212
+      },
+      {
+        "path": "PDBs/1ACB.mapping",
+        "size_bytes": 4380
+      },
+      {
+        "path": "PDBs/1ACB.pdb",
+        "size_bytes": 195542
+      },
+      {
+        "path": "PDBs/1AHW.mapping",
+        "size_bytes": 9096
+      },
+      {
+        "path": "PDBs/1AHW.pdb",
+        "size_bytes": 398127
+      },
+      {
+        "path": "PDBs/1AK4.mapping",
+        "size_bytes": 4434
+      },
+      {
+        "path": "PDBs/1AK4.pdb",
+        "size_bytes": 252485
+      },
+      {
+        "path": "PDBs/1AO7.mapping",
+        "size_bytes": 10155
+      },
+      {
+        "path": "PDBs/1AO7.pdb",
+        "size_bytes": 462611
+      },
+      {
+        "path": "PDBs/1B2S.mapping",
+        "size_bytes": 2793
+      },
+      {
+        "path": "PDBs/1B2S.pdb",
+        "size_bytes": 151721
+      },
+      {
+        "path": "PDBs/1B2U.mapping",
+        "size_bytes": 2793
+      },
+      {
+        "path": "PDBs/1B2U.pdb",
+        "size_bytes": 144188
+      },
+      {
+        "path": "PDBs/1B3S.mapping",
+        "size_bytes": 2793
+      },
+      {
+        "path": "PDBs/1B3S.pdb",
+        "size_bytes": 137789
+      },
+      {
+        "path": "PDBs/1B41.mapping",
+        "size_bytes": 8702
+      },
+      {
+        "path": "PDBs/1B41.pdb",
+        "size_bytes": 395450
+      },
+      {
+        "path": "PDBs/1BD2.mapping",
+        "size_bytes": 11775
+      },
+      {
+        "path": "PDBs/1BD2.pdb",
+        "size_bytes": 516638
+      },
+      {
+        "path": "PDBs/1BJ1.mapping",
+        "size_bytes": 8863
+      },
+      {
+        "path": "PDBs/1BJ1.pdb",
+        "size_bytes": 427129
+      },
+      {
+        "path": "PDBs/1BP3.mapping",
+        "size_bytes": 5529
+      },
+      {
+        "path": "PDBs/1BP3.pdb",
+        "size_bytes": 252971
+      },
+      {
+        "path": "PDBs/1BRS.mapping",
+        "size_bytes": 2721
+      },
+      {
+        "path": "PDBs/1BRS.pdb",
+        "size_bytes": 145079
+      },
+      {
+        "path": "PDBs/1C1Y.mapping",
+        "size_bytes": 3466
+      },
+      {
+        "path": "PDBs/1C1Y.pdb",
+        "size_bytes": 174239
+      },
+      {
+        "path": "PDBs/1C4Z.mapping",
+        "size_bytes": 17478
+      },
+      {
+        "path": "PDBs/1C4Z.pdb",
+        "size_bytes": 813175
+      },
+      {
+        "path": "PDBs/1CBW.mapping",
+        "size_bytes": 4154
+      },
+      {
+        "path": "PDBs/1CBW.pdb",
+        "size_bytes": 186478
+      },
+      {
+        "path": "PDBs/1CHO.mapping",
+        "size_bytes": 4070
+      },
+      {
+        "path": "PDBs/1CHO.pdb",
+        "size_bytes": 191257
+      },
+      {
+        "path": "PDBs/1CSE.mapping",
+        "size_bytes": 4875
+      },
+      {
+        "path": "PDBs/1CSE.pdb",
+        "size_bytes": 227537
+      },
+      {
+        "path": "PDBs/1CSO.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/1CSO.pdb",
+        "size_bytes": 146780
+      },
+      {
+        "path": "PDBs/1CT0.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/1CT0.pdb",
+        "size_bytes": 150263
+      },
+      {
+        "path": "PDBs/1CT2.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/1CT2.pdb",
+        "size_bytes": 151802
+      },
+      {
+        "path": "PDBs/1CT4.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/1CT4.pdb",
+        "size_bytes": 151478
+      },
+      {
+        "path": "PDBs/1CZ8.mapping",
+        "size_bytes": 8863
+      },
+      {
+        "path": "PDBs/1CZ8.pdb",
+        "size_bytes": 419515
+      },
+      {
+        "path": "PDBs/1DAN.mapping",
+        "size_bytes": 8397
+      },
+      {
+        "path": "PDBs/1DAN.pdb",
+        "size_bytes": 402505
+      },
+      {
+        "path": "PDBs/1DQJ.mapping",
+        "size_bytes": 7971
+      },
+      {
+        "path": "PDBs/1DQJ.pdb",
+        "size_bytes": 387921
+      },
+      {
+        "path": "PDBs/1DVF.mapping",
+        "size_bytes": 6333
+      },
+      {
+        "path": "PDBs/1DVF.pdb",
+        "size_bytes": 295990
+      },
+      {
+        "path": "PDBs/1E50.mapping",
+        "size_bytes": 3459
+      },
+      {
+        "path": "PDBs/1E50.pdb",
+        "size_bytes": 160064
+      },
+      {
+        "path": "PDBs/1E96.mapping",
+        "size_bytes": 5229
+      },
+      {
+        "path": "PDBs/1E96.pdb",
+        "size_bytes": 242846
+      },
+      {
+        "path": "PDBs/1EAW.mapping",
+        "size_bytes": 4282
+      },
+      {
+        "path": "PDBs/1EAW.pdb",
+        "size_bytes": 190682
+      },
+      {
+        "path": "PDBs/1EFN.mapping",
+        "size_bytes": 2241
+      },
+      {
+        "path": "PDBs/1EFN.pdb",
+        "size_bytes": 110573
+      },
+      {
+        "path": "PDBs/1EMV.mapping",
+        "size_bytes": 3010
+      },
+      {
+        "path": "PDBs/1EMV.pdb",
+        "size_bytes": 149696
+      },
+      {
+        "path": "PDBs/1F47.mapping",
+        "size_bytes": 2281
+      },
+      {
+        "path": "PDBs/1F47.pdb",
+        "size_bytes": 118511
+      },
+      {
+        "path": "PDBs/1F5R.mapping",
+        "size_bytes": 3921
+      },
+      {
+        "path": "PDBs/1F5R.pdb",
+        "size_bytes": 191654
+      },
+      {
+        "path": "PDBs/1FC2.mapping",
+        "size_bytes": 3604
+      },
+      {
+        "path": "PDBs/1FC2.pdb",
+        "size_bytes": 170999
+      },
+      {
+        "path": "PDBs/1FCC.mapping",
+        "size_bytes": 3757
+      },
+      {
+        "path": "PDBs/1FCC.pdb",
+        "size_bytes": 169298
+      },
+      {
+        "path": "PDBs/1FFW.mapping",
+        "size_bytes": 2755
+      },
+      {
+        "path": "PDBs/1FFW.pdb",
+        "size_bytes": 129041
+      },
+      {
+        "path": "PDBs/1FR2.mapping",
+        "size_bytes": 3010
+      },
+      {
+        "path": "PDBs/1FR2.pdb",
+        "size_bytes": 151154
+      },
+      {
+        "path": "PDBs/1FSS.mapping",
+        "size_bytes": 8717
+      },
+      {
+        "path": "PDBs/1FSS.pdb",
+        "size_bytes": 384029
+      },
+      {
+        "path": "PDBs/1FY8.mapping",
+        "size_bytes": 3892
+      },
+      {
+        "path": "PDBs/1FY8.pdb",
+        "size_bytes": 185579
+      },
+      {
+        "path": "PDBs/1GC1.mapping",
+        "size_bytes": 6954
+      },
+      {
+        "path": "PDBs/1GC1.pdb",
+        "size_bytes": 341261
+      },
+      {
+        "path": "PDBs/1GCQ.mapping",
+        "size_bytes": 2521
+      },
+      {
+        "path": "PDBs/1GCQ.pdb",
+        "size_bytes": 135849
+      },
+      {
+        "path": "PDBs/1GL0.mapping",
+        "size_bytes": 3946
+      },
+      {
+        "path": "PDBs/1GL0.pdb",
+        "size_bytes": 166382
+      },
+      {
+        "path": "PDBs/1GL1.mapping",
+        "size_bytes": 3944
+      },
+      {
+        "path": "PDBs/1GL1.pdb",
+        "size_bytes": 170999
+      },
+      {
+        "path": "PDBs/1GRN.mapping",
+        "size_bytes": 5604
+      },
+      {
+        "path": "PDBs/1GRN.pdb",
+        "size_bytes": 257912
+      },
+      {
+        "path": "PDBs/1GUA.mapping",
+        "size_bytes": 3452
+      },
+      {
+        "path": "PDBs/1GUA.pdb",
+        "size_bytes": 167030
+      },
+      {
+        "path": "PDBs/1H9D.mapping",
+        "size_bytes": 3534
+      },
+      {
+        "path": "PDBs/1H9D.pdb",
+        "size_bytes": 163466
+      },
+      {
+        "path": "PDBs/1HE8.mapping",
+        "size_bytes": 13509
+      },
+      {
+        "path": "PDBs/1HE8.pdb",
+        "size_bytes": 602162
+      },
+      {
+        "path": "PDBs/1IAR.mapping",
+        "size_bytes": 4539
+      },
+      {
+        "path": "PDBs/1IAR.pdb",
+        "size_bytes": 226241
+      },
+      {
+        "path": "PDBs/1JCK.mapping",
+        "size_bytes": 6939
+      },
+      {
+        "path": "PDBs/1JCK.pdb",
+        "size_bytes": 305378
+      },
+      {
+        "path": "PDBs/1JRH.mapping",
+        "size_bytes": 6310
+      },
+      {
+        "path": "PDBs/1JRH.pdb",
+        "size_bytes": 280677
+      },
+      {
+        "path": "PDBs/1JTD.mapping",
+        "size_bytes": 7809
+      },
+      {
+        "path": "PDBs/1JTD.pdb",
+        "size_bytes": 351791
+      },
+      {
+        "path": "PDBs/1JTG.mapping",
+        "size_bytes": 6189
+      },
+      {
+        "path": "PDBs/1JTG.pdb",
+        "size_bytes": 282698
+      },
+      {
+        "path": "PDBs/1K8R.mapping",
+        "size_bytes": 3521
+      },
+      {
+        "path": "PDBs/1K8R.pdb",
+        "size_bytes": 162980
+      },
+      {
+        "path": "PDBs/1KAC.mapping",
+        "size_bytes": 4419
+      },
+      {
+        "path": "PDBs/1KAC.pdb",
+        "size_bytes": 196838
+      },
+      {
+        "path": "PDBs/1KBH.mapping",
+        "size_bytes": 31765
+      },
+      {
+        "path": "PDBs/1KBH.pdb",
+        "size_bytes": 2677868
+      },
+      {
+        "path": "PDBs/1KIP.mapping",
+        "size_bytes": 4956
+      },
+      {
+        "path": "PDBs/1KIP.pdb",
+        "size_bytes": 230052
+      },
+      {
+        "path": "PDBs/1KIQ.mapping",
+        "size_bytes": 4956
+      },
+      {
+        "path": "PDBs/1KIQ.pdb",
+        "size_bytes": 234588
+      },
+      {
+        "path": "PDBs/1KIR.mapping",
+        "size_bytes": 4956
+      },
+      {
+        "path": "PDBs/1KIR.pdb",
+        "size_bytes": 232239
+      },
+      {
+        "path": "PDBs/1KNE.mapping",
+        "size_bytes": 797
+      },
+      {
+        "path": "PDBs/1KNE.pdb",
+        "size_bytes": 46097
+      },
+      {
+        "path": "PDBs/1KTZ.mapping",
+        "size_bytes": 2621
+      },
+      {
+        "path": "PDBs/1KTZ.pdb",
+        "size_bytes": 134144
+      },
+      {
+        "path": "PDBs/1LFD.mapping",
+        "size_bytes": 3606
+      },
+      {
+        "path": "PDBs/1LFD.pdb",
+        "size_bytes": 182177
+      },
+      {
+        "path": "PDBs/1LP9.mapping",
+        "size_bytes": 11775
+      },
+      {
+        "path": "PDBs/1LP9.pdb",
+        "size_bytes": 548066
+      },
+      {
+        "path": "PDBs/1M9E.mapping",
+        "size_bytes": 4269
+      },
+      {
+        "path": "PDBs/1M9E.pdb",
+        "size_bytes": 202670
+      },
+      {
+        "path": "PDBs/1MAH.mapping",
+        "size_bytes": 8732
+      },
+      {
+        "path": "PDBs/1MAH.pdb",
+        "size_bytes": 371798
+      },
+      {
+        "path": "PDBs/1MHP.mapping",
+        "size_bytes": 8901
+      },
+      {
+        "path": "PDBs/1MHP.pdb",
+        "size_bytes": 382089
+      },
+      {
+        "path": "PDBs/1MI5.mapping",
+        "size_bytes": 11955
+      },
+      {
+        "path": "PDBs/1MI5.pdb",
+        "size_bytes": 554303
+      },
+      {
+        "path": "PDBs/1MLC.mapping",
+        "size_bytes": 8091
+      },
+      {
+        "path": "PDBs/1MLC.pdb",
+        "size_bytes": 357384
+      },
+      {
+        "path": "PDBs/1MQ8.mapping",
+        "size_bytes": 5199
+      },
+      {
+        "path": "PDBs/1MQ8.pdb",
+        "size_bytes": 234827
+      },
+      {
+        "path": "PDBs/1N8O.mapping",
+        "size_bytes": 5283
+      },
+      {
+        "path": "PDBs/1N8O.pdb",
+        "size_bytes": 240829
+      },
+      {
+        "path": "PDBs/1N8Z.mapping",
+        "size_bytes": 14901
+      },
+      {
+        "path": "PDBs/1N8Z.pdb",
+        "size_bytes": 639102
+      },
+      {
+        "path": "PDBs/1NCA.mapping",
+        "size_bytes": 12036
+      },
+      {
+        "path": "PDBs/1NCA.pdb",
+        "size_bytes": 528051
+      },
+      {
+        "path": "PDBs/1NMB.mapping",
+        "size_bytes": 8961
+      },
+      {
+        "path": "PDBs/1NMB.pdb",
+        "size_bytes": 409386
+      },
+      {
+        "path": "PDBs/1OGA.mapping",
+        "size_bytes": 11940
+      },
+      {
+        "path": "PDBs/1OGA.pdb",
+        "size_bytes": 582572
+      },
+      {
+        "path": "PDBs/1OHZ.mapping",
+        "size_bytes": 2767
+      },
+      {
+        "path": "PDBs/1OHZ.pdb",
+        "size_bytes": 127178
+      },
+      {
+        "path": "PDBs/1P69.mapping",
+        "size_bytes": 4419
+      },
+      {
+        "path": "PDBs/1P69.pdb",
+        "size_bytes": 191087
+      },
+      {
+        "path": "PDBs/1P6A.mapping",
+        "size_bytes": 4419
+      },
+      {
+        "path": "PDBs/1P6A.pdb",
+        "size_bytes": 191654
+      },
+      {
+        "path": "PDBs/1PPF.mapping",
+        "size_bytes": 3937
+      },
+      {
+        "path": "PDBs/1PPF.pdb",
+        "size_bytes": 193517
+      },
+      {
+        "path": "PDBs/1QAB.mapping",
+        "size_bytes": 9195
+      },
+      {
+        "path": "PDBs/1QAB.pdb",
+        "size_bytes": 412553
+      },
+      {
+        "path": "PDBs/1QRN.mapping",
+        "size_bytes": 11940
+      },
+      {
+        "path": "PDBs/1QRN.pdb",
+        "size_bytes": 532676
+      },
+      {
+        "path": "PDBs/1QSE.mapping",
+        "size_bytes": 11940
+      },
+      {
+        "path": "PDBs/1QSE.pdb",
+        "size_bytes": 526520
+      },
+      {
+        "path": "PDBs/1QSF.mapping",
+        "size_bytes": 11940
+      },
+      {
+        "path": "PDBs/1QSF.pdb",
+        "size_bytes": 525386
+      },
+      {
+        "path": "PDBs/1R0R.mapping",
+        "size_bytes": 4707
+      },
+      {
+        "path": "PDBs/1R0R.pdb",
+        "size_bytes": 224540
+      },
+      {
+        "path": "PDBs/1REW.mapping",
+        "size_bytes": 4069
+      },
+      {
+        "path": "PDBs/1REW.pdb",
+        "size_bytes": 196599
+      },
+      {
+        "path": "PDBs/1S0W.mapping",
+        "size_bytes": 6204
+      },
+      {
+        "path": "PDBs/1S0W.pdb",
+        "size_bytes": 280349
+      },
+      {
+        "path": "PDBs/1S1Q.mapping",
+        "size_bytes": 3006
+      },
+      {
+        "path": "PDBs/1S1Q.pdb",
+        "size_bytes": 152045
+      },
+      {
+        "path": "PDBs/1SBB.mapping",
+        "size_bytes": 6939
+      },
+      {
+        "path": "PDBs/1SBB.pdb",
+        "size_bytes": 315746
+      },
+      {
+        "path": "PDBs/1SBN.mapping",
+        "size_bytes": 4890
+      },
+      {
+        "path": "PDBs/1SBN.pdb",
+        "size_bytes": 223649
+      },
+      {
+        "path": "PDBs/1SGD.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/1SGD.pdb",
+        "size_bytes": 151559
+      },
+      {
+        "path": "PDBs/1SGE.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/1SGE.pdb",
+        "size_bytes": 151721
+      },
+      {
+        "path": "PDBs/1SGN.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/1SGN.pdb",
+        "size_bytes": 150830
+      },
+      {
+        "path": "PDBs/1SGP.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/1SGP.pdb",
+        "size_bytes": 152288
+      },
+      {
+        "path": "PDBs/1SGQ.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/1SGQ.pdb",
+        "size_bytes": 151154
+      },
+      {
+        "path": "PDBs/1SGY.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/1SGY.pdb",
+        "size_bytes": 150344
+      },
+      {
+        "path": "PDBs/1SIB.mapping",
+        "size_bytes": 4890
+      },
+      {
+        "path": "PDBs/1SIB.pdb",
+        "size_bytes": 214091
+      },
+      {
+        "path": "PDBs/1SMF.mapping",
+        "size_bytes": 3354
+      },
+      {
+        "path": "PDBs/1SMF.pdb",
+        "size_bytes": 189305
+      },
+      {
+        "path": "PDBs/1TM1.mapping",
+        "size_bytes": 4994
+      },
+      {
+        "path": "PDBs/1TM1.pdb",
+        "size_bytes": 254672
+      },
+      {
+        "path": "PDBs/1TM3.mapping",
+        "size_bytes": 4994
+      },
+      {
+        "path": "PDBs/1TM3.pdb",
+        "size_bytes": 248273
+      },
+      {
+        "path": "PDBs/1TM4.mapping",
+        "size_bytes": 4994
+      },
+      {
+        "path": "PDBs/1TM4.pdb",
+        "size_bytes": 247058
+      },
+      {
+        "path": "PDBs/1TM5.mapping",
+        "size_bytes": 4994
+      },
+      {
+        "path": "PDBs/1TM5.pdb",
+        "size_bytes": 251432
+      },
+      {
+        "path": "PDBs/1TM7.mapping",
+        "size_bytes": 4994
+      },
+      {
+        "path": "PDBs/1TM7.pdb",
+        "size_bytes": 252080
+      },
+      {
+        "path": "PDBs/1TMG.mapping",
+        "size_bytes": 4994
+      },
+      {
+        "path": "PDBs/1TMG.pdb",
+        "size_bytes": 252323
+      },
+      {
+        "path": "PDBs/1TO1.mapping",
+        "size_bytes": 4994
+      },
+      {
+        "path": "PDBs/1TO1.pdb",
+        "size_bytes": 252404
+      },
+      {
+        "path": "PDBs/1U7F.mapping",
+        "size_bytes": 8481
+      },
+      {
+        "path": "PDBs/1U7F.pdb",
+        "size_bytes": 402987
+      },
+      {
+        "path": "PDBs/1UUZ.mapping",
+        "size_bytes": 3669
+      },
+      {
+        "path": "PDBs/1UUZ.pdb",
+        "size_bytes": 177884
+      },
+      {
+        "path": "PDBs/1VFB.mapping",
+        "size_bytes": 4956
+      },
+      {
+        "path": "PDBs/1VFB.pdb",
+        "size_bytes": 279948
+      },
+      {
+        "path": "PDBs/1WQJ.mapping",
+        "size_bytes": 1970
+      },
+      {
+        "path": "PDBs/1WQJ.pdb",
+        "size_bytes": 95426
+      },
+      {
+        "path": "PDBs/1X1W.mapping",
+        "size_bytes": 2763
+      },
+      {
+        "path": "PDBs/1X1W.pdb",
+        "size_bytes": 144836
+      },
+      {
+        "path": "PDBs/1X1X.mapping",
+        "size_bytes": 2779
+      },
+      {
+        "path": "PDBs/1X1X.pdb",
+        "size_bytes": 143459
+      },
+      {
+        "path": "PDBs/1XD3.mapping",
+        "size_bytes": 4368
+      },
+      {
+        "path": "PDBs/1XD3.pdb",
+        "size_bytes": 249164
+      },
+      {
+        "path": "PDBs/1XGP.mapping",
+        "size_bytes": 7986
+      },
+      {
+        "path": "PDBs/1XGP.pdb",
+        "size_bytes": 378363
+      },
+      {
+        "path": "PDBs/1XGQ.mapping",
+        "size_bytes": 7986
+      },
+      {
+        "path": "PDBs/1XGQ.pdb",
+        "size_bytes": 381279
+      },
+      {
+        "path": "PDBs/1XGR.mapping",
+        "size_bytes": 7986
+      },
+      {
+        "path": "PDBs/1XGR.pdb",
+        "size_bytes": 371802
+      },
+      {
+        "path": "PDBs/1XGT.mapping",
+        "size_bytes": 7986
+      },
+      {
+        "path": "PDBs/1XGT.pdb",
+        "size_bytes": 374718
+      },
+      {
+        "path": "PDBs/1XGU.mapping",
+        "size_bytes": 7971
+      },
+      {
+        "path": "PDBs/1XGU.pdb",
+        "size_bytes": 382575
+      },
+      {
+        "path": "PDBs/1XXM.mapping",
+        "size_bytes": 6204
+      },
+      {
+        "path": "PDBs/1XXM.pdb",
+        "size_bytes": 279863
+      },
+      {
+        "path": "PDBs/1Y1K.mapping",
+        "size_bytes": 4994
+      },
+      {
+        "path": "PDBs/1Y1K.pdb",
+        "size_bytes": 254024
+      },
+      {
+        "path": "PDBs/1Y33.mapping",
+        "size_bytes": 4994
+      },
+      {
+        "path": "PDBs/1Y33.pdb",
+        "size_bytes": 253700
+      },
+      {
+        "path": "PDBs/1Y34.mapping",
+        "size_bytes": 4994
+      },
+      {
+        "path": "PDBs/1Y34.pdb",
+        "size_bytes": 255563
+      },
+      {
+        "path": "PDBs/1Y3B.mapping",
+        "size_bytes": 4994
+      },
+      {
+        "path": "PDBs/1Y3B.pdb",
+        "size_bytes": 254105
+      },
+      {
+        "path": "PDBs/1Y3C.mapping",
+        "size_bytes": 4994
+      },
+      {
+        "path": "PDBs/1Y3C.pdb",
+        "size_bytes": 252647
+      },
+      {
+        "path": "PDBs/1Y3D.mapping",
+        "size_bytes": 4994
+      },
+      {
+        "path": "PDBs/1Y3D.pdb",
+        "size_bytes": 252971
+      },
+      {
+        "path": "PDBs/1Y48.mapping",
+        "size_bytes": 4994
+      },
+      {
+        "path": "PDBs/1Y48.pdb",
+        "size_bytes": 251351
+      },
+      {
+        "path": "PDBs/1Y4A.mapping",
+        "size_bytes": 4890
+      },
+      {
+        "path": "PDBs/1Y4A.pdb",
+        "size_bytes": 235232
+      },
+      {
+        "path": "PDBs/1YCS.mapping",
+        "size_bytes": 5544
+      },
+      {
+        "path": "PDBs/1YCS.pdb",
+        "size_bytes": 266498
+      },
+      {
+        "path": "PDBs/1YQV.mapping",
+        "size_bytes": 8001
+      },
+      {
+        "path": "PDBs/1YQV.pdb",
+        "size_bytes": 396264
+      },
+      {
+        "path": "PDBs/1YY9.mapping",
+        "size_bytes": 15336
+      },
+      {
+        "path": "PDBs/1YY9.pdb",
+        "size_bytes": 659190
+      },
+      {
+        "path": "PDBs/1Z7X.mapping",
+        "size_bytes": 8574
+      },
+      {
+        "path": "PDBs/1Z7X.pdb",
+        "size_bytes": 398771
+      },
+      {
+        "path": "PDBs/2A9K.mapping",
+        "size_bytes": 5439
+      },
+      {
+        "path": "PDBs/2A9K.pdb",
+        "size_bytes": 265526
+      },
+      {
+        "path": "PDBs/2ABZ.mapping",
+        "size_bytes": 5238
+      },
+      {
+        "path": "PDBs/2ABZ.pdb",
+        "size_bytes": 231344
+      },
+      {
+        "path": "PDBs/2AJF.mapping",
+        "size_bytes": 11349
+      },
+      {
+        "path": "PDBs/2AJF.pdb",
+        "size_bytes": 518084
+      },
+      {
+        "path": "PDBs/2AK4.mapping",
+        "size_bytes": 12041
+      },
+      {
+        "path": "PDBs/2AK4.pdb",
+        "size_bytes": 540776
+      },
+      {
+        "path": "PDBs/2AW2.mapping",
+        "size_bytes": 2934
+      },
+      {
+        "path": "PDBs/2AW2.pdb",
+        "size_bytes": 133820
+      },
+      {
+        "path": "PDBs/2B0U.mapping",
+        "size_bytes": 7461
+      },
+      {
+        "path": "PDBs/2B0U.pdb",
+        "size_bytes": 322392
+      },
+      {
+        "path": "PDBs/2B0Z.mapping",
+        "size_bytes": 5814
+      },
+      {
+        "path": "PDBs/2B0Z.pdb",
+        "size_bytes": 274841
+      },
+      {
+        "path": "PDBs/2B10.mapping",
+        "size_bytes": 5814
+      },
+      {
+        "path": "PDBs/2B10.pdb",
+        "size_bytes": 268361
+      },
+      {
+        "path": "PDBs/2B11.mapping",
+        "size_bytes": 5814
+      },
+      {
+        "path": "PDBs/2B11.pdb",
+        "size_bytes": 287963
+      },
+      {
+        "path": "PDBs/2B12.mapping",
+        "size_bytes": 5814
+      },
+      {
+        "path": "PDBs/2B12.pdb",
+        "size_bytes": 269414
+      },
+      {
+        "path": "PDBs/2B2X.mapping",
+        "size_bytes": 8796
+      },
+      {
+        "path": "PDBs/2B2X.pdb",
+        "size_bytes": 390270
+      },
+      {
+        "path": "PDBs/2B42.mapping",
+        "size_bytes": 8004
+      },
+      {
+        "path": "PDBs/2B42.pdb",
+        "size_bytes": 333080
+      },
+      {
+        "path": "PDBs/2BDN.mapping",
+        "size_bytes": 7192
+      },
+      {
+        "path": "PDBs/2BDN.pdb",
+        "size_bytes": 313401
+      },
+      {
+        "path": "PDBs/2BNQ.mapping",
+        "size_bytes": 11985
+      },
+      {
+        "path": "PDBs/2BNQ.pdb",
+        "size_bytes": 579332
+      },
+      {
+        "path": "PDBs/2BNR.mapping",
+        "size_bytes": 11985
+      },
+      {
+        "path": "PDBs/2BNR.pdb",
+        "size_bytes": 578684
+      },
+      {
+        "path": "PDBs/2BTF.mapping",
+        "size_bytes": 7479
+      },
+      {
+        "path": "PDBs/2BTF.pdb",
+        "size_bytes": 324008
+      },
+      {
+        "path": "PDBs/2C0L.mapping",
+        "size_bytes": 5994
+      },
+      {
+        "path": "PDBs/2C0L.pdb",
+        "size_bytes": 267956
+      },
+      {
+        "path": "PDBs/2C5D.mapping",
+        "size_bytes": 16758
+      },
+      {
+        "path": "PDBs/2C5D.pdb",
+        "size_bytes": 719215
+      },
+      {
+        "path": "PDBs/2CCL.mapping",
+        "size_bytes": 2986
+      },
+      {
+        "path": "PDBs/2CCL.pdb",
+        "size_bytes": 152936
+      },
+      {
+        "path": "PDBs/2DSQ.mapping",
+        "size_bytes": 1690
+      },
+      {
+        "path": "PDBs/2DSQ.pdb",
+        "size_bytes": 77120
+      },
+      {
+        "path": "PDBs/2DVW.mapping",
+        "size_bytes": 4340
+      },
+      {
+        "path": "PDBs/2DVW.pdb",
+        "size_bytes": 211337
+      },
+      {
+        "path": "PDBs/2E7L.mapping",
+        "size_bytes": 5778
+      },
+      {
+        "path": "PDBs/2E7L.pdb",
+        "size_bytes": 271771
+      },
+      {
+        "path": "PDBs/2FTL.mapping",
+        "size_bytes": 4025
+      },
+      {
+        "path": "PDBs/2FTL.pdb",
+        "size_bytes": 208259
+      },
+      {
+        "path": "PDBs/2G2U.mapping",
+        "size_bytes": 6234
+      },
+      {
+        "path": "PDBs/2G2U.pdb",
+        "size_bytes": 290798
+      },
+      {
+        "path": "PDBs/2G2W.mapping",
+        "size_bytes": 6219
+      },
+      {
+        "path": "PDBs/2G2W.pdb",
+        "size_bytes": 279215
+      },
+      {
+        "path": "PDBs/2GOX.mapping",
+        "size_bytes": 5248
+      },
+      {
+        "path": "PDBs/2GOX.pdb",
+        "size_bytes": 244304
+      },
+      {
+        "path": "PDBs/2GYK.mapping",
+        "size_bytes": 2995
+      },
+      {
+        "path": "PDBs/2GYK.pdb",
+        "size_bytes": 166301
+      },
+      {
+        "path": "PDBs/2HLE.mapping",
+        "size_bytes": 4599
+      },
+      {
+        "path": "PDBs/2HLE.pdb",
+        "size_bytes": 207692
+      },
+      {
+        "path": "PDBs/2HRK.mapping",
+        "size_bytes": 4254
+      },
+      {
+        "path": "PDBs/2HRK.pdb",
+        "size_bytes": 209717
+      },
+      {
+        "path": "PDBs/2I26.mapping",
+        "size_bytes": 3489
+      },
+      {
+        "path": "PDBs/2I26.pdb",
+        "size_bytes": 157310
+      },
+      {
+        "path": "PDBs/2J0T.mapping",
+        "size_bytes": 4059
+      },
+      {
+        "path": "PDBs/2J0T.pdb",
+        "size_bytes": 178208
+      },
+      {
+        "path": "PDBs/2J12.mapping",
+        "size_bytes": 4314
+      },
+      {
+        "path": "PDBs/2J12.pdb",
+        "size_bytes": 223406
+      },
+      {
+        "path": "PDBs/2J1K.mapping",
+        "size_bytes": 4299
+      },
+      {
+        "path": "PDBs/2J1K.pdb",
+        "size_bytes": 206234
+      },
+      {
+        "path": "PDBs/2J8U.mapping",
+        "size_bytes": 11775
+      },
+      {
+        "path": "PDBs/2J8U.pdb",
+        "size_bytes": 531704
+      },
+      {
+        "path": "PDBs/2JCC.mapping",
+        "size_bytes": 11775
+      },
+      {
+        "path": "PDBs/2JCC.pdb",
+        "size_bytes": 533648
+      },
+      {
+        "path": "PDBs/2JEL.mapping",
+        "size_bytes": 7490
+      },
+      {
+        "path": "PDBs/2JEL.pdb",
+        "size_bytes": 325146
+      },
+      {
+        "path": "PDBs/2KSO.mapping",
+        "size_bytes": 1718
+      },
+      {
+        "path": "PDBs/2KSO.pdb",
+        "size_bytes": 160469
+      },
+      {
+        "path": "PDBs/2NOJ.mapping",
+        "size_bytes": 4850
+      },
+      {
+        "path": "PDBs/2NOJ.pdb",
+        "size_bytes": 200888
+      },
+      {
+        "path": "PDBs/2NU0.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/2NU0.pdb",
+        "size_bytes": 149453
+      },
+      {
+        "path": "PDBs/2NU1.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/2NU1.pdb",
+        "size_bytes": 151154
+      },
+      {
+        "path": "PDBs/2NU2.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/2NU2.pdb",
+        "size_bytes": 153503
+      },
+      {
+        "path": "PDBs/2NU4.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/2NU4.pdb",
+        "size_bytes": 153017
+      },
+      {
+        "path": "PDBs/2NY7.mapping",
+        "size_bytes": 10701
+      },
+      {
+        "path": "PDBs/2NY7.pdb",
+        "size_bytes": 500349
+      },
+      {
+        "path": "PDBs/2NYY.mapping",
+        "size_bytes": 25444
+      },
+      {
+        "path": "PDBs/2NYY.pdb",
+        "size_bytes": 1094079
+      },
+      {
+        "path": "PDBs/2NZ9.mapping",
+        "size_bytes": 25444
+      },
+      {
+        "path": "PDBs/2NZ9.pdb",
+        "size_bytes": 1092783
+      },
+      {
+        "path": "PDBs/2O3B.mapping",
+        "size_bytes": 5424
+      },
+      {
+        "path": "PDBs/2O3B.pdb",
+        "size_bytes": 259613
+      },
+      {
+        "path": "PDBs/2OI9.mapping",
+        "size_bytes": 5733
+      },
+      {
+        "path": "PDBs/2OI9.pdb",
+        "size_bytes": 275497
+      },
+      {
+        "path": "PDBs/2OOB.mapping",
+        "size_bytes": 1606
+      },
+      {
+        "path": "PDBs/2OOB.pdb",
+        "size_bytes": 85544
+      },
+      {
+        "path": "PDBs/2P5E.mapping",
+        "size_bytes": 11850
+      },
+      {
+        "path": "PDBs/2P5E.pdb",
+        "size_bytes": 605333
+      },
+      {
+        "path": "PDBs/2PCB.mapping",
+        "size_bytes": 5754
+      },
+      {
+        "path": "PDBs/2PCB.pdb",
+        "size_bytes": 282374
+      },
+      {
+        "path": "PDBs/2PCC.mapping",
+        "size_bytes": 5814
+      },
+      {
+        "path": "PDBs/2PCC.pdb",
+        "size_bytes": 289421
+      },
+      {
+        "path": "PDBs/2PYE.mapping",
+        "size_bytes": 11880
+      },
+      {
+        "path": "PDBs/2PYE.pdb",
+        "size_bytes": 577874
+      },
+      {
+        "path": "PDBs/2QJ9.mapping",
+        "size_bytes": 4084
+      },
+      {
+        "path": "PDBs/2QJ9.pdb",
+        "size_bytes": 196194
+      },
+      {
+        "path": "PDBs/2QJA.mapping",
+        "size_bytes": 4085
+      },
+      {
+        "path": "PDBs/2QJA.pdb",
+        "size_bytes": 187203
+      },
+      {
+        "path": "PDBs/2QJB.mapping",
+        "size_bytes": 4070
+      },
+      {
+        "path": "PDBs/2QJB.pdb",
+        "size_bytes": 189309
+      },
+      {
+        "path": "PDBs/2REX.mapping",
+        "size_bytes": 3954
+      },
+      {
+        "path": "PDBs/2REX.pdb",
+        "size_bytes": 178451
+      },
+      {
+        "path": "PDBs/2SGP.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/2SGP.pdb",
+        "size_bytes": 150344
+      },
+      {
+        "path": "PDBs/2SGQ.mapping",
+        "size_bytes": 3372
+      },
+      {
+        "path": "PDBs/2SGQ.pdb",
+        "size_bytes": 150506
+      },
+      {
+        "path": "PDBs/2SIC.mapping",
+        "size_bytes": 5514
+      },
+      {
+        "path": "PDBs/2SIC.pdb",
+        "size_bytes": 236285
+      },
+      {
+        "path": "PDBs/2UWE.mapping",
+        "size_bytes": 11775
+      },
+      {
+        "path": "PDBs/2UWE.pdb",
+        "size_bytes": 541505
+      },
+      {
+        "path": "PDBs/2VIR.mapping",
+        "size_bytes": 10146
+      },
+      {
+        "path": "PDBs/2VIR.pdb",
+        "size_bytes": 432471
+      },
+      {
+        "path": "PDBs/2VIS.mapping",
+        "size_bytes": 10146
+      },
+      {
+        "path": "PDBs/2VIS.pdb",
+        "size_bytes": 433686
+      },
+      {
+        "path": "PDBs/2VLN.mapping",
+        "size_bytes": 3013
+      },
+      {
+        "path": "PDBs/2VLN.pdb",
+        "size_bytes": 164519
+      },
+      {
+        "path": "PDBs/2VLO.mapping",
+        "size_bytes": 3123
+      },
+      {
+        "path": "PDBs/2VLO.pdb",
+        "size_bytes": 161522
+      },
+      {
+        "path": "PDBs/2VLP.mapping",
+        "size_bytes": 3041
+      },
+      {
+        "path": "PDBs/2VLP.pdb",
+        "size_bytes": 156581
+      },
+      {
+        "path": "PDBs/2VLQ.mapping",
+        "size_bytes": 3069
+      },
+      {
+        "path": "PDBs/2VLQ.pdb",
+        "size_bytes": 165734
+      },
+      {
+        "path": "PDBs/2VLR.mapping",
+        "size_bytes": 11910
+      },
+      {
+        "path": "PDBs/2VLR.pdb",
+        "size_bytes": 561512
+      },
+      {
+        "path": "PDBs/2VN5.mapping",
+        "size_bytes": 2797
+      },
+      {
+        "path": "PDBs/2VN5.pdb",
+        "size_bytes": 130499
+      },
+      {
+        "path": "PDBs/2WPT.mapping",
+        "size_bytes": 2726
+      },
+      {
+        "path": "PDBs/2WPT.pdb",
+        "size_bytes": 139733
+      },
+      {
+        "path": "PDBs/3AAA.mapping",
+        "size_bytes": 9186
+      },
+      {
+        "path": "PDBs/3AAA.pdb",
+        "size_bytes": 437088
+      },
+      {
+        "path": "PDBs/3B4V.mapping",
+        "size_bytes": 6111
+      },
+      {
+        "path": "PDBs/3B4V.pdb",
+        "size_bytes": 269013
+      },
+      {
+        "path": "PDBs/3BDY.mapping",
+        "size_bytes": 7600
+      },
+      {
+        "path": "PDBs/3BDY.pdb",
+        "size_bytes": 334137
+      },
+      {
+        "path": "PDBs/3BE1.mapping",
+        "size_bytes": 14856
+      },
+      {
+        "path": "PDBs/3BE1.pdb",
+        "size_bytes": 632622
+      },
+      {
+        "path": "PDBs/3BIW.mapping",
+        "size_bytes": 10434
+      },
+      {
+        "path": "PDBs/3BIW.pdb",
+        "size_bytes": 454985
+      },
+      {
+        "path": "PDBs/3BK3.mapping",
+        "size_bytes": 2381
+      },
+      {
+        "path": "PDBs/3BK3.pdb",
+        "size_bytes": 107090
+      },
+      {
+        "path": "PDBs/3BN9.mapping",
+        "size_bytes": 9606
+      },
+      {
+        "path": "PDBs/3BN9.pdb",
+        "size_bytes": 446970
+      },
+      {
+        "path": "PDBs/3BP8.mapping",
+        "size_bytes": 6648
+      },
+      {
+        "path": "PDBs/3BP8.pdb",
+        "size_bytes": 282050
+      },
+      {
+        "path": "PDBs/3BT1.mapping",
+        "size_bytes": 5754
+      },
+      {
+        "path": "PDBs/3BT1.pdb",
+        "size_bytes": 254186
+      },
+      {
+        "path": "PDBs/3BTD.mapping",
+        "size_bytes": 4012
+      },
+      {
+        "path": "PDBs/3BTD.pdb",
+        "size_bytes": 175697
+      },
+      {
+        "path": "PDBs/3BTE.mapping",
+        "size_bytes": 4012
+      },
+      {
+        "path": "PDBs/3BTE.pdb",
+        "size_bytes": 174806
+      },
+      {
+        "path": "PDBs/3BTF.mapping",
+        "size_bytes": 4012
+      },
+      {
+        "path": "PDBs/3BTF.pdb",
+        "size_bytes": 176264
+      },
+      {
+        "path": "PDBs/3BTG.mapping",
+        "size_bytes": 4012
+      },
+      {
+        "path": "PDBs/3BTG.pdb",
+        "size_bytes": 174887
+      },
+      {
+        "path": "PDBs/3BTH.mapping",
+        "size_bytes": 3982
+      },
+      {
+        "path": "PDBs/3BTH.pdb",
+        "size_bytes": 174644
+      },
+      {
+        "path": "PDBs/3BTM.mapping",
+        "size_bytes": 4012
+      },
+      {
+        "path": "PDBs/3BTM.pdb",
+        "size_bytes": 175778
+      },
+      {
+        "path": "PDBs/3BTQ.mapping",
+        "size_bytes": 4012
+      },
+      {
+        "path": "PDBs/3BTQ.pdb",
+        "size_bytes": 176426
+      },
+      {
+        "path": "PDBs/3BTT.mapping",
+        "size_bytes": 4012
+      },
+      {
+        "path": "PDBs/3BTT.pdb",
+        "size_bytes": 177884
+      },
+      {
+        "path": "PDBs/3BTW.mapping",
+        "size_bytes": 3997
+      },
+      {
+        "path": "PDBs/3BTW.pdb",
+        "size_bytes": 172700
+      },
+      {
+        "path": "PDBs/3BX1.mapping",
+        "size_bytes": 6534
+      },
+      {
+        "path": "PDBs/3BX1.pdb",
+        "size_bytes": 301733
+      },
+      {
+        "path": "PDBs/3C60.mapping",
+        "size_bytes": 11838
+      },
+      {
+        "path": "PDBs/3C60.pdb",
+        "size_bytes": 530647
+      },
+      {
+        "path": "PDBs/3D3V.mapping",
+        "size_bytes": 11985
+      },
+      {
+        "path": "PDBs/3D3V.pdb",
+        "size_bytes": 545312
+      },
+      {
+        "path": "PDBs/3D5R.mapping",
+        "size_bytes": 5248
+      },
+      {
+        "path": "PDBs/3D5R.pdb",
+        "size_bytes": 238391
+      },
+      {
+        "path": "PDBs/3D5S.mapping",
+        "size_bytes": 5248
+      },
+      {
+        "path": "PDBs/3D5S.pdb",
+        "size_bytes": 237338
+      },
+      {
+        "path": "PDBs/3EG5.mapping",
+        "size_bytes": 7509
+      },
+      {
+        "path": "PDBs/3EG5.pdb",
+        "size_bytes": 337940
+      },
+      {
+        "path": "PDBs/3EQS.mapping",
+        "size_bytes": 1312
+      },
+      {
+        "path": "PDBs/3EQS.pdb",
+        "size_bytes": 81089
+      },
+      {
+        "path": "PDBs/3EQY.mapping",
+        "size_bytes": 1326
+      },
+      {
+        "path": "PDBs/3EQY.pdb",
+        "size_bytes": 78659
+      },
+      {
+        "path": "PDBs/3F1S.mapping",
+        "size_bytes": 9444
+      },
+      {
+        "path": "PDBs/3F1S.pdb",
+        "size_bytes": 424448
+      },
+      {
+        "path": "PDBs/3G6D.mapping",
+        "size_bytes": 7761
+      },
+      {
+        "path": "PDBs/3G6D.pdb",
+        "size_bytes": 328791
+      },
+      {
+        "path": "PDBs/3H9S.mapping",
+        "size_bytes": 11985
+      },
+      {
+        "path": "PDBs/3H9S.pdb",
+        "size_bytes": 544097
+      },
+      {
+        "path": "PDBs/3HFM.mapping",
+        "size_bytes": 8046
+      },
+      {
+        "path": "PDBs/3HFM.pdb",
+        "size_bytes": 348069
+      },
+      {
+        "path": "PDBs/3HG1.mapping",
+        "size_bytes": 11909
+      },
+      {
+        "path": "PDBs/3HG1.pdb",
+        "size_bytes": 538589
+      },
+      {
+        "path": "PDBs/3HH2.mapping",
+        "size_bytes": 7116
+      },
+      {
+        "path": "PDBs/3HH2.pdb",
+        "size_bytes": 334704
+      },
+      {
+        "path": "PDBs/3IDX.mapping",
+        "size_bytes": 10911
+      },
+      {
+        "path": "PDBs/3IDX.pdb",
+        "size_bytes": 506667
+      },
+      {
+        "path": "PDBs/3KBH.mapping",
+        "size_bytes": 10329
+      },
+      {
+        "path": "PDBs/3KBH.pdb",
+        "size_bytes": 466244
+      },
+      {
+        "path": "PDBs/3KUD.mapping",
+        "size_bytes": 3422
+      },
+      {
+        "path": "PDBs/3KUD.pdb",
+        "size_bytes": 162332
+      },
+      {
+        "path": "PDBs/3L5X.mapping",
+        "size_bytes": 7761
+      },
+      {
+        "path": "PDBs/3L5X.pdb",
+        "size_bytes": 364269
+      },
+      {
+        "path": "PDBs/3LB6.mapping",
+        "size_bytes": 5199
+      },
+      {
+        "path": "PDBs/3LB6.pdb",
+        "size_bytes": 235151
+      },
+      {
+        "path": "PDBs/3LNZ.mapping",
+        "size_bytes": 1326
+      },
+      {
+        "path": "PDBs/3LNZ.pdb",
+        "size_bytes": 74528
+      },
+      {
+        "path": "PDBs/3LZF.mapping",
+        "size_bytes": 13428
+      },
+      {
+        "path": "PDBs/3LZF.pdb",
+        "size_bytes": 580624
+      },
+      {
+        "path": "PDBs/3M62.mapping",
+        "size_bytes": 15216
+      },
+      {
+        "path": "PDBs/3M62.pdb",
+        "size_bytes": 697985
+      },
+      {
+        "path": "PDBs/3M63.mapping",
+        "size_bytes": 15186
+      },
+      {
+        "path": "PDBs/3M63.pdb",
+        "size_bytes": 687455
+      },
+      {
+        "path": "PDBs/3MZG.mapping",
+        "size_bytes": 5664
+      },
+      {
+        "path": "PDBs/3MZG.pdb",
+        "size_bytes": 283589
+      },
+      {
+        "path": "PDBs/3MZW.mapping",
+        "size_bytes": 9160
+      },
+      {
+        "path": "PDBs/3MZW.pdb",
+        "size_bytes": 396098
+      },
+      {
+        "path": "PDBs/3N06.mapping",
+        "size_bytes": 5664
+      },
+      {
+        "path": "PDBs/3N06.pdb",
+        "size_bytes": 283751
+      },
+      {
+        "path": "PDBs/3N0P.mapping",
+        "size_bytes": 5664
+      },
+      {
+        "path": "PDBs/3N0P.pdb",
+        "size_bytes": 289907
+      },
+      {
+        "path": "PDBs/3N4I.mapping",
+        "size_bytes": 6234
+      },
+      {
+        "path": "PDBs/3N4I.pdb",
+        "size_bytes": 293390
+      },
+      {
+        "path": "PDBs/3N85.mapping",
+        "size_bytes": 15171
+      },
+      {
+        "path": "PDBs/3N85.pdb",
+        "size_bytes": 653196
+      },
+      {
+        "path": "PDBs/3NCB.mapping",
+        "size_bytes": 5664
+      },
+      {
+        "path": "PDBs/3NCB.pdb",
+        "size_bytes": 291608
+      },
+      {
+        "path": "PDBs/3NCC.mapping",
+        "size_bytes": 5664
+      },
+      {
+        "path": "PDBs/3NCC.pdb",
+        "size_bytes": 280268
+      },
+      {
+        "path": "PDBs/3NGB.mapping",
+        "size_bytes": 11361
+      },
+      {
+        "path": "PDBs/3NGB.pdb",
+        "size_bytes": 518898
+      },
+      {
+        "path": "PDBs/3NPS.mapping",
+        "size_bytes": 9846
+      },
+      {
+        "path": "PDBs/3NPS.pdb",
+        "size_bytes": 483096
+      },
+      {
+        "path": "PDBs/3NVN.mapping",
+        "size_bytes": 12639
+      },
+      {
+        "path": "PDBs/3NVN.pdb",
+        "size_bytes": 590174
+      },
+      {
+        "path": "PDBs/3NVQ.mapping",
+        "size_bytes": 15714
+      },
+      {
+        "path": "PDBs/3NVQ.pdb",
+        "size_bytes": 723986
+      },
+      {
+        "path": "PDBs/3PWP.mapping",
+        "size_bytes": 11985
+      },
+      {
+        "path": "PDBs/3PWP.pdb",
+        "size_bytes": 547337
+      },
+      {
+        "path": "PDBs/3Q3J.mapping",
+        "size_bytes": 3939
+      },
+      {
+        "path": "PDBs/3Q3J.pdb",
+        "size_bytes": 174401
+      },
+      {
+        "path": "PDBs/3Q8D.mapping",
+        "size_bytes": 3396
+      },
+      {
+        "path": "PDBs/3Q8D.pdb",
+        "size_bytes": 160712
+      },
+      {
+        "path": "PDBs/3QDG.mapping",
+        "size_bytes": 11939
+      },
+      {
+        "path": "PDBs/3QDG.pdb",
+        "size_bytes": 537293
+      },
+      {
+        "path": "PDBs/3QDJ.mapping",
+        "size_bytes": 11925
+      },
+      {
+        "path": "PDBs/3QDJ.pdb",
+        "size_bytes": 538346
+      },
+      {
+        "path": "PDBs/3QFJ.mapping",
+        "size_bytes": 11985
+      },
+      {
+        "path": "PDBs/3QFJ.pdb",
+        "size_bytes": 558758
+      },
+      {
+        "path": "PDBs/3QHY.mapping",
+        "size_bytes": 7719
+      },
+      {
+        "path": "PDBs/3QHY.pdb",
+        "size_bytes": 357785
+      },
+      {
+        "path": "PDBs/3QIB.mapping",
+        "size_bytes": 11456
+      },
+      {
+        "path": "PDBs/3QIB.pdb",
+        "size_bytes": 523604
+      },
+      {
+        "path": "PDBs/3R9A.mapping",
+        "size_bytes": 15651
+      },
+      {
+        "path": "PDBs/3R9A.pdb",
+        "size_bytes": 729660
+      },
+      {
+        "path": "PDBs/3RF3.mapping",
+        "size_bytes": 4060
+      },
+      {
+        "path": "PDBs/3RF3.pdb",
+        "size_bytes": 392939
+      },
+      {
+        "path": "PDBs/3S9D.mapping",
+        "size_bytes": 4389
+      },
+      {
+        "path": "PDBs/3S9D.pdb",
+        "size_bytes": 224783
+      },
+      {
+        "path": "PDBs/3SE3.mapping",
+        "size_bytes": 8616
+      },
+      {
+        "path": "PDBs/3SE3.pdb",
+        "size_bytes": 361434
+      },
+      {
+        "path": "PDBs/3SE4.mapping",
+        "size_bytes": 8946
+      },
+      {
+        "path": "PDBs/3SE4.pdb",
+        "size_bytes": 387516
+      },
+      {
+        "path": "PDBs/3SE8.mapping",
+        "size_bytes": 11361
+      },
+      {
+        "path": "PDBs/3SE8.pdb",
+        "size_bytes": 1049691
+      },
+      {
+        "path": "PDBs/3SE9.mapping",
+        "size_bytes": 11331
+      },
+      {
+        "path": "PDBs/3SE9.pdb",
+        "size_bytes": 1029684
+      },
+      {
+        "path": "PDBs/3SEK.mapping",
+        "size_bytes": 5961
+      },
+      {
+        "path": "PDBs/3SEK.pdb",
+        "size_bytes": 267960
+      },
+      {
+        "path": "PDBs/3SF4.mapping",
+        "size_bytes": 5838
+      },
+      {
+        "path": "PDBs/3SF4.pdb",
+        "size_bytes": 259289
+      },
+      {
+        "path": "PDBs/3SGB.mapping",
+        "size_bytes": 3358
+      },
+      {
+        "path": "PDBs/3SGB.pdb",
+        "size_bytes": 151640
+      },
+      {
+        "path": "PDBs/3SZK.mapping",
+        "size_bytes": 6066
+      },
+      {
+        "path": "PDBs/3SZK.pdb",
+        "size_bytes": 274197
+      },
+      {
+        "path": "PDBs/3TGK.mapping",
+        "size_bytes": 3922
+      },
+      {
+        "path": "PDBs/3TGK.pdb",
+        "size_bytes": 186632
+      },
+      {
+        "path": "PDBs/3U82.mapping",
+        "size_bytes": 7749
+      },
+      {
+        "path": "PDBs/3U82.pdb",
+        "size_bytes": 338426
+      },
+      {
+        "path": "PDBs/3UIG.mapping",
+        "size_bytes": 1982
+      },
+      {
+        "path": "PDBs/3UIG.pdb",
+        "size_bytes": 94535
+      },
+      {
+        "path": "PDBs/3UIH.mapping",
+        "size_bytes": 1984
+      },
+      {
+        "path": "PDBs/3UIH.pdb",
+        "size_bytes": 93239
+      },
+      {
+        "path": "PDBs/3UII.mapping",
+        "size_bytes": 1969
+      },
+      {
+        "path": "PDBs/3UII.pdb",
+        "size_bytes": 92996
+      },
+      {
+        "path": "PDBs/3VR6.mapping",
+        "size_bytes": 50091
+      },
+      {
+        "path": "PDBs/3VR6.pdb",
+        "size_bytes": 2191892
+      },
+      {
+        "path": "PDBs/3W2D.mapping",
+        "size_bytes": 9621
+      },
+      {
+        "path": "PDBs/3W2D.pdb",
+        "size_bytes": 436683
+      },
+      {
+        "path": "PDBs/3WWN.mapping",
+        "size_bytes": 4584
+      },
+      {
+        "path": "PDBs/3WWN.pdb",
+        "size_bytes": 216197
+      },
+      {
+        "path": "PDBs/4B0M.mapping",
+        "size_bytes": 6846
+      },
+      {
+        "path": "PDBs/4B0M.pdb",
+        "size_bytes": 331464
+      },
+      {
+        "path": "PDBs/4BFI.mapping",
+        "size_bytes": 5679
+      },
+      {
+        "path": "PDBs/4BFI.pdb",
+        "size_bytes": 260828
+      },
+      {
+        "path": "PDBs/4CPA.mapping",
+        "size_bytes": 5006
+      },
+      {
+        "path": "PDBs/4CPA.pdb",
+        "size_bytes": 220976
+      },
+      {
+        "path": "PDBs/4CVW.mapping",
+        "size_bytes": 14409
+      },
+      {
+        "path": "PDBs/4CVW.pdb",
+        "size_bytes": 615284
+      },
+      {
+        "path": "PDBs/4E6K.mapping",
+        "size_bytes": 5283
+      },
+      {
+        "path": "PDBs/4E6K.pdb",
+        "size_bytes": 285699
+      },
+      {
+        "path": "PDBs/4EKD.mapping",
+        "size_bytes": 6534
+      },
+      {
+        "path": "PDBs/4EKD.pdb",
+        "size_bytes": 304730
+      },
+      {
+        "path": "PDBs/4FTV.mapping",
+        "size_bytes": 11985
+      },
+      {
+        "path": "PDBs/4FTV.pdb",
+        "size_bytes": 545960
+      },
+      {
+        "path": "PDBs/4FZA.mapping",
+        "size_bytes": 8859
+      },
+      {
+        "path": "PDBs/4FZA.pdb",
+        "size_bytes": 396908
+      },
+      {
+        "path": "PDBs/4G0N.mapping",
+        "size_bytes": 3435
+      },
+      {
+        "path": "PDBs/4G0N.pdb",
+        "size_bytes": 162332
+      },
+      {
+        "path": "PDBs/4G2V.mapping",
+        "size_bytes": 4936
+      },
+      {
+        "path": "PDBs/4G2V.pdb",
+        "size_bytes": 221219
+      },
+      {
+        "path": "PDBs/4GNK.mapping",
+        "size_bytes": 16374
+      },
+      {
+        "path": "PDBs/4GNK.pdb",
+        "size_bytes": 728360
+      },
+      {
+        "path": "PDBs/4GU0.mapping",
+        "size_bytes": 11467
+      },
+      {
+        "path": "PDBs/4GU0.pdb",
+        "size_bytes": 500831
+      },
+      {
+        "path": "PDBs/4GXU.mapping",
+        "size_bytes": 28086
+      },
+      {
+        "path": "PDBs/4GXU.pdb",
+        "size_bytes": 1253426
+      },
+      {
+        "path": "PDBs/4HFK.mapping",
+        "size_bytes": 5004
+      },
+      {
+        "path": "PDBs/4HFK.pdb",
+        "size_bytes": 250140
+      },
+      {
+        "path": "PDBs/4HRN.mapping",
+        "size_bytes": 2678
+      },
+      {
+        "path": "PDBs/4HRN.pdb",
+        "size_bytes": 113003
+      },
+      {
+        "path": "PDBs/4HSA.mapping",
+        "size_bytes": 6951
+      },
+      {
+        "path": "PDBs/4HSA.pdb",
+        "size_bytes": 326361
+      },
+      {
+        "path": "PDBs/4I77.mapping",
+        "size_bytes": 7688
+      },
+      {
+        "path": "PDBs/4I77.pdb",
+        "size_bytes": 361920
+      },
+      {
+        "path": "PDBs/4J2L.mapping",
+        "size_bytes": 2389
+      },
+      {
+        "path": "PDBs/4J2L.pdb",
+        "size_bytes": 109605
+      },
+      {
+        "path": "PDBs/4JEU.mapping",
+        "size_bytes": 11529
+      },
+      {
+        "path": "PDBs/4JEU.pdb",
+        "size_bytes": 510551
+      },
+      {
+        "path": "PDBs/4JFD.mapping",
+        "size_bytes": 11954
+      },
+      {
+        "path": "PDBs/4JFD.pdb",
+        "size_bytes": 552440
+      },
+      {
+        "path": "PDBs/4JFE.mapping",
+        "size_bytes": 11969
+      },
+      {
+        "path": "PDBs/4JFE.pdb",
+        "size_bytes": 547985
+      },
+      {
+        "path": "PDBs/4JFF.mapping",
+        "size_bytes": 11969
+      },
+      {
+        "path": "PDBs/4JFF.pdb",
+        "size_bytes": 556814
+      },
+      {
+        "path": "PDBs/4JGH.mapping",
+        "size_bytes": 10536
+      },
+      {
+        "path": "PDBs/4JGH.pdb",
+        "size_bytes": 478078
+      },
+      {
+        "path": "PDBs/4JPK.mapping",
+        "size_bytes": 8646
+      },
+      {
+        "path": "PDBs/4JPK.pdb",
+        "size_bytes": 385329
+      },
+      {
+        "path": "PDBs/4K71.mapping",
+        "size_bytes": 13866
+      },
+      {
+        "path": "PDBs/4K71.pdb",
+        "size_bytes": 621525
+      },
+      {
+        "path": "PDBs/4KRL.mapping",
+        "size_bytes": 4689
+      },
+      {
+        "path": "PDBs/4KRL.pdb",
+        "size_bytes": 204614
+      },
+      {
+        "path": "PDBs/4KRO.mapping",
+        "size_bytes": 10074
+      },
+      {
+        "path": "PDBs/4KRO.pdb",
+        "size_bytes": 704222
+      },
+      {
+        "path": "PDBs/4KRP.mapping",
+        "size_bytes": 9534
+      },
+      {
+        "path": "PDBs/4KRP.pdb",
+        "size_bytes": 702197
+      },
+      {
+        "path": "PDBs/4L0P.mapping",
+        "size_bytes": 4494
+      },
+      {
+        "path": "PDBs/4L0P.pdb",
+        "size_bytes": 221462
+      },
+      {
+        "path": "PDBs/4L3E.mapping",
+        "size_bytes": 11939
+      },
+      {
+        "path": "PDBs/4L3E.pdb",
+        "size_bytes": 535835
+      },
+      {
+        "path": "PDBs/4LRX.mapping",
+        "size_bytes": 19098
+      },
+      {
+        "path": "PDBs/4LRX.pdb",
+        "size_bytes": 802888
+      },
+      {
+        "path": "PDBs/4MNQ.mapping",
+        "size_bytes": 11925
+      },
+      {
+        "path": "PDBs/4MNQ.pdb",
+        "size_bytes": 541424
+      },
+      {
+        "path": "PDBs/4MYW.mapping",
+        "size_bytes": 7809
+      },
+      {
+        "path": "PDBs/4MYW.pdb",
+        "size_bytes": 346202
+      },
+      {
+        "path": "PDBs/4N8V.mapping",
+        "size_bytes": 8253
+      },
+      {
+        "path": "PDBs/4N8V.pdb",
+        "size_bytes": 379744
+      },
+      {
+        "path": "PDBs/4NKQ.mapping",
+        "size_bytes": 10296
+      },
+      {
+        "path": "PDBs/4NKQ.pdb",
+        "size_bytes": 461064
+      },
+      {
+        "path": "PDBs/4NM8.mapping",
+        "size_bytes": 27621
+      },
+      {
+        "path": "PDBs/4NM8.pdb",
+        "size_bytes": 1222160
+      },
+      {
+        "path": "PDBs/4NZW.mapping",
+        "size_bytes": 8409
+      },
+      {
+        "path": "PDBs/4NZW.pdb",
+        "size_bytes": 382166
+      },
+      {
+        "path": "PDBs/4O27.mapping",
+        "size_bytes": 8874
+      },
+      {
+        "path": "PDBs/4O27.pdb",
+        "size_bytes": 388322
+      },
+      {
+        "path": "PDBs/4OFY.mapping",
+        "size_bytes": 9339
+      },
+      {
+        "path": "PDBs/4OFY.pdb",
+        "size_bytes": 397961
+      },
+      {
+        "path": "PDBs/4OZG.mapping",
+        "size_bytes": 11667
+      },
+      {
+        "path": "PDBs/4OZG.pdb",
+        "size_bytes": 518258
+      },
+      {
+        "path": "PDBs/4P23.mapping",
+        "size_bytes": 11838
+      },
+      {
+        "path": "PDBs/4P23.pdb",
+        "size_bytes": 545632
+      },
+      {
+        "path": "PDBs/4P5T.mapping",
+        "size_bytes": 11763
+      },
+      {
+        "path": "PDBs/4P5T.pdb",
+        "size_bytes": 508453
+      },
+      {
+        "path": "PDBs/4PWX.mapping",
+        "size_bytes": 13430
+      },
+      {
+        "path": "PDBs/4PWX.pdb",
+        "size_bytes": 603304
+      },
+      {
+        "path": "PDBs/4RA0.mapping",
+        "size_bytes": 8439
+      },
+      {
+        "path": "PDBs/4RA0.pdb",
+        "size_bytes": 364508
+      },
+      {
+        "path": "PDBs/4RS1.mapping",
+        "size_bytes": 5364
+      },
+      {
+        "path": "PDBs/4RS1.pdb",
+        "size_bytes": 251594
+      },
+      {
+        "path": "PDBs/4U6H.mapping",
+        "size_bytes": 8676
+      },
+      {
+        "path": "PDBs/4U6H.pdb",
+        "size_bytes": 371073
+      },
+      {
+        "path": "PDBs/4UYP.mapping",
+        "size_bytes": 3065
+      },
+      {
+        "path": "PDBs/4UYP.pdb",
+        "size_bytes": 181610
+      },
+      {
+        "path": "PDBs/4UYQ.mapping",
+        "size_bytes": 3065
+      },
+      {
+        "path": "PDBs/4UYQ.pdb",
+        "size_bytes": 162251
+      },
+      {
+        "path": "PDBs/4WND.mapping",
+        "size_bytes": 5182
+      },
+      {
+        "path": "PDBs/4WND.pdb",
+        "size_bytes": 271358
+      },
+      {
+        "path": "PDBs/4X4M.mapping",
+        "size_bytes": 10071
+      },
+      {
+        "path": "PDBs/4X4M.pdb",
+        "size_bytes": 461469
+      },
+      {
+        "path": "PDBs/4Y61.mapping",
+        "size_bytes": 9174
+      },
+      {
+        "path": "PDBs/4Y61.pdb",
+        "size_bytes": 400715
+      },
+      {
+        "path": "PDBs/4YEB.mapping",
+        "size_bytes": 8604
+      },
+      {
+        "path": "PDBs/4YEB.pdb",
+        "size_bytes": 383705
+      },
+      {
+        "path": "PDBs/4YFD.mapping",
+        "size_bytes": 11979
+      },
+      {
+        "path": "PDBs/4YFD.pdb",
+        "size_bytes": 526913
+      },
+      {
+        "path": "PDBs/4YH7.mapping",
+        "size_bytes": 13419
+      },
+      {
+        "path": "PDBs/4YH7.pdb",
+        "size_bytes": 584666
+      },
+      {
+        "path": "PDBs/4ZS6.mapping",
+        "size_bytes": 9246
+      },
+      {
+        "path": "PDBs/4ZS6.pdb",
+        "size_bytes": 399099
+      },
+      {
+        "path": "PDBs/5C6T.mapping",
+        "size_bytes": 11421
+      },
+      {
+        "path": "PDBs/5C6T.pdb",
+        "size_bytes": 519303
+      },
+      {
+        "path": "PDBs/5CXB.mapping",
+        "size_bytes": 12039
+      },
+      {
+        "path": "PDBs/5CXB.pdb",
+        "size_bytes": 536633
+      },
+      {
+        "path": "PDBs/5CYK.mapping",
+        "size_bytes": 11844
+      },
+      {
+        "path": "PDBs/5CYK.pdb",
+        "size_bytes": 500750
+      },
+      {
+        "path": "PDBs/5DWU.mapping",
+        "size_bytes": 10788
+      },
+      {
+        "path": "PDBs/5DWU.pdb",
+        "size_bytes": 773971
+      },
+      {
+        "path": "PDBs/5E6P.mapping",
+        "size_bytes": 8493
+      },
+      {
+        "path": "PDBs/5E6P.pdb",
+        "size_bytes": 362726
+      },
+      {
+        "path": "PDBs/5E9D.mapping",
+        "size_bytes": 8535
+      },
+      {
+        "path": "PDBs/5E9D.pdb",
+        "size_bytes": 391979
+      },
+      {
+        "path": "PDBs/5F4E.mapping",
+        "size_bytes": 6414
+      },
+      {
+        "path": "PDBs/5F4E.pdb",
+        "size_bytes": 285452
+      },
+      {
+        "path": "PDBs/5K39.mapping",
+        "size_bytes": 4584
+      },
+      {
+        "path": "PDBs/5K39.pdb",
+        "size_bytes": 227294
+      },
+      {
+        "path": "PDBs/5M2O.mapping",
+        "size_bytes": 2974
+      },
+      {
+        "path": "PDBs/5M2O.pdb",
+        "size_bytes": 157634
+      },
+      {
+        "path": "PDBs/5TAR.mapping",
+        "size_bytes": 4779
+      },
+      {
+        "path": "PDBs/5TAR.pdb",
+        "size_bytes": 224621
+      },
+      {
+        "path": "PDBs/5UFE.mapping",
+        "size_bytes": 3129
+      },
+      {
+        "path": "PDBs/5UFE.pdb",
+        "size_bytes": 151802
+      },
+      {
+        "path": "PDBs/5UFQ.mapping",
+        "size_bytes": 3157
+      },
+      {
+        "path": "PDBs/5UFQ.pdb",
+        "size_bytes": 149048
+      },
+      {
+        "path": "PDBs/5XCO.mapping",
+        "size_bytes": 2699
+      },
+      {
+        "path": "PDBs/5XCO.pdb",
+        "size_bytes": 144188
+      }
+    ],
+    "object_key": "raw/skempi/v2.0/2018-06/source-bundle/SKEMPI2_PDBs.tgz",
+    "pdb_payload_member_count": 345,
+    "regular_file_count": 1381,
+    "sha256": "82418131a3864aa8484ea6ec300e58f9bc0349e21530f83f7ce336b41589a95a"
+  },
+  "table": {
+    "delimiter": ";",
+    "header": [
+      "#Pdb",
+      "Mutation(s)_PDB",
+      "Mutation(s)_cleaned",
+      "iMutation_Location(s)",
+      "Hold_out_type",
+      "Hold_out_proteins",
+      "Affinity_mut (M)",
+      "Affinity_mut_parsed",
+      "Affinity_wt (M)",
+      "Affinity_wt_parsed",
+      "Reference",
+      "Protein 1",
+      "Protein 2",
+      "Temperature",
+      "kon_mut (M^(-1)s^(-1))",
+      "kon_mut_parsed",
+      "kon_wt (M^(-1)s^(-1))",
+      "kon_wt_parsed",
+      "koff_mut (s^(-1))",
+      "koff_mut_parsed",
+      "koff_wt (s^(-1))",
+      "koff_wt_parsed",
+      "dH_mut (kcal mol^(-1))",
+      "dH_wt (kcal mol^(-1))",
+      "dS_mut (cal mol^(-1) K^(-1))",
+      "dS_wt (cal mol^(-1) K^(-1))",
+      "Notes",
+      "Method",
+      "SKEMPI version"
+    ],
+    "object_key": "raw/skempi/v2.0/2018-06/source-bundle/skempi_v2.csv",
+    "row_count": 7085,
+    "sha256": "76f8e60d09eaa4f05fb265063886859a86895c0b2fb225e31fe82928a883972d"
+  },
+  "task_id": "source-bundle"
+}
