@@ -1,0 +1,54 @@
+{
+  "dataset_id": "flip2",
+  "dataset_version": "zenodo-18433203-v3",
+  "doi": "10.5281/zenodo.18433203",
+  "downloaded_at": "2026-07-21T02:09:09.196744Z",
+  "known_limitations": [
+    "This manifest records immutable raw source files only; processing and split audits are pending.",
+    "The random split is an upstream reference and is not a frozen benchmark split.",
+    "Raw ingest does not establish fitness direction, missing-value rules, stable candidate identity, duplicate handling, wild-type identity, homology, or hidden-label authorization.",
+    "The mutation-count, fitness-range, and wild-type transfer artifacts are preserved as upstream split references; their membership and leakage controls require separate Split Manifests.",
+    "The Hydro task README declares CC-BY-4.0 and first-hand lab provenance; external releases must preserve the FLIP2 DOI and attribution to Escobedo et al. and Zenodo DOI 10.5281/zenodo.11175470."
+  ],
+  "license": "CC-BY-4.0",
+  "raw_files": [
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/hydro/README.md",
+      "sha256": "274e7a53f92088cb156bf9b2a8c4397c89b477884fa63963ed2770de2cdaf406",
+      "size_bytes": 430
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/hydro/random_split.csv.gz",
+      "sha256": "9f84a5139f97fda454e059a6b22cdd7ade7aaba698f66f7ac6104747b204aee6",
+      "size_bytes": 376954
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/hydro/three_to_many.csv.gz",
+      "sha256": "76befc506e84e0ef0dd96fa4c8e5b41c6ec47e1664eccbf8804862f3ea97cb90",
+      "size_bytes": 369389
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/hydro/low_to_high.csv.gz",
+      "sha256": "30b89e3102fe67c1726ebc897a127221c89e224801d60ede509d1ca8dc7d612f",
+      "size_bytes": 372137
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/hydro/to_P06241.csv.gz",
+      "sha256": "7b7cb9f0116e851b37c45f2cfaa826ebb5f98ef5b2012cf6f95b36d42a4926c9",
+      "size_bytes": 357257
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/hydro/to_P0A9X9.csv.gz",
+      "sha256": "0eb15476975373a13b6e8faa44f71168d347ec364bd410beff9b9b929f6ae0f7",
+      "size_bytes": 359737
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/hydro/to_P01053.csv.gz",
+      "sha256": "99c116848319fcbe56f5fad654bc3c51fbc8c114b2d350425a60a811de43141c",
+      "size_bytes": 361259
+    }
+  ],
+  "schema_version": "1",
+  "source_url": "https://zenodo.org/records/18433203",
+  "task_id": "hydro"
+}

@@ -1,0 +1,61 @@
+{
+  "inventory_version": "1",
+  "dataset_id": "flip2",
+  "dataset_version": "zenodo-18433203-v3",
+  "task_id": "hydro",
+  "source_url": "https://zenodo.org/records/18433203",
+  "doi": "10.5281/zenodo.18433203",
+  "license": "CC-BY-4.0",
+  "object_prefix": "raw/flip2/zenodo-18433203-v3",
+  "known_limitations": [
+    "This manifest records immutable raw source files only; processing and split audits are pending.",
+    "The random split is an upstream reference and is not a frozen benchmark split.",
+    "Raw ingest does not establish fitness direction, missing-value rules, stable candidate identity, duplicate handling, wild-type identity, homology, or hidden-label authorization.",
+    "The mutation-count, fitness-range, and wild-type transfer artifacts are preserved as upstream split references; their membership and leakage controls require separate Split Manifests.",
+    "The Hydro task README declares CC-BY-4.0 and first-hand lab provenance; external releases must preserve the FLIP2 DOI and attribution to Escobedo et al. and Zenodo DOI 10.5281/zenodo.11175470."
+  ],
+  "files": [
+    {
+      "key": "hydro/README.md",
+      "url": "https://zenodo.org/api/records/18433203/files/hydro/README.md/content",
+      "md5": "eb762cd877939c4cee891bdc1c159650",
+      "size_bytes": 430
+    },
+    {
+      "key": "hydro/random_split.csv.gz",
+      "url": "https://zenodo.org/api/records/18433203/files/hydro/random_split.csv.gz/content",
+      "md5": "1007879548f6f414387ef474922308d9",
+      "size_bytes": 376954
+    },
+    {
+      "key": "hydro/three_to_many.csv.gz",
+      "url": "https://zenodo.org/api/records/18433203/files/hydro/three_to_many.csv.gz/content",
+      "md5": "a13b01d71faf2e76dd91dc57b7311972",
+      "size_bytes": 369389
+    },
+    {
+      "key": "hydro/low_to_high.csv.gz",
+      "url": "https://zenodo.org/api/records/18433203/files/hydro/low_to_high.csv.gz/content",
+      "md5": "fb9cfaef56791b90f2ddd154b90da8ed",
+      "size_bytes": 372137
+    },
+    {
+      "key": "hydro/to_P06241.csv.gz",
+      "url": "https://zenodo.org/api/records/18433203/files/hydro/to_P06241.csv.gz/content",
+      "md5": "1b860081da084196b276804b573283cf",
+      "size_bytes": 357257
+    },
+    {
+      "key": "hydro/to_P0A9X9.csv.gz",
+      "url": "https://zenodo.org/api/records/18433203/files/hydro/to_P0A9X9.csv.gz/content",
+      "md5": "64d1690065aeb0ad90cd1e1b5dd7a581",
+      "size_bytes": 359737
+    },
+    {
+      "key": "hydro/to_P01053.csv.gz",
+      "url": "https://zenodo.org/api/records/18433203/files/hydro/to_P01053.csv.gz/content",
+      "md5": "5b7ade3bb837d2d8ade1e75f659d77f7",
+      "size_bytes": 361259
+    }
+  ]
+}

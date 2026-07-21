@@ -189,6 +189,42 @@ def test_repository_ired_inventory_is_pinned_to_three_official_files() -> None:
     }
 
 
+def test_repository_nucb_inventory_is_pinned_to_three_official_files() -> None:
+    inventory = load_source_inventory(
+        REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/nucb.json"
+    )
+
+    assert inventory.dataset_version == "zenodo-18433203-v3"
+    assert inventory.task_id == "nucb"
+    assert inventory.license == "CC-BY-4.0"
+    assert sum(source.size_bytes for source in inventory.files) == 1_255_423
+    assert {(source.key, source.md5, source.size_bytes) for source in inventory.files} == {
+        ("nucb/README.md", "6f6cef8efcdf701244c47830722f86b0", 733),
+        ("nucb/random.csv.gz", "8b8f333d2c96fe6f92d7ebd692d684d8", 629_753),
+        ("nucb/two_to_many.csv.gz", "cdedaadd57f2b148950b357e9f24c238", 624_937),
+    }
+
+
+def test_repository_hydro_inventory_is_pinned_to_seven_official_files() -> None:
+    inventory = load_source_inventory(
+        REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/hydro.json"
+    )
+
+    assert inventory.dataset_version == "zenodo-18433203-v3"
+    assert inventory.task_id == "hydro"
+    assert inventory.license == "CC-BY-4.0"
+    assert sum(source.size_bytes for source in inventory.files) == 2_197_163
+    assert {(source.key, source.md5, source.size_bytes) for source in inventory.files} == {
+        ("hydro/README.md", "eb762cd877939c4cee891bdc1c159650", 430),
+        ("hydro/random_split.csv.gz", "1007879548f6f414387ef474922308d9", 376_954),
+        ("hydro/three_to_many.csv.gz", "a13b01d71faf2e76dd91dc57b7311972", 369_389),
+        ("hydro/low_to_high.csv.gz", "fb9cfaef56791b90f2ddd154b90da8ed", 372_137),
+        ("hydro/to_P06241.csv.gz", "1b860081da084196b276804b573283cf", 357_257),
+        ("hydro/to_P0A9X9.csv.gz", "64d1690065aeb0ad90cd1e1b5dd7a581", 359_737),
+        ("hydro/to_P01053.csv.gz", "5b7ade3bb837d2d8ade1e75f659d77f7", 361_259),
+    }
+
+
 def test_tracked_amylase_manifest_matches_schema_and_inventory() -> None:
     inventory = load_source_inventory(
         REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/amylase.json"
@@ -240,6 +276,98 @@ def test_tracked_ired_manifest_matches_schema_and_inventory() -> None:
     assert {item["object_key"]: item["size_bytes"] for item in manifest["raw_files"]} == {
         f"{inventory.object_prefix}/{source.key}": source.size_bytes for source in inventory.files
     }
+
+
+def test_tracked_nucb_manifest_matches_schema_and_inventory() -> None:
+    inventory = load_source_inventory(
+        REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/nucb.json"
+    )
+    manifest = json.loads(
+        (
+            REPOSITORY_ROOT
+            / "manifests/datasets/flip2/zenodo-18433203-v3/nucb/dataset-manifest.json"
+        ).read_text(encoding="utf-8")
+    )
+    schema = json.loads(
+        (REPOSITORY_ROOT / "schemas/dataset-manifest.schema.json").read_text(encoding="utf-8")
+    )
+
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(manifest)
+    assert manifest["task_id"] == inventory.task_id
+    assert manifest["license"] == inventory.license
+    assert manifest["raw_files"] == [
+        {
+            "object_key": "raw/flip2/zenodo-18433203-v3/nucb/README.md",
+            "sha256": "4490bac832fc374a94f2e679d0e1a917330a9361587ed347b9cd2bab9a0ada3f",
+            "size_bytes": 733,
+        },
+        {
+            "object_key": "raw/flip2/zenodo-18433203-v3/nucb/random.csv.gz",
+            "sha256": "ecb3a205f82c1127c136382b8c3456c7206be951c655a2850dd7eecd961b3e9f",
+            "size_bytes": 629_753,
+        },
+        {
+            "object_key": "raw/flip2/zenodo-18433203-v3/nucb/two_to_many.csv.gz",
+            "sha256": "9079cc5e2f880ecebfc51ecb8ec1e063b807a58e36ece4b739f98533ab9f1d96",
+            "size_bytes": 624_937,
+        },
+    ]
+
+
+def test_tracked_hydro_manifest_matches_schema_and_inventory() -> None:
+    inventory = load_source_inventory(
+        REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/hydro.json"
+    )
+    manifest = json.loads(
+        (
+            REPOSITORY_ROOT
+            / "manifests/datasets/flip2/zenodo-18433203-v3/hydro/dataset-manifest.json"
+        ).read_text(encoding="utf-8")
+    )
+    schema = json.loads(
+        (REPOSITORY_ROOT / "schemas/dataset-manifest.schema.json").read_text(encoding="utf-8")
+    )
+
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(manifest)
+    assert manifest["task_id"] == inventory.task_id
+    assert manifest["license"] == inventory.license
+    assert manifest["raw_files"] == [
+        {
+            "object_key": "raw/flip2/zenodo-18433203-v3/hydro/README.md",
+            "sha256": "274e7a53f92088cb156bf9b2a8c4397c89b477884fa63963ed2770de2cdaf406",
+            "size_bytes": 430,
+        },
+        {
+            "object_key": "raw/flip2/zenodo-18433203-v3/hydro/random_split.csv.gz",
+            "sha256": "9f84a5139f97fda454e059a6b22cdd7ade7aaba698f66f7ac6104747b204aee6",
+            "size_bytes": 376_954,
+        },
+        {
+            "object_key": "raw/flip2/zenodo-18433203-v3/hydro/three_to_many.csv.gz",
+            "sha256": "76befc506e84e0ef0dd96fa4c8e5b41c6ec47e1664eccbf8804862f3ea97cb90",
+            "size_bytes": 369_389,
+        },
+        {
+            "object_key": "raw/flip2/zenodo-18433203-v3/hydro/low_to_high.csv.gz",
+            "sha256": "30b89e3102fe67c1726ebc897a127221c89e224801d60ede509d1ca8dc7d612f",
+            "size_bytes": 372_137,
+        },
+        {
+            "object_key": "raw/flip2/zenodo-18433203-v3/hydro/to_P06241.csv.gz",
+            "sha256": "7b7cb9f0116e851b37c45f2cfaa826ebb5f98ef5b2012cf6f95b36d42a4926c9",
+            "size_bytes": 357_257,
+        },
+        {
+            "object_key": "raw/flip2/zenodo-18433203-v3/hydro/to_P0A9X9.csv.gz",
+            "sha256": "0eb15476975373a13b6e8faa44f71168d347ec364bd410beff9b9b929f6ae0f7",
+            "size_bytes": 359_737,
+        },
+        {
+            "object_key": "raw/flip2/zenodo-18433203-v3/hydro/to_P01053.csv.gz",
+            "sha256": "99c116848319fcbe56f5fad654bc3c51fbc8c114b2d350425a60a811de43141c",
+            "size_bytes": 361_259,
+        },
+    ]
 
 
 def test_tracked_amylase_ingest_attempt_is_successful_and_checksum_bound() -> None:
@@ -326,4 +454,84 @@ def test_tracked_ired_ingest_attempt_is_successful_and_checksum_bound() -> None:
         "duplicate_write_rejected": True,
         "duplicate_write_status": "409 FileAlreadyExists",
         "raw_object_count": len(manifest["raw_files"]),
+    }
+
+
+def test_tracked_nucb_ingest_attempt_is_successful_and_checksum_bound() -> None:
+    inventory_path = REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/nucb.json"
+    manifest_path = (
+        REPOSITORY_ROOT / "manifests/datasets/flip2/zenodo-18433203-v3/nucb/dataset-manifest.json"
+    )
+    attempt_path = (
+        REPOSITORY_ROOT
+        / "manifests/datasets/flip2/zenodo-18433203-v3/nucb/ingest-attempts"
+        / "flip2-nucb-20260721T021708Z.json"
+    )
+    attempt = json.loads(attempt_path.read_text(encoding="utf-8"))
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    schema = json.loads(
+        (REPOSITORY_ROOT / "schemas/dataset-ingest-attempt.schema.json").read_text(encoding="utf-8")
+    )
+
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(attempt)
+    assert attempt["status"] == "succeeded"
+    assert attempt["raw_ingest_git_commit"] == "528f3eca87ae462cc8cba537cadf67a2deb34282"
+    assert attempt["manifest_revision_git_commit"] == attempt["raw_ingest_git_commit"]
+    assert (
+        attempt["source_inventory"]["sha256"]
+        == hashlib.sha256(inventory_path.read_bytes()).hexdigest()
+    )
+    assert (
+        attempt["dataset_manifest"]["sha256"]
+        == hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+    )
+    assert attempt["raw_objects"] == manifest["raw_files"]
+    assert attempt["verification"] == {
+        "publisher_md5_and_size_verified": True,
+        "cos_readback_sha256_and_size_verified": True,
+        "manifest_schema_verified": True,
+        "manifest_exact_bytes_verified": True,
+        "duplicate_write_rejected": True,
+        "duplicate_write_status": "409 FileAlreadyExists",
+        "raw_object_count": 3,
+    }
+
+
+def test_tracked_hydro_ingest_attempt_is_successful_and_checksum_bound() -> None:
+    inventory_path = REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/hydro.json"
+    manifest_path = (
+        REPOSITORY_ROOT / "manifests/datasets/flip2/zenodo-18433203-v3/hydro/dataset-manifest.json"
+    )
+    attempt_path = (
+        REPOSITORY_ROOT
+        / "manifests/datasets/flip2/zenodo-18433203-v3/hydro/ingest-attempts"
+        / "flip2-hydro-20260721T021708Z.json"
+    )
+    attempt = json.loads(attempt_path.read_text(encoding="utf-8"))
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    schema = json.loads(
+        (REPOSITORY_ROOT / "schemas/dataset-ingest-attempt.schema.json").read_text(encoding="utf-8")
+    )
+
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(attempt)
+    assert attempt["status"] == "succeeded"
+    assert attempt["raw_ingest_git_commit"] == "528f3eca87ae462cc8cba537cadf67a2deb34282"
+    assert attempt["manifest_revision_git_commit"] == attempt["raw_ingest_git_commit"]
+    assert (
+        attempt["source_inventory"]["sha256"]
+        == hashlib.sha256(inventory_path.read_bytes()).hexdigest()
+    )
+    assert (
+        attempt["dataset_manifest"]["sha256"]
+        == hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+    )
+    assert attempt["raw_objects"] == manifest["raw_files"]
+    assert attempt["verification"] == {
+        "publisher_md5_and_size_verified": True,
+        "cos_readback_sha256_and_size_verified": True,
+        "manifest_schema_verified": True,
+        "manifest_exact_bytes_verified": True,
+        "duplicate_write_rejected": True,
+        "duplicate_write_status": "409 FileAlreadyExists",
+        "raw_object_count": 7,
     }

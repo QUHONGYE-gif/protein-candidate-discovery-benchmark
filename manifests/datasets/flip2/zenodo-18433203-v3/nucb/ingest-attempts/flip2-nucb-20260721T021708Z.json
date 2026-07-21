@@ -1,0 +1,66 @@
+{
+  "attempt_id": "flip2-nucb-20260721T021708Z",
+  "commands": [
+    ".venv/bin/python scripts/prepare_dataset.py --inventory configs/datasets/flip2/zenodo-18433203-v3/nucb.json --staging-root <outside-repository-staging-root>",
+    "coscli cp <verified-task-file> cos://data/raw/flip2/zenodo-18433203-v3/nucb/<source-filename> --forbid-overwrite --err-retry-num 0",
+    "coscli cp cos://data/raw/flip2/zenodo-18433203-v3/nucb/<source-filename> <temporary-readback-file>",
+    "shasum -a 256 <temporary-readback-files>",
+    "cmp <verified-files> <temporary-readback-files>",
+    "coscli cp <dataset-manifest.json> cos://data/manifests/flip2/zenodo-18433203-v3/nucb/dataset-manifest.json --forbid-overwrite --err-retry-num 0",
+    "coscli cp cos://data/manifests/flip2/zenodo-18433203-v3/nucb/dataset-manifest.json <temporary-readback-file>",
+    "cmp <dataset-manifest.json> <temporary-readback-file>",
+    ".venv/bin/python -m jsonschema -i <temporary-readback-file> schemas/dataset-manifest.schema.json",
+    ".venv/bin/python -m pytest tests/datasets/test_ingest.py tests/contracts/test_schema_files.py"
+  ],
+  "dataset_id": "flip2",
+  "dataset_manifest": {
+    "object_key": "manifests/flip2/zenodo-18433203-v3/nucb/dataset-manifest.json",
+    "revision": 1,
+    "sha256": "00baeb776a6640611c4e0b49ee511adb51eb79263f016f7b47303bf4798b6d5e",
+    "size_bytes": 1615
+  },
+  "dataset_version": "zenodo-18433203-v3",
+  "environment": {
+    "cos_bucket_alias": "data",
+    "cos_region": "ap-beijing",
+    "coscli_version": "v1.0.8",
+    "platform": "macOS-15.7.4-arm64",
+    "python_version": "3.14.4"
+  },
+  "manifest_revision_git_commit": "528f3eca87ae462cc8cba537cadf67a2deb34282",
+  "raw_ingest_git_commit": "528f3eca87ae462cc8cba537cadf67a2deb34282",
+  "raw_objects": [
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/nucb/README.md",
+      "sha256": "4490bac832fc374a94f2e679d0e1a917330a9361587ed347b9cd2bab9a0ada3f",
+      "size_bytes": 733
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/nucb/random.csv.gz",
+      "sha256": "ecb3a205f82c1127c136382b8c3456c7206be951c655a2850dd7eecd961b3e9f",
+      "size_bytes": 629753
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/nucb/two_to_many.csv.gz",
+      "sha256": "9079cc5e2f880ecebfc51ecb8ec1e063b807a58e36ece4b739f98533ab9f1d96",
+      "size_bytes": 624937
+    }
+  ],
+  "schema_version": "1",
+  "source_inventory": {
+    "repository_path": "configs/datasets/flip2/zenodo-18433203-v3/nucb.json",
+    "sha256": "fd097a1678f1516fedab8a8fcc2881b4fd4e88cf62b0155c59b21e73df0c6906"
+  },
+  "status": "succeeded",
+  "task_id": "nucb",
+  "verification": {
+    "cos_readback_sha256_and_size_verified": true,
+    "duplicate_write_rejected": true,
+    "duplicate_write_status": "409 FileAlreadyExists",
+    "manifest_exact_bytes_verified": true,
+    "manifest_schema_verified": true,
+    "publisher_md5_and_size_verified": true,
+    "raw_object_count": 3
+  },
+  "verified_at": "2026-07-21T02:17:08Z"
+}
