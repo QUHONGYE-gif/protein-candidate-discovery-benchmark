@@ -67,6 +67,16 @@ scientific evidence。
 raw-ingest tracer bullet，再依据审计结果决定后续 FLIP2 和 ProteinGym 范围；最小 SKEMPI 2.0
 external validation 仍需独立 onboarding Issue，不因属于 initial scope 而跳过许可或字段审计。
 
+**2026-07-23 队列快照**：Alpha Amylase、IRED、NucB、Hydro 与 SKEMPI 2.0 minimal bundle 的
+raw ingest 已完成。Alpha Amylase 与 IRED processing 已完成正式 immutable publication；Alpha
+Amylase topology-isolation split 也已正式发布。IRED Issue #22 当前只获准开展 observable-only
+split audit，primary protocol、implementation 与正式 publication 均未获批准。ProteinGym #11
+仍为 NO-GO：四-assay upstream license matrix 与 transfer budget 已形成 preflight，但完整 archive
+的 private-retention policy 与 selective-source acquisition 尚未二选一冻结，selected-assay
+许可也未闭环，因此不得下载两个 archive。NucB、Hydro 与 SKEMPI 的 downstream processing/split
+尚未排期；所有 held-out、replay、benchmark result 与 scientific gate 均未授权。该快照取代
+2026-07-20/21 的旧执行队列状态，不改变 accepted contract、Gate 或 held-out boundary。
+
 **交付物**：
 
 - Dataset Manifest：来源、版本、许可、下载时间、raw checksum 和限制；

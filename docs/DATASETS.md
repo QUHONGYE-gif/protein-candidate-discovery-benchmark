@@ -1,12 +1,13 @@
 # 数据集登记
 
-FLIP2 v3 Alpha Amylase、Imine Reductase、Nuclease B 与 Hydrophobic Core 已分别完成官方
-raw source 下载、checksum 冻结和 COS 回读验证。Alpha Amylase 与 Imine Reductase 已分别在
-reviewed commit 上完成正式 immutable processing publication、权限恢复和 fresh readback。Alpha
-Amylase 还已在 reviewed exact commit 上完成正式 topology-isolation split publication、fresh
-readback 和不可覆盖验证；Imine Reductase、Nuclease B 与 Hydrophobic Core 尚未进入 split 审计，
-四个 task 均未进入 replay。其他候选数据源包括 ProteinGym 和 SKEMPI 2.0；每个具体 task/assay
-必须通过 dataset onboarding Issue 后才能进入开发或主实验。
+FLIP2 v3 Alpha Amylase、Imine Reductase、Nuclease B 与 Hydrophobic Core，以及 SKEMPI 2.0
+最小 source bundle 已分别完成官方 raw source 下载、checksum 冻结和 COS 回读验证。Alpha
+Amylase 与 Imine Reductase 已分别完成 reviewed immutable processing publication 和 fresh
+readback；Alpha Amylase 还已完成 reviewed topology-isolation split publication、fresh readback
+和不可覆盖验证。IRED split 目前只获准进行 observable-only audit，尚未冻结或发布 Split
+Manifest；Nuclease B、Hydrophobic Core 与 SKEMPI 尚未进入 processing/split，所有数据集均未进入
+replay。ProteinGym v1.3 四-assay pilot 仍停在 transfer preflight；每个具体 task/assay 必须通过
+dataset onboarding Issue 后才能进入开发或主实验。
 
 ## 进行中的 onboarding
 
@@ -37,10 +38,20 @@ readback 和不可覆盖验证；Imine Reductase、Nuclease B 与 Hydrophobic Co
   replay、benchmark 或 scientific gate。
 - FLIP2 v3 Nuclease B：GitHub Issue #10，3/3 source objects、独立 Dataset Manifest 与
   `DatasetIngestAttempt` 已完成 COS exact-byte/readback 和不可覆盖验证，见
-  [FLIP2 NucB ingest](data/FLIP2_NUCB_INGEST.md)；代码与证据仍需 PR/CI 和人工审查。
+  [FLIP2 NucB ingest](data/FLIP2_NUCB_INGEST.md)；PR #13 已合并。
 - FLIP2 v3 Hydrophobic Core：GitHub Issue #10，7/7 source objects、独立 Dataset Manifest 与
   `DatasetIngestAttempt` 已完成 COS exact-byte/readback 和不可覆盖验证，见
-  [FLIP2 Hydro ingest](data/FLIP2_HYDRO_INGEST.md)；代码与证据仍需 PR/CI 和人工审查。
+  [FLIP2 Hydro ingest](data/FLIP2_HYDRO_INGEST.md)；PR #13 已合并。
+- SKEMPI 2.0：GitHub Issue #12 的官方 CSV 与 cleaned PDB archive 已完成 raw ingest、COS
+  exact-byte readback 和不可覆盖验证，见 [SKEMPI 2.0 ingest](data/SKEMPI_2_INGEST.md)；
+  PR #14 已合并。Normalization、structure mapping、complex/protein-pair split 和
+  external-validation protocol 均未获授权。
+- ProteinGym v1.3：GitHub Issue #11 的两个 archive 尚未下载。四-assay license matrix 与明确的
+  disk/network/COS budget 见
+  [ProteinGym v1.3 transfer preflight](data/PROTEINGYM_V1_3_PREFLIGHT.md)；当前结论为
+  **NO-GO / blocked**。完整 archive 的 private-retention policy 与 selective-source acquisition
+  尚未二选一冻结，selected assays 的许可与 provenance mapping 也未完成，因此没有 transfer
+  authorization。
 - Alpha Amylase 与 IRED processing implementation、正式 immutable publication/recovery 与 fresh
   readback 已完成。Issue #19 冻结的 primary topology-isolation split 已在 reviewed commit
   `b540bfb3ed65066cb74418d5a4336452bf837af1` 上正式发布；protocol hash 为
@@ -49,6 +60,16 @@ readback 和不可覆盖验证；Imine Reductase、Nuclease B 与 Hydrophobic Co
   与 1 个 Split Manifest 均通过 fresh exact-byte/readback 和不可覆盖验证，见
   [FLIP2 Amylase split](data/FLIP2_AMYLASE_SPLIT.md)。尚无 held-out 授权、replay 或 scientific
   validation。
+
+## 当前 downstream 队列
+
+- 已完成：Issue #15/#16 的 Alpha Amylase 与 IRED processing，以及 Issue #19 的 Alpha Amylase
+  topology-isolation split 均已 reviewed、正式发布并进入 `main`；这不授权 held-out 或 replay。
+- 当前：Issue #22 只获准读取 accepted IRED Processing Manifest、observable candidates 和
+  audit-only metadata，比较 prospective split options；必须先由 maintainer 冻结 protocol，之后
+  才能进入 implementation，正式 COS publication 另行授权。
+- NucB、Hydro、SKEMPI 与 ProteinGym 均未因 raw availability 自动获得 processing、split、replay
+  或 scientific-use authorization。
 
 ## Onboarding checklist
 
