@@ -173,6 +173,22 @@ def test_repository_amylase_inventory_is_pinned_to_six_official_files() -> None:
     }
 
 
+def test_repository_ired_inventory_is_pinned_to_three_official_files() -> None:
+    inventory = load_source_inventory(
+        REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/ired.json"
+    )
+
+    assert inventory.dataset_version == "zenodo-18433203-v3"
+    assert inventory.task_id == "ired"
+    assert inventory.license == "CC-BY-4.0"
+    assert sum(source.size_bytes for source in inventory.files) == 390_113
+    assert {(source.key, source.md5, source.size_bytes) for source in inventory.files} == {
+        ("ired/README.md", "f8461790121caa6a2fcefcc5f20d1f6f", 632),
+        ("ired/random.csv.gz", "9f26de3ed0cc925d77604c07784debb1", 194_747),
+        ("ired/two_to_many.csv.gz", "f514fa09bb8ba5fd092d9417ed8642d9", 194_734),
+    }
+
+
 def test_tracked_amylase_manifest_matches_schema_and_inventory() -> None:
     inventory = load_source_inventory(
         REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/amylase.json"
@@ -195,6 +211,34 @@ def test_tracked_amylase_manifest_matches_schema_and_inventory() -> None:
     assert manifest["license"] == inventory.license
     assert {item["object_key"] for item in manifest["raw_files"]} == {
         f"{inventory.object_prefix}/{source.key}" for source in inventory.files
+    }
+
+
+def test_tracked_ired_manifest_matches_schema_and_inventory() -> None:
+    inventory = load_source_inventory(
+        REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/ired.json"
+    )
+    manifest = json.loads(
+        (
+            REPOSITORY_ROOT
+            / "manifests/datasets/flip2/zenodo-18433203-v3/ired/dataset-manifest.json"
+        ).read_text(encoding="utf-8")
+    )
+    schema = json.loads(
+        (REPOSITORY_ROOT / "schemas/dataset-manifest.schema.json").read_text(encoding="utf-8")
+    )
+
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(manifest)
+    assert manifest["dataset_id"] == inventory.dataset_id
+    assert manifest["dataset_version"] == inventory.dataset_version
+    assert manifest["task_id"] == inventory.task_id
+    assert manifest["doi"] == inventory.doi
+    assert manifest["license"] == inventory.license
+    assert {item["object_key"] for item in manifest["raw_files"]} == {
+        f"{inventory.object_prefix}/{source.key}" for source in inventory.files
+    }
+    assert {item["object_key"]: item["size_bytes"] for item in manifest["raw_files"]} == {
+        f"{inventory.object_prefix}/{source.key}": source.size_bytes for source in inventory.files
     }
 
 
@@ -231,6 +275,48 @@ def test_tracked_amylase_ingest_attempt_is_successful_and_checksum_bound() -> No
     assert attempt["dataset_manifest"]["supersedes_sha256"] == (
         "657111a8517c8cbc9a17a5ac98964af77839d4fee8efee16438464c9d8347ce9"
     )
+    assert attempt["raw_objects"] == manifest["raw_files"]
+    assert attempt["verification"] == {
+        "publisher_md5_and_size_verified": True,
+        "cos_readback_sha256_and_size_verified": True,
+        "manifest_schema_verified": True,
+        "manifest_exact_bytes_verified": True,
+        "duplicate_write_rejected": True,
+        "duplicate_write_status": "409 FileAlreadyExists",
+        "raw_object_count": len(manifest["raw_files"]),
+    }
+
+
+def test_tracked_ired_ingest_attempt_is_successful_and_checksum_bound() -> None:
+    inventory_path = REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/ired.json"
+    manifest_path = (
+        REPOSITORY_ROOT / "manifests/datasets/flip2/zenodo-18433203-v3/ired/dataset-manifest.json"
+    )
+    attempt_path = (
+        REPOSITORY_ROOT
+        / "manifests/datasets/flip2/zenodo-18433203-v3/ired/ingest-attempts"
+        / "flip2-ired-20260720T134110Z.json"
+    )
+    attempt = json.loads(attempt_path.read_text(encoding="utf-8"))
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    schema = json.loads(
+        (REPOSITORY_ROOT / "schemas/dataset-ingest-attempt.schema.json").read_text(encoding="utf-8")
+    )
+
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(attempt)
+    assert attempt["status"] == "succeeded"
+    assert attempt["raw_ingest_git_commit"] == "da8a8bd011b7cbb2f52fc7f02bae6a31fbb38a05"
+    assert attempt["manifest_revision_git_commit"] == attempt["raw_ingest_git_commit"]
+    assert (
+        attempt["source_inventory"]["sha256"]
+        == hashlib.sha256(inventory_path.read_bytes()).hexdigest()
+    )
+    assert (
+        attempt["dataset_manifest"]["sha256"]
+        == hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+    )
+    assert attempt["dataset_manifest"]["revision"] == 1
+    assert attempt["dataset_manifest"]["object_key"].endswith("dataset-manifest.json")
     assert attempt["raw_objects"] == manifest["raw_files"]
     assert attempt["verification"] == {
         "publisher_md5_and_size_verified": True,

@@ -1,0 +1,34 @@
+{
+  "dataset_id": "flip2",
+  "dataset_version": "zenodo-18433203-v3",
+  "doi": "10.5281/zenodo.18433203",
+  "downloaded_at": "2026-07-20T13:36:37.431944Z",
+  "known_limitations": [
+    "This manifest records immutable raw source files only; processing and split audits are pending.",
+    "The random file is an upstream reference and is not a frozen benchmark split.",
+    "Raw CSV files contain target, set, and validation fields; downstream hidden-label enforcement is not established by raw ingest.",
+    "Exact target units and direction, missing-value rules, stable candidate identity, duplicate handling, and the high-value definition require a separate processing audit.",
+    "The IRED task README declares CC-BY-4.0 and first-hand lab provenance; external releases must preserve the FLIP2 DOI, upstream dataset reference, and Gantz et al. attribution."
+  ],
+  "license": "CC-BY-4.0",
+  "raw_files": [
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/ired/README.md",
+      "sha256": "6517ad1600c8705fe3a216a376f70d826571ccbf48f53cd570893502b34708e7",
+      "size_bytes": 632
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/ired/random.csv.gz",
+      "sha256": "45e911e990d77fe5e4413a0c96692323697b1222fd1f9adcf5dda05a52f16535",
+      "size_bytes": 194747
+    },
+    {
+      "object_key": "raw/flip2/zenodo-18433203-v3/ired/two_to_many.csv.gz",
+      "sha256": "84d31e6c86209868f3993877a928358023f3414b6a18db4933e8222a761c3485",
+      "size_bytes": 194734
+    }
+  ],
+  "schema_version": "1",
+  "source_url": "https://zenodo.org/records/18433203",
+  "task_id": "ired"
+}
