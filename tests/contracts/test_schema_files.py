@@ -61,3 +61,15 @@ def test_invalid_manifest_fixture_is_rejected(schema_name: str) -> None:
 
     with pytest.raises(ValidationError):
         Draft202012Validator(schema, format_checker=FormatChecker()).validate(fixtures[schema_name])
+
+
+def test_processing_manifest_requires_output_row_count() -> None:
+    schema = json.loads(
+        (SCHEMA_DIRECTORY / "processing-manifest.schema.json").read_text(encoding="utf-8")
+    )
+    fixtures = json.loads((FIXTURE_DIRECTORY / "valid-manifests.json").read_text(encoding="utf-8"))
+    manifest = fixtures["processing-manifest.schema.json"]
+    del manifest["output_files"][0]["row_count"]
+
+    with pytest.raises(ValidationError, match="row_count"):
+        Draft202012Validator(schema, format_checker=FormatChecker()).validate(manifest)

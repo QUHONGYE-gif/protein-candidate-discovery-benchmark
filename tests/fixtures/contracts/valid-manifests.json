@@ -84,7 +84,8 @@
       {
         "object_key": "processed/public-assay/table.parquet",
         "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-        "size_bytes": 256
+        "size_bytes": 256,
+        "row_count": 4
       }
     ],
     "known_limitations": ["Synthetic public fixture only"]

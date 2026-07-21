@@ -1,0 +1,47 @@
+{
+  "config_version": "1",
+  "dataset_id": "flip2",
+  "dataset_version": "zenodo-18433203-v3",
+  "task_id": "amylase",
+  "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+  "source_csv_keys": [
+    "amylase/by_mutation.csv.gz",
+    "amylase/close_to_far.csv.gz",
+    "amylase/far_to_close.csv.gz",
+    "amylase/one_to_many.csv.gz",
+    "amylase/random_split.csv.gz"
+  ],
+  "required_fields": [
+    "sequence",
+    "target",
+    "set",
+    "validation"
+  ],
+  "allowed_amino_acids": "ACDEFGHIKLMNPQRSTVWY",
+  "sequence_length": 425,
+  "expected_candidate_count": 3706,
+  "candidate_id_algorithm": "sha256",
+  "candidate_id_namespace": "flip2:zenodo-18433203-v3:amylase",
+  "observable_feature_fields": [
+    "sequence"
+  ],
+  "hidden_label_field": "target",
+  "label_direction": "higher_is_better",
+  "label_semantics": "Non-normalized stain-removal activity measured as released-soil absorbance after blank subtraction.",
+  "label_source_url": "https://doi.org/10.1016/j.csbj.2024.09.007",
+  "missing_value_policy": "error",
+  "allowed_set_values": [
+    "test",
+    "train"
+  ],
+  "allowed_validation_values": [
+    "False",
+    "True"
+  ],
+  "within_file_duplicate_policy": "error",
+  "cross_file_duplicate_policy": "aggregate_if_target_matches",
+  "conflicting_target_policy": "error",
+  "near_duplicate_method": "full_length_hamming_distance",
+  "near_duplicate_threshold": 1,
+  "near_duplicate_policy": "allowed_pending_split_manifest"
+}
