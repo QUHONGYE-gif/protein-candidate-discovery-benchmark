@@ -64,7 +64,17 @@ class IredProcessingConfig:
     expected_mutation_count_max: int
     source_relationship: str
     publisher_reported_candidate_count: int
+    upstream_reconciliation_record_id: int
+    upstream_reconciliation_record_version: str
+    upstream_reconciliation_record_url: str
+    upstream_reconciliation_role: str
+    upstream_active_filename: str
+    upstream_active_publisher_md5: str
+    upstream_active_size_bytes: int
     upstream_active_row_count: int
+    upstream_inactive_filename: str
+    upstream_inactive_publisher_md5: str
+    upstream_inactive_size_bytes: int
     upstream_inactive_row_count: int
     upstream_candidate_count_limitation: str
 
@@ -107,7 +117,17 @@ _CONFIG_KEYS = {
     "expected_mutation_count_max",
     "source_relationship",
     "publisher_reported_candidate_count",
+    "upstream_reconciliation_record_id",
+    "upstream_reconciliation_record_version",
+    "upstream_reconciliation_record_url",
+    "upstream_reconciliation_role",
+    "upstream_active_filename",
+    "upstream_active_publisher_md5",
+    "upstream_active_size_bytes",
     "upstream_active_row_count",
+    "upstream_inactive_filename",
+    "upstream_inactive_publisher_md5",
+    "upstream_inactive_size_bytes",
     "upstream_inactive_row_count",
     "upstream_candidate_count_limitation",
 }
@@ -122,6 +142,13 @@ def _integer(
     value = mapping.get(field)
     if not isinstance(value, int) or isinstance(value, bool) or value < minimum:
         raise IredProcessingError(f"{field} must be an integer >= {minimum}")
+    return value
+
+
+def _md5_digest(mapping: dict[str, object], field: str) -> str:
+    value = string(mapping, field)
+    if len(value) != 32 or any(character not in "0123456789abcdef" for character in value):
+        raise IredProcessingError(f"{field} must be a lowercase publisher MD5 digest")
     return value
 
 
@@ -173,6 +200,16 @@ def load_ired_processing_config(path: Path) -> IredProcessingConfig:
         != "same_candidate_universe_and_hidden_truth_with_alternate_split_metadata"
     ):
         raise IredProcessingError("source_relationship does not match the accepted IRED audit")
+    if config.get("upstream_reconciliation_record_id") != 11357236:
+        raise IredProcessingError("upstream reconciliation must bind Zenodo record 11357236")
+    if config.get("upstream_reconciliation_role") != (
+        "provenance_reconciliation_only_not_processing_input"
+    ):
+        raise IredProcessingError("upstream reconciliation role must remain provenance-only")
+    if config.get("upstream_active_filename") != "srired_active_data.csv":
+        raise IredProcessingError("unexpected upstream active reconciliation filename")
+    if config.get("upstream_inactive_filename") != "srired_inactive_data.csv":
+        raise IredProcessingError("unexpected upstream inactive reconciliation filename")
 
     sequence_length = _integer(config, "sequence_length", minimum=1)
     candidate_count = _integer(config, "expected_candidate_count", minimum=1)
@@ -230,7 +267,19 @@ def load_ired_processing_config(path: Path) -> IredProcessingConfig:
         publisher_reported_candidate_count=_integer(
             config, "publisher_reported_candidate_count", minimum=1
         ),
+        upstream_reconciliation_record_id=11357236,
+        upstream_reconciliation_record_version=string(
+            config, "upstream_reconciliation_record_version"
+        ),
+        upstream_reconciliation_record_url=string(config, "upstream_reconciliation_record_url"),
+        upstream_reconciliation_role=("provenance_reconciliation_only_not_processing_input"),
+        upstream_active_filename="srired_active_data.csv",
+        upstream_active_publisher_md5=_md5_digest(config, "upstream_active_publisher_md5"),
+        upstream_active_size_bytes=_integer(config, "upstream_active_size_bytes", minimum=1),
         upstream_active_row_count=_integer(config, "upstream_active_row_count", minimum=1),
+        upstream_inactive_filename="srired_inactive_data.csv",
+        upstream_inactive_publisher_md5=_md5_digest(config, "upstream_inactive_publisher_md5"),
+        upstream_inactive_size_bytes=_integer(config, "upstream_inactive_size_bytes", minimum=1),
         upstream_inactive_row_count=_integer(config, "upstream_inactive_row_count", minimum=1),
         upstream_candidate_count_limitation=string(config, "upstream_candidate_count_limitation"),
     )
@@ -327,6 +376,29 @@ def audit_ired_sources(
         "observed_mutation_count_min": observed_mutation_min,
         "observed_mutation_count_max": observed_mutation_max,
         "publisher_reported_candidate_count": config.publisher_reported_candidate_count,
+        "upstream_reconciliation": {
+            "record_id": config.upstream_reconciliation_record_id,
+            "record_version": config.upstream_reconciliation_record_version,
+            "record_url": config.upstream_reconciliation_record_url,
+            "role": config.upstream_reconciliation_role,
+            "processing_payload_input": False,
+            "files": [
+                {
+                    "role": "active",
+                    "filename": config.upstream_active_filename,
+                    "publisher_md5": config.upstream_active_publisher_md5,
+                    "size_bytes": config.upstream_active_size_bytes,
+                    "observed_row_count": config.upstream_active_row_count,
+                },
+                {
+                    "role": "inactive",
+                    "filename": config.upstream_inactive_filename,
+                    "publisher_md5": config.upstream_inactive_publisher_md5,
+                    "size_bytes": config.upstream_inactive_size_bytes,
+                    "observed_row_count": config.upstream_inactive_row_count,
+                },
+            ],
+        },
         "upstream_deposit_active_row_count": config.upstream_active_row_count,
         "upstream_deposit_inactive_row_count": config.upstream_inactive_row_count,
         "upstream_deposit_total_row_count": upstream_deposit_count,
@@ -390,8 +462,9 @@ def build_ired_processing_bundle(
                 "high-value threshold is authorized by this processing revision."
             ),
             (
-                "Near-duplicate grouping, leakage controls, and held-out authorization are "
-                "deferred to a Split Manifest."
+                "Near-duplicate grouping, leakage controls, and held-out partition identity are "
+                "deferred to a Split Manifest; per-run held-out authorization belongs to an "
+                "Experiment Config."
             ),
             (
                 "This processing revision provides no feature, model, replay, benchmark, or "

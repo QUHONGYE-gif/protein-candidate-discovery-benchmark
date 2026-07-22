@@ -67,7 +67,19 @@ def _config_payload() -> dict[str, object]:
             "same_candidate_universe_and_hidden_truth_with_alternate_split_metadata"
         ),
         "publisher_reported_candidate_count": 10,
+        "upstream_reconciliation_record_id": 11357236,
+        "upstream_reconciliation_record_version": (
+            "Version-specific Zenodo record 11357236; metadata.version is not declared."
+        ),
+        "upstream_reconciliation_record_url": "https://zenodo.org/records/11357236",
+        "upstream_reconciliation_role": ("provenance_reconciliation_only_not_processing_input"),
+        "upstream_active_filename": "srired_active_data.csv",
+        "upstream_active_publisher_md5": "0" * 32,
+        "upstream_active_size_bytes": 10,
         "upstream_active_row_count": 5,
+        "upstream_inactive_filename": "srired_inactive_data.csv",
+        "upstream_inactive_publisher_md5": "1" * 32,
+        "upstream_inactive_size_bytes": 10,
         "upstream_inactive_row_count": 4,
         "upstream_candidate_count_limitation": (
             "Fixture publisher count differs from deposited and processed counts."
@@ -185,6 +197,31 @@ def test_processing_builds_one_candidate_universe_and_separates_hidden_truth(
     assert audit["near_duplicate_pair_counts"] == {"1": 2}
     assert audit["reference_candidate_present"] is True
     assert audit["publisher_claim_minus_upstream_deposit_rows"] == 1
+    assert audit["upstream_reconciliation"] == {
+        "record_id": 11357236,
+        "record_version": (
+            "Version-specific Zenodo record 11357236; metadata.version is not declared."
+        ),
+        "record_url": "https://zenodo.org/records/11357236",
+        "role": "provenance_reconciliation_only_not_processing_input",
+        "processing_payload_input": False,
+        "files": [
+            {
+                "role": "active",
+                "filename": "srired_active_data.csv",
+                "publisher_md5": "0" * 32,
+                "size_bytes": 10,
+                "observed_row_count": 5,
+            },
+            {
+                "role": "inactive",
+                "filename": "srired_inactive_data.csv",
+                "publisher_md5": "1" * 32,
+                "size_bytes": 10,
+                "observed_row_count": 4,
+            },
+        ],
+    }
     assert "target_min" not in audit
     assert "target_max" not in audit
     assert manifest["observable_feature_fields"] == ["sequence"]
@@ -340,6 +377,16 @@ def test_repository_processing_config_is_bound_to_accepted_manifest() -> None:
     assert config.sequence_length == 290
     assert config.expected_near_duplicate_pair_count == 9_279
     assert config.publisher_reported_candidate_count == 17_143
+    assert config.upstream_reconciliation_record_id == 11357236
+    assert config.upstream_reconciliation_role == (
+        "provenance_reconciliation_only_not_processing_input"
+    )
+    assert config.upstream_active_filename == "srired_active_data.csv"
+    assert config.upstream_active_publisher_md5 == "0e58f694bc1eb3b4375378e5c04b0ad3"
+    assert config.upstream_active_size_bytes == 4_093_522
+    assert config.upstream_inactive_filename == "srired_inactive_data.csv"
+    assert config.upstream_inactive_publisher_md5 == "8a1f51dd84d6ddf8f5b9d428e318fa24"
+    assert config.upstream_inactive_size_bytes == 1_612_008
     assert config.upstream_active_row_count + config.upstream_inactive_row_count == 16_278
     assert config.label_direction == "higher_is_better"
     assert hashlib.sha256(config.reference_sequence.encode()).hexdigest() == (

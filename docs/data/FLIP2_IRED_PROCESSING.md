@@ -43,9 +43,17 @@ accepted raw 中的两个 gzip CSV 字段顺序均为 `sequence,set,validation,t
 candidate universe 的 alternate upstream split references，不能拼接成 17,172 个候选，也不能直接
 成为本项目 benchmark split。
 
-上游发布文件经 publisher MD5 验证后观察到 active 10,905 rows、inactive 5,373 rows，合计 16,278，
-与论文层面的 17,143-variant 描述相差 865；第一方 metadata 未解释该差值，因此保留为明确 limitation，
-不推断缺失记录。FLIP2 的 8,586 candidates 可精确对账为：
+对账使用 version-specific Zenodo record `11357236`；该记录没有声明 `metadata.version`。精确的
+外部 provenance inventory 为：
+
+| 文件 | Bytes | Publisher MD5 | 观察行数 |
+|---|---:|---|---:|
+| `srired_active_data.csv` | 4,093,522 | `0e58f694bc1eb3b4375378e5c04b0ad3` | 10,905 |
+| `srired_inactive_data.csv` | 1,612,008 | `8a1f51dd84d6ddf8f5b9d428e318fa24` | 5,373 |
+
+这两个外部文件只支持来源与数量对账，不是 processing payload input，也不替代 accepted FLIP2 raw
+bytes。两文件合计 16,278 rows，与论文层面的 17,143-variant 描述相差 865；第一方 metadata 未解释
+该差值，因此保留为明确 limitation，不推断缺失记录。FLIP2 的 8,586 candidates 可精确对账为：
 
 1. 从 active 表保留 `indel=False`、无内部 STOP、无 STOP readthrough 的 rows；
 2. 排除 `Nham_aa` 为 22、31、33 的三个高突变数离群 rows，保留 mutation count 0–15；

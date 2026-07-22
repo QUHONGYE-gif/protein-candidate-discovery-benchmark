@@ -52,7 +52,17 @@
   "expected_mutation_count_max": 15,
   "source_relationship": "same_candidate_universe_and_hidden_truth_with_alternate_split_metadata",
   "publisher_reported_candidate_count": 17143,
+  "upstream_reconciliation_record_id": 11357236,
+  "upstream_reconciliation_record_version": "Version-specific Zenodo record 11357236; metadata.version is not declared.",
+  "upstream_reconciliation_record_url": "https://zenodo.org/records/11357236",
+  "upstream_reconciliation_role": "provenance_reconciliation_only_not_processing_input",
+  "upstream_active_filename": "srired_active_data.csv",
+  "upstream_active_publisher_md5": "0e58f694bc1eb3b4375378e5c04b0ad3",
+  "upstream_active_size_bytes": 4093522,
   "upstream_active_row_count": 10905,
+  "upstream_inactive_filename": "srired_inactive_data.csv",
+  "upstream_inactive_publisher_md5": "8a1f51dd84d6ddf8f5b9d428e318fa24",
+  "upstream_inactive_size_bytes": 1612008,
   "upstream_inactive_row_count": 5373,
   "upstream_candidate_count_limitation": "The publication-level 17,143-variant statement differs from the 16,278 rows in the deposited active and inactive tables and from the 8,586 measurable active candidates frozen by FLIP2; processing does not infer the unreported 865-row difference."
 }
