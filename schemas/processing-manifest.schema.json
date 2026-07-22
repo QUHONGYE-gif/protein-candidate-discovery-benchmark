@@ -75,7 +75,8 @@
       "properties": {
         "object_key": { "type": "string", "minLength": 1 },
         "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
-        "size_bytes": { "type": "integer", "minimum": 0 }
+        "size_bytes": { "type": "integer", "minimum": 0 },
+        "row_count": { "type": "integer", "minimum": 0 }
       }
     }
   }
