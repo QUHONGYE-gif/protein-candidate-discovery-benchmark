@@ -23,7 +23,12 @@ ProteinGym 和 SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboard
   replay、benchmark 或 scientific gate。
 - FLIP2 v3 Imine Reductase：GitHub Issue #8，3/3 source objects、Dataset Manifest 和
   machine-readable `DatasetIngestAttempt` 均已完成 COS exact-byte/readback 验证及不可覆盖
-  检查，见 [FLIP2 IRED ingest](data/FLIP2_IRED_INGEST.md)；PR #9 已合并。
+  检查，见 [FLIP2 IRED ingest](data/FLIP2_IRED_INGEST.md)；PR #9 已合并。Issue #16 processing
+  implementation 复用共享 processing core，冻结 8,586 个 canonical candidates、hidden-label
+  separation、source relationship、WT/mutation 与 duplicate/near-duplicate audit，见
+  [FLIP2 IRED processing](data/FLIP2_IRED_PROCESSING.md)。本地真实 raw 预检通过，但尚无 reviewed
+  formal COS processing publication 或 fresh readback，因此不构成 server-execution、split、replay、
+  benchmark 或 scientific-gate 证据。
 - FLIP2 v3 Nuclease B：GitHub Issue #10，3/3 source objects、独立 Dataset Manifest 与
   `DatasetIngestAttempt` 已完成 COS exact-byte/readback 和不可覆盖验证，见
   [FLIP2 NucB ingest](data/FLIP2_NUCB_INGEST.md)；代码与证据仍需 PR/CI 和人工审查。
