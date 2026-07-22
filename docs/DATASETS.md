@@ -1,8 +1,9 @@
 # 数据集登记
 
 FLIP2 v3 Alpha Amylase、Imine Reductase、Nuclease B 与 Hydrophobic Core 已分别完成官方
-raw source 下载、checksum 冻结和 COS 回读验证。Alpha Amylase processing implementation 已启动，
-但尚无正式 processing run；四个 task 均未进入 split 审计或 replay。其他候选数据源包括
+raw source 下载、checksum 冻结和 COS 回读验证。Alpha Amylase 已在 reviewed commit
+`57026fa5bc46240d311f6378f9ef87dcbe0d665c` 上完成正式 immutable processing publication、权限
+恢复和 fresh readback；四个 task 均未进入 split 审计或 replay。其他候选数据源包括
 ProteinGym 和 SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboarding Issue 后才能进入开发
 或主实验。
 
@@ -11,9 +12,15 @@ ProteinGym 和 SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboard
 - FLIP2 v3 Alpha Amylase：GitHub Issue #3，raw ingest runtime 与 DOI manifest revision 已完成，
   machine-readable `DatasetIngestAttempt` 已回读验证；官方 source inventory、下载校验与 COS
   对象布局见
-  [FLIP2 Amylase ingest](data/FLIP2_AMYLASE_INGEST.md)。Issue #15 已启动 candidate identity、
-  hidden-label separation、duplicate/near-duplicate audit 与 Processing Manifest 实现，见
-  [FLIP2 Amylase processing](data/FLIP2_AMYLASE_PROCESSING.md)；尚无正式 processed/COS 产物。
+  [FLIP2 Amylase ingest](data/FLIP2_AMYLASE_INGEST.md)。Issue #15 负责 candidate identity、
+  hidden-label separation、duplicate/near-duplicate audit、Processing Manifest 与正式运行证据，见
+  [FLIP2 Amylase processing](data/FLIP2_AMYLASE_PROCESSING.md)。正式 processing revision
+  `flip2-amylase-4e6de256fa84b6c237828e58b244b75b6da304be1a496444dc2896241f1fc12b`
+  已发布四个 processed payload；Processing Manifest SHA-256 为
+  `cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec`。首次 publication
+  因 payload PUT 权限返回 403 而不完整；恢复操作只补齐四个缺失 payload，禁止覆盖且未改写已发布
+  manifest，随后完成 fresh readback。该证据只建立 processing server-execution，不建立 split、
+  replay、benchmark 或 scientific gate。
 - FLIP2 v3 Imine Reductase：GitHub Issue #8，3/3 source objects、Dataset Manifest 和
   machine-readable `DatasetIngestAttempt` 均已完成 COS exact-byte/readback 验证及不可覆盖
   检查，见 [FLIP2 IRED ingest](data/FLIP2_IRED_INGEST.md)；PR #9 已合并。
@@ -23,8 +30,8 @@ ProteinGym 和 SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboard
 - FLIP2 v3 Hydrophobic Core：GitHub Issue #10，7/7 source objects、独立 Dataset Manifest 与
   `DatasetIngestAttempt` 已完成 COS exact-byte/readback 和不可覆盖验证，见
   [FLIP2 Hydro ingest](data/FLIP2_HYDRO_INGEST.md)；代码与证据仍需 PR/CI 和人工审查。
-- Alpha Amylase processing implementation 已启动；正式 processing run、所有 Split、replay 和
-  scientific validation 均未开始。
+- Alpha Amylase processing implementation、正式 immutable publication/recovery 与 fresh readback
+  已完成；所有 Split、held-out 授权、replay 和 scientific validation 均未开始。
 
 ## Onboarding checklist
 

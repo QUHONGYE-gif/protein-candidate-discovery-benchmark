@@ -51,7 +51,7 @@ DOI [`10.1016/j.csbj.2024.09.007`](https://doi.org/10.1016/j.csbj.2024.09.007)�
 规则保存在
 [`amylase-processing-v1.json`](../../configs/datasets/flip2/zenodo-18433203-v3/amylase-processing-v1.json)。
 
-## 输出与正式运行边界
+## 输出布局
 
 处理器在 Git worktree 外排他创建：
 
@@ -70,5 +70,41 @@ manifests/flip2/zenodo-18433203-v3/amylase/processing/<processing-id>/
 Processing Manifest 为每个输出记录 object key、SHA-256、byte size 与 `row_count`；CSV 的
 `row_count` 不包含 header，`processing-audit.json` 作为一个 JSON document 记录为 1。
 正式运行必须在 reviewed commit 上执行，并将本地 staging 与 COS publication/readback 分开报告。
-当前文档中的 2026-07-21 结果是 raw 只读审计，不是成功的正式 processing run，也没有创建或上传
-上述对象。
+
+## 2026-07-22 正式 publication 与恢复证据
+
+正式运行绑定 reviewed commit `57026fa5bc46240d311f6378f9ef87dcbe0d665c`，生成的 immutable
+processing revision 为
+`flip2-amylase-4e6de256fa84b6c237828e58b244b75b6da304be1a496444dc2896241f1fc12b`。
+首次 publication attempt 中，当前执行身份对四个 processed payload 的 PUT 均返回
+`403 AccessDenied`，精确 prefix 复查确认四个 payload 均未写入；Processing Manifest 单独写入成功并
+通过回读。该状态被明确报告为不完整，不得作为成功运行或可消费 revision。
+
+恢复时从同一 commit、同一 Dataset Manifest 和 processing config 重新生成 exact-byte-identical
+staging，只以禁止覆盖模式补齐四个缺失 payload；没有删除或覆盖已存在的 Processing Manifest。
+随后在新的临时 readback 目录验证全部五个对象，结果如下：
+
+| Artifact | `row_count` | Bytes | SHA-256 |
+|---|---:|---:|---|
+| `candidates.csv` | 3,706 | 1,819,668 | `50c13a23f9fbfe3892b074a1ce7b31eb5537dfe21ceb682baccbf412c0d42aab` |
+| `hidden-truth.csv` | 3,706 | 301,480 | `1d7b4deb06af08649867cbdeec6d0ef13dd70e2997687bbc290493a63fb7b8f8` |
+| `processing-audit.json` | 1 | 3,149 | `0f6940999bb42e6946349b001e10ae203403d83079d3f5ba6a5c9bccee064e94` |
+| `upstream-split-metadata.csv` | 18,530 | 1,930,061 | `be2a3c7f2f4502fc1178391816b56b60b59c3b88ac352c71df4a93be4f44af2a` |
+| Processing Manifest | 1 document | 2,429 | `cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec` |
+
+四个 payload 合计 4,054,358 bytes。Fresh readback 对五个对象通过 staged/readback exact-byte、
+SHA-256、byte size、row count、Processing Manifest Schema、field visibility、candidate-ID 唯一性、
+candidate universe 一致性和每个 candidate 恰有五条 upstream membership 的验证；精确 processed 与
+manifest prefixes 没有额外对象。失败尝试与恢复完成分别记录在 Issue #15 的
+[permission-blocked report](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/15#issuecomment-5041312979)
+和
+[recovery evidence](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/15#issuecomment-5041703460)。
+
+最终 reviewer 身份独立确认了远端精确对象数量与大小，并下载、校验了 Processing Manifest；该身份
+对四个 payload 的 HEAD/Get 仍返回 403，所以 payload exact-byte fresh readback 证据来自 recovery
+operator，而不是 reviewer 身份下的第二次独立下载。此角色分离不改变成功的 processing
+server-execution 结论，但必须保留这一证据来源边界。
+
+以上只完成 Alpha Amylase processing implementation 与 server-execution evidence。Split membership、
+near-duplicate grouping/leakage control、held-out 授权、feature、model、replay、benchmark result 和
+scientific gate 均未完成，也不得从本 revision 推断。
