@@ -78,7 +78,8 @@ COS。当前 implementation preflight 得到：
 同时验证 4,311 edges、943 components、711 singletons、232 non-singletons、second-largest size 15、
 cross-role edge 0，以及五个 publisher split 的 crossing counts 与冻结 config 完全一致。
 
-这些结果只是未提交 implementation 的本地可行性证据。正式 artifact checksum、Split Manifest identity、
+这些结果及其 checksum 是已提交且通过 exact-head CI 验证的本地 implementation preflight evidence，
+不是正式发布的 artifact identities。正式 artifact checksum、Split Manifest identity、
 server-execution evidence 和 COS object inventory 必须在 reviewed exact commit 上重新生成并单独报告。
 
 ## 输出与运行门禁

@@ -2,9 +2,11 @@
 
 FLIP2 v3 Alpha Amylase、Imine Reductase、Nuclease B 与 Hydrophobic Core 已分别完成官方
 raw source 下载、checksum 冻结和 COS 回读验证。Alpha Amylase 与 Imine Reductase 已分别在
-reviewed commit 上完成正式 immutable processing publication、权限恢复和 fresh readback；四个 task
-均未进入 split 审计或 replay。其他候选数据源包括 ProteinGym 和 SKEMPI 2.0；每个具体 task/assay
-必须通过 dataset onboarding Issue 后才能进入开发或主实验。
+reviewed commit 上完成正式 immutable processing publication、权限恢复和 fresh readback。Alpha
+Amylase 已完成提交且通过 exact-head CI 验证的本地 topology-isolation split implementation/preflight，
+但尚无正式 Split Manifest COS publication/server-execution evidence；Imine Reductase、Nuclease B 与
+Hydrophobic Core 尚未进入 split 审计，四个 task 均未进入 replay。其他候选数据源包括 ProteinGym 和
+SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboarding Issue 后才能进入开发或主实验。
 
 ## 进行中的 onboarding
 
