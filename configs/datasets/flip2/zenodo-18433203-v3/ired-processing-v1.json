@@ -1,0 +1,68 @@
+{
+  "config_version": "1",
+  "dataset_id": "flip2",
+  "dataset_version": "zenodo-18433203-v3",
+  "task_id": "ired",
+  "dataset_manifest_sha256": "37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643",
+  "source_csv_keys": [
+    "ired/random.csv.gz",
+    "ired/two_to_many.csv.gz"
+  ],
+  "required_fields": [
+    "sequence",
+    "set",
+    "validation",
+    "target"
+  ],
+  "allowed_amino_acids": "ACDEFGHIKLMNPQRSTVWY",
+  "sequence_length": 290,
+  "expected_candidate_count": 8586,
+  "candidate_id_algorithm": "sha256",
+  "candidate_id_namespace": "flip2:zenodo-18433203-v3:ired",
+  "observable_feature_fields": [
+    "sequence"
+  ],
+  "hidden_label_field": "target",
+  "label_direction": "higher_is_better",
+  "label_semantics": "Fitness score for measurable SrIRED variants reported as a log-enrichment factor over wild type.",
+  "label_units": "Dimensionless log-enrichment factor relative to wild type; the logarithm base is not stated in the task metadata.",
+  "label_source_url": "https://zenodo.org/records/11357236",
+  "high_value_meaning": "Higher values indicate stronger enrichment and higher measured activity; no numeric high-value threshold is frozen by processing.",
+  "missing_value_policy": "error",
+  "allowed_set_values": [
+    "test",
+    "train"
+  ],
+  "allowed_validation_values": [
+    "False",
+    "True"
+  ],
+  "within_file_duplicate_policy": "error",
+  "cross_file_duplicate_policy": "aggregate_if_target_matches",
+  "conflicting_target_policy": "error",
+  "near_duplicate_method": "full_length_hamming_distance",
+  "near_duplicate_threshold": 1,
+  "near_duplicate_policy": "allowed_pending_split_manifest",
+  "expected_near_duplicate_pair_count": 9279,
+  "reference_sequence": "MRDTDVTVLGLGLMGQALAGAFLKDGHATTVWNRSEGKAGQLAEQGAVLASSARDAAEASPLVVVCVSDHAAVRAVLDPLGDVLAGRVLVNLTSGTSEQARATAEWAAERGITYLDGAIMAIPQVVGTADAFLLYSGPEAAYEAHEPTLRSLGAGTTYLGADHGLSSLYDVALLGIMWGTLNSFLHGAALLGTAKVEATTFAPFANRWIEAVTGFVSAYAGQVDQGAYPALDATIDTHVATVDHLIHESEAAGVNTELPRLVRTLADRALAGGQGGLGYAAMIEQFRSPS",
+  "reference_resolution": "Upstream WT after removing the uniform terminal stop marker, cross-checked against the unique per-position modal consensus of the FLIP2 candidates.",
+  "reference_source_url": "https://zenodo.org/records/11357236",
+  "mutation_count_method": "full_length_hamming_distance_to_reference",
+  "expected_mutation_count_min": 0,
+  "expected_mutation_count_max": 15,
+  "source_relationship": "same_candidate_universe_and_hidden_truth_with_alternate_split_metadata",
+  "publisher_reported_candidate_count": 17143,
+  "upstream_reconciliation_record_id": 11357236,
+  "upstream_reconciliation_record_version": "Version-specific Zenodo record 11357236; metadata.version is not declared.",
+  "upstream_reconciliation_record_url": "https://zenodo.org/records/11357236",
+  "upstream_reconciliation_role": "provenance_reconciliation_only_not_processing_input",
+  "upstream_active_filename": "srired_active_data.csv",
+  "upstream_active_publisher_md5": "0e58f694bc1eb3b4375378e5c04b0ad3",
+  "upstream_active_size_bytes": 4093522,
+  "upstream_active_row_count": 10905,
+  "upstream_inactive_filename": "srired_inactive_data.csv",
+  "upstream_inactive_publisher_md5": "8a1f51dd84d6ddf8f5b9d428e318fa24",
+  "upstream_inactive_size_bytes": 1612008,
+  "upstream_inactive_row_count": 5373,
+  "upstream_candidate_count_limitation": "The publication-level 17,143-variant statement differs from the 16,278 rows in the deposited active and inactive tables and from the 8,586 measurable active candidates frozen by FLIP2; processing does not infer the unreported 865-row difference."
+}
