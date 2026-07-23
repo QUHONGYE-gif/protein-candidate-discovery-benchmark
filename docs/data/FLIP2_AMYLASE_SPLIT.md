@@ -99,4 +99,6 @@ manifests/flip2/zenodo-18433203-v3/amylase/splits/
 本地 staging、正式 COS publication 与 fresh readback 是三个独立状态。正式 COS 写入必须等实现、CI、
 人工审查完成后取得单独用户授权，并使用禁止覆盖、payload first、manifest last 与全新目录回读。Split
 Manifest 只拥有 held-out partition identity；每次运行的 `held_out_authorized` 仍由 Experiment Config
-拥有，默认保持 `false`。
+拥有，默认保持 `false`。消费者在接受 held-out 授权前必须计算所访问 `split-manifest.json` 精确
+bytes 的 SHA-256，并要求其等于 Experiment Config 的 `split_sha256`；缺失或不匹配时必须
+fail closed，其他 split 的授权不可复用。

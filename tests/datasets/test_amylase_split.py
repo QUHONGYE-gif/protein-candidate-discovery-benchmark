@@ -399,26 +399,53 @@ def test_held_out_consumer_access_fails_closed_without_experiment_authorization(
         "partitions": ["candidate-pool", "development", "validation", "held-out"],
         "held_out_partitions": ["held-out"],
     }
+    split_manifest_bytes = (
+        json.dumps(split_manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+    ).encode()
+    split_sha256 = hashlib.sha256(split_manifest_bytes).hexdigest()
     validate_partition_access(
-        split_manifest,
+        split_manifest_bytes,
         {"held_out_authorized": False},
         ("candidate-pool", "development", "validation"),
     )
     with pytest.raises(AmylaseSplitError, match="not authorized"):
         validate_partition_access(
-            split_manifest,
+            split_manifest_bytes,
             {"held_out_authorized": False},
+            ("held-out",),
+        )
+    with pytest.raises(AmylaseSplitError, match="split_sha256 is missing"):
+        validate_partition_access(
+            split_manifest_bytes,
+            {
+                "held_out_authorized": True,
+                "held_out_authorization_reference": "approved-gate-reference",
+            },
+            ("held-out",),
+        )
+    with pytest.raises(AmylaseSplitError, match="does not match"):
+        validate_partition_access(
+            split_manifest_bytes,
+            {
+                "split_sha256": "f" * 64,
+                "held_out_authorized": True,
+                "held_out_authorization_reference": "different-split-approval",
+            },
             ("held-out",),
         )
     with pytest.raises(AmylaseSplitError, match="reference is missing"):
         validate_partition_access(
-            split_manifest,
-            {"held_out_authorized": True},
+            split_manifest_bytes,
+            {
+                "split_sha256": split_sha256,
+                "held_out_authorized": True,
+            },
             ("held-out",),
         )
     validate_partition_access(
-        split_manifest,
+        split_manifest_bytes,
         {
+            "split_sha256": split_sha256,
             "held_out_authorized": True,
             "held_out_authorization_reference": "approved-gate-reference",
         },

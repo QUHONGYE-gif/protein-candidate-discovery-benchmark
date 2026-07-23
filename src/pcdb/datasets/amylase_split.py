@@ -948,11 +948,18 @@ def validate_amylase_split_bundle(
 
 
 def validate_partition_access(
-    split_manifest: dict[str, object],
+    split_manifest_bytes: bytes,
     experiment_config: dict[str, object],
     requested_partitions: tuple[str, ...],
 ) -> None:
     """Fail closed when a consumer requests unauthorized held-out membership."""
+    try:
+        raw_manifest = cast(object, json.loads(split_manifest_bytes.decode("utf-8")))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise AmylaseSplitError("Split Manifest must be valid UTF-8 JSON") from error
+    if not isinstance(raw_manifest, dict):
+        raise AmylaseSplitError("Split Manifest must be an object")
+    split_manifest = cast(dict[str, object], raw_manifest)
     partitions = split_manifest.get("partitions")
     held_out = split_manifest.get("held_out_partitions")
     if not isinstance(partitions, list) or not all(isinstance(item, str) for item in partitions):
@@ -967,6 +974,18 @@ def validate_partition_access(
         return
     if experiment_config.get("held_out_authorized") is not True:
         raise AmylaseSplitError("held-out access is not authorized by Experiment Config")
+    configured_split_sha256 = experiment_config.get("split_sha256")
+    if not isinstance(configured_split_sha256, str):
+        raise AmylaseSplitError("Experiment Config split_sha256 is missing or invalid")
+    configured_split_sha256 = _lower_hex_digest(
+        configured_split_sha256,
+        field="Experiment Config split_sha256",
+    )
+    observed_split_sha256 = hashlib.sha256(split_manifest_bytes).hexdigest()
+    if configured_split_sha256 != observed_split_sha256:
+        raise AmylaseSplitError(
+            "Experiment Config split_sha256 does not match the accessed Split Manifest"
+        )
     reference = experiment_config.get("held_out_authorization_reference")
     if not isinstance(reference, str) or not reference:
         raise AmylaseSplitError("held-out authorization reference is missing")
