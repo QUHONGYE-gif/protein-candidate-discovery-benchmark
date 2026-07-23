@@ -1,0 +1,77 @@
+{
+  "config_version": "1",
+  "dataset_id": "flip2",
+  "dataset_version": "zenodo-18433203-v3",
+  "task_id": "amylase",
+  "split_id": "flip2-amylase-topology-isolation-v1",
+  "protocol_version": "1",
+  "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+  "candidate_input": {
+    "object_key": "processed/flip2/zenodo-18433203-v3/amylase/flip2-amylase-4e6de256fa84b6c237828e58b244b75b6da304be1a496444dc2896241f1fc12b/candidates.csv",
+    "sha256": "50c13a23f9fbfe3892b074a1ce7b31eb5537dfe21ceb682baccbf412c0d42aab",
+    "size_bytes": 1819668,
+    "row_count": 3706
+  },
+  "upstream_metadata_input": {
+    "object_key": "processed/flip2/zenodo-18433203-v3/amylase/flip2-amylase-4e6de256fa84b6c237828e58b244b75b6da304be1a496444dc2896241f1fc12b/upstream-split-metadata.csv",
+    "sha256": "be2a3c7f2f4502fc1178391816b56b60b59c3b88ac352c71df4a93be4f44af2a",
+    "size_bytes": 1930061,
+    "row_count": 18530
+  },
+  "sequence_length": 425,
+  "allowed_amino_acids": "ACDEFGHIKLMNPQRSTVWY",
+  "expected_candidate_count": 3706,
+  "grouping_method": "full_length_hamming1_connected_component",
+  "hamming_distance": 1,
+  "protocol_namespace": "pcdb:split:flip2-amylase-topology-isolation-v1:v1",
+  "group_id_algorithm": "sha256",
+  "group_preimage_format": "namespace_nul_group-id_nul_uint32be_count_concatenated_raw_candidate_ids",
+  "seed": 20260722,
+  "ordering_key_algorithm": "sha256",
+  "ordering_preimage_format": "namespace_nul_order-key_nul_uint64be_seed_raw_group_id",
+  "ordering_tie_break": [
+    "ordering_key",
+    "group_id"
+  ],
+  "assignment_role_order": [
+    "development",
+    "validation",
+    "held-out"
+  ],
+  "role_counts": {
+    "candidate-pool": 2262,
+    "development": 722,
+    "validation": 361,
+    "held-out": 361
+  },
+  "expected_hamming1_pair_count": 4311,
+  "expected_component_count": 943,
+  "expected_singleton_component_count": 711,
+  "expected_non_singleton_component_count": 232,
+  "expected_largest_component_size": 2262,
+  "expected_second_largest_component_size": 15,
+  "upstream_source_keys": [
+    "amylase/by_mutation.csv.gz",
+    "amylase/close_to_far.csv.gz",
+    "amylase/far_to_close.csv.gz",
+    "amylase/one_to_many.csv.gz",
+    "amylase/random_split.csv.gz"
+  ],
+  "expected_upstream_cross_role_edges": {
+    "amylase/by_mutation.csv.gz": 1384,
+    "amylase/close_to_far.csv.gz": 780,
+    "amylase/far_to_close.csv.gz": 971,
+    "amylase/one_to_many.csv.gz": 2248,
+    "amylase/random_split.csv.gz": 2176
+  },
+  "leakage_controls": [
+    "Every full-length Hamming-distance-1 connected component remains wholly within one partition.",
+    "Cross-partition full-length Hamming-distance-1 edge count is exactly zero.",
+    "Grouping and assignment use observable candidate_id and sequence only; hidden truth and publisher split roles are excluded."
+  ],
+  "known_limitations": [
+    "The unique 2262-candidate giant component is the candidate pool, creating a strong topology and distribution shift against development, validation, and held-out partitions.",
+    "Publisher-provided split memberships cross the frozen Hamming-1 leakage boundary and remain audit-only comparison data.",
+    "This split does not authorize held-out access, replay, model selection, benchmark claims, or a scientific gate."
+  ]
+}
