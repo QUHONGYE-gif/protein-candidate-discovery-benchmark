@@ -109,12 +109,34 @@ Processing Manifest 为每个 output 记录 object key、SHA-256、byte size 与
 在 implementation、CI 和 human review 完成后的 exact commit 上执行；COS publication 必须使用禁止
 覆盖的新 prefix，并从 COS fresh readback 验证 checksum、size、row count、Schema 和 exact bytes。
 
-## 当前实现验证
+## 实现与正式运行验证
 
 accepted COS raw bytes 的本地只读预检已完成两次 exact-byte-identical build，得到 8,586 candidate
 rows、8,586 hidden-truth rows、17,172 upstream metadata rows 和一份 audit document；reference、
 mutation range、9,279 near-duplicate pairs、field visibility 与 Processing Manifest Schema 均通过。
 
-该预检没有写入 COS，临时 processing identity 不得发布或引用为正式 revision。只有 reviewed commit
-上的 immutable publication 与 fresh COS readback 才能建立 server-execution evidence。Split、feature、
-model、replay、benchmark result 和 scientific gate 均未开始。
+2026-07-23，用户在 implementation review、exact-head CI 和本地确定性预检通过后单独授权正式
+publication。运行绑定 reviewed commit `703247cb001e063c78bd8d34d66b094a9514dc3a`，fresh 下载 accepted
+Dataset Manifest 与 3 个 raw objects，并重新验证 SHA-256、byte size、manifest exact bytes 和 gzip
+integrity。重新生成的 processing ID 为
+`flip2-ired-8f32dfa11a52d3ce96da4eb4ebb305210ccf027cf812d277f2c9c25f254c4f5d`，与 reviewed preflight
+一致。
+
+| 正式对象 | Bytes | Rows | SHA-256 |
+|---|---:|---:|---|
+| `candidates.csv` | 3,056,638 | 8,586 | `56bea1f4adeba11425582def8aa32e8d5ac93e3a2caefa39474f4612920c0f4f` |
+| `hidden-truth.csv` | 725,742 | 8,586 | `cb97fd8a4b0256a8e3a5ab6476cecfcbdb732e21eaa3af5104170693cabdf3b8` |
+| `processing-audit.json` | 4,257 | 1 | `0f3c6537ab202989a39550056cd0fccad1886029dc8c38146d436fea053e5f9f` |
+| `upstream-split-metadata.csv` | 1,684,065 | 17,172 | `558c86c98454ceacd3e7c6fa406703ec7d7513eee2a9eebd08e79b3f3778cc93` |
+| `processing-manifest.json` | 2,888 | — | `929f0a46bfca015fb020bb7ebcc3a91e4de33922cd217399551b3dae1cc437ba` |
+
+第一次 publication 尝试在首个 payload PUT 时被 CAM `403 AccessDenied` 拒绝；唯一一次有界重试同样
+失败，两个精确 prefix 保持 0 objects。权限缩小恢复后，重跑从 fresh accepted inputs 开始，先发布
+4 个 payload，再最后发布 Processing Manifest。全新目录回读的 4+1 objects 均与 staging exact-byte
+一致，并通过 checksum、size、row count、Schema 和 domain validation；精确 prefixes 分别只有 4 和
+1 个预期对象。对相同 manifest key 的禁止覆盖重复 PUT 以 `409 FileAlreadyExists` 失败，随后再次
+回读的 manifest SHA-256 未变化。没有覆盖或删除 COS 对象，临时 raw、hidden truth、staging、回读和
+失败日志在验证后清理。
+
+上述证据建立 IRED processing server-execution，不建立 Split Manifest、held-out authorization、
+feature、model、replay、benchmark result 或 scientific gate；这些阶段均未开始。
