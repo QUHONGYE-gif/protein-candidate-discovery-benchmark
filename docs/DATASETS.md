@@ -3,10 +3,10 @@
 FLIP2 v3 Alpha Amylase、Imine Reductase、Nuclease B 与 Hydrophobic Core 已分别完成官方
 raw source 下载、checksum 冻结和 COS 回读验证。Alpha Amylase 与 Imine Reductase 已分别在
 reviewed commit 上完成正式 immutable processing publication、权限恢复和 fresh readback。Alpha
-Amylase 已完成提交且通过 exact-head CI 验证的本地 topology-isolation split implementation/preflight，
-但尚无正式 Split Manifest COS publication/server-execution evidence；Imine Reductase、Nuclease B 与
-Hydrophobic Core 尚未进入 split 审计，四个 task 均未进入 replay。其他候选数据源包括 ProteinGym 和
-SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboarding Issue 后才能进入开发或主实验。
+Amylase 还已在 reviewed exact commit 上完成正式 topology-isolation split publication、fresh
+readback 和不可覆盖验证；Imine Reductase、Nuclease B 与 Hydrophobic Core 尚未进入 split 审计，
+四个 task 均未进入 replay。其他候选数据源包括 ProteinGym 和 SKEMPI 2.0；每个具体 task/assay
+必须通过 dataset onboarding Issue 后才能进入开发或主实验。
 
 ## 进行中的 onboarding
 
@@ -42,11 +42,13 @@ SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboarding Issue 后�
   `DatasetIngestAttempt` 已完成 COS exact-byte/readback 和不可覆盖验证，见
   [FLIP2 Hydro ingest](data/FLIP2_HYDRO_INGEST.md)；代码与证据仍需 PR/CI 和人工审查。
 - Alpha Amylase 与 IRED processing implementation、正式 immutable publication/recovery 与 fresh
-  readback 已完成。Issue #19 已冻结 primary topology-isolation split 并完成本地 implementation；当前只读
-  preflight 验证了 3,706-candidate membership 可按 2,262/722/361/361 精确分配且 cross-role
-  Hamming-1 edge 为 0，见
-  [FLIP2 Amylase split](data/FLIP2_AMYLASE_SPLIT.md)。尚无正式 Split Manifest COS publication、
-  held-out 授权、replay 或 scientific validation。
+  readback 已完成。Issue #19 冻结的 primary topology-isolation split 已在 reviewed commit
+  `b540bfb3ed65066cb74418d5a4336452bf837af1` 上正式发布；protocol hash 为
+  `244111b3eb4507563602851dfa730e7f5f297eea27447a0e22b59d1dc40fb685`。3,706-candidate
+  membership 按 2,262/722/361/361 精确分配且 cross-role Hamming-1 edge 为 0，2 个 split payload
+  与 1 个 Split Manifest 均通过 fresh exact-byte/readback 和不可覆盖验证，见
+  [FLIP2 Amylase split](data/FLIP2_AMYLASE_SPLIT.md)。尚无 held-out 授权、replay 或 scientific
+  validation。
 
 ## Onboarding checklist
 

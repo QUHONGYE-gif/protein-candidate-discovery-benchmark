@@ -82,6 +82,28 @@ cross-role edge 0，以及五个 publisher split 的 crossing counts 与冻结 c
 不是正式发布的 artifact identities。正式 artifact checksum、Split Manifest identity、
 server-execution evidence 和 COS object inventory 必须在 reviewed exact commit 上重新生成并单独报告。
 
+## 2026-07-23 正式 publication 与回读证据
+
+正式运行绑定已批准 commit `b540bfb3ed65066cb74418d5a4336452bf837af1`。三个公开输入从 COS
+fresh 下载并重新验证冻结 SHA-256、byte size 与 row count；未下载 hidden truth。两次独立 staging
+逐字节一致，生成的 protocol hash 为
+`244111b3eb4507563602851dfa730e7f5f297eea27447a0e22b59d1dc40fb685`。
+
+| Artifact | `row_count` | Bytes | SHA-256 |
+|---|---:|---:|---|
+| `membership.csv` | 3,706 | 531,621 | `97560dbaf41a4247e533167afc00e174eb229a4055e8a7dd165124b0b77500f0` |
+| `split-audit.json` | 1 document | 2,027 | `9dd0f8c3714b794e4a7c9c2129ce9dba432b5ba57719ed14dd5f95a2498174f6` |
+| Split Manifest | 1 document | 2,770 | `c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a` |
+
+publication 使用禁止覆盖的 payload-first、manifest-last 顺序。Fresh readback 的三个对象与 staged
+bytes 完全相同，并通过 SHA-256、byte size、membership role count、Schema 与 Alpha domain
+validation；精确 split 与 manifest prefixes 分别只有 2 和 1 个预期对象。对相同 Split Manifest key
+的重复禁止覆盖 PUT 返回 `409 FileAlreadyExists`，失败后再次回读 hash 未变。
+
+该证据只建立 deterministic split implementation 与 server-execution evidence。Split Manifest
+记录 held-out partition identity，但不授权 held-out access；feature、replay、benchmark result 和
+scientific gate 仍未开始。
+
 ## 输出与运行门禁
 
 脚本 `scripts/split_flip2_amylase.py` 只允许在 Git worktree 外排他写入：
