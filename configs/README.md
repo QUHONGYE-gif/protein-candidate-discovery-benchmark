@@ -16,4 +16,6 @@
 
 `configs/datasets/` 保存通过 Dataset Onboarding Issue 审核的官方下载计划，包括
 canonical URL、发布方 checksum、byte size、task-level license 和 COS object prefix。
-Source inventory 只决定 raw ingest，不替代 Dataset、Processing 或 Split Manifest。
+同一目录也可保存经独立 Issue prospectively frozen 的 processing/split machine-readable config；
+这类 config 必须以名称和字段明确区分 source inventory，并绑定对应 Dataset/Processing Manifest。
+任何 config 都不替代 Dataset、Processing 或 Split Manifest，也不单独构成 COS 或 scientific evidence。

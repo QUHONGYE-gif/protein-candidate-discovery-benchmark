@@ -40,7 +40,11 @@ reviewed commit 上完成正式 immutable processing publication、权限恢复�
   `DatasetIngestAttempt` 已完成 COS exact-byte/readback 和不可覆盖验证，见
   [FLIP2 Hydro ingest](data/FLIP2_HYDRO_INGEST.md)；代码与证据仍需 PR/CI 和人工审查。
 - Alpha Amylase 与 IRED processing implementation、正式 immutable publication/recovery 与 fresh
-  readback 已完成；所有 Split、held-out 授权、replay 和 scientific validation 均未开始。
+  readback 已完成。Issue #19 已冻结 primary topology-isolation split 并完成本地 implementation；当前只读
+  preflight 验证了 3,706-candidate membership 可按 2,262/722/361/361 精确分配且 cross-role
+  Hamming-1 edge 为 0，见
+  [FLIP2 Amylase split](data/FLIP2_AMYLASE_SPLIT.md)。尚无正式 Split Manifest COS publication、
+  held-out 授权、replay 或 scientific validation。
 
 ## Onboarding checklist
 

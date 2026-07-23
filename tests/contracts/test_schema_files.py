@@ -75,3 +75,25 @@ def test_processing_manifest_v1_accepts_legacy_output_without_row_count() -> Non
     assert "row_count" in artifact_schema["properties"]
     assert "row_count" not in artifact_schema["required"]
     Draft202012Validator(schema, format_checker=FormatChecker()).validate(manifest)
+
+
+def test_split_manifest_v1_optional_evidence_extension_is_backward_compatible() -> None:
+    schema = json.loads(
+        (SCHEMA_DIRECTORY / "split-manifest.schema.json").read_text(encoding="utf-8")
+    )
+    fixtures = json.loads((FIXTURE_DIRECTORY / "valid-manifests.json").read_text(encoding="utf-8"))
+    legacy_manifest = fixtures["split-manifest.schema.json"]
+
+    optional_fields = {
+        "split_config_sha256",
+        "git_commit",
+        "audit_file",
+        "partition_summary",
+        "group_summary",
+        "known_limitations",
+    }
+    assert optional_fields <= set(schema["properties"])
+    assert optional_fields.isdisjoint(schema["required"])
+    assert "row_count" in schema["properties"]["membership_file"]["properties"]
+    assert "row_count" not in schema["properties"]["membership_file"]["required"]
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(legacy_manifest)
