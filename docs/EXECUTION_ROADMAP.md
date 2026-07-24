@@ -84,6 +84,11 @@ external validation 仍需独立 onboarding Issue，不因属于 initial scope �
 
 Gate 1 通过前，不运行正式模型比较。
 
+截至 2026-07-24，Alpha Amylase 已完成 reviewed split publication；IRED Issue #22 已完成协议
+方向审查并进入 deterministic split 的本地 implementation。IRED 的真实 observable-input
+preflight、CI/人工审查、正式 COS publication 与 fresh readback 仍是后续独立 Gate，不因本地
+fixture 通过而视为完成。NucB 与 Hydrophobic Core 的 processing/split 仍需各自推进。
+
 ### M2：轻量特征与静态基线
 
 **计划窗口**：7 月 29 日–8 月 2 日。
