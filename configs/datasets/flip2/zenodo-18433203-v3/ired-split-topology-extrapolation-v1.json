@@ -152,7 +152,7 @@
     "Grouping and assignment use observable candidate_id, sequence, and mutation count only; hidden truth and publisher split roles are excluded."
   ],
   "known_limitations": [
-    "The topology-extrapolation design creates a strong distribution shift: development is one giant Hamming-1 component while all evaluation and candidate-pool groups are isolated singletons.",
+    "The topology-extrapolation design creates a strong distribution shift: development contains 4,448 of 8,586 candidates (51.8%) in one giant Hamming-1 component, while candidate-pool contains 2,070 of 8,586 candidates (24.1%) as isolated singletons; validation and held-out are also singleton-only.",
     "Publisher-provided split memberships cross the frozen Hamming-1 leakage boundary and remain audit-only comparison data.",
     "The global deficit schedule is deterministic and approximately preserves mutation-count strata, but it is not random sampling.",
     "This split does not authorize held-out access, replay, model selection, benchmark claims, COS publication, or a scientific gate."

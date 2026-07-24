@@ -32,8 +32,9 @@ topology 或 Processing Manifest 绑定出现任何漂移都必须 fail closed�
 - 两个 publisher split 只用于 crossing-edge 和 assignment-disagreement audit，不参与 membership。
 
 该设计刻意测试从一个密集、相互连通的开发拓扑向孤立变体外推，因而具有强烈的
-topology/distribution shift。它不是普通随机切分，不能在看到下游结果后拆开巨型 component、
-删除 bridge candidate 或改用 publisher split。
+topology/distribution shift：development 占 4,448/8,586（51.8%），candidate pool 仅占
+2,070/8,586（24.1%）。这些比例是 manifest-facing 的持久限制。该协议不是普通随机切分，不能在
+看到下游结果后拆开巨型 component、删除 bridge candidate 或改用 publisher split。
 
 ## mutation-stratified 全局调度
 
@@ -58,6 +59,8 @@ machine-readable config 位于
 
 config 冻结：
 
+- production-v1 config 的 canonical JSON semantic SHA-256
+  `e5ca5322bad75d1a9761dfd67b010658a21d6d75a6626d0f7d939043a3d742a0`；
 - protocol namespace 的精确 ASCII bytes；
 - group member count 的 unsigned `uint32` big-endian 编码；
 - seed `20260724` 的 unsigned `uint64` big-endian 编码；
@@ -66,6 +69,10 @@ config 冻结：
 - Issue #22 的 7 组 hash vectors、6-token miniature schedule 和 production stratum quotas；
 - distinct membership 的 group-ID collision 与 distinct singleton 的 ordering-key collision
   都必须 fail closed。
+
+production loader 必须先验证上述完整 canonical config identity，再解析协议；即使修改后的字段仍
+能通过局部类型或内部一致性检查，也不得继续沿用同一个 split ID/version。Synthetic tests 使用独立
+的 `fixture-*` identity 和 test-only loader，不能替代或绕过 production-v1 gate。
 
 相同 processing bytes、split config bytes 和完整 Git commit 必须生成相同 membership、audit、
 Split Manifest 与 object keys。candidate 或 upstream metadata 的输入行顺序不得改变输出。

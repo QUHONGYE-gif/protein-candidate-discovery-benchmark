@@ -121,6 +121,9 @@ class SplitBuild:
 _SINGLETON_ROLES = ("candidate-pool", "validation", "held-out")
 _ALL_ROLES = ("candidate-pool", "development", "validation", "held-out")
 _SHA256_HEX_LENGTH = 64
+_PRODUCTION_V1_CANONICAL_CONFIG_SHA256 = (
+    "e5ca5322bad75d1a9761dfd67b010658a21d6d75a6626d0f7d939043a3d742a0"
+)
 _ARTIFACT_KEYS = {"object_key", "sha256", "size_bytes", "row_count"}
 _CONFIG_KEYS = {
     "config_version",
@@ -331,6 +334,23 @@ def _config_mapping(payload: bytes) -> dict[str, object]:
     return cast(dict[str, object], raw)
 
 
+def _canonical_config_sha256(config: dict[str, object]) -> str:
+    payload = json.dumps(
+        config,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _require_production_v1_identity(config: dict[str, object]) -> None:
+    if _canonical_config_sha256(config) != _PRODUCTION_V1_CANONICAL_CONFIG_SHA256:
+        raise IredSplitError(
+            "production v1 config identity does not match the frozen canonical config"
+        )
+
+
 def _parse_ired_split_config(config: dict[str, object]) -> IredSplitConfig:
     if set(config) != _CONFIG_KEYS or config.get("config_version") != "1":
         raise IredSplitError("split config fields do not match version 1")
@@ -491,13 +511,38 @@ def _parse_ired_split_config(config: dict[str, object]) -> IredSplitConfig:
     )
 
 
-def _load_ired_split_config_bytes(payload: bytes) -> IredSplitConfig:
-    return _parse_ired_split_config(_config_mapping(payload))
+def _load_ired_split_config_bytes(
+    payload: bytes,
+    *,
+    require_production_identity: bool,
+) -> IredSplitConfig:
+    mapping = _config_mapping(payload)
+    if require_production_identity:
+        _require_production_v1_identity(mapping)
+    return _parse_ired_split_config(mapping)
 
 
 def load_ired_split_config(path: Path) -> IredSplitConfig:
-    """Load the strict machine-readable Issue #22 split contract."""
-    return _load_ired_split_config_bytes(path.read_bytes())
+    """Load the exact production-v1 Issue #22 split contract."""
+    return _load_ired_split_config_bytes(
+        path.read_bytes(),
+        require_production_identity=True,
+    )
+
+
+def load_ired_split_fixture_config(path: Path) -> IredSplitConfig:
+    """Load a structurally valid synthetic fixture through an explicit test-only path."""
+    payload = path.read_bytes()
+    mapping = _config_mapping(payload)
+    if not (
+        _string(mapping, "dataset_version").startswith("fixture-")
+        and _string(mapping, "split_id").startswith("fixture-")
+    ):
+        raise IredSplitError("fixture config must use explicit fixture identities")
+    return _load_ired_split_config_bytes(
+        payload,
+        require_production_identity=False,
+    )
 
 
 def group_id_for_members(namespace: str, candidate_ids: tuple[str, ...]) -> str:
@@ -1060,7 +1105,16 @@ def build_ired_split_bundle(
 ) -> tuple[dict[str, bytes], dict[str, object]]:
     """Build deterministic split artifacts and a manifest without publishing them."""
     _git_commit(git_commit)
-    if _load_ired_split_config_bytes(config_bytes) != config:
+    is_fixture = config.dataset_version.startswith("fixture-") and config.split_id.startswith(
+        "fixture-"
+    )
+    if (
+        _load_ired_split_config_bytes(
+            config_bytes,
+            require_production_identity=not is_fixture,
+        )
+        != config
+    ):
         raise IredSplitError("split config object does not match split config bytes")
     _verify_processing_chain(config, processing_manifest_bytes, candidate_bytes, upstream_bytes)
     config_sha256 = hashlib.sha256(config_bytes).hexdigest()

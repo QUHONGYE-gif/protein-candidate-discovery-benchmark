@@ -21,6 +21,7 @@ from pcdb.datasets.ired_split import (
     build_ired_split_membership,
     group_id_for_members,
     load_ired_split_config,
+    load_ired_split_fixture_config,
     ordering_key_for_singleton,
     role_schedule,
     validate_ired_split_bundle,
@@ -29,6 +30,11 @@ from pcdb.datasets.ired_split import (
 
 REPOSITORY_ROOT = Path(__file__).parents[2]
 NAMESPACE = "pcdb:split:flip2-ired-topology-extrapolation-v1:v1"
+FIXTURE_NAMESPACE = "pcdb:split:fixture-ired-topology-extrapolation-v1:v1"
+PRODUCTION_CONFIG_PATH = (
+    REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/"
+    "ired-split-topology-extrapolation-v1.json"
+)
 SOURCE_KEYS = ("ired/fixture-one.csv.gz", "ired/fixture-two.csv.gz")
 SEQUENCES = (
     "AAAAAA",
@@ -138,7 +144,7 @@ def _config_payload(
         "dataset_id": "flip2",
         "dataset_version": "fixture-v1",
         "task_id": "ired",
-        "split_id": "flip2-ired-topology-extrapolation-v1",
+        "split_id": "fixture-ired-topology-extrapolation-v1",
         "protocol_version": "1",
         "processing_manifest_sha256": hashlib.sha256(processing_manifest_bytes).hexdigest(),
         "candidate_input": candidate_artifact,
@@ -153,7 +159,7 @@ def _config_payload(
         "expected_mutation_count_max": 6,
         "grouping_method": "full_length_hamming1_connected_component",
         "hamming_distance": 1,
-        "protocol_namespace": NAMESPACE,
+        "protocol_namespace": FIXTURE_NAMESPACE,
         "group_id_algorithm": "sha256",
         "group_preimage_format": (
             "namespace_nul_group-id_nul_uint32be_count_concatenated_raw_candidate_ids"
@@ -213,7 +219,7 @@ def _fixture(tmp_path: Path) -> tuple[IredSplitConfig, bytes, bytes, bytes, byte
         tmp_path,
         _config_payload(processing_bytes, candidate_artifact, upstream_artifact),
     )
-    config = load_ired_split_config(config_path)
+    config = load_ired_split_fixture_config(config_path)
     return config, config_bytes, processing_bytes, candidate_bytes, upstream_bytes
 
 
@@ -309,10 +315,7 @@ def test_normative_global_schedule_and_stratified_assignment() -> None:
 
 
 def test_production_config_reproduces_frozen_mutation_quotas() -> None:
-    config = load_ired_split_config(
-        REPOSITORY_ROOT / "configs/datasets/flip2/zenodo-18433203-v3/"
-        "ired-split-topology-extrapolation-v1.json"
-    )
+    config = load_ired_split_config(PRODUCTION_CONFIG_PATH)
 
     assert config.role_counts == {
         "candidate-pool": 2070,
@@ -330,6 +333,9 @@ def test_production_config_reproduces_frozen_mutation_quotas() -> None:
         "validation": 0,
         "held-out": 1,
     }
+    limitations = " ".join(config.known_limitations)
+    assert "51.8%" in limitations
+    assert "24.1%" in limitations
 
 
 def test_bundle_is_deterministic_schema_valid_and_contains_no_target(tmp_path: Path) -> None:
@@ -479,7 +485,44 @@ def test_config_rejects_changed_byte_or_role_contract(tmp_path: Path) -> None:
     path, _ = _write_config(tmp_path, payload)
 
     with pytest.raises(IredSplitError, match="assignment_role_order"):
+        load_ired_split_fixture_config(path)
+
+
+def test_production_v1_rejects_any_identity_or_contract_drift(tmp_path: Path) -> None:
+    production = cast(
+        dict[str, object],
+        json.loads(PRODUCTION_CONFIG_PATH.read_text(encoding="utf-8")),
+    )
+    changed_values: tuple[tuple[str, object], ...] = (
+        ("split_id", "flip2-ired-topology-extrapolation-v2"),
+        ("protocol_version", "2"),
+        ("protocol_namespace", f"{NAMESPACE}-changed"),
+        ("seed", 1),
+        ("processing_manifest_sha256", "f" * 64),
+        ("expected_hamming1_pair_count", 9278),
+        ("known_limitations", ["changed"]),
+    )
+    for field, value in changed_values:
+        changed = cast(dict[str, object], json.loads(json.dumps(production)))
+        changed[field] = value
+        path, _ = _write_config(tmp_path, changed)
+        with pytest.raises(IredSplitError, match="production v1 config identity"):
+            load_ired_split_config(path)
+
+    changed_reference = cast(dict[str, object], json.loads(json.dumps(production)))
+    reference = cast(str, changed_reference["reference_sequence"])
+    changed_reference["reference_sequence"] = f"A{reference[1:]}"
+    changed_reference["reference_sequence_sha256"] = hashlib.sha256(
+        cast(str, changed_reference["reference_sequence"]).encode("ascii")
+    ).hexdigest()
+    path, _ = _write_config(tmp_path, changed_reference)
+    with pytest.raises(IredSplitError, match="production v1 config identity"):
         load_ired_split_config(path)
+
+
+def test_fixture_loader_cannot_bypass_production_identity_gate() -> None:
+    with pytest.raises(IredSplitError, match="fixture identities"):
+        load_ired_split_fixture_config(PRODUCTION_CONFIG_PATH)
 
 
 def test_held_out_consumer_access_requires_exact_authorization() -> None:

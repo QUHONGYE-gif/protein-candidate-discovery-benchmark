@@ -4,10 +4,11 @@ FLIP2 v3 Alpha Amylase、Imine Reductase、Nuclease B 与 Hydrophobic Core 已�
 raw source 下载、checksum 冻结和 COS 回读验证。Alpha Amylase 与 Imine Reductase 已分别在
 reviewed commit 上完成正式 immutable processing publication、权限恢复和 fresh readback。Alpha
 Amylase 还已在 reviewed exact commit 上完成正式 topology-isolation split publication、fresh
-readback 和不可覆盖验证。Imine Reductase 的 Issue #22 split 协议已完成方向审查并进入本地
-implementation；尚无真实输入 preflight、CI、PR 或 COS publication。Nuclease B 与 Hydrophobic
-Core 尚未进入 split 审计，四个 task 均未进入 replay。其他候选数据源包括 ProteinGym 和
-SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboarding Issue 后才能进入开发或主实验。
+readback 和不可覆盖验证。Imine Reductase 的 Issue #22 split 已有 implementation、synthetic
+fixture 与 CI evidence，并在 Draft PR #23 接受审查；尚无真实 observable-input preflight、
+server execution、COS publication 或 fresh readback。Nuclease B 与 Hydrophobic Core 尚未进入
+split 审计，四个 task 均未进入 replay。其他候选数据源包括 ProteinGym 和 SKEMPI 2.0；每个具体
+task/assay 必须通过 dataset onboarding Issue 后才能进入开发或主实验。
 
 ## 进行中的 onboarding
 
@@ -39,8 +40,10 @@ SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboarding Issue 后�
   `flip2-ired-topology-extrapolation-v1`：唯一 4,448-candidate Hamming-1 component 为
   development，4,138 个 singleton 按 mutation count 和全局整数 deficit schedule 分配为
   candidate-pool/validation/held-out = 2,070/1,034/1,034，见
-  [FLIP2 IRED split](data/FLIP2_IRED_SPLIT.md)。当前仅有本地 implementation 与 synthetic fixture
-  证据，不代表 CI、正式运行或 COS publication。
+  [FLIP2 IRED split](data/FLIP2_IRED_SPLIT.md)。development 占 4,448/8,586（51.8%），candidate
+  pool 占 2,070/8,586（24.1%），是必须持久报告的 topology/distribution-shift 限制。当前已有
+  implementation、synthetic fixture 与 CI evidence；尚无真实 observable-input preflight、server
+  execution、COS publication 或 fresh readback。
 - FLIP2 v3 Nuclease B：GitHub Issue #10，3/3 source objects、独立 Dataset Manifest 与
   `DatasetIngestAttempt` 已完成 COS exact-byte/readback 和不可覆盖验证，见
   [FLIP2 NucB ingest](data/FLIP2_NUCB_INGEST.md)；代码与证据仍需 PR/CI 和人工审查。
