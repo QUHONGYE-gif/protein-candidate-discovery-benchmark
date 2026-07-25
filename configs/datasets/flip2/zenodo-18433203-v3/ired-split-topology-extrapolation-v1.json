@@ -1,0 +1,160 @@
+{
+  "config_version": "1",
+  "dataset_id": "flip2",
+  "dataset_version": "zenodo-18433203-v3",
+  "task_id": "ired",
+  "split_id": "flip2-ired-topology-extrapolation-v1",
+  "protocol_version": "1",
+  "processing_manifest_sha256": "929f0a46bfca015fb020bb7ebcc3a91e4de33922cd217399551b3dae1cc437ba",
+  "candidate_input": {
+    "object_key": "processed/flip2/zenodo-18433203-v3/ired/flip2-ired-8f32dfa11a52d3ce96da4eb4ebb305210ccf027cf812d277f2c9c25f254c4f5d/candidates.csv",
+    "sha256": "56bea1f4adeba11425582def8aa32e8d5ac93e3a2caefa39474f4612920c0f4f",
+    "size_bytes": 3056638,
+    "row_count": 8586
+  },
+  "upstream_metadata_input": {
+    "object_key": "processed/flip2/zenodo-18433203-v3/ired/flip2-ired-8f32dfa11a52d3ce96da4eb4ebb305210ccf027cf812d277f2c9c25f254c4f5d/upstream-split-metadata.csv",
+    "sha256": "558c86c98454ceacd3e7c6fa406703ec7d7513eee2a9eebd08e79b3f3778cc93",
+    "size_bytes": 1684065,
+    "row_count": 17172
+  },
+  "sequence_length": 290,
+  "allowed_amino_acids": "ACDEFGHIKLMNPQRSTVWY",
+  "expected_candidate_count": 8586,
+  "reference_sequence": "MRDTDVTVLGLGLMGQALAGAFLKDGHATTVWNRSEGKAGQLAEQGAVLASSARDAAEASPLVVVCVSDHAAVRAVLDPLGDVLAGRVLVNLTSGTSEQARATAEWAAERGITYLDGAIMAIPQVVGTADAFLLYSGPEAAYEAHEPTLRSLGAGTTYLGADHGLSSLYDVALLGIMWGTLNSFLHGAALLGTAKVEATTFAPFANRWIEAVTGFVSAYAGQVDQGAYPALDATIDTHVATVDHLIHESEAAGVNTELPRLVRTLADRALAGGQGGLGYAAMIEQFRSPS",
+  "reference_sequence_sha256": "27fbaa950b2c68b73f7595a2a53e86a8ab627118640b8e181a08b57a324e2fdb",
+  "mutation_count_method": "full_length_hamming_distance_to_reference",
+  "expected_mutation_count_min": 0,
+  "expected_mutation_count_max": 15,
+  "grouping_method": "full_length_hamming1_connected_component",
+  "hamming_distance": 1,
+  "protocol_namespace": "pcdb:split:flip2-ired-topology-extrapolation-v1:v1",
+  "group_id_algorithm": "sha256",
+  "group_preimage_format": "namespace_nul_group-id_nul_uint32be_count_concatenated_raw_candidate_ids",
+  "seed": 20260724,
+  "ordering_key_algorithm": "sha256",
+  "ordering_preimage_format": "namespace_nul_order-key_nul_uint64be_seed_uint16be_mutation_count_raw_group_id",
+  "ordering_tie_break": [
+    "mutation_count",
+    "ordering_key",
+    "group_id"
+  ],
+  "assignment_method": "mutation_count_stratified_global_deficit_schedule",
+  "assignment_role_order": [
+    "candidate-pool",
+    "validation",
+    "held-out"
+  ],
+  "role_counts": {
+    "candidate-pool": 2070,
+    "development": 4448,
+    "validation": 1034,
+    "held-out": 1034
+  },
+  "expected_hamming1_pair_count": 9279,
+  "expected_component_count": 4139,
+  "expected_singleton_component_count": 4138,
+  "expected_non_singleton_component_count": 1,
+  "expected_largest_component_size": 4448,
+  "expected_second_largest_component_size": 1,
+  "expected_singleton_mutation_counts": {
+    "2": 9,
+    "3": 2004,
+    "4": 1172,
+    "5": 569,
+    "6": 236,
+    "7": 89,
+    "8": 41,
+    "9": 10,
+    "10": 4,
+    "11": 2,
+    "12": 1,
+    "15": 1
+  },
+  "expected_singleton_role_counts_by_mutation": {
+    "2": {
+      "candidate-pool": 5,
+      "validation": 2,
+      "held-out": 2
+    },
+    "3": {
+      "candidate-pool": 1002,
+      "validation": 501,
+      "held-out": 501
+    },
+    "4": {
+      "candidate-pool": 586,
+      "validation": 293,
+      "held-out": 293
+    },
+    "5": {
+      "candidate-pool": 285,
+      "validation": 142,
+      "held-out": 142
+    },
+    "6": {
+      "candidate-pool": 118,
+      "validation": 59,
+      "held-out": 59
+    },
+    "7": {
+      "candidate-pool": 45,
+      "validation": 22,
+      "held-out": 22
+    },
+    "8": {
+      "candidate-pool": 20,
+      "validation": 11,
+      "held-out": 10
+    },
+    "9": {
+      "candidate-pool": 5,
+      "validation": 2,
+      "held-out": 3
+    },
+    "10": {
+      "candidate-pool": 2,
+      "validation": 1,
+      "held-out": 1
+    },
+    "11": {
+      "candidate-pool": 1,
+      "validation": 1,
+      "held-out": 0
+    },
+    "12": {
+      "candidate-pool": 0,
+      "validation": 0,
+      "held-out": 1
+    },
+    "15": {
+      "candidate-pool": 1,
+      "validation": 0,
+      "held-out": 0
+    }
+  },
+  "group_id_collision_policy": "error",
+  "ordering_key_collision_policy": "error",
+  "impossible_allocation_policy": "error",
+  "upstream_source_keys": [
+    "ired/random.csv.gz",
+    "ired/two_to_many.csv.gz"
+  ],
+  "expected_upstream_cross_role_edges": {
+    "ired/random.csv.gz": 4735,
+    "ired/two_to_many.csv.gz": 2164
+  },
+  "expected_upstream_assignment_disagreement_count": 5228,
+  "leakage_controls": [
+    "Every full-length Hamming-distance-1 connected component remains wholly within one partition.",
+    "The unique 4448-candidate giant component is assigned to development; every candidate-pool, validation, and held-out group is a singleton.",
+    "Cross-partition full-length Hamming-distance-1 edge count is exactly zero.",
+    "Grouping and assignment use observable candidate_id, sequence, and mutation count only; hidden truth and publisher split roles are excluded."
+  ],
+  "known_limitations": [
+    "The topology-extrapolation design creates a strong distribution shift: development contains 4,448 of 8,586 candidates (51.8%) in one giant Hamming-1 component, while candidate-pool contains 2,070 of 8,586 candidates (24.1%) as isolated singletons; validation and held-out are also singleton-only.",
+    "Publisher-provided split memberships cross the frozen Hamming-1 leakage boundary and remain audit-only comparison data.",
+    "The global deficit schedule is deterministic and approximately preserves mutation-count strata, but it is not random sampling.",
+    "This split does not authorize held-out access, replay, model selection, benchmark claims, COS publication, or a scientific gate."
+  ]
+}
