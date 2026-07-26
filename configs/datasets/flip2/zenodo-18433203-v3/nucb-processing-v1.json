@@ -1,0 +1,72 @@
+{
+  "config_version": "1",
+  "dataset_id": "flip2",
+  "dataset_version": "zenodo-18433203-v3",
+  "task_id": "nucb",
+  "dataset_manifest_sha256": "00baeb776a6640611c4e0b49ee511adb51eb79263f016f7b47303bf4798b6d5e",
+  "source_csv_keys": [
+    "nucb/random.csv.gz",
+    "nucb/two_to_many.csv.gz"
+  ],
+  "required_fields": [
+    "sequence",
+    "target",
+    "set",
+    "validation"
+  ],
+  "allowed_amino_acids": "ACDEFGHIKLMNPQRSTVWY",
+  "sequence_length": 142,
+  "expected_candidate_count": 55759,
+  "candidate_id_algorithm": "sha256",
+  "candidate_id_namespace": "flip2:zenodo-18433203-v3:nucb",
+  "observable_feature_fields": [
+    "sequence"
+  ],
+  "hidden_label_field": "target",
+  "label_type": "ordinal_class",
+  "label_direction": "higher_is_better",
+  "label_levels": [
+    "non-functional",
+    "activity_greater_than_0",
+    "activity_greater_than_WT",
+    "activity_greater_than_A73R"
+  ],
+  "allowed_target_values": [
+    "0",
+    "1",
+    "2",
+    "3"
+  ],
+  "label_semantics": "Ordered catalytic-activity classes: non-functional, activity greater than zero, activity greater than wild type, and activity greater than A73R.",
+  "label_source_commit": "702284847c4558567d8288169a86dc147cfaab32",
+  "label_source_url": "https://github.com/google-deepmind/nuclease_design/blob/702284847c4558567d8288169a86dc147cfaab32/nuclease_design/constants.py",
+  "high_value_threshold_policy": "experiment_config_only_not_frozen_by_processing",
+  "missing_value_policy": "error",
+  "allowed_set_values": [
+    "test",
+    "train"
+  ],
+  "allowed_validation_values": [
+    "False",
+    "True"
+  ],
+  "within_file_duplicate_policy": "error",
+  "cross_file_duplicate_policy": "aggregate_if_target_matches",
+  "conflicting_target_policy": "error",
+  "near_duplicate_method": "full_length_hamming_distance",
+  "near_duplicate_threshold": 1,
+  "near_duplicate_policy": "allowed_pending_split_manifest",
+  "expected_near_duplicate_pair_count": 76890,
+  "reference_sequence": "MIKKWAVHLLFSALVLLGLSGGAAYSPQHAEGAARYDDVLYFPASRYPETGAHISDAIKAGHADVCTIERSGADKRRQESLKGIPTKPGFDRDEWPMAMCEEGGKGASVRYVSSSDNRGAGSWVGNRLNGYADGTRILFIVQ",
+  "reference_sequence_sha256": "5ce46bb493dbedbebac11e8f358ab1405919032bade046c66360b8b6c7ca89a5",
+  "reference_resolution": "First-party full NucB reference sequence at the pinned source-code commit, cross-checked against the unique per-position modal consensus of both accepted FLIP2 source files.",
+  "reference_source_commit": "702284847c4558567d8288169a86dc147cfaab32",
+  "reference_source_url": "https://github.com/google-deepmind/nuclease_design/blob/702284847c4558567d8288169a86dc147cfaab32/nuclease_design/constants.py",
+  "expected_reference_candidate_present": false,
+  "mutation_count_method": "full_length_hamming_distance_to_reference",
+  "expected_mutation_count_min": 1,
+  "expected_mutation_count_max": 23,
+  "source_relationship": "same_candidate_universe_and_hidden_truth_with_alternate_split_metadata",
+  "publisher_reported_candidate_count": 55760,
+  "upstream_candidate_count_limitation": "The commit-pinned first-party landscape contains 55,760 unique sequences; both accepted FLIP2 files contain the same 55,759 non-WT candidates and omit the single WT row. Processing does not synthesize the absent WT."
+}
