@@ -22,8 +22,14 @@ CONFIG_PATHS = {
 FIXTURE_PATH = ROOT / "synthetic-fixtures.json"
 EXPECTED_PATH = ROOT / "expected-results.json"
 
-EXPECTED_MANIFEST_CHAINS = {
+MANIFEST_KEYS = (
+    "dataset_manifest_sha256",
+    "processing_manifest_sha256",
+    "split_sha256",
+)
+EXPECTED_TASK_BINDINGS = {
     "alpha": {
+        "task_id": "alpha-amylase",
         "dataset_manifest_sha256": (
             "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac"
         ),
@@ -31,8 +37,11 @@ EXPECTED_MANIFEST_CHAINS = {
             "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec"
         ),
         "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a",
+        "candidate_role": "candidate-pool",
+        "frozen_candidate_count": 2262,
     },
     "ired": {
+        "task_id": "ired",
         "dataset_manifest_sha256": (
             "37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643"
         ),
@@ -40,6 +49,8 @@ EXPECTED_MANIFEST_CHAINS = {
             "929f0a46bfca015fb020bb7ebcc3a91e4de33922cd217399551b3dae1cc437ba"
         ),
         "split_sha256": "9bff199ec81b9b5b1e0548c237b923b2ac7db1bf36382377ed36d30c042c725e",
+        "candidate_role": "candidate-pool",
+        "frozen_candidate_count": 2070,
     },
 }
 
@@ -77,32 +88,57 @@ def validate_definition_domain(config: dict[str, Any]) -> None:
         raise ValueError("high-value definition IDs must be unique")
 
     primary_id = str(evaluation["primary_high_value_definition_id"])
-    primary_definitions = [
-        item
-        for item in definitions
-        if item["purpose"] == "primary" and item["definition_id"] == primary_id
-    ]
+    primary_definitions = [item for item in definitions if item["purpose"] == "primary"]
     if len(primary_definitions) != 1:
-        raise ValueError("exactly one primary definition must match the primary ID")
-    if any(
-        item["purpose"] == "sensitivity" and item["definition_id"] == primary_id
-        for item in definitions
-    ):
-        raise ValueError("a sensitivity definition cannot replace the primary definition")
+        raise ValueError("exactly one high-value definition must have purpose=primary")
+    if str(primary_definitions[0]["definition_id"]) != primary_id:
+        raise ValueError("the unique primary definition must match the primary ID")
+
+    candidate_universes = {
+        (str(item["candidate_role"]), int(item["frozen_candidate_count"])) for item in definitions
+    }
+    if len(candidate_universes) != 1:
+        raise ValueError("all high-value definitions must use one frozen candidate universe")
 
     for definition in definitions:
         derivation = cast(dict[str, Any], definition.get("derivation", {}))
+        candidate_count = int(definition["frozen_candidate_count"])
         if definition["kind"] == "quantile":
             fraction = float(derivation["fraction"])
-            candidate_count = int(derivation["frozen_candidate_count"])
             nominal_k = int(derivation["nominal_k"])
             if float(definition["value"]) != fraction:
                 raise ValueError("quantile value must equal derivation fraction")
             if math.ceil(fraction * candidate_count) != nominal_k:
                 raise ValueError("quantile nominal K does not match ceil derivation")
         elif definition["kind"] == "top_k":
-            if int(definition["value"]) != int(derivation["nominal_k"]):
+            nominal_k = int(derivation["nominal_k"])
+            if int(definition["value"]) != nominal_k:
                 raise ValueError("fixed Top-k value must equal nominal K")
+            if nominal_k > candidate_count:
+                raise ValueError("fixed Top-k cannot exceed the frozen candidate count")
+
+
+def validate_task_binding(task: str, config: dict[str, Any]) -> None:
+    """Bind one prototype file to its exact task, manifest chain, role, and pool size."""
+
+    expected = EXPECTED_TASK_BINDINGS[task]
+    for key in ("task_id", *MANIFEST_KEYS):
+        if config[key] != expected[key]:
+            raise ValueError(f"{task} {key} does not match the accepted task binding")
+
+    definitions = cast(
+        list[dict[str, Any]],
+        cast(dict[str, Any], config["evaluation"])["high_value_definitions"],
+    )
+    expected_universe = (
+        str(expected["candidate_role"]),
+        int(expected["frozen_candidate_count"]),
+    )
+    actual_universes = {
+        (str(item["candidate_role"]), int(item["frozen_candidate_count"])) for item in definitions
+    }
+    if actual_universes != {expected_universe}:
+        raise ValueError(f"{task} definitions do not match the accepted candidate universe")
 
 
 def normalized_rows(rows: list[list[Any]]) -> list[tuple[str, float]]:
@@ -172,59 +208,153 @@ def hit_probability(candidate_count: int, positive_count: int, budget: int) -> f
 
 def assert_schema_rejects_drift(
     schema: dict[str, Any], validator: Draft202012Validator, config: dict[str, Any]
-) -> None:
-    invalid_cases = []
+) -> dict[str, bool]:
+    invalid_cases: dict[str, dict[str, Any]] = {}
 
     unknown_field = copy.deepcopy(config)
     unknown_field["evaluation"]["high_value_definitions"][0]["unknown"] = True
-    invalid_cases.append(unknown_field)
+    invalid_cases["unknown_field"] = unknown_field
 
     production_marker = copy.deepcopy(config)
     production_marker["proposal_status"] = "accepted"
-    invalid_cases.append(production_marker)
+    invalid_cases["production_marker"] = production_marker
 
     held_out = copy.deepcopy(config)
     held_out["held_out_authorized"] = True
-    invalid_cases.append(held_out)
+    invalid_cases["held_out_authorized"] = held_out
+
+    lower_is_better = copy.deepcopy(config)
+    lower_is_better["evaluation"]["high_value_definitions"][0]["ranking_policy"][
+        "label_direction"
+    ] = "lower_is_better"
+    invalid_cases["lower_is_better"] = lower_is_better
 
     top_k_fraction = copy.deepcopy(config)
     definition = top_k_fraction["evaluation"]["high_value_definitions"][0]
     definition["kind"] = "top_k"
     definition["value"] = definition["derivation"]["nominal_k"]
-    invalid_cases.append(top_k_fraction)
+    invalid_cases["top_k_with_fraction"] = top_k_fraction
 
-    for invalid in invalid_cases:
+    top_k_rounding = copy.deepcopy(top_k_fraction)
+    del top_k_rounding["evaluation"]["high_value_definitions"][0]["derivation"]["fraction"]
+    invalid_cases["top_k_with_rounding"] = top_k_rounding
+
+    absolute_with_quantile_derivation = copy.deepcopy(config)
+    definition = absolute_with_quantile_derivation["evaluation"]["high_value_definitions"][0]
+    definition["kind"] = "absolute"
+    definition["value"] = 1.0
+    invalid_cases["absolute_with_quantile_derivation"] = absolute_with_quantile_derivation
+
+    rejected: dict[str, bool] = {}
+    for name, invalid in invalid_cases.items():
         try:
             validator.validate(invalid)
         except ValidationError:
+            rejected[name] = True
             continue
-        raise AssertionError("prototype Schema unexpectedly accepted invalid drift")
+        raise AssertionError(f"prototype Schema unexpectedly accepted {name}")
 
     Draft202012Validator.check_schema(schema)
+    return rejected
 
 
-def assert_domain_rejects_drift(config: dict[str, Any]) -> None:
-    invalid_cases = []
+def assert_domain_rejects_drift(
+    validator: Draft202012Validator, config: dict[str, Any]
+) -> dict[str, bool]:
+    invalid_cases: dict[str, dict[str, Any]] = {}
 
     duplicate_id = copy.deepcopy(config)
     definitions = duplicate_id["evaluation"]["high_value_definitions"]
     definitions[1]["definition_id"] = definitions[0]["definition_id"]
-    invalid_cases.append(duplicate_id)
+    invalid_cases["duplicate_definition_id"] = duplicate_id
 
     wrong_nominal_k = copy.deepcopy(config)
     wrong_nominal_k["evaluation"]["high_value_definitions"][0]["derivation"]["nominal_k"] += 1
-    invalid_cases.append(wrong_nominal_k)
+    invalid_cases["wrong_quantile_nominal_k"] = wrong_nominal_k
 
     primary_as_sensitivity = copy.deepcopy(config)
     primary_as_sensitivity["evaluation"]["high_value_definitions"][0]["purpose"] = "sensitivity"
-    invalid_cases.append(primary_as_sensitivity)
+    invalid_cases["missing_primary"] = primary_as_sensitivity
 
-    for invalid in invalid_cases:
+    multiple_primary = copy.deepcopy(config)
+    multiple_primary["evaluation"]["high_value_definitions"][1]["purpose"] = "primary"
+    invalid_cases["multiple_primary"] = multiple_primary
+
+    sensitivity_replaces_primary = copy.deepcopy(config)
+    sensitivity_replaces_primary["evaluation"]["primary_high_value_definition_id"] = (
+        sensitivity_replaces_primary["evaluation"]["high_value_definitions"][1]["definition_id"]
+    )
+    invalid_cases["sensitivity_replaces_primary"] = sensitivity_replaces_primary
+
+    definitions_use_different_pools = copy.deepcopy(config)
+    definitions_use_different_pools["evaluation"]["high_value_definitions"][1][
+        "frozen_candidate_count"
+    ] = 999
+    fraction = float(
+        definitions_use_different_pools["evaluation"]["high_value_definitions"][1]["derivation"][
+            "fraction"
+        ]
+    )
+    definitions_use_different_pools["evaluation"]["high_value_definitions"][1]["derivation"][
+        "nominal_k"
+    ] = math.ceil(999 * fraction)
+    invalid_cases["definitions_use_different_pools"] = definitions_use_different_pools
+
+    top_k_exceeds_pool = copy.deepcopy(config)
+    definition = top_k_exceeds_pool["evaluation"]["high_value_definitions"][0]
+    definition["kind"] = "top_k"
+    definition["value"] = int(definition["frozen_candidate_count"]) + 1
+    definition["derivation"] = {"nominal_k": definition["value"]}
+    invalid_cases["top_k_exceeds_pool"] = top_k_exceeds_pool
+
+    rejected: dict[str, bool] = {}
+    for name, invalid in invalid_cases.items():
+        validator.validate(invalid)
         try:
             validate_definition_domain(invalid)
         except ValueError:
+            rejected[name] = True
             continue
-        raise AssertionError("prototype domain validator unexpectedly accepted invalid drift")
+        raise AssertionError(f"prototype domain validator unexpectedly accepted {name}")
+    return rejected
+
+
+def assert_task_binding_rejects_drift(
+    task: str, validator: Draft202012Validator, config: dict[str, Any]
+) -> dict[str, bool]:
+    invalid_cases: dict[str, dict[str, Any]] = {}
+    other_task = "ired" if task == "alpha" else "alpha-amylase"
+
+    wrong_task_id = copy.deepcopy(config)
+    wrong_task_id["task_id"] = other_task
+    invalid_cases[f"{task}_chain_declared_as_other_task"] = wrong_task_id
+
+    for key in MANIFEST_KEYS:
+        wrong_manifest = copy.deepcopy(config)
+        wrong_manifest[key] = "0" * 64
+        invalid_cases[f"wrong_{key}"] = wrong_manifest
+
+    wrong_candidate_universe = copy.deepcopy(config)
+    for definition in wrong_candidate_universe["evaluation"]["high_value_definitions"]:
+        definition["frozen_candidate_count"] += 1
+        if definition["kind"] == "quantile":
+            definition["derivation"]["nominal_k"] = math.ceil(
+                float(definition["derivation"]["fraction"])
+                * int(definition["frozen_candidate_count"])
+            )
+    invalid_cases["wrong_frozen_candidate_universe"] = wrong_candidate_universe
+
+    rejected: dict[str, bool] = {}
+    for name, invalid in invalid_cases.items():
+        validator.validate(invalid)
+        validate_definition_domain(invalid)
+        try:
+            validate_task_binding(task, invalid)
+        except ValueError:
+            rejected[name] = True
+            continue
+        raise AssertionError(f"task binding unexpectedly accepted {name}")
+    return rejected
 
 
 def assert_option_family_coverage(
@@ -294,16 +424,17 @@ def calculate_results() -> dict[str, Any]:
     canonical_hashes: dict[str, str] = {}
     derivations: dict[str, dict[str, int]] = {}
     option_family_coverage: dict[str, bool] = {}
+    fail_closed_mutations: dict[str, dict[str, dict[str, bool]]] = {}
     for task, path in CONFIG_PATHS.items():
         config = cast(dict[str, Any], load_json(path))
         validator.validate(config)
         validate_definition_domain(config)
-        assert_schema_rejects_drift(schema, validator, config)
-        assert_domain_rejects_drift(config)
-        if {key: config[key] for key in EXPECTED_MANIFEST_CHAINS[task]} != EXPECTED_MANIFEST_CHAINS[
-            task
-        ]:
-            raise AssertionError(f"{task} manifest chain does not match accepted identities")
+        validate_task_binding(task, config)
+        fail_closed_mutations[task] = {
+            "schema": assert_schema_rejects_drift(schema, validator, config),
+            "domain": assert_domain_rejects_drift(validator, config),
+            "task_binding": assert_task_binding_rejects_drift(task, validator, config),
+        }
         configs[task] = config
         file_hashes[f"{task}_config"] = sha256(path.read_bytes())
         canonical_hashes[task] = sha256(canonical_json_bytes(config))
@@ -444,10 +575,10 @@ def calculate_results() -> dict[str, Any]:
     return {
         "file_sha256": file_hashes,
         "canonical_config_sha256": canonical_hashes,
-        "manifest_chains": EXPECTED_MANIFEST_CHAINS,
+        "task_bindings": EXPECTED_TASK_BINDINGS,
         "nominal_k_derivations": derivations,
         "option_family_coverage": option_family_coverage,
-        "domain_drift_fail_closed": True,
+        "fail_closed_mutations": fail_closed_mutations,
         "rank_fixtures": rank_results,
         "invalid_rows_fail_closed": invalid_fail_closed,
         "pool_size_contracts": pool_size_results,

@@ -1,9 +1,8 @@
 {
   "canonical_config_sha256": {
-    "alpha": "842c133ede4059e34cc9a0954f00e83613017a5a87d8fc47d5f6b8c778c9c245",
-    "ired": "d02329685c5f19bc196ef8350b7ade7b90cc0759fe926723c8f2e29aed13b6ea"
+    "alpha": "2d2c0ea5c21c6ed1940d0064b1991311c56b7409e305dac58203d6c860ce6af3",
+    "ired": "fe84a6060c96a2243c0c91a23ca7051ce39a979dff4b0047243abd334f4428b0"
   },
-  "domain_drift_fail_closed": true,
   "evidence_boundary": {
     "cos_read_bytes": 0,
     "cos_write_bytes": 0,
@@ -13,30 +12,74 @@
     "real_labels_read": 0,
     "top_1_percent_accepted": false
   },
+  "fail_closed_mutations": {
+    "alpha": {
+      "domain": {
+        "definitions_use_different_pools": true,
+        "duplicate_definition_id": true,
+        "missing_primary": true,
+        "multiple_primary": true,
+        "sensitivity_replaces_primary": true,
+        "top_k_exceeds_pool": true,
+        "wrong_quantile_nominal_k": true
+      },
+      "schema": {
+        "absolute_with_quantile_derivation": true,
+        "held_out_authorized": true,
+        "lower_is_better": true,
+        "production_marker": true,
+        "top_k_with_fraction": true,
+        "top_k_with_rounding": true,
+        "unknown_field": true
+      },
+      "task_binding": {
+        "alpha_chain_declared_as_other_task": true,
+        "wrong_dataset_manifest_sha256": true,
+        "wrong_frozen_candidate_universe": true,
+        "wrong_processing_manifest_sha256": true,
+        "wrong_split_sha256": true
+      }
+    },
+    "ired": {
+      "domain": {
+        "definitions_use_different_pools": true,
+        "duplicate_definition_id": true,
+        "missing_primary": true,
+        "multiple_primary": true,
+        "sensitivity_replaces_primary": true,
+        "top_k_exceeds_pool": true,
+        "wrong_quantile_nominal_k": true
+      },
+      "schema": {
+        "absolute_with_quantile_derivation": true,
+        "held_out_authorized": true,
+        "lower_is_better": true,
+        "production_marker": true,
+        "top_k_with_fraction": true,
+        "top_k_with_rounding": true,
+        "unknown_field": true
+      },
+      "task_binding": {
+        "ired_chain_declared_as_other_task": true,
+        "wrong_dataset_manifest_sha256": true,
+        "wrong_frozen_candidate_universe": true,
+        "wrong_processing_manifest_sha256": true,
+        "wrong_split_sha256": true
+      }
+    }
+  },
   "file_sha256": {
-    "alpha_config": "32fbeb20a0deeb3fdcc897fc53e3542a712f68831e2252146cb2b6d9d6204771",
+    "alpha_config": "906ec4d4c7ec56723927e1e048b1539c6b9b0460d557deccd850fe30628117c5",
     "fixtures": "cc72e8493072e12eb470fc9655b62b40014dab50bfd179abea741bc81980425b",
-    "ired_config": "2dc6f49a7606c1076958d72c0a4c357b59337f393b995480b81b02f64e0548a8",
-    "schema": "0e5ecd14ed484e495b9d2fbca99dab6b1a23cee06ee2f3cecdda8566f38d47a8",
-    "verifier": "66d4ecdebb809775153fde57c0abdd984c0fa8a5e44981590558a229f338b93e"
+    "ired_config": "d092dfa0312a1c240b27c59328cfb3a57f2b115b7926fad5a615b13685436903",
+    "schema": "a333a9c725ec7664cb334f057885a671c46b4b27f480fa3b9513a3ab9d789ad6",
+    "verifier": "e6c579d890fa34c56a8e5c66edfbfb1aeb84ca62b9046f2ef5660fa00a397867"
   },
   "invalid_rows_fail_closed": {
     "duplicate_candidate_id": true,
     "missing": true,
     "nan_token": true,
     "positive_infinity_token": true
-  },
-  "manifest_chains": {
-    "alpha": {
-      "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
-      "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
-      "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a"
-    },
-    "ired": {
-      "dataset_manifest_sha256": "37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643",
-      "processing_manifest_sha256": "929f0a46bfca015fb020bb7ebcc3a91e4de33922cd217399551b3dae1cc437ba",
-      "split_sha256": "9bff199ec81b9b5b1e0548c237b923b2ac7db1bf36382377ed36d30c042c725e"
-    }
   },
   "nominal_k_derivations": {
     "alpha": {
@@ -148,6 +191,24 @@
     "rank_invariant": true,
     "wt_scale_invariant": false,
     "wt_translation_invariant": true
+  },
+  "task_bindings": {
+    "alpha": {
+      "candidate_role": "candidate-pool",
+      "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+      "frozen_candidate_count": 2262,
+      "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+      "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a",
+      "task_id": "alpha-amylase"
+    },
+    "ired": {
+      "candidate_role": "candidate-pool",
+      "dataset_manifest_sha256": "37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643",
+      "frozen_candidate_count": 2070,
+      "processing_manifest_sha256": "929f0a46bfca015fb020bb7ebcc3a91e4de33922cd217399551b3dae1cc437ba",
+      "split_sha256": "9bff199ec81b9b5b1e0548c237b923b2ac7db1bf36382377ed36d30c042c725e",
+      "task_id": "ired"
+    }
   },
   "task_first": {
     "pooled_seed_mean": 0.990099,

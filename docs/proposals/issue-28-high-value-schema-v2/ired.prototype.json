@@ -22,6 +22,7 @@
         "kind": "quantile",
         "value": 0.01,
         "candidate_role": "candidate-pool",
+        "frozen_candidate_count": 2070,
         "ranking_policy": {
           "label_direction": "higher_is_better",
           "secondary_order": "candidate_id_ascending",
@@ -40,7 +41,6 @@
         "derivation": {
           "fraction": 0.01,
           "rounding": "ceil",
-          "frozen_candidate_count": 2070,
           "nominal_k": 21
         }
       },
@@ -50,6 +50,7 @@
         "kind": "quantile",
         "value": 0.005,
         "candidate_role": "candidate-pool",
+        "frozen_candidate_count": 2070,
         "ranking_policy": {
           "label_direction": "higher_is_better",
           "secondary_order": "candidate_id_ascending",
@@ -68,7 +69,6 @@
         "derivation": {
           "fraction": 0.005,
           "rounding": "ceil",
-          "frozen_candidate_count": 2070,
           "nominal_k": 11
         }
       },
@@ -78,6 +78,7 @@
         "kind": "quantile",
         "value": 0.02,
         "candidate_role": "candidate-pool",
+        "frozen_candidate_count": 2070,
         "ranking_policy": {
           "label_direction": "higher_is_better",
           "secondary_order": "candidate_id_ascending",
@@ -96,7 +97,6 @@
         "derivation": {
           "fraction": 0.02,
           "rounding": "ceil",
-          "frozen_candidate_count": 2070,
           "nominal_k": 42
         }
       }

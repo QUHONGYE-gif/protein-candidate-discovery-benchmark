@@ -51,20 +51,54 @@ verifier 还分别报告 tracked exact file bytes 的 SHA-256，避免把 semant
 混淆。生产实现前仍需明确决定 Experiment Config identity 使用 exact file bytes，还是把上述
 canonical procedure 升格为公共契约。
 
-## Prototype 表达的语义
+## V2 prototype 规则
 
-- quantile 与固定 Top-k 是不同契约；
-- absolute、WT-relative、quantile、固定 Top-k 与 near-optimal 使用不同条件字段；hybrid 由稳定的
-  primary/sensitivity definitions 加连续指标共同表达；
-- quantile 明确 fraction、`ceil`、frozen candidate count 与 nominal K；
-- rank order 固定为 label descending、`candidate_id` ascending；
-- K 边界同分全部纳入，非有限值和 duplicate candidate ID fail closed；
-- primary 与 sensitivity 使用稳定 ID，sensitivity 不得替换 primary；
-- evaluator/hidden oracle 拥有 high-value 计算，feature、model、calibration 与 acquisition 无权访问；
-- M2 static metrics 与 M3–M5 sequential decision metrics 分开；
-- 跨任务以 task-first 为 primary aggregation，seed 只估计算法随机性；
-- nominal-K 命中概率不是实际阳性率、replay evidence 或冻结预算；
-- 未读真实 tie expansion 只报告预注册的 `[nominal_k, frozen_candidate_count]` 上下界。
+以下是本 PR 的完整、可验证规则；它们仍是 `2-prototype`/`non-production`，不是已接受的生产契约。
+
+1. **配置身份与任务绑定**
+   - 每个配置只绑定一个 `task_id`；
+   - `task_id`、Dataset/Processing/Split Manifest SHA-256、`candidate-pool` role 和冻结候选数形成一个
+     不可拆分的 task binding；
+   - Alpha 的冻结候选数为 2,262，IRED 为 2,070；
+   - 任一 identity、role 或 count 不符都 fail closed。
+2. **候选 universe**
+   - 每个 high-value definition 都显式保存同一个 `candidate_role` 和
+     `frozen_candidate_count`；
+   - 同一配置内所有 definitions 必须引用完全相同的冻结 candidate universe；
+   - selection 只在该 universe 内定义，不能把 validation、held-out 或其他任务候选混入。
+3. **Primary 与 sensitivity**
+   - `definition_id` 全局唯一；
+   - `purpose=primary` 的 definition 全局恰好一个，且 ID 必须等于
+     `primary_high_value_definition_id`；
+   - 其余 definition 只能是 sensitivity，不能替代 primary。
+4. **方向与排序**
+   - 本 prototype 只定义 `higher_is_better`，即 label descending；
+   - 同分时按 `candidate_id` ascending 提供 deterministic secondary order；
+   - nominal K 边界同分全部纳入；
+   - missing/non-finite label 和 duplicate candidate ID 一律 fail closed。
+5. **Kind-specific 闭合规则**
+
+   | Kind | `value` | 必需附加字段 | 禁止字段 |
+   |---|---|---|---|
+   | `absolute` | 绝对阈值 | 无 | `derivation`、`reference_policy` |
+   | `wt_relative` | 相对 WT 的 additive gap | WT `reference_policy` | `derivation` |
+   | `quantile` | fraction，范围 `(0,1]` | `fraction=value`、`rounding=ceil`、`nominal_k=ceil(fraction×frozen_candidate_count)` | `reference_policy` |
+   | `top_k` | 正整数 K | `nominal_k=value` 且 `K<=frozen_candidate_count` | `fraction`、`rounding`、`reference_policy` |
+   | `near_optimal` | 非负 additive gap | task-optimum `reference_policy` | `derivation` |
+
+   五种 kind 互斥；携带其他 kind 的遗留字段也会被拒绝。hybrid 不是第六种 kind，而是一个稳定
+   primary、零个或多个 sensitivity definitions，以及连续指标的组合。
+6. **访问与报告边界**
+   - evaluator/hidden oracle 拥有 high-value 计算，feature、model、calibration 与 acquisition
+     无权访问 hidden truth；
+   - M2 static metrics 与 M3–M5 sequential decision metrics 分开；
+   - 跨任务以 task-first 为 primary aggregation，seed 只估计算法随机性；
+   - nominal-K 命中概率只是 illustration，不是实际阳性率、replay evidence 或冻结预算；
+   - 未读真实 tie expansion 只报告预注册的
+     `[nominal_k, frozen_candidate_count]` 上下界。
+
+`lower_is_better` 不在本 prototype 的支持范围内。未来若要支持，必须单独补齐 direction-aware
+排序、tie、WT-relative、near-optimal 语义与 fixtures，不能只扩展 Schema 枚举。
 
 ## 复现
 

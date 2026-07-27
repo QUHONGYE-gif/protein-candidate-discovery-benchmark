@@ -183,7 +183,7 @@
         "duplicate_candidate_id_policy"
       ],
       "properties": {
-        "label_direction": { "enum": ["higher_is_better", "lower_is_better"] },
+        "label_direction": { "const": "higher_is_better" },
         "secondary_order": { "const": "candidate_id_ascending" },
         "boundary_tie_policy": { "const": "include_all_equal" },
         "non_finite_policy": { "const": "error" },
@@ -214,6 +214,7 @@
         "kind",
         "value",
         "candidate_role",
+        "frozen_candidate_count",
         "ranking_policy",
         "reporting_policy"
       ],
@@ -228,6 +229,10 @@
         },
         "value": { "type": "number" },
         "candidate_role": { "const": "candidate-pool" },
+        "frozen_candidate_count": {
+          "type": "integer",
+          "minimum": 1
+        },
         "ranking_policy": { "$ref": "#/$defs/rankingPolicy" },
         "reporting_policy": { "$ref": "#/$defs/reportingPolicy" },
         "reference_policy": {
@@ -247,7 +252,6 @@
         "derivation": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["frozen_candidate_count", "nominal_k"],
           "properties": {
             "fraction": {
               "type": "number",
@@ -255,10 +259,6 @@
               "maximum": 1
             },
             "rounding": { "const": "ceil" },
-            "frozen_candidate_count": {
-              "type": "integer",
-              "minimum": 1
-            },
             "nominal_k": {
               "type": "integer",
               "minimum": 1
@@ -266,82 +266,92 @@
           }
         }
       },
-      "allOf": [
+      "oneOf": [
         {
-          "if": {
-            "properties": { "kind": { "const": "quantile" } },
-            "required": ["kind"]
+          "properties": {
+            "kind": { "const": "absolute" }
           },
-          "then": {
-            "properties": {
-              "value": {
-                "type": "number",
-                "exclusiveMinimum": 0,
-                "maximum": 1
-              },
-              "derivation": {
-                "required": [
-                  "fraction",
-                  "rounding",
-                  "frozen_candidate_count",
-                  "nominal_k"
-                ]
-              }
-            },
-            "required": ["derivation"],
-            "not": { "required": ["reference_policy"] }
+          "required": ["kind"],
+          "not": {
+            "anyOf": [
+              { "required": ["derivation"] },
+              { "required": ["reference_policy"] }
+            ]
           }
         },
         {
-          "if": {
-            "properties": { "kind": { "const": "top_k" } },
-            "required": ["kind"]
-          },
-          "then": {
-            "properties": {
-              "value": { "type": "integer", "minimum": 1 },
-              "derivation": {
-                "not": { "required": ["fraction"] }
+          "properties": {
+            "kind": { "const": "wt_relative" },
+            "reference_policy": {
+              "properties": {
+                "reference_role": { "const": "wild-type" }
               }
             },
-            "required": ["derivation"],
-            "not": { "required": ["reference_policy"] }
-          }
+            "value": { "type": "number" }
+          },
+          "required": ["kind", "reference_policy"],
+          "not": { "required": ["derivation"] }
         },
         {
-          "if": {
-            "properties": { "kind": { "const": "wt_relative" } },
-            "required": ["kind"]
-          },
-          "then": {
-            "properties": {
-              "reference_policy": {
-                "properties": {
-                  "reference_role": { "const": "wild-type" }
+          "properties": {
+            "kind": { "const": "quantile" },
+            "value": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "derivation": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["fraction", "rounding", "nominal_k"],
+              "properties": {
+                "fraction": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                },
+                "rounding": { "const": "ceil" },
+                "nominal_k": {
+                  "type": "integer",
+                  "minimum": 1
                 }
               }
-            },
-            "required": ["reference_policy"],
-            "not": { "required": ["derivation"] }
-          }
+            }
+          },
+          "required": ["kind", "derivation"],
+          "not": { "required": ["reference_policy"] }
         },
         {
-          "if": {
-            "properties": { "kind": { "const": "near_optimal" } },
-            "required": ["kind"]
-          },
-          "then": {
-            "properties": {
-              "value": { "type": "number", "minimum": 0 },
-              "reference_policy": {
-                "properties": {
-                  "reference_role": { "const": "task-optimum" }
+          "properties": {
+            "kind": { "const": "top_k" },
+            "value": { "type": "integer", "minimum": 1 },
+            "derivation": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["nominal_k"],
+              "properties": {
+                "nominal_k": {
+                  "type": "integer",
+                  "minimum": 1
                 }
               }
-            },
-            "required": ["reference_policy"],
-            "not": { "required": ["derivation"] }
-          }
+            }
+          },
+          "required": ["kind", "derivation"],
+          "not": { "required": ["reference_policy"] }
+        },
+        {
+          "properties": {
+            "kind": { "const": "near_optimal" },
+            "value": { "type": "number", "minimum": 0 },
+            "reference_policy": {
+              "properties": {
+                "reference_role": { "const": "task-optimum" }
+              }
+            }
+          },
+          "required": ["kind", "reference_policy"],
+          "not": { "required": ["derivation"] }
         }
       ]
     }
