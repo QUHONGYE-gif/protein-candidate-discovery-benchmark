@@ -1,0 +1,139 @@
+{
+  "schema_version": "2-prototype",
+  "proposal_status": "non-production",
+  "experiment_id": "issue-28-alpha-high-value-v2-prototype",
+  "phase": "smoke",
+  "task_id": "alpha-amylase",
+  "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+  "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+  "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a",
+  "models": ["non-production-placeholder"],
+  "acquisitions": ["non-production-placeholder"],
+  "seeds": [0],
+  "initial_sample_sizes": [1],
+  "batch_sizes": [1],
+  "budgets": [1],
+  "evaluation": {
+    "primary_high_value_definition_id": "upper-tail-1pct",
+    "high_value_definitions": [
+      {
+        "definition_id": "upper-tail-1pct",
+        "purpose": "primary",
+        "kind": "quantile",
+        "value": 0.01,
+        "candidate_role": "candidate-pool",
+        "ranking_policy": {
+          "label_direction": "higher_is_better",
+          "secondary_order": "candidate_id_ascending",
+          "boundary_tie_policy": "include_all_equal",
+          "non_finite_policy": "error",
+          "duplicate_candidate_id_policy": "error"
+        },
+        "reporting_policy": {
+          "required_outputs": [
+            "nominal_k",
+            "actual_high_value_count",
+            "boundary_score",
+            "boundary_tie_count"
+          ]
+        },
+        "derivation": {
+          "fraction": 0.01,
+          "rounding": "ceil",
+          "frozen_candidate_count": 2262,
+          "nominal_k": 23
+        }
+      },
+      {
+        "definition_id": "upper-tail-0.5pct",
+        "purpose": "sensitivity",
+        "kind": "quantile",
+        "value": 0.005,
+        "candidate_role": "candidate-pool",
+        "ranking_policy": {
+          "label_direction": "higher_is_better",
+          "secondary_order": "candidate_id_ascending",
+          "boundary_tie_policy": "include_all_equal",
+          "non_finite_policy": "error",
+          "duplicate_candidate_id_policy": "error"
+        },
+        "reporting_policy": {
+          "required_outputs": [
+            "nominal_k",
+            "actual_high_value_count",
+            "boundary_score",
+            "boundary_tie_count"
+          ]
+        },
+        "derivation": {
+          "fraction": 0.005,
+          "rounding": "ceil",
+          "frozen_candidate_count": 2262,
+          "nominal_k": 12
+        }
+      },
+      {
+        "definition_id": "upper-tail-2pct",
+        "purpose": "sensitivity",
+        "kind": "quantile",
+        "value": 0.02,
+        "candidate_role": "candidate-pool",
+        "ranking_policy": {
+          "label_direction": "higher_is_better",
+          "secondary_order": "candidate_id_ascending",
+          "boundary_tie_policy": "include_all_equal",
+          "non_finite_policy": "error",
+          "duplicate_candidate_id_policy": "error"
+        },
+        "reporting_policy": {
+          "required_outputs": [
+            "nominal_k",
+            "actual_high_value_count",
+            "boundary_score",
+            "boundary_tie_count"
+          ]
+        },
+        "derivation": {
+          "fraction": 0.02,
+          "rounding": "ceil",
+          "frozen_candidate_count": 2262,
+          "nominal_k": 46
+        }
+      }
+    ],
+    "sensitivity_may_replace_primary": false,
+    "access_boundary": {
+      "owner": "evaluator-or-hidden-oracle",
+      "prohibited_consumers": [
+        "candidate-features",
+        "surrogate-model",
+        "calibration",
+        "acquisition-strategy"
+      ]
+    },
+    "metric_sets": {
+      "m2_static": ["top_k_recall", "ranking_quality"],
+      "m3_m5_sequential": [
+        "best_found_value",
+        "simple_regret",
+        "success_probability"
+      ]
+    },
+    "aggregation": {
+      "primary_unit": "task",
+      "seed_role": "within-task-algorithmic-randomness",
+      "pooled_seed_primary": false
+    },
+    "nominal_k_probability_reporting": {
+      "basis": "nominal-k-illustration-only",
+      "actual_tie_expanded_count_status": "unobserved",
+      "tie_expansion_bounds": "[nominal_k,frozen_candidate_count]",
+      "prohibited_interpretations": [
+        "actual-positive-rate",
+        "replay-evidence",
+        "frozen-budget"
+      ]
+    }
+  },
+  "held_out_authorized": false
+}
