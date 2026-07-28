@@ -6,9 +6,10 @@ reviewed commit 上完成正式 immutable processing publication、权限恢复�
 Amylase 还已在 reviewed exact commit 上完成正式 topology-isolation split publication、fresh
 readback 和不可覆盖验证。Imine Reductase 的 Issue #22 split 已有 implementation、synthetic
 fixture 与 CI evidence，并在 Draft PR #23 接受审查；尚无真实 observable-input preflight、
-server execution、COS publication 或 fresh readback。Nuclease B 与 Hydrophobic Core 尚未进入
-split 审计，四个 task 均未进入 replay。其他候选数据源包括 ProteinGym 和 SKEMPI 2.0；每个具体
-task/assay 必须通过 dataset onboarding Issue 后才能进入开发或主实验。
+server execution、COS publication 或 fresh readback。Nuclease B 的 Issue #25 已冻结
+topology-extrapolation contract 并进入 implementation；Hydrophobic Core 尚未进入 split 审计，
+四个 task 均未进入 replay。其他候选数据源包括 ProteinGym 和 SKEMPI 2.0；每个具体 task/assay
+必须通过 dataset onboarding Issue 后才能进入开发或主实验。
 
 ## 进行中的 onboarding
 
@@ -46,7 +47,14 @@ task/assay 必须通过 dataset onboarding Issue 后才能进入开发或主实�
   execution、COS publication 或 fresh readback。
 - FLIP2 v3 Nuclease B：GitHub Issue #10，3/3 source objects、独立 Dataset Manifest 与
   `DatasetIngestAttempt` 已完成 COS exact-byte/readback 和不可覆盖验证，见
-  [FLIP2 NucB ingest](data/FLIP2_NUCB_INGEST.md)；代码与证据仍需 PR/CI 和人工审查。
+  [FLIP2 NucB ingest](data/FLIP2_NUCB_INGEST.md)。Issue #24 已冻结 55,759 个 target-free
+  candidates 与 audit-only upstream metadata；Issue #25 已冻结
+  `flip2-nucb-topology-extrapolation-v1`：全部 3,350 个 non-singleton components / 32,776
+  candidates 为 development，22,983 个 singleton 按 mutation count 和全局 integer-deficit
+  schedule 分配为 candidate-pool/validation/held-out = 11,493/5,745/5,745，见
+  [FLIP2 NucB split](data/FLIP2_NUCB_SPLIT.md)。当前只进入 implementation gate；尚无真实
+  observable-input preflight、server execution、COS publication、held-out access、replay 或
+  scientific validation。
 - FLIP2 v3 Hydrophobic Core：GitHub Issue #10，7/7 source objects、独立 Dataset Manifest 与
   `DatasetIngestAttempt` 已完成 COS exact-byte/readback 和不可覆盖验证，见
   [FLIP2 Hydro ingest](data/FLIP2_HYDRO_INGEST.md)；代码与证据仍需 PR/CI 和人工审查。
