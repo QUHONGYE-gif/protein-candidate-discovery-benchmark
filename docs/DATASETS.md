@@ -57,7 +57,13 @@ topology-extrapolation contract 并进入 implementation；Hydrophobic Core 尚�
   scientific validation。
 - FLIP2 v3 Hydrophobic Core：GitHub Issue #10，7/7 source objects、独立 Dataset Manifest 与
   `DatasetIngestAttempt` 已完成 COS exact-byte/readback 和不可覆盖验证，见
-  [FLIP2 Hydro ingest](data/FLIP2_HYDRO_INGEST.md)；代码与证据仍需 PR/CI 和人工审查。
+  [FLIP2 Hydro ingest](data/FLIP2_HYDRO_INGEST.md)。Issue #26 已完成 fresh read-only
+  source/semantics audit，并 prospectively 冻结 24,935-candidate multi-WT processing contract：
+  P06241/P01053/P0A9X9 分别为 9,972/6,463/8,500 candidates，observable candidates 显式包含
+  `wild_type_id`，target 保持独立 hidden truth，88,664 个 within-WT Hamming-1 pairs 延后由
+  Split Manifest 处理，见 [FLIP2 Hydro processing](data/FLIP2_HYDRO_PROCESSING.md)。当前仅进入
+  implementation/local-preflight gate；正式 COS publication、split、held-out、replay 和
+  scientific validation 均未授权。
 - Alpha Amylase 与 IRED processing implementation、正式 immutable publication/recovery 与 fresh
   readback 已完成。Issue #19 冻结的 primary topology-isolation split 已在 reviewed commit
   `b540bfb3ed65066cb74418d5a4336452bf837af1` 上正式发布；protocol hash 为

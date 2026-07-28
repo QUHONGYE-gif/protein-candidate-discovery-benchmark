@@ -62,6 +62,7 @@ class Candidate:
     candidate_id: str
     sequence: str
     target: str
+    observable_metadata: tuple[tuple[str, str], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -494,10 +495,18 @@ def render_processing_bundle(
     audit: ProcessingAudit,
     known_limitations: list[str],
 ) -> tuple[dict[str, bytes], dict[str, object]]:
-    candidate_rows = [
-        {"candidate_id": candidate.candidate_id, "sequence": candidate.sequence}
-        for candidate in audit.candidates
-    ]
+    candidate_rows: list[dict[str, str]] = []
+    for candidate in audit.candidates:
+        available = {"sequence": candidate.sequence, **dict(candidate.observable_metadata)}
+        expected = set(config.observable_feature_fields)
+        if set(available) != expected:
+            raise ProcessingError("candidate observable fields do not match processing config")
+        candidate_rows.append(
+            {
+                "candidate_id": candidate.candidate_id,
+                **{field: available[field] for field in config.observable_feature_fields},
+            }
+        )
     hidden_truth_rows = [
         {"candidate_id": candidate.candidate_id, "target": candidate.target}
         for candidate in audit.candidates
@@ -516,7 +525,10 @@ def render_processing_bundle(
     membership_key = f"{identity.output_prefix}/upstream-split-metadata.csv"
     audit_key = f"{identity.output_prefix}/processing-audit.json"
     payloads = {
-        candidate_key: csv_bytes(("candidate_id", "sequence"), candidate_rows),
+        candidate_key: csv_bytes(
+            ("candidate_id", *config.observable_feature_fields),
+            candidate_rows,
+        ),
         hidden_truth_key: csv_bytes(("candidate_id", "target"), hidden_truth_rows),
         membership_key: csv_bytes(
             ("candidate_id", "source_key", "set", "validation"), membership_rows
