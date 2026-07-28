@@ -1,0 +1,96 @@
+{
+  "rank_fixtures": {
+    "boundary_tie": {
+      "nominal_k": 3,
+      "rows": [
+        ["c6", 7.0],
+        ["c2", 9.0],
+        ["c4", 8.0],
+        ["c1", 10.0],
+        ["c5", 8.0],
+        ["c3", 8.0]
+      ]
+    },
+    "all_equal": {
+      "nominal_k": 2,
+      "rows": [
+        ["z8", 1.0],
+        ["z3", 1.0],
+        ["z1", 1.0],
+        ["z7", 1.0],
+        ["z2", 1.0],
+        ["z6", 1.0],
+        ["z5", 1.0],
+        ["z4", 1.0]
+      ]
+    },
+    "sparse_positive": {
+      "nominal_k": 1,
+      "rows": [
+        ["s1", 0.0],
+        ["s2", 0.0],
+        ["s3", 5.0],
+        ["s4", 0.0],
+        ["s5", 0.0]
+      ]
+    }
+  },
+  "scale_fixture": {
+    "rows": [
+      ["a", -1.0],
+      ["b", 0.0],
+      ["c", 0.5],
+      ["d", 1.0],
+      ["e", 2.0]
+    ],
+    "nominal_k": 2,
+    "positive_scale": 10.0,
+    "positive_shift": 7.0,
+    "strict_monotonic_power": 3,
+    "absolute_threshold": 1.0,
+    "wt_reference": 0.0,
+    "wt_delta": 0.75,
+    "near_optimal_epsilon": 1.0
+  },
+  "invalid_rows": {
+    "missing": [["m1", 1.0], ["m2", null]],
+    "nan_token": [["n1", 1.0], ["n2", "NaN"]],
+    "positive_infinity_token": [["i1", 1.0], ["i2", "Infinity"]],
+    "duplicate_candidate_id": [["d1", 2.0], ["d1", 1.0]]
+  },
+  "pool_size_cases": [
+    {
+      "candidate_count": 100,
+      "fraction": 0.1,
+      "fixed_top_k": 10
+    },
+    {
+      "candidate_count": 101,
+      "fraction": 0.1,
+      "fixed_top_k": 10
+    }
+  ],
+  "task_first_fixture": {
+    "task_a": {
+      "seed_count": 100,
+      "success": 1.0
+    },
+    "task_b": {
+      "seed_count": 1,
+      "success": 0.0
+    }
+  },
+  "nominal_probability_cases": {
+    "budgets": [32, 64, 128],
+    "tasks": {
+      "alpha": {
+        "candidate_count": 2262,
+        "nominal_k": 23
+      },
+      "ired": {
+        "candidate_count": 2070,
+        "nominal_k": 21
+      }
+    }
+  }
+}

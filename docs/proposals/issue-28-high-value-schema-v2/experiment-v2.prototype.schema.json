@@ -1,0 +1,359 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/docs/proposals/issue-28-high-value-schema-v2/experiment-v2.prototype.schema.json",
+  "title": "NonProductionExperimentConfigV2Prototype",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "proposal_status",
+    "experiment_id",
+    "phase",
+    "task_id",
+    "dataset_manifest_sha256",
+    "processing_manifest_sha256",
+    "split_sha256",
+    "models",
+    "acquisitions",
+    "seeds",
+    "initial_sample_sizes",
+    "batch_sizes",
+    "budgets",
+    "evaluation",
+    "held_out_authorized"
+  ],
+  "properties": {
+    "schema_version": { "const": "2-prototype" },
+    "proposal_status": { "const": "non-production" },
+    "experiment_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "phase": { "const": "smoke" },
+    "task_id": { "enum": ["alpha-amylase", "ired"] },
+    "dataset_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "processing_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "split_sha256": { "$ref": "#/$defs/sha256" },
+    "models": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "acquisitions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "seeds": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "integer", "minimum": 0 },
+      "uniqueItems": true
+    },
+    "initial_sample_sizes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "integer", "minimum": 1 },
+      "uniqueItems": true
+    },
+    "batch_sizes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "integer", "minimum": 1 },
+      "uniqueItems": true
+    },
+    "budgets": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "integer", "minimum": 1 },
+      "uniqueItems": true
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary_high_value_definition_id",
+        "high_value_definitions",
+        "sensitivity_may_replace_primary",
+        "access_boundary",
+        "metric_sets",
+        "aggregation",
+        "nominal_k_probability_reporting"
+      ],
+      "properties": {
+        "primary_high_value_definition_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]*$"
+        },
+        "high_value_definitions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/highValueDefinition" }
+        },
+        "sensitivity_may_replace_primary": { "const": false },
+        "access_boundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["owner", "prohibited_consumers"],
+          "properties": {
+            "owner": { "const": "evaluator-or-hidden-oracle" },
+            "prohibited_consumers": {
+              "const": [
+                "candidate-features",
+                "surrogate-model",
+                "calibration",
+                "acquisition-strategy"
+              ]
+            }
+          }
+        },
+        "metric_sets": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["m2_static", "m3_m5_sequential"],
+          "properties": {
+            "m2_static": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string", "minLength": 1 },
+              "uniqueItems": true
+            },
+            "m3_m5_sequential": {
+              "type": "array",
+              "minItems": 2,
+              "items": { "type": "string", "minLength": 1 },
+              "uniqueItems": true,
+              "allOf": [
+                { "contains": { "const": "best_found_value" } },
+                { "contains": { "const": "simple_regret" } }
+              ]
+            }
+          }
+        },
+        "aggregation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primary_unit", "seed_role", "pooled_seed_primary"],
+          "properties": {
+            "primary_unit": { "const": "task" },
+            "seed_role": { "const": "within-task-algorithmic-randomness" },
+            "pooled_seed_primary": { "const": false }
+          }
+        },
+        "nominal_k_probability_reporting": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "basis",
+            "actual_tie_expanded_count_status",
+            "tie_expansion_bounds",
+            "prohibited_interpretations"
+          ],
+          "properties": {
+            "basis": { "const": "nominal-k-illustration-only" },
+            "actual_tie_expanded_count_status": { "const": "unobserved" },
+            "tie_expansion_bounds": {
+              "const": "[nominal_k,frozen_candidate_count]"
+            },
+            "prohibited_interpretations": {
+              "const": [
+                "actual-positive-rate",
+                "replay-evidence",
+                "frozen-budget"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "held_out_authorized": { "const": false }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "rankingPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label_direction",
+        "secondary_order",
+        "boundary_tie_policy",
+        "non_finite_policy",
+        "duplicate_candidate_id_policy"
+      ],
+      "properties": {
+        "label_direction": { "const": "higher_is_better" },
+        "secondary_order": { "const": "candidate_id_ascending" },
+        "boundary_tie_policy": { "const": "include_all_equal" },
+        "non_finite_policy": { "const": "error" },
+        "duplicate_candidate_id_policy": { "const": "error" }
+      }
+    },
+    "reportingPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_outputs"],
+      "properties": {
+        "required_outputs": {
+          "const": [
+            "nominal_k",
+            "actual_high_value_count",
+            "boundary_score",
+            "boundary_tie_count"
+          ]
+        }
+      }
+    },
+    "highValueDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "definition_id",
+        "purpose",
+        "kind",
+        "value",
+        "candidate_role",
+        "frozen_candidate_count",
+        "ranking_policy",
+        "reporting_policy"
+      ],
+      "properties": {
+        "definition_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]*$"
+        },
+        "purpose": { "enum": ["primary", "sensitivity"] },
+        "kind": {
+          "enum": ["absolute", "wt_relative", "quantile", "top_k", "near_optimal"]
+        },
+        "value": { "type": "number" },
+        "candidate_role": { "const": "candidate-pool" },
+        "frozen_candidate_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "ranking_policy": { "$ref": "#/$defs/rankingPolicy" },
+        "reporting_policy": { "$ref": "#/$defs/reportingPolicy" },
+        "reference_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "reference_role",
+            "reference_value_source",
+            "gap_interpretation"
+          ],
+          "properties": {
+            "reference_role": { "enum": ["wild-type", "task-optimum"] },
+            "reference_value_source": { "const": "hidden-oracle" },
+            "gap_interpretation": { "const": "additive" }
+          }
+        },
+        "derivation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "fraction": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "rounding": { "const": "ceil" },
+            "nominal_k": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "kind": { "const": "absolute" }
+          },
+          "required": ["kind"],
+          "not": {
+            "anyOf": [
+              { "required": ["derivation"] },
+              { "required": ["reference_policy"] }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "kind": { "const": "wt_relative" },
+            "reference_policy": {
+              "properties": {
+                "reference_role": { "const": "wild-type" }
+              }
+            },
+            "value": { "type": "number" }
+          },
+          "required": ["kind", "reference_policy"],
+          "not": { "required": ["derivation"] }
+        },
+        {
+          "properties": {
+            "kind": { "const": "quantile" },
+            "value": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "derivation": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["fraction", "rounding", "nominal_k"],
+              "properties": {
+                "fraction": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                },
+                "rounding": { "const": "ceil" },
+                "nominal_k": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          },
+          "required": ["kind", "derivation"],
+          "not": { "required": ["reference_policy"] }
+        },
+        {
+          "properties": {
+            "kind": { "const": "top_k" },
+            "value": { "type": "integer", "minimum": 1 },
+            "derivation": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["nominal_k"],
+              "properties": {
+                "nominal_k": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          },
+          "required": ["kind", "derivation"],
+          "not": { "required": ["reference_policy"] }
+        },
+        {
+          "properties": {
+            "kind": { "const": "near_optimal" },
+            "value": { "type": "number", "minimum": 0 },
+            "reference_policy": {
+              "properties": {
+                "reference_role": { "const": "task-optimum" }
+              }
+            }
+          },
+          "required": ["kind", "reference_policy"],
+          "not": { "required": ["derivation"] }
+        }
+      ]
+    }
+  }
+}

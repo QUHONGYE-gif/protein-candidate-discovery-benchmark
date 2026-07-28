@@ -1,0 +1,217 @@
+{
+  "canonical_config_sha256": {
+    "alpha": "2d2c0ea5c21c6ed1940d0064b1991311c56b7409e305dac58203d6c860ce6af3",
+    "ired": "fe84a6060c96a2243c0c91a23ca7051ce39a979dff4b0047243abd334f4428b0"
+  },
+  "evidence_boundary": {
+    "cos_read_bytes": 0,
+    "cos_write_bytes": 0,
+    "held_out_access": 0,
+    "models_or_replay_run": 0,
+    "production_schema_modified": false,
+    "real_labels_read": 0,
+    "top_1_percent_accepted": false
+  },
+  "fail_closed_mutations": {
+    "alpha": {
+      "domain": {
+        "definitions_use_different_pools": true,
+        "duplicate_definition_id": true,
+        "missing_primary": true,
+        "multiple_primary": true,
+        "sensitivity_replaces_primary": true,
+        "top_k_exceeds_pool": true,
+        "wrong_quantile_nominal_k": true
+      },
+      "schema": {
+        "absolute_with_quantile_derivation": true,
+        "held_out_authorized": true,
+        "lower_is_better": true,
+        "production_marker": true,
+        "top_k_with_fraction": true,
+        "top_k_with_rounding": true,
+        "unknown_field": true
+      },
+      "task_binding": {
+        "alpha_chain_declared_as_other_task": true,
+        "wrong_dataset_manifest_sha256": true,
+        "wrong_frozen_candidate_universe": true,
+        "wrong_processing_manifest_sha256": true,
+        "wrong_split_sha256": true
+      }
+    },
+    "ired": {
+      "domain": {
+        "definitions_use_different_pools": true,
+        "duplicate_definition_id": true,
+        "missing_primary": true,
+        "multiple_primary": true,
+        "sensitivity_replaces_primary": true,
+        "top_k_exceeds_pool": true,
+        "wrong_quantile_nominal_k": true
+      },
+      "schema": {
+        "absolute_with_quantile_derivation": true,
+        "held_out_authorized": true,
+        "lower_is_better": true,
+        "production_marker": true,
+        "top_k_with_fraction": true,
+        "top_k_with_rounding": true,
+        "unknown_field": true
+      },
+      "task_binding": {
+        "ired_chain_declared_as_other_task": true,
+        "wrong_dataset_manifest_sha256": true,
+        "wrong_frozen_candidate_universe": true,
+        "wrong_processing_manifest_sha256": true,
+        "wrong_split_sha256": true
+      }
+    }
+  },
+  "file_sha256": {
+    "alpha_config": "906ec4d4c7ec56723927e1e048b1539c6b9b0460d557deccd850fe30628117c5",
+    "fixtures": "cc72e8493072e12eb470fc9655b62b40014dab50bfd179abea741bc81980425b",
+    "ired_config": "d092dfa0312a1c240b27c59328cfb3a57f2b115b7926fad5a615b13685436903",
+    "schema": "a333a9c725ec7664cb334f057885a671c46b4b27f480fa3b9513a3ab9d789ad6",
+    "verifier": "e6c579d890fa34c56a8e5c66edfbfb1aeb84ca62b9046f2ef5660fa00a397867"
+  },
+  "invalid_rows_fail_closed": {
+    "duplicate_candidate_id": true,
+    "missing": true,
+    "nan_token": true,
+    "positive_infinity_token": true
+  },
+  "nominal_k_derivations": {
+    "alpha": {
+      "upper-tail-0.5pct": 12,
+      "upper-tail-1pct": 23,
+      "upper-tail-2pct": 46
+    },
+    "ired": {
+      "upper-tail-0.5pct": 11,
+      "upper-tail-1pct": 21,
+      "upper-tail-2pct": 42
+    }
+  },
+  "nominal_k_hit_probability": {
+    "alpha": {
+      "128": 0.739859,
+      "32": 0.280584,
+      "64": 0.48491,
+      "tie_expansion_bounds": {
+        "hit_probability_budget_32": [
+          0.280584,
+          1.0
+        ],
+        "positive_count": [
+          23,
+          2262
+        ]
+      }
+    },
+    "ired": {
+      "128": 0.740024,
+      "32": 0.280196,
+      "64": 0.484585,
+      "tie_expansion_bounds": {
+        "hit_probability_budget_32": [
+          0.280196,
+          1.0
+        ],
+        "positive_count": [
+          21,
+          2070
+        ]
+      }
+    }
+  },
+  "option_family_coverage": {
+    "absolute": true,
+    "near_optimal": true,
+    "quantile": true,
+    "top_k": true,
+    "wt_relative": true
+  },
+  "pool_size_contracts": [
+    {
+      "candidate_count": 100,
+      "fixed_top_k": 10,
+      "quantile_nominal_k": 10
+    },
+    {
+      "candidate_count": 101,
+      "fixed_top_k": 10,
+      "quantile_nominal_k": 11
+    }
+  ],
+  "rank_fixtures": {
+    "all_equal": {
+      "actual_high_value_count": 8,
+      "boundary_score": 1.0,
+      "boundary_tie_count": 8,
+      "nominal_k": 2,
+      "selected_candidate_ids": [
+        "z1",
+        "z2",
+        "z3",
+        "z4",
+        "z5",
+        "z6",
+        "z7",
+        "z8"
+      ]
+    },
+    "boundary_tie": {
+      "actual_high_value_count": 5,
+      "boundary_score": 8.0,
+      "boundary_tie_count": 3,
+      "nominal_k": 3,
+      "selected_candidate_ids": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5"
+      ]
+    },
+    "sparse_positive": {
+      "actual_high_value_count": 1,
+      "boundary_score": 5.0,
+      "boundary_tie_count": 1,
+      "nominal_k": 1,
+      "selected_candidate_ids": [
+        "s3"
+      ]
+    }
+  },
+  "scale_behavior": {
+    "absolute_scale_invariant": false,
+    "near_optimal_scale_invariant": false,
+    "near_optimal_translation_invariant": true,
+    "rank_invariant": true,
+    "wt_scale_invariant": false,
+    "wt_translation_invariant": true
+  },
+  "task_bindings": {
+    "alpha": {
+      "candidate_role": "candidate-pool",
+      "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+      "frozen_candidate_count": 2262,
+      "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+      "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a",
+      "task_id": "alpha-amylase"
+    },
+    "ired": {
+      "candidate_role": "candidate-pool",
+      "dataset_manifest_sha256": "37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643",
+      "frozen_candidate_count": 2070,
+      "processing_manifest_sha256": "929f0a46bfca015fb020bb7ebcc3a91e4de33922cd217399551b3dae1cc437ba",
+      "split_sha256": "9bff199ec81b9b5b1e0548c237b923b2ac7db1bf36382377ed36d30c042c725e",
+      "task_id": "ired"
+    }
+  },
+  "task_first": {
+    "pooled_seed_mean": 0.990099,
+    "task_first_mean": 0.5
+  }
+}
