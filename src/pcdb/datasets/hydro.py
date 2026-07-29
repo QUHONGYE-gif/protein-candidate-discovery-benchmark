@@ -35,6 +35,12 @@ _SOURCE_RELATIONSHIP = "same_candidate_universe_and_hidden_truth_with_alternate_
 _THRESHOLD_POLICY = "experiment_config_only_not_frozen_by_processing"
 _CANDIDATE_PREIMAGE = "namespace_null_wild_type_id_null_sequence"
 _NEAR_DUPLICATE_METHOD = "within_wild_type_full_length_hamming_distance"
+_LABEL_SEMANTICS = "Continuous FLIP2 hydrophobic-core stability fitness source score."
+_LABEL_SOURCE_URL = "https://flip.protein.properties/"
+_ALLOWED_AMINO_ACIDS = "ACDEFGHIKLMNPQRSTVWY"
+_VARIABLE_AMINO_ACIDS = "FILMV"
+_ALLOWED_SET_VALUES = ("test", "train")
+_ALLOWED_VALIDATION_VALUES = ("False", "True")
 
 
 @dataclass(frozen=True)
@@ -172,6 +178,12 @@ def _wild_types(config: dict[str, object], alphabet: str) -> tuple[HydroWildType
         wild_type_id = string(mapping, "wild_type_id")
         if not wild_type_id.startswith("P") or not wild_type_id[1:].isalnum():
             raise HydroProcessingError("wild_type_id must be a UniProt-style accession")
+        reference_source_url = string(mapping, "reference_source_url")
+        expected_reference_source_url = f"https://rest.uniprot.org/uniprotkb/{wild_type_id}.fasta"
+        if reference_source_url != expected_reference_source_url:
+            raise HydroProcessingError(
+                "reference_source_url must match the wild_type_id UniProt entry"
+            )
         sequence_length = _integer(mapping, "sequence_length", minimum=1)
         reference = string(mapping, "reference_sequence")
         if (
@@ -217,7 +229,7 @@ def _wild_types(config: dict[str, object], alphabet: str) -> tuple[HydroWildType
                 sequence_length=sequence_length,
                 reference_sequence=reference,
                 reference_sequence_sha256=reference_sha256,
-                reference_source_url=string(mapping, "reference_source_url"),
+                reference_source_url=reference_source_url,
                 reference_candidate_present=reference_present,
                 expected_candidate_count=_integer(mapping, "expected_candidate_count", minimum=1),
                 variable_positions=tuple(cast(list[int], positions)),
@@ -249,12 +261,21 @@ def load_hydro_processing_config(path: Path) -> HydroProcessingConfig:
         raise HydroProcessingError("unsupported processing config version")
     if config.get("dataset_id") != "flip2" or config.get("task_id") != "hydro":
         raise HydroProcessingError("processing config must identify the FLIP2 Hydro task")
+    dataset_version = string(config, "dataset_version")
+    candidate_id_namespace = string(config, "candidate_id_namespace")
+    expected_candidate_id_namespace = f"flip2:{dataset_version}:hydro"
+    if candidate_id_namespace != expected_candidate_id_namespace:
+        raise HydroProcessingError(
+            "candidate_id_namespace must match dataset_id, dataset_version, and task_id"
+        )
     required_literals = {
         "candidate_id_algorithm": "sha256",
         "candidate_id_preimage": _CANDIDATE_PREIMAGE,
         "label_type": "continuous_source_score",
         "label_direction": "higher_is_better",
+        "label_semantics": _LABEL_SEMANTICS,
         "label_units": "source_score_physical_unit_unasserted",
+        "label_source_url": _LABEL_SOURCE_URL,
         "high_value_threshold_policy": _THRESHOLD_POLICY,
         "missing_value_policy": "error",
         "within_file_duplicate_policy": "error",
@@ -297,12 +318,18 @@ def load_hydro_processing_config(path: Path) -> HydroProcessingConfig:
         raise HydroProcessingError("Hydro target must remain hidden")
     alphabet = string(config, "allowed_amino_acids")
     variable_alphabet = string(config, "variable_amino_acids")
-    if (
-        alphabet != "".join(sorted(set(alphabet)))
-        or variable_alphabet != "".join(sorted(set(variable_alphabet)))
-        or not set(variable_alphabet) <= set(alphabet)
-    ):
-        raise HydroProcessingError("amino-acid alphabets must be sorted and unique")
+    if alphabet != _ALLOWED_AMINO_ACIDS:
+        raise HydroProcessingError("allowed_amino_acids does not match the frozen Hydro contract")
+    if variable_alphabet != _VARIABLE_AMINO_ACIDS:
+        raise HydroProcessingError("variable_amino_acids does not match the frozen Hydro contract")
+    allowed_set_values = string_list(config, "allowed_set_values")
+    if allowed_set_values != _ALLOWED_SET_VALUES:
+        raise HydroProcessingError("allowed_set_values does not match the frozen Hydro contract")
+    allowed_validation_values = string_list(config, "allowed_validation_values")
+    if allowed_validation_values != _ALLOWED_VALIDATION_VALUES:
+        raise HydroProcessingError(
+            "allowed_validation_values does not match the frozen Hydro contract"
+        )
     wild_types = _wild_types(config, alphabet)
     if {item.wild_type_id for item in wild_types} != wild_type_ids_from_sources:
         raise HydroProcessingError("wild_types must match the three holdout source identities")
@@ -323,7 +350,7 @@ def load_hydro_processing_config(path: Path) -> HydroProcessingConfig:
 
     return HydroProcessingConfig(
         dataset_id="flip2",
-        dataset_version=string(config, "dataset_version"),
+        dataset_version=dataset_version,
         task_id="hydro",
         dataset_manifest_sha256=lower_hex_digest(
             string(config, "dataset_manifest_sha256"),
@@ -334,17 +361,17 @@ def load_hydro_processing_config(path: Path) -> HydroProcessingConfig:
         allowed_amino_acids=alphabet,
         variable_amino_acids=variable_alphabet,
         expected_candidate_count=expected_candidate_count,
-        candidate_id_namespace=string(config, "candidate_id_namespace"),
+        candidate_id_namespace=candidate_id_namespace,
         observable_feature_fields=observable_fields,
         hidden_label_field=hidden_label,
         label_type="continuous_source_score",
         label_direction="higher_is_better",
-        label_semantics=string(config, "label_semantics"),
+        label_semantics=_LABEL_SEMANTICS,
         label_units="source_score_physical_unit_unasserted",
-        label_source_url=string(config, "label_source_url"),
+        label_source_url=_LABEL_SOURCE_URL,
         high_value_threshold_policy=_THRESHOLD_POLICY,
-        allowed_set_values=string_list(config, "allowed_set_values"),
-        allowed_validation_values=string_list(config, "allowed_validation_values"),
+        allowed_set_values=allowed_set_values,
+        allowed_validation_values=allowed_validation_values,
         near_duplicate_method=_NEAR_DUPLICATE_METHOD,
         near_duplicate_threshold=threshold,
         expected_near_duplicate_pair_count=_integer(

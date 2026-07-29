@@ -21,9 +21,9 @@ from pcdb.datasets.hydro import (
 
 REPOSITORY_ROOT = Path(__file__).parents[2]
 WILD_TYPES = {
-    "P00001": "AAAA",
-    "P00002": "CCCCC",
-    "P00003": "GGGGGG",
+    "P00001": "FFFI",
+    "P00002": "CCCCI",
+    "P00003": "GGGGGL",
 }
 SOURCE_KEYS = (
     "hydro/random_split.csv.gz",
@@ -37,12 +37,12 @@ SOURCE_KEYS = (
 
 def _source_rows() -> list[dict[str, str]]:
     return [
-        {"sequence": "AAAA", "target": "0", "set": "train", "validation": "False"},
-        {"sequence": "AAAC", "target": "-1", "set": "test", "validation": "False"},
-        {"sequence": "CCCCC", "target": "0.5", "set": "train", "validation": "True"},
-        {"sequence": "CCCCA", "target": "-0.5", "set": "test", "validation": "False"},
-        {"sequence": "GGGGGG", "target": "1", "set": "train", "validation": "False"},
-        {"sequence": "GGGGGA", "target": "-2", "set": "test", "validation": "False"},
+        {"sequence": "FFFI", "target": "0", "set": "train", "validation": "False"},
+        {"sequence": "FFFL", "target": "-1", "set": "test", "validation": "False"},
+        {"sequence": "CCCCI", "target": "0.5", "set": "train", "validation": "True"},
+        {"sequence": "CCCCL", "target": "-0.5", "set": "test", "validation": "False"},
+        {"sequence": "GGGGGL", "target": "1", "set": "train", "validation": "False"},
+        {"sequence": "GGGGGM", "target": "-2", "set": "test", "validation": "False"},
     ]
 
 
@@ -114,8 +114,8 @@ def _config_payload(manifest_bytes: bytes) -> dict[str, object]:
         "dataset_manifest_sha256": hashlib.sha256(manifest_bytes).hexdigest(),
         "source_csv_keys": list(SOURCE_KEYS),
         "required_fields": ["sequence", "target", "set", "validation"],
-        "allowed_amino_acids": "ACG",
-        "variable_amino_acids": "ACG",
+        "allowed_amino_acids": "ACDEFGHIKLMNPQRSTVWY",
+        "variable_amino_acids": "FILMV",
         "expected_candidate_count": 6,
         "candidate_id_algorithm": "sha256",
         "candidate_id_namespace": "flip2:fixture-v1:hydro",
@@ -124,7 +124,7 @@ def _config_payload(manifest_bytes: bytes) -> dict[str, object]:
         "hidden_label_field": "target",
         "label_type": "continuous_source_score",
         "label_direction": "higher_is_better",
-        "label_semantics": "Fixture stability fitness source score.",
+        "label_semantics": "Continuous FLIP2 hydrophobic-core stability fitness source score.",
         "label_units": "source_score_physical_unit_unasserted",
         "label_source_url": "https://flip.protein.properties/",
         "high_value_threshold_policy": "experiment_config_only_not_frozen_by_processing",
@@ -216,7 +216,7 @@ def test_processing_builds_multi_wild_type_artifacts_with_hidden_truth_separated
         row["candidate_id"] for row in hidden_truth
     }
 
-    expected_id = hashlib.sha256(b"flip2:fixture-v1:hydro\0P00001\0AAAA").hexdigest()
+    expected_id = hashlib.sha256(b"flip2:fixture-v1:hydro\0P00001\0FFFI").hexdigest()
     assert any(row["candidate_id"] == expected_id for row in candidates)
     assert audit["candidate_count"] == 6
     assert audit["wild_type_candidate_counts"] == {
@@ -266,10 +266,19 @@ def test_repository_processing_config_freezes_the_approved_hydro_facts() -> None
         config.dataset_manifest_sha256
     )
     assert config.expected_candidate_count == 24_935
+    assert config.candidate_id_namespace == "flip2:zenodo-18433203-v3:hydro"
     assert config.observable_feature_fields == ("wild_type_id", "sequence")
     assert config.label_direction == "higher_is_better"
+    assert (
+        config.label_semantics
+        == "Continuous FLIP2 hydrophobic-core stability fitness source score."
+    )
     assert config.label_units == "source_score_physical_unit_unasserted"
     assert config.label_source_url == "https://flip.protein.properties/"
+    assert config.allowed_amino_acids == "ACDEFGHIKLMNPQRSTVWY"
+    assert config.variable_amino_acids == "FILMV"
+    assert config.allowed_set_values == ("test", "train")
+    assert config.allowed_validation_values == ("False", "True")
     assert config.observed_target_min == "-4.76689312547837"
     assert config.observed_target_median == "-3.20608122700315"
     assert config.observed_target_max == "0.119071964022942"
@@ -281,12 +290,35 @@ def test_repository_processing_config_freezes_the_approved_hydro_facts() -> None
             item.expected_candidate_count,
             item.reference_candidate_present,
             item.expected_near_duplicate_pair_count,
+            item.reference_sequence_sha256,
+            item.variable_positions,
         )
         for item in config.wild_types
     } == {
-        "P06241": (57, 9_972, False, 36_830),
-        "P01053": (63, 6_463, False, 20_150),
-        "P0A9X9": (65, 8_500, True, 31_684),
+        "P06241": (
+            57,
+            9_972,
+            False,
+            36_830,
+            "304f8fd4d48558b27bcba3eb1f9e62500be733da34813a060366ad4da0528999",
+            (3, 17, 19, 25, 27, 49, 54),
+        ),
+        "P01053": (
+            63,
+            6_463,
+            False,
+            20_150,
+            "dd005937bdc1ad8fef672c3d610baae1fa6d395a7d9e0aa8459537d5af07838d",
+            (12, 19, 28, 46, 48, 50, 56),
+        ),
+        "P0A9X9": (
+            65,
+            8_500,
+            True,
+            31_684,
+            "b969267b954bad343a488f0af8a68c5a097ee3ae9fdf96d48897b217362bad77",
+            (5, 17, 26, 28, 47, 49, 63),
+        ),
     }
 
 
@@ -297,6 +329,73 @@ def test_processing_config_rejects_inconsistent_candidate_counts(tmp_path: Path)
     payload["publisher_reported_candidate_count"] = 7
 
     with pytest.raises(ValueError, match="candidate counts are inconsistent"):
+        load_hydro_processing_config(_write_config(tmp_path, manifest_bytes, payload))
+
+
+def test_processing_config_rejects_candidate_namespace_drift(tmp_path: Path) -> None:
+    raw_root = _write_raw_bundle(tmp_path)
+    manifest_bytes = _dataset_manifest_bytes(raw_root)
+    payload = _config_payload(manifest_bytes)
+    payload["candidate_id_namespace"] = "flip2:fixture-v1:hydro-drift"
+
+    with pytest.raises(ValueError, match="candidate_id_namespace"):
+        load_hydro_processing_config(_write_config(tmp_path, manifest_bytes, payload))
+
+
+@pytest.mark.parametrize(
+    ("field", "drifted_value"),
+    [
+        ("label_semantics", "Drifted label semantics."),
+        ("label_source_url", "https://example.invalid/label"),
+    ],
+)
+def test_processing_config_rejects_label_contract_drift(
+    tmp_path: Path,
+    field: str,
+    drifted_value: str,
+) -> None:
+    raw_root = _write_raw_bundle(tmp_path)
+    manifest_bytes = _dataset_manifest_bytes(raw_root)
+    payload = _config_payload(manifest_bytes)
+    payload[field] = drifted_value
+
+    with pytest.raises(ValueError, match=field):
+        load_hydro_processing_config(_write_config(tmp_path, manifest_bytes, payload))
+
+
+def test_processing_config_rejects_wild_type_reference_source_drift(
+    tmp_path: Path,
+) -> None:
+    raw_root = _write_raw_bundle(tmp_path)
+    manifest_bytes = _dataset_manifest_bytes(raw_root)
+    payload = _config_payload(manifest_bytes)
+    wild_types = cast(list[dict[str, object]], payload["wild_types"])
+    wild_types[0]["reference_source_url"] = "https://example.invalid/reference"
+
+    with pytest.raises(ValueError, match="reference_source_url"):
+        load_hydro_processing_config(_write_config(tmp_path, manifest_bytes, payload))
+
+
+@pytest.mark.parametrize(
+    ("field", "drifted_value"),
+    [
+        ("allowed_amino_acids", "ACDEFGHIKLMNPQRSTVWXY"),
+        ("variable_amino_acids", "AFILMV"),
+        ("allowed_set_values", ["other", "test", "train"]),
+        ("allowed_validation_values", ["False", "True", "unknown"]),
+    ],
+)
+def test_processing_config_rejects_policy_domain_drift(
+    tmp_path: Path,
+    field: str,
+    drifted_value: object,
+) -> None:
+    raw_root = _write_raw_bundle(tmp_path)
+    manifest_bytes = _dataset_manifest_bytes(raw_root)
+    payload = _config_payload(manifest_bytes)
+    payload[field] = drifted_value
+
+    with pytest.raises(ValueError, match=field):
         load_hydro_processing_config(_write_config(tmp_path, manifest_bytes, payload))
 
 
@@ -379,7 +478,7 @@ def test_processing_fails_closed_when_fixed_wild_type_scaffold_drifts(
     raw_root = _write_raw_bundle(tmp_path)
     manifest_bytes = _dataset_manifest_bytes(raw_root)
     rows = _source_rows()
-    rows[0]["sequence"] = "CAAA"
+    rows[0]["sequence"] = "CFFI"
     _write_source(raw_root / SOURCE_KEYS[0], rows)
 
     with pytest.raises(ValueError, match="fixed WT scaffold differs"):
