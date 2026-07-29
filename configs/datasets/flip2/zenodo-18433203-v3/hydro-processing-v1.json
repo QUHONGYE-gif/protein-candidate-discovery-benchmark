@@ -1,0 +1,125 @@
+{
+  "config_version": "1",
+  "dataset_id": "flip2",
+  "dataset_version": "zenodo-18433203-v3",
+  "task_id": "hydro",
+  "dataset_manifest_sha256": "5770fd53ff2117888edb5d21bff4f86dd6f9855ef105ce74ddbf2397244b6fcc",
+  "source_csv_keys": [
+    "hydro/random_split.csv.gz",
+    "hydro/three_to_many.csv.gz",
+    "hydro/low_to_high.csv.gz",
+    "hydro/to_P06241.csv.gz",
+    "hydro/to_P0A9X9.csv.gz",
+    "hydro/to_P01053.csv.gz"
+  ],
+  "required_fields": [
+    "sequence",
+    "target",
+    "set",
+    "validation"
+  ],
+  "allowed_amino_acids": "ACDEFGHIKLMNPQRSTVWY",
+  "variable_amino_acids": "FILMV",
+  "expected_candidate_count": 24935,
+  "candidate_id_algorithm": "sha256",
+  "candidate_id_namespace": "flip2:zenodo-18433203-v3:hydro",
+  "candidate_id_preimage": "namespace_null_wild_type_id_null_sequence",
+  "observable_feature_fields": [
+    "wild_type_id",
+    "sequence"
+  ],
+  "hidden_label_field": "target",
+  "label_type": "continuous_source_score",
+  "label_direction": "higher_is_better",
+  "label_semantics": "Continuous FLIP2 hydrophobic-core stability fitness source score.",
+  "label_units": "source_score_physical_unit_unasserted",
+  "label_source_url": "https://flip.protein.properties/",
+  "high_value_threshold_policy": "experiment_config_only_not_frozen_by_processing",
+  "missing_value_policy": "error",
+  "allowed_set_values": [
+    "test",
+    "train"
+  ],
+  "allowed_validation_values": [
+    "False",
+    "True"
+  ],
+  "within_file_duplicate_policy": "error",
+  "cross_file_duplicate_policy": "aggregate_if_target_matches",
+  "conflicting_target_policy": "error",
+  "near_duplicate_method": "within_wild_type_full_length_hamming_distance",
+  "near_duplicate_threshold": 1,
+  "near_duplicate_policy": "allowed_pending_split_manifest",
+  "expected_near_duplicate_pair_count": 88664,
+  "wild_types": [
+    {
+      "wild_type_id": "P06241",
+      "sequence_length": 57,
+      "reference_sequence": "TLFVALYDYEARTEDDLSFHKGEKFQILNSSEGDWWEARSLTTGETGYIPSNYVAPV",
+      "reference_sequence_sha256": "304f8fd4d48558b27bcba3eb1f9e62500be733da34813a060366ad4da0528999",
+      "reference_source_url": "https://rest.uniprot.org/uniprotkb/P06241.fasta",
+      "reference_candidate_present": false,
+      "expected_candidate_count": 9972,
+      "variable_positions": [
+        3,
+        17,
+        19,
+        25,
+        27,
+        49,
+        54
+      ],
+      "expected_mutation_count_min": 1,
+      "expected_mutation_count_max": 7,
+      "expected_near_duplicate_pair_count": 36830
+    },
+    {
+      "wild_type_id": "P01053",
+      "sequence_length": 63,
+      "reference_sequence": "KTEWPELVGKSVEEAKKVILQDKPEAQIIVLPVGTIVTMEYRIDRVRLFVDKLDNIAQVPRVG",
+      "reference_sequence_sha256": "dd005937bdc1ad8fef672c3d610baae1fa6d395a7d9e0aa8459537d5af07838d",
+      "reference_source_url": "https://rest.uniprot.org/uniprotkb/P01053.fasta",
+      "reference_candidate_present": false,
+      "expected_candidate_count": 6463,
+      "variable_positions": [
+        12,
+        19,
+        28,
+        46,
+        48,
+        50,
+        56
+      ],
+      "expected_mutation_count_min": 1,
+      "expected_mutation_count_max": 7,
+      "expected_near_duplicate_pair_count": 20150
+    },
+    {
+      "wild_type_id": "P0A9X9",
+      "sequence_length": 65,
+      "reference_sequence": "MTGIVKWFNADKGFGFITPDDGSKDVFVHFSAIQNDGYKSLDEGQKVSFTIESGAKGPAAGNVTS",
+      "reference_sequence_sha256": "b969267b954bad343a488f0af8a68c5a097ee3ae9fdf96d48897b217362bad77",
+      "reference_source_url": "https://rest.uniprot.org/uniprotkb/P0A9X9.fasta",
+      "reference_candidate_present": true,
+      "expected_candidate_count": 8500,
+      "variable_positions": [
+        5,
+        17,
+        26,
+        28,
+        47,
+        49,
+        63
+      ],
+      "expected_mutation_count_min": 0,
+      "expected_mutation_count_max": 7,
+      "expected_near_duplicate_pair_count": 31684
+    }
+  ],
+  "source_relationship": "same_candidate_universe_and_hidden_truth_with_alternate_split_metadata",
+  "publisher_reported_candidate_count": 24935,
+  "observed_target_min": "-4.76689312547837",
+  "observed_target_median": "-3.20608122700315",
+  "observed_target_max": "0.119071964022942",
+  "observed_distinct_target_count": 24745
+}
