@@ -95,6 +95,14 @@ publication、`4 + 1` 远端 inventory、fresh exact-byte readback 与禁止覆�
 Hydrophobic Core processing gate；Split Manifest、held-out、replay、benchmark evidence 与
 scientific gate 继续由 Issue #27 及后续独立授权负责。
 
+补充（2026-07-31）：Nuclease B Issue #25 已在 reviewed generation commit
+`de2280adfd522c6917329070565f742c8e6553cc` 上完成正式 immutable Split Manifest
+publication、`2 + 1` 远端 inventory、fresh exact-byte readback 和独立确定性重建验证。冻结
+membership 为 development/candidate-pool/validation/held-out =
+32,776/11,493/5,745/5,745，cross-role Hamming-1 edge 为 0。该结果只关闭 NucB split
+implementation/publication gate；held-out authorization、hidden-truth consumption、replay、
+benchmark evidence、M2 completion 与 scientific gate 仍需后续独立授权。
+
 ### M2：轻量特征与静态基线
 
 **计划窗口**：7 月 29 日–8 月 2 日。
