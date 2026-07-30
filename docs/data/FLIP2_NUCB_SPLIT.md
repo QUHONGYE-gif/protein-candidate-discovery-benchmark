@@ -6,8 +6,8 @@
 `flip2-nucb-topology-extrapolation-v1`。它只使用公开、observable 的 `candidate_id`、sequence
 和相对冻结 reference 的 mutation count，负责 Hamming-1 grouping、确定性 membership、
 publisher audit 与 Split Manifest。activity class 和 `target` 始终属于 hidden truth；本流程不读取
-hidden truth，不授权 held-out，不运行 feature、model 或 replay，也不构成 benchmark result、
-server-execution evidence 或 scientific gate。
+hidden truth，不授权 held-out，不运行 feature、model 或 replay，也不自动构成 benchmark result
+或 scientific gate。后文记录的正式 publication 只建立 split server-execution evidence。
 
 冻结输入为：
 
@@ -99,10 +99,57 @@ manifests/flip2/zenodo-18433203-v3/nucb/splits/
 ```
 
 本地 fixture validation、真实 observable-input preflight、正式 COS publication 和 fresh
-readback 是四个独立状态。当前 implementation gate 不授权真实输入读取或 COS 写入。正式
-publication 必须在 implementation、CI 和人工审查后另行授权，并采用禁止覆盖、payload first、
-manifest last 与 fresh exact-byte/checksum/size/row-count/Schema/domain readback。
+readback 是四个独立状态。实现和文档本身不授权 COS 写入；正式 publication 必须在
+implementation、CI 和人工审查后另行授权，并采用禁止覆盖、payload first、manifest last 与
+fresh exact-byte/checksum/size/row-count/Schema/domain readback。
 
 Split Manifest 只声明 held-out partition identity。consumer 必须同时验证 Experiment Config 的
 `held_out_authorized=true`、被访问 Split Manifest exact bytes 的 `split_sha256` 和非空人工授权
 reference；缺失或不匹配时 fail closed，其他 split 的授权不可复用。
+
+## 正式不可覆盖 publication 与独立终审
+
+用户在 PR #31 完成 code review、GitHub Actions 和 real observable-input preflight 后另行授权了
+正式 COS publication。冻结身份为：
+
+- reviewed generation commit：
+  `de2280adfd522c6917329070565f742c8e6553cc`；
+- squash merge commit：
+  `c2fc58c336c71ead89d0e7df42064e9a28986f7b`；
+- protocol hash：
+  `e719e054d56c5ba399f29b009d3bfa20133ca6c268a5606194da526b3069d8c3`；
+- exact split-config bytes SHA-256：
+  `92555655f14099de155fddf997674d1ec6f21d4bfde85c6d384b8dc5cd0f8a11`。
+
+正式运行只读取 accepted Processing Manifest、observable `candidates.csv` 与 audit-only
+`upstream-split-metadata.csv`。它没有读取 `hidden-truth.csv`，也没有访问 held-out labels、模型
+或 replay 结果。运行采用 `--forbid-overwrite`、payload-first / manifest-last，并发布以下
+精确 inventory：
+
+| Object | Rows | Bytes | SHA-256 |
+|---|---:|---:|---|
+| `membership.csv` | 55,759 | 7,929,304 | `9b116a5fb6ee32a00aea8d600ef67969e595567997cb063bd73bd58adf57b14a` |
+| `split-audit.json` | — | 7,331 | `9552667afa709c65aa1eebebab5c93e235ec6964e573b5116f04925afc6e9b8b` |
+| `split-manifest.json` | — | 3,223 | `3f273c833804858e4afee19e959a5f7e4a4238060892e77eeb893fa087fef129` |
+
+最终远端 inventory 为 2 个 split payload 和 1 个 Split Manifest，无额外对象。重复 manifest
+写入负向探针以 0 successful objects 失败；COSCLI 未暴露可验证的 HTTP 状态，因此不主张具体
+`409`。探针后 fresh read manifest 的 exact bytes 与 SHA-256 保持不变。
+
+2026-07-31，未执行该 publication 的 reviewer 使用只读 CAM 权限完成独立 terminal review：
+
+- 两个精确 protocol prefixes fresh list 仍为 `2 + 1` objects；
+- 三个正式对象 fresh GET 的 bytes、SHA-256 和 size 全部匹配；
+- accepted Processing Manifest、candidates 与 upstream metadata 也完成 fresh
+  checksum/size/row-count 验证，`hidden-truth.csv` 未下载；
+- 使用 reviewed commit 的 config、Processing/Split Manifest Schema 和
+  `scripts/split_flip2_nucb.py` 完整重建 bundle；
+- 重建的 `membership.csv`、`split-audit.json` 和 `split-manifest.json` 与 COS 正式对象
+  3/3 exact-byte identical；
+- 55,759 unique candidates、角色数 32,776/11,493/5,745/5,745、26,333 groups、
+  76,890 Hamming-1 edges、0 cross-role edges 与 `hidden_truth_read=false` 全部通过；
+- 独立终审只执行 prefix List 和 exact GET，COS writes/deletes = 0。
+
+该证据关闭 Issue #25 的 split implementation、formal publication 和 independent readback
+门禁。它不授权 held-out/hidden-truth consumption、feature/model/replay，不建立 benchmark
+result、M2 completion、模型优越性或 scientific gate。
