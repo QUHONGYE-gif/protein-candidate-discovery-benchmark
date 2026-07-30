@@ -3,10 +3,9 @@
 from __future__ import annotations
 
 import hashlib
-import json
 from collections import Counter
 from dataclasses import dataclass
-from pathlib import Path, PurePosixPath
+from pathlib import Path
 from typing import cast
 
 from pcdb.datasets.ired_split import (
@@ -17,17 +16,15 @@ from pcdb.datasets.ired_split import (
     SplitBuild,
     SplitMembership,
     UpstreamMembership,
-    _artifact,
     _artifact_reference,
+    _build_split_payloads_and_manifest,
     _canonical_config_sha256,
     _components,
     _config_mapping,
-    _csv_bytes,
     _git_commit,
     _hamming1_edges,
     _integer,
     _integer_map,
-    _json_bytes,
     _lower_hex_digest,
     _mutation_counts,
     _mutation_role_counts,
@@ -37,6 +34,7 @@ from pcdb.datasets.ired_split import (
     _string,
     _string_list,
     _upstream_audit,
+    _validate_split_bundle_exact_bytes,
     _verify_processing_chain,
     assign_stratified_singletons,
     role_schedule,
@@ -504,59 +502,17 @@ def build_nucb_split_bundle(
     ):
         raise NucbSplitError("split config object does not match split config bytes")
     _verify_processing_chain(config, processing_manifest_bytes, candidate_bytes, upstream_bytes)
-    config_sha256 = hashlib.sha256(config_bytes).hexdigest()
-    identity = {
-        "processing_manifest_sha256": config.processing_manifest_sha256,
-        "split_config_sha256": config_sha256,
-        "git_commit": git_commit,
-    }
-    protocol_hash = hashlib.sha256(
-        json.dumps(identity, sort_keys=True, separators=(",", ":")).encode()
-    ).hexdigest()
-    prefix = (
-        f"splits/{config.dataset_id}/{config.dataset_version}/{config.task_id}/"
-        f"{config.split_id}/{protocol_hash}"
-    )
     build = build_nucb_split_membership(
         config=config,
         candidate_bytes=candidate_bytes,
         upstream_bytes=upstream_bytes,
     )
-    membership_key = f"{prefix}/membership.csv"
-    audit_key = f"{prefix}/split-audit.json"
-    payloads = {
-        membership_key: _csv_bytes(build.membership),
-        audit_key: _json_bytes(build.audit),
-    }
-    partition_summary = cast(list[dict[str, object]], build.audit["partition_summary"])
-    manifest: dict[str, object] = {
-        "schema_version": "1",
-        "split_id": config.split_id,
-        "protocol_version": config.protocol_version,
-        "processing_manifest_sha256": config.processing_manifest_sha256,
-        "split_config_sha256": config_sha256,
-        "git_commit": git_commit,
-        "membership_file": _artifact(
-            membership_key,
-            payloads[membership_key],
-            row_count=len(build.membership),
-        ),
-        "audit_file": _artifact(audit_key, payloads[audit_key]),
-        "partitions": list(_ALL_ROLES),
-        "grouping_unit": config.grouping_method,
-        "leakage_controls": list(config.leakage_controls),
-        "held_out_partitions": ["held-out"],
-        "partition_summary": partition_summary,
-        "group_summary": {
-            "total_group_count": build.audit["component_count"],
-            "singleton_group_count": build.audit["singleton_component_count"],
-            "non_singleton_group_count": build.audit["non_singleton_component_count"],
-            "largest_group_size": build.audit["largest_component_size"],
-            "cross_partition_hamming1_edges": build.audit["cross_role_hamming1_edge_count"],
-        },
-        "known_limitations": list(config.known_limitations),
-    }
-    return payloads, manifest
+    return _build_split_payloads_and_manifest(
+        config=config,
+        config_bytes=config_bytes,
+        git_commit=git_commit,
+        build=build,
+    )
 
 
 def validate_nucb_split_bundle(
@@ -582,10 +538,10 @@ def validate_nucb_split_bundle(
         upstream_bytes=upstream_bytes,
         git_commit=git_commit,
     )
-    if manifest != expected_manifest:
-        raise NucbSplitError("Split Manifest does not match the rebuilt expected manifest")
-    by_name = {PurePosixPath(key).name: payload for key, payload in expected_payloads.items()}
-    if membership_bytes != by_name["membership.csv"]:
-        raise NucbSplitError("membership artifact does not match rebuilt exact bytes")
-    if audit_bytes != by_name["split-audit.json"]:
-        raise NucbSplitError("split audit does not match rebuilt exact bytes")
+    _validate_split_bundle_exact_bytes(
+        expected_payloads=expected_payloads,
+        expected_manifest=expected_manifest,
+        membership_bytes=membership_bytes,
+        audit_bytes=audit_bytes,
+        manifest=manifest,
+    )

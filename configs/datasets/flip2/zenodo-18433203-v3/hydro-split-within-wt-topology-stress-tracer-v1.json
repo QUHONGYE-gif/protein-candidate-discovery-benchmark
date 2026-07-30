@@ -1,0 +1,294 @@
+{
+  "config_version": "1",
+  "dataset_id": "flip2",
+  "dataset_version": "zenodo-18433203-v3",
+  "task_id": "hydro",
+  "split_id": "flip2-hydro-within-wt-topology-stress-tracer-v1",
+  "protocol_version": "1",
+  "processing_manifest_sha256": "e5f1b5b2778192290c99427be56ddf5f59f5a30a03f1cfebb67da137bed7525f",
+  "candidate_input": {
+    "object_key": "processed/flip2/zenodo-18433203-v3/hydro/flip2-hydro-6c2063bb888d5a219999eb1470931fb824ce967d280076b9dd9c0a0da2eeb3c0/candidates.csv",
+    "sha256": "f890b4d662890e424ae2ba7efbe70388d30acdfa4176b6e89179a59c6c5efa9e",
+    "size_bytes": 3348363,
+    "row_count": 24935
+  },
+  "upstream_metadata_input": {
+    "object_key": "processed/flip2/zenodo-18433203-v3/hydro/flip2-hydro-6c2063bb888d5a219999eb1470931fb824ce967d280076b9dd9c0a0da2eeb3c0/upstream-split-metadata.csv",
+    "sha256": "dd5ccad2a9c1c2c956a7e279852c669c928e648da940b98e203a716daba2bb71",
+    "size_bytes": 15102832,
+    "row_count": 149610
+  },
+  "allowed_amino_acids": "ACDEFGHIKLMNPQRSTVWY",
+  "expected_candidate_count": 24935,
+  "candidate_id_namespace": "flip2:zenodo-18433203-v3:hydro",
+  "candidate_id_preimage": "namespace_null_wild_type_id_null_sequence",
+  "mutation_count_method": "within_wild_type_full_length_hamming_distance_to_reference",
+  "grouping_method": "within_wild_type_full_length_hamming1_connected_component",
+  "cross_wild_type_distance_policy": "incomparable_without_accepted_alignment",
+  "hamming_distance": 1,
+  "protocol_namespace": "pcdb:split:flip2-hydro-within-wt-topology-stress-tracer-v1:v1",
+  "group_id_algorithm": "sha256",
+  "group_preimage_format": "namespace_nul_group-id_nul_uint32be_count_concatenated_raw_candidate_ids",
+  "seed": 20260731,
+  "ordering_key_algorithm": "sha256",
+  "ordering_preimage_format": "namespace_nul_order-key_nul_uint64be_seed_uint16be_mutation_count_raw_group_id",
+  "ordering_tie_break": [
+    "mutation_count",
+    "ordering_key",
+    "group_id"
+  ],
+  "assignment_method": "per_wild_type_mutation_count_stratified_global_deficit_schedule",
+  "assignment_role_order": [
+    "candidate-pool",
+    "validation",
+    "held-out"
+  ],
+  "role_counts": {
+    "candidate-pool": 580,
+    "development": 23775,
+    "validation": 290,
+    "held-out": 290
+  },
+  "expected_hamming1_pair_count": 88664,
+  "expected_component_count": 1346,
+  "expected_singleton_component_count": 1160,
+  "expected_non_singleton_component_count": 186,
+  "expected_largest_component_size": 9462,
+  "expected_second_largest_component_size": 7971,
+  "wild_types": [
+    {
+      "wild_type_id": "P06241",
+      "sequence_length": 57,
+      "reference_sequence": "TLFVALYDYEARTEDDLSFHKGEKFQILNSSEGDWWEARSLTTGETGYIPSNYVAPV",
+      "reference_sequence_sha256": "304f8fd4d48558b27bcba3eb1f9e62500be733da34813a060366ad4da0528999",
+      "expected_candidate_count": 9972,
+      "expected_mutation_count_min": 1,
+      "expected_mutation_count_max": 7,
+      "role_counts": {
+        "candidate-pool": 176,
+        "development": 9622,
+        "validation": 87,
+        "held-out": 87
+      },
+      "expected_hamming1_pair_count": 36830,
+      "expected_component_count": 411,
+      "expected_singleton_component_count": 350,
+      "expected_non_singleton_component_count": 61,
+      "expected_largest_component_size": 9462,
+      "expected_second_largest_component_size": 7,
+      "expected_component_size_counts": {
+        "1": 350,
+        "2": 37,
+        "3": 14,
+        "4": 4,
+        "5": 3,
+        "6": 1,
+        "7": 1,
+        "9462": 1
+      },
+      "expected_singleton_mutation_counts": {
+        "2": 3,
+        "3": 16,
+        "4": 41,
+        "5": 122,
+        "6": 104,
+        "7": 64
+      },
+      "expected_singleton_role_counts_by_mutation": {
+        "2": {"candidate-pool": 1, "validation": 1, "held-out": 1},
+        "3": {"candidate-pool": 8, "validation": 4, "held-out": 4},
+        "4": {"candidate-pool": 21, "validation": 10, "held-out": 10},
+        "5": {"candidate-pool": 62, "validation": 30, "held-out": 30},
+        "6": {"candidate-pool": 52, "validation": 26, "held-out": 26},
+        "7": {"candidate-pool": 32, "validation": 16, "held-out": 16}
+      }
+    },
+    {
+      "wild_type_id": "P01053",
+      "sequence_length": 63,
+      "reference_sequence": "KTEWPELVGKSVEEAKKVILQDKPEAQIIVLPVGTIVTMEYRIDRVRLFVDKLDNIAQVPRVG",
+      "reference_sequence_sha256": "dd005937bdc1ad8fef672c3d610baae1fa6d395a7d9e0aa8459537d5af07838d",
+      "expected_candidate_count": 6463,
+      "expected_mutation_count_min": 1,
+      "expected_mutation_count_max": 7,
+      "role_counts": {
+        "candidate-pool": 211,
+        "development": 6040,
+        "validation": 106,
+        "held-out": 106
+      },
+      "expected_hamming1_pair_count": 20150,
+      "expected_component_count": 484,
+      "expected_singleton_component_count": 423,
+      "expected_non_singleton_component_count": 61,
+      "expected_largest_component_size": 5909,
+      "expected_second_largest_component_size": 5,
+      "expected_component_size_counts": {
+        "1": 423,
+        "2": 52,
+        "3": 6,
+        "4": 1,
+        "5": 1,
+        "5909": 1
+      },
+      "expected_singleton_mutation_counts": {
+        "1": 1,
+        "2": 2,
+        "3": 6,
+        "4": 43,
+        "5": 99,
+        "6": 159,
+        "7": 113
+      },
+      "expected_singleton_role_counts_by_mutation": {
+        "1": {"candidate-pool": 1, "validation": 0, "held-out": 0},
+        "2": {"candidate-pool": 0, "validation": 1, "held-out": 1},
+        "3": {"candidate-pool": 4, "validation": 1, "held-out": 1},
+        "4": {"candidate-pool": 21, "validation": 11, "held-out": 11},
+        "5": {"candidate-pool": 49, "validation": 25, "held-out": 25},
+        "6": {"candidate-pool": 79, "validation": 40, "held-out": 40},
+        "7": {"candidate-pool": 57, "validation": 28, "held-out": 28}
+      }
+    },
+    {
+      "wild_type_id": "P0A9X9",
+      "sequence_length": 65,
+      "reference_sequence": "MTGIVKWFNADKGFGFITPDDGSKDVFVHFSAIQNDGYKSLDEGQKVSFTIESGAKGPAAGNVTS",
+      "reference_sequence_sha256": "b969267b954bad343a488f0af8a68c5a097ee3ae9fdf96d48897b217362bad77",
+      "expected_candidate_count": 8500,
+      "expected_mutation_count_min": 0,
+      "expected_mutation_count_max": 7,
+      "role_counts": {
+        "candidate-pool": 193,
+        "development": 8113,
+        "validation": 97,
+        "held-out": 97
+      },
+      "expected_hamming1_pair_count": 31684,
+      "expected_component_count": 451,
+      "expected_singleton_component_count": 387,
+      "expected_non_singleton_component_count": 64,
+      "expected_largest_component_size": 7971,
+      "expected_second_largest_component_size": 5,
+      "expected_component_size_counts": {
+        "1": 387,
+        "2": 52,
+        "3": 7,
+        "4": 3,
+        "5": 1,
+        "7971": 1
+      },
+      "expected_singleton_mutation_counts": {
+        "3": 3,
+        "4": 17,
+        "5": 93,
+        "6": 165,
+        "7": 109
+      },
+      "expected_singleton_role_counts_by_mutation": {
+        "3": {"candidate-pool": 1, "validation": 1, "held-out": 1},
+        "4": {"candidate-pool": 9, "validation": 4, "held-out": 4},
+        "5": {"candidate-pool": 47, "validation": 23, "held-out": 23},
+        "6": {"candidate-pool": 81, "validation": 42, "held-out": 42},
+        "7": {"candidate-pool": 55, "validation": 27, "held-out": 27}
+      }
+    }
+  ],
+  "group_id_collision_policy": "error",
+  "ordering_key_collision_policy": "error",
+  "impossible_allocation_policy": "error",
+  "upstream_source_keys": [
+    "hydro/random_split.csv.gz",
+    "hydro/three_to_many.csv.gz",
+    "hydro/low_to_high.csv.gz",
+    "hydro/to_P06241.csv.gz",
+    "hydro/to_P0A9X9.csv.gz",
+    "hydro/to_P01053.csv.gz"
+  ],
+  "expected_upstream_cross_role_edges": {
+    "hydro/random_split.csv.gz": 46404,
+    "hydro/three_to_many.csv.gz": 7295,
+    "hydro/low_to_high.csv.gz": 31384,
+    "hydro/to_P06241.csv.gz": 16525,
+    "hydro/to_P0A9X9.csv.gz": 18155,
+    "hydro/to_P01053.csv.gz": 21731
+  },
+  "expected_upstream_role_counts": {
+    "hydro/random_split.csv.gz": {
+      "global": {"set=train;validation=False": 15958, "set=train;validation=True": 3990, "set=test;validation=False": 4987},
+      "P06241": {"set=train;validation=False": 6418, "set=train;validation=True": 1611, "set=test;validation=False": 1943},
+      "P01053": {"set=train;validation=False": 4084, "set=train;validation=True": 1062, "set=test;validation=False": 1317},
+      "P0A9X9": {"set=train;validation=False": 5456, "set=train;validation=True": 1317, "set=test;validation=False": 1727}
+    },
+    "hydro/three_to_many.csv.gz": {
+      "global": {"set=train;validation=False": 1160, "set=train;validation=True": 290, "set=test;validation=False": 23485},
+      "P06241": {"set=train;validation=False": 146, "set=train;validation=True": 52, "set=test;validation=False": 9774},
+      "P01053": {"set=train;validation=False": 237, "set=train;validation=True": 57, "set=test;validation=False": 6169},
+      "P0A9X9": {"set=train;validation=False": 777, "set=train;validation=True": 181, "set=test;validation=False": 7542}
+    },
+    "hydro/low_to_high.csv.gz": {
+      "global": {"set=train;validation=False": 9974, "set=train;validation=True": 2493, "set=test;validation=False": 12468},
+      "P06241": {"set=train;validation=False": 4324, "set=train;validation=True": 1066, "set=test;validation=False": 4582},
+      "P01053": {"set=train;validation=False": 3898, "set=train;validation=True": 969, "set=test;validation=False": 1596},
+      "P0A9X9": {"set=train;validation=False": 1752, "set=train;validation=True": 458, "set=test;validation=False": 6290}
+    },
+    "hydro/to_P06241.csv.gz": {
+      "global": {"set=train;validation=False": 11970, "set=train;validation=True": 2993, "set=test;validation=False": 9972},
+      "P06241": {"set=train;validation=False": 0, "set=train;validation=True": 0, "set=test;validation=False": 9972},
+      "P01053": {"set=train;validation=False": 5171, "set=train;validation=True": 1292, "set=test;validation=False": 0},
+      "P0A9X9": {"set=train;validation=False": 6799, "set=train;validation=True": 1701, "set=test;validation=False": 0}
+    },
+    "hydro/to_P0A9X9.csv.gz": {
+      "global": {"set=train;validation=False": 13148, "set=train;validation=True": 3287, "set=test;validation=False": 8500},
+      "P06241": {"set=train;validation=False": 8004, "set=train;validation=True": 1968, "set=test;validation=False": 0},
+      "P01053": {"set=train;validation=False": 5144, "set=train;validation=True": 1319, "set=test;validation=False": 0},
+      "P0A9X9": {"set=train;validation=False": 0, "set=train;validation=True": 0, "set=test;validation=False": 8500}
+    },
+    "hydro/to_P01053.csv.gz": {
+      "global": {"set=train;validation=False": 14778, "set=train;validation=True": 3694, "set=test;validation=False": 6463},
+      "P06241": {"set=train;validation=False": 7968, "set=train;validation=True": 2004, "set=test;validation=False": 0},
+      "P01053": {"set=train;validation=False": 0, "set=train;validation=True": 0, "set=test;validation=False": 6463},
+      "P0A9X9": {"set=train;validation=False": 6810, "set=train;validation=True": 1690, "set=test;validation=False": 0}
+    }
+  },
+  "expected_upstream_mixed_component_counts": {
+    "hydro/random_split.csv.gz": {"component_count": 105, "candidate_count": 23594},
+    "hydro/three_to_many.csv.gz": {"component_count": 11, "candidate_count": 23362},
+    "hydro/low_to_high.csv.gz": {"component_count": 85, "candidate_count": 23548},
+    "hydro/to_P06241.csv.gz": {"component_count": 51, "candidate_count": 13992},
+    "hydro/to_P0A9X9.csv.gz": {"component_count": 44, "candidate_count": 15483},
+    "hydro/to_P01053.csv.gz": {"component_count": 48, "candidate_count": 17556}
+  },
+  "expected_upstream_assignment_disagreements": [
+    {"left_source": "hydro/low_to_high.csv.gz", "right_source": "hydro/random_split.csv.gz", "count": 15721},
+    {"left_source": "hydro/low_to_high.csv.gz", "right_source": "hydro/three_to_many.csv.gz", "count": 13329},
+    {"left_source": "hydro/low_to_high.csv.gz", "right_source": "hydro/to_P01053.csv.gz", "count": 18171},
+    {"left_source": "hydro/low_to_high.csv.gz", "right_source": "hydro/to_P06241.csv.gz", "count": 15598},
+    {"left_source": "hydro/low_to_high.csv.gz", "right_source": "hydro/to_P0A9X9.csv.gz", "count": 11661},
+    {"left_source": "hydro/random_split.csv.gz", "right_source": "hydro/three_to_many.csv.gz", "count": 19443},
+    {"left_source": "hydro/random_split.csv.gz", "right_source": "hydro/to_P01053.csv.gz", "count": 13533},
+    {"left_source": "hydro/random_split.csv.gz", "right_source": "hydro/to_P06241.csv.gz", "count": 14898},
+    {"left_source": "hydro/random_split.csv.gz", "right_source": "hydro/to_P0A9X9.csv.gz", "count": 14336},
+    {"left_source": "hydro/three_to_many.csv.gz", "right_source": "hydro/to_P01053.csv.gz", "count": 17976},
+    {"left_source": "hydro/three_to_many.csv.gz", "right_source": "hydro/to_P06241.csv.gz", "count": 14295},
+    {"left_source": "hydro/three_to_many.csv.gz", "right_source": "hydro/to_P0A9X9.csv.gz", "count": 17057},
+    {"left_source": "hydro/to_P01053.csv.gz", "right_source": "hydro/to_P06241.csv.gz", "count": 19118},
+    {"left_source": "hydro/to_P01053.csv.gz", "right_source": "hydro/to_P0A9X9.csv.gz", "count": 18091},
+    {"left_source": "hydro/to_P06241.csv.gz", "right_source": "hydro/to_P0A9X9.csv.gz", "count": 20535}
+  ],
+  "publisher_metadata_role": "audit_only_not_benchmark_membership",
+  "leakage_controls": [
+    "Hamming distance and Hamming-1 connectivity are computed only among candidates sharing the same wild_type_id.",
+    "Every within-wild-type full-length Hamming-distance-1 connected component remains wholly within one partition.",
+    "All non-singleton components are assigned to development; every candidate-pool, validation, and held-out group is a singleton.",
+    "Cross-partition within-wild-type full-length Hamming-distance-1 edge count is exactly zero.",
+    "Grouping and assignment use observable wild_type_id, candidate_id, sequence, and mutation count only; hidden truth and publisher split roles are excluded."
+  ],
+  "known_limitations": [
+    "This is a non-primary topology stress tracer and is not an M2 benchmark dataset.",
+    "Cross-wild-type Hamming distance is scientifically undefined here and is never computed.",
+    "Each wild type contains a giant component assigned to development, producing a deliberately strong topology and distribution shift.",
+    "Publisher-provided split memberships remain audit-only and do not determine benchmark membership.",
+    "This split does not authorize held-out access, replay, model selection, benchmark claims, COS publication, or a scientific gate."
+  ]
+}
