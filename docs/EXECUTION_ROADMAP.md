@@ -89,6 +89,12 @@ Gate 1 通过前，不运行正式模型比较。
 preflight、CI/人工审查、正式 COS publication 与 fresh readback 仍是后续独立 Gate，不因本地
 fixture 通过而视为完成。NucB 与 Hydrophobic Core 的 processing/split 仍需各自推进。
 
+补充（2026-07-30）：Hydrophobic Core Issue #26 已在 reviewed/merged implementation commit
+`ba85ebec4bdbd21c555720762e5681f5e17dd376` 上完成正式 immutable Processing Manifest
+publication、`4 + 1` 远端 inventory、fresh exact-byte readback 与禁止覆盖验证。该结果仅关闭
+Hydrophobic Core processing gate；Split Manifest、held-out、replay、benchmark evidence 与
+scientific gate 继续由 Issue #27 及后续独立授权负责。
+
 ### M2：轻量特征与静态基线
 
 **计划窗口**：7 月 29 日–8 月 2 日。

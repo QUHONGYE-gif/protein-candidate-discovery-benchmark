@@ -139,3 +139,45 @@ bundle。相同 Dataset Manifest bytes、processing config bytes、完整 Git co
 6. zero DeleteObject。
 
 当前文档和实现不授权该 formal publication。
+
+## Formal immutable publication evidence
+
+上述实现与文档本身不授予云端写权限。2026-07-29，在 PR #32 已完成 human review、CI 并
+squash-merge 后，用户对 merged commit 的两个精确 COS prefix 另行授予了 overwrite-forbidden
+publication 与 fresh readback 权限。
+
+冻结身份：
+
+- reviewed head：`0bd4af717072a93e7822e552f1a09193278e9fff`；
+- merged commit：`ba85ebec4bdbd21c555720762e5681f5e17dd376`；
+- processing ID：
+  `flip2-hydro-6c2063bb888d5a219999eb1470931fb824ce967d280076b9dd9c0a0da2eeb3c0`。
+
+精确远端 prefix：
+
+```text
+processed/flip2/zenodo-18433203-v3/hydro/flip2-hydro-6c2063bb888d5a219999eb1470931fb824ce967d280076b9dd9c0a0da2eeb3c0/
+manifests/flip2/zenodo-18433203-v3/hydro/processing/flip2-hydro-6c2063bb888d5a219999eb1470931fb824ce967d280076b9dd9c0a0da2eeb3c0/
+```
+
+发布严格使用 payload-first、Processing Manifest-last、first-error fail-fast 和
+`--forbid-overwrite`：
+
+| Object | Rows | Bytes | SHA-256 |
+|---|---:|---:|---|
+| `candidates.csv` | 24,935 | 3,348,363 | `f890b4d662890e424ae2ba7efbe70388d30acdfa4176b6e89179a59c6c5efa9e` |
+| `hidden-truth.csv` | 24,935 | 2,067,315 | `63d95d1baa981870ba01c8ad64d1465536061c93c3865fe2095dc38c0c2edf47` |
+| `processing-audit.json` | 1 | 10,850 | `3a5732f72c95a9fbb5b8e041c9e0283c93bea157cc8d98dee584ef49f9f28825` |
+| `upstream-split-metadata.csv` | 149,610 | 15,102,832 | `dd5ccad2a9c1c2c956a7e279852c669c928e648da940b98e203a716daba2bb71` |
+| `processing-manifest.json` | N/A | 2,725 | `e5f1b5b2778192290c99427be56ddf5f59f5a30a03f1cfebb67da137bed7525f` |
+
+远端 processed prefix 最终严格包含 4 objects，manifest prefix 严格包含 1 object。全部 5
+objects 被下载到新的临时目录，size、SHA-256 与 staging 匹配，exact-byte comparison 为
+`5/5`。对已存在的 Processing Manifest 再次执行禁止覆盖上传，COS 明确返回
+`409 FileAlreadyExists`；失败后再次 fresh readback，manifest 仍为 2,725 bytes，SHA-256 与
+exact bytes 均未改变。
+
+运行未调用 `DeleteObject`，未发生覆盖，也未写入其他 dataset/prefix。用于 readback 与 COSCLI
+诊断的本地临时文件已清理，证据中不包含凭据。该 publication 只完成 M1 processing engineering
+gate；它不生成 Split Manifest，不授权 held-out/WT-holdout、feature/model/replay、external
+validation、benchmark evidence 或 scientific gate。
