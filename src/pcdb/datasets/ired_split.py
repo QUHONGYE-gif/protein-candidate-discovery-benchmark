@@ -1094,29 +1094,14 @@ def _artifact(
     return result
 
 
-def build_ired_split_bundle(
+def _build_split_payloads_and_manifest(
     *,
     config: IredSplitConfig,
     config_bytes: bytes,
-    processing_manifest_bytes: bytes,
-    candidate_bytes: bytes,
-    upstream_bytes: bytes,
     git_commit: str,
+    build: SplitBuild,
 ) -> tuple[dict[str, bytes], dict[str, object]]:
-    """Build deterministic split artifacts and a manifest without publishing them."""
-    _git_commit(git_commit)
-    is_fixture = config.dataset_version.startswith("fixture-") and config.split_id.startswith(
-        "fixture-"
-    )
-    if (
-        _load_ired_split_config_bytes(
-            config_bytes,
-            require_production_identity=not is_fixture,
-        )
-        != config
-    ):
-        raise IredSplitError("split config object does not match split config bytes")
-    _verify_processing_chain(config, processing_manifest_bytes, candidate_bytes, upstream_bytes)
+    """Render the shared canonical split payloads and manifest identity."""
     config_sha256 = hashlib.sha256(config_bytes).hexdigest()
     identity = {
         "processing_manifest_sha256": config.processing_manifest_sha256,
@@ -1129,11 +1114,6 @@ def build_ired_split_bundle(
     prefix = (
         f"splits/{config.dataset_id}/{config.dataset_version}/{config.task_id}/"
         f"{config.split_id}/{protocol_hash}"
-    )
-    build = build_ired_split_membership(
-        config=config,
-        candidate_bytes=candidate_bytes,
-        upstream_bytes=upstream_bytes,
     )
     membership_key = f"{prefix}/membership.csv"
     audit_key = f"{prefix}/split-audit.json"
@@ -1172,6 +1152,60 @@ def build_ired_split_bundle(
     return payloads, manifest
 
 
+def _validate_split_bundle_exact_bytes(
+    *,
+    expected_payloads: dict[str, bytes],
+    expected_manifest: dict[str, object],
+    membership_bytes: bytes,
+    audit_bytes: bytes,
+    manifest: dict[str, object],
+) -> None:
+    """Reject a rebuilt split bundle when semantics or canonical bytes differ."""
+    if manifest != expected_manifest:
+        raise IredSplitError("Split Manifest does not match the rebuilt expected manifest")
+    by_name = {PurePosixPath(key).name: payload for key, payload in expected_payloads.items()}
+    if membership_bytes != by_name["membership.csv"]:
+        raise IredSplitError("membership artifact does not match rebuilt exact bytes")
+    if audit_bytes != by_name["split-audit.json"]:
+        raise IredSplitError("split audit does not match rebuilt exact bytes")
+
+
+def build_ired_split_bundle(
+    *,
+    config: IredSplitConfig,
+    config_bytes: bytes,
+    processing_manifest_bytes: bytes,
+    candidate_bytes: bytes,
+    upstream_bytes: bytes,
+    git_commit: str,
+) -> tuple[dict[str, bytes], dict[str, object]]:
+    """Build deterministic split artifacts and a manifest without publishing them."""
+    _git_commit(git_commit)
+    is_fixture = config.dataset_version.startswith("fixture-") and config.split_id.startswith(
+        "fixture-"
+    )
+    if (
+        _load_ired_split_config_bytes(
+            config_bytes,
+            require_production_identity=not is_fixture,
+        )
+        != config
+    ):
+        raise IredSplitError("split config object does not match split config bytes")
+    _verify_processing_chain(config, processing_manifest_bytes, candidate_bytes, upstream_bytes)
+    build = build_ired_split_membership(
+        config=config,
+        candidate_bytes=candidate_bytes,
+        upstream_bytes=upstream_bytes,
+    )
+    return _build_split_payloads_and_manifest(
+        config=config,
+        config_bytes=config_bytes,
+        git_commit=git_commit,
+        build=build,
+    )
+
+
 def validate_ired_split_bundle(
     *,
     config: IredSplitConfig,
@@ -1195,13 +1229,13 @@ def validate_ired_split_bundle(
         upstream_bytes=upstream_bytes,
         git_commit=git_commit,
     )
-    if manifest != expected_manifest:
-        raise IredSplitError("Split Manifest does not match the rebuilt expected manifest")
-    by_name = {PurePosixPath(key).name: payload for key, payload in expected_payloads.items()}
-    if membership_bytes != by_name["membership.csv"]:
-        raise IredSplitError("membership artifact does not match rebuilt exact bytes")
-    if audit_bytes != by_name["split-audit.json"]:
-        raise IredSplitError("split audit does not match rebuilt exact bytes")
+    _validate_split_bundle_exact_bytes(
+        expected_payloads=expected_payloads,
+        expected_manifest=expected_manifest,
+        membership_bytes=membership_bytes,
+        audit_bytes=audit_bytes,
+        manifest=manifest,
+    )
 
 
 def validate_partition_access(
