@@ -25,6 +25,12 @@ truth-derived evaluation stay private to the evaluator or hidden oracle. Experim
 remains valid through explicit version dispatch, while `2-prototype`, `proposal_status`, unknown
 versions, and silent v1-to-v2 migration fail closed.
 
+Metric evidence uses a versioned per-run envelope, while cross-seed task aggregates use a separate
+versioned envelope bound to an ordered complete set of metric-result checksums. Definition-
+independent metrics use an explicit null definition identity and are never duplicated per
+high-value definition. Raw unitful values remain task-local; only frozen dimensionless metrics may
+be compared through task-first aggregation.
+
 This ADR records a compatible extension of ADR-0003 and does not supersede it.
 
 ## Considered Options
@@ -42,6 +48,9 @@ This ADR records a compatible extension of ADR-0003 and does not supersede it.
   serializer and one terminal newline.
 - Schema v1 files and behavior remain unchanged; v2 has a separate Schema, loader branch, and
   domain validator.
+- Task-seed aggregate evidence cannot be attached to an arbitrary run, attempt, or seed.
+- Raw `best_found_value` and `simple_regret` cannot become a cross-task scalar without a separately
+  versioned normalization contract.
 - Changing canonicalization, metric semantics, or evaluator result shape requires a new version or
   a superseding ADR.
 - This proposed decision authorizes no production implementation until Issue #36 receives an

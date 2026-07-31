@@ -131,8 +131,13 @@ Phase B 的 Schema 与 domain validator 必须实现以下字段名和职责，�
 - `evaluation.metric_sets.m3_m5_sequential` exact 为
   `["best_found_value", "simple_regret", "high_value_discovery_recall", "success_at_budget"]`；
 - `evaluation.metric_sets.task_seed_aggregates` exact 为 `["success_probability"]`；
+  该数组只列出由 input metric 派生的新 metric ID；其他 metric 的同-ID task-seed mean 由
+  `evaluation.aggregation` 与第 5.4 节 envelope 直接约束；
 - `evaluation.aggregation` exact 声明 `primary_unit="task"`、
-  `seed_role="within-task-algorithmic-randomness"`、`pooled_seed_primary=false`；
+  `seed_role="within-task-algorithmic-randomness"`、`pooled_seed_primary=false`、
+  `raw_unitful_cross_task_aggregate=false`，并将允许等权跨任务汇总的 metric IDs 固定为
+  `spearman_rank_correlation`、`high_value_recall_at_nominal_k`、
+  `high_value_discovery_recall` 与 `success_probability`；
 - `evaluation.interpretation_policy` exact 声明 primary tie-expansion fraction 上限 `0.02`、
   sensitivity fractions `[0.005, 0.02]`、comparison rule
   `strict_sign_reversal` 和 triggered status `fragile-inconclusive`；
@@ -176,7 +181,11 @@ High-value definition 必须报告：
 - 对 prediction 与 target 分别使用 average ranks for ties；
 - value：两组 ranks 的 Pearson correlation；
 - direction：higher is better，范围 `[-1, 1]`；
-- undefined：`N < 2`，或任一 rank vector variance 为 0；
+- undefined 按以下优先级产生唯一 reason：
+  1. `N < 2`：`insufficient_observations`；
+  2. prediction 与 target rank variance 均为 0：`constant_target_and_prediction`；
+  3. 仅 target rank variance 为 0：`constant_target`；
+  4. 仅 prediction rank variance 为 0：`constant_prediction`；
 - missing/non-finite/duplicate/unknown candidate：error，而不是 undefined。
 
 这是冻结的 continuous ranking metric；prototype placeholder `ranking_quality` 不进入 production。
@@ -243,19 +252,37 @@ Undefined metric 必须持久化为结构化状态，不得写 JSON `NaN`：
 }
 ```
 
-只有本文明确列出的数学前置条件不足可以产生 undefined。输入缺失、identity drift、duplicate、
-unknown candidate 或 non-finite input 都是 error，必须终止该 evaluation artifact。
+Metric result 的 `undefined_reason` 只允许：
+
+- `insufficient_observations`；
+- `constant_target`；
+- `constant_prediction`；
+- `constant_target_and_prediction`；
+- `no_revealed_observations`；
+- `budget_not_reached`。
+
+Task-seed aggregate 另只允许 `undefined_input_result`。只有本文明确列出的数学前置条件不足可以
+产生 undefined。输入缺失、identity drift、duplicate、unknown candidate 或 non-finite input
+都是 error，必须终止该 evaluation artifact。
 
 ### 3.5 Task-first aggregation 与 fragile/inconclusive
 
-对任一预注册 metric/method/scope：
+对任一预注册 metric/method/scope，先在每个 task 内对全部预注册 seed 的 defined numeric
+value 做 arithmetic mean；boolean 使用 `true=1`、`false=0`。任一预注册 seed undefined
+时，该 task-seed aggregate 也 undefined；不得通过删除 undefined 项改变分母。
 
-1. 先在每个 task 内对全部预注册 seed 的 defined numeric value 做 arithmetic mean；boolean
-   使用 `true=1`、`false=0`；
-2. 再对 Alpha 和 IRED 两个 task mean 做等权 arithmetic mean；
-3. 任一预注册 seed 或 task undefined 时，primary aggregate 也 undefined；不得通过删除
-   undefined 项改变分母；
-4. 不得把全部 seed values 直接 pool 后求平均。
+只有以下无量纲且跨 task 可比的指标可以再对 Alpha 与 IRED 两个 task means 做等权 arithmetic
+mean：
+
+- `spearman_rank_correlation`；
+- `high_value_recall_at_nominal_k`；
+- `high_value_discovery_recall`；
+- `success_probability`。
+
+不得把全部 seed values 直接 pool 后求平均。`best_found_value` 与 `simple_regret` 必须保留各
+task 原标签单位及 task-level result；禁止生成 raw cross-task scalar。未来若需要
+`normalized_regret` 或其他 normalized unitful metric，必须单独冻结 metric ID、公式、
+undefined behavior 和 contract version，不得在 Phase B 实现时临时归一化。
 
 对两个预注册 methods `A` 和 `B` 的同一 task/metric/scope 比较，先把 difference 统一为
 “正数支持 A”：higher-is-better metric 使用 `A - B`，lower-is-better metric 使用 `B - A`。
@@ -337,13 +364,13 @@ evaluator 必须接收并核对：
 Phase B conformance fixtures 只能使用 synthetic truth。真实 Alpha/IRED target、actual tie count、
 held-out、COS/server execution 和正式 evaluator run 均不属于 Issue #36。
 
-### 5.3 Canonical aggregate result shape
+### 5.3 Canonical metric result shape
 
-每个 task/definition/metric/scope 产生一条 result：
+每个 task/run/metric/scope 产生一条 metric result：
 
 ```json
 {
-  "schema_version": "1",
+  "schema_version": "high-value-metric-result-v1",
   "experiment_config_sha256": "<64-lower-hex>",
   "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
   "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
@@ -355,7 +382,7 @@ held-out、COS/server execution 和正式 evaluator run 均不属于 Issue #36�
   "method_id": "example-method",
   "seed": 0,
   "candidate_role": "candidate-pool",
-  "definition_id": "upper-tail-1pct",
+  "definition_id": null,
   "metric_id": "simple_regret",
   "evaluation_scope": "sequential",
   "round": 3,
@@ -364,11 +391,6 @@ held-out、COS/server execution 和正式 evaluator run 均不属于 Issue #36�
   "value": 0.125,
   "undefined_reason": null,
   "support": {
-    "frozen_candidate_count": 2262,
-    "nominal_k": 23,
-    "actual_high_value_count": 24,
-    "boundary_score": 0.91,
-    "boundary_tie_count": 2,
     "evaluated_candidate_count": 32
   }
 }
@@ -376,6 +398,15 @@ held-out、COS/server execution 和正式 evaluator run 均不属于 Issue #36�
 
 闭合规则：
 
+- `spearman_rank_correlation`、`best_found_value`、`simple_regret` 是
+  definition-independent；必须显式写 `definition_id=null`，且 `support` 只能包含
+  `evaluated_candidate_count`；
+- `high_value_recall_at_nominal_k`、`high_value_discovery_recall`、`success_at_budget` 是
+  definition-dependent；必须绑定一个 exact non-null `definition_id`，且 `support` 必须包含
+  `frozen_candidate_count`、`nominal_k`、`actual_high_value_count`、`boundary_score`、
+  `boundary_tie_count` 和 `evaluated_candidate_count`；
+- definition-independent result 禁止携带上述 high-value-only support fields；不得为三个
+  definitions 复制相同 result，也不得把它隐式绑定 primary；
 - `evaluation_scope` 只能是 `m2-static` 或 `sequential`；
 - `m2-static` 要求 `round=null`、`budget=null`；
 - `sequential` 要求 non-negative `round`、positive `budget`；
@@ -386,7 +417,73 @@ held-out、COS/server execution 和正式 evaluator run 均不属于 Issue #36�
   `undefined_reason=null`；
 - `status="undefined"` 要求 `value=null` 和本文允许的 reason；
 - object additional fields fail closed；
+- 同一 `(experiment_config_sha256, run_id, attempt_id, input_artifact_sha256, task_id,
+  method_id, seed, definition_id, metric_id, evaluation_scope, round, budget)` composite key
+  只允许一条 result；
+- `schema_version="high-value-metric-result-v1"` 同时版本化 envelope 与本文 metric semantics；
+  未来改变字段职责、metric 公式或 undefined behavior 必须使用新 result Schema version 或
+  新 metric ID；
 - result 只用于 immutable evaluation evidence，不返回 candidate-level `H`。
+
+### 5.4 Canonical task-seed aggregate result shape
+
+跨全部预注册 seeds 的 task 内 aggregate 使用独立 envelope：
+
+```json
+{
+  "schema_version": "high-value-task-seed-aggregate-v1",
+  "experiment_config_sha256": "<64-lower-hex>",
+  "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+  "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+  "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a",
+  "task_id": "alpha-amylase",
+  "method_id": "example-method",
+  "definition_id": "upper-tail-1pct",
+  "input_metric_id": "success_at_budget",
+  "metric_id": "success_probability",
+  "evaluation_scope": "task-seed-aggregate",
+  "round": 3,
+  "budget": 32,
+  "ordered_inputs": [
+    {
+      "seed": 0,
+      "metric_result_sha256": "<64-lower-hex>"
+    },
+    {
+      "seed": 1,
+      "metric_result_sha256": "<64-lower-hex>"
+    }
+  ],
+  "status": "defined",
+  "value": 0.5,
+  "undefined_reason": null
+}
+```
+
+闭合规则：
+
+- envelope 顶层禁止 `run_id`、`attempt_id`、`seed` 和 `input_artifact_sha256`；
+- `ordered_inputs` 必须按 integer seed ascending，exact-cover Experiment Config 的全部
+  preregistered seeds，不得 duplicate、missing 或 extra；
+- 每个 checksum 必须指向同一 config/task/method/definition/scope/budget 的 immutable metric
+  result；`success_probability` 的 input metric 只能为 `success_at_budget`；
+- 除 `success_at_budget` 聚合为 `success_probability` 外，aggregate `metric_id` 必须等于
+  `input_metric_id`；
+- static inputs 要求 aggregate `round=null`、`budget=null`；sequential inputs 要求 aggregate
+  的 round/budget 与全部 inputs exact match；
+- definition-independent input metric 要求 aggregate `definition_id=null`；definition-dependent
+  input metric 要求所有 inputs 与 aggregate 绑定同一 non-null definition；
+- `status="defined"` 要求全部 input results defined，value 为其 arithmetic mean；
+- 任一 input result undefined 时 aggregate 必须为 `status="undefined"`、`value=null`、
+  `undefined_reason="undefined_input_result"`；error input 使 aggregate fail closed；
+- aggregate composite key
+  `(experiment_config_sha256, task_id, method_id, definition_id, input_metric_id, metric_id,
+  round, budget)` 只允许一条 result；
+- `schema_version="high-value-task-seed-aggregate-v1"` 的任何语义变化必须使用新 version。
+
+本 slice 不定义可持久化的 raw cross-task aggregate envelope。允许的无量纲 task-first mean
+必须严格遵守第 3.5 节；若后续要把它作为正式 artifact 持久化，必须先冻结单独 versioned
+cross-task envelope。Phase B 不得使用 task-seed envelope 冒充 cross-task artifact。
 
 跨 definition/method 的 interpretation summary 是独立 immutable aggregate artifact，必须
 绑定同一 `experiment_config_sha256` 和其全部输入 result checksums，并持久化
