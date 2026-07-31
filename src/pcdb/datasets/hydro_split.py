@@ -771,7 +771,10 @@ def _publisher_audit(
                 if observed_source == source
                 and (scope == "global" or candidate_wild_types[candidate_id] == scope)
             )
-            scopes[scope] = dict(sorted(observed.items()))
+            expected_roles = config.expected_upstream_role_counts[source][scope]
+            scopes[scope] = {
+                role: observed[role] for role in sorted(set(observed) | set(expected_roles))
+            }
         role_counts[source] = scopes
         mixed = [
             component

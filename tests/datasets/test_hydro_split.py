@@ -254,9 +254,21 @@ def _config_payload(
         "expected_upstream_cross_role_edges": {SOURCE_KEYS[0]: 0, SOURCE_KEYS[1]: 3},
         "expected_upstream_role_counts": {
             SOURCE_KEYS[0]: {
-                "global": {"set=train;validation=False": 9},
-                "WT-A": {"set=train;validation=False": 5},
-                "WT-B": {"set=train;validation=False": 4},
+                "global": {
+                    "set=test;validation=False": 0,
+                    "set=train;validation=False": 9,
+                    "set=train;validation=True": 0,
+                },
+                "WT-A": {
+                    "set=test;validation=False": 0,
+                    "set=train;validation=False": 5,
+                    "set=train;validation=True": 0,
+                },
+                "WT-B": {
+                    "set=test;validation=False": 0,
+                    "set=train;validation=False": 4,
+                    "set=train;validation=True": 0,
+                },
             },
             SOURCE_KEYS[1]: {
                 "global": {
@@ -407,6 +419,15 @@ def test_builds_within_wt_target_free_exact_byte_bundle(tmp_path: Path) -> None:
     assert audit["exclusion_count"] == 0
     assert audit["hidden_truth_read"] is False
     assert audit["publisher_metadata_role"] == "audit_only_not_benchmark_membership"
+    upstream_role_counts = cast(
+        dict[str, dict[str, dict[str, int]]],
+        audit["upstream_role_counts"],
+    )
+    assert upstream_role_counts[SOURCE_KEYS[0]]["WT-A"] == {
+        "set=test;validation=False": 0,
+        "set=train;validation=False": 5,
+        "set=train;validation=True": 0,
+    }
     assert audit["upstream_assignment_disagreements"] == [
         {"count": 4, "left_source": SOURCE_KEYS[0], "right_source": SOURCE_KEYS[1]}
     ]
