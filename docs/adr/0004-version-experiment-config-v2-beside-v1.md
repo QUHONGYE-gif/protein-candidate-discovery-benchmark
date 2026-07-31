@@ -31,6 +31,12 @@ independent metrics use an explicit null definition identity and are never dupli
 high-value definition. Raw unitful values remain task-local; only frozen dimensionless metrics may
 be compared through task-first aggregation.
 
+Result envelopes preserve RunSpec `model_id`, `model_config_sha256`, `acquisition_id`, and
+`acquisition_config_sha256` directly instead of introducing a free method identity. Result
+artifacts reuse the canonical JSON byte procedure and are checksum-bound by their exact validated
+bytes. A task-seed aggregate accepts exactly one outcome-independent, succeeded, completion-marked
+result per preregistered seed; zero or multiple eligible results fail closed.
+
 This ADR records a compatible extension of ADR-0003 and does not supersede it.
 
 ## Considered Options
@@ -49,6 +55,8 @@ This ADR records a compatible extension of ADR-0003 and does not supersede it.
 - Schema v1 files and behavior remain unchanged; v2 has a separate Schema, loader branch, and
   domain validator.
 - Task-seed aggregate evidence cannot be attached to an arbitrary run, attempt, or seed.
+- Retry history cannot be filtered after observing outcomes; ambiguous successful attempts block
+  aggregation until a separately reviewed selection contract exists.
 - Raw `best_found_value` and `simple_regret` cannot become a cross-task scalar without a separately
   versioned normalization contract.
 - Changing canonicalization, metric semantics, or evaluator result shape requires a new version or

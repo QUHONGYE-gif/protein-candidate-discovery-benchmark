@@ -116,6 +116,8 @@ Phase B 的 Schema 与 domain validator 必须实现以下字段名和职责，�
 - `schema_version` 只能为 `"2"`，`contract_status` 只能为 `"production"`；
 - `experiment_id`、`phase`、method/runtime arrays 与 held-out conditional 保持 v1 的 field
   meaning 和基本约束；本 Issue 不冻结其正式 Alpha/IRED values；
+- production result 的 `model_id` / `acquisition_id` 必须分别是 `models` / `acquisitions`
+  的 exact member，并同时 exact-match RunSpec；config SHA-256 则直接来自 RunSpec；
 - `task_id` 只能为 `alpha-amylase` 或 `ired`，并与第 1 节对应的三个 manifest SHA-256、
   `candidate-pool` 和 frozen count 形成不可拆分 binding；
 - `evaluation.primary_high_value_definition_id` 必须为 `upper-tail-1pct`；
@@ -148,6 +150,38 @@ Phase B 的 Schema 与 domain validator 必须实现以下字段名和职责，�
 
 prototype 的 `nominal_k_probability_reporting` 只是一项 illustration，不进入 production v2。
 Phase B 可以把重复 policy object 抽成 Schema `$defs`，但不得改变上述 persisted JSON shape。
+
+### 2.5 Result artifact canonical bytes 与 checksums
+
+第 5.3 节的 metric result 和第 5.4 节的 task-seed aggregate 必须复用第 2.2、2.3 节的 exact
+UTF-8 parser/serializer 规则，包括 sorted object keys、2-space indent、finite JSON numbers、
+exactly one terminal LF、duplicate-key/non-finite rejection 和 re-render byte equality。
+Serializer 只排序 object keys，不重排 arrays；各 Schema/domain rule 负责验证
+high-value definitions 与 `ordered_inputs` 的冻结顺序。
+
+- `metric_result_sha256` 是通过 `high-value-metric-result-v1` 校验的 metric-result exact
+  canonical file bytes 的 SHA-256；
+- task-seed aggregate artifact identity 是通过
+  `high-value-task-seed-aggregate-v1` 校验的 aggregate exact canonical file bytes 的
+  SHA-256；
+- artifact 不在自身 JSON 内保存自己的 checksum，避免 self-reference；checksum 由
+  RunAttempt output inventory、上层 manifest 或引用它的 aggregate 保存。
+
+Fresh consumer 必须按唯一顺序：
+
+1. 读取 exact bytes，拒绝空文件、UTF-8 BOM 与非法 UTF-8；
+2. 解析并拒绝 duplicate keys、`NaN`、`Infinity`、`-Infinity`；
+3. 根据 `schema_version` exact dispatch；unknown version fail closed；
+4. 使用第 2.3 节 serializer re-render，并要求 exact-byte equal；
+5. 执行对应 JSON Schema 与 intrinsic domain validation，包括字段 identity 与 array order；
+6. 对已验证的 exact bytes 计算 SHA-256，并与 RunAttempt inventory、manifest 或
+   `metric_result_sha256` reference exact-match；
+7. 最后执行依赖外部 RunSpec、RunAttempt、input artifact 或 eligible-result set 的
+   cross-artifact domain validation。
+
+Non-canonical equivalent JSON 必须拒绝，不能先重写再接受其 checksum。修改 serializer、
+validation order、result fields 或 checksum semantics 必须使用新 result Schema version；
+不得让旧 reader 以 permissive fallback 接受新语义。
 
 ## 3. Metric contract
 
@@ -229,12 +263,15 @@ prototype placeholder `top_k_recall` 由该无歧义 ID 取代。
   trajectory 中从 initial selection 开始计数的前 B 个 distinct reveal events；
 - attempt-level value：预算边界 `B` 时 `R_B ∩ H` 非空；
 - type：boolean；`true` 为成功；
+- direction：higher is better；
 - 只有 trajectory 至少包含 B 个合法 distinct reveal events 时才 defined；不足 B 时无论
   RunAttempt 为 running、failed 或 succeeded，均 undefined，reason 为
   `budget_not_reached`；成功状态不能补造缺失的预算证据；
-- 跨 preregistered seeds 的 `success_probability` 是同一 task/method/budget 下
+- 跨 preregistered seeds 的 `success_probability` 是同一
+  task/model/acquisition/budget 下
   `success_at_budget`（`true=1`、`false=0`）的 arithmetic mean；任一预注册 seed undefined
   时该 probability 也 undefined，不得静默丢弃 seed；
+- `success_probability` direction 固定为 higher is better；
 - 不得 pool tasks，不得把 seed 当作 task。
 
 本 Phase A 不冻结 cost-aware、labels-to-target 或 M6 multi-fidelity metrics；新增这些指标必须
@@ -267,9 +304,9 @@ Task-seed aggregate 另只允许 `undefined_input_result`。只有本文明确�
 
 ### 3.5 Task-first aggregation 与 fragile/inconclusive
 
-对任一预注册 metric/method/scope，先在每个 task 内对全部预注册 seed 的 defined numeric
-value 做 arithmetic mean；boolean 使用 `true=1`、`false=0`。任一预注册 seed undefined
-时，该 task-seed aggregate 也 undefined；不得通过删除 undefined 项改变分母。
+对任一预注册 metric/model/acquisition/scope，先在每个 task 内对全部预注册 seed 的 defined
+numeric value 做 arithmetic mean；boolean 使用 `true=1`、`false=0`。任一预注册 seed
+undefined 时，该 task-seed aggregate 也 undefined；不得通过删除 undefined 项改变分母。
 
 只有以下无量纲且跨 task 可比的指标可以再对 Alpha 与 IRED 两个 task means 做等权 arithmetic
 mean：
@@ -284,7 +321,8 @@ task 原标签单位及 task-level result；禁止生成 raw cross-task scalar�
 `normalized_regret` 或其他 normalized unitful metric，必须单独冻结 metric ID、公式、
 undefined behavior 和 contract version，不得在 Phase B 实现时临时归一化。
 
-对两个预注册 methods `A` 和 `B` 的同一 task/metric/scope 比较，先把 difference 统一为
+对两个预注册 model/acquisition 组合 `A` 和 `B` 的同一 task/metric/scope 比较，先把
+difference 统一为
 “正数支持 A”：higher-is-better metric 使用 `A - B`，lower-is-better metric 使用 `B - A`。
 仅当 primary difference 与任一 0.5%/2% sensitivity difference 均非零且符号相反时，构成
 `sensitivity_direction_reversal`。相等（difference 为 0）不是方向反转；所需 result undefined
@@ -359,6 +397,7 @@ evaluator 必须接收并核对：
 - exact candidate role 与 candidate-ID universe；
 - hidden truth owned inside the authorized evaluator boundary；
 - M2 prediction rows，或 M3–M5 immutable trajectory/observations；
+- exact RunSpec/RunAttempt，以及 RunSpec 的 model/acquisition IDs 与 config SHA-256；
 - metric ID、definition ID、round/budget scope。
 
 Phase B conformance fixtures 只能使用 synthetic truth。真实 Alpha/IRED target、actual tie count、
@@ -379,7 +418,10 @@ held-out、COS/server execution 和正式 evaluator run 均不属于 Issue #36�
   "attempt_id": "attempt-001",
   "input_artifact_sha256": "<64-lower-hex>",
   "task_id": "alpha-amylase",
-  "method_id": "example-method",
+  "model_id": "example-model",
+  "model_config_sha256": "<64-lower-hex>",
+  "acquisition_id": "example-acquisition",
+  "acquisition_config_sha256": "<64-lower-hex>",
   "seed": 0,
   "candidate_role": "candidate-pool",
   "definition_id": null,
@@ -412,14 +454,16 @@ held-out、COS/server execution 和正式 evaluator run 均不属于 Issue #36�
 - `sequential` 要求 non-negative `round`、positive `budget`；
 - 三个 manifest SHA-256 必须 exact match Experiment Config task binding，`run_id` 必须来自绑定
   同一 config SHA-256 的 RunSpec；
+- `model_id`、`model_config_sha256`、`acquisition_id`、`acquisition_config_sha256`、`seed`
+  必须逐字段 exact-match `run_id` 所指 RunSpec；result 禁止自由 `method_id`；
 - `input_artifact_sha256` 绑定 M2 prediction artifact 或 M3–M5 trajectory artifact；
 - `status="defined"` 要求 finite number 或 boolean value，且
   `undefined_reason=null`；
 - `status="undefined"` 要求 `value=null` 和本文允许的 reason；
 - object additional fields fail closed；
 - 同一 `(experiment_config_sha256, run_id, attempt_id, input_artifact_sha256, task_id,
-  method_id, seed, definition_id, metric_id, evaluation_scope, round, budget)` composite key
-  只允许一条 result；
+  model_id, model_config_sha256, acquisition_id, acquisition_config_sha256, seed,
+  definition_id, metric_id, evaluation_scope, round, budget)` composite key 只允许一条 result；
 - `schema_version="high-value-metric-result-v1"` 同时版本化 envelope 与本文 metric semantics；
   未来改变字段职责、metric 公式或 undefined behavior 必须使用新 result Schema version 或
   新 metric ID；
@@ -437,7 +481,18 @@ held-out、COS/server execution 和正式 evaluator run 均不属于 Issue #36�
   "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
   "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a",
   "task_id": "alpha-amylase",
-  "method_id": "example-method",
+  "run_spec_schema_version": "1",
+  "protocol_version": "example-protocol-v1",
+  "git_commit": "<40-lower-hex>",
+  "environment_digest": "<64-lower-hex>",
+  "feature_sha256": "<64-lower-hex>",
+  "model_id": "example-model",
+  "model_config_sha256": "<64-lower-hex>",
+  "acquisition_id": "example-acquisition",
+  "acquisition_config_sha256": "<64-lower-hex>",
+  "initial_sample_size": 16,
+  "batch_size": 8,
+  "run_budget": 32,
   "definition_id": "upper-tail-1pct",
   "input_metric_id": "success_at_budget",
   "metric_id": "success_probability",
@@ -447,10 +502,14 @@ held-out、COS/server execution 和正式 evaluator run 均不属于 Issue #36�
   "ordered_inputs": [
     {
       "seed": 0,
+      "run_id": "<64-lower-hex>",
+      "attempt_id": "attempt-001",
       "metric_result_sha256": "<64-lower-hex>"
     },
     {
       "seed": 1,
+      "run_id": "<64-lower-hex>",
+      "attempt_id": "attempt-001",
       "metric_result_sha256": "<64-lower-hex>"
     }
   ],
@@ -465,10 +524,24 @@ held-out、COS/server execution 和正式 evaluator run 均不属于 Issue #36�
 - envelope 顶层禁止 `run_id`、`attempt_id`、`seed` 和 `input_artifact_sha256`；
 - `ordered_inputs` 必须按 integer seed ascending，exact-cover Experiment Config 的全部
   preregistered seeds，不得 duplicate、missing 或 extra；
-- 每个 checksum 必须指向同一 config/task/method/definition/scope/budget 的 immutable metric
-  result；`success_probability` 的 input metric 只能为 `success_at_budget`；
+- aggregate 顶层保存 RunSpec 除 `seed` 和 content-derived `run_id` 外的全部 identity fields；
+  `run_spec_schema_version` exact-match RunSpec `schema_version`；
+  `protocol_version`、`git_commit`、`environment_digest`、三个
+  manifest SHA-256、`feature_sha256`、`experiment_config_sha256`、model/acquisition IDs 与
+  config SHA-256、`initial_sample_size`、`batch_size`、`run_budget` 必须与每个 referenced
+  metric result 的 RunSpec 逐字段 exact-match；
+- aggregate `run_budget` exact-match RunSpec `budget`；aggregate `budget` 表示 metric
+  evaluation boundary，static metric 因此可以是 `null`，不得混用两个字段；
+- 每个 entry 的 `seed`、`run_id`、`attempt_id` 必须与其
+  `metric_result_sha256` 所指 metric result 及 RunSpec/RunAttempt exact-match；
+- checksum/result 的 Schema version、config、task、model/acquisition IDs 与 config
+  checksums、definition、input metric、input evaluation scope、round 和 budget 必须全部
+  exact-match 后才能聚合；
+- `success_probability` 的 input metric 只能为 `success_at_budget`；
 - 除 `success_at_budget` 聚合为 `success_probability` 外，aggregate `metric_id` 必须等于
   `input_metric_id`；
+- 同-ID aggregate 继承 input metric direction；`success_probability` 固定
+  higher is better；
 - static inputs 要求 aggregate `round=null`、`budget=null`；sequential inputs 要求 aggregate
   的 round/budget 与全部 inputs exact match；
 - definition-independent input metric 要求 aggregate `definition_id=null`；definition-dependent
@@ -477,18 +550,31 @@ held-out、COS/server execution 和正式 evaluator run 均不属于 Issue #36�
 - 任一 input result undefined 时 aggregate 必须为 `status="undefined"`、`value=null`、
   `undefined_reason="undefined_input_result"`；error input 使 aggregate fail closed；
 - aggregate composite key
-  `(experiment_config_sha256, task_id, method_id, definition_id, input_metric_id, metric_id,
-  round, budget)` 只允许一条 result；
+  `(all aggregate non-seed RunSpec identity fields, task_id, definition_id, input_metric_id,
+  metric_id, round, budget)` 只允许一条 result；
 - `schema_version="high-value-task-seed-aggregate-v1"` 的任何语义变化必须使用新 version。
+
+每个 preregistered seed 的 eligible input selection 必须 outcome-independent：
+
+1. 只考虑 `status="succeeded"` 且具有合法 `_SUCCESS` completion marker 的 RunAttempt；其
+   outputs inventory 必须恰好有一个 artifact entry 的 SHA-256 与
+   `metric_result_sha256` 相同、size 与 canonical metric-result bytes 相同，并通过该 entry
+   的 object key 做 fresh readback；
+2. RunAttempt `run_id` 必须由 exact RunSpec 重建，`attempt_id` 必须与 metric result 和
+   `ordered_inputs` entry exact-match，executed Git/environment 必须与 RunSpec exact-match；
+3. 对该 seed 与 aggregate identity 必须恰好存在一个同时满足全部条件的 metric result；
+4. 0 个或多于 1 个 eligible results/attempts 均 fail closed；不得按 metric value、最新时间、
+   最早时间、attempt ID lexical order 或人工观察结果后选择；
+5. running/failed attempt 不 eligible；其存在不替代或否定唯一 succeeded candidate。
 
 本 slice 不定义可持久化的 raw cross-task aggregate envelope。允许的无量纲 task-first mean
 必须严格遵守第 3.5 节；若后续要把它作为正式 artifact 持久化，必须先冻结单独 versioned
 cross-task envelope。Phase B 不得使用 task-seed envelope 冒充 cross-task artifact。
 
-跨 definition/method 的 interpretation summary 是独立 immutable aggregate artifact，必须
-绑定同一 `experiment_config_sha256` 和其全部输入 result checksums，并持久化
-`interpretation_status` 与上述枚举 reason。它不得回写或覆盖单条 metric result；具体 method
-IDs、预算与正式 summary file Schema 留给后续 M2 protocol Issue。
+跨 definition/model/acquisition 的 interpretation summary 是独立 immutable aggregate
+artifact，必须绑定同一 `experiment_config_sha256` 和其全部输入 result checksums，并持久化
+`interpretation_status` 与上述枚举 reason。它不得回写或覆盖单条 metric result；具体
+model/acquisition 组合、预算与正式 summary file Schema 留给后续 M2 protocol Issue。
 
 ## 6. Held-out 与授权边界
 
