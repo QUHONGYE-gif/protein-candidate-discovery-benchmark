@@ -9,6 +9,10 @@
 - `pilot`：测量实际资源、失败率与实验矩阵；
 - `frozen`：协议冻结后的主结果配置，不允许原地修改。
 
+`configs/experiments/conformance/` 只保存 production contract 的合成一致性 fixture。它们可以
+使用明确的 synthetic placeholder method 和最小数组来验证 Schema/loader，但不得作为正式 M2
+run config、预算/seed 冻结或 benchmark evidence。
+
 `held_out_authorized` 默认必须为 `false`。只有对应 scientific gate 和人工授权完成后才能创建
 新的授权配置版本。
 

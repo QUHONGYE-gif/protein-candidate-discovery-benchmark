@@ -1,7 +1,11 @@
 # ADR-0004: Version Experiment Config v2 beside v1 and bind canonical file bytes
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-07-31
+
+Accepted for TDD implementation by Issue #36 comment `5145054493`, bound to Phase A exact commit
+`7fb56b8dbbc5e25f1c62277c5df488135b9c40c2`. PR #38 merged that contract as
+`99c89fc7759f72554ce419d9cd4ae2ed6d4a2103`.
 
 ## Context
 
@@ -61,5 +65,6 @@ This ADR records a compatible extension of ADR-0003 and does not supersede it.
   versioned normalization contract.
 - Changing canonicalization, metric semantics, or evaluator result shape requires a new version or
   a superseding ADR.
-- This proposed decision authorizes no production implementation until Issue #36 receives an
-  exact-candidate `APPROVED FOR TDD IMPLEMENTATION` review.
+- Production implementation remains bounded by the synthetic/local/CI-only authorization in Issue
+  #36. Real target access, held-out access, COS/server execution, formal M2 execution, Gate 1, and
+  scientific claims require separate authorization.

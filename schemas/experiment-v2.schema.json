@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/experiment-v2.schema.json",
+  "title": "ExperimentConfigV2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_status",
+    "experiment_id",
+    "phase",
+    "task_id",
+    "dataset_manifest_sha256",
+    "processing_manifest_sha256",
+    "split_sha256",
+    "models",
+    "acquisitions",
+    "seeds",
+    "initial_sample_sizes",
+    "batch_sizes",
+    "budgets",
+    "evaluation",
+    "held_out_authorized"
+  ],
+  "properties": {
+    "schema_version": { "const": "2" },
+    "contract_status": { "const": "production" },
+    "experiment_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "phase": { "enum": ["smoke", "development", "pilot", "frozen"] },
+    "task_id": { "enum": ["alpha-amylase", "ired"] },
+    "dataset_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "processing_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "split_sha256": { "$ref": "#/$defs/sha256" },
+    "models": { "$ref": "#/$defs/stringArray" },
+    "acquisitions": { "$ref": "#/$defs/stringArray" },
+    "seeds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "integer", "minimum": 0 }
+    },
+    "initial_sample_sizes": { "$ref": "#/$defs/positiveIntegerArray" },
+    "batch_sizes": { "$ref": "#/$defs/positiveIntegerArray" },
+    "budgets": { "$ref": "#/$defs/positiveIntegerArray" },
+    "evaluation": { "$ref": "#/$defs/evaluation" },
+    "held_out_authorized": { "type": "boolean" },
+    "held_out_authorization_reference": { "type": "string", "minLength": 1 }
+  },
+  "if": {
+    "properties": { "held_out_authorized": { "const": true } },
+    "required": ["held_out_authorized"]
+  },
+  "then": { "required": ["held_out_authorization_reference"] },
+  "else": { "not": { "required": ["held_out_authorization_reference"] } },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "stringArray": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "positiveIntegerArray": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "integer", "minimum": 1 }
+    },
+    "rankingPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label_direction",
+        "secondary_order",
+        "boundary_tie_policy",
+        "non_finite_policy",
+        "duplicate_candidate_id_policy"
+      ],
+      "properties": {
+        "label_direction": { "const": "higher_is_better" },
+        "secondary_order": { "const": "candidate_id_ascending" },
+        "boundary_tie_policy": { "const": "include_all_equal" },
+        "non_finite_policy": { "const": "error" },
+        "duplicate_candidate_id_policy": { "const": "error" }
+      }
+    },
+    "reportingPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_outputs"],
+      "properties": {
+        "required_outputs": {
+          "const": [
+            "nominal_k",
+            "actual_high_value_count",
+            "boundary_score",
+            "boundary_tie_count"
+          ]
+        }
+      }
+    },
+    "derivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fraction", "rounding", "nominal_k"],
+      "properties": {
+        "fraction": { "enum": [0.005, 0.01, 0.02] },
+        "rounding": { "const": "ceil" },
+        "nominal_k": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "highValueDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "definition_id",
+        "purpose",
+        "kind",
+        "value",
+        "candidate_role",
+        "frozen_candidate_count",
+        "ranking_policy",
+        "reporting_policy",
+        "derivation"
+      ],
+      "properties": {
+        "definition_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+        "purpose": { "enum": ["primary", "sensitivity"] },
+        "kind": { "const": "quantile" },
+        "value": { "enum": [0.005, 0.01, 0.02] },
+        "candidate_role": { "const": "candidate-pool" },
+        "frozen_candidate_count": { "type": "integer", "minimum": 1 },
+        "ranking_policy": { "$ref": "#/$defs/rankingPolicy" },
+        "reporting_policy": { "$ref": "#/$defs/reportingPolicy" },
+        "derivation": { "$ref": "#/$defs/derivation" }
+      }
+    },
+    "accessBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "prohibited_consumers"],
+      "properties": {
+        "owner": { "const": "evaluator-or-hidden-oracle" },
+        "prohibited_consumers": {
+          "const": [
+            "candidate-features",
+            "surrogate-model",
+            "calibration",
+            "acquisition-strategy"
+          ]
+        }
+      }
+    },
+    "aggregation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary_unit",
+        "seed_role",
+        "pooled_seed_primary",
+        "raw_unitful_cross_task_aggregate",
+        "dimensionless_equal_weight_cross_task_metrics"
+      ],
+      "properties": {
+        "primary_unit": { "const": "task" },
+        "seed_role": { "const": "within-task-algorithmic-randomness" },
+        "pooled_seed_primary": { "const": false },
+        "raw_unitful_cross_task_aggregate": { "const": false },
+        "dimensionless_equal_weight_cross_task_metrics": {
+          "const": [
+            "spearman_rank_correlation",
+            "high_value_recall_at_nominal_k",
+            "high_value_discovery_recall",
+            "success_probability"
+          ]
+        }
+      }
+    },
+    "interpretationPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary_tie_expansion_fraction_limit",
+        "sensitivity_fractions",
+        "comparison_rule",
+        "triggered_status"
+      ],
+      "properties": {
+        "primary_tie_expansion_fraction_limit": { "const": 0.02 },
+        "sensitivity_fractions": { "const": [0.005, 0.02] },
+        "comparison_rule": { "const": "strict_sign_reversal" },
+        "triggered_status": { "const": "fragile-inconclusive" }
+      }
+    },
+    "metricSets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["m2_static", "m3_m5_sequential", "task_seed_aggregates"],
+      "properties": {
+        "m2_static": {
+          "const": ["spearman_rank_correlation", "high_value_recall_at_nominal_k"]
+        },
+        "m3_m5_sequential": {
+          "const": [
+            "best_found_value",
+            "simple_regret",
+            "high_value_discovery_recall",
+            "success_at_budget"
+          ]
+        },
+        "task_seed_aggregates": { "const": ["success_probability"] }
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary_high_value_definition_id",
+        "high_value_definitions",
+        "access_boundary",
+        "metric_sets",
+        "aggregation",
+        "interpretation_policy"
+      ],
+      "properties": {
+        "primary_high_value_definition_id": { "const": "upper-tail-1pct" },
+        "high_value_definitions": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/highValueDefinition" }
+        },
+        "access_boundary": { "$ref": "#/$defs/accessBoundary" },
+        "metric_sets": { "$ref": "#/$defs/metricSets" },
+        "aggregation": { "$ref": "#/$defs/aggregation" },
+        "interpretation_policy": { "$ref": "#/$defs/interpretationPolicy" }
+      }
+    }
+  }
+}

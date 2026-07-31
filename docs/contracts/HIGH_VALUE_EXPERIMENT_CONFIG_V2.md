@@ -1,11 +1,12 @@
-# Alpha＋IRED High-value Experiment Config v2 Phase A 冻结候选
+# Alpha＋IRED High-value Experiment Config v2 production contract
 
-> 状态：**Proposed / awaiting human review**
+> 状态：**Accepted / Phase B implementation in review**
 > GitHub Issue：#36
-> 基线：`main@c8fbb2e95ec3f1034e1adad8ad453ab012840914`
-> 本文只冻结 production contract candidate，不创建 production Schema、loader、evaluator 或
-> 正式 task config。只有人工评论对本文所在的 exact commit 明确给出
-> `APPROVED FOR TDD IMPLEMENTATION`，才能进入 Phase B。
+> Phase A exact candidate：`7fb56b8dbbc5e25f1c62277c5df488135b9c40c2`
+> Phase A merge：`99c89fc7759f72554ce419d9cd4ae2ed6d4a2103`
+> 本文冻结 production contract，并映射 Phase B 的 production Schema、loader/domain validator
+> 与 synthetic-only evaluator 实现。它不是正式 Alpha/IRED M2 run config，也不授权真实标签、
+> held-out、COS/server、model/replay、Gate 1 或科学结论。
 
 证据链：
 
@@ -19,6 +20,10 @@
   [comment 5103432919](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/28#issuecomment-5103432919)；
 - production-contract gate：
   [Issue #36](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/36)。
+- Phase A freeze 与 merge：
+  [PR #38](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/38)；
+- exact-candidate Phase B 授权：
+  [Issue #36 comment 5145054493](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/36#issuecomment-5145054493)。
 
 ## 1. 冻结范围与不变量
 
@@ -588,7 +593,8 @@ model/acquisition 组合、预算与正式 summary file Schema 留给后续 M2 p
 
 ## 7. ADR、RunSpec 与实现损失上限
 
-- ADR-0004 记录并行 v2 和 canonical-file-byte identity，状态在人工批准前为 Proposed；
+- ADR-0004 记录并行 v2 和 canonical-file-byte identity；Phase A exact candidate 获批后状态为
+  Accepted；
 - ADR-0003 不被 supersede：Experiment Config 继续拥有 threshold、metrics、method 和
   held-out authorization；
 - RunSpec Schema/dataclass 不增加 high-value、metric 或 evaluator 子字段，只绑定完整
@@ -610,9 +616,29 @@ model/acquisition 组合、预算与正式 summary file Schema 留给后续 M2 p
 - [x] v1/v2 dispatch、sentinel、migration/rollback 已固化；
 - [x] evaluator/oracle、result shape、leakage 与 held-out boundary 已固化；
 - [x] ADR-0003 与 RunSpec boundary 已固化；
-- [ ] 独立人工评论对本文所在 exact commit 给出
-  `APPROVED FOR TDD IMPLEMENTATION`。
+- [x] 独立人工评论对 exact commit `7fb56b8dbbc5e25f1c62277c5df488135b9c40c2`
+  给出 `APPROVED FOR TDD IMPLEMENTATION`（comment `5145054493`）。
 
-因此本提交完成的是 **Phase A freeze candidate**，不是 Phase A approval，更不是 Phase B
-implementation complete。人工复核若修改任何 normative rule，必须更新本文并锚定新的 exact
-commit 后重新批准。
+因此 Phase A 已完成并获批。Phase B 的实现/CI 状态必须由新的 exact-head Draft PR 独立复审；
+即使实现与 CI 通过，也不表示真实 benchmark evidence 或 scientific gate 通过。人工复核若要求
+修改任何 normative rule，必须停止实现、更新本文并锚定新的 exact commit 后重新批准。
+
+## 9. Phase B 实现映射与边界
+
+Phase B production-contract implementation 对应：
+
+- `schemas/experiment-v2.schema.json`：与 v1 并行的 Draft 2020-12 production Schema；
+- `src/pcdb/contracts/experiment.py`：strict UTF-8 JSON parser、version dispatch、canonical
+  serializer、exact-byte identity 和 Alpha/IRED domain binding；
+- `src/pcdb/metrics/high_value.py`：synthetic-safe static/sequential pure evaluator 与 prohibited
+  consumer leakage guard；
+- `configs/experiments/conformance/` 与
+  `tests/fixtures/contracts/experiment-v2-task-bindings.json`：只证明 production contract 的
+  Alpha/IRED conformance，不冻结正式 model、acquisition、seed、budget 或 run matrix；
+- `tests/contracts/test_experiment_config.py` 与
+  `tests/contracts/test_high_value_evaluator.py`：canonical/sentinel/domain、v1 compatibility、
+  exact coverage、leakage 和 aggregate-only output tests。
+
+该实现不保存或返回 high-value member IDs、unrevealed targets、boundary membership、oracle max
+或 per-candidate truth-derived rank。Phase B 未读取任何真实 target，未访问 held-out，未运行正式
+model/replay，未读写 COS，也未生成 Gate 1 或科学结果。

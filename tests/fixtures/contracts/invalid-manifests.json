@@ -123,6 +123,10 @@
     },
     "held_out_authorized": false
   },
+  "experiment-v2.schema.json": {
+    "schema_version": "2",
+    "contract_status": "non-production"
+  },
   "run-spec.schema.json": {
     "schema_version": "1",
     "protocol_version": "1",
