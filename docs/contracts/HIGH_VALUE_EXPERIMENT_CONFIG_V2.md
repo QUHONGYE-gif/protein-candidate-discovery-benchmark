@@ -1,6 +1,6 @@
 # Alpha＋IRED High-value Experiment Config v2 Phase A 冻结候选
 
-> 状态：**Proposed / awaiting human review**
+> 状态：**Phase A approved / Phase B TDD authorized**
 > GitHub Issue：#36
 > 基线：`main@c8fbb2e95ec3f1034e1adad8ad453ab012840914`
 > 本文只冻结 production contract candidate，不创建 production Schema、loader、evaluator 或
@@ -19,6 +19,9 @@
   [comment 5103432919](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/28#issuecomment-5103432919)；
 - production-contract gate：
   [Issue #36](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/36)。
+- exact-candidate technical pass：PR #38 review `4830210098`；
+- Phase A authorization：Issue #36 comment `5145054493`，批准对象
+  `7fb56b8dbbc5e25f1c62277c5df488135b9c40c2`。
 
 ## 1. 冻结范围与不变量
 
@@ -610,9 +613,10 @@ model/acquisition 组合、预算与正式 summary file Schema 留给后续 M2 p
 - [x] v1/v2 dispatch、sentinel、migration/rollback 已固化；
 - [x] evaluator/oracle、result shape、leakage 与 held-out boundary 已固化；
 - [x] ADR-0003 与 RunSpec boundary 已固化；
-- [ ] 独立人工评论对本文所在 exact commit 给出
+- [x] 独立人工评论对本文所在 exact commit 给出
   `APPROVED FOR TDD IMPLEMENTATION`。
 
-因此本提交完成的是 **Phase A freeze candidate**，不是 Phase A approval，更不是 Phase B
-implementation complete。人工复核若修改任何 normative rule，必须更新本文并锚定新的 exact
+因此 exact candidate `7fb56b8dbbc5e25f1c62277c5df488135b9c40c2` 已完成
+**Phase A freeze approval**，并允许在第 7 节损失上限内进入 Phase B TDD；这不表示 Phase B
+implementation complete。后续若修改任何 normative rule，必须更新本文并锚定新的 exact
 commit 后重新批准。

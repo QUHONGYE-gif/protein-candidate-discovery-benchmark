@@ -1,0 +1,266 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/high-value-task-seed-aggregate.schema.json",
+  "title": "HighValueTaskSeedAggregateV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_config_sha256",
+    "dataset_manifest_sha256",
+    "processing_manifest_sha256",
+    "split_sha256",
+    "task_id",
+    "run_spec_schema_version",
+    "protocol_version",
+    "git_commit",
+    "environment_digest",
+    "feature_sha256",
+    "model_id",
+    "model_config_sha256",
+    "acquisition_id",
+    "acquisition_config_sha256",
+    "initial_sample_size",
+    "batch_size",
+    "run_budget",
+    "definition_id",
+    "input_metric_id",
+    "metric_id",
+    "evaluation_scope",
+    "round",
+    "budget",
+    "ordered_inputs",
+    "status",
+    "value",
+    "undefined_reason"
+  ],
+  "properties": {
+    "schema_version": { "const": "high-value-task-seed-aggregate-v1" },
+    "experiment_config_sha256": { "$ref": "#/$defs/sha256" },
+    "dataset_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "processing_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "split_sha256": { "$ref": "#/$defs/sha256" },
+    "task_id": { "enum": ["alpha-amylase", "ired"] },
+    "run_spec_schema_version": { "const": "1" },
+    "protocol_version": { "type": "string", "minLength": 1 },
+    "git_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "environment_digest": { "$ref": "#/$defs/sha256" },
+    "feature_sha256": { "$ref": "#/$defs/sha256" },
+    "model_id": { "type": "string", "minLength": 1 },
+    "model_config_sha256": { "$ref": "#/$defs/sha256" },
+    "acquisition_id": { "type": "string", "minLength": 1 },
+    "acquisition_config_sha256": { "$ref": "#/$defs/sha256" },
+    "initial_sample_size": { "type": "integer", "minimum": 1 },
+    "batch_size": { "type": "integer", "minimum": 1 },
+    "run_budget": { "type": "integer", "minimum": 1 },
+    "definition_id": {
+      "type": ["string", "null"],
+      "enum": [
+        null,
+        "upper-tail-1pct",
+        "upper-tail-0.5pct",
+        "upper-tail-2pct"
+      ]
+    },
+    "input_metric_id": {
+      "enum": [
+        "spearman_rank_correlation",
+        "high_value_recall_at_nominal_k",
+        "best_found_value",
+        "simple_regret",
+        "high_value_discovery_recall",
+        "success_at_budget"
+      ]
+    },
+    "metric_id": {
+      "enum": [
+        "spearman_rank_correlation",
+        "high_value_recall_at_nominal_k",
+        "best_found_value",
+        "simple_regret",
+        "high_value_discovery_recall",
+        "success_probability"
+      ]
+    },
+    "evaluation_scope": { "const": "task-seed-aggregate" },
+    "round": { "type": ["integer", "null"], "minimum": 0 },
+    "budget": { "type": ["integer", "null"], "minimum": 1 },
+    "ordered_inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["seed", "run_id", "attempt_id", "metric_result_sha256"],
+        "properties": {
+          "seed": { "type": "integer", "minimum": 0 },
+          "run_id": { "$ref": "#/$defs/sha256" },
+          "attempt_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+          "metric_result_sha256": { "$ref": "#/$defs/sha256" }
+        }
+      }
+    },
+    "status": { "enum": ["defined", "undefined"] },
+    "value": { "type": ["number", "null"] },
+    "undefined_reason": {
+      "type": ["string", "null"],
+      "enum": [null, "undefined_input_result"]
+    }
+  },
+  "allOf": [
+    {
+      "oneOf": [
+        {
+          "properties": {
+            "input_metric_id": { "const": "spearman_rank_correlation" },
+            "metric_id": { "const": "spearman_rank_correlation" }
+          },
+          "required": ["input_metric_id", "metric_id"]
+        },
+        {
+          "properties": {
+            "input_metric_id": { "const": "high_value_recall_at_nominal_k" },
+            "metric_id": { "const": "high_value_recall_at_nominal_k" }
+          },
+          "required": ["input_metric_id", "metric_id"]
+        },
+        {
+          "properties": {
+            "input_metric_id": { "const": "best_found_value" },
+            "metric_id": { "const": "best_found_value" }
+          },
+          "required": ["input_metric_id", "metric_id"]
+        },
+        {
+          "properties": {
+            "input_metric_id": { "const": "simple_regret" },
+            "metric_id": { "const": "simple_regret" }
+          },
+          "required": ["input_metric_id", "metric_id"]
+        },
+        {
+          "properties": {
+            "input_metric_id": { "const": "high_value_discovery_recall" },
+            "metric_id": { "const": "high_value_discovery_recall" }
+          },
+          "required": ["input_metric_id", "metric_id"]
+        },
+        {
+          "properties": {
+            "input_metric_id": { "const": "success_at_budget" },
+            "metric_id": { "const": "success_probability" }
+          },
+          "required": ["input_metric_id", "metric_id"]
+        }
+      ]
+    },
+    {
+      "if": {
+        "properties": {
+          "input_metric_id": {
+            "enum": [
+              "spearman_rank_correlation",
+              "best_found_value",
+              "simple_regret"
+            ]
+          }
+        },
+        "required": ["input_metric_id"]
+      },
+      "then": { "properties": { "definition_id": { "const": null } } },
+      "else": { "properties": { "definition_id": { "type": "string" } } }
+    },
+    {
+      "if": {
+        "properties": {
+          "input_metric_id": {
+            "enum": [
+              "spearman_rank_correlation",
+              "high_value_recall_at_nominal_k"
+            ]
+          }
+        },
+        "required": ["input_metric_id"]
+      },
+      "then": {
+        "properties": {
+          "round": { "const": null },
+          "budget": { "const": null }
+        }
+      },
+      "else": {
+        "properties": {
+          "round": { "type": "integer", "minimum": 0 },
+          "budget": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "defined" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "value": { "type": "number" },
+          "undefined_reason": { "const": null }
+        }
+      },
+      "else": {
+        "properties": {
+          "value": { "const": null },
+          "undefined_reason": { "const": "undefined_input_result" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "metric_id": {
+            "enum": [
+              "high_value_recall_at_nominal_k",
+              "high_value_discovery_recall",
+              "success_probability"
+            ]
+          },
+          "status": { "const": "defined" }
+        },
+        "required": ["metric_id", "status"]
+      },
+      "then": {
+        "properties": {
+          "value": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "metric_id": { "const": "spearman_rank_correlation" },
+          "status": { "const": "defined" }
+        },
+        "required": ["metric_id", "status"]
+      },
+      "then": {
+        "properties": {
+          "value": { "type": "number", "minimum": -1, "maximum": 1 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "metric_id": { "const": "simple_regret" },
+          "status": { "const": "defined" }
+        },
+        "required": ["metric_id", "status"]
+      },
+      "then": {
+        "properties": { "value": { "type": "number", "minimum": 0 } }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}
