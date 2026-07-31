@@ -6,7 +6,9 @@ import hashlib
 import json
 import math
 import re
+from collections.abc import Mapping
 from dataclasses import dataclass
+from types import MappingProxyType
 from typing import Any
 
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
@@ -77,9 +79,25 @@ class LoadedContract:
     """One parsed contract whose exact accepted bytes define its identity."""
 
     schema_version: str
-    value: dict[str, Any]
+    value: Mapping[str, Any]
     canonical_bytes: bytes
     sha256: str
+
+
+def _deep_freeze(value: Any) -> Any:
+    if isinstance(value, dict):
+        return MappingProxyType({key: _deep_freeze(item) for key, item in value.items()})
+    if isinstance(value, list):
+        return tuple(_deep_freeze(item) for item in value)
+    return value
+
+
+def _json_compatible(value: Any) -> Any:
+    if isinstance(value, Mapping):
+        return {key: _json_compatible(item) for key, item in value.items()}
+    if isinstance(value, tuple):
+        return [_json_compatible(item) for item in value]
+    return value
 
 
 def canonical_json_bytes(value: Any) -> bytes:
@@ -87,7 +105,7 @@ def canonical_json_bytes(value: Any) -> bytes:
 
     try:
         rendered = json.dumps(
-            value,
+            _json_compatible(value),
             allow_nan=False,
             ensure_ascii=False,
             indent=2,
@@ -245,26 +263,29 @@ def _validate_definition(
 
 
 def _validate_v2(value: dict[str, Any]) -> None:
+    expected_fields = {
+        "acquisitions",
+        "batch_sizes",
+        "budgets",
+        "contract_status",
+        "dataset_manifest_sha256",
+        "evaluation",
+        "experiment_id",
+        "held_out_authorized",
+        "initial_sample_sizes",
+        "models",
+        "phase",
+        "processing_manifest_sha256",
+        "schema_version",
+        "seeds",
+        "split_sha256",
+        "task_id",
+    }
+    if "held_out_authorization_reference" in value:
+        expected_fields.add("held_out_authorization_reference")
     _require_exact_keys(
         value,
-        {
-            "acquisitions",
-            "batch_sizes",
-            "budgets",
-            "contract_status",
-            "dataset_manifest_sha256",
-            "evaluation",
-            "experiment_id",
-            "held_out_authorized",
-            "initial_sample_sizes",
-            "models",
-            "phase",
-            "processing_manifest_sha256",
-            "schema_version",
-            "seeds",
-            "split_sha256",
-            "task_id",
-        },
+        expected_fields,
         "Experiment Config v2",
     )
     if value["schema_version"] != "2" or value["contract_status"] != "production":
@@ -286,8 +307,19 @@ def _validate_v2(value: dict[str, Any]) -> None:
     _require_unique_positive_ints(value["initial_sample_sizes"], "initial_sample_sizes")
     _require_unique_positive_ints(value["batch_sizes"], "batch_sizes")
     _require_unique_positive_ints(value["budgets"], "budgets")
-    if value["held_out_authorized"] is not False:
-        raise ContractValidationError("Phase B conformance configs must keep held-out closed")
+    held_out_authorized = value["held_out_authorized"]
+    authorization_reference = value.get("held_out_authorization_reference")
+    if not isinstance(held_out_authorized, bool):
+        raise ContractValidationError("held-out authorization flag must be boolean")
+    if held_out_authorized:
+        if not isinstance(authorization_reference, str) or not authorization_reference:
+            raise ContractValidationError(
+                "held-out authorization requires a non-empty authorization reference"
+            )
+    elif authorization_reference is not None:
+        raise ContractValidationError(
+            "held-out authorization reference is forbidden while authorization is false"
+        )
 
     evaluation = value["evaluation"]
     if not isinstance(evaluation, dict):
@@ -387,7 +419,7 @@ def load_experiment_config(payload: bytes) -> LoadedContract:
         raise ContractValidationError(f"unknown Experiment Config schema_version: {version!r}")
     return LoadedContract(
         schema_version=version,
-        value=value,
+        value=_deep_freeze(value),
         canonical_bytes=accepted_bytes,
         sha256=hashlib.sha256(accepted_bytes).hexdigest(),
     )
@@ -729,7 +761,7 @@ def load_high_value_result(
         raise ContractValidationError("high-value result SHA-256 does not match")
     return LoadedContract(
         schema_version=version,
-        value=value,
+        value=_deep_freeze(value),
         canonical_bytes=payload,
         sha256=digest,
     )

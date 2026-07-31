@@ -187,7 +187,7 @@ def validate_task_seed_aggregate(
     _expect_equal(aggregate["task_id"], config["task_id"], "aggregate task_id")
 
     ordered_inputs = aggregate["ordered_inputs"]
-    if not isinstance(ordered_inputs, list):
+    if not isinstance(ordered_inputs, Sequence) or isinstance(ordered_inputs, (str, bytes)):
         raise ContractValidationError("ordered_inputs must be an array")
     ordered_seeds = [item.get("seed") for item in ordered_inputs]
     registered_seeds = sorted(config["seeds"])

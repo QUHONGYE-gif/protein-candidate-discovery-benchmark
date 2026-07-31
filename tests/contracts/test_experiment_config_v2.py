@@ -3,8 +3,9 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import operator
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import pytest
 from jsonschema import Draft202012Validator
@@ -33,6 +34,25 @@ def _fixture_bytes(task: str) -> bytes:
     return (FIXTURE_DIRECTORY / f"experiment-v2-{task}.json").read_bytes()
 
 
+def _loaded_contract_for_mutation_regression(kind: str) -> LoadedContract:
+    if kind == "experiment":
+        return load_experiment_config(_fixture_bytes("alpha"))
+    if kind == "experiment-v1":
+        return load_experiment_config(
+            (ROOT / "configs/experiments/smoke/baseline.json").read_bytes()
+        )
+
+    fixtures = json.loads((FIXTURE_DIRECTORY / "valid-manifests.json").read_text())
+    schema_version = {
+        "metric-result": "high-value-metric-result-v1",
+        "task-seed-aggregate": "high-value-task-seed-aggregate-v1",
+    }[kind]
+    return load_high_value_result(
+        canonical_json_bytes(fixtures[f"{schema_version.removesuffix('-v1')}.schema.json"]),
+        expected_schema_version=schema_version,
+    )
+
+
 @pytest.mark.parametrize("task", ["alpha", "ired"])
 def test_v2_conformance_fixture_is_canonical_and_domain_valid(task: str) -> None:
     payload = _fixture_bytes(task)
@@ -51,6 +71,43 @@ def test_v2_schema_accepts_both_exact_task_bindings() -> None:
 
     for task in ("alpha", "ired"):
         validator.validate(json.loads(_fixture_bytes(task)))
+
+
+def test_v2_held_out_authorization_conditional_accepts_explicit_true_reference() -> None:
+    schema = json.loads((SCHEMA_DIRECTORY / "experiment-v2.schema.json").read_text())
+    value = json.loads(_fixture_bytes("alpha"))
+    value["held_out_authorized"] = True
+    value["held_out_authorization_reference"] = "issue-36-synthetic-contract-test"
+    payload = canonical_json_bytes(value)
+
+    Draft202012Validator(schema).validate(value)
+    loaded = load_experiment_config(payload)
+
+    assert loaded.value["held_out_authorized"] is True
+    assert loaded.value["held_out_authorization_reference"] == "issue-36-synthetic-contract-test"
+
+
+@pytest.mark.parametrize(
+    ("authorized", "reference"),
+    [
+        (True, None),
+        (False, "issue-36-forbidden-reference"),
+    ],
+)
+def test_v2_held_out_authorization_conditional_fails_closed(
+    authorized: bool,
+    reference: str | None,
+) -> None:
+    schema = json.loads((SCHEMA_DIRECTORY / "experiment-v2.schema.json").read_text())
+    value = json.loads(_fixture_bytes("alpha"))
+    value["held_out_authorized"] = authorized
+    if reference is not None:
+        value["held_out_authorization_reference"] = reference
+
+    with pytest.raises(ValidationError):
+        Draft202012Validator(schema).validate(value)
+    with pytest.raises(ContractValidationError, match="held-out"):
+        load_experiment_config(canonical_json_bytes(value))
 
 
 @pytest.mark.parametrize(
@@ -134,6 +191,90 @@ def test_v1_dispatch_preserves_existing_fixture_behavior() -> None:
     assert loaded.schema_version == "1"
     assert loaded.value["experiment_id"] == "smoke-baseline-v1"
     assert loaded.sha256 == hashlib.sha256(payload).hexdigest()
+
+
+@pytest.mark.parametrize(
+    ("kind", "key", "replacement"),
+    [
+        ("experiment", "split_sha256", "f" * 64),
+        ("experiment-v1", "split_sha256", "f" * 64),
+        ("metric-result", "split_sha256", "f" * 64),
+        ("task-seed-aggregate", "split_sha256", "f" * 64),
+    ],
+)
+def test_loaded_contract_top_level_mapping_is_read_only(
+    kind: str,
+    key: str,
+    replacement: Any,
+) -> None:
+    loaded = _loaded_contract_for_mutation_regression(kind)
+    identity = (loaded.canonical_bytes, loaded.sha256)
+
+    with pytest.raises(TypeError):
+        operator.setitem(cast(Any, loaded.value), key, replacement)
+
+    assert (loaded.canonical_bytes, loaded.sha256) == identity
+
+
+@pytest.mark.parametrize(
+    ("kind", "path", "key", "replacement"),
+    [
+        (
+            "experiment",
+            ("evaluation", "high_value_definitions", 0, "derivation"),
+            "fraction",
+            0.02,
+        ),
+        (
+            "experiment-v1",
+            ("evaluation", "high_value_definition"),
+            "value",
+            999,
+        ),
+        ("metric-result", ("support",), "evaluated_candidate_count", 999),
+        ("task-seed-aggregate", ("ordered_inputs", 0), "seed", 999),
+    ],
+)
+def test_loaded_contract_nested_mapping_is_read_only(
+    kind: str,
+    path: tuple[str | int, ...],
+    key: str,
+    replacement: Any,
+) -> None:
+    loaded = _loaded_contract_for_mutation_regression(kind)
+    identity = (loaded.canonical_bytes, loaded.sha256)
+    target: Any = loaded.value
+    for segment in path:
+        target = target[segment]
+
+    with pytest.raises(TypeError):
+        operator.setitem(target, key, replacement)
+
+    assert (loaded.canonical_bytes, loaded.sha256) == identity
+
+
+@pytest.mark.parametrize(
+    ("kind", "path"),
+    [
+        ("experiment", ("models",)),
+        ("experiment-v1", ("models",)),
+        ("task-seed-aggregate", ("ordered_inputs",)),
+    ],
+)
+def test_loaded_contract_nested_sequence_is_read_only(
+    kind: str,
+    path: tuple[str, ...],
+) -> None:
+    loaded = _loaded_contract_for_mutation_regression(kind)
+    identity = (loaded.canonical_bytes, loaded.sha256)
+    target: Any = loaded.value
+    for segment in path:
+        target = target[segment]
+
+    with pytest.raises(TypeError):
+        operator.setitem(target, 0, "tampered")
+
+    assert (loaded.canonical_bytes, loaded.sha256) == identity
 
 
 @pytest.mark.parametrize(

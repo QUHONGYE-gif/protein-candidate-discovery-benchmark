@@ -197,9 +197,18 @@
         }
       }
     },
-    "held_out_authorized": { "const": false }
+    "held_out_authorized": { "type": "boolean", "default": false },
+    "held_out_authorization_reference": { "type": "string", "minLength": 1 }
   },
   "allOf": [
+    {
+      "if": {
+        "properties": { "held_out_authorized": { "const": true } },
+        "required": ["held_out_authorized"]
+      },
+      "then": { "required": ["held_out_authorization_reference"] },
+      "else": { "not": { "required": ["held_out_authorization_reference"] } }
+    },
     {
       "if": {
         "properties": { "task_id": { "const": "alpha-amylase" } },
