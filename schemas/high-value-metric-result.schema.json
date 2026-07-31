@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/high-value-metric-result.schema.json",
+  "title": "HighValueMetricResultV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_config_sha256",
+    "dataset_manifest_sha256",
+    "processing_manifest_sha256",
+    "split_sha256",
+    "run_id",
+    "attempt_id",
+    "input_artifact_sha256",
+    "task_id",
+    "model_id",
+    "model_config_sha256",
+    "acquisition_id",
+    "acquisition_config_sha256",
+    "seed",
+    "candidate_role",
+    "definition_id",
+    "metric_id",
+    "evaluation_scope",
+    "round",
+    "budget",
+    "status",
+    "value",
+    "undefined_reason",
+    "support"
+  ],
+  "properties": {
+    "schema_version": { "const": "high-value-metric-result-v1" },
+    "experiment_config_sha256": { "$ref": "#/$defs/sha256" },
+    "dataset_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "processing_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "split_sha256": { "$ref": "#/$defs/sha256" },
+    "run_id": { "$ref": "#/$defs/sha256" },
+    "attempt_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "input_artifact_sha256": { "$ref": "#/$defs/sha256" },
+    "task_id": { "enum": ["alpha-amylase", "ired"] },
+    "model_id": { "type": "string", "minLength": 1 },
+    "model_config_sha256": { "$ref": "#/$defs/sha256" },
+    "acquisition_id": { "type": "string", "minLength": 1 },
+    "acquisition_config_sha256": { "$ref": "#/$defs/sha256" },
+    "seed": { "type": "integer", "minimum": 0 },
+    "candidate_role": { "const": "candidate-pool" },
+    "definition_id": {
+      "type": ["string", "null"],
+      "enum": [
+        null,
+        "upper-tail-1pct",
+        "upper-tail-0.5pct",
+        "upper-tail-2pct"
+      ]
+    },
+    "metric_id": {
+      "enum": [
+        "spearman_rank_correlation",
+        "high_value_recall_at_nominal_k",
+        "best_found_value",
+        "simple_regret",
+        "high_value_discovery_recall",
+        "success_at_budget"
+      ]
+    },
+    "evaluation_scope": { "enum": ["m2-static", "sequential"] },
+    "round": { "type": ["integer", "null"], "minimum": 0 },
+    "budget": { "type": ["integer", "null"], "minimum": 1 },
+    "status": { "enum": ["defined", "undefined"] },
+    "value": { "type": ["number", "boolean", "null"] },
+    "undefined_reason": {
+      "type": ["string", "null"],
+      "enum": [
+        null,
+        "insufficient_observations",
+        "constant_target",
+        "constant_prediction",
+        "constant_target_and_prediction",
+        "no_revealed_observations",
+        "budget_not_reached"
+      ]
+    },
+    "support": {
+      "oneOf": [
+        { "$ref": "#/$defs/definitionIndependentSupport" },
+        { "$ref": "#/$defs/definitionDependentSupport" }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "metric_id": {
+            "enum": [
+              "spearman_rank_correlation",
+              "best_found_value",
+              "simple_regret"
+            ]
+          }
+        },
+        "required": ["metric_id"]
+      },
+      "then": {
+        "properties": {
+          "definition_id": { "const": null },
+          "support": { "$ref": "#/$defs/definitionIndependentSupport" }
+        }
+      },
+      "else": {
+        "properties": {
+          "definition_id": { "type": "string" },
+          "support": { "$ref": "#/$defs/definitionDependentSupport" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "evaluation_scope": { "const": "m2-static" } },
+        "required": ["evaluation_scope"]
+      },
+      "then": {
+        "properties": {
+          "round": { "const": null },
+          "budget": { "const": null },
+          "metric_id": {
+            "enum": [
+              "spearman_rank_correlation",
+              "high_value_recall_at_nominal_k"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "round": { "type": "integer", "minimum": 0 },
+          "budget": { "type": "integer", "minimum": 1 },
+          "metric_id": {
+            "enum": [
+              "best_found_value",
+              "simple_regret",
+              "high_value_discovery_recall",
+              "success_at_budget"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "defined" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "value": { "type": ["number", "boolean"] },
+          "undefined_reason": { "const": null }
+        }
+      },
+      "else": {
+        "properties": {
+          "value": { "const": null },
+          "undefined_reason": { "type": "string" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "metric_id": { "const": "success_at_budget" } },
+        "required": ["metric_id"]
+      },
+      "then": {
+        "if": {
+          "properties": { "status": { "const": "defined" } },
+          "required": ["status"]
+        },
+        "then": { "properties": { "value": { "type": "boolean" } } },
+        "else": {
+          "properties": { "undefined_reason": { "const": "budget_not_reached" } }
+        }
+      },
+      "else": {
+        "if": {
+          "properties": { "status": { "const": "defined" } },
+          "required": ["status"]
+        },
+        "then": { "properties": { "value": { "type": "number" } } }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "metric_id": {
+            "enum": [
+              "high_value_recall_at_nominal_k",
+              "high_value_discovery_recall"
+            ]
+          }
+        },
+        "required": ["metric_id"]
+      },
+      "then": {
+        "properties": {
+          "status": { "const": "defined" },
+          "value": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "undefined" } },
+        "required": ["status"]
+      },
+      "then": {
+        "oneOf": [
+          {
+            "properties": {
+              "metric_id": { "const": "spearman_rank_correlation" },
+              "undefined_reason": {
+                "enum": [
+                  "insufficient_observations",
+                  "constant_target",
+                  "constant_prediction",
+                  "constant_target_and_prediction"
+                ]
+              }
+            },
+            "required": ["metric_id", "undefined_reason"]
+          },
+          {
+            "properties": {
+              "metric_id": { "enum": ["best_found_value", "simple_regret"] },
+              "undefined_reason": { "const": "no_revealed_observations" }
+            },
+            "required": ["metric_id", "undefined_reason"]
+          },
+          {
+            "properties": {
+              "metric_id": { "const": "success_at_budget" },
+              "undefined_reason": { "const": "budget_not_reached" }
+            },
+            "required": ["metric_id", "undefined_reason"]
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": { "metric_id": { "const": "spearman_rank_correlation" } },
+        "required": ["metric_id"]
+      },
+      "then": {
+        "if": {
+          "properties": { "status": { "const": "defined" } },
+          "required": ["status"]
+        },
+        "then": {
+          "properties": {
+            "value": { "type": "number", "minimum": -1, "maximum": 1 }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "metric_id": { "const": "simple_regret" } },
+        "required": ["metric_id"]
+      },
+      "then": {
+        "if": {
+          "properties": { "status": { "const": "defined" } },
+          "required": ["status"]
+        },
+        "then": {
+          "properties": { "value": { "type": "number", "minimum": 0 } }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "definitionIndependentSupport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evaluated_candidate_count"],
+      "properties": {
+        "evaluated_candidate_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "definitionDependentSupport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frozen_candidate_count",
+        "nominal_k",
+        "actual_high_value_count",
+        "boundary_score",
+        "boundary_tie_count",
+        "evaluated_candidate_count"
+      ],
+      "properties": {
+        "frozen_candidate_count": { "type": "integer", "minimum": 1 },
+        "nominal_k": { "type": "integer", "minimum": 1 },
+        "actual_high_value_count": { "type": "integer", "minimum": 1 },
+        "boundary_score": { "type": "number" },
+        "boundary_tie_count": { "type": "integer", "minimum": 1 },
+        "evaluated_candidate_count": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

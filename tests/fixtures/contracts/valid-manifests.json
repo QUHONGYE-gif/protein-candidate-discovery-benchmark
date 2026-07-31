@@ -124,6 +124,77 @@
     },
     "held_out_authorized": false
   },
+  "high-value-metric-result.schema.json": {
+    "schema_version": "high-value-metric-result-v1",
+    "experiment_config_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+    "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+    "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a",
+    "run_id": "2222222222222222222222222222222222222222222222222222222222222222",
+    "attempt_id": "attempt-001",
+    "input_artifact_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "task_id": "alpha-amylase",
+    "model_id": "synthetic-model",
+    "model_config_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+    "acquisition_id": "synthetic-acquisition",
+    "acquisition_config_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "seed": 0,
+    "candidate_role": "candidate-pool",
+    "definition_id": null,
+    "metric_id": "simple_regret",
+    "evaluation_scope": "sequential",
+    "round": 3,
+    "budget": 32,
+    "status": "defined",
+    "value": 0.125,
+    "undefined_reason": null,
+    "support": {
+      "evaluated_candidate_count": 32
+    }
+  },
+  "high-value-task-seed-aggregate.schema.json": {
+    "schema_version": "high-value-task-seed-aggregate-v1",
+    "experiment_config_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+    "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+    "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a",
+    "task_id": "alpha-amylase",
+    "run_spec_schema_version": "1",
+    "protocol_version": "synthetic-protocol-v1",
+    "git_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "environment_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "feature_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "model_id": "synthetic-model",
+    "model_config_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+    "acquisition_id": "synthetic-acquisition",
+    "acquisition_config_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "initial_sample_size": 16,
+    "batch_size": 8,
+    "run_budget": 32,
+    "definition_id": "upper-tail-1pct",
+    "input_metric_id": "success_at_budget",
+    "metric_id": "success_probability",
+    "evaluation_scope": "task-seed-aggregate",
+    "round": 3,
+    "budget": 32,
+    "ordered_inputs": [
+      {
+        "seed": 0,
+        "run_id": "2222222222222222222222222222222222222222222222222222222222222222",
+        "attempt_id": "attempt-001",
+        "metric_result_sha256": "6666666666666666666666666666666666666666666666666666666666666666"
+      },
+      {
+        "seed": 1,
+        "run_id": "7777777777777777777777777777777777777777777777777777777777777777",
+        "attempt_id": "attempt-001",
+        "metric_result_sha256": "8888888888888888888888888888888888888888888888888888888888888888"
+      }
+    ],
+    "status": "defined",
+    "value": 0.5,
+    "undefined_reason": null
+  },
   "run-spec.schema.json": {
     "schema_version": "1",
     "protocol_version": "1",

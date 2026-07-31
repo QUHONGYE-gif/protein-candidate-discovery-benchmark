@@ -12,6 +12,20 @@ REPOSITORY_ROOT = Path(__file__).parents[2]
 FIXTURE_DIRECTORY = REPOSITORY_ROOT / "tests/fixtures/contracts"
 
 SCHEMA_NAMES = [path.name for path in sorted(SCHEMA_DIRECTORY.glob("*.schema.json"))]
+STANDALONE_FIXTURE_SCHEMAS = {"experiment-v2.schema.json"}
+
+
+def _schema_fixture(schema_name: str, *, valid: bool) -> object:
+    if schema_name == "experiment-v2.schema.json":
+        fixture = json.loads(
+            (FIXTURE_DIRECTORY / "experiment-v2-alpha.json").read_text(encoding="utf-8")
+        )
+        if not valid:
+            fixture["contract_status"] = "proposal"
+        return fixture
+    filename = "valid-manifests.json" if valid else "invalid-manifests.json"
+    fixtures = json.loads((FIXTURE_DIRECTORY / filename).read_text(encoding="utf-8"))
+    return fixtures[schema_name]
 
 
 @pytest.mark.parametrize(
@@ -41,26 +55,24 @@ def test_smoke_experiment_matches_experiment_schema() -> None:
 def test_manifest_fixture_set_covers_every_schema(fixture_name: str) -> None:
     fixtures = json.loads((FIXTURE_DIRECTORY / fixture_name).read_text(encoding="utf-8"))
 
-    assert set(fixtures) == set(SCHEMA_NAMES)
+    assert set(fixtures) == set(SCHEMA_NAMES) - STANDALONE_FIXTURE_SCHEMAS
 
 
 @pytest.mark.parametrize("schema_name", SCHEMA_NAMES)
 def test_valid_manifest_fixture_matches_schema(schema_name: str) -> None:
     schema = json.loads((SCHEMA_DIRECTORY / schema_name).read_text(encoding="utf-8"))
-    fixtures = json.loads((FIXTURE_DIRECTORY / "valid-manifests.json").read_text(encoding="utf-8"))
-
-    Draft202012Validator(schema, format_checker=FormatChecker()).validate(fixtures[schema_name])
+    Draft202012Validator(schema, format_checker=FormatChecker()).validate(
+        _schema_fixture(schema_name, valid=True)
+    )
 
 
 @pytest.mark.parametrize("schema_name", SCHEMA_NAMES)
 def test_invalid_manifest_fixture_is_rejected(schema_name: str) -> None:
     schema = json.loads((SCHEMA_DIRECTORY / schema_name).read_text(encoding="utf-8"))
-    fixtures = json.loads(
-        (FIXTURE_DIRECTORY / "invalid-manifests.json").read_text(encoding="utf-8")
-    )
-
     with pytest.raises(ValidationError):
-        Draft202012Validator(schema, format_checker=FormatChecker()).validate(fixtures[schema_name])
+        Draft202012Validator(schema, format_checker=FormatChecker()).validate(
+            _schema_fixture(schema_name, valid=False)
+        )
 
 
 def test_processing_manifest_v1_accepts_legacy_output_without_row_count() -> None:

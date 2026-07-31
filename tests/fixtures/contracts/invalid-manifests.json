@@ -123,6 +123,12 @@
     },
     "held_out_authorized": false
   },
+  "high-value-metric-result.schema.json": {
+    "schema_version": "unknown"
+  },
+  "high-value-task-seed-aggregate.schema.json": {
+    "schema_version": "unknown"
+  },
   "run-spec.schema.json": {
     "schema_version": "1",
     "protocol_version": "1",
