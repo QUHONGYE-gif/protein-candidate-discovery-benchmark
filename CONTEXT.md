@@ -25,6 +25,12 @@ under small-sample and fixed-budget conditions.
 - **Processing manifest**: the immutable transformation, duplicate-handling, field-visibility, and
   processed-output record derived from one dataset manifest.
 - **Split manifest**: the immutable membership and leakage-control record for one evaluation split.
+- **Experiment Config**: the immutable evaluation and method contract whose canonical file bytes
+  are checksum-bound by a RunSpec.
+- **High-value definition**: a prospective evaluator-owned rule over one frozen candidate-pool
+  universe.
+- **Evaluator**: the component that owns truth-derived metric computation without exposing
+  unrevealed labels or high-value membership to model-side consumers.
 - **Engineering readiness**: implementation and verification status only.
 - **Scientific gate**: a prospectively defined evidence threshold; never inferred from CI status.
 - **Held-out**: data that remains closed to method selection and development decisions.
@@ -39,6 +45,9 @@ under small-sample and fixed-budget conditions.
 4. Public and private protein project data remain operationally separated.
 5. Engineering completion and scientific validation are reported independently.
 6. Frozen protocols are superseded, never silently edited.
+7. RunSpec binds the complete Experiment Config checksum and does not interpret its evaluation
+   subfields.
+8. High-value membership remains private to the evaluator or hidden oracle.
 
 ## Context boundary
 

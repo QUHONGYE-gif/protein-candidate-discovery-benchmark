@@ -2,6 +2,10 @@
 
 > 状态：**非生产 proposal**。本目录不构成 accepted Schema、Experiment Config、RunSpec、
 > evaluator 实现、Gate 1 PASS 或 M2 授权。
+>
+> Issue #36 的 Phase A production-contract freeze candidate 见
+> [`HIGH_VALUE_EXPERIMENT_CONFIG_V2.md`](../../contracts/HIGH_VALUE_EXPERIMENT_CONFIG_V2.md)。
+> 该候选在人工明确批准前同样不是 production contract。
 
 ## 目的
 
