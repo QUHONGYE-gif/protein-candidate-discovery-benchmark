@@ -8,8 +8,10 @@ readback 和不可覆盖验证。Imine Reductase 的 Issue #22 split 已有 impl
 fixture 与 CI evidence，并在 Draft PR #23 接受审查；尚无真实 observable-input preflight、
 server execution、COS publication 或 fresh readback。Nuclease B 的 Issue #25 已完成正式
 topology-extrapolation split publication、fresh readback 和独立确定性重建验证；Hydrophobic Core
-尚未进入正式 split。四个 task 均未进入 replay。其他候选数据源包括 ProteinGym 和 SKEMPI
-2.0；每个具体 task/assay 必须通过 dataset onboarding Issue 后才能进入开发或主实验。
+也已完成非 primary、非 M2 必需的 within-WT topology stress tracer 正式 split publication、
+fresh readback 和独立确定性重建验证。四个 task 均未进入 replay。其他候选数据源包括
+ProteinGym 和 SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboarding Issue 后才能进入
+开发或主实验。
 
 ## 进行中的 onboarding
 
@@ -65,9 +67,17 @@ topology-extrapolation split publication、fresh readback 和独立确定性重�
   source/semantics audit，并 prospectively 冻结 24,935-candidate multi-WT processing contract：
   P06241/P01053/P0A9X9 分别为 9,972/6,463/8,500 candidates，observable candidates 显式包含
   `wild_type_id`，target 保持独立 hidden truth，88,664 个 within-WT Hamming-1 pairs 延后由
-  Split Manifest 处理，见 [FLIP2 Hydro processing](data/FLIP2_HYDRO_PROCESSING.md)。当前仅进入
-  implementation/local-preflight gate；正式 COS publication、split、held-out、replay 和
-  scientific validation 均未授权。
+  Split Manifest 处理，见 [FLIP2 Hydro processing](data/FLIP2_HYDRO_PROCESSING.md)。Issue #27
+  已在 merged commit `cda72d5ac96268cbb9a41432d73adafe628e7761` 上发布
+  `flip2-hydro-within-wt-topology-stress-tracer-v1`；protocol hash 为
+  `6ef77e40e56d079959430d086eddde4b74360ca7c4cddd6af33bbc0cf52bacbe`。正式 inventory 为
+  2 个 payload 和 1 个 Split Manifest，membership 按
+  development/candidate-pool/validation/held-out = 23,775/580/290/290 分配，1,346 个
+  within-WT components 均不跨 role。非发布方随后 fresh 读取 accepted observable chain，
+  从 exact merged commit 重建并确认正式 bundle 3/3 exact-byte identical，见
+  [FLIP2 Hydro split](data/FLIP2_HYDRO_SPLIT.md)。该 tracer 是非 primary、非 M2 entry
+  requirement；其 server-execution evidence 不授权 hidden truth、held-out/WT-holdout、
+  feature/model/replay、benchmark conclusion 或 scientific gate。
 - Alpha Amylase 与 IRED processing implementation、正式 immutable publication/recovery 与 fresh
   readback 已完成。Issue #19 冻结的 primary topology-isolation split 已在 reviewed commit
   `b540bfb3ed65066cb74418d5a4336452bf837af1` 上正式发布；protocol hash 为
