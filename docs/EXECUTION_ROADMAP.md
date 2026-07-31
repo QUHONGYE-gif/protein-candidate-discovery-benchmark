@@ -103,6 +103,19 @@ membership 为 development/candidate-pool/validation/held-out =
 implementation/publication gate；held-out authorization、hidden-truth consumption、replay、
 benchmark evidence、M2 completion 与 scientific gate 仍需后续独立授权。
 
+补充（2026-07-31）：Hydrophobic Core Issue #27 已在 merged commit
+`cda72d5ac96268cbb9a41432d73adafe628e7761` 上完成具名
+`flip2-hydro-within-wt-topology-stress-tracer-v1` 的正式 immutable Split Manifest
+publication。Protocol hash 为
+`6ef77e40e56d079959430d086eddde4b74360ca7c4cddd6af33bbc0cf52bacbe`；
+远端 inventory 为 `2 + 1`，membership 的
+development/candidate-pool/validation/held-out 为 23,775/580/290/290，1,346 个 within-WT
+components 与 88,664 条 Hamming-1 edges 均为 0 cross-role crossing。非发布方已 fresh
+读取 accepted observable inputs，在 exact merged commit 上重建，并确认 COS bundle 3/3
+exact-byte identical、Schema/domain PASS。该 split 被前瞻性限定为非 primary、非 M2 必需的
+topology stress tracer；它不授权 hidden truth、held-out/WT-holdout、feature/model/replay、
+benchmark conclusions、M2 entry 或 scientific gate。
+
 ### M2：轻量特征与静态基线
 
 **计划窗口**：7 月 29 日–8 月 2 日。
