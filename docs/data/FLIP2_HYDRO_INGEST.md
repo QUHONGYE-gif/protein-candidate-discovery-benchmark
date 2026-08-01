@@ -55,4 +55,6 @@ manifests/flip2/zenodo-18433203-v3/hydro/ingest-attempts/<attempt-id>.json
 
 原始 CSV 当前可观察字段为 `sequence,target,set,validation`。三个 wild-type 的身份关系、label
 direction、missing-value、candidate identity、duplicate 规则和 split membership 均属于后续
-Processing Manifest 与 Split Manifest，尚未确认。
+Processing Manifest 与 Split Manifest，不由本 raw-ingest evidence 确认。后续状态见
+[Hydrophobic Core processing](FLIP2_HYDRO_PROCESSING.md) 与
+[Hydrophobic Core split](FLIP2_HYDRO_SPLIT.md)。

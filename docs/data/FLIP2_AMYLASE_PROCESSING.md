@@ -105,6 +105,7 @@ manifest prefixes 没有额外对象。失败尝试与恢复完成分别记录�
 operator，而不是 reviewer 身份下的第二次独立下载。此角色分离不改变成功的 processing
 server-execution 结论，但必须保留这一证据来源边界。
 
-以上只完成 Alpha Amylase processing implementation 与 server-execution evidence。Split membership、
-near-duplicate grouping/leakage control、held-out 授权、feature、model、replay、benchmark result 和
-scientific gate 均未完成，也不得从本 revision 推断。
+以上只建立 Alpha Amylase processing implementation 与 server-execution evidence，不由本 revision
+建立 Split membership、near-duplicate grouping/leakage control、held-out 授权、feature、model、
+replay、benchmark result 或 scientific gate。后续 split 状态见
+[Alpha Amylase split](FLIP2_AMYLASE_SPLIT.md)。

@@ -84,10 +84,16 @@ external validation 仍需独立 onboarding Issue，不因属于 initial scope �
 
 Gate 1 通过前，不运行正式模型比较。
 
-截至 2026-07-24，Alpha Amylase 已完成 reviewed split publication；IRED Issue #22 已完成协议
-方向审查并进入 deterministic split 的本地 implementation。IRED 的真实 observable-input
-preflight、CI/人工审查、正式 COS publication 与 fresh readback 仍是后续独立 Gate，不因本地
-fixture 通过而视为完成。NucB 与 Hydrophobic Core 的 processing/split 仍需各自推进。
+截至 2026-08-01，Alpha Amylase 与 IRED 已分别完成 accepted raw ingest、processing、deterministic
+split implementation，以及历史单独授权的 immutable COS publication/readback。IRED Issue #22
+还完成了 exact-commit 真实 observable-input preflight、正式 `2 + 1` publication 和独立 fresh
+readback；duplicate request 只观察到 forbid-overwrite 下非零失败及后续 inventory/bytes 未变，
+COSCLI 没有暴露可解析的 HTTP 409。两项任务的 exact manifest chain、candidate counts、限制与证据
+链接见 [Alpha＋IRED M1 readiness ledger](data/ALPHA_IRED_M1_READINESS_LEDGER.md)。
+
+这些事实只使 Alpha＋IRED 具备 Gate 1 review inputs。Gate 1 尚未由 Issue #42 判定，项目整体继续
+处于 M1 portfolio onboarding；历史 COS execution 也不证明当前 credentials 已配置、仍有效或对
+新操作获得授权。
 
 补充（2026-07-30）：Hydrophobic Core Issue #26 已在 reviewed/merged implementation commit
 `ba85ebec4bdbd21c555720762e5681f5e17dd376` 上完成正式 immutable Processing Manifest
@@ -127,6 +133,12 @@ benchmark conclusions、M2 entry 或 scientific gate。
 
 **退出条件**：相同 split/config/seed 可复现；预处理只在允许的观测范围拟合；结果绑定完整
 provenance。
+
+补充（2026-08-01）：PR #39 已以 merge commit
+`8db51b8bc5d7c97a7753bcc462790ac947c8611f` 将 production Experiment Config v2、metric/result
+aggregate contracts 与 synthetic evaluator conformance 进入 `main`。这建立了 M2 的契约前置条件，
+没有完成 feature artifact Schema/canonical feature hash、prediction artifact contract、feature
+builder、surrogate baseline 或正式 M2 execution，也不替代 Gate 1 verdict。
 
 ### M3：deterministic replay 与单保真 smoke
 

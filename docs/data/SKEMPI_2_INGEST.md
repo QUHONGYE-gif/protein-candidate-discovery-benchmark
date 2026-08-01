@@ -3,15 +3,17 @@
 ## 当前结论
 
 Issue #12 已完成 SKEMPI 2.0 官方最小 source bundle 的下载、local verification、COS
-immutable upload 与独立 readback。当前只证明公开原始包已被可复现地保存；在本 PR 完成人工
-review 与 merge 前，仍不标记为 ready for processing。
+immutable upload 与独立 readback，并已由 PR #14 以 merge commit
+`f8988eed3956b3986ccd4f175586284effb75796` 进入 `main`。当前只证明公开原始包已被可复现地保存；
+processing、normalization、structure mapping、split 与 external-validation use 必须由后续独立
+Issue 和 gate 授权。
 
 | 状态 | 当前值 | 证据 |
 |---|---|---|
 | downloaded | true | 2 个官方对象，共 32,084,298 bytes |
 | verified | true | expected size、SHA-256、CSV parse、tar member inventory |
 | uploaded | true | cos://data/raw/skempi/v2.0/2018-06/source-bundle/ |
-| ready_for_processing | false | 等待 Draft PR 的 CI 与 human review/merge |
+| ready_for_processing | false | raw ingest 已合并，但 processing contract 与下游使用尚未授权 |
 
 这四个状态彼此独立。uploaded=true 不代表 processing、split、external validation 或
 scientific gate 已获得授权。

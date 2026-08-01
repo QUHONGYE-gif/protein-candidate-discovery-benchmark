@@ -105,8 +105,10 @@ proxy secret。
 - 对象计数：批准的 raw task prefix 为 6，manifest task root 为旧版与 revision 2 共 2 个，
   `ingest-attempts/` 为 1 个；没有覆盖或删除旧对象。
 
-上述证据只表示 raw ingest runtime 完成。代码仍需 PR/CI 评审，Processing、Split、
-replay 和 scientific gate 仍未开始。
+上述证据只表示当时的 raw ingest runtime 完成；它本身不建立 Processing、Split、replay 或
+scientific gate 状态。后续 processing/split 进展分别见
+[Alpha Amylase processing](FLIP2_AMYLASE_PROCESSING.md) 与
+[Alpha Amylase split](FLIP2_AMYLASE_SPLIT.md)。
 
 ## 原始字段边界
 

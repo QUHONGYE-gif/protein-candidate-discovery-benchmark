@@ -60,11 +60,17 @@ results/       仅保留产物政策；正式结果写入 COS
 ## 当前状态
 
 - M0 engineering readiness：repository、contracts 与 CI 基线已进入 `main`；
-- M1 dataset onboarding：按 task/assay 进行中，单个 dataset PR 不代表整个 M1 完成；
+- M1 dataset onboarding：按 task/assay 进行中；Alpha Amylase＋IRED 已具备独立 Gate 1 review
+  所需的工程输入，详见 [M1 readiness ledger](docs/data/ALPHA_IRED_M1_READINESS_LEDGER.md)，但
+  Gate 1 尚未判定，整个 M1 portfolio 仍未完成；
+- M2 contract readiness：production Experiment Config v2、metric/result aggregate contracts 与
+  synthetic evaluator 已由 PR #39 进入 `main`；feature/prediction artifact、surrogate baseline 与正式
+  M2 execution 尚未完成；
 - Raw-ingest runtime：按 task 独立记录，不替代 processing、split 或 scientific validation；
 - Scientific validation：尚未开始；
 - Held-out evaluation：未授权；
-- COS production credentials：未配置。
+- COS credential availability：本次文档对账未核验；历史窄权限 COS execution 不证明当前凭据已配置、
+  仍有效或已获新操作授权。
 
 ## 协作
 
