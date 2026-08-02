@@ -138,5 +138,6 @@ integrity。重新生成的 processing ID 为
 回读的 manifest SHA-256 未变化。没有覆盖或删除 COS 对象，临时 raw、hidden truth、staging、回读和
 失败日志在验证后清理。
 
-上述证据建立 IRED processing server-execution，不建立 Split Manifest、held-out authorization、
-feature、model、replay、benchmark result 或 scientific gate；这些阶段均未开始。
+上述证据建立 IRED processing server-execution，不由本 revision 建立 Split Manifest、held-out
+authorization、feature、model、replay、benchmark result 或 scientific gate。后续 split 状态见
+[IRED split](FLIP2_IRED_SPLIT.md)。

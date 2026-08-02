@@ -6,7 +6,9 @@
 `flip2-ired-topology-extrapolation-v1`。它只使用公开、observable 的 `candidate_id`、sequence
 和相对冻结 WT 的 mutation count，负责 Hamming-1 grouping、确定性 membership、leakage audit
 与 Split Manifest。它不读取 hidden truth，不授权 held-out，不运行 feature、model 或 replay，也
-不构成 benchmark result、server-execution evidence 或 scientific gate。
+不构成 benchmark result 或 scientific gate。实现与 fixture 本身不自动构成 server-execution
+evidence；Issue #22 后续另行授权并完成的 real-input preflight、正式 publication 与独立 readback
+证据见下文，两个状态不得互相替代。
 
 冻结输入为：
 
@@ -76,6 +78,36 @@ production loader 必须先验证上述完整 canonical config identity，再解
 
 相同 processing bytes、split config bytes 和完整 Git commit 必须生成相同 membership、audit、
 Split Manifest 与 object keys。candidate 或 upstream metadata 的输入行顺序不得改变输出。
+
+## 2026-07-26 正式 publication 与独立回读
+
+在 implementation、CI、人工审查与单独用户授权完成后，正式运行绑定 exact commit
+`906ff82813ba73d3d2a1793dc11abcafbe44c3c5`。运行只 fresh 读取三个 accepted observable inputs；
+`hidden-truth.csv` 未读取。两次确定性 staging exact-byte identical，protocol hash 为
+`9dde9ee30c6a30c5a691eb2eeae4782093245e0cc8d93cdfc72c7c69af765995`。
+
+| Artifact | `row_count` | Bytes | SHA-256 |
+|---|---:|---:|---|
+| `membership.csv` | 8,586 | 1,221,313 | `5b4a88887e92d9c06e2a67ef90683a367c3551ea7ad5ea67b50d7650c8b131a7` |
+| `split-audit.json` | 1 document | 4,703 | `cf199a5a61ede93d70927438495b8adf78157c0b26799e8d1ea58f128d3c9bb6` |
+| Split Manifest | 1 document | 3,211 | `9bff199ec81b9b5b1e0548c237b923b2ac7db1bf36382377ed36d30c042c725e` |
+
+publication 使用禁止覆盖的 payload-first、manifest-last 顺序。发布后的 fresh readback 验证 exact
+`2 + 1` inventory、bytes、SHA-256、size、row/role counts、Schema 与 IRED domain invariants。
+非发布方随后重新 fresh 下载三个正式对象和三个 accepted observable inputs，从 exact commit 重建，
+确认正式 bundle 3/3 exact-byte identical、8,586 个 membership rows、角色计数
+2,070/4,448/1,034/1,034、9,279 条 Hamming-1 edges、4,139 个 components 和 0 cross-role
+edges。正式 [publication report](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/22#issuecomment-5077267677)
+与 [independent review](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/22#issuecomment-5078199435)
+共同建立 split server-execution/publication evidence。
+
+duplicate manifest probe 在 overwrite forbidden、无自动重试条件下非零失败，随后独立 inventory
+仍为 `2 + 1` 且三个对象 bytes/hash 未变。但是该次 COSCLI invocation 没有暴露可解析的
+HTTP `409` / `FileAlreadyExists` 字符串，因此证据不声称观察到了精确 409。历史 publication
+也不证明当前 credentials 已配置、仍有效或已获新的 COS/server authorization。
+
+该证据不授权 held-out、hidden truth、feature/model/replay、benchmark result、M2 completion 或
+scientific gate。
 
 ## 输出与运行门禁
 

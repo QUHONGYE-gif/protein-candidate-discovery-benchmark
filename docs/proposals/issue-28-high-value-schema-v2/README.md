@@ -5,7 +5,9 @@
 >
 > Issue #36 的 Phase A production-contract freeze candidate 见
 > [`HIGH_VALUE_EXPERIMENT_CONFIG_V2.md`](../../contracts/HIGH_VALUE_EXPERIMENT_CONFIG_V2.md)。
-> 该候选在人工明确批准前同样不是 production contract。
+> 后续 PR #39 已将 production Experiment Config v2、metric/result aggregate contracts 与 synthetic
+> evaluator conformance 合并为 `8db51b8bc5d7c97a7753bcc462790ac947c8611f`；本目录仍只保留为
+> non-production historical proposal。
 
 ## 目的
 
@@ -52,8 +54,8 @@ json.dumps(
 
 规则是 UTF-8、key 按 Unicode code point 排序、无非必要空白、拒绝 NaN/Infinity、无尾随换行。
 verifier 还分别报告 tracked exact file bytes 的 SHA-256，避免把 semantic hash 与文件 identity
-混淆。生产实现前仍需明确决定 Experiment Config identity 使用 exact file bytes，还是把上述
-canonical procedure 升格为公共契约。
+混淆。后续 production contract 已选择以 tracked Experiment Config exact file bytes 作为 identity；
+上述 canonical semantic procedure 仍只属于本 historical proposal，不得替代生产契约。
 
 ## V2 prototype 规则
 

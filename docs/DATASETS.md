@@ -4,14 +4,16 @@ FLIP2 v3 Alpha Amylase、Imine Reductase、Nuclease B 与 Hydrophobic Core 已�
 raw source 下载、checksum 冻结和 COS 回读验证。Alpha Amylase 与 Imine Reductase 已分别在
 reviewed commit 上完成正式 immutable processing publication、权限恢复和 fresh readback。Alpha
 Amylase 还已在 reviewed exact commit 上完成正式 topology-isolation split publication、fresh
-readback 和不可覆盖验证。Imine Reductase 的 Issue #22 split 已有 implementation、synthetic
-fixture 与 CI evidence，并在 Draft PR #23 接受审查；尚无真实 observable-input preflight、
-server execution、COS publication 或 fresh readback。Nuclease B 的 Issue #25 已完成正式
-topology-extrapolation split publication、fresh readback 和独立确定性重建验证；Hydrophobic Core
-也已完成非 primary、非 M2 必需的 within-WT topology stress tracer 正式 split publication、
-fresh readback 和独立确定性重建验证。四个 task 均未进入 replay。其他候选数据源包括
-ProteinGym 和 SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboarding Issue 后才能进入
-开发或主实验。
+readback 和不可覆盖验证。Imine Reductase Issue #22 也已在 exact commit 上完成真实
+observable-input preflight、正式 `2 + 1` immutable split publication 和独立 fresh-readback PASS；
+其 duplicate probe 仅观察到非零失败和对象状态未变，没有观察到可解析的 HTTP 409。Nuclease B
+Issue #25 已完成正式 topology-extrapolation split publication、fresh readback 和独立确定性重建
+验证；Hydrophobic Core 也已完成非 primary、非 M2 必需的 within-WT topology stress tracer
+正式 split publication、fresh readback 和独立确定性重建验证。四个 task 均未进入 replay。
+Alpha＋IRED 的精确 Gate 1 engineering inputs 见
+[M1 readiness ledger](data/ALPHA_IRED_M1_READINESS_LEDGER.md)；ready for Gate 1 review 不等于
+Gate 1 PASS、整个 M1 portfolio 完成或项目进入 M2。其他候选数据源包括 ProteinGym 和 SKEMPI
+2.0；每个具体 task/assay 必须通过 dataset onboarding Issue 后才能进入开发或主实验。
 
 ## 进行中的 onboarding
 
@@ -45,8 +47,18 @@ ProteinGym 和 SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboard
   candidate-pool/validation/held-out = 2,070/1,034/1,034，见
   [FLIP2 IRED split](data/FLIP2_IRED_SPLIT.md)。development 占 4,448/8,586（51.8%），candidate
   pool 占 2,070/8,586（24.1%），是必须持久报告的 topology/distribution-shift 限制。当前已有
-  implementation、synthetic fixture 与 CI evidence；尚无真实 observable-input preflight、server
-  execution、COS publication 或 fresh readback。
+  implementation、synthetic fixture 与 CI evidence；随后在 exact commit
+  `906ff82813ba73d3d2a1793dc11abcafbe44c3c5` 完成真实 observable-input preflight、正式
+  payload-first / manifest-last `2 + 1` publication 与独立 fresh readback。正式 artifact 为
+  `membership.csv` 8,586 rows / 1,221,313 bytes / SHA-256
+  `5b4a88887e92d9c06e2a67ef90683a367c3551ea7ad5ea67b50d7650c8b131a7`、
+  `split-audit.json` 4,703 bytes / SHA-256
+  `cf199a5a61ede93d70927438495b8adf78157c0b26799e8d1ea58f128d3c9bb6`，以及 Split
+  Manifest 3,211 bytes / SHA-256
+  `9bff199ec81b9b5b1e0548c237b923b2ac7db1bf36382377ed36d30c042c725e`。duplicate manifest
+  request 在 forbid-overwrite 下非零失败，随后 inventory 与三个对象 bytes/hash 均未变化；COSCLI
+  未暴露可解析的 `409`，因此不声称精确 HTTP status。该证据只建立 split server-execution，
+  不授权 held-out、feature/model/replay、benchmark result 或 scientific gate。
 - FLIP2 v3 Nuclease B：GitHub Issue #10，3/3 source objects、独立 Dataset Manifest 与
   `DatasetIngestAttempt` 已完成 COS exact-byte/readback 和不可覆盖验证，见
   [FLIP2 NucB ingest](data/FLIP2_NUCB_INGEST.md)。Issue #24 已冻结 55,759 个 target-free
@@ -78,6 +90,12 @@ ProteinGym 和 SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboard
   [FLIP2 Hydro split](data/FLIP2_HYDRO_SPLIT.md)。该 tracer 是非 primary、非 M2 entry
   requirement；其 server-execution evidence 不授权 hidden truth、held-out/WT-holdout、
   feature/model/replay、benchmark conclusion 或 scientific gate。
+- SKEMPI 2.0：Issue #12 的 raw ingest 已由 PR #14 合并，2 个官方 source objects、Dataset
+  Manifest、source inspection 与 ingest attempt 已完成 immutable publication/readback。processing、
+  mutation/chain normalization、structure mapping、leakage-safe split 与 external-validation use
+  仍未授权，见 [SKEMPI 2.0 raw ingest](data/SKEMPI_2_INGEST.md)。
+- ProteinGym：Issue #11 的 archive-level retention/license 问题继续保持 `NO-GO`；本次对账不授权
+  archive transfer，也不替代 Gate authority 判断其是否阻塞首批 M2 cohort。
 - Alpha Amylase 与 IRED processing implementation、正式 immutable publication/recovery 与 fresh
   readback 已完成。Issue #19 冻结的 primary topology-isolation split 已在 reviewed commit
   `b540bfb3ed65066cb74418d5a4336452bf837af1` 上正式发布；protocol hash 为

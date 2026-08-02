@@ -51,4 +51,5 @@ manifests/flip2/zenodo-18433203-v3/nucb/ingest-attempts/<attempt-id>.json
 
 原始 CSV 当前可观察字段为 `sequence,target,set,validation`。这些字段的 label direction、activity
 bin、missing-value、candidate identity、duplicate 规则和 split membership 均属于后续 Processing
-Manifest 与 Split Manifest，尚未确认。
+Manifest 与 Split Manifest，不由本 raw-ingest evidence 确认。后续状态见
+[dataset registry](../DATASETS.md) 的 NucB processing 摘要与 [NucB split](FLIP2_NUCB_SPLIT.md)。

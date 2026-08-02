@@ -82,8 +82,9 @@ Dataset Manifest 重新验证 SHA-256 与 byte size；raw readback 成功后才�
 - 对象计数：批准的 raw task prefix 为 3，manifest task root 为 1，`ingest-attempts/` 为 1；
   没有覆盖或删除对象。
 
-上述证据表示 IRED raw ingest runtime 完成。代码、证据与文档仍需 PR/CI 和人工审查；
-Processing、Split、replay 和 scientific gate 仍未开始。
+上述证据表示当时的 IRED raw ingest runtime 完成；它本身不建立 Processing、Split、replay 或
+scientific gate 状态。后续 processing/split 进展分别见
+[IRED processing](FLIP2_IRED_PROCESSING.md) 与 [IRED split](FLIP2_IRED_SPLIT.md)。
 
 ## 原始字段边界
 
