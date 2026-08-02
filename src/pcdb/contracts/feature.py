@@ -263,10 +263,12 @@ def _validate_fit_state_ref(value: Any, field: str) -> tuple[str, str]:
     return state_id, state_sha256
 
 
-def _validate_feature_definitions(value: Any) -> tuple[list[str], dict[str, str]]:
+def _validate_feature_definitions(
+    value: Any,
+) -> tuple[list[str], dict[str, tuple[str, str]]]:
     definitions = _require_array(value, "feature_definitions", nonempty=True)
     feature_ids: list[str] = []
-    required_states: dict[str, str] = {}
+    required_states: dict[str, tuple[str, str]] = {}
     for index, raw_definition in enumerate(definitions):
         field = f"feature_definitions[{index}]"
         definition = _require_exact_keys(raw_definition, _FEATURE_FIELDS, field)
@@ -316,9 +318,12 @@ def _validate_feature_definitions(value: Any) -> tuple[list[str], dict[str, str]
                 fit_state,
                 f"{field}.derivation.fit_state",
             )
-            if state_id in required_states and required_states[state_id] != state_sha256:
-                raise ContractValidationError("fit-state references disagree on SHA-256")
-            required_states[state_id] = state_sha256
+            requirement = (state_sha256, derivation_id)
+            if state_id in required_states and required_states[state_id] != requirement:
+                raise ContractValidationError(
+                    "fit-state references disagree on SHA-256 or derivation identity"
+                )
+            required_states[state_id] = requirement
     if len(set(feature_ids)) != len(feature_ids):
         raise ContractValidationError("feature definitions contain duplicate feature IDs")
     return feature_ids, required_states
@@ -328,10 +333,10 @@ def _validate_fitted_states(
     value: Any,
     *,
     artifact: dict[str, Any],
-    required_states: Mapping[str, str],
+    required_states: Mapping[str, tuple[str, str]],
 ) -> dict[str, str]:
     fitted_states = _require_array(value, "fitted_states")
-    seen: dict[str, str] = {}
+    seen: dict[str, tuple[str, str]] = {}
     for index, raw_state in enumerate(fitted_states):
         field = f"fitted_states[{index}]"
         state = _require_exact_keys(raw_state, _FITTED_STATE_FIELDS, field)
@@ -367,17 +372,17 @@ def _validate_fitted_states(
 
         state_artifact = _validate_artifact(state["artifact"], f"{field}.artifact")
         state_sha256 = state_artifact["sha256"]
-        if required_states.get(state_id) != state_sha256:
+        if required_states.get(state_id) != (state_sha256, derivation_id):
             raise ContractValidationError(
-                "fitted state does not resolve an exact feature reference"
+                "fitted state does not resolve an exact feature derivation reference"
             )
-        seen[state_id] = state_sha256
+        seen[state_id] = (state_sha256, derivation_id)
 
     if seen != dict(required_states):
         raise ContractValidationError(
             "fitted_states must exact-cover all and only referenced learned state"
         )
-    return seen
+    return {state_id: requirement[0] for state_id, requirement in seen.items()}
 
 
 def _validate_matrices(

@@ -502,6 +502,31 @@ def test_fitted_state_derivation_identity_rejects_truth_derived_names() -> None:
         _load(value)
 
 
+def test_fitted_state_derivation_identity_exact_matches_feature_reference() -> None:
+    value = _fixture_value()
+    value["fitted_states"][0]["derivation_id"] = "unrelated-sequence-standardizer"
+
+    with pytest.raises(ContractValidationError, match="derivation"):
+        _load(value)
+
+
+def test_one_fitted_state_cannot_be_claimed_by_conflicting_derivations() -> None:
+    value = _fixture_value()
+    conflicting_definition = cast(
+        dict[str, Any],
+        json.loads(json.dumps(value["feature_definitions"][1])),
+    )
+    conflicting_definition["feature_id"] = "sequence_length_zscore_copy"
+    conflicting_definition["derivation"]["derivation_id"] = "different-sequence-standardizer"
+    value["feature_definitions"].append(conflicting_definition)
+    for matrix in value["matrices"]:
+        matrix["feature_ids"].append("sequence_length_zscore_copy")
+        matrix["column_count"] += 1
+
+    with pytest.raises(ContractValidationError, match="derivation"):
+        _load(value)
+
+
 @pytest.mark.parametrize(
     "field",
     [

@@ -139,8 +139,9 @@ vocabulary、reference statistic、feature selection 或 calibration 需要 lear
 3. `input_identity` 必须 exact-bind 本 envelope 的 Dataset/Processing/Split Manifest SHA-256；
 4. state 必须具有稳定 `fit_state_id`、`state_version`、`derivation_id` 和 immutable artifact
    object key/SHA-256/size；
-5. 对应 feature derivation 的 non-null `fit_state` 与使用它的 matrix `fit_state_refs` 必须
-   exact-resolve 同一个 `fit_state_id` 和 SHA-256；
+5. 对应 feature derivation 的 non-null `fit_state`、显式 state member 与使用它的 matrix
+   `fit_state_refs` 必须 exact-resolve 同一个 `fit_state_id`、SHA-256 和 `derivation_id`；
+   一个 state ID 不得被不同 derivation identities 共同声明；
 6. 每个声明的 state 必须被至少一个 derivation 使用；missing、unknown、duplicate、conflicting
    或未使用的 state/ref 均失败；
 7. state 不得只隐藏在 model pickle、进程内存、generator cache 或未清单化 sidecar 中。
