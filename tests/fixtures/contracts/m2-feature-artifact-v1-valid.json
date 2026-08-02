@@ -1,0 +1,145 @@
+{
+  "benchmark_task_id": "alpha-amylase",
+  "contract_status": "production",
+  "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+  "dataset_task_id": "amylase",
+  "feature_config": {
+    "feature_config_id": "synthetic-sequence-features-v1",
+    "feature_config_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "feature_definitions": [
+    {
+      "allowed_values": {
+        "boolean": "forbid",
+        "finite": true,
+        "missing": "forbid"
+      },
+      "derivation": {
+        "derivation_id": "sequence-length",
+        "derivation_version": "1",
+        "fit_state": null,
+        "source_fields": [
+          "sequence"
+        ]
+      },
+      "dtype": "int64",
+      "feature_id": "sequence_length",
+      "shape": []
+    },
+    {
+      "allowed_values": {
+        "boolean": "forbid",
+        "finite": true,
+        "missing": "forbid"
+      },
+      "derivation": {
+        "derivation_id": "development-standardized-sequence-length",
+        "derivation_version": "1",
+        "fit_state": {
+          "fit_state_id": "sequence-length-standardizer",
+          "sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+        },
+        "source_fields": [
+          "sequence"
+        ]
+      },
+      "dtype": "float64",
+      "feature_id": "sequence_length_zscore",
+      "shape": []
+    }
+  ],
+  "fitted_states": [
+    {
+      "artifact": {
+        "object_key": "features/alpha-amylase/fitted-state.json",
+        "sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+        "size_bytes": 128
+      },
+      "derivation_id": "development-standardized-sequence-length",
+      "fit_role": "development",
+      "fit_state_id": "sequence-length-standardizer",
+      "input_identity": {
+        "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+        "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+        "role": "development",
+        "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a"
+      },
+      "state_version": "standardizer-v1"
+    }
+  ],
+  "generator": {
+    "environment_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "git_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "matrices": [
+    {
+      "artifact": {
+        "object_key": "features/alpha-amylase/development.json",
+        "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "size_bytes": 7220
+      },
+      "candidate_id_field": "candidate_id",
+      "column_count": 2,
+      "feature_ids": [
+        "sequence_length",
+        "sequence_length_zscore"
+      ],
+      "fit_state_refs": [
+        {
+          "fit_state_id": "sequence-length-standardizer",
+          "sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+        }
+      ],
+      "role": "development",
+      "row_count": 722
+    },
+    {
+      "artifact": {
+        "object_key": "features/alpha-amylase/validation.json",
+        "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "size_bytes": 3610
+      },
+      "candidate_id_field": "candidate_id",
+      "column_count": 2,
+      "feature_ids": [
+        "sequence_length",
+        "sequence_length_zscore"
+      ],
+      "fit_state_refs": [
+        {
+          "fit_state_id": "sequence-length-standardizer",
+          "sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+        }
+      ],
+      "role": "validation",
+      "row_count": 361
+    },
+    {
+      "artifact": {
+        "object_key": "features/alpha-amylase/candidate-pool.json",
+        "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+        "size_bytes": 22620
+      },
+      "candidate_id_field": "candidate_id",
+      "column_count": 2,
+      "feature_ids": [
+        "sequence_length",
+        "sequence_length_zscore"
+      ],
+      "fit_state_refs": [
+        {
+          "fit_state_id": "sequence-length-standardizer",
+          "sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+        }
+      ],
+      "role": "candidate-pool",
+      "row_count": 2262
+    }
+  ],
+  "observable_sources": [
+    "sequence"
+  ],
+  "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+  "schema_version": "m2-feature-artifact-v1",
+  "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a"
+}

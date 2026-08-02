@@ -12,13 +12,23 @@ REPOSITORY_ROOT = Path(__file__).parents[2]
 FIXTURE_DIRECTORY = REPOSITORY_ROOT / "tests/fixtures/contracts"
 
 SCHEMA_NAMES = [path.name for path in sorted(SCHEMA_DIRECTORY.glob("*.schema.json"))]
-STANDALONE_FIXTURE_SCHEMAS = {"experiment-v2.schema.json"}
+STANDALONE_FIXTURE_SCHEMAS = {
+    "experiment-v2.schema.json",
+    "m2-feature-artifact-v1.schema.json",
+}
 
 
 def _schema_fixture(schema_name: str, *, valid: bool) -> object:
     if schema_name == "experiment-v2.schema.json":
         fixture = json.loads(
             (FIXTURE_DIRECTORY / "experiment-v2-alpha.json").read_text(encoding="utf-8")
+        )
+        if not valid:
+            fixture["contract_status"] = "proposal"
+        return fixture
+    if schema_name == "m2-feature-artifact-v1.schema.json":
+        fixture = json.loads(
+            (FIXTURE_DIRECTORY / "m2-feature-artifact-v1-valid.json").read_text(encoding="utf-8")
         )
         if not valid:
             fixture["contract_status"] = "proposal"
