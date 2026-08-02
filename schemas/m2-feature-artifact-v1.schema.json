@@ -1,0 +1,367 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/m2-feature-artifact-v1.schema.json",
+  "title": "M2FeatureArtifactV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_status",
+    "dataset_task_id",
+    "benchmark_task_id",
+    "dataset_manifest_sha256",
+    "processing_manifest_sha256",
+    "split_sha256",
+    "feature_config",
+    "generator",
+    "observable_sources",
+    "feature_definitions",
+    "matrices",
+    "fitted_states"
+  ],
+  "properties": {
+    "schema_version": { "const": "m2-feature-artifact-v1" },
+    "contract_status": { "const": "production" },
+    "dataset_task_id": { "enum": ["amylase", "ired"] },
+    "benchmark_task_id": { "enum": ["alpha-amylase", "ired"] },
+    "dataset_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "processing_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "split_sha256": { "$ref": "#/$defs/sha256" },
+    "feature_config": { "$ref": "#/$defs/featureConfig" },
+    "generator": { "$ref": "#/$defs/generator" },
+    "observable_sources": { "const": ["sequence"] },
+    "feature_definitions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/featureDefinition" }
+    },
+    "matrices": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/matrix" },
+      "allOf": [
+        {
+          "contains": {
+            "type": "object",
+            "properties": { "role": { "const": "development" } },
+            "required": ["role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": { "role": { "const": "validation" } },
+            "required": ["role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": { "role": { "const": "candidate-pool" } },
+            "required": ["role"]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      ]
+    },
+    "fitted_states": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/fittedState" }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "dataset_task_id": { "const": "amylase" } },
+        "required": ["dataset_task_id"]
+      },
+      "then": {
+        "properties": {
+          "benchmark_task_id": { "const": "alpha-amylase" },
+          "dataset_manifest_sha256": {
+            "const": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac"
+          },
+          "processing_manifest_sha256": {
+            "const": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec"
+          },
+          "split_sha256": {
+            "const": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a"
+          },
+          "matrices": {
+            "allOf": [
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "role": { "const": "development" },
+                    "row_count": { "const": 722 }
+                  },
+                  "required": ["role", "row_count"]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "role": { "const": "validation" },
+                    "row_count": { "const": 361 }
+                  },
+                  "required": ["role", "row_count"]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "role": { "const": "candidate-pool" },
+                    "row_count": { "const": 2262 }
+                  },
+                  "required": ["role", "row_count"]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "dataset_task_id": { "const": "ired" } },
+        "required": ["dataset_task_id"]
+      },
+      "then": {
+        "properties": {
+          "benchmark_task_id": { "const": "ired" },
+          "dataset_manifest_sha256": {
+            "const": "37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643"
+          },
+          "processing_manifest_sha256": {
+            "const": "929f0a46bfca015fb020bb7ebcc3a91e4de33922cd217399551b3dae1cc437ba"
+          },
+          "split_sha256": {
+            "const": "9bff199ec81b9b5b1e0548c237b923b2ac7db1bf36382377ed36d30c042c725e"
+          },
+          "matrices": {
+            "allOf": [
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "role": { "const": "development" },
+                    "row_count": { "const": 4448 }
+                  },
+                  "required": ["role", "row_count"]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "role": { "const": "validation" },
+                    "row_count": { "const": 1034 }
+                  },
+                  "required": ["role", "row_count"]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "role": { "const": "candidate-pool" },
+                    "row_count": { "const": 2070 }
+                  },
+                  "required": ["role", "row_count"]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    },
+    "featureConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["feature_config_id", "feature_config_sha256"],
+      "properties": {
+        "feature_config_id": { "$ref": "#/$defs/identifier" },
+        "feature_config_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["git_commit", "environment_digest"],
+      "properties": {
+        "git_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "environment_digest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "allowedValues": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["finite", "missing", "boolean"],
+      "properties": {
+        "finite": { "const": true },
+        "missing": { "const": "forbid" },
+        "boolean": { "const": "forbid" }
+      }
+    },
+    "fitStateRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fit_state_id", "sha256"],
+      "properties": {
+        "fit_state_id": { "$ref": "#/$defs/identifier" },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "derivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "derivation_id",
+        "derivation_version",
+        "source_fields",
+        "fit_state"
+      ],
+      "properties": {
+        "derivation_id": { "$ref": "#/$defs/identifier" },
+        "derivation_version": { "$ref": "#/$defs/identifier" },
+        "source_fields": { "const": ["sequence"] },
+        "fit_state": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/fitStateRef" }
+          ]
+        }
+      }
+    },
+    "featureDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["feature_id", "dtype", "shape", "allowed_values", "derivation"],
+      "properties": {
+        "feature_id": { "$ref": "#/$defs/identifier" },
+        "dtype": { "enum": ["float32", "float64", "int32", "int64"] },
+        "shape": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "allowed_values": { "$ref": "#/$defs/allowedValues" },
+        "derivation": { "$ref": "#/$defs/derivation" }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["object_key", "sha256", "size_bytes"],
+      "properties": {
+        "object_key": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+        },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "size_bytes": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "matrix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "candidate_id_field",
+        "row_count",
+        "column_count",
+        "feature_ids",
+        "artifact",
+        "fit_state_refs"
+      ],
+      "properties": {
+        "role": { "enum": ["development", "validation", "candidate-pool"] },
+        "candidate_id_field": { "const": "candidate_id" },
+        "row_count": { "type": "integer", "minimum": 1 },
+        "column_count": { "type": "integer", "minimum": 1 },
+        "feature_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "artifact": { "$ref": "#/$defs/artifact" },
+        "fit_state_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/fitStateRef" }
+        }
+      }
+    },
+    "fitInputIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataset_manifest_sha256",
+        "processing_manifest_sha256",
+        "split_sha256",
+        "role"
+      ],
+      "properties": {
+        "dataset_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "processing_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "split_sha256": { "$ref": "#/$defs/sha256" },
+        "role": { "const": "development" }
+      }
+    },
+    "fittedState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fit_state_id",
+        "state_version",
+        "derivation_id",
+        "fit_role",
+        "input_identity",
+        "artifact"
+      ],
+      "properties": {
+        "fit_state_id": { "$ref": "#/$defs/identifier" },
+        "state_version": { "$ref": "#/$defs/identifier" },
+        "derivation_id": { "$ref": "#/$defs/identifier" },
+        "fit_role": { "const": "development" },
+        "input_identity": { "$ref": "#/$defs/fitInputIdentity" },
+        "artifact": { "$ref": "#/$defs/artifact" }
+      }
+    }
+  }
+}
