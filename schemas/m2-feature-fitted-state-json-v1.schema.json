@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/m2-feature-fitted-state-json-v1.schema.json",
+  "title": "M2FeatureFittedStateJSONV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "fit_state_id",
+    "state_version",
+    "derivation_id",
+    "fit_role",
+    "input_identity",
+    "tensors"
+  ],
+  "properties": {
+    "schema_version": { "const": "m2-feature-fitted-state-json-v1" },
+    "fit_state_id": { "$ref": "#/$defs/identifier" },
+    "state_version": { "$ref": "#/$defs/identifier" },
+    "derivation_id": { "$ref": "#/$defs/identifier" },
+    "fit_role": { "const": "development" },
+    "input_identity": { "$ref": "#/$defs/inputIdentity" },
+    "tensors": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/tensor" }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "shape": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 0 }
+    },
+    "inputIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataset_manifest_sha256",
+        "processing_manifest_sha256",
+        "split_sha256",
+        "role"
+      ],
+      "properties": {
+        "dataset_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "processing_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "split_sha256": { "$ref": "#/$defs/sha256" },
+        "role": { "const": "development" }
+      }
+    },
+    "tensor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "dtype", "shape", "values"],
+      "properties": {
+        "name": { "$ref": "#/$defs/identifier" },
+        "dtype": {
+          "enum": ["bool", "int32", "int64", "float32", "float64", "utf8"]
+        },
+        "shape": { "$ref": "#/$defs/shape" },
+        "values": { "type": "array" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "dtype": { "const": "bool" } },
+            "required": ["dtype"]
+          },
+          "then": {
+            "properties": {
+              "values": { "items": { "type": "boolean" } }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "dtype": { "enum": ["int32", "int64"] } },
+            "required": ["dtype"]
+          },
+          "then": {
+            "properties": {
+              "values": {
+                "items": {
+                  "type": "string",
+                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "dtype": { "const": "float32" } },
+            "required": ["dtype"]
+          },
+          "then": {
+            "properties": {
+              "values": {
+                "items": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{8}$"
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "dtype": { "const": "float64" } },
+            "required": ["dtype"]
+          },
+          "then": {
+            "properties": {
+              "values": {
+                "items": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{16}$"
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "dtype": { "const": "utf8" } },
+            "required": ["dtype"]
+          },
+          "then": {
+            "properties": {
+              "values": { "items": { "type": "string" } }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

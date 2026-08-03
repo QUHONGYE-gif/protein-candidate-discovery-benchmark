@@ -1,0 +1,161 @@
+{
+  "benchmark_task_id": "synthetic-task",
+  "dataset_manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "dataset_task_id": "synthetic-task",
+  "descriptor_format_version": "pcdb-canonical-json-v1",
+  "feature_artifact_contract_status": "production",
+  "feature_artifact_schema_version": "m2-feature-artifact-v1",
+  "feature_config": {
+    "feature_config_id": "synthetic-config-v1",
+    "object_key": "features/synthetic/config.json",
+    "schema_version": "m2-feature-config-v1",
+    "sha256": "733eef5f34a5202b408da98de8f5c27624c317689a810966019dac2fc4dea783",
+    "size_bytes": 404
+  },
+  "feature_definitions": [
+    {
+      "allowed_values": {
+        "boolean": "forbid",
+        "finite": true,
+        "missing": "forbid"
+      },
+      "derivation": {
+        "derivation_id": "sequence-count",
+        "derivation_version": "1",
+        "fit_state": null,
+        "source_fields": [
+          "sequence"
+        ]
+      },
+      "dtype": "int32",
+      "feature_id": "count",
+      "shape": []
+    },
+    {
+      "allowed_values": {
+        "boolean": "forbid",
+        "finite": true,
+        "missing": "forbid"
+      },
+      "derivation": {
+        "derivation_id": "development-standardizer",
+        "derivation_version": "1",
+        "fit_state": {
+          "fit_state_id": "standardizer",
+          "sha256": "b895ce5c2084c0569a887acb7765ff35b9ebc788b9536139783b4dcb7baa2411"
+        },
+        "source_fields": [
+          "sequence"
+        ]
+      },
+      "dtype": "float64",
+      "feature_id": "score",
+      "shape": []
+    }
+  ],
+  "feature_registry_version": "m2-feature-registry-v1",
+  "fitted_state_format_version": "m2-feature-fitted-state-json-v1",
+  "fitted_states": [
+    {
+      "artifact": {
+        "object_key": "features/synthetic/state.json",
+        "sha256": "b895ce5c2084c0569a887acb7765ff35b9ebc788b9536139783b4dcb7baa2411",
+        "size_bytes": 686
+      },
+      "derivation_id": "development-standardizer",
+      "fit_role": "development",
+      "fit_state_id": "standardizer",
+      "input_identity": {
+        "dataset_manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "processing_manifest_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "role": "development",
+        "split_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "state_version": "1",
+      "tensor_definitions": [
+        {
+          "dtype": "float64",
+          "name": "mean",
+          "shape": []
+        }
+      ]
+    }
+  ],
+  "generator": {
+    "environment_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "git_commit": "dddddddddddddddddddddddddddddddddddddddd"
+  },
+  "matrices": [
+    {
+      "artifact": {
+        "object_key": "features/synthetic/development.csv",
+        "sha256": "2678314a9eb4a5e20d2fcc4caf51a0327aae0496d365f9e498a1eb01b8b4ac7d",
+        "size_bytes": 109
+      },
+      "candidate_id_field": "candidate_id",
+      "column_count": 2,
+      "feature_ids": [
+        "count",
+        "score"
+      ],
+      "fit_state_refs": [
+        {
+          "fit_state_id": "standardizer",
+          "sha256": "b895ce5c2084c0569a887acb7765ff35b9ebc788b9536139783b4dcb7baa2411"
+        }
+      ],
+      "role": "development",
+      "row_count": 1
+    },
+    {
+      "artifact": {
+        "object_key": "features/synthetic/validation.csv",
+        "sha256": "7b329666e03000719ac79eea4662d760c4905968564917643594b2afd16d7821",
+        "size_bytes": 109
+      },
+      "candidate_id_field": "candidate_id",
+      "column_count": 2,
+      "feature_ids": [
+        "count",
+        "score"
+      ],
+      "fit_state_refs": [
+        {
+          "fit_state_id": "standardizer",
+          "sha256": "b895ce5c2084c0569a887acb7765ff35b9ebc788b9536139783b4dcb7baa2411"
+        }
+      ],
+      "role": "validation",
+      "row_count": 1
+    },
+    {
+      "artifact": {
+        "object_key": "features/synthetic/candidate-pool.csv",
+        "sha256": "b7c10681eff3d807db4537a7954477a14f83f2e4e667564021ed47a59dc4ad4c",
+        "size_bytes": 109
+      },
+      "candidate_id_field": "candidate_id",
+      "column_count": 2,
+      "feature_ids": [
+        "count",
+        "score"
+      ],
+      "fit_state_refs": [
+        {
+          "fit_state_id": "standardizer",
+          "sha256": "b895ce5c2084c0569a887acb7765ff35b9ebc788b9536139783b4dcb7baa2411"
+        }
+      ],
+      "role": "candidate-pool",
+      "row_count": 1
+    }
+  ],
+  "matrix_format_version": "m2-feature-matrix-csv-v1",
+  "observable_sources": [
+    "sequence"
+  ],
+  "processing_manifest_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "protocol_version": "m2-alpha-ired-static-v1",
+  "schema_version": "m2-feature-bundle-descriptor-v1",
+  "split_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+}

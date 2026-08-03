@@ -1,0 +1,23 @@
+{
+  "derivation_id": "development-standardizer",
+  "fit_role": "development",
+  "fit_state_id": "standardizer",
+  "input_identity": {
+    "dataset_manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "processing_manifest_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "role": "development",
+    "split_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "schema_version": "m2-feature-fitted-state-json-v1",
+  "state_version": "1",
+  "tensors": [
+    {
+      "dtype": "float64",
+      "name": "mean",
+      "shape": [],
+      "values": [
+        "3ff0000000000000"
+      ]
+    }
+  ]
+}

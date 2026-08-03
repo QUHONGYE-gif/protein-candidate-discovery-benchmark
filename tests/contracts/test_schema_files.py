@@ -15,6 +15,9 @@ SCHEMA_NAMES = [path.name for path in sorted(SCHEMA_DIRECTORY.glob("*.schema.jso
 STANDALONE_FIXTURE_SCHEMAS = {
     "experiment-v2.schema.json",
     "m2-feature-artifact-v1.schema.json",
+    "m2-feature-bundle-descriptor-v1.schema.json",
+    "m2-feature-config-v1.schema.json",
+    "m2-feature-fitted-state-json-v1.schema.json",
 }
 
 
@@ -32,6 +35,31 @@ def _schema_fixture(schema_name: str, *, valid: bool) -> object:
         )
         if not valid:
             fixture["contract_status"] = "proposal"
+        return fixture
+    if schema_name == "m2-feature-bundle-descriptor-v1.schema.json":
+        fixture = json.loads(
+            (FIXTURE_DIRECTORY / "m2-feature-bundle-descriptor-v1-golden.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        if not valid:
+            fixture["protocol_version"] = "legacy"
+        return fixture
+    if schema_name == "m2-feature-config-v1.schema.json":
+        fixture = json.loads(
+            (FIXTURE_DIRECTORY / "m2-feature-config-v1-golden.json").read_text(encoding="utf-8")
+        )
+        if not valid:
+            fixture["schema_version"] = "unknown"
+        return fixture
+    if schema_name == "m2-feature-fitted-state-json-v1.schema.json":
+        fixture = json.loads(
+            (FIXTURE_DIRECTORY / "m2-feature-fitted-state-json-v1-golden.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        if not valid:
+            fixture["fit_role"] = "validation"
         return fixture
     filename = "valid-manifests.json" if valid else "invalid-manifests.json"
     fixtures = json.loads((FIXTURE_DIRECTORY / filename).read_text(encoding="utf-8"))
