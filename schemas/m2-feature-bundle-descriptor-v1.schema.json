@@ -110,16 +110,17 @@
       "type": "array",
       "items": { "type": "integer", "minimum": 0 }
     },
+    "objectKey": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!\\.{1,2}(?:/|$))[^/]+(?:/(?!\\.{1,2}(?:/|$))[^/]+)*$"
+    },
     "artifact": {
       "type": "object",
       "additionalProperties": false,
       "required": ["object_key", "size_bytes", "sha256"],
       "properties": {
-        "object_key": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.?/).+$"
-        },
+        "object_key": { "$ref": "#/$defs/objectKey" },
         "size_bytes": { "type": "integer", "minimum": 1 },
         "sha256": { "$ref": "#/$defs/sha256" }
       }
@@ -137,11 +138,7 @@
       "properties": {
         "schema_version": { "const": "m2-feature-config-v1" },
         "feature_config_id": { "$ref": "#/$defs/identifier" },
-        "object_key": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.?/).+$"
-        },
+        "object_key": { "$ref": "#/$defs/objectKey" },
         "size_bytes": { "type": "integer", "minimum": 1 },
         "sha256": { "$ref": "#/$defs/sha256" }
       }

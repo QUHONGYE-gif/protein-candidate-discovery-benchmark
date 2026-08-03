@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, cast
 
 import pytest
+from jsonschema import Draft202012Validator
 
 from pcdb.contracts.experiment import (
     ContractValidationError,
@@ -360,6 +361,51 @@ def test_descriptor_rejects_one_byte_order_version_and_inventory_drift() -> None
     descriptor["matrices"].pop()
     with pytest.raises(ContractValidationError):
         load_feature_bundle_descriptor(canonical_feature_json_bytes(descriptor))
+
+
+def test_descriptor_schema_reuses_one_object_key_definition() -> None:
+    schema = json.loads(
+        (ROOT / "schemas/m2-feature-bundle-descriptor-v1.schema.json").read_text(encoding="utf-8")
+    )
+
+    expected_reference = {"$ref": "#/$defs/objectKey"}
+    assert schema["$defs"]["artifact"]["properties"]["object_key"] == expected_reference
+    assert schema["$defs"]["featureConfig"]["properties"]["object_key"] == expected_reference
+
+
+@pytest.mark.parametrize(
+    ("object_key", "valid"),
+    [
+        ("features/a/nested.json", True),
+        ("/features/a", False),
+        ("features//a", False),
+        ("features/a/", False),
+        ("./a", False),
+        ("../a", False),
+        ("features/./a", False),
+        ("features/a/.", False),
+        ("features/../a", False),
+        ("features/a/..", False),
+    ],
+)
+def test_descriptor_object_key_schema_and_runtime_acceptance_match(
+    object_key: str,
+    valid: bool,
+) -> None:
+    schema = json.loads(
+        (ROOT / "schemas/m2-feature-bundle-descriptor-v1.schema.json").read_text(encoding="utf-8")
+    )
+    descriptor = _golden_descriptor()
+    descriptor["feature_config"]["object_key"] = object_key
+    schema_accepts = Draft202012Validator(schema).is_valid(descriptor)
+
+    if valid:
+        load_feature_bundle_descriptor(canonical_feature_json_bytes(descriptor))
+        assert schema_accepts
+    else:
+        with pytest.raises(ContractValidationError, match="object key"):
+            load_feature_bundle_descriptor(canonical_feature_json_bytes(descriptor))
+        assert not schema_accepts
 
 
 def test_run_spec_dispatch_is_prospective_and_preserves_legacy_behavior() -> None:
