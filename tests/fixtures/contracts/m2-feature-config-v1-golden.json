@@ -1,0 +1,18 @@
+{
+  "derivations": [
+    {
+      "derivation_id": "sequence-count",
+      "derivation_version": "1",
+      "feature_id": "count",
+      "parameters": []
+    },
+    {
+      "derivation_id": "development-standardizer",
+      "derivation_version": "1",
+      "feature_id": "score",
+      "parameters": []
+    }
+  ],
+  "feature_config_id": "synthetic-config-v1",
+  "schema_version": "m2-feature-config-v1"
+}

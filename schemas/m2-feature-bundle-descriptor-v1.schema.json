@@ -1,0 +1,310 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/m2-feature-bundle-descriptor-v1.schema.json",
+  "title": "M2FeatureBundleDescriptorV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "descriptor_format_version",
+    "matrix_format_version",
+    "fitted_state_format_version",
+    "feature_artifact_schema_version",
+    "feature_artifact_contract_status",
+    "feature_registry_version",
+    "protocol_version",
+    "dataset_task_id",
+    "benchmark_task_id",
+    "dataset_manifest_sha256",
+    "processing_manifest_sha256",
+    "split_sha256",
+    "generator",
+    "observable_sources",
+    "feature_config",
+    "feature_definitions",
+    "matrices",
+    "fitted_states"
+  ],
+  "properties": {
+    "schema_version": { "const": "m2-feature-bundle-descriptor-v1" },
+    "descriptor_format_version": { "const": "pcdb-canonical-json-v1" },
+    "matrix_format_version": { "const": "m2-feature-matrix-csv-v1" },
+    "fitted_state_format_version": {
+      "const": "m2-feature-fitted-state-json-v1"
+    },
+    "feature_artifact_schema_version": { "const": "m2-feature-artifact-v1" },
+    "feature_artifact_contract_status": { "const": "production" },
+    "feature_registry_version": { "const": "m2-feature-registry-v1" },
+    "protocol_version": { "const": "m2-alpha-ired-static-v1" },
+    "dataset_task_id": { "$ref": "#/$defs/identifier" },
+    "benchmark_task_id": { "$ref": "#/$defs/identifier" },
+    "dataset_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "processing_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "split_sha256": { "$ref": "#/$defs/sha256" },
+    "generator": { "$ref": "#/$defs/generator" },
+    "observable_sources": {
+      "type": "array",
+      "const": ["sequence"]
+    },
+    "feature_config": { "$ref": "#/$defs/featureConfig" },
+    "feature_definitions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/featureDefinition" }
+    },
+    "matrices": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        {
+          "allOf": [
+            { "$ref": "#/$defs/matrix" },
+            {
+              "type": "object",
+              "properties": { "role": { "const": "development" } },
+              "required": ["role"]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/matrix" },
+            {
+              "type": "object",
+              "properties": { "role": { "const": "validation" } },
+              "required": ["role"]
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/matrix" },
+            {
+              "type": "object",
+              "properties": { "role": { "const": "candidate-pool" } },
+              "required": ["role"]
+            }
+          ]
+        }
+      ],
+      "items": false
+    },
+    "fitted_states": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/fittedState" }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "shape": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 0 }
+    },
+    "objectKey": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!\\.{1,2}(?:/|$))[^/]+(?:/(?!\\.{1,2}(?:/|$))[^/]+)*$"
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["object_key", "size_bytes", "sha256"],
+      "properties": {
+        "object_key": { "$ref": "#/$defs/objectKey" },
+        "size_bytes": { "type": "integer", "minimum": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "featureConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "feature_config_id",
+        "object_key",
+        "size_bytes",
+        "sha256"
+      ],
+      "properties": {
+        "schema_version": { "const": "m2-feature-config-v1" },
+        "feature_config_id": { "$ref": "#/$defs/identifier" },
+        "object_key": { "$ref": "#/$defs/objectKey" },
+        "size_bytes": { "type": "integer", "minimum": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["git_commit", "environment_digest"],
+      "properties": {
+        "git_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "environment_digest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "allowedValues": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["finite", "missing", "boolean"],
+      "properties": {
+        "finite": { "const": true },
+        "missing": { "const": "forbid" },
+        "boolean": { "const": "forbid" }
+      }
+    },
+    "fitStateRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fit_state_id", "sha256"],
+      "properties": {
+        "fit_state_id": { "$ref": "#/$defs/identifier" },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "derivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "derivation_id",
+        "derivation_version",
+        "source_fields",
+        "fit_state"
+      ],
+      "properties": {
+        "derivation_id": { "$ref": "#/$defs/identifier" },
+        "derivation_version": { "$ref": "#/$defs/identifier" },
+        "source_fields": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[ -~]+$" }
+        },
+        "fit_state": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/fitStateRef" }
+          ]
+        }
+      }
+    },
+    "featureDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "feature_id",
+        "dtype",
+        "shape",
+        "allowed_values",
+        "derivation"
+      ],
+      "properties": {
+        "feature_id": { "$ref": "#/$defs/identifier" },
+        "dtype": { "enum": ["float32", "float64", "int32", "int64"] },
+        "shape": { "const": [] },
+        "allowed_values": { "$ref": "#/$defs/allowedValues" },
+        "derivation": { "$ref": "#/$defs/derivation" }
+      }
+    },
+    "inputIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataset_manifest_sha256",
+        "processing_manifest_sha256",
+        "split_sha256",
+        "role"
+      ],
+      "properties": {
+        "dataset_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "processing_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "split_sha256": { "$ref": "#/$defs/sha256" },
+        "role": { "const": "development" }
+      }
+    },
+    "tensorDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "dtype", "shape"],
+      "properties": {
+        "name": { "$ref": "#/$defs/identifier" },
+        "dtype": {
+          "enum": ["bool", "int32", "int64", "float32", "float64", "utf8"]
+        },
+        "shape": { "$ref": "#/$defs/shape" }
+      }
+    },
+    "fittedState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "fit_state_id",
+        "state_version",
+        "derivation_id",
+        "fit_role",
+        "input_identity",
+        "tensor_definitions"
+      ],
+      "properties": {
+        "artifact": { "$ref": "#/$defs/artifact" },
+        "fit_state_id": { "$ref": "#/$defs/identifier" },
+        "state_version": { "$ref": "#/$defs/identifier" },
+        "derivation_id": { "$ref": "#/$defs/identifier" },
+        "fit_role": { "const": "development" },
+        "input_identity": { "$ref": "#/$defs/inputIdentity" },
+        "tensor_definitions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/tensorDefinition" }
+        }
+      }
+    },
+    "matrix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "role",
+        "candidate_id_field",
+        "row_count",
+        "column_count",
+        "feature_ids",
+        "fit_state_refs"
+      ],
+      "properties": {
+        "artifact": { "$ref": "#/$defs/artifact" },
+        "role": {
+          "enum": ["development", "validation", "candidate-pool"]
+        },
+        "candidate_id_field": { "const": "candidate_id" },
+        "row_count": { "type": "integer", "minimum": 1 },
+        "column_count": { "type": "integer", "minimum": 1 },
+        "feature_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "fit_state_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/fitStateRef" }
+        }
+      }
+    }
+  }
+}
