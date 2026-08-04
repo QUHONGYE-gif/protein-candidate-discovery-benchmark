@@ -1,0 +1,25 @@
+{
+  "acquisition_config_sha256": "d50c876c6d114eb74a878bbce43a2f760e21507dad80c0d0f87ce02f2ff7c9d5",
+  "acquisition_id": "m2-static-full-pool-v1",
+  "attempt_id": "attempt-001",
+  "candidate_count": 2262,
+  "candidate_role": "candidate-pool",
+  "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+  "experiment_config_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "feature_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+  "model_config_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+  "model_id": "synthetic-model",
+  "predictions": [
+    {
+      "candidate_id": "5555555555555555555555555555555555555555555555555555555555555555",
+      "prediction": "0000000000000000"
+    }
+  ],
+  "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+  "protocol_version": "m2-alpha-ired-static-v1",
+  "run_id": "3333333333333333333333333333333333333333333333333333333333333333",
+  "schema_version": "m2-prediction-artifact-v1",
+  "seed": 0,
+  "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a",
+  "task_id": "alpha-amylase"
+}

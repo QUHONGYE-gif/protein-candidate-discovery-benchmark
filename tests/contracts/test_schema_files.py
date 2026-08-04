@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -18,6 +19,7 @@ STANDALONE_FIXTURE_SCHEMAS = {
     "m2-feature-bundle-descriptor-v1.schema.json",
     "m2-feature-config-v1.schema.json",
     "m2-feature-fitted-state-json-v1.schema.json",
+    "m2-prediction-artifact-v1.schema.json",
 }
 
 
@@ -60,6 +62,22 @@ def _schema_fixture(schema_name: str, *, valid: bool) -> object:
         )
         if not valid:
             fixture["fit_role"] = "validation"
+        return fixture
+    if schema_name == "m2-prediction-artifact-v1.schema.json":
+        fixture = json.loads(
+            (FIXTURE_DIRECTORY / "m2-prediction-artifact-v1-template.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        fixture["predictions"] = [
+            {
+                "candidate_id": hashlib.sha256(f"candidate:{index}".encode()).hexdigest(),
+                "prediction": "0000000000000000",
+            }
+            for index in range(fixture["candidate_count"])
+        ]
+        if not valid:
+            fixture["acquisition_id"] = "adaptive"
         return fixture
     filename = "valid-manifests.json" if valid else "invalid-manifests.json"
     fixtures = json.loads((FIXTURE_DIRECTORY / filename).read_text(encoding="utf-8"))

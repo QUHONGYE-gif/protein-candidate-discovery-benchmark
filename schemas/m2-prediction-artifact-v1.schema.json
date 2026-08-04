@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/m2-prediction-artifact-v1.schema.json",
+  "title": "M2PredictionArtifactV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "experiment_config_sha256",
+    "dataset_manifest_sha256",
+    "processing_manifest_sha256",
+    "split_sha256",
+    "feature_sha256",
+    "run_id",
+    "attempt_id",
+    "task_id",
+    "candidate_role",
+    "candidate_count",
+    "model_id",
+    "model_config_sha256",
+    "acquisition_id",
+    "acquisition_config_sha256",
+    "seed",
+    "predictions"
+  ],
+  "properties": {
+    "schema_version": { "const": "m2-prediction-artifact-v1" },
+    "protocol_version": { "const": "m2-alpha-ired-static-v1" },
+    "experiment_config_sha256": { "$ref": "#/$defs/sha256" },
+    "dataset_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "processing_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "split_sha256": { "$ref": "#/$defs/sha256" },
+    "feature_sha256": { "$ref": "#/$defs/sha256" },
+    "run_id": { "$ref": "#/$defs/sha256" },
+    "attempt_id": { "$ref": "#/$defs/identifier" },
+    "task_id": { "enum": ["alpha-amylase", "ired"] },
+    "candidate_role": { "const": "candidate-pool" },
+    "candidate_count": { "enum": [2262, 2070] },
+    "model_id": { "type": "string", "minLength": 1 },
+    "model_config_sha256": { "$ref": "#/$defs/sha256" },
+    "acquisition_id": { "const": "m2-static-full-pool-v1" },
+    "acquisition_config_sha256": {
+      "const": "d50c876c6d114eb74a878bbce43a2f760e21507dad80c0d0f87ce02f2ff7c9d5"
+    },
+    "seed": { "type": "integer", "minimum": 0 },
+    "predictions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/prediction" }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "task_id": { "const": "alpha-amylase" } },
+        "required": ["task_id"]
+      },
+      "then": {
+        "properties": {
+          "dataset_manifest_sha256": {
+            "const": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac"
+          },
+          "processing_manifest_sha256": {
+            "const": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec"
+          },
+          "split_sha256": {
+            "const": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a"
+          },
+          "candidate_count": { "const": 2262 },
+          "predictions": {
+            "minItems": 2262,
+            "maxItems": 2262
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "task_id": { "const": "ired" } },
+        "required": ["task_id"]
+      },
+      "then": {
+        "properties": {
+          "dataset_manifest_sha256": {
+            "const": "37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643"
+          },
+          "processing_manifest_sha256": {
+            "const": "929f0a46bfca015fb020bb7ebcc3a91e4de33922cd217399551b3dae1cc437ba"
+          },
+          "split_sha256": {
+            "const": "9bff199ec81b9b5b1e0548c237b923b2ac7db1bf36382377ed36d30c042c725e"
+          },
+          "candidate_count": { "const": 2070 },
+          "predictions": {
+            "minItems": 2070,
+            "maxItems": 2070
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    },
+    "prediction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_id", "prediction"],
+      "properties": {
+        "candidate_id": { "$ref": "#/$defs/sha256" },
+        "prediction": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{16}$"
+        }
+      }
+    }
+  }
+}
