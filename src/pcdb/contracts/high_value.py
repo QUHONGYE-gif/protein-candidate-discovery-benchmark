@@ -99,7 +99,7 @@ def validate_metric_result_evidence(
         raise ContractValidationError("RunAttempt completion marker is invalid")
 
     outputs = attempt.get("outputs")
-    if not isinstance(outputs, list):
+    if not isinstance(outputs, Sequence) or isinstance(outputs, (str, bytes)):
         raise ContractValidationError("RunAttempt outputs must be an inventory")
     matches = [
         item
