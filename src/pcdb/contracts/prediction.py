@@ -702,12 +702,17 @@ def orchestrate_m2_static_prediction(
         attempt_id=attempt_id,
         model_config_bytes=bytes(memoryview(model_config_bytes)),
     )
+    producer_failed = False
+    producer_output: object = None
     try:
-        prediction_bytes = producer(producer_inputs)
+        producer_output = producer(producer_inputs)
     except Exception:
-        raise ContractValidationError("target-free prediction producer failed") from None
-    if not isinstance(prediction_bytes, bytes):
+        producer_failed = True
+    if producer_failed:
+        raise ContractValidationError("target-free prediction producer failed")
+    if not isinstance(producer_output, bytes):
         raise ContractValidationError("prediction producer must return exact bytes")
+    prediction_bytes = producer_output
     prediction = load_prediction_artifact(prediction_bytes)
     _validate_prediction_identity(
         prediction,
@@ -726,10 +731,14 @@ def orchestrate_m2_static_prediction(
         candidate_ids=prediction.candidate_ids,
         attempt_id=attempt_id,
     )
+    evaluator_failed = False
+    raw_metric_results: object = None
     try:
         raw_metric_results = evaluator(evaluator_inputs)
     except Exception:
-        raise ContractValidationError("M2 aggregate evaluator failed") from None
+        evaluator_failed = True
+    if evaluator_failed:
+        raise ContractValidationError("M2 aggregate evaluator failed")
     if not isinstance(raw_metric_results, Mapping) or len(raw_metric_results) != 4:
         raise ContractValidationError(
             "M2 aggregate evaluator must return exactly four result byte streams"

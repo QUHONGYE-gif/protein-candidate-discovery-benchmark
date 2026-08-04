@@ -444,18 +444,33 @@ def test_capability_limited_orchestration_uses_fresh_prediction_bytes(
     }
 
 
-def test_orchestration_suppresses_truth_bearing_evaluator_error(
+@pytest.mark.parametrize(
+    ("failing_callback", "expected_message"),
+    [
+        ("producer", "target-free prediction producer failed"),
+        ("evaluator", "M2 aggregate evaluator failed"),
+    ],
+)
+def test_orchestration_drops_truth_bearing_callback_error_chain(
     evidence_inputs: dict[str, Any],
+    failing_callback: str,
+    expected_message: str,
 ) -> None:
+    private_payload = "candidate truth and membership must not escape"
+
     def producer(_: Any) -> bytes:
+        if failing_callback == "producer":
+            raise RuntimeError(private_payload)
         return cast(bytes, evidence_inputs["prediction_bytes"])
 
     def evaluator(_: Any) -> dict[str, bytes]:
-        raise RuntimeError("candidate truth and membership must not escape")
+        if failing_callback == "evaluator":
+            raise RuntimeError(private_payload)
+        return dict(evidence_inputs["metric_result_bytes"])
 
     with pytest.raises(
         ContractValidationError,
-        match="^M2 aggregate evaluator failed$",
+        match=f"^{expected_message}$",
     ) as error:
         orchestrate_m2_static_prediction(
             run_spec_bytes=evidence_inputs["run_spec_bytes"],
@@ -470,8 +485,8 @@ def test_orchestration_suppresses_truth_bearing_evaluator_error(
             evaluator=evaluator,
         )
     assert error.value.__cause__ is None
-    assert error.value.__context__ is not None
-    assert error.value.__suppress_context__ is True
+    assert error.value.__context__ is None
+    assert private_payload not in repr(error.value)
 
 
 def test_orchestration_rejects_truth_field_in_aggregate_result(
