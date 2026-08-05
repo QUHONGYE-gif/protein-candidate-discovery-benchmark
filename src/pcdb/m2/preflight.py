@@ -112,9 +112,11 @@ def run_frozen_preflight(
         raise ContractValidationError("repeated preflight feature bundles are not deterministic")
 
     experiment_config = load_experiment_config(experiment_config_bytes)
+    configured_models = tuple(experiment_config.value.get("models", ()))
     if (
         experiment_config.value.get("task_id") != benchmark_task_id
-        or tuple(experiment_config.value.get("models", ())) != _MODEL_IDS
+        or len(configured_models) != len(_MODEL_IDS)
+        or set(configured_models) != set(_MODEL_IDS)
         or experiment_config.value.get("seeds") != (1729,)
     ):
         raise ContractValidationError(
