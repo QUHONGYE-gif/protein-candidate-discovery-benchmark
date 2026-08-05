@@ -13,6 +13,7 @@ from typing import Any, cast
 
 import pytest
 
+import pcdb.m2.models as m2_models
 from pcdb.cli import main
 from pcdb.contracts.experiment import (
     ContractValidationError,
@@ -283,6 +284,46 @@ def test_xgboost_profile_produces_distinct_public_predictions() -> None:
     }
 
     assert predictions["xgboost-cpu-v1"] != predictions["random-forest-sklearn-v1"]
+
+
+def test_prediction_call_policy_is_explicit_only_for_xgboost(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    records = [
+        CandidateSequence(hashlib.sha256(str(index).encode()).hexdigest(), sequence)
+        for index, sequence in enumerate(("AA", "AC"))
+    ]
+    loaded, _ = _loaded_matrix(records)
+
+    class XGBoostProbe:
+        def __init__(self) -> None:
+            self.kwargs: dict[str, object] | None = None
+
+        def predict(self, features: object, **kwargs: object) -> list[float]:
+            self.kwargs = kwargs
+            return [0.25, 0.75]
+
+    class GenericProbe:
+        def __init__(self) -> None:
+            self.called = False
+
+        def predict(self, features: object) -> list[float]:
+            self.called = True
+            return [0.5, 1.0]
+
+    monkeypatch.setattr(m2_models, "XGBRegressor", XGBoostProbe)
+    xgboost_probe = XGBoostProbe()
+    generic_probe = GenericProbe()
+
+    assert predict_regressor(cast(Any, xgboost_probe), loaded)
+    assert xgboost_probe.kwargs == {
+        "base_margin": None,
+        "iteration_range": None,
+        "output_margin": False,
+        "validate_features": True,
+    }
+    assert predict_regressor(cast(Any, generic_probe), loaded)
+    assert generic_probe.called
 
 
 def test_trainer_observations_are_development_only_and_exact_cover() -> None:
