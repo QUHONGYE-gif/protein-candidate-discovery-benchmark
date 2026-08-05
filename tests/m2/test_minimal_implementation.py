@@ -466,6 +466,28 @@ def test_synthetic_cli_writes_only_local_scratch_artifacts(
     )
 
 
+def test_synthetic_cli_rejects_repo_relative_unignored_scratch_root(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.chdir(ROOT)
+    with pytest.raises(ContractValidationError, match="ignored \\.scratch namespace"):
+        main(
+            [
+                "m2-synthetic",
+                "--roles",
+                "unused-roles.json",
+                "--development-observations",
+                "unused-observations.json",
+                "--experiment-config",
+                "unused-experiment.json",
+                "--model-id",
+                "ridge-sklearn-v1",
+                "--scratch-root",
+                "scratch/m2-synthetic",
+            ]
+        )
+
+
 @pytest.mark.parametrize("forbidden_field", ["target", "truth", "high_value"])
 def test_synthetic_cli_rejects_truth_derived_role_fields(
     tmp_path: Path,

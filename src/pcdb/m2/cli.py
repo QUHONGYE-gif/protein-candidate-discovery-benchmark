@@ -26,6 +26,34 @@ from pcdb.storage import LocalArtifactStore
 _ROLES = ("development", "validation", "candidate-pool")
 
 
+def _find_repository_root(start: Path) -> Path | None:
+    for candidate in (start, *start.parents):
+        if (candidate / ".git").exists() and (candidate / ".gitignore").is_file():
+            return candidate
+    return None
+
+
+def _validate_scratch_root(path: Path) -> Path:
+    working_directory = Path.cwd().resolve()
+    resolved = path.resolve()
+    if not path.is_absolute():
+        ignored_root = (working_directory / ".scratch").resolve()
+        if not resolved.is_relative_to(ignored_root):
+            raise ContractValidationError(
+                "relative scratch root must stay inside the ignored .scratch namespace"
+            )
+        return resolved
+
+    repository_root = _find_repository_root(resolved)
+    if repository_root is not None and resolved.is_relative_to(repository_root):
+        relative_parts = resolved.relative_to(repository_root).parts
+        if ".scratch" not in relative_parts:
+            raise ContractValidationError(
+                "scratch root inside the repository must stay inside an ignored .scratch namespace"
+            )
+    return resolved
+
+
 def _reject_constant(value: str) -> None:
     raise ContractValidationError(f"non-finite JSON constant is forbidden: {value}")
 
@@ -132,7 +160,7 @@ def run_synthetic_cli(arguments: Namespace) -> int:
     role_input = cast(Path, arguments.roles)
     observation_input = cast(Path, arguments.development_observations)
     experiment_input = cast(Path, arguments.experiment_config)
-    scratch_root = cast(Path, arguments.scratch_root)
+    scratch_root = _validate_scratch_root(cast(Path, arguments.scratch_root))
     model_id = cast(str, arguments.model_id)
     attempt_id = cast(str, arguments.attempt_id)
 

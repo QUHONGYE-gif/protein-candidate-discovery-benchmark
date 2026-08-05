@@ -45,14 +45,15 @@ pcdb m2-synthetic \
   --development-observations development-observations.json \
   --experiment-config experiment.json \
   --model-id ridge-sklearn-v1 \
-  --scratch-root scratch/m2-synthetic
+  --scratch-root .scratch/m2-synthetic
 ```
 
 `roles.json` 必须显式提供 `benchmark_task_id`、`generator.git_commit`、
 `generator.environment_digest`，以及 `development`、`validation`、`candidate-pool` 三组
 `candidate_id,sequence`。observation 文件只能包含 `development` 数组及其中的
 `candidate_id,observation`。入口没有 validation/candidate truth、held-out、evaluator、COS 或远程
-调度参数；输出不是正式 RunAttempt、benchmark evidence 或 scientific result。
+调度参数；仓库内输出必须位于已被 Git 忽略的 `.scratch/` 命名空间，仓库外绝对路径仍可使用。
+输出不是正式 RunAttempt、benchmark evidence 或 scientific result。
 
 ## 目录
 
