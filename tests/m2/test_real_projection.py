@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 import pytest
 
@@ -94,6 +94,7 @@ def _identity(split_manifest_bytes: bytes) -> ProjectionIdentity:
         dataset_id="public-fixture",
         dataset_version="v1",
         dataset_task_id="mixed-role",
+        candidate_id_namespace=_CONFIG.candidate_id_namespace,
     )
 
 
@@ -207,6 +208,23 @@ def test_projection_rejects_unknown_candidate_and_processing_identity_mismatch()
         _project(role_bytes=_json_bytes(value))
 
 
+def test_projection_rejects_config_object_not_derived_from_exact_config_bytes() -> None:
+    membership = _membership_bytes()
+    manifest = _split_manifest_bytes(membership)
+    drifted_config = replace(_CONFIG, candidate_id_namespace="public-fixture:v1:drifted")
+
+    with pytest.raises(ContractValidationError, match="processing config fields"):
+        project_checked_inputs(
+            identity=_identity(manifest),
+            processing_config=drifted_config,
+            processing_config_bytes=_CONFIG_BYTES,
+            split_manifest_bytes=manifest,
+            membership_bytes=membership,
+            role_input_bytes=_role_bytes(),
+            development_observation_bytes=_observation_bytes(),
+        )
+
+
 def test_projection_rejects_split_or_processing_identity_drift() -> None:
     membership = _membership_bytes()
     manifest = _split_manifest_bytes(membership)
@@ -221,6 +239,7 @@ def test_projection_rejects_split_or_processing_identity_drift() -> None:
         dataset_id=identity.dataset_id,
         dataset_version=identity.dataset_version,
         dataset_task_id=identity.dataset_task_id,
+        candidate_id_namespace=identity.candidate_id_namespace,
     )
 
     with pytest.raises(ContractValidationError, match="split identity"):

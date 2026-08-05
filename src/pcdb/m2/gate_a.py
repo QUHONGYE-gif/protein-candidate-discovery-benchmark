@@ -115,6 +115,7 @@ def build_gate_a_packet(repository_root: Path, reviewed_git_commit: str) -> byte
 
     task_identities = {
         task_id: {
+            "candidate_id_namespace": identity.candidate_id_namespace,
             "dataset_manifest_sha256": identity.dataset_manifest_sha256,
             "processing_config_sha256": identity.processing_config_sha256,
             "processing_manifest_sha256": identity.processing_manifest_sha256,

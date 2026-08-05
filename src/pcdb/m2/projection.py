@@ -32,8 +32,18 @@ _PROCESSING_CONFIG_SHA256 = MappingProxyType(
 )
 _TASK_CONFIG_IDENTITY = MappingProxyType(
     {
-        "alpha-amylase": ("flip2", "zenodo-18433203-v3", "amylase"),
-        "ired": ("flip2", "zenodo-18433203-v3", "ired"),
+        "alpha-amylase": (
+            "flip2",
+            "zenodo-18433203-v3",
+            "amylase",
+            "flip2:zenodo-18433203-v3:amylase",
+        ),
+        "ired": (
+            "flip2",
+            "zenodo-18433203-v3",
+            "ired",
+            "flip2:zenodo-18433203-v3:ired",
+        ),
     }
 )
 
@@ -51,6 +61,7 @@ class ProjectionIdentity:
     dataset_id: str
     dataset_version: str
     dataset_task_id: str
+    candidate_id_namespace: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -70,7 +81,7 @@ def frozen_projection_identity(benchmark_task_id: str) -> ProjectionIdentity:
     processing_config_sha256 = _PROCESSING_CONFIG_SHA256.get(benchmark_task_id)
     if binding is None or config_identity is None or processing_config_sha256 is None:
         raise ContractValidationError("benchmark task is not in the frozen projection bindings")
-    dataset_id, dataset_version, dataset_task_id = config_identity
+    dataset_id, dataset_version, dataset_task_id, candidate_id_namespace = config_identity
     return ProjectionIdentity(
         benchmark_task_id=benchmark_task_id,
         dataset_manifest_sha256=cast(str, binding["dataset_manifest_sha256"]),
@@ -81,6 +92,7 @@ def frozen_projection_identity(benchmark_task_id: str) -> ProjectionIdentity:
         dataset_id=dataset_id,
         dataset_version=dataset_version,
         dataset_task_id=dataset_task_id,
+        candidate_id_namespace=candidate_id_namespace,
     )
 
 
@@ -146,6 +158,8 @@ def _validate_processing_config(
         identity.dataset_task_id,
         identity.dataset_manifest_sha256,
         ("sequence",),
+        identity.candidate_id_namespace,
+        "target",
     )
     actual = (
         processing_config.dataset_id,
@@ -153,6 +167,8 @@ def _validate_processing_config(
         processing_config.task_id,
         processing_config.dataset_manifest_sha256,
         processing_config.observable_feature_fields,
+        processing_config.candidate_id_namespace,
+        processing_config.hidden_label_field,
     )
     if actual != expected:
         raise ContractValidationError("processing config fields do not match projection binding")
