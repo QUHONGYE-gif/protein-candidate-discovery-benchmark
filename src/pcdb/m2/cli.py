@@ -17,7 +17,11 @@ from pcdb.contracts.prediction import M2StaticProducerInputs
 from pcdb.datasets.processing import ProcessingConfigLike
 from pcdb.m2.features import CandidateSequence, build_sequence_feature_bundle
 from pcdb.m2.models import DevelopmentObservation, model_config_bytes
-from pcdb.m2.preflight import run_frozen_preflight, validate_local_scratch_root
+from pcdb.m2.preflight import (
+    run_frozen_preflight,
+    validate_frozen_preflight_entry,
+    validate_local_scratch_root,
+)
 from pcdb.m2.producer import (
     SYNTHETIC_ATTEMPT_ID,
     build_synthetic_run_spec,
@@ -231,6 +235,18 @@ def run_preflight_cli(arguments: Namespace) -> int:
         from pcdb.datasets.ired import load_ired_processing_config
 
         processing_config = load_ired_processing_config(processing_config_path)
+    experiment_config_bytes = cast(Path, arguments.experiment_config).read_bytes()
+    gate_a_packet_bytes = cast(Path, arguments.gate_a_packet).read_bytes()
+    validate_frozen_preflight_entry(
+        benchmark_task_id=benchmark_task_id,
+        experiment_config_bytes=experiment_config_bytes,
+        git_commit=cast(str, arguments.git_commit),
+        environment_digest=cast(str, arguments.environment_digest),
+        scratch_root=cast(Path, arguments.scratch_root),
+        gate_a_packet_bytes=gate_a_packet_bytes,
+        gate_a_packet_sha256=cast(str, arguments.gate_a_packet_sha256),
+        repository_root=cast(Path, arguments.repository_root),
+    )
     summary = run_frozen_preflight(
         benchmark_task_id=benchmark_task_id,
         processing_config=processing_config,
@@ -240,9 +256,12 @@ def run_preflight_cli(arguments: Namespace) -> int:
         membership_bytes=cast(Path, arguments.membership).read_bytes(),
         role_input_bytes=cast(Path, arguments.roles).read_bytes(),
         hidden_truth_bytes=cast(Path, arguments.hidden_truth).read_bytes(),
-        experiment_config_bytes=cast(Path, arguments.experiment_config).read_bytes(),
+        experiment_config_bytes=experiment_config_bytes,
+        gate_a_packet_bytes=gate_a_packet_bytes,
+        gate_a_packet_sha256=cast(str, arguments.gate_a_packet_sha256),
         git_commit=cast(str, arguments.git_commit),
         environment_digest=cast(str, arguments.environment_digest),
+        repository_root=cast(Path, arguments.repository_root),
         scratch_root=cast(Path, arguments.scratch_root),
     )
     print(json.dumps(summary, allow_nan=False, separators=(",", ":"), sort_keys=True))

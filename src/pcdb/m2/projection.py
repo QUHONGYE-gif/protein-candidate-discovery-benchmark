@@ -128,6 +128,18 @@ def _strict_json_object(payload: bytes, field: str) -> dict[str, Any]:
     return cast(dict[str, Any], value)
 
 
+def _parse_truth_target(raw_target: str) -> float:
+    parse_failed = False
+    try:
+        numeric_target = float(raw_target)
+    except ValueError:
+        parse_failed = True
+        numeric_target = 0.0
+    if parse_failed:
+        raise ContractValidationError("hidden-truth target must be numeric")
+    return numeric_target
+
+
 def _validate_identity(identity: ProjectionIdentity) -> None:
     for field in (
         identity.dataset_manifest_sha256,
@@ -416,12 +428,24 @@ def project_development_truth(
             raise ContractValidationError("truth projection memberships overlap or drifted")
         expected_candidates.update(role_ids)
 
+    decode_failed = False
     try:
         text = hidden_truth_bytes.decode("utf-8")
-    except UnicodeDecodeError as exc:
-        raise ContractValidationError("hidden-truth must be UTF-8 CSV") from exc
+    except UnicodeDecodeError:
+        decode_failed = True
+        text = ""
+    if decode_failed:
+        raise ContractValidationError("hidden-truth must be UTF-8 CSV")
     reader = csv.DictReader(io.StringIO(text, newline=""), strict=True)
-    if reader.fieldnames != ["candidate_id", "target"]:
+    csv_failed = False
+    try:
+        fieldnames = reader.fieldnames
+    except csv.Error:
+        csv_failed = True
+        fieldnames = None
+    if csv_failed:
+        raise ContractValidationError("hidden-truth must be valid CSV")
+    if fieldnames != ["candidate_id", "target"]:
         raise ContractValidationError("hidden-truth fields drifted")
     try:
         for row in reader:
@@ -437,15 +461,14 @@ def project_development_truth(
                 or not raw_target
             ):
                 raise ContractValidationError("hidden-truth row is invalid")
-            try:
-                numeric_target = float(raw_target)
-            except ValueError as exc:
-                raise ContractValidationError("hidden-truth target must be numeric") from exc
+            numeric_target = _parse_truth_target(raw_target)
             if not math.isfinite(numeric_target):
                 raise ContractValidationError("hidden-truth target must be finite")
             by_candidate[record_id] = raw_target
-    except csv.Error as exc:
-        raise ContractValidationError("hidden-truth must be valid CSV") from exc
+    except csv.Error:
+        csv_failed = True
+    if csv_failed:
+        raise ContractValidationError("hidden-truth must be valid CSV")
     if set(by_candidate) != expected_candidates:
         raise ContractValidationError("hidden-truth does not exact-cover split membership")
     if "row_count" in truth_reference and truth_reference["row_count"] != len(by_candidate):

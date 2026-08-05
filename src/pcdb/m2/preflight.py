@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import hashlib
+import json
+import re
 import time
 from pathlib import Path
 from typing import Any
@@ -15,6 +17,7 @@ from pcdb.contracts.experiment import (
 from pcdb.contracts.prediction import M2StaticProducerInputs, load_prediction_artifact
 from pcdb.datasets.processing import ProcessingConfigLike
 from pcdb.m2.features import SequenceFeatureBundle, build_sequence_feature_bundle
+from pcdb.m2.gate_a import build_gate_a_packet
 from pcdb.m2.projection import project_frozen_m2_inputs
 from pcdb.storage import LocalArtifactStore
 
@@ -23,6 +26,7 @@ _MODEL_IDS = (
     "random-forest-sklearn-v1",
     "xgboost-cpu-v1",
 )
+_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
 
 def _find_repository_root(start: Path) -> Path | None:
@@ -64,6 +68,84 @@ def _same_bundle(first: SequenceFeatureBundle, second: SequenceFeatureBundle) ->
     )
 
 
+def _validate_gate_a_identity(
+    *,
+    benchmark_task_id: str,
+    experiment_config_bytes: bytes,
+    git_commit: str,
+    environment_digest: str,
+    gate_a_packet_bytes: bytes,
+    gate_a_packet_sha256: str,
+    repository_root: Path,
+) -> None:
+    if (
+        not _SHA256.fullmatch(gate_a_packet_sha256)
+        or hashlib.sha256(gate_a_packet_bytes).hexdigest() != gate_a_packet_sha256
+    ):
+        raise ContractValidationError("Gate A packet identity does not match reviewed bytes")
+    try:
+        packet = json.loads(gate_a_packet_bytes)
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        raise ContractValidationError("Gate A packet must be canonical JSON") from None
+    if not isinstance(packet, dict) or canonical_json_bytes(packet) != gate_a_packet_bytes:
+        raise ContractValidationError("Gate A packet must be canonical JSON")
+    reviewed_git_commit = packet.get("reviewed_git_commit")
+    if not isinstance(reviewed_git_commit, str):
+        raise ContractValidationError("Gate A packet reviewed commit is invalid")
+    if gate_a_packet_bytes != build_gate_a_packet(repository_root, reviewed_git_commit):
+        raise ContractValidationError("Gate A packet does not match exact repository bytes")
+    if git_commit != reviewed_git_commit:
+        raise ContractValidationError("Git commit does not match the reviewed Gate A packet")
+
+    environment = packet["environment_candidate"]
+    if environment_digest != environment["sha256"]:
+        raise ContractValidationError(
+            "environment digest does not match the reviewed Gate A packet"
+        )
+    experiment_reference = packet["experiment_configs"].get(benchmark_task_id)
+    if (
+        not isinstance(experiment_reference, dict)
+        or experiment_reference.get("size_bytes") != len(experiment_config_bytes)
+        or experiment_reference.get("sha256") != hashlib.sha256(experiment_config_bytes).hexdigest()
+    ):
+        raise ContractValidationError(
+            "Experiment Config identity does not match the reviewed Gate A packet"
+        )
+
+
+def validate_frozen_preflight_entry(
+    *,
+    benchmark_task_id: str,
+    experiment_config_bytes: bytes,
+    git_commit: str,
+    environment_digest: str,
+    scratch_root: Path,
+    gate_a_packet_bytes: bytes,
+    gate_a_packet_sha256: str,
+    repository_root: Path,
+) -> Path:
+    """Validate reviewed provenance and local scratch before any truth-bearing read."""
+
+    validated_scratch_root = validate_local_scratch_root(scratch_root)
+    resolved_repository_root = repository_root.resolve()
+    if validated_scratch_root.is_relative_to(resolved_repository_root):
+        relative_parts = validated_scratch_root.relative_to(resolved_repository_root).parts
+        if ".scratch" not in relative_parts:
+            raise ContractValidationError(
+                "scratch root inside the repository must stay inside an ignored .scratch namespace"
+            )
+    _validate_gate_a_identity(
+        benchmark_task_id=benchmark_task_id,
+        experiment_config_bytes=experiment_config_bytes,
+        git_commit=git_commit,
+        environment_digest=environment_digest,
+        gate_a_packet_bytes=gate_a_packet_bytes,
+        gate_a_packet_sha256=gate_a_packet_sha256,
+        repository_root=repository_root,
+    )
+    return validated_scratch_root
+
+
 def run_frozen_preflight(
     *,
     benchmark_task_id: str,
@@ -78,10 +160,23 @@ def run_frozen_preflight(
     git_commit: str,
     environment_digest: str,
     scratch_root: Path,
+    gate_a_packet_bytes: bytes,
+    gate_a_packet_sha256: str,
+    repository_root: Path,
 ) -> dict[str, Any]:
     """Run the reviewed projection → bundle → three-prediction chain in local scratch."""
 
     started = time.perf_counter()
+    validated_scratch_root = validate_frozen_preflight_entry(
+        benchmark_task_id=benchmark_task_id,
+        experiment_config_bytes=experiment_config_bytes,
+        git_commit=git_commit,
+        environment_digest=environment_digest,
+        scratch_root=scratch_root,
+        gate_a_packet_bytes=gate_a_packet_bytes,
+        gate_a_packet_sha256=gate_a_packet_sha256,
+        repository_root=repository_root,
+    )
     projected = project_frozen_m2_inputs(
         benchmark_task_id=benchmark_task_id,
         processing_config=processing_config,
@@ -195,10 +290,14 @@ def run_frozen_preflight(
     }
     payloads[f"{prefix}/summary.json"] = canonical_json_bytes(summary)
 
-    store = LocalArtifactStore(validate_local_scratch_root(scratch_root))
+    store = LocalArtifactStore(validated_scratch_root)
     for object_key in sorted(payloads):
         store.put_bytes(object_key, payloads[object_key])
     return summary
 
 
-__all__ = ["run_frozen_preflight", "validate_local_scratch_root"]
+__all__ = [
+    "run_frozen_preflight",
+    "validate_frozen_preflight_entry",
+    "validate_local_scratch_root",
+]

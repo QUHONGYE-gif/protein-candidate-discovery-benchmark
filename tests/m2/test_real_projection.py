@@ -240,6 +240,79 @@ def test_truth_owner_rejects_truth_not_exact_covering_the_closed_split() -> None
         )
 
 
+def test_truth_owner_isolates_numeric_parse_failure_from_exception_chain() -> None:
+    marker = "private-target-must-not-escape"
+    hidden_truth = _hidden_truth_bytes().replace(b"1.25", marker.encode(), 1)
+    processing_manifest = _processing_manifest_bytes(hidden_truth)
+    processing_sha256 = hashlib.sha256(processing_manifest).hexdigest()
+    split_manifest = _split_manifest_bytes(_membership_bytes())
+
+    with pytest.raises(ContractValidationError, match="target must be numeric") as raised:
+        project_development_truth(
+            identity=_identity(
+                split_manifest,
+                processing_manifest_sha256=processing_sha256,
+            ),
+            processing_manifest_bytes=processing_manifest,
+            hidden_truth_bytes=hidden_truth,
+            expected_role_memberships=_all_memberships(),
+        )
+
+    assert marker not in str(raised.value)
+    assert raised.value.__cause__ is None
+    assert raised.value.__context__ is None
+
+
+def test_truth_owner_isolates_decode_failure_from_exception_chain() -> None:
+    marker = "private-decode-marker"
+    hidden_truth = _hidden_truth_bytes() + marker.encode() + b"\xff"
+    processing_manifest = _processing_manifest_bytes(hidden_truth)
+    processing_sha256 = hashlib.sha256(processing_manifest).hexdigest()
+    split_manifest = _split_manifest_bytes(_membership_bytes())
+
+    with pytest.raises(ContractValidationError, match="UTF-8 CSV") as raised:
+        project_development_truth(
+            identity=_identity(
+                split_manifest,
+                processing_manifest_sha256=processing_sha256,
+            ),
+            processing_manifest_bytes=processing_manifest,
+            hidden_truth_bytes=hidden_truth,
+            expected_role_memberships=_all_memberships(),
+        )
+
+    assert marker not in str(raised.value)
+    assert raised.value.__cause__ is None
+    assert raised.value.__context__ is None
+
+
+@pytest.mark.parametrize("failure_stage", ["header", "row"])
+def test_truth_owner_isolates_csv_failure_from_exception_chain(failure_stage: str) -> None:
+    marker = "private-csv-marker"
+    if failure_stage == "header":
+        hidden_truth = f'candidate_id,"{marker}\n'.encode()
+    else:
+        hidden_truth = f'candidate_id,target\n{_CANDIDATES["development"]},"{marker}\n'.encode()
+    processing_manifest = _processing_manifest_bytes(hidden_truth)
+    processing_sha256 = hashlib.sha256(processing_manifest).hexdigest()
+    split_manifest = _split_manifest_bytes(_membership_bytes())
+
+    with pytest.raises(ContractValidationError, match="valid CSV") as raised:
+        project_development_truth(
+            identity=_identity(
+                split_manifest,
+                processing_manifest_sha256=processing_sha256,
+            ),
+            processing_manifest_bytes=processing_manifest,
+            hidden_truth_bytes=hidden_truth,
+            expected_role_memberships=_all_memberships(),
+        )
+
+    assert marker not in str(raised.value)
+    assert raised.value.__cause__ is None
+    assert raised.value.__context__ is None
+
+
 def _project(
     *,
     membership_bytes: bytes | None = None,

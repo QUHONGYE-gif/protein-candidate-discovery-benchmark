@@ -47,8 +47,11 @@ def build_parser() -> argparse.ArgumentParser:
     preflight.add_argument("--roles", required=True, type=Path)
     preflight.add_argument("--hidden-truth", required=True, type=Path)
     preflight.add_argument("--experiment-config", required=True, type=Path)
+    preflight.add_argument("--gate-a-packet", required=True, type=Path)
+    preflight.add_argument("--gate-a-packet-sha256", required=True)
     preflight.add_argument("--git-commit", required=True)
     preflight.add_argument("--environment-digest", required=True)
+    preflight.add_argument("--repository-root", required=True, type=Path)
     preflight.add_argument("--scratch-root", required=True, type=Path)
     return parser
 
