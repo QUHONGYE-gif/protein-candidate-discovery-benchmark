@@ -31,6 +31,25 @@ def build_parser() -> argparse.ArgumentParser:
         default="synthetic-attempt-001",
     )
     synthetic.add_argument("--scratch-root", required=True, type=Path)
+    preflight = commands.add_parser(
+        "m2-preflight",
+        help="run the frozen truth-owner projection and three-model Gate A chain in local scratch",
+    )
+    preflight.add_argument(
+        "--benchmark-task-id",
+        choices=("alpha-amylase", "ired"),
+        required=True,
+    )
+    preflight.add_argument("--processing-config", required=True, type=Path)
+    preflight.add_argument("--processing-manifest", required=True, type=Path)
+    preflight.add_argument("--split-manifest", required=True, type=Path)
+    preflight.add_argument("--membership", required=True, type=Path)
+    preflight.add_argument("--roles", required=True, type=Path)
+    preflight.add_argument("--hidden-truth", required=True, type=Path)
+    preflight.add_argument("--experiment-config", required=True, type=Path)
+    preflight.add_argument("--git-commit", required=True)
+    preflight.add_argument("--environment-digest", required=True)
+    preflight.add_argument("--scratch-root", required=True, type=Path)
     return parser
 
 
@@ -41,6 +60,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         from pcdb.m2.cli import run_synthetic_cli
 
         return run_synthetic_cli(arguments)
+    if arguments.command == "m2-preflight":
+        from pcdb.m2.cli import run_preflight_cli
+
+        return run_preflight_cli(arguments)
     return 0
 
 

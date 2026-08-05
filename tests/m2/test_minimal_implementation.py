@@ -31,6 +31,7 @@ from pcdb.contracts.prediction import (
     M2StaticProducerInputs,
     load_prediction_artifact,
 )
+from pcdb.datasets.processing import ProcessingConfigLike
 from pcdb.m2.features import (
     ALPHABET,
     FEATURE_CONFIG_SHA256,
@@ -50,11 +51,13 @@ from pcdb.m2.models import (
     model_effective_parameters,
     predict_regressor,
 )
+from pcdb.m2.preflight import run_frozen_preflight
 from pcdb.m2.producer import (
     SYNTHETIC_ATTEMPT_ID,
     build_synthetic_run_spec,
     make_static_prediction_producer,
 )
+from pcdb.m2.projection import ProjectedInputs
 
 ROOT = Path(__file__).parents[2]
 FIXTURES = ROOT / "tests/fixtures/contracts"
@@ -612,6 +615,69 @@ def test_synthetic_cli_writes_only_local_scratch_artifacts(
         forbidden in name
         for name in stored_files
         for forbidden in ("truth", "held", "oracle", "_SUCCESS")
+    )
+
+
+def test_frozen_preflight_entry_consumes_projection_and_emits_three_safe_predictions(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config = _ProcessingConfig()
+    source_roles = _alpha_role_candidates()
+    roles = {
+        role: tuple(
+            CandidateSequence(
+                _candidate_id(config.candidate_id_namespace, record.sequence),
+                record.sequence,
+            )
+            for record in records
+        )
+        for role, records in source_roles.items()
+    }
+    projected = ProjectedInputs(
+        role_candidates=roles,
+        development_observations=_development_observations(roles),
+        expected_role_memberships={
+            role: tuple(record.candidate_id for record in records)
+            for role, records in roles.items()
+        },
+    )
+    calls: list[dict[str, object]] = []
+
+    def fake_projection(**kwargs: object) -> ProjectedInputs:
+        calls.append(kwargs)
+        return projected
+
+    monkeypatch.setattr("pcdb.m2.preflight.project_frozen_m2_inputs", fake_projection)
+    scratch = tmp_path / "preflight"
+    summary = run_frozen_preflight(
+        benchmark_task_id="alpha-amylase",
+        processing_config=cast(ProcessingConfigLike, config),
+        processing_config_bytes=b"config",
+        processing_manifest_bytes=b"processing-manifest",
+        split_manifest_bytes=b"split-manifest",
+        membership_bytes=b"membership",
+        role_input_bytes=b"roles",
+        hidden_truth_bytes=b"hidden-truth",
+        experiment_config_bytes=_static_experiment_config_bytes(),
+        git_commit="a" * 40,
+        environment_digest="b" * 64,
+        scratch_root=scratch,
+    )
+
+    assert len(calls) == 1
+    assert calls[0]["hidden_truth_bytes"] == b"hidden-truth"
+    assert [item["model_id"] for item in summary["predictions"]] == [
+        "ridge-sklearn-v1",
+        "random-forest-sklearn-v1",
+        "xgboost-cpu-v1",
+    ]
+    assert len(list(scratch.glob("m2-preflight/alpha-amylase/*/prediction.json"))) == 3
+    stored_names = [path.name for path in scratch.rglob("*") if path.is_file()]
+    assert not any(
+        forbidden in name
+        for name in stored_names
+        for forbidden in ("truth", "held", "oracle", "_SUCCESS", "run-attempt")
     )
 
 

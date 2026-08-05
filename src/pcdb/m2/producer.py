@@ -133,7 +133,7 @@ def make_static_prediction_producer(
     return producer
 
 
-def build_synthetic_run_spec(
+def build_preflight_run_spec(
     *,
     bundle: SequenceFeatureBundle,
     experiment_config: LoadedContract,
@@ -142,7 +142,7 @@ def build_synthetic_run_spec(
     environment_digest: str,
     seed: int = SYNTHETIC_SEED,
 ) -> RunSpec:
-    """Build the pre-formal synthetic RunSpec bound to one generated feature root."""
+    """Build a pre-formal RunSpec bound to one validated feature root."""
 
     config_bytes = model_config_bytes(model_id)
     run_spec = RunSpec(
@@ -172,3 +172,24 @@ def build_synthetic_run_spec(
     )
     validate_m2_static_profile(run_spec, experiment_config)
     return run_spec
+
+
+def build_synthetic_run_spec(
+    *,
+    bundle: SequenceFeatureBundle,
+    experiment_config: LoadedContract,
+    model_id: str,
+    git_commit: str,
+    environment_digest: str,
+    seed: int = SYNTHETIC_SEED,
+) -> RunSpec:
+    """Backward-compatible synthetic wrapper around the preflight RunSpec builder."""
+
+    return build_preflight_run_spec(
+        bundle=bundle,
+        experiment_config=experiment_config,
+        model_id=model_id,
+        git_commit=git_commit,
+        environment_digest=environment_digest,
+        seed=seed,
+    )

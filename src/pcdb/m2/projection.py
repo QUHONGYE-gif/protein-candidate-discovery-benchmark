@@ -10,6 +10,7 @@ import math
 import re
 from collections.abc import Mapping
 from dataclasses import dataclass
+from pathlib import PurePosixPath
 from types import MappingProxyType
 from typing import Any, cast
 
@@ -176,9 +177,32 @@ def _validate_processing_config(
 
 def _membership_reference(manifest: Mapping[str, Any]) -> Mapping[str, Any]:
     reference = manifest.get("membership_file")
-    expected_fields = {"object_key", "row_count", "sha256", "size_bytes"}
-    if not isinstance(reference, dict) or set(reference) != expected_fields:
+    required_fields = {"object_key", "sha256", "size_bytes"}
+    optional_fields = {"row_count"}
+    if (
+        not isinstance(reference, dict)
+        or not required_fields <= set(reference)
+        or not set(reference) <= required_fields | optional_fields
+    ):
         raise ContractValidationError("split membership reference fields drifted")
+    object_key = reference.get("object_key")
+    sha256 = reference.get("sha256")
+    size_bytes = reference.get("size_bytes")
+    row_count = reference.get("row_count")
+    if (
+        not isinstance(object_key, str)
+        or not object_key
+        or not isinstance(sha256, str)
+        or not _SHA256.fullmatch(sha256)
+        or isinstance(size_bytes, bool)
+        or not isinstance(size_bytes, int)
+        or size_bytes < 0
+        or (
+            "row_count" in reference
+            and (isinstance(row_count, bool) or not isinstance(row_count, int) or row_count < 1)
+        )
+    ):
+        raise ContractValidationError("split membership reference is invalid")
     return cast(Mapping[str, Any], reference)
 
 
@@ -238,14 +262,14 @@ def _split_memberships(
             by_role[role].append(candidate)
     except csv.Error as exc:
         raise ContractValidationError("split membership must be valid CSV") from exc
-    if reference.get("row_count") != len(seen):
+    if "row_count" in reference and reference["row_count"] != len(seen):
         raise ContractValidationError("split membership row count does not match manifest")
     for role in _ROLES:
         if len(by_role[role]) != identity.role_counts[role]:
             raise ContractValidationError("split membership role count does not match binding")
     if not by_role["held-out"]:
         raise ContractValidationError("split membership must retain a closed held-out partition")
-    return MappingProxyType({role: tuple(sorted(by_role[role])) for role in _ROLES})
+    return MappingProxyType({role: tuple(sorted(by_role[role])) for role in _ALL_SPLIT_ROLES})
 
 
 def _load_role_candidates(payload: bytes) -> Mapping[str, tuple[CandidateSequence, ...]]:
@@ -276,28 +300,161 @@ def _load_role_candidates(payload: bytes) -> Mapping[str, tuple[CandidateSequenc
     return MappingProxyType(loaded)
 
 
-def _load_development_observations(payload: bytes) -> tuple[DevelopmentObservation, ...]:
-    value = _strict_json_object(payload, "development observation input")
-    if set(value) != {"development"}:
-        raise ContractValidationError("observation input must contain only development")
-    raw_observations = value["development"]
-    if not isinstance(raw_observations, list) or not raw_observations:
-        raise ContractValidationError("development observations must be a non-empty array")
-    observations: list[DevelopmentObservation] = []
-    for item in raw_observations:
-        if not isinstance(item, dict) or set(item) != {"candidate_id", "observation"}:
-            raise ContractValidationError("development observation fields drifted")
-        record_id = item["candidate_id"]
-        observation = item["observation"]
-        if not isinstance(record_id, str) or not _CANDIDATE_ID.fullmatch(record_id):
-            raise ContractValidationError("development observation candidate ID is invalid")
-        if isinstance(observation, bool) or not isinstance(observation, (int, float)):
-            raise ContractValidationError("development observation must be numeric")
-        numeric = float(observation)
-        if not math.isfinite(numeric):
-            raise ContractValidationError("development observation must be finite")
-        observations.append(DevelopmentObservation(record_id, numeric))
-    return tuple(observations)
+def project_development_truth(
+    *,
+    identity: ProjectionIdentity,
+    processing_manifest_bytes: bytes,
+    hidden_truth_bytes: bytes,
+    expected_role_memberships: Mapping[str, tuple[str, ...]],
+) -> tuple[DevelopmentObservation, ...]:
+    """Validate exact hidden-truth bytes and expose only development observations."""
+
+    _validate_identity(identity)
+    if hashlib.sha256(processing_manifest_bytes).hexdigest() != (
+        identity.processing_manifest_sha256
+    ):
+        raise ContractValidationError(
+            "processing manifest identity does not match projection binding"
+        )
+    manifest = _strict_json_object(processing_manifest_bytes, "processing manifest")
+    expected_manifest_fields = {
+        "candidate_id_field",
+        "candidate_id_unique",
+        "dataset_manifest_sha256",
+        "duplicate_policy",
+        "git_commit",
+        "hidden_label_field",
+        "known_limitations",
+        "label_direction",
+        "observable_feature_fields",
+        "output_files",
+        "processing_config_sha256",
+        "processing_id",
+        "schema_version",
+    }
+    if set(manifest) != expected_manifest_fields:
+        raise ContractValidationError("processing manifest fields drifted")
+    if (
+        manifest.get("schema_version") != "1"
+        or manifest.get("dataset_manifest_sha256") != identity.dataset_manifest_sha256
+        or manifest.get("processing_config_sha256") != identity.processing_config_sha256
+        or manifest.get("candidate_id_field") != "candidate_id"
+        or manifest.get("candidate_id_unique") is not True
+        or manifest.get("observable_feature_fields") != ["sequence"]
+        or manifest.get("hidden_label_field") != "target"
+        or manifest.get("label_direction") != "higher_is_better"
+        or not isinstance(manifest.get("processing_id"), str)
+        or not re.fullmatch(r"[a-z0-9][a-z0-9._-]*", cast(str, manifest["processing_id"]))
+        or not isinstance(manifest.get("git_commit"), str)
+        or not re.fullmatch(r"[0-9a-f]{40}", cast(str, manifest["git_commit"]))
+        or not isinstance(manifest.get("duplicate_policy"), dict)
+        or not isinstance(manifest.get("known_limitations"), list)
+    ):
+        raise ContractValidationError("processing manifest domain identity drifted")
+
+    raw_outputs = manifest.get("output_files")
+    if not isinstance(raw_outputs, list) or not raw_outputs:
+        raise ContractValidationError("processing manifest outputs are invalid")
+    outputs: list[Mapping[str, Any]] = []
+    object_keys: set[str] = set()
+    for raw_output in raw_outputs:
+        if not isinstance(raw_output, dict):
+            raise ContractValidationError("processing manifest output reference is invalid")
+        required_fields = {"object_key", "sha256", "size_bytes"}
+        optional_fields = {"row_count"}
+        if not required_fields <= set(raw_output) or not set(raw_output) <= (
+            required_fields | optional_fields
+        ):
+            raise ContractValidationError("processing manifest output reference fields drifted")
+        object_key = raw_output.get("object_key")
+        sha256 = raw_output.get("sha256")
+        size_bytes = raw_output.get("size_bytes")
+        row_count = raw_output.get("row_count")
+        if (
+            not isinstance(object_key, str)
+            or not object_key
+            or not isinstance(sha256, str)
+            or not _SHA256.fullmatch(sha256)
+            or isinstance(size_bytes, bool)
+            or not isinstance(size_bytes, int)
+            or size_bytes < 0
+            or (
+                "row_count" in raw_output
+                and (isinstance(row_count, bool) or not isinstance(row_count, int) or row_count < 0)
+            )
+            or object_key in object_keys
+        ):
+            raise ContractValidationError("processing manifest output reference is invalid")
+        object_keys.add(object_key)
+        outputs.append(cast(Mapping[str, Any], raw_output))
+    truth_outputs = [
+        output
+        for output in outputs
+        if PurePosixPath(cast(str, output["object_key"])).name == "hidden-truth.csv"
+    ]
+    if len(truth_outputs) != 1:
+        raise ContractValidationError(
+            "processing manifest must reference exactly one hidden-truth artifact"
+        )
+    truth_reference = truth_outputs[0]
+    if truth_reference["sha256"] != hashlib.sha256(
+        hidden_truth_bytes
+    ).hexdigest() or truth_reference["size_bytes"] != len(hidden_truth_bytes):
+        raise ContractValidationError("hidden-truth exact bytes do not match manifest")
+
+    if set(expected_role_memberships) != set(_ALL_SPLIT_ROLES):
+        raise ContractValidationError("truth projection memberships are incomplete")
+    by_candidate: dict[str, str] = {}
+    expected_candidates: set[str] = set()
+    for role in _ALL_SPLIT_ROLES:
+        role_ids = tuple(expected_role_memberships[role])
+        if not role_ids or len(role_ids) != len(set(role_ids)):
+            raise ContractValidationError("truth projection membership is invalid")
+        if expected_candidates.intersection(role_ids) or any(
+            not _CANDIDATE_ID.fullmatch(item) for item in role_ids
+        ):
+            raise ContractValidationError("truth projection memberships overlap or drifted")
+        expected_candidates.update(role_ids)
+
+    try:
+        text = hidden_truth_bytes.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise ContractValidationError("hidden-truth must be UTF-8 CSV") from exc
+    reader = csv.DictReader(io.StringIO(text, newline=""), strict=True)
+    if reader.fieldnames != ["candidate_id", "target"]:
+        raise ContractValidationError("hidden-truth fields drifted")
+    try:
+        for row in reader:
+            if set(row) != {"candidate_id", "target"} or None in row:
+                raise ContractValidationError("hidden-truth row fields drifted")
+            record_id = row["candidate_id"]
+            raw_target = row["target"]
+            if (
+                not isinstance(record_id, str)
+                or not _CANDIDATE_ID.fullmatch(record_id)
+                or record_id in by_candidate
+                or not isinstance(raw_target, str)
+                or not raw_target
+            ):
+                raise ContractValidationError("hidden-truth row is invalid")
+            try:
+                numeric_target = float(raw_target)
+            except ValueError as exc:
+                raise ContractValidationError("hidden-truth target must be numeric") from exc
+            if not math.isfinite(numeric_target):
+                raise ContractValidationError("hidden-truth target must be finite")
+            by_candidate[record_id] = raw_target
+    except csv.Error as exc:
+        raise ContractValidationError("hidden-truth must be valid CSV") from exc
+    if set(by_candidate) != expected_candidates:
+        raise ContractValidationError("hidden-truth does not exact-cover split membership")
+    if "row_count" in truth_reference and truth_reference["row_count"] != len(by_candidate):
+        raise ContractValidationError("hidden-truth row count does not match manifest")
+
+    return tuple(
+        DevelopmentObservation(candidate, float(by_candidate[candidate]))
+        for candidate in sorted(expected_role_memberships["development"])
+    )
 
 
 def project_checked_inputs(
@@ -305,10 +462,11 @@ def project_checked_inputs(
     identity: ProjectionIdentity,
     processing_config: ProcessingConfigLike,
     processing_config_bytes: bytes,
+    processing_manifest_bytes: bytes,
     split_manifest_bytes: bytes,
     membership_bytes: bytes,
     role_input_bytes: bytes,
-    development_observation_bytes: bytes,
+    hidden_truth_bytes: bytes,
 ) -> ProjectedInputs:
     """Project strict model inputs against an independently supplied identity chain."""
 
@@ -316,7 +474,12 @@ def project_checked_inputs(
     _validate_processing_config(identity, processing_config, processing_config_bytes)
     expected = _split_memberships(identity, split_manifest_bytes, membership_bytes)
     roles = _load_role_candidates(role_input_bytes)
-    observations = _load_development_observations(development_observation_bytes)
+    observations = project_development_truth(
+        identity=identity,
+        processing_manifest_bytes=processing_manifest_bytes,
+        hidden_truth_bytes=hidden_truth_bytes,
+        expected_role_memberships=expected,
+    )
 
     seen: set[str] = set()
     for role in _ROLES:
@@ -341,7 +504,7 @@ def project_checked_inputs(
     return ProjectedInputs(
         role_candidates=roles,
         development_observations=observations,
-        expected_role_memberships=expected,
+        expected_role_memberships=MappingProxyType({role: expected[role] for role in _ROLES}),
     )
 
 
@@ -350,10 +513,11 @@ def project_frozen_m2_inputs(
     benchmark_task_id: str,
     processing_config: ProcessingConfigLike,
     processing_config_bytes: bytes,
+    processing_manifest_bytes: bytes,
     split_manifest_bytes: bytes,
     membership_bytes: bytes,
     role_input_bytes: bytes,
-    development_observation_bytes: bytes,
+    hidden_truth_bytes: bytes,
 ) -> ProjectedInputs:
     """Project one Alpha/IRED input using only code-frozen production identities."""
 
@@ -361,10 +525,11 @@ def project_frozen_m2_inputs(
         identity=frozen_projection_identity(benchmark_task_id),
         processing_config=processing_config,
         processing_config_bytes=processing_config_bytes,
+        processing_manifest_bytes=processing_manifest_bytes,
         split_manifest_bytes=split_manifest_bytes,
         membership_bytes=membership_bytes,
         role_input_bytes=role_input_bytes,
-        development_observation_bytes=development_observation_bytes,
+        hidden_truth_bytes=hidden_truth_bytes,
     )
 
 
@@ -373,5 +538,6 @@ __all__ = [
     "ProjectionIdentity",
     "frozen_projection_identity",
     "project_checked_inputs",
+    "project_development_truth",
     "project_frozen_m2_inputs",
 ]
