@@ -14,8 +14,14 @@ from pcdb.contracts.experiment import (
     load_experiment_config,
 )
 from pcdb.contracts.prediction import M2StaticProducerInputs
+from pcdb.datasets.processing import ProcessingConfigLike
 from pcdb.m2.features import CandidateSequence, build_sequence_feature_bundle
 from pcdb.m2.models import DevelopmentObservation, model_config_bytes
+from pcdb.m2.preflight import (
+    run_frozen_preflight,
+    validate_frozen_preflight_entry,
+    validate_local_scratch_root,
+)
 from pcdb.m2.producer import (
     SYNTHETIC_ATTEMPT_ID,
     build_synthetic_run_spec,
@@ -26,32 +32,8 @@ from pcdb.storage import LocalArtifactStore
 _ROLES = ("development", "validation", "candidate-pool")
 
 
-def _find_repository_root(start: Path) -> Path | None:
-    for candidate in (start, *start.parents):
-        if (candidate / ".git").exists() and (candidate / ".gitignore").is_file():
-            return candidate
-    return None
-
-
 def _validate_scratch_root(path: Path) -> Path:
-    working_directory = Path.cwd().resolve()
-    resolved = path.resolve()
-    if not path.is_absolute():
-        ignored_root = (working_directory / ".scratch").resolve()
-        if not resolved.is_relative_to(ignored_root):
-            raise ContractValidationError(
-                "relative scratch root must stay inside the ignored .scratch namespace"
-            )
-        return resolved
-
-    repository_root = _find_repository_root(resolved)
-    if repository_root is not None and resolved.is_relative_to(repository_root):
-        relative_parts = resolved.relative_to(repository_root).parts
-        if ".scratch" not in relative_parts:
-            raise ContractValidationError(
-                "scratch root inside the repository must stay inside an ignored .scratch namespace"
-            )
-    return resolved
+    return validate_local_scratch_root(path)
 
 
 def _reject_constant(value: str) -> None:
@@ -239,4 +221,51 @@ def run_synthetic_cli(arguments: Namespace) -> int:
     return 0
 
 
-__all__ = ["SYNTHETIC_ATTEMPT_ID", "run_synthetic_cli"]
+def run_preflight_cli(arguments: Namespace) -> int:
+    """Execute the frozen truth-owner projection and three-model local preflight."""
+
+    benchmark_task_id = cast(str, arguments.benchmark_task_id)
+    processing_config_path = cast(Path, arguments.processing_config)
+    processing_config: ProcessingConfigLike
+    if benchmark_task_id == "alpha-amylase":
+        from pcdb.datasets.amylase import load_amylase_processing_config
+
+        processing_config = load_amylase_processing_config(processing_config_path)
+    else:
+        from pcdb.datasets.ired import load_ired_processing_config
+
+        processing_config = load_ired_processing_config(processing_config_path)
+    experiment_config_bytes = cast(Path, arguments.experiment_config).read_bytes()
+    gate_a_packet_bytes = cast(Path, arguments.gate_a_packet).read_bytes()
+    validate_frozen_preflight_entry(
+        benchmark_task_id=benchmark_task_id,
+        experiment_config_bytes=experiment_config_bytes,
+        git_commit=cast(str, arguments.git_commit),
+        environment_digest=cast(str, arguments.environment_digest),
+        scratch_root=cast(Path, arguments.scratch_root),
+        gate_a_packet_bytes=gate_a_packet_bytes,
+        gate_a_packet_sha256=cast(str, arguments.gate_a_packet_sha256),
+        repository_root=cast(Path, arguments.repository_root),
+    )
+    summary = run_frozen_preflight(
+        benchmark_task_id=benchmark_task_id,
+        processing_config=processing_config,
+        processing_config_bytes=processing_config_path.read_bytes(),
+        processing_manifest_bytes=cast(Path, arguments.processing_manifest).read_bytes(),
+        split_manifest_bytes=cast(Path, arguments.split_manifest).read_bytes(),
+        membership_bytes=cast(Path, arguments.membership).read_bytes(),
+        role_input_bytes=cast(Path, arguments.roles).read_bytes(),
+        hidden_truth_bytes=cast(Path, arguments.hidden_truth).read_bytes(),
+        experiment_config_bytes=experiment_config_bytes,
+        gate_a_packet_bytes=gate_a_packet_bytes,
+        gate_a_packet_sha256=cast(str, arguments.gate_a_packet_sha256),
+        git_commit=cast(str, arguments.git_commit),
+        environment_digest=cast(str, arguments.environment_digest),
+        repository_root=cast(Path, arguments.repository_root),
+        scratch_root=cast(Path, arguments.scratch_root),
+    )
+    print(json.dumps(summary, allow_nan=False, separators=(",", ":"), sort_keys=True))
+    return 0
+
+
+__all__ = ["SYNTHETIC_ATTEMPT_ID", "run_preflight_cli", "run_synthetic_cli"]

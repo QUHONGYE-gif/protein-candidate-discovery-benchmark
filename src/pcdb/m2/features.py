@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import re
 from collections import Counter
-from collections.abc import Mapping, Sequence
+from collections.abc import Collection, Mapping, Sequence
 from dataclasses import dataclass
 from types import MappingProxyType
 from typing import Any, Protocol, cast
@@ -241,6 +241,7 @@ def build_sequence_feature_bundle(
     git_commit: str,
     environment_digest: str,
     processing_config: CandidateIdentityConfig | None = None,
+    expected_role_memberships: Mapping[str, Collection[str]] | None = None,
 ) -> SequenceFeatureBundle:
     """Build all three task-bound role members and reconstruct the #47 root."""
 
@@ -267,6 +268,24 @@ def build_sequence_feature_bundle(
             raise ContractValidationError("candidate IDs overlap across feature roles")
         seen.update(role_ids)
         memberships[role] = role_ids
+
+    descriptor_memberships: Mapping[str, Collection[str]] = memberships
+    if expected_role_memberships is not None:
+        if set(expected_role_memberships) != set(_ROLES):
+            raise ContractValidationError(
+                "expected role memberships must contain exactly the three model-visible roles"
+            )
+        for role in _ROLES:
+            expected_ids = tuple(expected_role_memberships[role])
+            if len(expected_ids) != len(set(expected_ids)):
+                raise ContractValidationError("expected role membership contains duplicate IDs")
+            if len(expected_ids) != len(memberships[role]) or set(expected_ids) != set(
+                memberships[role]
+            ):
+                raise ContractValidationError(
+                    "feature input does not exact-cover independent role membership"
+                )
+        descriptor_memberships = expected_role_memberships
 
     definitions = sequence_feature_definitions()
     feature_ids = [cast(str, definition["feature_id"]) for definition in definitions]
@@ -324,7 +343,7 @@ def build_sequence_feature_bundle(
         feature_config_object_key=config_key,
         member_bytes=member_bytes,
         tensor_definitions={},
-        expected_role_memberships=memberships,
+        expected_role_memberships=descriptor_memberships,
     )
     descriptor = load_feature_bundle_descriptor(descriptor_bytes)
     return SequenceFeatureBundle(

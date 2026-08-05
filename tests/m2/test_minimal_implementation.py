@@ -31,6 +31,7 @@ from pcdb.contracts.prediction import (
     M2StaticProducerInputs,
     load_prediction_artifact,
 )
+from pcdb.datasets.processing import ProcessingConfigLike
 from pcdb.m2.features import (
     ALPHABET,
     FEATURE_CONFIG_SHA256,
@@ -41,6 +42,7 @@ from pcdb.m2.features import (
     sequence_feature_config_bytes,
     sequence_feature_definitions,
 )
+from pcdb.m2.gate_a import build_gate_a_packet
 from pcdb.m2.models import (
     MODEL_CONFIG_SHA256,
     DevelopmentObservation,
@@ -50,11 +52,13 @@ from pcdb.m2.models import (
     model_effective_parameters,
     predict_regressor,
 )
+from pcdb.m2.preflight import run_frozen_preflight
 from pcdb.m2.producer import (
     SYNTHETIC_ATTEMPT_ID,
     build_synthetic_run_spec,
     make_static_prediction_producer,
 )
+from pcdb.m2.projection import ProjectedInputs
 
 ROOT = Path(__file__).parents[2]
 FIXTURES = ROOT / "tests/fixtures/contracts"
@@ -423,12 +427,16 @@ def alpha_bundle() -> tuple[
     dict[str, tuple[CandidateSequence, ...]],
 ]:
     roles = _alpha_role_candidates()
+    expected_memberships = {
+        role: tuple(record.candidate_id for record in records) for role, records in roles.items()
+    }
     return (
         build_sequence_feature_bundle(
             benchmark_task_id="alpha-amylase",
             role_candidates=roles,
             git_commit="a" * 40,
             environment_digest="b" * 64,
+            expected_role_memberships=expected_memberships,
         ),
         roles,
     )
@@ -462,6 +470,23 @@ def test_three_role_bundle_passes_issue_44_and_47(
     assert validated.sha256 == bundle.descriptor.sha256
     assert bundle.descriptor.value["fitted_states"] == ()
     assert len(bundle.descriptor.value["feature_definitions"]) == 420
+
+
+def test_bundle_rejects_membership_not_independently_reconstructed_from_split() -> None:
+    roles = _alpha_role_candidates()
+    expected = {
+        role: [record.candidate_id for record in records] for role, records in roles.items()
+    }
+    expected["validation"][0] = "f" * 64
+
+    with pytest.raises(ContractValidationError, match="independent role membership"):
+        build_sequence_feature_bundle(
+            benchmark_task_id="alpha-amylase",
+            role_candidates=roles,
+            git_commit="a" * 40,
+            environment_digest="b" * 64,
+            expected_role_memberships=expected,
+        )
 
 
 @pytest.mark.parametrize(
@@ -592,6 +617,229 @@ def test_synthetic_cli_writes_only_local_scratch_artifacts(
         for name in stored_files
         for forbidden in ("truth", "held", "oracle", "_SUCCESS")
     )
+
+
+def test_frozen_preflight_entry_consumes_projection_and_emits_three_safe_predictions(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config = _ProcessingConfig()
+    source_roles = _alpha_role_candidates()
+    roles = {
+        role: tuple(
+            CandidateSequence(
+                _candidate_id(config.candidate_id_namespace, record.sequence),
+                record.sequence,
+            )
+            for record in records
+        )
+        for role, records in source_roles.items()
+    }
+    projected = ProjectedInputs(
+        role_candidates=roles,
+        development_observations=_development_observations(roles),
+        expected_role_memberships={
+            role: tuple(record.candidate_id for record in records)
+            for role, records in roles.items()
+        },
+    )
+    calls: list[dict[str, object]] = []
+
+    def fake_projection(**kwargs: object) -> ProjectedInputs:
+        calls.append(kwargs)
+        return projected
+
+    monkeypatch.setattr("pcdb.m2.preflight.project_frozen_m2_inputs", fake_projection)
+    scratch = tmp_path / "preflight"
+    gate_a_packet_bytes = build_gate_a_packet(ROOT, "a" * 40)
+    environment_digest = cast(
+        str,
+        json.loads(gate_a_packet_bytes)["environment_candidate"]["sha256"],
+    )
+    summary = run_frozen_preflight(
+        benchmark_task_id="alpha-amylase",
+        processing_config=cast(ProcessingConfigLike, config),
+        processing_config_bytes=b"config",
+        processing_manifest_bytes=b"processing-manifest",
+        split_manifest_bytes=b"split-manifest",
+        membership_bytes=b"membership",
+        role_input_bytes=b"roles",
+        hidden_truth_bytes=b"hidden-truth",
+        experiment_config_bytes=(
+            ROOT / "configs/experiments/m2-static/alpha-amylase.json"
+        ).read_bytes(),
+        git_commit="a" * 40,
+        environment_digest=environment_digest,
+        scratch_root=scratch,
+        gate_a_packet_bytes=gate_a_packet_bytes,
+        gate_a_packet_sha256=hashlib.sha256(gate_a_packet_bytes).hexdigest(),
+        repository_root=ROOT,
+    )
+
+    assert len(calls) == 1
+    assert calls[0]["hidden_truth_bytes"] == b"hidden-truth"
+    assert [item["model_id"] for item in summary["predictions"]] == [
+        "ridge-sklearn-v1",
+        "random-forest-sklearn-v1",
+        "xgboost-cpu-v1",
+    ]
+    assert len(list(scratch.glob("m2-preflight/alpha-amylase/*/prediction.json"))) == 3
+    stored_names = [path.name for path in scratch.rglob("*") if path.is_file()]
+    assert not any(
+        forbidden in name
+        for name in stored_names
+        for forbidden in ("truth", "held", "oracle", "_SUCCESS", "run-attempt")
+    )
+
+
+@pytest.mark.parametrize(
+    ("drift", "message"),
+    [
+        ("experiment", "Experiment Config identity"),
+        ("commit", "Git commit"),
+        ("environment", "environment digest"),
+        ("packet", "Gate A packet identity"),
+    ],
+)
+def test_frozen_preflight_rejects_unreviewed_identity_before_projection(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    drift: str,
+    message: str,
+) -> None:
+    calls: list[dict[str, object]] = []
+
+    def fake_projection(**kwargs: object) -> ProjectedInputs:
+        calls.append(kwargs)
+        raise AssertionError("projection must not run before Gate A identity validation")
+
+    monkeypatch.setattr("pcdb.m2.preflight.project_frozen_m2_inputs", fake_projection)
+    packet_bytes = build_gate_a_packet(ROOT, "a" * 40)
+    arguments: dict[str, Any] = {
+        "benchmark_task_id": "alpha-amylase",
+        "processing_config": cast(ProcessingConfigLike, _ProcessingConfig()),
+        "processing_config_bytes": b"config",
+        "processing_manifest_bytes": b"processing-manifest",
+        "split_manifest_bytes": b"split-manifest",
+        "membership_bytes": b"membership",
+        "role_input_bytes": b"roles",
+        "hidden_truth_bytes": b"hidden-truth",
+        "experiment_config_bytes": (
+            ROOT / "configs/experiments/m2-static/alpha-amylase.json"
+        ).read_bytes(),
+        "git_commit": "a" * 40,
+        "environment_digest": json.loads(packet_bytes)["environment_candidate"]["sha256"],
+        "scratch_root": tmp_path / "preflight",
+        "gate_a_packet_bytes": packet_bytes,
+        "gate_a_packet_sha256": hashlib.sha256(packet_bytes).hexdigest(),
+        "repository_root": ROOT,
+    }
+    if drift == "experiment":
+        arguments["experiment_config_bytes"] = _static_experiment_config_bytes()
+    elif drift == "commit":
+        arguments["git_commit"] = "c" * 40
+    elif drift == "environment":
+        arguments["environment_digest"] = "d" * 64
+    else:
+        arguments["gate_a_packet_sha256"] = "e" * 64
+
+    with pytest.raises(ContractValidationError, match=message):
+        run_frozen_preflight(**arguments)
+
+    assert calls == []
+
+
+def test_frozen_preflight_rejects_unsafe_scratch_before_projection(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    calls: list[dict[str, object]] = []
+
+    def fake_projection(**kwargs: object) -> ProjectedInputs:
+        calls.append(kwargs)
+        raise AssertionError("projection must not run before scratch validation")
+
+    monkeypatch.setattr("pcdb.m2.preflight.project_frozen_m2_inputs", fake_projection)
+    monkeypatch.chdir(ROOT)
+    packet_bytes = build_gate_a_packet(ROOT, "a" * 40)
+
+    with pytest.raises(ContractValidationError, match="ignored \\.scratch namespace"):
+        run_frozen_preflight(
+            benchmark_task_id="alpha-amylase",
+            processing_config=cast(ProcessingConfigLike, _ProcessingConfig()),
+            processing_config_bytes=b"config",
+            processing_manifest_bytes=b"processing-manifest",
+            split_manifest_bytes=b"split-manifest",
+            membership_bytes=b"membership",
+            role_input_bytes=b"roles",
+            hidden_truth_bytes=b"hidden-truth",
+            experiment_config_bytes=(
+                ROOT / "configs/experiments/m2-static/alpha-amylase.json"
+            ).read_bytes(),
+            git_commit="a" * 40,
+            environment_digest=json.loads(packet_bytes)["environment_candidate"]["sha256"],
+            scratch_root=Path("unsafe-preflight"),
+            gate_a_packet_bytes=packet_bytes,
+            gate_a_packet_sha256=hashlib.sha256(packet_bytes).hexdigest(),
+            repository_root=ROOT,
+        )
+
+    assert calls == []
+
+
+def test_preflight_cli_rejects_unreviewed_identity_before_reading_truth(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import pcdb.datasets.amylase as amylase_dataset
+
+    monkeypatch.setattr(
+        amylase_dataset,
+        "load_amylase_processing_config",
+        lambda _path: _ProcessingConfig(),
+    )
+    packet_bytes = build_gate_a_packet(ROOT, "a" * 40)
+    packet_path = tmp_path / "gate-a-packet.json"
+    experiment_path = tmp_path / "unreviewed-experiment.json"
+    packet_path.write_bytes(packet_bytes)
+    experiment_path.write_bytes(_static_experiment_config_bytes())
+    missing_truth_path = tmp_path / "must-not-be-read.csv"
+
+    with pytest.raises(ContractValidationError, match="Experiment Config identity"):
+        main(
+            [
+                "m2-preflight",
+                "--benchmark-task-id",
+                "alpha-amylase",
+                "--processing-config",
+                str(tmp_path / "processing-config.json"),
+                "--processing-manifest",
+                str(tmp_path / "processing-manifest.json"),
+                "--split-manifest",
+                str(tmp_path / "split-manifest.json"),
+                "--membership",
+                str(tmp_path / "membership.csv"),
+                "--roles",
+                str(tmp_path / "roles.json"),
+                "--hidden-truth",
+                str(missing_truth_path),
+                "--experiment-config",
+                str(experiment_path),
+                "--gate-a-packet",
+                str(packet_path),
+                "--gate-a-packet-sha256",
+                hashlib.sha256(packet_bytes).hexdigest(),
+                "--git-commit",
+                "a" * 40,
+                "--environment-digest",
+                json.loads(packet_bytes)["environment_candidate"]["sha256"],
+                "--repository-root",
+                str(ROOT),
+                "--scratch-root",
+                str(tmp_path / "scratch"),
+            ]
+        )
+
+    assert not missing_truth_path.exists()
 
 
 def test_xgboost_two_processes_emit_identical_canonical_prediction_bytes(
