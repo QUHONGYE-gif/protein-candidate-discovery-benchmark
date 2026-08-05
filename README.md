@@ -35,6 +35,25 @@ python -m pip install -e ".[dev]"
 make check
 ```
 
+## M2 synthetic 开发入口
+
+Issue #55 的 `pcdb m2-synthetic` 入口只用于公开 synthetic、三角色的本地 scratch 检查：
+
+```bash
+pcdb m2-synthetic \
+  --roles roles.json \
+  --development-observations development-observations.json \
+  --experiment-config experiment.json \
+  --model-id ridge-sklearn-v1 \
+  --scratch-root scratch/m2-synthetic
+```
+
+`roles.json` 必须显式提供 `benchmark_task_id`、`generator.git_commit`、
+`generator.environment_digest`，以及 `development`、`validation`、`candidate-pool` 三组
+`candidate_id,sequence`。observation 文件只能包含 `development` 数组及其中的
+`candidate_id,observation`。入口没有 validation/candidate truth、held-out、evaluator、COS 或远程
+调度参数；输出不是正式 RunAttempt、benchmark evidence 或 scientific result。
+
 ## 目录
 
 ```text
