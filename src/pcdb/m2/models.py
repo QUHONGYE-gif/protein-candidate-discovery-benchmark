@@ -386,13 +386,15 @@ def fit_regressor(
             FittedRegressor,
             RandomForestRegressor(**dict(_RANDOM_FOREST_PARAMETERS)),
         )
-    else:
+    elif config.model_id == "xgboost-cpu-v1":
         if seed != _XGBOOST_PARAMETERS["random_state"]:
             raise ContractValidationError("XGBoost random_state must exact-match the RunSpec seed")
         estimator = cast(
             FittedRegressor,
             XGBRegressor(**dict(_XGBOOST_PARAMETERS)),
         )
+    else:
+        raise ContractValidationError("loaded model config dispatch drifted")
     try:
         if config.model_id == "xgboost-cpu-v1":
             cast(Any, estimator).fit(
@@ -422,7 +424,17 @@ def predict_regressor(
 
     features = _matrix_values(candidate_features)
     try:
-        raw_predictions = np.asarray(fitted_estimator.predict(features), dtype=np.float64)
+        if isinstance(fitted_estimator, XGBRegressor):
+            raw_prediction_values = cast(Any, fitted_estimator).predict(
+                features,
+                output_margin=False,
+                validate_features=True,
+                base_margin=None,
+                iteration_range=None,
+            )
+        else:
+            raw_prediction_values = fitted_estimator.predict(features)
+        raw_predictions = np.asarray(raw_prediction_values, dtype=np.float64)
     except Exception:
         raise ContractValidationError("synthetic candidate prediction failed") from None
     if raw_predictions.shape != (len(candidate_features.candidate_ids),):
