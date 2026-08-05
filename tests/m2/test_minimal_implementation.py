@@ -423,12 +423,16 @@ def alpha_bundle() -> tuple[
     dict[str, tuple[CandidateSequence, ...]],
 ]:
     roles = _alpha_role_candidates()
+    expected_memberships = {
+        role: tuple(record.candidate_id for record in records) for role, records in roles.items()
+    }
     return (
         build_sequence_feature_bundle(
             benchmark_task_id="alpha-amylase",
             role_candidates=roles,
             git_commit="a" * 40,
             environment_digest="b" * 64,
+            expected_role_memberships=expected_memberships,
         ),
         roles,
     )
@@ -462,6 +466,23 @@ def test_three_role_bundle_passes_issue_44_and_47(
     assert validated.sha256 == bundle.descriptor.sha256
     assert bundle.descriptor.value["fitted_states"] == ()
     assert len(bundle.descriptor.value["feature_definitions"]) == 420
+
+
+def test_bundle_rejects_membership_not_independently_reconstructed_from_split() -> None:
+    roles = _alpha_role_candidates()
+    expected = {
+        role: [record.candidate_id for record in records] for role, records in roles.items()
+    }
+    expected["validation"][0] = "f" * 64
+
+    with pytest.raises(ContractValidationError, match="independent role membership"):
+        build_sequence_feature_bundle(
+            benchmark_task_id="alpha-amylase",
+            role_candidates=roles,
+            git_commit="a" * 40,
+            environment_digest="b" * 64,
+            expected_role_memberships=expected,
+        )
 
 
 @pytest.mark.parametrize(

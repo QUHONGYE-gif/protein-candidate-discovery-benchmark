@@ -1,0 +1,58 @@
+{
+  "architecture": "x86_64",
+  "cpu_only": true,
+  "operating_system": "Debian GNU/Linux 12 (bookworm)",
+  "packages": [
+    {
+      "distribution": "joblib",
+      "sha256": "5fc3c5039fc5ca8c0276333a188bbd59d6b7ab37fe6632daa76bc7f9ec18e713",
+      "version": "1.5.3"
+    },
+    {
+      "distribution": "narwhals",
+      "sha256": "42fdedf44e5b2ca7505630d45b4ac3058f38d8485cba9fe1652ca23152df7489",
+      "version": "2.24.0"
+    },
+    {
+      "distribution": "numpy",
+      "sha256": "89cd468399cfd2504718f0ba50e410dca55a170b61a02ad92bb18c8a65186e93",
+      "version": "2.4.6"
+    },
+    {
+      "distribution": "scikit-learn",
+      "sha256": "f7e254636164090da847715a27f8e5478feb98c40a9e0ee90cbd277de9e5ceb8",
+      "version": "1.9.0"
+    },
+    {
+      "distribution": "scipy",
+      "sha256": "43af8d1f3bea642559019edfe64e9b11192a8978efbd1539d7bc2aaa23d92de4",
+      "version": "1.17.1"
+    },
+    {
+      "distribution": "threadpoolctl",
+      "sha256": "43a0b8fd5a2928500110039e43a5eed8480b918967083ea48dc3ab9f13c4a7fb",
+      "version": "3.6.0"
+    },
+    {
+      "distribution": "xgboost-cpu",
+      "sha256": "9c10b1653e1a689bf4094a328144cf3633c9be0e5217a76fbdc2fde6abcb2950",
+      "version": "3.2.0"
+    }
+  ],
+  "python": {
+    "implementation": "CPython",
+    "version": "3.11.2"
+  },
+  "schema_version": "m2-gate-a-environment-candidate-v1",
+  "thread_policy": {
+    "environment": {
+      "BLIS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONHASHSEED": "0"
+    },
+    "estimator_n_jobs": 1
+  },
+  "wheel_policy": "official-pypi-binary-only-no-source-build"
+}

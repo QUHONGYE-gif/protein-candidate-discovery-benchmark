@@ -24,25 +24,15 @@ from pcdb.contracts.feature_identity import (
     canonical_feature_json_bytes,
 )
 from pcdb.m2.features import sequence_feature_definitions
+from pcdb.m2.model_identity import (
+    MODEL_CONFIG_SHA256 as MODEL_CONFIG_SHA256,
+)
+from pcdb.m2.model_identity import (
+    MODEL_CONFIG_SIZE_BYTES as MODEL_CONFIG_SIZE_BYTES,
+)
+from pcdb.m2.types import DevelopmentObservation as DevelopmentObservation
 
 MODEL_CONFIG_SCHEMA_VERSION = "m2-model-config-v1"
-MODEL_CONFIG_SHA256: Mapping[str, str] = MappingProxyType(
-    {
-        "ridge-sklearn-v1": ("806e9bb5c16a511b233213ca6f1f08ac848eeb77c7e9702915171ce4a22293d7"),
-        "random-forest-sklearn-v1": (
-            "9a837a91a94a2b3b0b3fb6d93474a5140fbbadefb127b523830334213f2077f1"
-        ),
-        "xgboost-cpu-v1": ("7e0a95e827a829b6d4dfa30db35d46770d82dc980784620bd844a378dc97a2cb"),
-    }
-)
-MODEL_CONFIG_SIZE_BYTES: Mapping[str, int] = MappingProxyType(
-    {
-        "ridge-sklearn-v1": 1_243,
-        "random-forest-sklearn-v1": 2_575,
-        "xgboost-cpu-v1": 5_693,
-    }
-)
-
 _CANDIDATE_ID = re.compile(r"^[0-9a-f]{64}$")
 _MODEL_IDS = tuple(MODEL_CONFIG_SHA256)
 _FEATURE_IDS = tuple(
@@ -155,14 +145,6 @@ _LIBRARIES: Mapping[str, Mapping[str, str]] = MappingProxyType(
         ),
     }
 )
-
-
-@dataclass(frozen=True, slots=True)
-class DevelopmentObservation:
-    """One explicit development-role training observation."""
-
-    candidate_id: str
-    observation: float
 
 
 @dataclass(frozen=True, slots=True)
