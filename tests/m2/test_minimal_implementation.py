@@ -4,12 +4,16 @@ import hashlib
 import inspect
 import json
 import math
+import os
+import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, cast
 
 import pytest
 
+import pcdb.m2.models as m2_models
 from pcdb.cli import main
 from pcdb.contracts.experiment import (
     ContractValidationError,
@@ -137,6 +141,7 @@ def test_sequence_feature_rejects_duplicate_and_processing_identity_mismatch() -
     [
         ("ridge-sklearn-v1", 1_243),
         ("random-forest-sklearn-v1", 2_575),
+        ("xgboost-cpu-v1", 5_693),
     ],
 )
 def test_model_config_exact_identity(model_id: str, size_bytes: int) -> None:
@@ -154,6 +159,7 @@ def test_model_config_exact_identity(model_id: str, size_bytes: int) -> None:
 def test_model_config_effective_parameters_are_fully_explicit() -> None:
     ridge = model_effective_parameters("ridge-sklearn-v1")
     forest = model_effective_parameters("random-forest-sklearn-v1")
+    xgboost = model_effective_parameters("xgboost-cpu-v1")
 
     assert ridge == {
         "alpha": 1.0,
@@ -171,9 +177,39 @@ def test_model_config_effective_parameters_are_fully_explicit() -> None:
     assert forest["random_state"] == 1729
     assert forest["monotonic_cst"] is None
     assert len(forest) == 18
+    assert xgboost["booster"] == "gbtree"
+    assert xgboost["device"] == "cpu"
+    assert xgboost["objective"] == "reg:squarederror"
+    assert xgboost["tree_method"] == "hist"
+    assert xgboost["n_jobs"] == 1
+    assert xgboost["random_state"] == 1729
+    assert xgboost["seed_per_iteration"] is False
+    assert xgboost["early_stopping_rounds"] is None
+    assert xgboost["callbacks"] is None
+    assert len(xgboost) == 41
 
 
-@pytest.mark.parametrize("model_id", ["ridge-sklearn-v1", "random-forest-sklearn-v1"])
+def test_xgboost_model_config_identity_drift_fails_closed() -> None:
+    payload = model_config_bytes("xgboost-cpu-v1")
+    unknown = payload.replace(b"xgboost-cpu-v1", b"xgboost-gpu-v1")
+    missing_value = json.loads(payload)
+    missing_value["parameters"] = missing_value["parameters"][:-1]
+    missing = canonical_json_bytes(missing_value)
+    duplicate = payload.replace(
+        b'  "model_id": "xgboost-cpu-v1",',
+        b'  "model_id": "xgboost-cpu-v1",\n  "model_id": "xgboost-cpu-v1",',
+        1,
+    )
+
+    for drifted in (unknown, missing, duplicate, payload[:-1] + b" "):
+        with pytest.raises(ContractValidationError):
+            load_model_config(drifted)
+
+
+@pytest.mark.parametrize(
+    "model_id",
+    ["ridge-sklearn-v1", "random-forest-sklearn-v1", "xgboost-cpu-v1"],
+)
 def test_regressors_fit_predict_finite_deterministically(model_id: str) -> None:
     namespace = "public-synthetic-v1"
     development = [
@@ -217,6 +253,79 @@ def test_regressors_fit_predict_finite_deterministically(model_id: str) -> None:
     assert all(math.isfinite(prediction) for _, prediction in first)
 
 
+def test_xgboost_profile_produces_distinct_public_predictions() -> None:
+    namespace = "public-synthetic-v1"
+    development = [
+        CandidateSequence(_candidate_id(namespace, sequence), sequence)
+        for sequence in ("AA", "AC", "AD", "CA", "CC", "CD", "DA", "DC")
+    ]
+    candidates = [
+        CandidateSequence(_candidate_id(namespace, sequence), sequence)
+        for sequence in ("DD", "AE", "EA")
+    ]
+    loaded_development, _ = _loaded_matrix(development)
+    loaded_candidates, _ = _loaded_matrix(candidates)
+    observations = [
+        DevelopmentObservation(record.candidate_id, float(index))
+        for index, record in enumerate(development)
+    ]
+
+    predictions = {
+        model_id: predict_regressor(
+            fit_regressor(
+                model_config_bytes(model_id),
+                loaded_development,
+                observations,
+                seed=1729,
+            ),
+            loaded_candidates,
+        )
+        for model_id in ("random-forest-sklearn-v1", "xgboost-cpu-v1")
+    }
+
+    assert predictions["xgboost-cpu-v1"] != predictions["random-forest-sklearn-v1"]
+
+
+def test_prediction_call_policy_is_explicit_only_for_xgboost(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    records = [
+        CandidateSequence(hashlib.sha256(str(index).encode()).hexdigest(), sequence)
+        for index, sequence in enumerate(("AA", "AC"))
+    ]
+    loaded, _ = _loaded_matrix(records)
+
+    class XGBoostProbe:
+        def __init__(self) -> None:
+            self.kwargs: dict[str, object] | None = None
+
+        def predict(self, features: object, **kwargs: object) -> list[float]:
+            self.kwargs = kwargs
+            return [0.25, 0.75]
+
+    class GenericProbe:
+        def __init__(self) -> None:
+            self.called = False
+
+        def predict(self, features: object) -> list[float]:
+            self.called = True
+            return [0.5, 1.0]
+
+    monkeypatch.setattr(m2_models, "XGBRegressor", XGBoostProbe)
+    xgboost_probe = XGBoostProbe()
+    generic_probe = GenericProbe()
+
+    assert predict_regressor(cast(Any, xgboost_probe), loaded)
+    assert xgboost_probe.kwargs == {
+        "base_margin": None,
+        "iteration_range": None,
+        "output_margin": False,
+        "validate_features": True,
+    }
+    assert predict_regressor(cast(Any, generic_probe), loaded)
+    assert generic_probe.called
+
+
 def test_trainer_observations_are_development_only_and_exact_cover() -> None:
     records = [
         CandidateSequence(hashlib.sha256(str(index).encode()).hexdigest(), sequence)
@@ -256,6 +365,13 @@ def test_trainer_observations_are_development_only_and_exact_cover() -> None:
             [*observations[:-1], DevelopmentObservation(records[-1].candidate_id, math.nan)],
             seed=1729,
         )
+    with pytest.raises(ContractValidationError, match="XGBoost random_state"):
+        fit_regressor(
+            model_config_bytes("xgboost-cpu-v1"),
+            loaded,
+            observations,
+            seed=1728,
+        )
 
 
 def _synthetic_sequence(index: int) -> str:
@@ -292,7 +408,11 @@ def _static_experiment_config_bytes() -> bytes:
     config["budgets"] = [1]
     config["experiment_id"] = "issue-55-synthetic-alpha-v1"
     config["initial_sample_sizes"] = [1]
-    config["models"] = ["random-forest-sklearn-v1", "ridge-sklearn-v1"]
+    config["models"] = [
+        "random-forest-sklearn-v1",
+        "ridge-sklearn-v1",
+        "xgboost-cpu-v1",
+    ]
     config["seeds"] = [1729]
     return canonical_json_bytes(config)
 
@@ -344,7 +464,10 @@ def test_three_role_bundle_passes_issue_44_and_47(
     assert len(bundle.descriptor.value["feature_definitions"]) == 420
 
 
-@pytest.mark.parametrize("model_id", ["ridge-sklearn-v1", "random-forest-sklearn-v1"])
+@pytest.mark.parametrize(
+    "model_id",
+    ["ridge-sklearn-v1", "random-forest-sklearn-v1", "xgboost-cpu-v1"],
+)
 def test_prediction_producer_is_canonical_exact_cover_and_deterministic(
     model_id: str,
     alpha_bundle: tuple[
@@ -383,15 +506,11 @@ def test_prediction_producer_is_canonical_exact_cover_and_deterministic(
     assert all(math.isfinite(value) for value in loaded.predictions)
 
 
-def test_synthetic_cli_writes_only_local_scratch_artifacts(
-    tmp_path: Path,
-    capsys: pytest.CaptureFixture[str],
-) -> None:
+def _write_synthetic_inputs(tmp_path: Path) -> tuple[Path, Path, Path]:
     roles = _alpha_role_candidates()
     role_path = tmp_path / "roles.json"
     observation_path = tmp_path / "development-observations.json"
     experiment_path = tmp_path / "experiment.json"
-    scratch = tmp_path / "scratch"
     role_path.write_text(
         json.dumps(
             {
@@ -429,6 +548,15 @@ def test_synthetic_cli_writes_only_local_scratch_artifacts(
         encoding="utf-8",
     )
     experiment_path.write_bytes(_static_experiment_config_bytes())
+    return role_path, observation_path, experiment_path
+
+
+def test_synthetic_cli_writes_only_local_scratch_artifacts(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    role_path, observation_path, experiment_path = _write_synthetic_inputs(tmp_path)
+    scratch = tmp_path / "scratch"
 
     assert (
         main(
@@ -466,6 +594,47 @@ def test_synthetic_cli_writes_only_local_scratch_artifacts(
     )
 
 
+def test_xgboost_two_processes_emit_identical_canonical_prediction_bytes(
+    tmp_path: Path,
+) -> None:
+    role_path, observation_path, experiment_path = _write_synthetic_inputs(tmp_path)
+    environment = {**os.environ, "PYTHONPATH": str(ROOT / "src")}
+    prediction_paths: list[Path] = []
+
+    for run_number in (1, 2):
+        scratch = tmp_path / f"scratch-{run_number}"
+        completed = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "pcdb.cli",
+                "m2-synthetic",
+                "--roles",
+                str(role_path),
+                "--development-observations",
+                str(observation_path),
+                "--experiment-config",
+                str(experiment_path),
+                "--model-id",
+                "xgboost-cpu-v1",
+                "--scratch-root",
+                str(scratch),
+            ],
+            cwd=ROOT,
+            env=environment,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        assert completed.returncode == 0, completed.stderr
+        prediction_paths.append(scratch / "m2-synthetic/prediction.json")
+
+    first = prediction_paths[0].read_bytes()
+    second = prediction_paths[1].read_bytes()
+    assert first == second
+    assert load_prediction_artifact(first).candidate_ids
+
+
 def test_synthetic_cli_rejects_repo_relative_unignored_scratch_root(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -484,6 +653,25 @@ def test_synthetic_cli_rejects_repo_relative_unignored_scratch_root(
                 "ridge-sklearn-v1",
                 "--scratch-root",
                 "scratch/m2-synthetic",
+            ]
+        )
+
+
+def test_synthetic_cli_accepts_xgboost_model_id(tmp_path: Path) -> None:
+    with pytest.raises(ContractValidationError, match="role input"):
+        main(
+            [
+                "m2-synthetic",
+                "--roles",
+                str(tmp_path / "missing-roles.json"),
+                "--development-observations",
+                str(tmp_path / "missing-observations.json"),
+                "--experiment-config",
+                str(tmp_path / "missing-experiment.json"),
+                "--model-id",
+                "xgboost-cpu-v1",
+                "--scratch-root",
+                str(tmp_path / "scratch"),
             ]
         )
 

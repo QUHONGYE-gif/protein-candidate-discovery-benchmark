@@ -37,14 +37,16 @@ make check
 
 ## M2 synthetic 开发入口
 
-Issue #55 的 `pcdb m2-synthetic` 入口只用于公开 synthetic、三角色的本地 scratch 检查：
+Issue #55/#56 的 `pcdb m2-synthetic` 入口只用于公开 synthetic、三角色的本地 scratch 检查。
+当前冻结的 model IDs 为 `ridge-sklearn-v1`、`random-forest-sklearn-v1` 和 CPU-only、单线程的
+`xgboost-cpu-v1`：
 
 ```bash
 pcdb m2-synthetic \
   --roles roles.json \
   --development-observations development-observations.json \
   --experiment-config experiment.json \
-  --model-id ridge-sklearn-v1 \
+  --model-id xgboost-cpu-v1 \
   --scratch-root .scratch/m2-synthetic
 ```
 
@@ -84,9 +86,9 @@ results/       仅保留产物政策；正式结果写入 COS
   M2 entry cohort 的 Gate 1 PASS，但整个 M1 portfolio 仍未完成；
 - M2 contract readiness：production Experiment Config v2、metric/result aggregate contracts 与
   synthetic evaluator 已由 PR #39 进入 `main`，feature artifact 与 canonical root 已由 PR #48/#49
-  进入 `main`；[static prediction artifact v1](docs/contracts/M2_PREDICTION_ARTIFACT_V1.md) 仅完成
-  contract/synthetic evidence slice，surrogate baseline、真实 prediction 与正式 M2 execution
-  仍未完成；
+  进入 `main`；[static prediction artifact v1](docs/contracts/M2_PREDICTION_ARTIFACT_V1.md) 以及
+  Ridge、Random Forest、XGBoost static producers 仅完成 contract/synthetic engineering slice，
+  真实 prediction、正式 M2 execution、benchmark evidence 与 scientific gate 仍未完成；
 - Raw-ingest runtime：按 task 独立记录，不替代 processing、split 或 scientific validation；
 - Scientific validation：尚未开始；
 - Held-out evaluation：未授权；
