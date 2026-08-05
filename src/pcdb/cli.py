@@ -23,7 +23,7 @@ def build_parser() -> argparse.ArgumentParser:
     synthetic.add_argument("--experiment-config", required=True, type=Path)
     synthetic.add_argument(
         "--model-id",
-        choices=("ridge-sklearn-v1", "random-forest-sklearn-v1"),
+        choices=("ridge-sklearn-v1", "random-forest-sklearn-v1", "xgboost-cpu-v1"),
         required=True,
     )
     synthetic.add_argument(

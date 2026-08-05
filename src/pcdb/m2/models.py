@@ -1,4 +1,4 @@
-"""Closed Ridge and Random Forest adapters for synthetic M2 prediction."""
+"""Closed Ridge, Random Forest, and XGBoost adapters for synthetic M2 prediction."""
 
 from __future__ import annotations
 
@@ -10,12 +10,13 @@ import struct
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from types import MappingProxyType
-from typing import Protocol, cast
+from typing import Any, Protocol, cast
 
 import numpy as np
 from numpy.typing import NDArray
 from sklearn.ensemble import RandomForestRegressor  # type: ignore[import-untyped]
 from sklearn.linear_model import Ridge  # type: ignore[import-untyped]
+from xgboost import XGBRegressor
 
 from pcdb.contracts.experiment import ContractValidationError
 from pcdb.contracts.feature_identity import (
@@ -31,12 +32,14 @@ MODEL_CONFIG_SHA256: Mapping[str, str] = MappingProxyType(
         "random-forest-sklearn-v1": (
             "9a837a91a94a2b3b0b3fb6d93474a5140fbbadefb127b523830334213f2077f1"
         ),
+        "xgboost-cpu-v1": ("7e0a95e827a829b6d4dfa30db35d46770d82dc980784620bd844a378dc97a2cb"),
     }
 )
 MODEL_CONFIG_SIZE_BYTES: Mapping[str, int] = MappingProxyType(
     {
         "ridge-sklearn-v1": 1_243,
         "random-forest-sklearn-v1": 2_575,
+        "xgboost-cpu-v1": 5_693,
     }
 )
 
@@ -80,16 +83,78 @@ _RANDOM_FOREST_PARAMETERS: Mapping[str, object] = MappingProxyType(
         "warm_start": False,
     }
 )
+_XGBOOST_PARAMETERS: Mapping[str, object] = MappingProxyType(
+    {
+        "base_score": None,
+        "booster": "gbtree",
+        "callbacks": None,
+        "colsample_bylevel": 1.0,
+        "colsample_bynode": 1.0,
+        "colsample_bytree": 1.0,
+        "device": "cpu",
+        "early_stopping_rounds": None,
+        "enable_categorical": False,
+        "eval_metric": None,
+        "feature_types": None,
+        "feature_weights": None,
+        "gamma": 0.0,
+        "grow_policy": "depthwise",
+        "importance_type": None,
+        "interaction_constraints": None,
+        "learning_rate": 0.3,
+        "max_bin": 256,
+        "max_cat_threshold": None,
+        "max_cat_to_onehot": None,
+        "max_delta_step": 0.0,
+        "max_depth": 6,
+        "max_leaves": 0,
+        "min_child_weight": 1.0,
+        "missing": -1.0,
+        "monotone_constraints": None,
+        "multi_strategy": "one_output_per_tree",
+        "n_estimators": 100,
+        "n_jobs": 1,
+        "num_parallel_tree": 1,
+        "objective": "reg:squarederror",
+        "random_state": 1729,
+        "reg_alpha": 0.0,
+        "reg_lambda": 1.0,
+        "sampling_method": "uniform",
+        "scale_pos_weight": 1.0,
+        "seed_per_iteration": False,
+        "subsample": 1.0,
+        "tree_method": "hist",
+        "validate_parameters": True,
+        "verbosity": 0,
+    }
+)
 _EFFECTIVE_PARAMETERS: Mapping[str, Mapping[str, object]] = MappingProxyType(
     {
         "ridge-sklearn-v1": _RIDGE_PARAMETERS,
         "random-forest-sklearn-v1": _RANDOM_FOREST_PARAMETERS,
+        "xgboost-cpu-v1": _XGBOOST_PARAMETERS,
     }
 )
 _SEED_POLICIES = {
     "ridge-sklearn-v1": "run-spec-seed-recorded-estimator-no-rng",
     "random-forest-sklearn-v1": "random-state-equals-run-spec-seed",
+    "xgboost-cpu-v1": (
+        "random-state-equals-run-spec-seed;seed-per-iteration-false;single-thread-cpu-hist"
+    ),
 }
+_LIBRARIES: Mapping[str, Mapping[str, str]] = MappingProxyType(
+    {
+        "ridge-sklearn-v1": MappingProxyType(
+            {"name": "scikit-learn", "version_constraint": ">=1.9,<2"}
+        ),
+        "random-forest-sklearn-v1": MappingProxyType(
+            {"name": "scikit-learn", "version_constraint": ">=1.9,<2"}
+        ),
+        "xgboost-cpu-v1": MappingProxyType(
+            {"name": "xgboost-cpu", "version_constraint": ">=3.2,<3.3"}
+        ),
+    }
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -162,10 +227,7 @@ def _model_config_value(model_id: str) -> dict[str, object]:
     inventory = [_typed_parameter(name, value) for name, value in parameters.items()]
     inventory.sort(key=lambda item: cast(str, item["name"]).encode("ascii"))
     return {
-        "library": {
-            "name": "scikit-learn",
-            "version_constraint": ">=1.9,<2",
-        },
+        "library": dict(_LIBRARIES[model_id]),
         "model_id": model_id,
         "parameters": inventory,
         "schema_version": MODEL_CONFIG_SCHEMA_VERSION,
@@ -211,7 +273,7 @@ def _reject_duplicate_keys(pairs: list[tuple[str, object]]) -> dict[str, object]
 
 
 def load_model_config(payload: bytes) -> LoadedModelConfig:
-    """Strict-decode one of the two exact closed model profiles."""
+    """Strict-decode one exact closed model profile."""
 
     if not payload or payload.startswith(b"\xef\xbb\xbf") or b"\r" in payload:
         raise ContractValidationError("model config must be canonical UTF-8 JSON")
@@ -315,7 +377,7 @@ def fit_regressor(
     )
     if config.model_id == "ridge-sklearn-v1":
         estimator = cast(FittedRegressor, Ridge(**dict(_RIDGE_PARAMETERS)))
-    else:
+    elif config.model_id == "random-forest-sklearn-v1":
         if seed != _RANDOM_FOREST_PARAMETERS["random_state"]:
             raise ContractValidationError(
                 "Random Forest random_state must exact-match the RunSpec seed"
@@ -324,8 +386,29 @@ def fit_regressor(
             FittedRegressor,
             RandomForestRegressor(**dict(_RANDOM_FOREST_PARAMETERS)),
         )
+    else:
+        if seed != _XGBOOST_PARAMETERS["random_state"]:
+            raise ContractValidationError("XGBoost random_state must exact-match the RunSpec seed")
+        estimator = cast(
+            FittedRegressor,
+            XGBRegressor(**dict(_XGBOOST_PARAMETERS)),
+        )
     try:
-        estimator.fit(features, observations)
+        if config.model_id == "xgboost-cpu-v1":
+            cast(Any, estimator).fit(
+                features,
+                observations,
+                sample_weight=None,
+                base_margin=None,
+                eval_set=None,
+                verbose=False,
+                xgb_model=None,
+                sample_weight_eval_set=None,
+                base_margin_eval_set=None,
+                feature_weights=None,
+            )
+        else:
+            estimator.fit(features, observations)
     except Exception:
         raise ContractValidationError("synthetic development model fit failed") from None
     return estimator

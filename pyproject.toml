@@ -12,6 +12,7 @@ authors = [{ name = "Protein Candidate Discovery Benchmark contributors" }]
 dependencies = [
   "numpy>=2,<3",
   "scikit-learn>=1.9,<2",
+  "xgboost-cpu>=3.2,<3.3",
 ]
 
 [project.optional-dependencies]
