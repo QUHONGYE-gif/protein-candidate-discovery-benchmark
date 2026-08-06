@@ -87,13 +87,15 @@ roots/cohort、38 个 known payload identities、Issue #58 exact prefix、creden
 `GateBOperatorRuntime` 的窄能力。runtime 必须先通过 `bind_reviewed_packet()` 确认完整 caps、
 credential scope 与 identities；binder 收到的是独立、递归不可变的 canonical snapshot，不能在
 pre-step 中改写 caps、credential boundary、source identity 或 operator plan。该 pre-step 失败时
-113 个操作全部为 0。随后才允许：
+113 个操作全部为 0。dispatcher 同样为每个 runtime method 创建独立、递归不可变的 canonical
+step snapshot；handler 不能在 validation 后清空或改写 `required_exact_keys`、output keys 或
+referenced keys。随后才允许：
 external/input fresh read、forbid-overwrite publication、sealed prediction readback、四项 aggregate
 evaluator、RunAttempt generation、`_SUCCESS` 以及 33/68-key independent readback。任何 runtime
 方法抛出异常都会立即终止；executor 不捕获、不重试，也不会进入下一 step/run。injected-fake tests
 覆盖完整 113-step 调用、首个 external read 失败时 truth/write 均为 0，以及首个 evaluator 失败时
-其余五个 run 为 0，以及 binder 对四类关键嵌套字段的篡改尝试均在 step 1 前失败。该 executable
-slice 不代表已连接正式 COS/evaluator，更不构成执行授权。
+其余五个 run 为 0，以及 binder 对四类关键嵌套字段、runtime handler 对三类嵌套 key list 的篡改
+尝试均 fail closed。该 executable slice 不代表已连接正式 COS/evaluator，更不构成执行授权。
 
 ## 最小 CAM 边界
 

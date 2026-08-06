@@ -549,6 +549,31 @@ class _BoundaryMutatingRuntime(_RecordingRuntime):
         target[self.path[-1]] = self.value
 
 
+class _StepMutatingRuntime(_RecordingRuntime):
+    def __init__(
+        self,
+        operation: str,
+        field: str,
+        mutation: Callable[[Any], None],
+    ) -> None:
+        super().__init__()
+        self.operation = operation
+        self.field = field
+        self.mutation = mutation
+        self.seen_step: Mapping[str, Any] | None = None
+
+    def __getattr__(self, method_name: str) -> Callable[[Mapping[str, Any]], None]:
+        record_call = super().__getattr__(method_name)
+
+        def call(step: Mapping[str, Any]) -> None:
+            if step["operation"] == self.operation:
+                self.seen_step = step
+                self.mutation(step[self.field])
+            record_call(step)
+
+        return call
+
+
 def test_executable_operator_binds_full_packet_to_all_113_steps_without_retry() -> None:
     runtime = _RecordingRuntime()
 
@@ -597,6 +622,50 @@ def test_executable_operator_binds_recursive_immutable_packet_snapshot(
 
     assert runtime.bound_packet is not None
     assert runtime.calls == []
+
+
+@pytest.mark.parametrize(
+    ("operation", "field", "mutation", "error"),
+    [
+        (
+            "independent-fresh-readback-exact-cover-alpha-ridge-checkpoint",
+            "required_exact_keys",
+            lambda value: value.clear(),
+            AttributeError,
+        ),
+        (
+            "independent-fresh-readback-exact-cover-final-inventory",
+            "required_exact_keys",
+            lambda value: value.clear(),
+            AttributeError,
+        ),
+        (
+            "evaluator-read-candidate-truth-return-four-aggregate-results",
+            "output_object_keys",
+            lambda value: value.clear(),
+            AttributeError,
+        ),
+        (
+            "generate-canonical-run-attempt-exact-cover-five-payloads",
+            "referenced_object_keys",
+            lambda value: value.clear(),
+            AttributeError,
+        ),
+    ],
+)
+def test_executable_operator_passes_recursive_immutable_step_snapshot(
+    operation: str,
+    field: str,
+    mutation: Callable[[Any], None],
+    error: type[Exception],
+) -> None:
+    runtime = _StepMutatingRuntime(operation, field, mutation)
+
+    with pytest.raises(error):
+        execute_gate_b_operator(_packet_bytes(), cast(GateBOperatorRuntime, runtime))
+
+    assert runtime.seen_step is not None
+    assert all(step["operation"] != operation for _, step in runtime.calls)
 
 
 def test_executable_operator_external_failure_has_zero_truth_and_zero_writes() -> None:

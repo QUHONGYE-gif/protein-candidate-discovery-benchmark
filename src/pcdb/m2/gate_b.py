@@ -1226,7 +1226,7 @@ def execute_gate_b_operator(
     runtime.bind_reviewed_packet(immutable_packet)
     plan = load_gate_b_operator_plan(operator_plan_bytes).value
     for raw_step in plan["steps"]:
-        step = MappingProxyType(dict(raw_step))
+        step = _deep_immutable(_parse_canonical_object(canonical_json_bytes(raw_step)))
         method_name = _OPERATOR_METHODS.get(str(step["operation"]))
         if method_name is None:
             raise ContractValidationError("Gate B operator contains an unsupported operation")
