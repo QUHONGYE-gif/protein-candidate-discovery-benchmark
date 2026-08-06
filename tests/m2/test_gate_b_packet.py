@@ -3,14 +3,18 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Callable, Mapping
 from pathlib import Path
+from typing import Any, cast
 
 import pytest
 
 from pcdb.contracts.experiment import ContractValidationError, canonical_json_bytes
 from pcdb.m2.gate_b import (
+    GateBOperatorRuntime,
     build_gate_b_packet,
     build_m3_freeze_record,
+    execute_gate_b_operator,
     load_gate_b_operator_plan,
     load_gate_b_packet,
     load_m3_freeze_record,
@@ -63,6 +67,12 @@ def _packet_bytes() -> bytes:
         evidence_bucket=EVIDENCE_BUCKET,
         evidence_prefix=EVIDENCE_PREFIX,
     )
+
+
+def _mutated_packet(mutator: Callable[[dict[str, Any]], None]) -> bytes:
+    value = json.loads(_packet_bytes())
+    mutator(value)
+    return canonical_json_bytes(value)
 
 
 def test_m3_freeze_is_canonical_and_binds_the_exact_six_run_cohort() -> None:
@@ -218,11 +228,22 @@ def test_gate_b_packet_records_external_refs_caps_and_minimal_cam_boundary() -> 
         "head",
         "restricted-inventory",
     ]
+    assert permission["accepted_inputs"]["cam_actions"] == [
+        "name/cos:GetBucket",
+        "name/cos:GetObject",
+        "name/cos:HeadObject",
+    ]
     assert permission["new_evidence_prefix"]["operations"] == [
         "forbid-overwrite-put",
         "fresh-get",
         "head",
         "restricted-inventory",
+    ]
+    assert permission["new_evidence_prefix"]["cam_actions"] == [
+        "name/cos:GetBucket",
+        "name/cos:GetObject",
+        "name/cos:HeadObject",
+        "name/cos:PutObject",
     ]
     assert permission["explicitly_forbidden"] == [
         "delete-object",
@@ -291,3 +312,152 @@ def test_operator_plan_loader_rejects_truth_before_prediction_validation() -> No
 
     with pytest.raises(ContractValidationError, match="prediction"):
         load_gate_b_operator_plan(canonical_json_bytes(plan))
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (
+            lambda packet: packet["execution_caps"].__setitem__("max_cost_cny", 40_000),
+            "execution caps",
+        ),
+        (
+            lambda packet: packet["credential_boundary"]["explicitly_forbidden"].clear(),
+            "credential boundary",
+        ),
+        (
+            lambda packet: packet["credential_boundary"]["accepted_inputs"]["cam_actions"].remove(
+                "name/cos:HeadObject"
+            ),
+            "credential boundary",
+        ),
+        (
+            lambda packet: packet.__setitem__("source_git_commit", "0" * 40),
+            "source commit",
+        ),
+    ],
+)
+def test_gate_b_packet_loader_rejects_governance_drift(
+    mutation: Callable[[dict[str, Any]], None], message: str
+) -> None:
+    with pytest.raises(ContractValidationError, match=message):
+        load_gate_b_packet(_mutated_packet(mutation))
+
+
+def test_operator_plan_loader_rejects_non_first_run_before_checkpoint() -> None:
+    plan = json.loads(_packet_bytes())["operator_plan"]
+    checkpoint_index = next(
+        index
+        for index, step in enumerate(plan["steps"])
+        if step["operation"] == "independent-fresh-readback-exact-cover-alpha-ridge-checkpoint"
+    )
+    later_index = next(
+        index
+        for index, step in enumerate(plan["steps"])
+        if index > checkpoint_index and "run_id" in step
+    )
+    later = plan["steps"].pop(later_index)
+    plan["steps"].insert(checkpoint_index, later)
+    for sequence, step in enumerate(plan["steps"], start=1):
+        step["sequence"] = sequence
+
+    with pytest.raises(ContractValidationError, match="checkpoint"):
+        load_gate_b_operator_plan(canonical_json_bytes(plan))
+
+
+@pytest.mark.parametrize(
+    "operation",
+    [
+        "independent-fresh-readback-exact-cover-alpha-ridge-checkpoint",
+        "independent-fresh-readback-exact-cover-final-inventory",
+    ],
+)
+def test_operator_plan_loader_rejects_readback_key_drift(operation: str) -> None:
+    plan = json.loads(_packet_bytes())["operator_plan"]
+    readback = next(step for step in plan["steps"] if step["operation"] == operation)
+    readback["required_exact_keys"][0] = EVIDENCE_PREFIX + "outside-inventory.json"
+
+    with pytest.raises(ContractValidationError, match="exact keys"):
+        load_gate_b_operator_plan(canonical_json_bytes(plan))
+
+
+def test_gate_b_packet_loader_rejects_incomplete_per_run_closure() -> None:
+    def mutate(packet: dict[str, Any]) -> None:
+        inventory = packet["evidence_inventory"]
+        first_metric = next(item for item in inventory if item.get("kind") == "metric-result")
+        first_metric["kind"] = "unknown-result"
+
+    with pytest.raises(ContractValidationError, match="seven-object closure"):
+        load_gate_b_packet(_mutated_packet(mutate))
+
+
+@pytest.mark.parametrize("scope", ["accepted_inputs", "new_evidence_prefix"])
+def test_gate_b_packet_requires_head_object_for_each_head_operation(scope: str) -> None:
+    def mutate(packet: dict[str, Any]) -> None:
+        boundary = packet["credential_boundary"]
+        scoped = boundary[scope]
+        scoped["cam_actions"].remove("name/cos:HeadObject")
+
+    with pytest.raises(ContractValidationError, match="credential boundary"):
+        load_gate_b_packet(_mutated_packet(mutate))
+
+
+class _RecordingRuntime:
+    def __init__(self, *, fail_operation: str | None = None) -> None:
+        self.calls: list[tuple[str, dict[str, object]]] = []
+        self.fail_operation = fail_operation
+
+    def __getattr__(self, method_name: str) -> Callable[[Mapping[str, Any]], None]:
+        def call(step: Mapping[str, Any]) -> None:
+            operation = str(step["operation"])
+            self.calls.append((method_name, dict(step)))
+            if operation == self.fail_operation:
+                raise RuntimeError("injected failure")
+
+        return call
+
+
+def test_executable_operator_binds_all_113_steps_without_retry() -> None:
+    plan = json.loads(_packet_bytes())["operator_plan"]
+    runtime = _RecordingRuntime()
+
+    execute_gate_b_operator(canonical_json_bytes(plan), cast(GateBOperatorRuntime, runtime))
+
+    assert len(runtime.calls) == 113
+    assert [call[1]["sequence"] for call in runtime.calls] == list(range(1, 114))
+    assert sum(name == "publish_known_shared" for name, _ in runtime.calls) == 26
+    assert sum(name == "evaluate_four_aggregate_results" for name, _ in runtime.calls) == 6
+    assert sum(name == "publish_empty_success_marker" for name, _ in runtime.calls) == 6
+    assert runtime.calls[-1][0] == "readback_exact_keys"
+
+
+def test_executable_operator_external_failure_has_zero_truth_and_zero_writes() -> None:
+    plan = json.loads(_packet_bytes())["operator_plan"]
+    runtime = _RecordingRuntime(
+        fail_operation="fresh-readback-validate-external-manifest-reference"
+    )
+
+    with pytest.raises(RuntimeError, match="injected failure"):
+        execute_gate_b_operator(canonical_json_bytes(plan), cast(GateBOperatorRuntime, runtime))
+
+    assert len(runtime.calls) == 1
+    assert all(not name.startswith("publish_") for name, _ in runtime.calls)
+    assert all(name != "evaluate_four_aggregate_results" for name, _ in runtime.calls)
+
+
+def test_executable_operator_first_evaluator_failure_stops_other_five_runs() -> None:
+    plan = json.loads(_packet_bytes())["operator_plan"]
+    runtime = _RecordingRuntime(
+        fail_operation="evaluator-read-candidate-truth-return-four-aggregate-results"
+    )
+
+    with pytest.raises(RuntimeError, match="injected failure"):
+        execute_gate_b_operator(canonical_json_bytes(plan), cast(GateBOperatorRuntime, runtime))
+
+    evaluator_calls = [
+        step for name, step in runtime.calls if name == "evaluate_four_aggregate_results"
+    ]
+    assert len(evaluator_calls) == 1
+    assert evaluator_calls[0]["run_id"] == RUN_IDS[("alpha-amylase", "ridge-sklearn-v1")]
+    assert all(name != "publish_aggregate_metric_result" for name, _ in runtime.calls)
+    assert all(name != "publish_empty_success_marker" for name, _ in runtime.calls)

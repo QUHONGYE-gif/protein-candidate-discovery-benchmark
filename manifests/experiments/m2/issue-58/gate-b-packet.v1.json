@@ -4,7 +4,8 @@
       "bucket": "pcdb-public-data-1408226911",
       "cam_actions": [
         "name/cos:GetBucket",
-        "name/cos:GetObject"
+        "name/cos:GetObject",
+        "name/cos:HeadObject"
       ],
       "exact_object_keys": [
         "manifests/flip2/zenodo-18433203-v3/amylase/dataset-manifest.v2.json",
@@ -37,6 +38,7 @@
       "cam_actions": [
         "name/cos:GetBucket",
         "name/cos:GetObject",
+        "name/cos:HeadObject",
         "name/cos:PutObject"
       ],
       "exact_prefix": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/",

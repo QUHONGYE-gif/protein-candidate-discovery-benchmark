@@ -23,7 +23,7 @@
 | `gate-a-known-inputs.v1.json` | 16,873 | `783e338fd20396ea340d10140592c2752a30ac8fc7115e71b432c0796fe03ae2` | 已接受 Gate A scratch 的 compact exact identity index |
 | `m3-anti-post-hoc-freeze.v1.json` | 2,548 | `89da42b38940fb60a65a4c18b1e8e6bf613229b27dfcb6efdb13d0afb07ee322` | 首次 candidate-truth read 前必须发布并 fresh validate 的 M3 freeze candidate |
 | `gate-b-operator-plan.v1.json` | 105,496 | `19279631eab29fff0e8e322c3778d147e6aa31a723459aea066d160cc117a13d` | 113-step fail-fast publication/readback plan |
-| `gate-b-packet.v1.json` | 171,410 | `b5bbba5a0debc01487cfdfe7a909d81d50a7627ca8dfcbbadd9f65b6ac3f7ebf` | Gate B canonical review packet candidate |
+| `gate-b-packet.v1.json` | 171,472 | `5f6e699513eef010812cd6f8e83eeabb96dfc6cc5147d1c8bf3f788b3fdfc259` | Gate B canonical review packet candidate |
 
 这些文件不包含 credential、candidate truth、high-value membership、服务器地址或本机绝对路径。
 Known-input index 只保存 logical path、size 和 SHA-256；约 82 MB 的 feature/prediction payload
@@ -76,6 +76,14 @@ Operator plan 固定以下顺序：
 每一个 operator step 的失败动作都是 `stop-no-retry-no-next-run`。当前 Gate 不允许 automatic
 retry、replacement attempt、DeleteObject 或 overwrite。
 
+`execute_gate_b_operator()` 是该计划的最小 executable consumer。它先用 strict loader 对 113 个
+step 的完整语义和 cross-link 做重建校验，然后把每类操作绑定到 `GateBOperatorRuntime` 的窄能力：
+external/input fresh read、forbid-overwrite publication、sealed prediction readback、四项 aggregate
+evaluator、RunAttempt generation、`_SUCCESS` 以及 33/68-key independent readback。任何 runtime
+方法抛出异常都会立即终止；executor 不捕获、不重试，也不会进入下一 step/run。injected-fake tests
+覆盖完整 113-step 调用、首个 external read 失败时 truth/write 均为 0，以及首个 evaluator 失败时
+其余五个 run 为 0。该 executable slice 不代表已连接正式 COS/evaluator，更不构成执行授权。
+
 ## 最小 CAM 边界
 
 Packet 只记录非敏感权限摘要，不记录 SecretId/SecretKey：
@@ -83,12 +91,29 @@ Packet 只记录非敏感权限摘要，不记录 SecretId/SecretKey：
 - accepted-input bucket：只允许 exact object keys 的 fresh Get/Head 与 restricted inventory；
 - new-evidence bucket：只允许上述 exact prefix 的 forbid-overwrite Put、fresh Get/Head 与
   restricted inventory；
-- CAM actions 仅为对应 scope 的 `name/cos:GetObject`、`name/cos:GetBucket`，以及 evidence
-  prefix 的 `name/cos:PutObject`；
+- CAM actions 仅为对应 scope 的 `name/cos:GetObject`、`name/cos:HeadObject`、
+  `name/cos:GetBucket`，以及 evidence prefix 的 `name/cos:PutObject`；
 - 显式禁止 DeleteObject、overwrite、其他 bucket 与其他 prefix。
 
 权限配置完成后也不得用 smoke object 试写，因为 68 是 hard cap。Gate B reviewer 明确批准前，
 只能进行 policy/identity 的零写入检查。
+
+### 2026-08-06 当前执行身份/策略零写入摘要
+
+本轮只做非敏感、只读检查，没有输出 SecretId/SecretKey/token：
+
+- 本机默认 COSCLI config 仅配置 `data` alias（public-data bucket）；对 accepted manifest prefix 的
+  restricted list 与已冻结 manifest 的 remote hash/metadata 命令均返回 0；
+- 指定的正式 compute server 当前用户下没有 `~/.cos.yaml`，也没有发现 COS/Tencent
+  credential 环境变量名；因此它当前不能作为已配置的 Gate B publication identity；
+- 没有执行 PutObject、DeleteObject、overwrite、candidate-truth read 或 evaluator call；新 evidence
+  prefix 的 object count 仍不能由未配置的正式 identity 声称已验证；
+- COSCLI 只读能力检查不能证明 attached CAM policy 的 exact-prefix Put/no-Delete 全集。正式执行前仍需
+  由 CAM 控制台或可审核的 policy export 确认两侧 `HeadObject`、accepted exact-key
+  Get/List，以及 evidence exact-prefix Get/Head/List/Put，同时确认无 DeleteObject 和无其他 scope。
+
+因此本摘要的结论是 **identity/policy configuration incomplete; Gate B remains blocked**。它关闭的是
+“packet 漏列 `HeadObject`”这一契约错误，不把当前凭据状态描述为已满足 Gate B。
 
 ## 重建与验证
 
