@@ -23,11 +23,13 @@
 | `gate-a-known-inputs.v1.json` | 16,873 | `783e338fd20396ea340d10140592c2752a30ac8fc7115e71b432c0796fe03ae2` | 已接受 Gate A scratch 的 compact exact identity index |
 | `m3-anti-post-hoc-freeze.v1.json` | 2,548 | `89da42b38940fb60a65a4c18b1e8e6bf613229b27dfcb6efdb13d0afb07ee322` | 首次 candidate-truth read 前必须发布并 fresh validate 的 M3 freeze candidate |
 | `gate-b-operator-plan.v1.json` | 105,496 | `19279631eab29fff0e8e322c3778d147e6aa31a723459aea066d160cc117a13d` | 113-step fail-fast publication/readback plan |
-| `gate-b-packet.v1.json` | 171,472 | `5f6e699513eef010812cd6f8e83eeabb96dfc6cc5147d1c8bf3f788b3fdfc259` | Gate B canonical review packet candidate |
+| `gate-b-packet.v1.json` | 189,759 | `f4b26934ab22b9c74feaf05f970b0ea96f529c59045703322b5f5b242d9428f9` | Gate B canonical review packet candidate |
 
 这些文件不包含 credential、candidate truth、high-value membership、服务器地址或本机绝对路径。
-Known-input index 只保存 logical path、size 和 SHA-256；约 82 MB 的 feature/prediction payload
-继续保留在已接受的 Gate A scratch，不进入 Git。
+Known-input index 只保存 logical path、size、SHA-256、RunSpec value 和 attempt identity，不保存
+feature/prediction rows。该 compact index 的完整 canonical value 也嵌入 Gate B packet，使 loader
+可以把 M3 roots、六个 RunSpec/run IDs 和 38 个 known payload identity 交叉绑定到同一 reviewed
+index；约 82 MB 的 payload 继续保留在已接受的 Gate A scratch，不进入 Git。
 
 ## 68-object evidence layout
 
@@ -76,8 +78,11 @@ Operator plan 固定以下顺序：
 每一个 operator step 的失败动作都是 `stop-no-retry-no-next-run`。当前 Gate 不允许 automatic
 retry、replacement attempt、DeleteObject 或 overwrite。
 
-`execute_gate_b_operator()` 是该计划的最小 executable consumer。它先用 strict loader 对 113 个
-step 的完整语义和 cross-link 做重建校验，然后把每类操作绑定到 `GateBOperatorRuntime` 的窄能力：
+`execute_gate_b_operator()` 是该计划的最小 executable consumer。它只接受完整 Gate B packet
+bytes，而不接受 standalone operator bytes；入口先 strict-validate known-input index、M3
+roots/cohort、38 个 known payload identities、Issue #58 exact prefix、credential boundary、caps
+与 68-object inventory，再从该 packet 派生 113 steps。随后每类操作绑定到
+`GateBOperatorRuntime` 的窄能力：
 external/input fresh read、forbid-overwrite publication、sealed prediction readback、四项 aggregate
 evaluator、RunAttempt generation、`_SUCCESS` 以及 33/68-key independent readback。任何 runtime
 方法抛出异常都会立即终止；executor 不捕获、不重试，也不会进入下一 step/run。injected-fake tests

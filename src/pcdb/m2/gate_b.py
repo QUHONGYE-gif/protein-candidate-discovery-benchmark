@@ -43,6 +43,37 @@ _ISSUE_58_EVIDENCE_BUCKET = "pcdb-benchmark-artifacts-1408226911"
 _ISSUE_58_EVIDENCE_PREFIX = (
     "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/"
 )
+_ISSUE_58_KNOWN_INPUTS_SHA256 = "783e338fd20396ea340d10140592c2752a30ac8fc7115e71b432c0796fe03ae2"
+_ISSUE_58_KNOWN_INPUTS_SIZE = 16_873
+_ISSUE_58_FEATURE_ROOTS = {
+    "alpha-amylase": "fa64315824eccde93e5c4740bbaf638aa54da2d2b8b96053bbae193ec89bbe42",
+    "ired": "3d20f04020f1b136d1097d6beee7fcaa7b09729e80babd6d96154f71c510fb1b",
+}
+_ISSUE_58_RUN_IDS = {
+    ("alpha-amylase", "ridge-sklearn-v1"): (
+        "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c"
+    ),
+    ("alpha-amylase", "random-forest-sklearn-v1"): (
+        "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2"
+    ),
+    ("alpha-amylase", "xgboost-cpu-v1"): (
+        "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788"
+    ),
+    ("ired", "ridge-sklearn-v1"): (
+        "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09"
+    ),
+    ("ired", "random-forest-sklearn-v1"): (
+        "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6"
+    ),
+    ("ired", "xgboost-cpu-v1"): (
+        "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675"
+    ),
+}
+_ISSUE_58_REVIEWED_FILE_SIZES = {
+    "alpha-amylase-experiment": 4_676,
+    "ired-experiment": 4_658,
+    "environment": 1_656,
+}
 _EXECUTION_CAPS = {
     "automatic_retry": 0,
     "cos_net_new_bytes": 5 * 1024**3,
@@ -599,6 +630,82 @@ def _runtime_payload(generation_rule: str, validation_rule: str) -> dict[str, An
     }
 
 
+def _expected_known_payloads(
+    known_inputs: Mapping[str, Any],
+    m3_bytes: bytes,
+) -> dict[str, dict[str, Any]]:
+    """Rebuild every pre-runtime payload identity from reviewed inputs and contracts."""
+
+    expected: dict[str, dict[str, Any]] = {}
+    tasks_by_id = {task["task_id"]: task for task in known_inputs["tasks"]}
+    for task_id in GATE_A_TASKS:
+        task = tasks_by_id[task_id]
+        feature = task["feature"]
+        expected[f"shared/features/{task_id}/logical.json"] = _known_payload(
+            feature["logical"], "gate-a-scratch"
+        )
+        expected[f"shared/features/{task_id}/descriptor.json"] = _known_payload(
+            feature["descriptor"], "gate-a-scratch"
+        )
+        for member in feature["members"]:
+            name = Path(member["reference"]["logical_path"]).name
+            expected[f"shared/features/{task_id}/members/{name}"] = _known_payload(
+                member["reference"], "gate-a-scratch"
+            )
+        for run in task["runs"]:
+            expected[f"shared/run-specs/{run['run_id']}.json"] = _known_payload(
+                run["run_spec"], "gate-a-scratch"
+            )
+            base = f"attempts/{run['run_id']}/{run['attempt_id']}"
+            expected[f"{base}/prediction.json"] = _known_payload(
+                run["prediction"], "gate-a-sealed-prediction"
+            )
+            expected[f"{base}/_SUCCESS"] = {
+                "sha256": _EMPTY_SHA256,
+                "size_bytes": 0,
+                "source": {"kind": "constant-empty-bytes", "logical_path": "empty-bytes"},
+                "status": "known",
+            }
+
+        run_spec = task["runs"][0]["run_spec_value"]
+        experiment_path = _EXPERIMENT_PATHS[task_id]
+        expected[f"shared/configs/experiments/{task_id}.json"] = _known_payload(
+            {
+                "logical_path": experiment_path,
+                "sha256": run_spec["experiment_config_sha256"],
+                "size_bytes": _ISSUE_58_REVIEWED_FILE_SIZES[f"{task_id}-experiment"],
+            },
+            "reviewed-git",
+        )
+
+    for model in known_inputs["model_configs"]:
+        expected[f"shared/configs/models/{model['model_id']}.json"] = _known_payload(
+            model["reference"], "gate-a-scratch"
+        )
+    expected["shared/configs/acquisitions/m2-static-full-pool-v1.json"] = _known_payload(
+        _artifact_reference(
+            "pcdb.contracts.prediction:M2_STATIC_ACQUISITION_CONFIG_BYTES",
+            M2_STATIC_ACQUISITION_CONFIG_BYTES,
+        ),
+        "reviewed-code-constant",
+    )
+    first_run_spec = tasks_by_id[GATE_A_TASKS[0]]["runs"][0]["run_spec_value"]
+    expected["shared/environment/m2-gate-a-linux-x86_64.json"] = _known_payload(
+        {
+            "logical_path": _ENVIRONMENT_PATH,
+            "sha256": first_run_spec["environment_digest"],
+            "size_bytes": _ISSUE_58_REVIEWED_FILE_SIZES["environment"],
+        },
+        "reviewed-git",
+    )
+    expected["shared/governance/m3-anti-post-hoc-freeze-v1.json"] = _known_payload(
+        _artifact_reference("packet:m3_freeze_record", m3_bytes), "packet-derived"
+    )
+    if len(expected) != 38:
+        raise ContractValidationError("Gate B known payload identity rebuild is incomplete")
+    return expected
+
+
 def _build_gate_b_operator_plan(
     inventory: list[dict[str, Any]],
     first_run_id: str,
@@ -842,6 +949,27 @@ def load_gate_b_operator_plan(payload: bytes) -> LoadedContract:
         or len(set(shared_keys)) != 26
     ):
         raise ContractValidationError("Gate B operator must publish 26 unique shared objects")
+    evidence_keys: list[str] = []
+    for step in steps:
+        if step.get("operation") == "fresh-readback-validate-external-manifest-reference":
+            continue
+        for field in ("object_key", "output_object_key"):
+            item = step.get(field)
+            if isinstance(item, str):
+                evidence_keys.append(item)
+        for field in (
+            "object_keys",
+            "output_object_keys",
+            "referenced_object_keys",
+            "required_exact_keys",
+        ):
+            items = step.get(field)
+            if isinstance(items, list):
+                evidence_keys.extend(item for item in items if isinstance(item, str))
+    if not evidence_keys or any(
+        not key.startswith(_ISSUE_58_EVIDENCE_PREFIX) for key in evidence_keys
+    ):
+        raise ContractValidationError("Gate B operator evidence prefix drifted")
 
     evaluator_steps = [
         step
@@ -931,6 +1059,16 @@ def load_gate_b_operator_plan(payload: bytes) -> LoadedContract:
     ]
     if task_models != expected_task_models:
         raise ContractValidationError("Gate B task/model run order drifted")
+    actual_cohort = [
+        (str(step["task_id"]), str(step["model_id"]), str(step["run_id"]))
+        for step in evaluator_steps
+    ]
+    expected_cohort = [
+        (task_id, model_id, _ISSUE_58_RUN_IDS[(task_id, model_id)])
+        for task_id, model_id in expected_task_models
+    ]
+    if actual_cohort != expected_cohort:
+        raise ContractValidationError("Gate B exact six-run cohort drifted")
 
     checkpoint = value.get("alpha_ridge_checkpoint")
     if not isinstance(checkpoint, dict) or checkpoint.get("required_exact_key_count") != 33:
@@ -1053,12 +1191,13 @@ _OPERATOR_METHODS = {
 
 
 def execute_gate_b_operator(
-    operator_plan_bytes: bytes,
+    gate_b_packet_bytes: bytes,
     runtime: GateBOperatorRuntime,
 ) -> None:
-    """Execute one strict plan once; the first exception stops without retry or next step."""
+    """Execute the plan from one strict full packet; stop on the first exception."""
 
-    plan = load_gate_b_operator_plan(operator_plan_bytes).value
+    packet = load_gate_b_packet(gate_b_packet_bytes).value
+    plan = load_gate_b_operator_plan(canonical_json_bytes(packet["operator_plan"])).value
     for raw_step in plan["steps"]:
         step = MappingProxyType(dict(raw_step))
         method_name = _OPERATOR_METHODS.get(str(step["operation"]))
@@ -1082,6 +1221,11 @@ def build_gate_b_packet(
     """Compile a zero-truth, zero-COS-write Gate B review packet."""
 
     known_inputs = _load_known_inputs(gate_a_known_inputs_bytes)
+    if (
+        len(gate_a_known_inputs_bytes) != _ISSUE_58_KNOWN_INPUTS_SIZE
+        or hashlib.sha256(gate_a_known_inputs_bytes).hexdigest() != _ISSUE_58_KNOWN_INPUTS_SHA256
+    ):
+        raise ContractValidationError("Gate A known-input index identity drifted")
     if evidence_bucket != _ISSUE_58_EVIDENCE_BUCKET:
         raise ContractValidationError("Gate B evidence bucket drifted")
     if evidence_prefix != _ISSUE_58_EVIDENCE_PREFIX:
@@ -1326,8 +1470,11 @@ def build_gate_b_packet(
         "execution_caps": dict(_EXECUTION_CAPS),
         "external_manifest_references": list(_EXTERNAL_MANIFEST_REFERENCES),
         "gate_a_known_inputs": {
-            "sha256": hashlib.sha256(gate_a_known_inputs_bytes).hexdigest(),
-            "size_bytes": len(gate_a_known_inputs_bytes),
+            "artifact": {
+                "sha256": hashlib.sha256(gate_a_known_inputs_bytes).hexdigest(),
+                "size_bytes": len(gate_a_known_inputs_bytes),
+            },
+            "value": known_inputs,
         },
         "m3_freeze_record": json.loads(m3_bytes),
         "operator_plan": operator_plan,
@@ -1393,16 +1540,26 @@ def load_gate_b_packet(payload: bytes) -> LoadedContract:
         raise ContractValidationError("Gate B credential boundary drifted")
     if value.get("external_manifest_references") != list(_EXTERNAL_MANIFEST_REFERENCES):
         raise ContractValidationError("Gate B external manifest references drifted")
-    known_inputs = value.get("gate_a_known_inputs")
+    embedded_known_inputs = value.get("gate_a_known_inputs")
     if (
-        not isinstance(known_inputs, dict)
-        or set(known_inputs) != {"sha256", "size_bytes"}
-        or not _SHA256.fullmatch(str(known_inputs.get("sha256")))
-        or isinstance(known_inputs.get("size_bytes"), bool)
-        or not isinstance(known_inputs.get("size_bytes"), int)
-        or known_inputs["size_bytes"] <= 0
+        not isinstance(embedded_known_inputs, dict)
+        or set(embedded_known_inputs) != {"artifact", "value"}
+        or not isinstance(embedded_known_inputs.get("artifact"), dict)
     ):
         raise ContractValidationError("Gate A known-input index identity drifted")
+    known_inputs_bytes = canonical_json_bytes(embedded_known_inputs.get("value"))
+    known_inputs_artifact = embedded_known_inputs["artifact"]
+    if known_inputs_artifact != {
+        "sha256": _ISSUE_58_KNOWN_INPUTS_SHA256,
+        "size_bytes": _ISSUE_58_KNOWN_INPUTS_SIZE,
+    } or (
+        len(known_inputs_bytes) != _ISSUE_58_KNOWN_INPUTS_SIZE
+        or hashlib.sha256(known_inputs_bytes).hexdigest() != _ISSUE_58_KNOWN_INPUTS_SHA256
+    ):
+        raise ContractValidationError("Gate A known-input index identity drifted")
+    known_inputs = _load_known_inputs(known_inputs_bytes)
+    if known_inputs["source_git_commit"] != _ISSUE_58_SOURCE_COMMIT:
+        raise ContractValidationError("Gate A known-input source commit drifted")
     inventory = value.get("evidence_inventory")
     if not isinstance(inventory, list) or len(inventory) != 68:
         raise ContractValidationError("Gate B packet must exact-cover 68 objects")
@@ -1435,6 +1592,22 @@ def load_gate_b_packet(payload: bytes) -> LoadedContract:
     m3 = load_m3_freeze_record(m3_bytes).value
     if m3.get("source_git_commit") != _ISSUE_58_SOURCE_COMMIT:
         raise ContractValidationError("M3 source commit differs from Gate B packet")
+    known_tasks = {task["task_id"]: task for task in known_inputs["tasks"]}
+    expected_feature_roots = {
+        task_id: known_tasks[task_id]["feature"]["descriptor"]["sha256"] for task_id in GATE_A_TASKS
+    }
+    expected_run_ids = {
+        (task_id, run["model_id"]): run["run_id"]
+        for task_id in GATE_A_TASKS
+        for run in known_tasks[task_id]["runs"]
+    }
+    expected_m3_bytes = build_m3_freeze_record(
+        source_git_commit=_ISSUE_58_SOURCE_COMMIT,
+        task_feature_roots=expected_feature_roots,
+        run_ids=expected_run_ids,
+    )
+    if m3_bytes != expected_m3_bytes or expected_feature_roots != _ISSUE_58_FEATURE_ROOTS:
+        raise ContractValidationError("Gate B M3 feature roots or run cohort drifted")
 
     shared = inventory[:26]
     expected_shared_layout: list[tuple[str, str, str | None, str | None, str | None]] = []
@@ -1599,6 +1772,15 @@ def load_gate_b_packet(payload: bytes) -> LoadedContract:
             }
         ):
             raise ContractValidationError("Gate B per-run payload lifecycle drifted")
+
+    expected_known_payloads = _expected_known_payloads(known_inputs, m3_bytes)
+    actual_known_payloads = {
+        item["object_key"][len(_ISSUE_58_EVIDENCE_PREFIX) :]: item["payload"]
+        for item in inventory
+        if item["payload"].get("status") == "known"
+    }
+    if actual_known_payloads != expected_known_payloads:
+        raise ContractValidationError("Gate B known payload identities drifted")
 
     first_run_id = m3_runs[("alpha-amylase", "ridge-sklearn-v1")]
     expected_publication_plan = {

@@ -149,9 +149,16 @@ def test_gate_b_packet_exact_covers_26_shared_and_42_per_attempt_objects() -> No
 
 def test_gate_b_packet_uses_exact_known_hashes_and_no_fake_runtime_hashes() -> None:
     packet = json.loads(_packet_bytes())
+    embedded_index = packet["gate_a_known_inputs"]
     inventory = packet["evidence_inventory"]
     known = [item for item in inventory if item["payload"]["status"] == "known"]
     dynamic = [item for item in inventory if item["payload"]["status"] == "runtime-generated"]
+
+    assert embedded_index["artifact"] == {
+        "sha256": "783e338fd20396ea340d10140592c2752a30ac8fc7115e71b432c0796fe03ae2",
+        "size_bytes": 16_873,
+    }
+    assert canonical_json_bytes(embedded_index["value"]) == KNOWN_INPUTS_PATH.read_bytes()
 
     assert len(known) == 38
     assert len(dynamic) == 30
@@ -391,6 +398,81 @@ def test_gate_b_packet_loader_rejects_incomplete_per_run_closure() -> None:
         load_gate_b_packet(_mutated_packet(mutate))
 
 
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (
+            lambda packet: packet["gate_a_known_inputs"]["artifact"].__setitem__(
+                "sha256", "0" * 64
+            ),
+            "known-input index identity",
+        ),
+        (
+            lambda packet: packet["m3_freeze_record"]["cohort"]["tasks"][0].__setitem__(
+                "feature_root_sha256", "0" * 64
+            ),
+            "M3 feature roots",
+        ),
+        (
+            lambda packet: next(
+                item
+                for item in packet["evidence_inventory"]
+                if item["kind"] == "feature-descriptor"
+            )["payload"].__setitem__("sha256", "0" * 64),
+            "known payload identities",
+        ),
+        (
+            lambda packet: next(
+                item for item in packet["evidence_inventory"] if item["kind"] == "prediction"
+            )["payload"].__setitem__("sha256", "0" * 64),
+            "known payload identities",
+        ),
+    ],
+)
+def test_gate_b_packet_loader_rejects_exact_scientific_identity_drift(
+    mutation: Callable[[dict[str, Any]], None], message: str
+) -> None:
+    with pytest.raises(ContractValidationError, match=message):
+        load_gate_b_packet(_mutated_packet(mutation))
+
+
+def test_operator_loader_rejects_issue_58_prefix_drift() -> None:
+    plan = json.loads(_packet_bytes())["operator_plan"]
+    list_fields = (
+        "object_keys",
+        "output_object_keys",
+        "referenced_object_keys",
+        "required_exact_keys",
+    )
+    for step in plan["steps"]:
+        for field in ("object_key", "output_object_key"):
+            if isinstance(step.get(field), str) and step[field].startswith(EVIDENCE_PREFIX):
+                step[field] = step[field].replace(
+                    EVIDENCE_PREFIX, "m2/outside-authorized-prefix/", 1
+                )
+        for field in list_fields:
+            if isinstance(step.get(field), list):
+                step[field] = [
+                    key.replace(EVIDENCE_PREFIX, "m2/outside-authorized-prefix/", 1)
+                    for key in step[field]
+                ]
+
+    with pytest.raises(ContractValidationError, match="evidence prefix"):
+        load_gate_b_operator_plan(canonical_json_bytes(plan))
+
+
+def test_operator_loader_rejects_issue_58_run_id_drift() -> None:
+    plan = json.loads(_packet_bytes())["operator_plan"]
+    first_run_id = plan["alpha_ridge_checkpoint"]["first_run_id"]
+    plan["alpha_ridge_checkpoint"]["first_run_id"] = "0" * 64
+    for step in plan["steps"]:
+        if step.get("run_id") == first_run_id:
+            step["run_id"] = "0" * 64
+
+    with pytest.raises(ContractValidationError, match="six-run cohort"):
+        load_gate_b_operator_plan(canonical_json_bytes(plan))
+
+
 @pytest.mark.parametrize("scope", ["accepted_inputs", "new_evidence_prefix"])
 def test_gate_b_packet_requires_head_object_for_each_head_operation(scope: str) -> None:
     def mutate(packet: dict[str, Any]) -> None:
@@ -417,11 +499,10 @@ class _RecordingRuntime:
         return call
 
 
-def test_executable_operator_binds_all_113_steps_without_retry() -> None:
-    plan = json.loads(_packet_bytes())["operator_plan"]
+def test_executable_operator_binds_full_packet_to_all_113_steps_without_retry() -> None:
     runtime = _RecordingRuntime()
 
-    execute_gate_b_operator(canonical_json_bytes(plan), cast(GateBOperatorRuntime, runtime))
+    execute_gate_b_operator(_packet_bytes(), cast(GateBOperatorRuntime, runtime))
 
     assert len(runtime.calls) == 113
     assert [call[1]["sequence"] for call in runtime.calls] == list(range(1, 114))
@@ -432,13 +513,12 @@ def test_executable_operator_binds_all_113_steps_without_retry() -> None:
 
 
 def test_executable_operator_external_failure_has_zero_truth_and_zero_writes() -> None:
-    plan = json.loads(_packet_bytes())["operator_plan"]
     runtime = _RecordingRuntime(
         fail_operation="fresh-readback-validate-external-manifest-reference"
     )
 
     with pytest.raises(RuntimeError, match="injected failure"):
-        execute_gate_b_operator(canonical_json_bytes(plan), cast(GateBOperatorRuntime, runtime))
+        execute_gate_b_operator(_packet_bytes(), cast(GateBOperatorRuntime, runtime))
 
     assert len(runtime.calls) == 1
     assert all(not name.startswith("publish_") for name, _ in runtime.calls)
@@ -446,13 +526,12 @@ def test_executable_operator_external_failure_has_zero_truth_and_zero_writes() -
 
 
 def test_executable_operator_first_evaluator_failure_stops_other_five_runs() -> None:
-    plan = json.loads(_packet_bytes())["operator_plan"]
     runtime = _RecordingRuntime(
         fail_operation="evaluator-read-candidate-truth-return-four-aggregate-results"
     )
 
     with pytest.raises(RuntimeError, match="injected failure"):
-        execute_gate_b_operator(canonical_json_bytes(plan), cast(GateBOperatorRuntime, runtime))
+        execute_gate_b_operator(_packet_bytes(), cast(GateBOperatorRuntime, runtime))
 
     evaluator_calls = [
         step for name, step in runtime.calls if name == "evaluate_four_aggregate_results"
