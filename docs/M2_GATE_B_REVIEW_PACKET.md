@@ -82,7 +82,8 @@ retry、replacement attempt、DeleteObject 或 overwrite。
 bytes，而不接受 standalone operator bytes；入口先 strict-validate known-input index、M3
 roots/cohort、38 个 known payload identities、Issue #58 exact prefix、credential boundary、caps
 与 68-object inventory，再从该 packet 派生 113 steps。随后每类操作绑定到
-`GateBOperatorRuntime` 的窄能力：
+`GateBOperatorRuntime` 的窄能力。runtime 必须先通过 `bind_reviewed_packet()` 确认完整 caps、
+credential scope 与 identities；该 pre-step 失败时 113 个操作全部为 0。随后才允许：
 external/input fresh read、forbid-overwrite publication、sealed prediction readback、四项 aggregate
 evaluator、RunAttempt generation、`_SUCCESS` 以及 33/68-key independent readback。任何 runtime
 方法抛出异常都会立即终止；executor 不捕获、不重试，也不会进入下一 step/run。injected-fake tests

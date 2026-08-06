@@ -485,9 +485,21 @@ def test_gate_b_packet_requires_head_object_for_each_head_operation(scope: str) 
 
 
 class _RecordingRuntime:
-    def __init__(self, *, fail_operation: str | None = None) -> None:
+    def __init__(
+        self,
+        *,
+        fail_binding: bool = False,
+        fail_operation: str | None = None,
+    ) -> None:
         self.calls: list[tuple[str, dict[str, object]]] = []
+        self.bound_packet: Mapping[str, Any] | None = None
+        self.fail_binding = fail_binding
         self.fail_operation = fail_operation
+
+    def bind_reviewed_packet(self, packet: Mapping[str, Any]) -> None:
+        self.bound_packet = packet
+        if self.fail_binding:
+            raise RuntimeError("injected boundary failure")
 
     def __getattr__(self, method_name: str) -> Callable[[Mapping[str, Any]], None]:
         def call(step: Mapping[str, Any]) -> None:
@@ -504,12 +516,28 @@ def test_executable_operator_binds_full_packet_to_all_113_steps_without_retry() 
 
     execute_gate_b_operator(_packet_bytes(), cast(GateBOperatorRuntime, runtime))
 
+    assert runtime.bound_packet is not None
+    assert runtime.bound_packet["execution_caps"]["max_cost_cny"] == 40
+    assert (
+        runtime.bound_packet["credential_boundary"]["new_evidence_prefix"]["exact_prefix"]
+        == EVIDENCE_PREFIX
+    )
     assert len(runtime.calls) == 113
     assert [call[1]["sequence"] for call in runtime.calls] == list(range(1, 114))
     assert sum(name == "publish_known_shared" for name, _ in runtime.calls) == 26
     assert sum(name == "evaluate_four_aggregate_results" for name, _ in runtime.calls) == 6
     assert sum(name == "publish_empty_success_marker" for name, _ in runtime.calls) == 6
     assert runtime.calls[-1][0] == "readback_exact_keys"
+
+
+def test_executable_operator_boundary_failure_has_zero_steps_truth_and_writes() -> None:
+    runtime = _RecordingRuntime(fail_binding=True)
+
+    with pytest.raises(RuntimeError, match="boundary failure"):
+        execute_gate_b_operator(_packet_bytes(), cast(GateBOperatorRuntime, runtime))
+
+    assert runtime.bound_packet is not None
+    assert runtime.calls == []
 
 
 def test_executable_operator_external_failure_has_zero_truth_and_zero_writes() -> None:

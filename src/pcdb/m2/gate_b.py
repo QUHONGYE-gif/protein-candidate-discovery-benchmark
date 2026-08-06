@@ -1140,6 +1140,8 @@ def load_gate_b_operator_plan(payload: bytes) -> LoadedContract:
 class GateBOperatorRuntime(Protocol):
     """Narrow capabilities required by the validated Issue #58 operator."""
 
+    def bind_reviewed_packet(self, packet: Mapping[str, Any]) -> None: ...
+
     def validate_external_manifest_reference(self, step: Mapping[str, Any]) -> None: ...
 
     def publish_known_shared(self, step: Mapping[str, Any]) -> None: ...
@@ -1197,6 +1199,7 @@ def execute_gate_b_operator(
     """Execute the plan from one strict full packet; stop on the first exception."""
 
     packet = load_gate_b_packet(gate_b_packet_bytes).value
+    runtime.bind_reviewed_packet(packet)
     plan = load_gate_b_operator_plan(canonical_json_bytes(packet["operator_plan"])).value
     for raw_step in plan["steps"]:
         step = MappingProxyType(dict(raw_step))
