@@ -1,0 +1,293 @@
+"""Gate B review-packet contracts for Issue #58."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import pytest
+
+from pcdb.contracts.experiment import ContractValidationError, canonical_json_bytes
+from pcdb.m2.gate_b import (
+    build_gate_b_packet,
+    build_m3_freeze_record,
+    load_gate_b_operator_plan,
+    load_gate_b_packet,
+    load_m3_freeze_record,
+)
+from pcdb.m2.model_identity import MODEL_CONFIG_SHA256
+
+SOURCE_COMMIT = "9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5"
+ROOT = Path(__file__).resolve().parents[2]
+KNOWN_INPUTS_PATH = ROOT / "manifests/experiments/m2/issue-58/gate-a-known-inputs.v1.json"
+EVIDENCE_BUCKET = "pcdb-benchmark-artifacts-1408226911"
+EVIDENCE_PREFIX = "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/"
+FEATURE_ROOTS = {
+    "alpha-amylase": "fa64315824eccde93e5c4740bbaf638aa54da2d2b8b96053bbae193ec89bbe42",
+    "ired": "3d20f04020f1b136d1097d6beee7fcaa7b09729e80babd6d96154f71c510fb1b",
+}
+RUN_IDS = {
+    ("alpha-amylase", "ridge-sklearn-v1"): (
+        "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c"
+    ),
+    ("alpha-amylase", "random-forest-sklearn-v1"): (
+        "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2"
+    ),
+    ("alpha-amylase", "xgboost-cpu-v1"): (
+        "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788"
+    ),
+    ("ired", "ridge-sklearn-v1"): (
+        "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09"
+    ),
+    ("ired", "random-forest-sklearn-v1"): (
+        "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6"
+    ),
+    ("ired", "xgboost-cpu-v1"): (
+        "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675"
+    ),
+}
+
+
+def _freeze_bytes() -> bytes:
+    return build_m3_freeze_record(
+        source_git_commit=SOURCE_COMMIT,
+        task_feature_roots=FEATURE_ROOTS,
+        run_ids=RUN_IDS,
+    )
+
+
+def _packet_bytes() -> bytes:
+    return build_gate_b_packet(
+        repository_root=ROOT,
+        gate_a_known_inputs_bytes=KNOWN_INPUTS_PATH.read_bytes(),
+        evidence_bucket=EVIDENCE_BUCKET,
+        evidence_prefix=EVIDENCE_PREFIX,
+    )
+
+
+def test_m3_freeze_is_canonical_and_binds_the_exact_six_run_cohort() -> None:
+    payload = _freeze_bytes()
+    value = json.loads(payload)
+    loaded = load_m3_freeze_record(payload)
+
+    assert canonical_json_bytes(value) == payload
+    assert loaded.canonical_bytes == payload
+    assert value["source_git_commit"] == SOURCE_COMMIT
+    assert value["frozen_before_candidate_truth_read"] is True
+    assert value["cohort"]["seed"] == 1729
+    assert value["cohort"]["feature_config_id"] == "sequence-composition-420-v1"
+    assert value["cohort"]["model_configs"] == [
+        {"model_config_sha256": MODEL_CONFIG_SHA256[model_id], "model_id": model_id}
+        for model_id in (
+            "random-forest-sklearn-v1",
+            "ridge-sklearn-v1",
+            "xgboost-cpu-v1",
+        )
+    ]
+    assert {
+        (task["task_id"], run["model_id"], run["run_id"])
+        for task in value["cohort"]["tasks"]
+        for run in task["runs"]
+    } == {(task_id, model_id, run_id) for (task_id, model_id), run_id in RUN_IDS.items()}
+
+
+def test_m3_freeze_closes_post_hoc_and_held_out_paths() -> None:
+    value = json.loads(_freeze_bytes())
+
+    assert value["anti_post_hoc_policy"]["same_cohort_prohibited_changes"] == [
+        "acquisition-config",
+        "feature-config",
+        "model-config",
+        "model-set",
+        "seed",
+    ]
+    assert value["anti_post_hoc_policy"]["preserve_negative_and_discordant_results"] is True
+    assert value["authorization_boundaries"] == {
+        "candidate_truth_consumer": "capability-separated-evaluator-after-sealed-prediction",
+        "gate_2_authorized": False,
+        "held_out_reads": 0,
+        "m3_execution_authorized": False,
+    }
+
+
+def test_m3_loader_rejects_noncanonical_or_drifted_records() -> None:
+    value = json.loads(_freeze_bytes())
+    noncanonical = json.dumps(value, separators=(",", ":"), sort_keys=True).encode()
+    with pytest.raises(ContractValidationError, match="canonical"):
+        load_m3_freeze_record(noncanonical)
+
+    value["cohort"]["seed"] = 1730
+    with pytest.raises(ContractValidationError, match="seed"):
+        load_m3_freeze_record(canonical_json_bytes(value))
+
+
+def test_gate_b_packet_exact_covers_26_shared_and_42_per_attempt_objects() -> None:
+    payload = _packet_bytes()
+    packet = json.loads(payload)
+    loaded = load_gate_b_packet(payload)
+    inventory = packet["evidence_inventory"]
+
+    assert loaded.canonical_bytes == payload
+    assert canonical_json_bytes(packet) == payload
+    assert len(inventory) == 68
+    assert len({item["object_key"] for item in inventory}) == 68
+    assert [item["publication_order"] for item in inventory] == list(range(1, 69))
+    assert sum(item["scope"] == "shared" for item in inventory) == 26
+    assert sum(item["scope"] == "per-attempt" for item in inventory) == 42
+    assert all(item["object_key"].startswith(EVIDENCE_PREFIX) for item in inventory)
+
+
+def test_gate_b_packet_uses_exact_known_hashes_and_no_fake_runtime_hashes() -> None:
+    packet = json.loads(_packet_bytes())
+    inventory = packet["evidence_inventory"]
+    known = [item for item in inventory if item["payload"]["status"] == "known"]
+    dynamic = [item for item in inventory if item["payload"]["status"] == "runtime-generated"]
+
+    assert len(known) == 38
+    assert len(dynamic) == 30
+    for item in known:
+        assert isinstance(item["payload"]["size_bytes"], int)
+        assert len(item["payload"]["sha256"]) == 64
+    for item in dynamic:
+        assert item["payload"]["size_bytes"] is None
+        assert item["payload"]["sha256"] is None
+        assert item["payload"]["generation_rule"]
+        assert item["payload"]["validation_rule"]
+
+    success_markers = [item for item in known if item["kind"] == "success-marker"]
+    assert len(success_markers) == 6
+    assert all(item["payload"]["size_bytes"] == 0 for item in success_markers)
+    assert all(
+        item["payload"]["sha256"]
+        == "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        for item in success_markers
+    )
+
+
+def test_gate_b_packet_freezes_alpha_ridge_first_fail_fast_publication() -> None:
+    packet = json.loads(_packet_bytes())
+    plan = packet["publication_plan"]
+    first_run_id = RUN_IDS[("alpha-amylase", "ridge-sklearn-v1")]
+    first_attempt = [
+        item
+        for item in packet["evidence_inventory"]
+        if item.get("run_id") == first_run_id and item["scope"] == "per-attempt"
+    ]
+
+    assert plan["first_run_id"] == first_run_id
+    assert plan["first_task_model"] == {
+        "model_id": "ridge-sklearn-v1",
+        "task_id": "alpha-amylase",
+    }
+    assert plan["remaining_runs_start_condition"] == (
+        "independent-fresh-readback-exact-covers-shared-26-and-alpha-ridge-7"
+    )
+    assert plan["first_run_failure_action"] == "stop-with-other-five-runs-at-zero"
+    assert [item["kind"] for item in first_attempt] == [
+        "prediction",
+        "metric-result",
+        "metric-result",
+        "metric-result",
+        "metric-result",
+        "run-attempt",
+        "success-marker",
+    ]
+    assert first_attempt[-1]["object_key"].endswith("/_SUCCESS")
+
+
+def test_gate_b_packet_records_external_refs_caps_and_minimal_cam_boundary() -> None:
+    packet = json.loads(_packet_bytes())
+
+    assert len(packet["external_manifest_references"]) == 6
+    assert packet["execution_caps"] == {
+        "automatic_retry": 0,
+        "cos_net_new_bytes": 5 * 1024**3,
+        "cos_object_count": 68,
+        "formal_attempts": 6,
+        "max_cost_cny": 40,
+        "max_network_transfer_bytes": 10 * 1024**3,
+        "max_ram_bytes": 16 * 1024**3,
+        "max_scratch_bytes": 20 * 1024**3,
+        "max_vcpu": 8,
+        "max_wall_seconds": 4 * 60 * 60,
+        "per_run_spec_attempts": 1,
+    }
+    permission = packet["credential_boundary"]
+    assert permission["accepted_inputs"]["operations"] == [
+        "fresh-get",
+        "head",
+        "restricted-inventory",
+    ]
+    assert permission["new_evidence_prefix"]["operations"] == [
+        "forbid-overwrite-put",
+        "fresh-get",
+        "head",
+        "restricted-inventory",
+    ]
+    assert permission["explicitly_forbidden"] == [
+        "delete-object",
+        "overwrite",
+        "other-buckets",
+        "other-prefixes",
+    ]
+    assert packet["preparation_truth_boundary"] == {
+        "candidate_truth_reads": 0,
+        "cos_writes": 0,
+        "evaluator_calls": 0,
+        "held_out_reads": 0,
+        "run_attempts_created": 0,
+        "success_markers_created": 0,
+    }
+
+
+def test_operator_plan_fresh_validates_prediction_before_truth_and_fails_fast() -> None:
+    packet = json.loads(_packet_bytes())
+    plan = packet["operator_plan"]
+    plan_bytes = canonical_json_bytes(plan)
+    loaded = load_gate_b_operator_plan(plan_bytes)
+    first_run_id = RUN_IDS[("alpha-amylase", "ridge-sklearn-v1")]
+    first_run_steps = [step for step in plan["steps"] if step.get("run_id") == first_run_id]
+
+    assert loaded.canonical_bytes == plan_bytes
+    operations = [step["operation"] for step in first_run_steps]
+    assert operations.index("fresh-validate-sealed-prediction") < operations.index(
+        "evaluator-read-candidate-truth-return-four-aggregate-results"
+    )
+    assert operations[-1] == "forbid-overwrite-put-empty-success-marker"
+    assert all(step["on_failure"] == "stop-no-retry-no-next-run" for step in plan["steps"])
+    checkpoint = plan["alpha_ridge_checkpoint"]
+    assert checkpoint["required_exact_key_count"] == 33
+    assert checkpoint["failure_action"] == "stop-with-other-five-runs-at-zero"
+    assert plan["final_readback"]["required_exact_key_count"] == 68
+    assert plan["final_readback"]["external_manifest_reference_count"] == 6
+    assert plan["final_readback"]["reject_missing_extra_duplicate"] is True
+    external_steps = [
+        step
+        for step in plan["steps"]
+        if step["operation"] == "fresh-readback-validate-external-manifest-reference"
+    ]
+    assert len(external_steps) == 6
+    first_write_sequence = next(
+        step["sequence"] for step in plan["steps"] if step["operation"].startswith("forbid-")
+    )
+    assert all(step["sequence"] < first_write_sequence for step in external_steps)
+
+
+def test_operator_plan_loader_rejects_truth_before_prediction_validation() -> None:
+    packet = json.loads(_packet_bytes())
+    plan = packet["operator_plan"]
+    first_run_id = RUN_IDS[("alpha-amylase", "ridge-sklearn-v1")]
+    first_run_steps = [step for step in plan["steps"] if step.get("run_id") == first_run_id]
+    validation = next(
+        step for step in first_run_steps if step["operation"] == "fresh-validate-sealed-prediction"
+    )
+    evaluator = next(
+        step
+        for step in first_run_steps
+        if step["operation"] == "evaluator-read-candidate-truth-return-four-aggregate-results"
+    )
+    validation["sequence"], evaluator["sequence"] = evaluator["sequence"], validation["sequence"]
+    plan["steps"].sort(key=lambda step: step["sequence"])
+
+    with pytest.raises(ContractValidationError, match="prediction"):
+        load_gate_b_operator_plan(canonical_json_bytes(plan))

@@ -1,0 +1,1300 @@
+{
+  "alpha_ridge_checkpoint": {
+    "failure_action": "stop-with-other-five-runs-at-zero",
+    "first_run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+    "required_exact_key_count": 33
+  },
+  "final_readback": {
+    "external_manifest_reference_count": 6,
+    "reject_missing_extra_duplicate": true,
+    "required_exact_key_count": 68
+  },
+  "schema_version": "m2-gate-b-operator-plan-v1",
+  "steps": [
+    {
+      "bucket": "pcdb-public-data-1408226911",
+      "object_key": "manifests/flip2/zenodo-18433203-v3/amylase/dataset-manifest.v2.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-external-manifest-reference",
+      "sequence": 1,
+      "sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+      "size_bytes": 2101,
+      "task_id": "alpha-amylase",
+      "type": "dataset-manifest"
+    },
+    {
+      "bucket": "pcdb-public-data-1408226911",
+      "object_key": "manifests/flip2/zenodo-18433203-v3/amylase/processing/flip2-amylase-4e6de256fa84b6c237828e58b244b75b6da304be1a496444dc2896241f1fc12b/processing-manifest.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-external-manifest-reference",
+      "sequence": 2,
+      "sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+      "size_bytes": 2429,
+      "task_id": "alpha-amylase",
+      "type": "processing-manifest"
+    },
+    {
+      "bucket": "pcdb-public-data-1408226911",
+      "object_key": "manifests/flip2/zenodo-18433203-v3/amylase/splits/flip2-amylase-topology-isolation-v1/244111b3eb4507563602851dfa730e7f5f297eea27447a0e22b59d1dc40fb685/split-manifest.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-external-manifest-reference",
+      "sequence": 3,
+      "sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a",
+      "size_bytes": 2770,
+      "task_id": "alpha-amylase",
+      "type": "split-manifest"
+    },
+    {
+      "bucket": "pcdb-public-data-1408226911",
+      "object_key": "manifests/flip2/zenodo-18433203-v3/ired/dataset-manifest.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-external-manifest-reference",
+      "sequence": 4,
+      "sha256": "37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643",
+      "size_bytes": 1599,
+      "task_id": "ired",
+      "type": "dataset-manifest"
+    },
+    {
+      "bucket": "pcdb-public-data-1408226911",
+      "object_key": "manifests/flip2/zenodo-18433203-v3/ired/processing/flip2-ired-8f32dfa11a52d3ce96da4eb4ebb305210ccf027cf812d277f2c9c25f254c4f5d/processing-manifest.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-external-manifest-reference",
+      "sequence": 5,
+      "sha256": "929f0a46bfca015fb020bb7ebcc3a91e4de33922cd217399551b3dae1cc437ba",
+      "size_bytes": 2888,
+      "task_id": "ired",
+      "type": "processing-manifest"
+    },
+    {
+      "bucket": "pcdb-public-data-1408226911",
+      "object_key": "manifests/flip2/zenodo-18433203-v3/ired/splits/flip2-ired-topology-extrapolation-v1/9dde9ee30c6a30c5a691eb2eeae4782093245e0cc8d93cdfc72c7c69af765995/split-manifest.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-external-manifest-reference",
+      "sequence": 6,
+      "sha256": "9bff199ec81b9b5b1e0548c237b923b2ac7db1bf36382377ed36d30c042c725e",
+      "size_bytes": 3211,
+      "task_id": "ired",
+      "type": "split-manifest"
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/logical.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 7
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/descriptor.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 8
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/members/config.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 9
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/members/development.csv",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 10
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/members/validation.csv",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 11
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/members/candidate-pool.csv",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 12
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/logical.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 13
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/descriptor.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 14
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/members/config.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 15
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/members/development.csv",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 16
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/members/validation.csv",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 17
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/members/candidate-pool.csv",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 18
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 19
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 20
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 21
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 22
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 23
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 24
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/experiments/alpha-amylase.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 25
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/experiments/ired.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 26
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/models/ridge-sklearn-v1.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 27
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/models/random-forest-sklearn-v1.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 28
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/models/xgboost-cpu-v1.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 29
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/acquisitions/m2-static-full-pool-v1.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 30
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/environment/m2-gate-a-linux-x86_64.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 31
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/governance/m3-anti-post-hoc-freeze-v1.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-known-shared-payload",
+      "sequence": 32
+    },
+    {
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/governance/m3-anti-post-hoc-freeze-v1.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-m3-freeze-record",
+      "sequence": 33
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-validate-sealed-prediction",
+      "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+      "sequence": 34,
+      "task_id": "alpha-amylase",
+      "validator": "pcdb.contracts.prediction.load_prediction_artifact"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-sealed-prediction",
+      "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+      "sequence": 35,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-sealed-prediction",
+      "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+      "sequence": 36,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "evaluator-read-candidate-truth-return-four-aggregate-results",
+      "output_object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "persisted_candidate_level_outputs": 0,
+      "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+      "sequence": 37,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+      "sequence": 38,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+      "sequence": 39,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+      "sequence": 40,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+      "sequence": 41,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-four-aggregate-results",
+      "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+      "sequence": 42,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "generate-canonical-run-attempt-exact-cover-five-payloads",
+      "output_object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/run-attempt.json",
+      "referenced_object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+      "sequence": 43,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/run-attempt.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-run-attempt",
+      "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+      "sequence": 44,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/run-attempt.json"
+      ],
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-six-payload-objects",
+      "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+      "sequence": 45,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/_SUCCESS",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-empty-success-marker",
+      "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+      "sequence": 46,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "independent-fresh-readback-exact-cover-alpha-ridge-checkpoint",
+      "required_exact_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/logical.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/descriptor.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/members/config.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/members/development.csv",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/members/validation.csv",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/members/candidate-pool.csv",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/logical.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/descriptor.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/members/config.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/members/development.csv",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/members/validation.csv",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/members/candidate-pool.csv",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/experiments/alpha-amylase.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/experiments/ired.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/models/ridge-sklearn-v1.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/models/random-forest-sklearn-v1.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/models/xgboost-cpu-v1.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/acquisitions/m2-static-full-pool-v1.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/environment/m2-gate-a-linux-x86_64.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/governance/m3-anti-post-hoc-freeze-v1.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/run-attempt.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/_SUCCESS"
+      ],
+      "sequence": 47
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-validate-sealed-prediction",
+      "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+      "sequence": 48,
+      "task_id": "alpha-amylase",
+      "validator": "pcdb.contracts.prediction.load_prediction_artifact"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-sealed-prediction",
+      "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+      "sequence": 49,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-sealed-prediction",
+      "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+      "sequence": 50,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "evaluator-read-candidate-truth-return-four-aggregate-results",
+      "output_object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "persisted_candidate_level_outputs": 0,
+      "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+      "sequence": 51,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+      "sequence": 52,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+      "sequence": 53,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+      "sequence": 54,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+      "sequence": 55,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-four-aggregate-results",
+      "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+      "sequence": 56,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "generate-canonical-run-attempt-exact-cover-five-payloads",
+      "output_object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/run-attempt.json",
+      "referenced_object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+      "sequence": 57,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/run-attempt.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-run-attempt",
+      "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+      "sequence": 58,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/run-attempt.json"
+      ],
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-six-payload-objects",
+      "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+      "sequence": 59,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/_SUCCESS",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-empty-success-marker",
+      "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+      "sequence": 60,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-validate-sealed-prediction",
+      "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+      "sequence": 61,
+      "task_id": "alpha-amylase",
+      "validator": "pcdb.contracts.prediction.load_prediction_artifact"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-sealed-prediction",
+      "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+      "sequence": 62,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-sealed-prediction",
+      "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+      "sequence": 63,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "evaluator-read-candidate-truth-return-four-aggregate-results",
+      "output_object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "persisted_candidate_level_outputs": 0,
+      "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+      "sequence": 64,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-spearman-rank-correlation.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+      "sequence": 65,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+      "sequence": 66,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+      "sequence": 67,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+      "sequence": 68,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-four-aggregate-results",
+      "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+      "sequence": 69,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "generate-canonical-run-attempt-exact-cover-five-payloads",
+      "output_object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/run-attempt.json",
+      "referenced_object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+      "sequence": 70,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/run-attempt.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-run-attempt",
+      "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+      "sequence": 71,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/run-attempt.json"
+      ],
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-six-payload-objects",
+      "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+      "sequence": 72,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-alpha-amylase-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/_SUCCESS",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-empty-success-marker",
+      "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+      "sequence": 73,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-validate-sealed-prediction",
+      "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+      "sequence": 74,
+      "task_id": "ired",
+      "validator": "pcdb.contracts.prediction.load_prediction_artifact"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-sealed-prediction",
+      "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+      "sequence": 75,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-sealed-prediction",
+      "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+      "sequence": 76,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "evaluator-read-candidate-truth-return-four-aggregate-results",
+      "output_object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "persisted_candidate_level_outputs": 0,
+      "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+      "sequence": 77,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+      "sequence": 78,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+      "sequence": 79,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+      "sequence": 80,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+      "sequence": 81,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-four-aggregate-results",
+      "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+      "sequence": 82,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "generate-canonical-run-attempt-exact-cover-five-payloads",
+      "output_object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/run-attempt.json",
+      "referenced_object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+      "sequence": 83,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/run-attempt.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-run-attempt",
+      "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+      "sequence": 84,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/run-attempt.json"
+      ],
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-six-payload-objects",
+      "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+      "sequence": 85,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-ridge-sklearn-v1",
+      "model_id": "ridge-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/_SUCCESS",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-empty-success-marker",
+      "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+      "sequence": 86,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-validate-sealed-prediction",
+      "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+      "sequence": 87,
+      "task_id": "ired",
+      "validator": "pcdb.contracts.prediction.load_prediction_artifact"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-sealed-prediction",
+      "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+      "sequence": 88,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-sealed-prediction",
+      "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+      "sequence": 89,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "evaluator-read-candidate-truth-return-four-aggregate-results",
+      "output_object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "persisted_candidate_level_outputs": 0,
+      "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+      "sequence": 90,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+      "sequence": 91,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+      "sequence": 92,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+      "sequence": 93,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+      "sequence": 94,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-four-aggregate-results",
+      "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+      "sequence": 95,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "generate-canonical-run-attempt-exact-cover-five-payloads",
+      "output_object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/run-attempt.json",
+      "referenced_object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+      "sequence": 96,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/run-attempt.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-run-attempt",
+      "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+      "sequence": 97,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/run-attempt.json"
+      ],
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-six-payload-objects",
+      "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+      "sequence": 98,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-random-forest-sklearn-v1",
+      "model_id": "random-forest-sklearn-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/_SUCCESS",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-empty-success-marker",
+      "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+      "sequence": 99,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-validate-sealed-prediction",
+      "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+      "sequence": 100,
+      "task_id": "ired",
+      "validator": "pcdb.contracts.prediction.load_prediction_artifact"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-sealed-prediction",
+      "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+      "sequence": 101,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/prediction.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-sealed-prediction",
+      "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+      "sequence": 102,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "evaluator-read-candidate-truth-return-four-aggregate-results",
+      "output_object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "persisted_candidate_level_outputs": 0,
+      "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+      "sequence": 103,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-spearman-rank-correlation.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+      "sequence": 104,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+      "sequence": 105,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+      "sequence": 106,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-aggregate-metric-result",
+      "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+      "sequence": 107,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-four-aggregate-results",
+      "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+      "sequence": 108,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "generate-canonical-run-attempt-exact-cover-five-payloads",
+      "output_object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/run-attempt.json",
+      "referenced_object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-2pct.json"
+      ],
+      "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+      "sequence": 109,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/run-attempt.json",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-run-attempt",
+      "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+      "sequence": 110,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/run-attempt.json"
+      ],
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "fresh-readback-validate-six-payload-objects",
+      "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+      "sequence": 111,
+      "task_id": "ired"
+    },
+    {
+      "attempt_id": "gate-a-preflight-ired-xgboost-cpu-v1",
+      "model_id": "xgboost-cpu-v1",
+      "object_key": "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/_SUCCESS",
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "forbid-overwrite-put-empty-success-marker",
+      "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+      "sequence": 112,
+      "task_id": "ired"
+    },
+    {
+      "on_failure": "stop-no-retry-no-next-run",
+      "operation": "independent-fresh-readback-exact-cover-final-inventory",
+      "required_exact_keys": [
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/logical.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/descriptor.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/members/config.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/members/development.csv",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/members/validation.csv",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/alpha-amylase/members/candidate-pool.csv",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/logical.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/descriptor.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/members/config.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/members/development.csv",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/members/validation.csv",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/features/ired/members/candidate-pool.csv",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/run-specs/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/experiments/alpha-amylase.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/experiments/ired.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/models/ridge-sklearn-v1.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/models/random-forest-sklearn-v1.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/models/xgboost-cpu-v1.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/configs/acquisitions/m2-static-full-pool-v1.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/environment/m2-gate-a-linux-x86_64.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/shared/governance/m3-anti-post-hoc-freeze-v1.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/run-attempt.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c/gate-a-preflight-alpha-amylase-ridge-sklearn-v1/_SUCCESS",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/run-attempt.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2/gate-a-preflight-alpha-amylase-random-forest-sklearn-v1/_SUCCESS",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/run-attempt.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788/gate-a-preflight-alpha-amylase-xgboost-cpu-v1/_SUCCESS",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/run-attempt.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09/gate-a-preflight-ired-ridge-sklearn-v1/_SUCCESS",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/run-attempt.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6/gate-a-preflight-ired-random-forest-sklearn-v1/_SUCCESS",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/prediction.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-spearman-rank-correlation.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-0.5pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-1pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/metrics/metric-high-value-recall-upper-tail-2pct.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/run-attempt.json",
+        "m2/issue-58/alpha-ired-static-v1/9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5/attempts/18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675/gate-a-preflight-ired-xgboost-cpu-v1/_SUCCESS"
+      ],
+      "sequence": 113
+    }
+  ],
+  "truth_boundary": {
+    "first_truth_read_operation": "evaluator-read-candidate-truth-return-four-aggregate-results",
+    "held_out_reads": 0,
+    "model_side_candidate_truth_reads": 0,
+    "persisted_candidate_level_outputs": 0
+  }
+}
