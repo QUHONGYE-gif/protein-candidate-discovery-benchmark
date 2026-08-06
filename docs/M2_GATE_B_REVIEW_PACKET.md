@@ -49,6 +49,8 @@ Inventory 精确包含：
 - 38 个 payload identity 在审核前已知；
 - 24 个 metric result 与 6 个 RunAttempt 只能在 runtime 生成，其 size/SHA 在 packet 中明确为
   `null`，不得使用 placeholder hash；
+- 这 30 个 runtime-generated payload 的完整 generation/validation rule 也被 exact-frozen；缺字段、
+  多字段或任一值漂移都会被 loader 拒绝；
 - Dataset/Processing/Split Manifests 是六个外部 immutable references，不复制到 evidence
   prefix，也不计入 68 个对象。
 
@@ -83,12 +85,15 @@ bytes，而不接受 standalone operator bytes；入口先 strict-validate known
 roots/cohort、38 个 known payload identities、Issue #58 exact prefix、credential boundary、caps
 与 68-object inventory，再从该 packet 派生 113 steps。随后每类操作绑定到
 `GateBOperatorRuntime` 的窄能力。runtime 必须先通过 `bind_reviewed_packet()` 确认完整 caps、
-credential scope 与 identities；该 pre-step 失败时 113 个操作全部为 0。随后才允许：
+credential scope 与 identities；binder 收到的是独立、递归不可变的 canonical snapshot，不能在
+pre-step 中改写 caps、credential boundary、source identity 或 operator plan。该 pre-step 失败时
+113 个操作全部为 0。随后才允许：
 external/input fresh read、forbid-overwrite publication、sealed prediction readback、四项 aggregate
 evaluator、RunAttempt generation、`_SUCCESS` 以及 33/68-key independent readback。任何 runtime
 方法抛出异常都会立即终止；executor 不捕获、不重试，也不会进入下一 step/run。injected-fake tests
 覆盖完整 113-step 调用、首个 external read 失败时 truth/write 均为 0，以及首个 evaluator 失败时
-其余五个 run 为 0。该 executable slice 不代表已连接正式 COS/evaluator，更不构成执行授权。
+其余五个 run 为 0，以及 binder 对四类关键嵌套字段的篡改尝试均在 step 1 前失败。该 executable
+slice 不代表已连接正式 COS/evaluator，更不构成执行授权。
 
 ## 最小 CAM 边界
 

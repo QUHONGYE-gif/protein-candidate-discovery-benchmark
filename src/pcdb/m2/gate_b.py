@@ -140,6 +140,18 @@ _METRIC_OBJECT_NAMES = (
     "metric-high-value-recall-upper-tail-1pct.json",
     "metric-high-value-recall-upper-tail-2pct.json",
 )
+_METRIC_RUNTIME_GENERATION_RULE = (
+    "capability-separated evaluator returns one canonical aggregate result"
+)
+_METRIC_RUNTIME_VALIDATION_RULE = (
+    "strict high-value result loader plus RunSpec/prediction/attempt linkage"
+)
+_RUN_ATTEMPT_RUNTIME_GENERATION_RULE = (
+    "canonical RunAttempt after prediction and four metrics validate"
+)
+_RUN_ATTEMPT_RUNTIME_VALIDATION_RULE = (
+    "RunAttempt v1 strict loader exact-covers five payload outputs"
+)
 _EXTERNAL_MANIFEST_REFERENCES = (
     {
         "bucket": "pcdb-public-data-1408226911",
@@ -287,6 +299,16 @@ def _parse_canonical_object(payload: bytes) -> dict[str, Any]:
         raise ContractValidationError("top-level JSON value must be an object")
     if canonical_json_bytes(value) != payload:
         raise ContractValidationError("artifact bytes are not canonical")
+    return value
+
+
+def _deep_immutable(value: Any) -> Any:
+    """Copy one JSON value into recursively immutable mappings and tuples."""
+
+    if isinstance(value, dict):
+        return MappingProxyType({key: _deep_immutable(item) for key, item in value.items()})
+    if isinstance(value, list):
+        return tuple(_deep_immutable(item) for item in value)
     return value
 
 
@@ -1198,9 +1220,11 @@ def execute_gate_b_operator(
 ) -> None:
     """Execute the plan from one strict full packet; stop on the first exception."""
 
-    packet = load_gate_b_packet(gate_b_packet_bytes).value
-    runtime.bind_reviewed_packet(packet)
-    plan = load_gate_b_operator_plan(canonical_json_bytes(packet["operator_plan"])).value
+    loaded_packet = load_gate_b_packet(gate_b_packet_bytes)
+    operator_plan_bytes = canonical_json_bytes(loaded_packet.value["operator_plan"])
+    immutable_packet = _deep_immutable(_parse_canonical_object(loaded_packet.canonical_bytes))
+    runtime.bind_reviewed_packet(immutable_packet)
+    plan = load_gate_b_operator_plan(operator_plan_bytes).value
     for raw_step in plan["steps"]:
         step = MappingProxyType(dict(raw_step))
         method_name = _OPERATOR_METHODS.get(str(step["operation"]))
@@ -1430,8 +1454,8 @@ def build_gate_b_packet(
                     kind="metric-result",
                     scope="per-attempt",
                     payload=_runtime_payload(
-                        "capability-separated evaluator returns one canonical aggregate result",
-                        "strict high-value result loader plus RunSpec/prediction/attempt linkage",
+                        _METRIC_RUNTIME_GENERATION_RULE,
+                        _METRIC_RUNTIME_VALIDATION_RULE,
                     ),
                     identities=identities,
                 )
@@ -1440,8 +1464,8 @@ def build_gate_b_packet(
                 kind="run-attempt",
                 scope="per-attempt",
                 payload=_runtime_payload(
-                    "canonical RunAttempt after prediction and four metrics validate",
-                    "RunAttempt v1 strict loader exact-covers five payload outputs",
+                    _RUN_ATTEMPT_RUNTIME_GENERATION_RULE,
+                    _RUN_ATTEMPT_RUNTIME_VALIDATION_RULE,
                 ),
                 identities=identities,
             )
@@ -1583,8 +1607,23 @@ def load_gate_b_packet(payload: bytes) -> LoadedContract:
         if not isinstance(item_payload, dict):
             raise ContractValidationError("Gate B inventory payload must be an object")
         if item_payload.get("status") == "runtime-generated":
-            if item_payload.get("sha256") is not None or item_payload.get("size_bytes") is not None:
-                raise ContractValidationError("runtime payload must not contain a fake identity")
+            kind = item.get("kind")
+            if kind == "metric-result":
+                expected_runtime_payload = _runtime_payload(
+                    _METRIC_RUNTIME_GENERATION_RULE,
+                    _METRIC_RUNTIME_VALIDATION_RULE,
+                )
+                error_message = "Gate B metric-result runtime payload drifted"
+            elif kind == "run-attempt":
+                expected_runtime_payload = _runtime_payload(
+                    _RUN_ATTEMPT_RUNTIME_GENERATION_RULE,
+                    _RUN_ATTEMPT_RUNTIME_VALIDATION_RULE,
+                )
+                error_message = "Gate B RunAttempt runtime payload drifted"
+            else:
+                raise ContractValidationError("Gate B per-run seven-object closure drifted")
+            if item_payload != expected_runtime_payload:
+                raise ContractValidationError(error_message)
         elif item_payload.get("status") == "known":
             _require_sha256(item_payload.get("sha256"), "known inventory SHA-256")
             if not isinstance(item_payload.get("size_bytes"), int):

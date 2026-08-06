@@ -402,6 +402,30 @@ def test_gate_b_packet_loader_rejects_incomplete_per_run_closure() -> None:
     ("mutation", "message"),
     [
         (
+            lambda packet: next(
+                item for item in packet["evidence_inventory"] if item["kind"] == "metric-result"
+            )["payload"].pop("generation_rule"),
+            "metric-result runtime payload",
+        ),
+        (
+            lambda packet: next(
+                item for item in packet["evidence_inventory"] if item["kind"] == "run-attempt"
+            )["payload"].__setitem__("validation_rule", "accept-anything"),
+            "RunAttempt runtime payload",
+        ),
+    ],
+)
+def test_gate_b_packet_loader_rejects_runtime_payload_semantic_drift(
+    mutation: Callable[[dict[str, Any]], None], message: str
+) -> None:
+    with pytest.raises(ContractValidationError, match=message):
+        load_gate_b_packet(_mutated_packet(mutation))
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        (
             lambda packet: packet["gate_a_known_inputs"]["artifact"].__setitem__(
                 "sha256", "0" * 64
             ),
@@ -511,6 +535,20 @@ class _RecordingRuntime:
         return call
 
 
+class _BoundaryMutatingRuntime(_RecordingRuntime):
+    def __init__(self, path: tuple[str, ...], value: Any) -> None:
+        super().__init__()
+        self.path = path
+        self.value = value
+
+    def bind_reviewed_packet(self, packet: Mapping[str, Any]) -> None:
+        super().bind_reviewed_packet(packet)
+        target: Any = packet
+        for field in self.path[:-1]:
+            target = target[field]
+        target[self.path[-1]] = self.value
+
+
 def test_executable_operator_binds_full_packet_to_all_113_steps_without_retry() -> None:
     runtime = _RecordingRuntime()
 
@@ -534,6 +572,27 @@ def test_executable_operator_boundary_failure_has_zero_steps_truth_and_writes() 
     runtime = _RecordingRuntime(fail_binding=True)
 
     with pytest.raises(RuntimeError, match="boundary failure"):
+        execute_gate_b_operator(_packet_bytes(), cast(GateBOperatorRuntime, runtime))
+
+    assert runtime.bound_packet is not None
+    assert runtime.calls == []
+
+
+@pytest.mark.parametrize(
+    ("path", "value"),
+    [
+        (("execution_caps", "max_cost_cny"), 40_000),
+        (("credential_boundary", "explicitly_forbidden"), []),
+        (("source_git_commit",), "0" * 40),
+        (("operator_plan", "steps"), []),
+    ],
+)
+def test_executable_operator_binds_recursive_immutable_packet_snapshot(
+    path: tuple[str, ...], value: Any
+) -> None:
+    runtime = _BoundaryMutatingRuntime(path, value)
+
+    with pytest.raises(TypeError):
         execute_gate_b_operator(_packet_bytes(), cast(GateBOperatorRuntime, runtime))
 
     assert runtime.bound_packet is not None
