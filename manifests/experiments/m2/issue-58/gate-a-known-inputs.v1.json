@@ -1,0 +1,344 @@
+{
+  "model_configs": [
+    {
+      "model_id": "ridge-sklearn-v1",
+      "reference": {
+        "logical_path": "m2-preflight/alpha-amylase/ridge-sklearn-v1/model-config.json",
+        "sha256": "806e9bb5c16a511b233213ca6f1f08ac848eeb77c7e9702915171ce4a22293d7",
+        "size_bytes": 1243
+      }
+    },
+    {
+      "model_id": "random-forest-sklearn-v1",
+      "reference": {
+        "logical_path": "m2-preflight/alpha-amylase/random-forest-sklearn-v1/model-config.json",
+        "sha256": "9a837a91a94a2b3b0b3fb6d93474a5140fbbadefb127b523830334213f2077f1",
+        "size_bytes": 2575
+      }
+    },
+    {
+      "model_id": "xgboost-cpu-v1",
+      "reference": {
+        "logical_path": "m2-preflight/alpha-amylase/xgboost-cpu-v1/model-config.json",
+        "sha256": "7e0a95e827a829b6d4dfa30db35d46770d82dc980784620bd844a378dc97a2cb",
+        "size_bytes": 5693
+      }
+    }
+  ],
+  "schema_version": "m2-gate-a-known-input-index-v1",
+  "source_git_commit": "9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5",
+  "tasks": [
+    {
+      "feature": {
+        "descriptor": {
+          "logical_path": "m2-preflight/alpha-amylase/feature-descriptor.json",
+          "sha256": "fa64315824eccde93e5c4740bbaf638aa54da2d2b8b96053bbae193ec89bbe42",
+          "size_bytes": 222032
+        },
+        "logical": {
+          "logical_path": "m2-preflight/alpha-amylase/feature-logical.json",
+          "sha256": "2bc427e1702a4db425849ab0cb64a672d0e93857835867dc1ab923f222ab3958",
+          "size_bytes": 221517
+        },
+        "members": [
+          {
+            "kind": "feature-config",
+            "reference": {
+              "logical_path": "features/alpha-amylase/sequence-composition-420-v1/config.json",
+              "sha256": "2b9a9dbfb322f8b34296d208a2b8eb9392cac2b7056508039589fc3a0e34b77d",
+              "size_bytes": 281064
+            }
+          },
+          {
+            "kind": "feature-matrix",
+            "reference": {
+              "logical_path": "features/alpha-amylase/sequence-composition-420-v1/development.csv",
+              "sha256": "042f43e6ed90167f53ecd712b0c48cdfeb6e3a169b3a9aced8c848722abe658a",
+              "size_bytes": 5211103
+            },
+            "role": "development"
+          },
+          {
+            "kind": "feature-matrix",
+            "reference": {
+              "logical_path": "features/alpha-amylase/sequence-composition-420-v1/validation.csv",
+              "sha256": "473fb14a281063e6f9fa7b9d4cfa51802947c033855b7f3f1a58c58297fa2e5d",
+              "size_bytes": 2610098
+            },
+            "role": "validation"
+          },
+          {
+            "kind": "feature-matrix",
+            "reference": {
+              "logical_path": "features/alpha-amylase/sequence-composition-420-v1/candidate-pool.csv",
+              "sha256": "9a89f12e7c521462a412320937f4455200c75282fae8196d1302b0eac0bf5596",
+              "size_bytes": 16306803
+            },
+            "role": "candidate-pool"
+          }
+        ]
+      },
+      "runs": [
+        {
+          "attempt_id": "gate-a-preflight-alpha-amylase-ridge-sklearn-v1",
+          "model_id": "ridge-sklearn-v1",
+          "prediction": {
+            "logical_path": "m2-preflight/alpha-amylase/ridge-sklearn-v1/prediction.json",
+            "sha256": "8024ccabc92ad1ad9d1c596eca17b2dfdf882a5199469b72f539af18e320aaf6",
+            "size_bytes": 322327
+          },
+          "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+          "run_spec": {
+            "logical_path": "m2-preflight/alpha-amylase/ridge-sklearn-v1/run-spec.json",
+            "sha256": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c",
+            "size_bytes": 978
+          },
+          "run_spec_value": {
+            "acquisition_config_sha256": "d50c876c6d114eb74a878bbce43a2f760e21507dad80c0d0f87ce02f2ff7c9d5",
+            "acquisition_id": "m2-static-full-pool-v1",
+            "batch_size": 1,
+            "budget": 1,
+            "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+            "environment_digest": "0994a73f124c2baa6f330bf8739db1673217bdec6ad7d9046ded908fc8dba4fc",
+            "experiment_config_sha256": "6a93c269c66c7327dd90506fa4b19c338040741009a5917b71a09a334afe9c9c",
+            "feature_sha256": "fa64315824eccde93e5c4740bbaf638aa54da2d2b8b96053bbae193ec89bbe42",
+            "git_commit": "9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5",
+            "initial_sample_size": 1,
+            "model_config_sha256": "806e9bb5c16a511b233213ca6f1f08ac848eeb77c7e9702915171ce4a22293d7",
+            "model_id": "ridge-sklearn-v1",
+            "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+            "protocol_version": "m2-alpha-ired-static-v1",
+            "schema_version": "1",
+            "seed": 1729,
+            "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a"
+          }
+        },
+        {
+          "attempt_id": "gate-a-preflight-alpha-amylase-random-forest-sklearn-v1",
+          "model_id": "random-forest-sklearn-v1",
+          "prediction": {
+            "logical_path": "m2-preflight/alpha-amylase/random-forest-sklearn-v1/prediction.json",
+            "sha256": "32659b12c9ce5c87df84db04e7e80d2b0702b4d0430af61fff3cffa5279e2ebc",
+            "size_bytes": 322343
+          },
+          "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+          "run_spec": {
+            "logical_path": "m2-preflight/alpha-amylase/random-forest-sklearn-v1/run-spec.json",
+            "sha256": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2",
+            "size_bytes": 986
+          },
+          "run_spec_value": {
+            "acquisition_config_sha256": "d50c876c6d114eb74a878bbce43a2f760e21507dad80c0d0f87ce02f2ff7c9d5",
+            "acquisition_id": "m2-static-full-pool-v1",
+            "batch_size": 1,
+            "budget": 1,
+            "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+            "environment_digest": "0994a73f124c2baa6f330bf8739db1673217bdec6ad7d9046ded908fc8dba4fc",
+            "experiment_config_sha256": "6a93c269c66c7327dd90506fa4b19c338040741009a5917b71a09a334afe9c9c",
+            "feature_sha256": "fa64315824eccde93e5c4740bbaf638aa54da2d2b8b96053bbae193ec89bbe42",
+            "git_commit": "9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5",
+            "initial_sample_size": 1,
+            "model_config_sha256": "9a837a91a94a2b3b0b3fb6d93474a5140fbbadefb127b523830334213f2077f1",
+            "model_id": "random-forest-sklearn-v1",
+            "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+            "protocol_version": "m2-alpha-ired-static-v1",
+            "schema_version": "1",
+            "seed": 1729,
+            "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a"
+          }
+        },
+        {
+          "attempt_id": "gate-a-preflight-alpha-amylase-xgboost-cpu-v1",
+          "model_id": "xgboost-cpu-v1",
+          "prediction": {
+            "logical_path": "m2-preflight/alpha-amylase/xgboost-cpu-v1/prediction.json",
+            "sha256": "cb064f251ce23862bbb5c7bb34e42db389d84a4c5e7805f1e1e475154dc05e23",
+            "size_bytes": 322323
+          },
+          "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+          "run_spec": {
+            "logical_path": "m2-preflight/alpha-amylase/xgboost-cpu-v1/run-spec.json",
+            "sha256": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788",
+            "size_bytes": 976
+          },
+          "run_spec_value": {
+            "acquisition_config_sha256": "d50c876c6d114eb74a878bbce43a2f760e21507dad80c0d0f87ce02f2ff7c9d5",
+            "acquisition_id": "m2-static-full-pool-v1",
+            "batch_size": 1,
+            "budget": 1,
+            "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+            "environment_digest": "0994a73f124c2baa6f330bf8739db1673217bdec6ad7d9046ded908fc8dba4fc",
+            "experiment_config_sha256": "6a93c269c66c7327dd90506fa4b19c338040741009a5917b71a09a334afe9c9c",
+            "feature_sha256": "fa64315824eccde93e5c4740bbaf638aa54da2d2b8b96053bbae193ec89bbe42",
+            "git_commit": "9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5",
+            "initial_sample_size": 1,
+            "model_config_sha256": "7e0a95e827a829b6d4dfa30db35d46770d82dc980784620bd844a378dc97a2cb",
+            "model_id": "xgboost-cpu-v1",
+            "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+            "protocol_version": "m2-alpha-ired-static-v1",
+            "schema_version": "1",
+            "seed": 1729,
+            "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a"
+          }
+        }
+      ],
+      "task_id": "alpha-amylase"
+    },
+    {
+      "feature": {
+        "descriptor": {
+          "logical_path": "m2-preflight/ired/feature-descriptor.json",
+          "sha256": "3d20f04020f1b136d1097d6beee7fcaa7b09729e80babd6d96154f71c510fb1b",
+          "size_bytes": 221987
+        },
+        "logical": {
+          "logical_path": "m2-preflight/ired/feature-logical.json",
+          "sha256": "0fb3c11921f5ffe245cf356797cbecc939ba82fda296a536177008ce6e2a28bd",
+          "size_bytes": 221481
+        },
+        "members": [
+          {
+            "kind": "feature-config",
+            "reference": {
+              "logical_path": "features/ired/sequence-composition-420-v1/config.json",
+              "sha256": "2b9a9dbfb322f8b34296d208a2b8eb9392cac2b7056508039589fc3a0e34b77d",
+              "size_bytes": 281064
+            }
+          },
+          {
+            "kind": "feature-matrix",
+            "reference": {
+              "logical_path": "features/ired/sequence-composition-420-v1/development.csv",
+              "sha256": "3252cb11c5e709e3c5c39a912862a5d2d95d7987caa6f4c6a2152158a38c1b17",
+              "size_bytes": 32056933
+            },
+            "role": "development"
+          },
+          {
+            "kind": "feature-matrix",
+            "reference": {
+              "logical_path": "features/ired/sequence-composition-420-v1/validation.csv",
+              "sha256": "57d483c1b6146c509acb7883834c23d8bea890039fffa29c5b9cd5d2e2dd6e69",
+              "size_bytes": 7459063
+            },
+            "role": "validation"
+          },
+          {
+            "kind": "feature-matrix",
+            "reference": {
+              "logical_path": "features/ired/sequence-composition-420-v1/candidate-pool.csv",
+              "sha256": "1573d70651f2f6450bc354960b170dff2b8b19fd4766f1e0fc6a9622f4e6cb6b",
+              "size_bytes": 14923443
+            },
+            "role": "candidate-pool"
+          }
+        ]
+      },
+      "runs": [
+        {
+          "attempt_id": "gate-a-preflight-ired-ridge-sklearn-v1",
+          "model_id": "ridge-sklearn-v1",
+          "prediction": {
+            "logical_path": "m2-preflight/ired/ridge-sklearn-v1/prediction.json",
+            "sha256": "cdb6c73b31c9b4f2c27564b3627be46575cf46daee90e96507b04c2aca0a3fc7",
+            "size_bytes": 295045
+          },
+          "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+          "run_spec": {
+            "logical_path": "m2-preflight/ired/ridge-sklearn-v1/run-spec.json",
+            "sha256": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09",
+            "size_bytes": 978
+          },
+          "run_spec_value": {
+            "acquisition_config_sha256": "d50c876c6d114eb74a878bbce43a2f760e21507dad80c0d0f87ce02f2ff7c9d5",
+            "acquisition_id": "m2-static-full-pool-v1",
+            "batch_size": 1,
+            "budget": 1,
+            "dataset_manifest_sha256": "37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643",
+            "environment_digest": "0994a73f124c2baa6f330bf8739db1673217bdec6ad7d9046ded908fc8dba4fc",
+            "experiment_config_sha256": "59bdb9bc863d2d3a5e23918c4faed9a7a29fb0482b0fafae69e83a5bf11eef12",
+            "feature_sha256": "3d20f04020f1b136d1097d6beee7fcaa7b09729e80babd6d96154f71c510fb1b",
+            "git_commit": "9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5",
+            "initial_sample_size": 1,
+            "model_config_sha256": "806e9bb5c16a511b233213ca6f1f08ac848eeb77c7e9702915171ce4a22293d7",
+            "model_id": "ridge-sklearn-v1",
+            "processing_manifest_sha256": "929f0a46bfca015fb020bb7ebcc3a91e4de33922cd217399551b3dae1cc437ba",
+            "protocol_version": "m2-alpha-ired-static-v1",
+            "schema_version": "1",
+            "seed": 1729,
+            "split_sha256": "9bff199ec81b9b5b1e0548c237b923b2ac7db1bf36382377ed36d30c042c725e"
+          }
+        },
+        {
+          "attempt_id": "gate-a-preflight-ired-random-forest-sklearn-v1",
+          "model_id": "random-forest-sklearn-v1",
+          "prediction": {
+            "logical_path": "m2-preflight/ired/random-forest-sklearn-v1/prediction.json",
+            "sha256": "cca793dd20909e8f8929754e60d2833c223564afcc7ec19e491c5f0708a3dc4e",
+            "size_bytes": 295061
+          },
+          "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+          "run_spec": {
+            "logical_path": "m2-preflight/ired/random-forest-sklearn-v1/run-spec.json",
+            "sha256": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6",
+            "size_bytes": 986
+          },
+          "run_spec_value": {
+            "acquisition_config_sha256": "d50c876c6d114eb74a878bbce43a2f760e21507dad80c0d0f87ce02f2ff7c9d5",
+            "acquisition_id": "m2-static-full-pool-v1",
+            "batch_size": 1,
+            "budget": 1,
+            "dataset_manifest_sha256": "37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643",
+            "environment_digest": "0994a73f124c2baa6f330bf8739db1673217bdec6ad7d9046ded908fc8dba4fc",
+            "experiment_config_sha256": "59bdb9bc863d2d3a5e23918c4faed9a7a29fb0482b0fafae69e83a5bf11eef12",
+            "feature_sha256": "3d20f04020f1b136d1097d6beee7fcaa7b09729e80babd6d96154f71c510fb1b",
+            "git_commit": "9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5",
+            "initial_sample_size": 1,
+            "model_config_sha256": "9a837a91a94a2b3b0b3fb6d93474a5140fbbadefb127b523830334213f2077f1",
+            "model_id": "random-forest-sklearn-v1",
+            "processing_manifest_sha256": "929f0a46bfca015fb020bb7ebcc3a91e4de33922cd217399551b3dae1cc437ba",
+            "protocol_version": "m2-alpha-ired-static-v1",
+            "schema_version": "1",
+            "seed": 1729,
+            "split_sha256": "9bff199ec81b9b5b1e0548c237b923b2ac7db1bf36382377ed36d30c042c725e"
+          }
+        },
+        {
+          "attempt_id": "gate-a-preflight-ired-xgboost-cpu-v1",
+          "model_id": "xgboost-cpu-v1",
+          "prediction": {
+            "logical_path": "m2-preflight/ired/xgboost-cpu-v1/prediction.json",
+            "sha256": "b66a1b722342a703ec3c2b13332695879400278667c5541519aa6c5e164f8674",
+            "size_bytes": 295041
+          },
+          "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+          "run_spec": {
+            "logical_path": "m2-preflight/ired/xgboost-cpu-v1/run-spec.json",
+            "sha256": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675",
+            "size_bytes": 976
+          },
+          "run_spec_value": {
+            "acquisition_config_sha256": "d50c876c6d114eb74a878bbce43a2f760e21507dad80c0d0f87ce02f2ff7c9d5",
+            "acquisition_id": "m2-static-full-pool-v1",
+            "batch_size": 1,
+            "budget": 1,
+            "dataset_manifest_sha256": "37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643",
+            "environment_digest": "0994a73f124c2baa6f330bf8739db1673217bdec6ad7d9046ded908fc8dba4fc",
+            "experiment_config_sha256": "59bdb9bc863d2d3a5e23918c4faed9a7a29fb0482b0fafae69e83a5bf11eef12",
+            "feature_sha256": "3d20f04020f1b136d1097d6beee7fcaa7b09729e80babd6d96154f71c510fb1b",
+            "git_commit": "9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5",
+            "initial_sample_size": 1,
+            "model_config_sha256": "7e0a95e827a829b6d4dfa30db35d46770d82dc980784620bd844a378dc97a2cb",
+            "model_id": "xgboost-cpu-v1",
+            "processing_manifest_sha256": "929f0a46bfca015fb020bb7ebcc3a91e4de33922cd217399551b3dae1cc437ba",
+            "protocol_version": "m2-alpha-ired-static-v1",
+            "schema_version": "1",
+            "seed": 1729,
+            "split_sha256": "9bff199ec81b9b5b1e0548c237b923b2ac7db1bf36382377ed36d30c042c725e"
+          }
+        }
+      ],
+      "task_id": "ired"
+    }
+  ]
+}

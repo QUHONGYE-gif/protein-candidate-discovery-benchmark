@@ -1,0 +1,77 @@
+{
+  "anti_post_hoc_policy": {
+    "preserve_negative_and_discordant_results": true,
+    "same_cohort_prohibited_changes": [
+      "acquisition-config",
+      "feature-config",
+      "model-config",
+      "model-set",
+      "seed"
+    ]
+  },
+  "authorization_boundaries": {
+    "candidate_truth_consumer": "capability-separated-evaluator-after-sealed-prediction",
+    "gate_2_authorized": false,
+    "held_out_reads": 0,
+    "m3_execution_authorized": false
+  },
+  "cohort": {
+    "feature_config_id": "sequence-composition-420-v1",
+    "model_configs": [
+      {
+        "model_config_sha256": "9a837a91a94a2b3b0b3fb6d93474a5140fbbadefb127b523830334213f2077f1",
+        "model_id": "random-forest-sklearn-v1"
+      },
+      {
+        "model_config_sha256": "806e9bb5c16a511b233213ca6f1f08ac848eeb77c7e9702915171ce4a22293d7",
+        "model_id": "ridge-sklearn-v1"
+      },
+      {
+        "model_config_sha256": "7e0a95e827a829b6d4dfa30db35d46770d82dc980784620bd844a378dc97a2cb",
+        "model_id": "xgboost-cpu-v1"
+      }
+    ],
+    "seed": 1729,
+    "tasks": [
+      {
+        "feature_root_sha256": "fa64315824eccde93e5c4740bbaf638aa54da2d2b8b96053bbae193ec89bbe42",
+        "runs": [
+          {
+            "model_id": "random-forest-sklearn-v1",
+            "run_id": "0146cffe9490a9f7c4e9f7909c9cd5225acc06c56d00cd88e9786062ca6e5be2"
+          },
+          {
+            "model_id": "ridge-sklearn-v1",
+            "run_id": "835788c12467d4625b2ea482baa3dc69e77fc1c4f9452746aa4ae4d5bad4904c"
+          },
+          {
+            "model_id": "xgboost-cpu-v1",
+            "run_id": "60713aeabbcdd2fe6b4077ce8d53ec3d0c37f93b4d45ffeb7d796c7cfa959788"
+          }
+        ],
+        "task_id": "alpha-amylase"
+      },
+      {
+        "feature_root_sha256": "3d20f04020f1b136d1097d6beee7fcaa7b09729e80babd6d96154f71c510fb1b",
+        "runs": [
+          {
+            "model_id": "random-forest-sklearn-v1",
+            "run_id": "6250d7e2279ade16252b548d0df5278e0a5d60ccfa41b31789129847ee8d19a6"
+          },
+          {
+            "model_id": "ridge-sklearn-v1",
+            "run_id": "0c1426decf706cc086d64e9d2ac94a96915c8a6e515aca7f8d113e750a8a5c09"
+          },
+          {
+            "model_id": "xgboost-cpu-v1",
+            "run_id": "18352e9b9065eaf28ebd42ba92d14f0f0f3b09838b8c674dc7d9bff082da9675"
+          }
+        ],
+        "task_id": "ired"
+      }
+    ]
+  },
+  "frozen_before_candidate_truth_read": true,
+  "schema_version": "m3-anti-post-hoc-freeze-v1",
+  "source_git_commit": "9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5"
+}
