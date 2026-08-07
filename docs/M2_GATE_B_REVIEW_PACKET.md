@@ -7,7 +7,8 @@
 
 - Gate A evidence 已由 reviewer 接受，但带有已披露、逐次由用户授权的 replacement-start
   deviations。
-- Gate B 仍是 `NOT GRANTED / CHANGES REQUIRED`。
+- Gate B 仍是 `NOT GRANTED / CHANGES REQUIRED`；concrete runtime 修复候选尚待 exact-head
+  review，不能据此开始正式运行。
 - 本次准备过程保持 candidate truth read、evaluator call、COS write、RunAttempt 和
   `_SUCCESS` 全部为 0。
 - 正式 source identity 仍是 Gate A 六份 RunSpec 绑定的
@@ -95,7 +96,19 @@ evaluator、RunAttempt generation、`_SUCCESS` 以及 33/68-key independent read
 方法抛出异常都会立即终止；executor 不捕获、不重试，也不会进入下一 step/run。injected-fake tests
 覆盖完整 113-step 调用、首个 external read 失败时 truth/write 均为 0，以及首个 evaluator 失败时
 其余五个 run 为 0，以及 binder 对四类关键嵌套字段、runtime handler 对三类嵌套 key list 的篡改
-尝试均 fail closed。该 executable slice 不代表已连接正式 COS/evaluator，更不构成执行授权。
+尝试均 fail closed。
+
+后续修复候选增加了唯一正式入口 `pcdb m2-gate-b`、`FrozenGateBRuntime`、只使用 CVM
+Role 临时凭据的窄 COS XML client，以及由 `CosTruthBundleReader` 独占 candidate truth 读取能力的
+`FrozenM2AggregateEvaluator`。runtime 仍完全消费 packet 中既有 113 steps，不重写或解释出另一套
+顺序。COS client 没有 DeleteObject API；PUT 固定携带 `x-cos-forbid-overwrite: true`，临时 token
+进入签名，且客户端和 runtime 分别执行 network/object/bytes/wall-time caps。evaluator 的公开返回值
+只能是四份 canonical aggregate result bytes，truth 和 high-value membership 不进入 runtime state、
+RunAttempt 或 COS publication。
+
+该实现及其 injected-fake tests 仍只是 **engineering readiness candidate**：测试不访问真实 COS，
+不读取 candidate truth，不写 evidence prefix，也不把 Gate B 改为已授权。reviewer 必须复核 exact
+head 后，才可以另外给出正式 approval。
 
 ## 最小 CAM 边界
 
@@ -125,8 +138,34 @@ Packet 只记录非敏感权限摘要，不记录 SecretId/SecretKey：
   由 CAM 控制台或可审核的 policy export 确认两侧 `HeadObject`、accepted exact-key
   Get/List，以及 evidence exact-prefix Get/Head/List/Put，同时确认无 DeleteObject 和无其他 scope。
 
-因此本摘要的结论是 **identity/policy configuration incomplete; Gate B remains blocked**。它关闭的是
-“packet 漏列 `HeadObject`”这一契约错误，不把当前凭据状态描述为已满足 Gate B。
+该段是 2026-08-06 的历史检查结果，已由后续 CAM/CVM Role 零写入验收取代；不得再据此判断当前
+权限状态。
+
+### 2026-08-07 CAM/CVM Role readiness 更新
+
+Issue #58 的后续零写入验收确认：`PCDBIssue58GateBRunner` 只关联收敛后的 Issue-scoped COS policy，
+accepted inputs 保持 exact keys read-only，evidence store 保持 exact prefix 的 Get/Head/List 与带
+forbid-overwrite 条件的 Put，未授予 DeleteObject，且 evidence bucket 从未启用版本控制。该结果关闭
+的是外部身份/策略 blocker，不等于 Gate B approval，也没有执行 truth read、evaluator 或 COS write。
+
+## 唯一正式入口（仅供 exact-head review）
+
+reviewer 批准前不得运行。批准后仍必须把 `<reviewed-runtime-commit>` 替换为 reviewer 明确复核的
+40 位 commit，并确保 checkout exact-match：
+
+```bash
+pcdb m2-gate-b \
+  --packet manifests/experiments/m2/issue-58/gate-b-packet.v1.json \
+  --packet-sha256 f4b26934ab22b9c74feaf05f970b0ea96f529c59045703322b5f5b242d9428f9 \
+  --approval 'APPROVED FOR ALPHA + IRED THREE-MODEL M2 FORMAL EXECUTION' \
+  --runtime-git-commit <reviewed-runtime-commit> \
+  --gate-a-root /path/to/accepted-gate-a-scratch \
+  --repository-root "$PWD" \
+  --scratch-root /path/to/new-empty-gate-b-scratch
+```
+
+入口在任何 COS/truth side effect 前验证 packet bytes、显式 approval、当前 Git head、空 scratch、
+process caps 和 evidence exact prefix 为空。运行失败时不自动 retry、replacement、删除或覆盖。
 
 ## 重建与验证
 
@@ -145,7 +184,9 @@ PYTHONPATH=src .venv/bin/python scripts/build_m2_gate_b_packet.py \
 使用 `--overwrite`。验证命令：
 
 ```bash
-.venv/bin/python -m pytest -q tests/m2/test_gate_b_packet.py
+.venv/bin/python -m pytest -q \
+  tests/m2/test_gate_b_packet.py \
+  tests/m2/test_gate_b_runtime.py
 ```
 
 任何 packet、M3、operator、known-input、prefix、permission、environment 或 RunSpec identity

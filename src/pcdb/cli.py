@@ -53,6 +53,17 @@ def build_parser() -> argparse.ArgumentParser:
     preflight.add_argument("--environment-digest", required=True)
     preflight.add_argument("--repository-root", required=True, type=Path)
     preflight.add_argument("--scratch-root", required=True, type=Path)
+    gate_b = commands.add_parser(
+        "m2-gate-b",
+        help="execute the one frozen Issue #58 Gate B packet with CVM-role credentials",
+    )
+    gate_b.add_argument("--packet", required=True, type=Path)
+    gate_b.add_argument("--packet-sha256", required=True)
+    gate_b.add_argument("--approval", required=True)
+    gate_b.add_argument("--runtime-git-commit", required=True)
+    gate_b.add_argument("--gate-a-root", required=True, type=Path)
+    gate_b.add_argument("--repository-root", required=True, type=Path)
+    gate_b.add_argument("--scratch-root", required=True, type=Path)
     return parser
 
 
@@ -67,6 +78,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         from pcdb.m2.cli import run_preflight_cli
 
         return run_preflight_cli(arguments)
+    if arguments.command == "m2-gate-b":
+        from pcdb.m2.gate_b_runtime import run_gate_b_cli
+
+        return run_gate_b_cli(arguments)
     return 0
 
 
