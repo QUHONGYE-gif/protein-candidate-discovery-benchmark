@@ -564,7 +564,8 @@ held-out、COS/server execution 和正式 evaluator run 均不属于 Issue #36�
    `metric_result_sha256` 相同、size 与 canonical metric-result bytes 相同，并通过该 entry
    的 object key 做 fresh readback；
 2. RunAttempt `run_id` 必须由 exact RunSpec 重建，`attempt_id` 必须与 metric result 和
-   `ordered_inputs` entry exact-match，executed Git/environment 必须与 RunSpec exact-match；
+   `ordered_inputs` entry exact-match；executed Git/environment 必须与验证调用方独立提供、已经审核的
+   actual execution identity exact-match，不得再与 RunSpec 中的 scientific source identity 混写；
 3. 对该 seed 与 aggregate identity 必须恰好存在一个同时满足全部条件的 metric result；
 4. 0 个或多于 1 个 eligible results/attempts 均 fail closed；不得按 metric value、最新时间、
    最早时间、attempt ID lexical order 或人工观察结果后选择；

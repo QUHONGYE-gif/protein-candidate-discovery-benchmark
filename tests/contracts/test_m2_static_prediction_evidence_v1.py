@@ -5,6 +5,7 @@ import hashlib
 import json
 import struct
 from dataclasses import replace
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, cast
 
@@ -36,6 +37,8 @@ from pcdb.contracts.prediction import (
 )
 from pcdb.contracts.run import RunSpec
 from pcdb.evaluation.high_value import HighValueEvaluator
+from pcdb.m2.gate_b import load_gate_b_packet
+from pcdb.m2.gate_b_runtime import GATE_B_APPROVAL, FrozenGateBRuntime
 
 ROOT = Path(__file__).parents[2]
 FIXTURES = ROOT / "tests/fixtures/contracts"
@@ -331,6 +334,8 @@ def evidence_inputs() -> dict[str, Any]:
             prediction_bytes=prediction_bytes,
             metric_result_bytes=metric_result_bytes,
         ),
+        "expected_executed_git_commit": run_spec.git_commit,
+        "expected_executed_environment_digest": run_spec.environment_digest,
         "prediction_object_key": prediction_object_key,
         "prediction_bytes": prediction_bytes,
         "metric_result_bytes": metric_result_bytes,
@@ -349,6 +354,118 @@ def test_complete_static_prediction_evidence_closure_passes(
     assert evidence.prediction.value["candidate_count"] == 2262
     assert len(evidence.metric_results) == 4
     assert evidence.run_attempt.value["status"] == "succeeded"
+
+
+def test_complete_closure_accepts_reviewed_actual_runtime_provenance(
+    evidence_inputs: dict[str, Any],
+) -> None:
+    changed = dict(evidence_inputs)
+    run_spec = load_run_spec_v1(changed["run_spec_bytes"])
+    runtime_commit = "b" * 40
+    runtime_environment = "d" * 64
+    attempt = json.loads(changed["run_attempt_bytes"])
+    attempt["executed_git_commit"] = runtime_commit
+    attempt["executed_environment_digest"] = runtime_environment
+    changed["run_attempt_bytes"] = canonical_json_bytes(attempt)
+    changed["expected_executed_git_commit"] = runtime_commit
+    changed["expected_executed_environment_digest"] = runtime_environment
+
+    evidence = validate_m2_static_prediction_evidence(**changed)
+
+    assert run_spec.git_commit != runtime_commit
+    assert evidence.run_attempt.value["executed_git_commit"] == runtime_commit
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("expected_executed_git_commit", "c" * 40),
+        ("expected_executed_environment_digest", "e" * 64),
+    ],
+)
+def test_complete_closure_rejects_unreviewed_execution_provenance(
+    evidence_inputs: dict[str, Any],
+    field: str,
+    value: str,
+) -> None:
+    changed = dict(evidence_inputs)
+    changed[field] = value
+
+    with pytest.raises(ContractValidationError, match="RunAttempt executed_.* exact-match"):
+        validate_m2_static_prediction_evidence(**changed)
+
+
+def test_gate_b_generated_run_attempt_passes_formal_prediction_and_metric_closure(
+    evidence_inputs: dict[str, Any],
+    tmp_path: Path,
+) -> None:
+    packet_path = ROOT / "manifests/experiments/m2/issue-58/gate-b-packet.v1.json"
+    packet = load_gate_b_packet(packet_path.read_bytes()).value
+    step = dict(
+        next(
+            item
+            for item in packet["operator_plan"]["steps"]
+            if item["operation"] == "generate-canonical-run-attempt-exact-cover-five-payloads"
+        )
+    )
+    run_spec = load_run_spec_v1(evidence_inputs["run_spec_bytes"])
+    runtime_commit = "b" * 40
+    runtime_environment = "d" * 64
+    step["run_id"] = run_spec.run_id
+    step["attempt_id"] = "attempt-001"
+
+    class NoSideEffectObjects:
+        def list_keys(self, bucket: str, prefix: str) -> tuple[str, ...]:
+            return ()
+
+        def head(self, bucket: str, key: str) -> object:
+            raise AssertionError("formal COS must not be reached")
+
+        def get(self, bucket: str, key: str) -> bytes:
+            raise AssertionError("formal COS must not be reached")
+
+        def put_forbid_overwrite(self, bucket: str, key: str, payload: bytes) -> None:
+            raise AssertionError("formal COS must not be reached")
+
+    class NoSideEffectEvaluator:
+        def evaluate(self, request: object) -> dict[str, bytes]:
+            raise AssertionError("formal evaluator must not be reached")
+
+    scratch_root = tmp_path / "scratch"
+    runtime = FrozenGateBRuntime(
+        repository_root=ROOT,
+        gate_a_root=tmp_path / "gate-a",
+        scratch_root=scratch_root,
+        objects=cast(Any, NoSideEffectObjects()),
+        evaluator=NoSideEffectEvaluator(),
+        approval=GATE_B_APPROVAL,
+        runtime_git_commit=runtime_commit,
+        runtime_environment_digest=runtime_environment,
+        attempt_started_at=datetime(2026, 8, 7, 10, 0, tzinfo=UTC),
+        now=lambda: datetime(2026, 8, 7, 10, 5, tzinfo=UTC),
+    )
+    runtime.bind_reviewed_packet(packet)
+    references = [str(key) for key in step["referenced_object_keys"]]
+    metric_payloads = list(evidence_inputs["metric_result_bytes"].values())
+    for key, payload in zip(
+        references,
+        [evidence_inputs["prediction_bytes"], *metric_payloads],
+        strict=True,
+    ):
+        runtime._stage(key, payload)
+
+    runtime.generate_run_attempt(step)
+
+    changed = dict(evidence_inputs)
+    changed["run_attempt_bytes"] = (scratch_root / str(step["output_object_key"])).read_bytes()
+    changed["prediction_object_key"] = references[0]
+    changed["metric_result_bytes"] = dict(zip(references[1:], metric_payloads, strict=True))
+    changed["expected_executed_git_commit"] = runtime_commit
+    changed["expected_executed_environment_digest"] = runtime_environment
+    validated = validate_m2_static_prediction_evidence(**changed)
+
+    assert validated.run_attempt.value["executed_git_commit"] == runtime_commit
+    assert len(validated.metric_results) == 4
 
 
 def test_run_spec_and_attempt_strict_loaders_accept_evidence(

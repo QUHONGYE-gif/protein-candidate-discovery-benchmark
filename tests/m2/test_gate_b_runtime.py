@@ -27,6 +27,8 @@ from pcdb.m2.gate_b_runtime import (
     GateBEvaluationRequest,
     ObjectMetadata,
     _verified_runtime_environment_digest,
+    _verify_runtime_source,
+    run_gate_b_cli,
 )
 from pcdb.storage.cos import CosCredentials, CosXmlObjectClient, sign_cos_request
 
@@ -35,6 +37,42 @@ PACKET = ROOT / "manifests/experiments/m2/issue-58/gate-b-packet.v1.json"
 TEST_RUNTIME_COMMIT = "b" * 40
 TEST_RUNTIME_ENVIRONMENT = "d" * 64
 TEST_ATTEMPT_STARTED_AT = datetime(2026, 8, 7, 10, 0, tzinfo=UTC)
+
+
+class _Completed:
+    def __init__(self, stdout: str) -> None:
+        self.stdout = stdout
+
+
+class _NoNetwork:
+    def __init__(self) -> None:
+        self.calls = 0
+
+    def open(self, *_: object, **__: object) -> None:
+        self.calls += 1
+        raise AssertionError("source validation must fail before network")
+
+
+def _gate_b_arguments(tmp_path: Path, repository_root: Path) -> Any:
+    return build_parser().parse_args(
+        [
+            "m2-gate-b",
+            "--packet",
+            str(PACKET),
+            "--packet-sha256",
+            GATE_B_PACKET_SHA256,
+            "--approval",
+            GATE_B_APPROVAL,
+            "--runtime-git-commit",
+            TEST_RUNTIME_COMMIT,
+            "--gate-a-root",
+            str(tmp_path / "gate-a"),
+            "--repository-root",
+            str(repository_root),
+            "--scratch-root",
+            str(tmp_path / "scratch"),
+        ]
+    )
 
 
 class _FakeObjects:
@@ -345,6 +383,69 @@ def test_cli_exposes_one_explicit_gate_b_entry() -> None:
 
     assert arguments.command == "m2-gate-b"
     assert arguments.packet_sha256 == GATE_B_PACKET_SHA256
+
+
+def test_cli_rejects_runtime_imported_from_another_source_before_network(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    arguments = _gate_b_arguments(tmp_path, tmp_path / "other-checkout")
+    network = _NoNetwork()
+    monkeypatch.setattr(
+        "subprocess.run",
+        lambda *_args, **_kwargs: _Completed(TEST_RUNTIME_COMMIT + "\n"),
+    )
+    monkeypatch.setattr("urllib.request.build_opener", lambda *_: network)
+
+    with pytest.raises(ContractValidationError, match="executing source"):
+        run_gate_b_cli(arguments)
+
+    assert network.calls == 0
+    assert not (tmp_path / "scratch").exists()
+
+
+def test_cli_rejects_dirty_runtime_checkout_before_network(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    arguments = _gate_b_arguments(tmp_path, ROOT)
+    network = _NoNetwork()
+
+    def fake_run(command: list[str], **_: object) -> _Completed:
+        if "rev-parse" in command:
+            return _Completed(TEST_RUNTIME_COMMIT + "\n")
+        assert "status" in command
+        return _Completed(" M src/pcdb/m2/gate_b_runtime.py\n")
+
+    monkeypatch.setattr("subprocess.run", fake_run)
+    monkeypatch.setattr("urllib.request.build_opener", lambda *_: network)
+
+    with pytest.raises(ContractValidationError, match="must be clean"):
+        run_gate_b_cli(arguments)
+
+    assert network.calls == 0
+    assert not (tmp_path / "scratch").exists()
+
+
+def test_runtime_source_binding_accepts_exact_clean_checkout(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    outputs = iter((TEST_RUNTIME_COMMIT + "\n", ""))
+
+    monkeypatch.setattr(
+        "subprocess.run",
+        lambda *_args, **_kwargs: _Completed(next(outputs)),
+    )
+
+    _verify_runtime_source(
+        ROOT,
+        TEST_RUNTIME_COMMIT,
+        {
+            "gate_b_runtime": ROOT / "src/pcdb/m2/gate_b_runtime.py",
+            "gate_b_evaluator": ROOT / "src/pcdb/m2/gate_b_evaluator.py",
+            "cos": ROOT / "src/pcdb/storage/cos.py",
+        },
+    )
 
 
 def test_runtime_environment_digest_is_bound_only_after_actual_environment_matches(

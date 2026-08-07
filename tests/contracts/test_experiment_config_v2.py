@@ -437,7 +437,13 @@ def _metric_evidence(
             "size_bytes": 0,
         },
     }
-    return MetricResultEvidence(result=loaded, run_spec=run_spec, run_attempt=attempt)
+    return MetricResultEvidence(
+        result=loaded,
+        run_spec=run_spec,
+        run_attempt=attempt,
+        expected_executed_git_commit=run_spec.git_commit,
+        expected_executed_environment_digest=run_spec.environment_digest,
+    )
 
 
 def _aggregate(
@@ -509,6 +515,10 @@ def test_cross_artifact_validator_requires_valid_completion_marker() -> None:
                 result=evidence.result,
                 run_spec=evidence.run_spec,
                 run_attempt=attempt,
+                expected_executed_git_commit=evidence.expected_executed_git_commit,
+                expected_executed_environment_digest=(
+                    evidence.expected_executed_environment_digest
+                ),
             ),
             config,
         )

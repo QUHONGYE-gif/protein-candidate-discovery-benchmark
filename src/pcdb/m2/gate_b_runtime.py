@@ -558,6 +558,45 @@ def _verified_runtime_environment_digest(repository_root: Path) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def _verify_runtime_source(
+    repository_root: Path,
+    runtime_commit: str,
+    module_files: Mapping[str, Path],
+) -> None:
+    """Bind the recorded commit to the imported modules and one clean checkout."""
+
+    root = repository_root.resolve()
+    expected_files = {
+        "gate_b_runtime": root / "src/pcdb/m2/gate_b_runtime.py",
+        "gate_b_evaluator": root / "src/pcdb/m2/gate_b_evaluator.py",
+        "cos": root / "src/pcdb/storage/cos.py",
+    }
+    if set(module_files) != set(expected_files) or any(
+        module_files[name].resolve() != expected.resolve()
+        for name, expected in expected_files.items()
+    ):
+        raise ContractValidationError("Gate B executing source does not match repository root")
+    try:
+        checked_out_commit = subprocess.run(
+            ["git", "-C", str(root), "rev-parse", "HEAD"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        worktree_status = subprocess.run(
+            ["git", "-C", str(root), "status", "--porcelain=v1", "--untracked-files=all"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise ContractValidationError("Gate B runtime source could not be verified") from exc
+    if checked_out_commit != runtime_commit:
+        raise ContractValidationError("Gate B checkout does not match the reviewed runtime commit")
+    if worktree_status:
+        raise ContractValidationError("Gate B runtime source checkout must be clean")
+
+
 def run_gate_b_cli(arguments: Any) -> int:
     """Execute the unique formal entry; this function is never called by CI."""
 
@@ -573,17 +612,18 @@ def run_gate_b_cli(arguments: Any) -> int:
         character not in "0123456789abcdef" for character in runtime_commit
     ):
         raise ContractValidationError("Gate B runtime commit argument drifted")
-    try:
-        checked_out_commit = subprocess.run(
-            ["git", "-C", str(arguments.repository_root), "rev-parse", "HEAD"],
-            check=True,
-            capture_output=True,
-            text=True,
-        ).stdout.strip()
-    except (OSError, subprocess.CalledProcessError) as exc:
-        raise ContractValidationError("Gate B runtime commit could not be verified") from exc
-    if checked_out_commit != runtime_commit:
-        raise ContractValidationError("Gate B checkout does not match the reviewed runtime commit")
+    from pcdb.m2 import gate_b_evaluator as evaluator_module
+    from pcdb.storage import cos as cos_module
+
+    _verify_runtime_source(
+        arguments.repository_root,
+        runtime_commit,
+        {
+            "gate_b_runtime": Path(__file__),
+            "gate_b_evaluator": Path(str(evaluator_module.__file__)),
+            "cos": Path(str(cos_module.__file__)),
+        },
+    )
     runtime_environment_digest = _verified_runtime_environment_digest(
         arguments.repository_root.resolve()
     )
@@ -593,16 +633,15 @@ def run_gate_b_cli(arguments: Any) -> int:
     scratch_root.mkdir(parents=True, exist_ok=True)
     _enforce_process_caps(loaded.value)
 
-    from pcdb.m2.gate_b_evaluator import CosTruthBundleReader, FrozenM2AggregateEvaluator
-    from pcdb.storage.cos import CosXmlObjectClient
-
-    objects = CosXmlObjectClient()
+    objects = cos_module.CosXmlObjectClient()
     runtime = FrozenGateBRuntime(
         repository_root=arguments.repository_root,
         gate_a_root=arguments.gate_a_root,
         scratch_root=scratch_root,
         objects=objects,
-        evaluator=FrozenM2AggregateEvaluator(CosTruthBundleReader(objects)),
+        evaluator=evaluator_module.FrozenM2AggregateEvaluator(
+            evaluator_module.CosTruthBundleReader(objects)
+        ),
         approval=arguments.approval,
         runtime_git_commit=runtime_commit,
         runtime_environment_digest=runtime_environment_digest,

@@ -19,6 +19,8 @@ class MetricResultEvidence:
     result: LoadedContract
     run_spec: RunSpec
     run_attempt: Mapping[str, Any]
+    expected_executed_git_commit: str
+    expected_executed_environment_digest: str
 
 
 def _expect_equal(actual: Any, expected: Any, field: str) -> None:
@@ -78,12 +80,12 @@ def validate_metric_result_evidence(
     _expect_equal(attempt.get("status"), "succeeded", "RunAttempt status")
     _expect_equal(
         attempt.get("executed_git_commit"),
-        run_spec.git_commit,
+        evidence.expected_executed_git_commit,
         "RunAttempt executed_git_commit",
     )
     _expect_equal(
         attempt.get("executed_environment_digest"),
-        run_spec.environment_digest,
+        evidence.expected_executed_environment_digest,
         "RunAttempt executed_environment_digest",
     )
     completion_marker = attempt.get("completion_marker")

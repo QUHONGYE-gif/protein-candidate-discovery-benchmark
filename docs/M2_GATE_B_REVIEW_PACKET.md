@@ -110,10 +110,12 @@ fresh local readback 的 size/SHA 通过后才允许 COS publication。evaluator
 RunAttempt 或 COS publication。
 
 CLI 在执行前绑定并验证 actual runtime Git commit、reviewed environment manifest 对应的运行平台、
-Python/package 版本和 thread policy，并在首次执行副作用前记录 attempt start。RunAttempt 的
+Python/package 版本和 thread policy；实际导入的 runtime、evaluator 与 COS adapter 必须来自该
+exact checkout，且 worktree 必须 clean。CLI 在首次执行副作用前记录 attempt start。RunAttempt 的
 `executed_git_commit`、`executed_environment_digest`、`started_at` 和 `finished_at` 记录实际执行身份
 与边界；scientific source commit/environment 继续只保留在 immutable RunSpec 中，不再混写为
-execution provenance。
+execution provenance。正式 prediction/high-value closure 使用独立提供的 reviewed execution identity
+验证 `executed_*`，不再错误地要求其与 RunSpec scientific source exact-match。
 
 该实现及其 injected-fake tests 仍只是 **engineering readiness candidate**：测试不访问真实 COS，
 不读取 candidate truth，不写 evidence prefix，也不把 Gate B 改为已授权。reviewer 必须复核 exact

@@ -775,6 +775,8 @@ def validate_m2_static_prediction_evidence(
     run_spec_bytes: bytes,
     experiment_config_bytes: bytes,
     run_attempt_bytes: bytes,
+    expected_executed_git_commit: str,
+    expected_executed_environment_digest: str,
     prediction_object_key: str,
     prediction_bytes: bytes,
     metric_result_bytes: Mapping[str, bytes],
@@ -791,12 +793,12 @@ def validate_m2_static_prediction_evidence(
     _expect_exact(run_attempt.value["status"], "succeeded", "RunAttempt status")
     _expect_exact(
         run_attempt.value["executed_git_commit"],
-        run_spec.git_commit,
+        expected_executed_git_commit,
         "RunAttempt executed_git_commit",
     )
     _expect_exact(
         run_attempt.value["executed_environment_digest"],
-        run_spec.environment_digest,
+        expected_executed_environment_digest,
         "RunAttempt executed_environment_digest",
     )
     experiment_config = load_experiment_config(experiment_config_bytes)
@@ -850,6 +852,8 @@ def validate_m2_static_prediction_evidence(
                 result=result,
                 run_spec=run_spec,
                 run_attempt=run_attempt.value,
+                expected_executed_git_commit=expected_executed_git_commit,
+                expected_executed_environment_digest=expected_executed_environment_digest,
             ),
             experiment_config,
         )
