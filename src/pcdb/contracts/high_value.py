@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any
@@ -10,6 +11,8 @@ from pcdb.contracts.experiment import ContractValidationError, LoadedContract
 from pcdb.contracts.run import RunSpec
 
 _EMPTY_SHA256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+_GIT_COMMIT = re.compile(r"^[0-9a-f]{40}$")
+_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
 
 @dataclass(frozen=True, slots=True)
@@ -19,6 +22,8 @@ class MetricResultEvidence:
     result: LoadedContract
     run_spec: RunSpec
     run_attempt: Mapping[str, Any]
+    expected_executed_git_commit: str
+    expected_executed_environment_digest: str
 
 
 def _expect_equal(actual: Any, expected: Any, field: str) -> None:
@@ -32,6 +37,18 @@ def validate_metric_result_evidence(
 ) -> None:
     """Validate one succeeded, completion-marked metric result cross-artifact chain."""
 
+    if not isinstance(evidence.expected_executed_git_commit, str) or not _GIT_COMMIT.fullmatch(
+        evidence.expected_executed_git_commit
+    ):
+        raise ContractValidationError(
+            "expected executed Git commit must be a full lowercase 40-character commit"
+        )
+    if not isinstance(evidence.expected_executed_environment_digest, str) or not _SHA256.fullmatch(
+        evidence.expected_executed_environment_digest
+    ):
+        raise ContractValidationError(
+            "expected executed environment digest must be a lowercase SHA-256 digest"
+        )
     if evidence.result.schema_version != "high-value-metric-result-v1":
         raise ContractValidationError("evidence must contain a metric-result-v1 artifact")
     if experiment_config.schema_version != "2":
@@ -78,12 +95,12 @@ def validate_metric_result_evidence(
     _expect_equal(attempt.get("status"), "succeeded", "RunAttempt status")
     _expect_equal(
         attempt.get("executed_git_commit"),
-        run_spec.git_commit,
+        evidence.expected_executed_git_commit,
         "RunAttempt executed_git_commit",
     )
     _expect_equal(
         attempt.get("executed_environment_digest"),
-        run_spec.environment_digest,
+        evidence.expected_executed_environment_digest,
         "RunAttempt executed_environment_digest",
     )
     completion_marker = attempt.get("completion_marker")
