@@ -182,13 +182,14 @@ class CosXmlObjectClient:
             with opener.open(request, timeout=60) as response:
                 response_headers = {key.lower(): value for key, value in response.headers.items()}
                 response_size = int(response_headers.get("content-length", "0"))
+                transferred_response_size = 0 if method == "HEAD" else response_size
                 if (
-                    self._transferred_bytes + request_size + response_size
+                    self._transferred_bytes + request_size + transferred_response_size
                     > self._max_transfer_bytes
                 ):
                     raise ContractValidationError("COS transfer cap would be exceeded")
-                body = response.read()
-                if response_size and len(body) != response_size:
+                body = b"" if method == "HEAD" else response.read()
+                if transferred_response_size and len(body) != transferred_response_size:
                     raise ContractValidationError("COS response content-length drifted")
                 if self._transferred_bytes + request_size + len(body) > self._max_transfer_bytes:
                     raise ContractValidationError("COS transfer cap exceeded")

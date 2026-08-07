@@ -336,6 +336,37 @@ def test_cos_client_uses_single_no_retry_forbid_overwrite_put(
     assert "x-cos-security-token" in headers["authorization"]
 
 
+def test_cos_client_head_accepts_object_content_length_without_response_body(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class Response:
+        headers = {"content-length": "4096", "etag": '"object-etag"'}
+
+        def __enter__(self) -> Response:
+            return self
+
+        def __exit__(self, *_: object) -> None:
+            return None
+
+        def read(self) -> bytes:
+            raise AssertionError("HEAD must not read a response body")
+
+    class Opener:
+        def open(self, request: Any, timeout: int) -> Response:
+            assert request.method == "HEAD"
+            assert timeout == 60
+            return Response()
+
+    monkeypatch.setattr("urllib.request.build_opener", lambda *_: Opener())
+    credentials = CosCredentials("AKIDEXAMPLE", "secret-example", "temporary-token")
+    client = CosXmlObjectClient(credentials=lambda: credentials, max_transfer_bytes=0)
+
+    metadata = client.head("bucket-1408226911", "exact/input.csv")
+
+    assert metadata.size_bytes == 4096
+    assert metadata.etag == '"object-etag"'
+
+
 def test_cos_client_rejects_known_over_cap_put_before_network_open(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
