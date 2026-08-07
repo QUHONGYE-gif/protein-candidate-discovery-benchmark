@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any
@@ -10,6 +11,8 @@ from pcdb.contracts.experiment import ContractValidationError, LoadedContract
 from pcdb.contracts.run import RunSpec
 
 _EMPTY_SHA256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+_GIT_COMMIT = re.compile(r"^[0-9a-f]{40}$")
+_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
 
 @dataclass(frozen=True, slots=True)
@@ -34,6 +37,18 @@ def validate_metric_result_evidence(
 ) -> None:
     """Validate one succeeded, completion-marked metric result cross-artifact chain."""
 
+    if not isinstance(evidence.expected_executed_git_commit, str) or not _GIT_COMMIT.fullmatch(
+        evidence.expected_executed_git_commit
+    ):
+        raise ContractValidationError(
+            "expected executed Git commit must be a full lowercase 40-character commit"
+        )
+    if not isinstance(evidence.expected_executed_environment_digest, str) or not _SHA256.fullmatch(
+        evidence.expected_executed_environment_digest
+    ):
+        raise ContractValidationError(
+            "expected executed environment digest must be a lowercase SHA-256 digest"
+        )
     if evidence.result.schema_version != "high-value-metric-result-v1":
         raise ContractValidationError("evidence must contain a metric-result-v1 artifact")
     if experiment_config.schema_version != "2":

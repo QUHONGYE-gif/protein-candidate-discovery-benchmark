@@ -481,6 +481,48 @@ def test_cross_artifact_validator_accepts_unique_succeeded_seed_evidence() -> No
     validate_task_seed_aggregate(aggregate, config, evidences)
 
 
+def test_metric_evidence_rejects_malformed_expected_execution_identity() -> None:
+    config = load_experiment_config(_fixture_bytes("alpha"))
+    evidence = _metric_evidence(config.sha256, seed=0, value=True)
+    attempt = dict(evidence.run_attempt)
+    attempt["executed_git_commit"] = "not-a-commit"
+    attempt["executed_environment_digest"] = "not-a-digest"
+
+    with pytest.raises(ContractValidationError, match="expected executed Git commit"):
+        validate_metric_result_evidence(
+            MetricResultEvidence(
+                result=evidence.result,
+                run_spec=evidence.run_spec,
+                run_attempt=attempt,
+                expected_executed_git_commit="not-a-commit",
+                expected_executed_environment_digest="not-a-digest",
+            ),
+            config,
+        )
+
+
+def test_task_seed_aggregate_rejects_malformed_expected_execution_identity() -> None:
+    config = load_experiment_config(_fixture_bytes("alpha"))
+    evidences = [
+        _metric_evidence(config.sha256, seed=0, value=True),
+        _metric_evidence(config.sha256, seed=1, value=False),
+    ]
+    invalid = evidences[0]
+    attempt = dict(invalid.run_attempt)
+    attempt["executed_environment_digest"] = "not-a-digest"
+    evidences[0] = MetricResultEvidence(
+        result=invalid.result,
+        run_spec=invalid.run_spec,
+        run_attempt=attempt,
+        expected_executed_git_commit=invalid.expected_executed_git_commit,
+        expected_executed_environment_digest="not-a-digest",
+    )
+    aggregate = _aggregate(config.sha256, evidences)
+
+    with pytest.raises(ContractValidationError, match="expected executed environment digest"):
+        validate_task_seed_aggregate(aggregate, config, evidences)
+
+
 def test_cross_artifact_validator_rejects_multiple_eligible_attempts() -> None:
     config = load_experiment_config(_fixture_bytes("alpha"))
     evidences = [
