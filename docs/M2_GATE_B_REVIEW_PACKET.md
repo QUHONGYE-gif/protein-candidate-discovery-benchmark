@@ -102,9 +102,18 @@ evaluator、RunAttempt generation、`_SUCCESS` 以及 33/68-key independent read
 Role 临时凭据的窄 COS XML client，以及由 `CosTruthBundleReader` 独占 candidate truth 读取能力的
 `FrozenM2AggregateEvaluator`。runtime 仍完全消费 packet 中既有 113 steps，不重写或解释出另一套
 顺序。COS client 没有 DeleteObject API；PUT 固定携带 `x-cos-forbid-overwrite: true`，临时 token
-进入签名，且客户端和 runtime 分别执行 network/object/bytes/wall-time caps。evaluator 的公开返回值
+进入签名，且客户端在获取凭据和打开网络请求前拒绝已知 request body 越过 network cap，runtime
+另行执行 object/bytes/wall-time caps。所有 known 和 runtime-generated payload 均先通过既有
+`LocalArtifactStore` 以禁止覆盖方式写入唯一空 scratch；20 GiB scratch cap 在本地写入前检查，
+fresh local readback 的 size/SHA 通过后才允许 COS publication。evaluator 的公开返回值
 只能是四份 canonical aggregate result bytes，truth 和 high-value membership 不进入 runtime state、
 RunAttempt 或 COS publication。
+
+CLI 在执行前绑定并验证 actual runtime Git commit、reviewed environment manifest 对应的运行平台、
+Python/package 版本和 thread policy，并在首次执行副作用前记录 attempt start。RunAttempt 的
+`executed_git_commit`、`executed_environment_digest`、`started_at` 和 `finished_at` 记录实际执行身份
+与边界；scientific source commit/environment 继续只保留在 immutable RunSpec 中，不再混写为
+execution provenance。
 
 该实现及其 injected-fake tests 仍只是 **engineering readiness candidate**：测试不访问真实 COS，
 不读取 candidate truth，不写 evidence prefix，也不把 Gate B 改为已授权。reviewer 必须复核 exact
@@ -164,8 +173,9 @@ pcdb m2-gate-b \
   --scratch-root /path/to/new-empty-gate-b-scratch
 ```
 
-入口在任何 COS/truth side effect 前验证 packet bytes、显式 approval、当前 Git head、空 scratch、
-process caps 和 evidence exact prefix 为空。运行失败时不自动 retry、replacement、删除或覆盖。
+入口在任何 COS/truth side effect 前验证 packet bytes、显式 approval、当前 Git head、实际运行环境、
+空 scratch、process caps 和 evidence exact prefix 为空。运行失败时不自动 retry、replacement、删除
+或覆盖。
 
 ## 重建与验证
 

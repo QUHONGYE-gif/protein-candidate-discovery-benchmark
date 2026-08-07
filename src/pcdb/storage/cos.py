@@ -157,6 +157,9 @@ class CosXmlObjectClient:
         extra_headers: Mapping[str, str] | None = None,
     ) -> tuple[bytes, Mapping[str, str]]:
         query = {} if query is None else dict(query)
+        request_size = 0 if payload is None else len(payload)
+        if self._transferred_bytes + request_size > self._max_transfer_bytes:
+            raise ContractValidationError("COS transfer cap would be exceeded")
         host = f"{bucket}.cos.{self._region}.myqcloud.com"
         path = "/" + urllib.parse.quote(key, safe="/-_.~")
         signed_headers = {"host": host}
@@ -179,7 +182,6 @@ class CosXmlObjectClient:
             with opener.open(request, timeout=60) as response:
                 response_headers = {key.lower(): value for key, value in response.headers.items()}
                 response_size = int(response_headers.get("content-length", "0"))
-                request_size = 0 if payload is None else len(payload)
                 if (
                     self._transferred_bytes + request_size + response_size
                     > self._max_transfer_bytes
