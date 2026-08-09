@@ -159,20 +159,56 @@ accepted inputs 保持 exact keys read-only，evidence store 保持 exact prefix
 forbid-overwrite 条件的 Put，未授予 DeleteObject，且 evidence bucket 从未启用版本控制。该结果关闭
 的是外部身份/策略 blocker，不等于 Gate B approval，也没有执行 truth read、evaluator 或 COS write。
 
+### 2026-08-09 merged runtime provenance
+
+PR #63 已由 independent reviewer 对 exact head `80d77e8ea249286be03f16b41f02912303820d67`
+批准，并 squash merge 为 `1e84448584c05f35f456041634757b4ae184869c`。二者 Git tree 均为
+`d132e309a1786ee2a4bb3247eec685e6f8c9ce65`，但正式 RunAttempt 的 `executed_git_commit` 必须记录
+actual merged runtime provenance，不能用 tree equality、PR head 或本地 branch 名替代。
+
+后续 Issue #58 正式执行必须绑定以下可审核身份：
+
+```text
+runtime Git commit: 1e84448584c05f35f456041634757b4ae184869c
+runtime Git tree: d132e309a1786ee2a4bb3247eec685e6f8c9ce65
+environment digest: 0994a73f124c2baa6f330bf8739db1673217bdec6ad7d9046ded908fc8dba4fc
+packet digest: f4b26934ab22b9c74feaf05f970b0ea96f529c59045703322b5f5b242d9428f9
+```
+
+已对一个使用上述 merged commit 的 fresh clean checkout 完成 packet、source/environment
+binding、12-object HEAD 和 evidence-prefix-zero 的零副作用预检。该次服务器的用户名、
+checkout 目录与本地 shell 配置只是 out-of-band operations 记录，不属于持久化 protocol 或
+run identity；compute server 与这些路径均可替换。PR #63 的 approved head
+`80d77e8ea249286be03f16b41f02912303820d67` 只作为历史审核身份，不得记录为后续正式
+attempt 的 `executed_git_commit`。
+
+该 operational binding 只收敛实际运行身份，不授予 Gate B，不创建 scratch，也不授权 candidate
+truth、evaluator、COS publication、RunAttempt 或 `_SUCCESS`。
+
 ## 唯一正式入口（仅供 exact-head review）
 
-reviewer 批准前不得运行。批准后仍必须把 `<reviewed-runtime-commit>` 替换为 reviewer 明确复核的
-40 位 commit，并确保 checkout exact-match：
+reviewer 批准前不得运行。批准后由 operator 选择 fresh checkout、accepted Gate A root 和新空
+scratch；不得在 formal entry 前 `source` 未跟踪的 shell 文件。命令中直接传入 approved
+merged commit literal，并在进入 runtime 前再次验证 actual HEAD 与 clean worktree：
 
 ```bash
+repository_root=/path/to/fresh-clean-reviewed-checkout
+gate_a_root=/path/to/accepted-gate-a-scratch
+scratch_root=/path/to/new-empty-gate-b-scratch
+
+cd "$repository_root"
+test "$(git rev-parse HEAD)" = \
+  1e84448584c05f35f456041634757b4ae184869c
+test -z "$(git status --porcelain=v1 --untracked-files=all)"
+
 pcdb m2-gate-b \
   --packet manifests/experiments/m2/issue-58/gate-b-packet.v1.json \
   --packet-sha256 f4b26934ab22b9c74feaf05f970b0ea96f529c59045703322b5f5b242d9428f9 \
   --approval 'APPROVED FOR ALPHA + IRED THREE-MODEL M2 FORMAL EXECUTION' \
-  --runtime-git-commit <reviewed-runtime-commit> \
-  --gate-a-root /path/to/accepted-gate-a-scratch \
-  --repository-root "$PWD" \
-  --scratch-root /path/to/new-empty-gate-b-scratch
+  --runtime-git-commit 1e84448584c05f35f456041634757b4ae184869c \
+  --gate-a-root "$gate_a_root" \
+  --repository-root "$repository_root" \
+  --scratch-root "$scratch_root"
 ```
 
 入口在任何 COS/truth side effect 前验证 packet bytes、显式 approval、当前 Git head、实际运行环境、
