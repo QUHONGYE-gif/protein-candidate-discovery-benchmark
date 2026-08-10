@@ -140,6 +140,19 @@ aggregate contracts 与 synthetic evaluator conformance 进入 `main`。这建�
 没有完成 feature artifact Schema/canonical feature hash、prediction artifact contract、feature
 builder、surrogate baseline 或正式 M2 execution，也不替代 Gate 1 verdict。
 
+收尾（2026-08-10）：Issue #42 已将 Alpha Amylase＋IRED 冻结为首批 Gate 1 PASS cohort；Issues
+#44/#47/#46 已完成 feature artifact、canonical feature identity 与 static prediction contract，
+Issue #54 完成 Linux CPU 最小依赖可运行性验证，Issues #55/#56 完成 Ridge、Random Forest 与
+XGBoost 的 observable-only producers。Issue #58 随后在固定 `2 tasks × 3 models × seed 1729`
+矩阵上完成单次正式执行：六份 RunAttempt 均 succeeded，26 shared＋42 per-attempt 共 68 个对象
+完成 forbid-overwrite publication 与独立 fresh readback，final evidence review 判定
+`APPROVED / ORIGINAL PURPOSE ACHIEVED` 并以 completed 关闭。
+
+因此首批 M2 的 implementation、CI、server execution 与 benchmark evidence 已完成。该状态只限
+Alpha＋IRED task-level static-baseline evidence；整个 M1 portfolio、held-out、external validation、
+M3 execution、Gate 2 与最终 scientific validation 不由此完成或授权。静态结果显示 prediction
+ranking 与 high-value recall 会随 task/threshold 改变，不支持跨 task 普遍最优模型声明。
+
 ### M3：deterministic replay 与单保真 smoke
 
 **计划窗口**：8 月 3–7 日。
@@ -154,6 +167,14 @@ seed 和小预算。
 - 只有 replay engine 能调用 hidden oracle；
 - 中断恢复不覆盖成功 attempt，聚合忽略无 `_SUCCESS` 产物；
 - decision metrics 通过小型确定性 fixture 验证。
+
+截至 2026-08-10，项目可以进入 M3 protocol freeze 与 synthetic TDD，但尚不能启动正式 M3
+execution。Issue #58 随 evidence 发布的 anti-post-hoc freeze 固定了 Alpha＋IRED、三模型、
+`sequence-composition-420-v1`、两份 feature root 与 seed `1729`，同时明确记录
+`m3_execution_authorized=false`、`gate_2_authorized=false` 和 held-out reads 为 0。正式 replay
+必须先由独立 M3 protocol Issue 冻结 acquisition、initial selection、tie breaking、seed/budget、
+trajectory、recovery、artifact inventory、caps 与 authorization；任何 M2 结果不得用于同一 cohort
+的 feature/model/config post-hoc 调整。
 
 ### M4：E1 单保真筛选与确认
 

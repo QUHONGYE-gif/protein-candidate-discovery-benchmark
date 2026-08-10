@@ -3,9 +3,10 @@
 面向公开蛋白数据的小样本高价值候选发现 Benchmark，重点研究固定标签预算或固定总成本下，
 不同 surrogate model、uncertainty method 与 acquisition strategy 的实际候选发现价值。
 
-项目当前处于 **M1：task-level dataset onboarding**。M0 的 repository/contracts implementation
-与 CI 已通过 PR #2 进入 `main`；M1 仍按 dataset task/assay 逐项推进，不代表任何数据任务、
-模型、策略或 scientific gate 已经整体完成验证。
+截至 2026-08-10，项目已完成 **Alpha＋IRED 首批 M2 静态基线闭环**，正在进入 M3 protocol/TDD
+准备。M0 的 repository/contracts implementation 与 CI 已通过 PR #2 进入 `main`；整个 M1
+dataset portfolio 仍按 task/assay 逐项推进，M3 formal execution、Gate 2、held-out 与最终
+scientific validation 仍未授权或完成。
 
 ## 研究问题
 
@@ -84,16 +85,19 @@ results/       仅保留产物政策；正式结果写入 COS
 - M0 engineering readiness：repository、contracts 与 CI 基线已进入 `main`；
 - M1 dataset onboarding：按 task/assay 进行中；Alpha Amylase＋IRED 已由 Issue #42 获得首批
   M2 entry cohort 的 Gate 1 PASS，但整个 M1 portfolio 仍未完成；
-- M2 contract readiness：production Experiment Config v2、metric/result aggregate contracts 与
-  synthetic evaluator 已由 PR #39 进入 `main`，feature artifact 与 canonical root 已由 PR #48/#49
-  进入 `main`；[static prediction artifact v1](docs/contracts/M2_PREDICTION_ARTIFACT_V1.md) 以及
-  Ridge、Random Forest、XGBoost static producers 仅完成 contract/synthetic engineering slice，
-  真实 prediction、正式 M2 execution、benchmark evidence 与 scientific gate 仍未完成；
+- M2 static-baseline closure：production Experiment Config v2、feature/prediction artifact、canonical
+  feature identity 与 Ridge、Random Forest、XGBoost producer 均已进入 `main`；Issue #58 已在
+  Alpha＋IRED、seed `1729` 的冻结 `2 tasks × 3 models` 范围内完成正式 server execution、
+  68-object immutable COS publication、独立 fresh readback 与 final evidence review；该结论只限
+  两个 task 的 static-baseline evidence，不支持跨 task 普遍最优或最终 scientific validation；
+- M3 readiness：M2 已发布 anti-post-hoc freeze，但 `m3_execution_authorized=false`、
+  `gate_2_authorized=false`；当前只允许建立并评审 deterministic replay protocol 和 synthetic TDD，
+  不允许据此读取 held-out、启动正式 replay 或声明 Gate 2 PASS；
 - Raw-ingest runtime：按 task 独立记录，不替代 processing、split 或 scientific validation；
 - Scientific validation：尚未开始；
 - Held-out evaluation：未授权；
-- COS credential availability：本次文档对账未核验；历史窄权限 COS execution 不证明当前凭据已配置、
-  仍有效或已获新操作授权。
+- COS credential availability：Issue #58 的窄权限 CVM Role 已完成该次正式 execution/readback；
+  该历史成功不证明未来 M3 操作仍具备凭据、权限或执行授权。
 
 ## 协作
 

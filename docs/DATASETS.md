@@ -11,9 +11,10 @@ Issue #25 已完成正式 topology-extrapolation split publication、fresh readb
 验证；Hydrophobic Core 也已完成非 primary、非 M2 必需的 within-WT topology stress tracer
 正式 split publication、fresh readback 和独立确定性重建验证。四个 task 均未进入 replay。
 Alpha＋IRED 的精确 Gate 1 engineering inputs 见
-[M1 readiness ledger](data/ALPHA_IRED_M1_READINESS_LEDGER.md)；ready for Gate 1 review 不等于
-Gate 1 PASS、整个 M1 portfolio 完成或项目进入 M2。其他候选数据源包括 ProteinGym 和 SKEMPI
-2.0；每个具体 task/assay 必须通过 dataset onboarding Issue 后才能进入开发或主实验。
+[M1 readiness ledger](data/ALPHA_IRED_M1_READINESS_LEDGER.md)；Issue #42 后续已冻结该两-task
+cohort 为 Gate 1 PASS，Issue #58 也已完成其正式 M2 static-baseline evidence 闭环。这不表示整个
+M1 portfolio、M3/Gate 2、held-out 或 scientific validation 完成。其他候选数据源包括 ProteinGym
+和 SKEMPI 2.0；每个具体 task/assay 必须通过 dataset onboarding Issue 后才能进入相应开发或主实验。
 
 ## 进行中的 onboarding
 

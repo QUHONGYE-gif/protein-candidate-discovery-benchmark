@@ -1,19 +1,49 @@
 # M2 Gate B 审核包
 
-本文说明 Issue #58 的 Gate B review packet candidate。它是执行前的只读审核材料，
-不是 Gate B 授权、正式运行结果、COS publication、benchmark evidence 或 scientific gate。
+本文最初说明 Issue #58 的 Gate B review packet candidate；其 exact bytes、identity、执行顺序与
+停止条件继续作为正式运行的历史审核依据。Issue #58 已于 2026-08-10 完成 final evidence review
+并关闭，因此本文同时记录 packet 的最终执行 disposition。它不授权新的 execution、retry、
+replacement、M3、Gate 2、held-out 或 scientific claim。
 
 ## 当前状态
 
-- Gate A evidence 已由 reviewer 接受，但带有已披露、逐次由用户授权的 replacement-start
-  deviations。
-- Gate B 仍是 `NOT GRANTED / CHANGES REQUIRED`；concrete runtime 修复候选尚待 exact-head
-  review，不能据此开始正式运行。
-- 本次准备过程保持 candidate truth read、evaluator call、COS write、RunAttempt 和
-  `_SUCCESS` 全部为 0。
-- 正式 source identity 仍是 Gate A 六份 RunSpec 绑定的
-  `9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5`。本 PR 只增加 packet compiler 与
-  validator，不修改或冒充该 scientific run identity。
+- Gate A evidence：`PASS / ACCEPTED`，历史 replacement-start deviations 已逐次授权、披露并由
+  final reviewer 接受；Gate A 未重跑。
+- Gate B authorization：已对 exact packet/runtime/environment 授予并由一次 formal entry 消耗；
+  不产生第二次执行授权。
+- Formal runtime：merged commit `1e84448584c05f35f456041634757b4ae184869c`、tree
+  `d132e309a1786ee2a4bb3247eec685e6f8c9ce65`、environment digest
+  `0994a73f124c2baa6f330bf8739db1673217bdec6ad7d9046ded908fc8dba4fc`。
+- Packet digest：`f4b26934ab22b9c74feaf05f970b0ea96f529c59045703322b5f5b242d9428f9`；
+  scientific source identity 仍为六份 RunSpec 绑定的
+  `9e6fae5fe4b068ccf25d13ceb9913d6f7f2fffd5`，未与 runtime provenance 混写。
+- Formal execution：单次启动、exit code 0、automatic retry/replacement/overwrite/Delete 均为 0；
+  六份 RunAttempt succeeded，六个 empty `_SUCCESS` 完成。
+- Evidence：68/68 objects、81,949,677 bytes，missing/extra/duplicate 为 0；COS 与 scratch
+  exact-cover，独立 fresh readback 通过，keyset SHA-256 为
+  `7f669230b81fc725b655764fbb0e8741540a8fcbbb28c6cca11a68fdce84bd65`。
+- Final review：`APPROVED / FINAL EVIDENCE ACCEPTED / ORIGINAL PURPOSE ACHIEVED`；
+  [Issue #58](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/58)
+  已按 completed 关闭。
+
+## 正式结果与声明边界
+
+| task | model | Spearman | HV recall 0.5% | HV recall 1% | HV recall 2% |
+|---|---|---:|---:|---:|---:|
+| alpha-amylase | ridge-sklearn-v1 | 0.102183 | 0.000000 | 0.000000 | 0.000000 |
+| alpha-amylase | random-forest-sklearn-v1 | 0.107530 | 0.000000 | 0.086957 | 0.217391 |
+| alpha-amylase | xgboost-cpu-v1 | 0.288359 | 0.083333 | 0.086957 | 0.086957 |
+| ired | ridge-sklearn-v1 | 0.104306 | 0.090909 | 0.047619 | 0.047619 |
+| ired | random-forest-sklearn-v1 | 0.149336 | 0.000000 | 0.000000 | 0.000000 |
+| ired | xgboost-cpu-v1 | 0.157354 | 0.000000 | 0.047619 | 0.071429 |
+
+这些结果只形成两个冻结 task 的 static-baseline evidence。Prediction 与 high-value recall 排序会随
+task/threshold 改变，不能推出某模型跨 task 普遍最优。M3 anti-post-hoc freeze 已在首次 candidate
+truth read 前发布并验证，但其 authorization boundary 仍为 `m3_execution_authorized=false`、
+`gate_2_authorized=false`、held-out reads 为 0。
+
+完整执行记录见 [formal execution 与独立 readback](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/58#issuecomment-5232065229)，
+最终批准见 [final evidence review](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/58#issuecomment-5232152978)。
 
 ## 审核材料
 
