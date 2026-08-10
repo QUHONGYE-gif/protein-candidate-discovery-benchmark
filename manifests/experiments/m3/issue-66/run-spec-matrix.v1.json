@@ -1,0 +1,128 @@
+{
+  "acquisition_configs": [
+    {
+      "acquisition_id": "random-seeded-sha256-v1",
+      "path": "configs/acquisitions/m3/random-seeded-sha256-v1.json",
+      "sha256": "24f80499cb48ad6716f86a9c47bf098d47acdb78841bcb7b8926504619983e0f",
+      "size_bytes": 538
+    },
+    {
+      "acquisition_id": "greedy-predictive-mean-v1",
+      "path": "configs/acquisitions/m3/greedy-predictive-mean-v1.json",
+      "sha256": "3c7c537bf6ada03c0a86c720c1a56382247baa00ad9f71eccf4f2f7a120adc15",
+      "size_bytes": 499
+    },
+    {
+      "acquisition_id": "uncertainty-bootstrap-std-v1",
+      "path": "configs/acquisitions/m3/uncertainty-bootstrap-std-v1.json",
+      "sha256": "05c5e444068869d17f01ec79d1414fb3fa0989f05b08f66c8253a952c95a442f",
+      "size_bytes": 1032
+    }
+  ],
+  "authorization_boundaries": {
+    "protocol_bytes_authorize_gate_2": false,
+    "protocol_bytes_authorize_m3_formal_execution": false,
+    "protocol_bytes_authorize_real_input_preflight": false,
+    "protocol_bytes_authorize_synthetic_tdd": false,
+    "synthetic_tdd_requires_independent_exact_bytes_review": true
+  },
+  "expected_run_spec_count": 18,
+  "experiment_configs": [
+    {
+      "path": "configs/experiments/m3-single-fidelity/alpha-amylase.json",
+      "sha256": "8429109f531202fd51903dff43a3553b255365e99c9cf48411fba446029a5c12",
+      "size_bytes": 4752,
+      "task_id": "alpha-amylase"
+    },
+    {
+      "path": "configs/experiments/m3-single-fidelity/ired.json",
+      "sha256": "3a886fa02b5411108d60774ba94c861e7ccaedec134a6c4263ae4d1bcf143c1f",
+      "size_bytes": 4734,
+      "task_id": "ired"
+    }
+  ],
+  "feature_config": {
+    "feature_config_id": "sequence-composition-420-v1",
+    "sha256": "2b9a9dbfb322f8b34296d208a2b8eb9392cac2b7056508039589fc3a0e34b77d"
+  },
+  "late_bound_run_spec_fields": [
+    "environment_digest",
+    "git_commit"
+  ],
+  "manifest_chains": [
+    {
+      "candidate_count": 2262,
+      "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+      "feature_sha256": "fa64315824eccde93e5c4740bbaf638aa54da2d2b8b96053bbae193ec89bbe42",
+      "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+      "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a",
+      "task_id": "alpha-amylase"
+    },
+    {
+      "candidate_count": 2070,
+      "dataset_manifest_sha256": "37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643",
+      "feature_sha256": "3d20f04020f1b136d1097d6beee7fcaa7b09729e80babd6d96154f71c510fb1b",
+      "processing_manifest_sha256": "929f0a46bfca015fb020bb7ebcc3a91e4de33922cd217399551b3dae1cc437ba",
+      "split_sha256": "9bff199ec81b9b5b1e0548c237b923b2ac7db1bf36382377ed36d30c042c725e",
+      "task_id": "ired"
+    }
+  ],
+  "materialization_side_effects": {
+    "candidate_truth_reads": 0,
+    "cos_writes": 0,
+    "held_out_reads": 0,
+    "server_executions": 0
+  },
+  "matrix_order": [
+    "task_id",
+    "model_id",
+    "acquisition_id",
+    "seed"
+  ],
+  "models": [
+    {
+      "model_config_sha256": "806e9bb5c16a511b233213ca6f1f08ac848eeb77c7e9702915171ce4a22293d7",
+      "model_id": "ridge-sklearn-v1"
+    },
+    {
+      "model_config_sha256": "9a837a91a94a2b3b0b3fb6d93474a5140fbbadefb127b523830334213f2077f1",
+      "model_id": "random-forest-sklearn-v1"
+    },
+    {
+      "model_config_sha256": "7e0a95e827a829b6d4dfa30db35d46770d82dc980784620bd844a378dc97a2cb",
+      "model_id": "xgboost-cpu-v1"
+    }
+  ],
+  "predecessor_main_commit": "e2321596958e37491d25152ecd68a36aa059f745",
+  "protocol_version": "m3-single-fidelity-replay-v1",
+  "resource_caps": {
+    "automatic_retry": 0,
+    "cos_net_new_bytes": 2147483648,
+    "delete_object": 0,
+    "evidence_objects": 512,
+    "formal_attempts": 18,
+    "max_cost_cny": 50,
+    "max_network_transfer_bytes": 10737418240,
+    "max_ram_bytes": 17179869184,
+    "max_scratch_bytes": 21474836480,
+    "max_vcpu": 8,
+    "max_wall_seconds": 21600,
+    "overwrite": 0,
+    "per_run_spec_attempts": 1,
+    "replacement_attempts": 0
+  },
+  "run_spec_profile": {
+    "batch_size": 8,
+    "budget": 32,
+    "initial_sample_size": 16,
+    "schema_version": "1"
+  },
+  "schema_version": "m3-run-spec-matrix-v1",
+  "seeds": [
+    1729
+  ],
+  "tasks": [
+    "alpha-amylase",
+    "ired"
+  ]
+}

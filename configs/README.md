@@ -12,6 +12,16 @@
 `held_out_authorized` 默认必须为 `false`。只有对应 scientific gate 和人工授权完成后才能创建
 新的授权配置版本。
 
+## M3 protocol candidate
+
+Issue #66 的三份 acquisition config 位于 `configs/acquisitions/m3/`，Alpha＋IRED 两份
+Experiment Config v2 位于 `configs/experiments/m3-single-fidelity/`。它们的 exact bytes、size、
+SHA-256、Cartesian matrix 和授权边界由
+`manifests/experiments/m3/issue-66/protocol-freeze.v1.json` 绑定。
+
+这些文件在独立 exact-bytes review 前只是 protocol candidate。它们不授权 #67 synthetic TDD、
+真实 candidate truth、server/COS、Gate A、Gate B 或 formal execution。
+
 ## Dataset source inventory
 
 `configs/datasets/` 保存通过 Dataset Onboarding Issue 审核的官方下载计划，包括

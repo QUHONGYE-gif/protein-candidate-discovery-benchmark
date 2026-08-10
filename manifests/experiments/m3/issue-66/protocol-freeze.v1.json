@@ -1,0 +1,77 @@
+{
+  "artifact_inventory": [
+    {
+      "kind": "protocol-document",
+      "path": "docs/M3_SINGLE_FIDELITY_REPLAY_PROTOCOL_V1.md",
+      "sha256": "87fa53ee3447d3fa075c9c3d456b1b50ba310ab7ace5a6c7329fd22ba4027f6a",
+      "size_bytes": 10356
+    },
+    {
+      "kind": "acquisition-config",
+      "path": "configs/acquisitions/m3/random-seeded-sha256-v1.json",
+      "sha256": "24f80499cb48ad6716f86a9c47bf098d47acdb78841bcb7b8926504619983e0f",
+      "size_bytes": 538
+    },
+    {
+      "kind": "acquisition-config",
+      "path": "configs/acquisitions/m3/greedy-predictive-mean-v1.json",
+      "sha256": "3c7c537bf6ada03c0a86c720c1a56382247baa00ad9f71eccf4f2f7a120adc15",
+      "size_bytes": 499
+    },
+    {
+      "kind": "acquisition-config",
+      "path": "configs/acquisitions/m3/uncertainty-bootstrap-std-v1.json",
+      "sha256": "05c5e444068869d17f01ec79d1414fb3fa0989f05b08f66c8253a952c95a442f",
+      "size_bytes": 1032
+    },
+    {
+      "kind": "experiment-config",
+      "path": "configs/experiments/m3-single-fidelity/alpha-amylase.json",
+      "sha256": "8429109f531202fd51903dff43a3553b255365e99c9cf48411fba446029a5c12",
+      "size_bytes": 4752
+    },
+    {
+      "kind": "experiment-config",
+      "path": "configs/experiments/m3-single-fidelity/ired.json",
+      "sha256": "3a886fa02b5411108d60774ba94c861e7ccaedec134a6c4263ae4d1bcf143c1f",
+      "size_bytes": 4734
+    },
+    {
+      "kind": "run-spec-matrix",
+      "path": "manifests/experiments/m3/issue-66/run-spec-matrix.v1.json",
+      "sha256": "ca0b99c92d1e679298429453ab0e9d6f6b794a8fb7820fd4a3e2de66487acebd",
+      "size_bytes": 4313
+    },
+    {
+      "kind": "synthetic-worked-example",
+      "path": "tests/fixtures/m3/issue-66/worked-example.v1.json",
+      "sha256": "03fff833aa02d6002dda05b8e60fc565ce91d8e432de32120db5132edcea8372",
+      "size_bytes": 6519
+    }
+  ],
+  "authorization_boundaries": {
+    "protocol_bytes_authorize_gate_2": false,
+    "protocol_bytes_authorize_m3_formal_execution": false,
+    "protocol_bytes_authorize_real_input_preflight": false,
+    "protocol_bytes_authorize_synthetic_tdd": false,
+    "synthetic_tdd_requires_independent_exact_bytes_review": true
+  },
+  "gate_2_conditions": [
+    "same-run-spec-same-initial-ties-randomness-and-trajectory",
+    "no-repeat-purchase-and-monotonic-budget",
+    "replay-engine-only-hidden-oracle-access",
+    "recovery-no-success-overwrite-and-success-marker-eligibility",
+    "deterministic-fixture-decision-metrics"
+  ],
+  "issue_number": 66,
+  "materialization_side_effects": {
+    "candidate_truth_reads": 0,
+    "cos_writes": 0,
+    "held_out_reads": 0,
+    "server_executions": 0
+  },
+  "predecessor_main_commit": "e2321596958e37491d25152ecd68a36aa059f745",
+  "protocol_version": "m3-single-fidelity-replay-v1",
+  "review_status": "candidate-awaiting-exact-bytes-independent-review",
+  "schema_version": "m3-protocol-freeze-v1"
+}

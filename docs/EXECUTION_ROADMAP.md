@@ -176,6 +176,12 @@ execution。Issue #58 随 evidence 发布的 anti-post-hoc freeze 固定了 Alph
 trajectory、recovery、artifact inventory、caps 与 authorization；任何 M2 结果不得用于同一 cohort
 的 feature/model/config post-hoc 调整。
 
+Issue #66 已建立 [M3 single-fidelity replay protocol v1 candidate](M3_SINGLE_FIDELITY_REPLAY_PROTOCOL_V1.md)，
+把 Alpha＋IRED、三模型、Random/Greedy/Uncertainty、seed `1729`、`initial=16`、`batch=8`、
+`budget=32`、18 组合 matrix、deterministic bootstrap uncertainty、trajectory/recovery 和资源 caps
+放入同一 tracked review surface。该 candidate 尚需 exact-bytes 独立批准；其存在本身不授权
+#67 implementation 或 #68 的真实 preflight/formal execution。
+
 ### M4：E1 单保真筛选与确认
 
 **计划窗口**：8 月 8–17 日。

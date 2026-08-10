@@ -92,7 +92,9 @@ results/       仅保留产物政策；正式结果写入 COS
   两个 task 的 static-baseline evidence，不支持跨 task 普遍最优或最终 scientific validation；
 - M3 readiness：M2 已发布 anti-post-hoc freeze，但 `m3_execution_authorized=false`、
   `gate_2_authorized=false`；当前只允许建立并评审 deterministic replay protocol 和 synthetic TDD，
-  不允许据此读取 held-out、启动正式 replay 或声明 Gate 2 PASS；
+  Issue #66 的 [protocol v1 candidate](docs/M3_SINGLE_FIDELITY_REPLAY_PROTOCOL_V1.md) 已形成
+  tracked review surface，但在独立批准前不授权 #67 实现、真实输入或正式 replay，也不允许
+  声明 Gate 2 PASS；
 - Raw-ingest runtime：按 task 独立记录，不替代 processing、split 或 scientific validation；
 - Scientific validation：尚未开始；
 - Held-out evaluation：未授权；

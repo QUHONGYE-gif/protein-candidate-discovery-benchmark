@@ -1,0 +1,19 @@
+{
+  "acquisition_id": "greedy-predictive-mean-v1",
+  "failure_policy": {
+    "fallback": "none",
+    "missing_duplicate_unknown_or_non_finite_prediction": "error"
+  },
+  "ranking": {
+    "direction": "descending",
+    "primary": "predictive_mean_float64",
+    "secondary": "candidate_id_ascending"
+  },
+  "schema_version": "m3-acquisition-config-v1",
+  "score": {
+    "dtype": "float64",
+    "kind": "predictive-mean",
+    "source": "frozen-model-predict",
+    "uses_unrevealed_labels": false
+  }
+}
