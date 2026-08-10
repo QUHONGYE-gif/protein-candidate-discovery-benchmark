@@ -1,0 +1,58 @@
+{
+  "acquisition_id": "uncertainty-bootstrap-std-v1",
+  "failure_policy": {
+    "fallback": "none",
+    "member_fit_predict_or_non_finite": "error"
+  },
+  "ranking": {
+    "direction": "descending",
+    "primary": "bootstrap_prediction_std_float64",
+    "secondary": "candidate_id_ascending"
+  },
+  "schema_version": "m3-acquisition-config-v1",
+  "score": {
+    "bootstrap": {
+      "index_generation": {
+        "apply_to": "candidate-id-ascending-observation-table",
+        "bit_generator": "numpy.random.PCG64",
+        "constructor": "numpy.random.Generator(numpy.random.PCG64(member_seed_uint64))",
+        "draw_api": "numpy.random.Generator.integers",
+        "draw_calls_per_member": 1,
+        "dtype": "numpy.int64",
+        "endpoint": false,
+        "high": "revealed_observation_count",
+        "low": 0,
+        "order": "preserve-draw-order",
+        "size": "revealed_observation_count"
+      },
+      "member_count": 5,
+      "member_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "member_seed": {
+        "canonical_tuple": [
+          "protocol_id",
+          "run_seed",
+          "task_id",
+          "model_id",
+          "round",
+          "member_index"
+        ],
+        "derivation": "sha256_first_8_bytes_unsigned_big_endian",
+        "encoding": "utf8-json-compact-v1"
+      },
+      "rng": "numpy-pcg64",
+      "sample_size": "revealed_observation_count",
+      "sampling": "with-replacement"
+    },
+    "ddof": 0,
+    "dtype": "float64",
+    "kind": "bootstrap-prediction-standard-deviation",
+    "model_config_policy": "reuse-frozen-model-config",
+    "uses_unrevealed_labels": false
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "acquisition_id": "random-seeded-sha256-v1",
+  "failure_policy": {
+    "fallback": "none",
+    "identity_or_input_drift": "error"
+  },
+  "ranking": {
+    "direction": "ascending",
+    "primary": "sha256_digest",
+    "secondary": "candidate_id_ascending"
+  },
+  "schema_version": "m3-acquisition-config-v1",
+  "score": {
+    "canonical_tuple": [
+      "protocol_id",
+      "task_id",
+      "seed",
+      "round",
+      "candidate_id"
+    ],
+    "encoding": "utf8-json-compact-v1",
+    "hash": "sha256",
+    "kind": "seeded-hash"
+  }
+}
