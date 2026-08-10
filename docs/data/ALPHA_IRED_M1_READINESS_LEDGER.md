@@ -1,5 +1,15 @@
 # Alpha＋IRED M1 readiness ledger
 
+> **历史快照与 successor：** 本 ledger 冻结的是
+> `origin/main@8db51b8bc5d7c97a7753bcc462790ac947c8611f` 时点的 Gate 1 输入，以下“未判定/未完成”
+> 文字不得解释为 2026-08-10 的当前状态。后续 Issue #42 已发布
+> `GATE 1 PASS — ALPHA + IRED INITIAL M2 ENTRY COHORT`；Issue #58 已完成冻结
+> `2 tasks × 3 models × seed 1729` 的正式 M2 static-baseline execution、68-object publication、
+> 独立 readback 与 final evidence review，并按 completed 关闭。整个 M1 portfolio、M3/Gate 2、
+> held-out、external validation 与最终 scientific validation 仍未完成或授权。当前阶段状态见
+> [Execution Roadmap](../EXECUTION_ROADMAP.md) 与
+> [M2 Gate B review packet](../M2_GATE_B_REVIEW_PACKET.md)。
+
 ## 结论与判定边界
 
 截至 `origin/main@8db51b8bc5d7c97a7753bcc462790ac947c8611f`，Alpha Amylase 与 IRED
@@ -102,7 +112,7 @@ M2 execution。契约完成不能替代 Gate 1 verdict 或模型运行证据。
   review thread 仍未解决。只有 replacement documentation reviewed/merged 后才能留下 superseded
   说明并关闭 Draft；不得合入其 commit 或删除 branch。
 
-## 当前状态矩阵
+## 历史状态矩阵（截至 `origin/main@8db51b8`）
 
 | 状态 | Alpha＋IRED | 项目整体 |
 |---|---|---|
@@ -112,7 +122,7 @@ M2 execution。契约完成不能替代 Gate 1 verdict 或模型运行证据。
 | M2 contracts | PR #39 production contracts 已进入 `main` | feature/prediction/model/run 未完成 |
 | Scientific validation | 未开始 | 未开始 |
 
-## Repository-wide stale-status reconciliation
+## 当时的 repository-wide stale-status reconciliation
 
 本 slice 对 `尚无`、`尚未`、`仍需`、`等待`、`未开始`、`未完成`、`未配置`、Draft PR、Gate/M1/M2
 与 HTTP 409 等状态措辞执行了全仓搜索。处理结果如下：
