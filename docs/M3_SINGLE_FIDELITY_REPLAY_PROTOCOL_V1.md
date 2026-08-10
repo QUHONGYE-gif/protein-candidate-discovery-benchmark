@@ -73,7 +73,7 @@ candidate ID ascending；trajectory 仍记录真实 reveal order。
 |---|---:|---|---|
 | `random-seeded-sha256-v1` | 538 | `24f80499cb48ad6716f86a9c47bf098d47acdb78841bcb7b8926504619983e0f` | round-specific seeded hash ascending |
 | `greedy-predictive-mean-v1` | 499 | `3c7c537bf6ada03c0a86c720c1a56382247baa00ad9f71eccf4f2f7a120adc15` | predictive mean descending |
-| `uncertainty-bootstrap-std-v1` | 1,032 | `05c5e444068869d17f01ec79d1414fb3fa0989f05b08f66c8253a952c95a442f` | bootstrap prediction std descending |
+| `uncertainty-bootstrap-std-v1` | 1,657 | `7748917bf19048002b784be8c95dfe76ca138dac421e511a4f79e33aa82d16f6` | bootstrap prediction std descending |
 
 ### 4.1 Random
 
@@ -99,10 +99,16 @@ missing、extra、duplicate、unknown 或 non-finite prediction 均使整轮失�
 - 只使用当前已揭示 observations；
 - observation table 先按 candidate ID ascending；
 - exactly 5 个 size-`n`、with-replacement bootstrap samples；
+- member index 的唯一合法序列为 `[0, 1, 2, 3, 4]`；
 - member RNG 为 NumPy `PCG64`；
 - member seed 是
   `SHA256([protocol_id, run_seed, task_id, model_id, round, member_index])` 的前 8 bytes，
   按 unsigned big-endian 解码；
+- 每个 member 从该 seed 新建
+  `numpy.random.Generator(numpy.random.PCG64(member_seed_uint64))`，并恰好调用一次
+  `generator.integers(0, n, size=n, dtype=numpy.int64, endpoint=False)`；
+- 按 generator 输出顺序把 index 逐个应用到 candidate-ID-ascending observation table；保留重复
+  index，不排序、不去重，也不进行第二次 draw；
 - 每个 member 使用同一 frozen model config 重新拟合；model hyperparameter 和 internal seed
   policy 不变；
 - score 是 5 个 float64 predictions 的 population standard deviation，`ddof=0`；
@@ -190,6 +196,7 @@ synthetic candidate，手算并机器复核：
 - reveal 后 observation 边界；
 - 两个 metric boundaries；
 - interrupted/recovered 与 uninterrupted trajectory checksum 一致。
+- 16-row observation table 上五个 bootstrap member 的 seed 和 index-array golden vectors。
 
 它不是 Alpha/IRED evidence，不能替代 #67 synthetic implementation 或 #68 real-input preflight。
 

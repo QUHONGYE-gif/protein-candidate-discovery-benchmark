@@ -7,6 +7,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 import pytest
 from jsonschema import Draft202012Validator
 
@@ -101,7 +102,21 @@ def test_acquisition_configs_are_canonical_and_fail_closed() -> None:
     assert uncertainty["model_config_policy"] == "reuse-frozen-model-config"
     assert uncertainty["uses_unrevealed_labels"] is False
     assert uncertainty["bootstrap"] == {
+        "index_generation": {
+            "apply_to": "candidate-id-ascending-observation-table",
+            "bit_generator": "numpy.random.PCG64",
+            "constructor": "numpy.random.Generator(numpy.random.PCG64(member_seed_uint64))",
+            "draw_api": "numpy.random.Generator.integers",
+            "draw_calls_per_member": 1,
+            "dtype": "numpy.int64",
+            "endpoint": False,
+            "high": "revealed_observation_count",
+            "low": 0,
+            "order": "preserve-draw-order",
+            "size": "revealed_observation_count",
+        },
         "member_count": 5,
+        "member_indices": [0, 1, 2, 3, 4],
         "member_seed": {
             "canonical_tuple": [
                 "protocol_id",
@@ -118,6 +133,43 @@ def test_acquisition_configs_are_canonical_and_fail_closed() -> None:
         "sample_size": "revealed_observation_count",
         "sampling": "with-replacement",
     }
+
+
+def test_uncertainty_bootstrap_golden_vector_is_exactly_reconstructable() -> None:
+    fixture, _ = _load_canonical(WORKED_EXAMPLE_PATH)
+    golden = fixture["uncertainty_bootstrap_golden_vector"]
+
+    assert golden["observation_row_count"] == 16
+    assert golden["member_indices"] == [0, 1, 2, 3, 4]
+
+    rebuilt = []
+    for member_index in golden["member_indices"]:
+        tuple_values = [
+            fixture["protocol_id"],
+            golden["run_seed"],
+            fixture["task_id"],
+            golden["model_id"],
+            golden["round"],
+            member_index,
+        ]
+        seed = int.from_bytes(bytes.fromhex(_tuple_sha256(tuple_values))[:8], "big")
+        generator = np.random.Generator(np.random.PCG64(seed))
+        indices = generator.integers(
+            0,
+            golden["observation_row_count"],
+            size=golden["observation_row_count"],
+            dtype=np.int64,
+            endpoint=False,
+        )
+        rebuilt.append(
+            {
+                "indices": indices.tolist(),
+                "member_index": member_index,
+                "member_seed_uint64": seed,
+            }
+        )
+
+    assert rebuilt == golden["members"]
 
 
 @pytest.mark.parametrize("task_id", ["alpha-amylase", "ired"])

@@ -12,7 +12,27 @@
   "schema_version": "m3-acquisition-config-v1",
   "score": {
     "bootstrap": {
+      "index_generation": {
+        "apply_to": "candidate-id-ascending-observation-table",
+        "bit_generator": "numpy.random.PCG64",
+        "constructor": "numpy.random.Generator(numpy.random.PCG64(member_seed_uint64))",
+        "draw_api": "numpy.random.Generator.integers",
+        "draw_calls_per_member": 1,
+        "dtype": "numpy.int64",
+        "endpoint": false,
+        "high": "revealed_observation_count",
+        "low": 0,
+        "order": "preserve-draw-order",
+        "size": "revealed_observation_count"
+      },
       "member_count": 5,
+      "member_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
       "member_seed": {
         "canonical_tuple": [
           "protocol_id",

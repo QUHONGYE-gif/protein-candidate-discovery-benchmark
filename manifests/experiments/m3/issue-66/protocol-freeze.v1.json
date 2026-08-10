@@ -3,8 +3,8 @@
     {
       "kind": "protocol-document",
       "path": "docs/M3_SINGLE_FIDELITY_REPLAY_PROTOCOL_V1.md",
-      "sha256": "87fa53ee3447d3fa075c9c3d456b1b50ba310ab7ace5a6c7329fd22ba4027f6a",
-      "size_bytes": 10356
+      "sha256": "02a3e835122775e7201828af2c9193af8ff0ef138f6b927b5916375daca4f73c",
+      "size_bytes": 10889
     },
     {
       "kind": "acquisition-config",
@@ -21,8 +21,8 @@
     {
       "kind": "acquisition-config",
       "path": "configs/acquisitions/m3/uncertainty-bootstrap-std-v1.json",
-      "sha256": "05c5e444068869d17f01ec79d1414fb3fa0989f05b08f66c8253a952c95a442f",
-      "size_bytes": 1032
+      "sha256": "7748917bf19048002b784be8c95dfe76ca138dac421e511a4f79e33aa82d16f6",
+      "size_bytes": 1657
     },
     {
       "kind": "experiment-config",
@@ -39,14 +39,14 @@
     {
       "kind": "run-spec-matrix",
       "path": "manifests/experiments/m3/issue-66/run-spec-matrix.v1.json",
-      "sha256": "ca0b99c92d1e679298429453ab0e9d6f6b794a8fb7820fd4a3e2de66487acebd",
+      "sha256": "1eaf9657d618e88bca19df7e219b46b3182b74aca3d8f8b4080e8794583e6148",
       "size_bytes": 4313
     },
     {
       "kind": "synthetic-worked-example",
       "path": "tests/fixtures/m3/issue-66/worked-example.v1.json",
-      "sha256": "03fff833aa02d6002dda05b8e60fc565ce91d8e432de32120db5132edcea8372",
-      "size_bytes": 6519
+      "sha256": "ae345d2bcbbd29151fdb5cccfdf6bf85c2c2e42dc8b4de688adbf9c57d9c619a",
+      "size_bytes": 8460
     }
   ],
   "authorization_boundaries": {
