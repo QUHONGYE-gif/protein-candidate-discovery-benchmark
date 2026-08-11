@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import math
+
 import pytest
 
 from pcdb.replay import AlreadyRevealedError, HiddenOracle, Observation, UnknownCandidateError
@@ -37,3 +39,9 @@ def test_oracle_rejects_repeated_selection() -> None:
 
     with pytest.raises(AlreadyRevealedError, match="already revealed"):
         oracle.reveal(["candidate-a"])
+
+
+@pytest.mark.parametrize("invalid", [True, "0.5", math.nan, math.inf, -math.inf])
+def test_oracle_rejects_non_finite_or_non_numeric_truth(invalid: object) -> None:
+    with pytest.raises(ValueError, match="finite numeric"):
+        HiddenOracle({"candidate-a": invalid})  # type: ignore[dict-item]

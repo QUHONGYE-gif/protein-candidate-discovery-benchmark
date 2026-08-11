@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from collections.abc import Mapping
 from dataclasses import dataclass
 
@@ -30,7 +31,15 @@ class HiddenOracle:
             raise ValueError("truth must contain at least one candidate")
         if any(not candidate_id for candidate_id in truth):
             raise ValueError("candidate IDs must not be empty")
-        self.__truth = dict(truth)
+        validated: dict[str, float] = {}
+        for candidate_id, raw_value in truth.items():
+            if isinstance(raw_value, bool) or not isinstance(raw_value, (int, float)):
+                raise ValueError("truth values must be finite numeric values")
+            value = float(raw_value)
+            if not math.isfinite(value):
+                raise ValueError("truth values must be finite numeric values")
+            validated[candidate_id] = value
+        self.__truth = validated
         self.__observations: list[Observation] = []
         self.__revealed: set[str] = set()
 
