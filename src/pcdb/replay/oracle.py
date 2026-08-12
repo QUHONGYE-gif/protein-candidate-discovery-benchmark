@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import math
 from collections.abc import Mapping
 from dataclasses import dataclass
@@ -47,6 +49,18 @@ class HiddenOracle:
     def candidate_ids(self) -> frozenset[str]:
         """Return selectable IDs without exposing labels."""
         return frozenset(self.__truth)
+
+    @property
+    def truth_sha256(self) -> str:
+        """Return an identity-only digest without exposing hidden labels."""
+
+        payload = json.dumps(
+            sorted(self.__truth.items()),
+            allow_nan=False,
+            ensure_ascii=False,
+            separators=(",", ":"),
+        ).encode("utf-8")
+        return hashlib.sha256(payload).hexdigest()
 
     @property
     def revealed_ids(self) -> frozenset[str]:

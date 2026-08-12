@@ -11,7 +11,11 @@ from dataclasses import asdict, dataclass
 
 import numpy as np
 
-from pcdb.contracts.experiment import ContractValidationError, canonical_json_bytes
+from pcdb.contracts.experiment import (
+    ContractValidationError,
+    canonical_json_bytes,
+    load_experiment_config,
+)
 from pcdb.contracts.feature_identity import (
     LoadedFeatureMatrix,
     encode_feature_matrix,
@@ -37,6 +41,46 @@ _GREEDY_ID = "greedy-predictive-mean-v1"
 _GREEDY_CONFIG_SHA256 = "3c7c537bf6ada03c0a86c720c1a56382247baa00ad9f71eccf4f2f7a120adc15"
 _UNCERTAINTY_ID = "uncertainty-bootstrap-std-v1"
 _UNCERTAINTY_CONFIG_SHA256 = "7748917bf19048002b784be8c95dfe76ca138dac421e511a4f79e33aa82d16f6"
+
+
+def _resolved_experiment_context(run_spec: RunSpec, payload: bytes) -> tuple[str, float]:
+    loaded = load_experiment_config(payload)
+    if loaded.schema_version != "2":
+        raise ContractValidationError("M3 replay requires Experiment Config v2")
+    if loaded.sha256 != run_spec.experiment_config_sha256:
+        raise ContractValidationError("Experiment Config identity differs from RunSpec")
+    value = loaded.value
+    for field in ("dataset_manifest_sha256", "processing_manifest_sha256", "split_sha256"):
+        if value[field] != getattr(run_spec, field):
+            raise ContractValidationError(f"Experiment Config {field} differs from RunSpec")
+    registered_profile = {
+        "seeds": (run_spec.seed,),
+        "initial_sample_sizes": (run_spec.initial_sample_size,),
+        "batch_sizes": (run_spec.batch_size,),
+        "budgets": (run_spec.budget,),
+    }
+    for field, expected in registered_profile.items():
+        if value[field] != expected:
+            raise ContractValidationError(f"Experiment Config {field} differs from RunSpec")
+    if run_spec.model_id not in value["models"]:
+        raise ContractValidationError("RunSpec model is not registered by Experiment Config")
+    if run_spec.acquisition_id not in value["acquisitions"]:
+        raise ContractValidationError("RunSpec acquisition is not registered by Experiment Config")
+    primary_id = value["evaluation"]["primary_high_value_definition_id"]
+    primary = next(
+        (
+            definition
+            for definition in value["evaluation"]["high_value_definitions"]
+            if definition["definition_id"] == primary_id
+        ),
+        None,
+    )
+    if primary is None or primary["purpose"] != "primary":
+        raise ContractValidationError("primary high-value definition is unresolved")
+    fraction = primary["value"]
+    if isinstance(fraction, bool) or not isinstance(fraction, (int, float)):
+        raise ContractValidationError("primary high-value fraction is invalid")
+    return str(value["task_id"]), float(fraction)
 
 
 def _tuple_sha256(values: list[object]) -> str:
@@ -494,12 +538,13 @@ class ReplayEngine:
         self,
         *,
         run_spec: RunSpec,
+        experiment_config: bytes,
         task_id: str,
         candidate_ids: tuple[str, ...],
         oracle: HiddenOracle,
-        candidate_features: LoadedFeatureMatrix | None = None,
-        model_config: bytes | None = None,
-        evaluator: HighValueEvaluator | None = None,
+        candidate_features: LoadedFeatureMatrix,
+        model_config: bytes,
+        evaluator: HighValueEvaluator,
         high_value_fraction: float | None = None,
     ) -> None:
         if run_spec.protocol_version != _PROTOCOL_ID:
@@ -513,8 +558,15 @@ class ReplayEngine:
             raise ContractValidationError("acquisition is outside the implemented M3 subset")
         if run_spec.acquisition_config_sha256 != expected_acquisition_sha:
             raise ContractValidationError("acquisition config identity drifted")
-        if not task_id:
-            raise ContractValidationError("task_id must not be empty")
+        resolved_task_id, resolved_fraction = _resolved_experiment_context(
+            run_spec, experiment_config
+        )
+        if task_id != resolved_task_id:
+            raise ContractValidationError("task identity differs from Experiment Config")
+        if high_value_fraction is not None and high_value_fraction != resolved_fraction:
+            raise ContractValidationError(
+                "primary high-value fraction differs from Experiment Config"
+            )
         if not candidate_ids or any(not _CANDIDATE_ID.fullmatch(item) for item in candidate_ids):
             raise ContractValidationError("candidate IDs must be lower-case 64-hex")
         if len(candidate_ids) != len(set(candidate_ids)):
@@ -523,43 +575,42 @@ class ReplayEngine:
             raise ContractValidationError(
                 "candidate IDs must exact-match the hidden oracle universe"
             )
+        validated_features = load_feature_matrix(
+            candidate_features.canonical_bytes,
+            feature_definitions=sequence_feature_definitions(),
+            expected_sha256=run_spec.feature_sha256,
+        )
+        if candidate_features != validated_features:
+            raise ContractValidationError(
+                "decoded candidate features differ from their canonical bytes"
+            )
+        if set(validated_features.candidate_ids) != set(candidate_ids):
+            raise ContractValidationError("candidate features must exact-cover the pool")
+        loaded_config = load_model_config(model_config)
+        if (
+            loaded_config.model_id != run_spec.model_id
+            or loaded_config.sha256 != run_spec.model_config_sha256
+        ):
+            raise ContractValidationError("model config identity differs from RunSpec")
+        if set(evaluator.candidate_ids) != set(candidate_ids):
+            raise ContractValidationError("evaluator must exact-match the candidate pool")
+        if evaluator.truth_sha256 != oracle.truth_sha256:
+            raise ContractValidationError("evaluator truth identity differs from hidden oracle")
+        evaluator.definition_summary(fraction=resolved_fraction)
         if run_spec.initial_sample_size > run_spec.budget:
             raise ContractValidationError("initial sample size exceeds budget")
         if run_spec.budget > len(candidate_ids):
             raise ContractValidationError("budget exceeds candidate pool")
         if (run_spec.budget - run_spec.initial_sample_size) % run_spec.batch_size:
             raise ContractValidationError("budget is not reachable by complete batches")
-        if (evaluator is None) != (high_value_fraction is None):
-            raise ContractValidationError(
-                "evaluator and high-value fraction must be supplied together"
-            )
-        if evaluator is not None:
-            if high_value_fraction is None:
-                raise ContractValidationError("high-value fraction is required")
-            if set(evaluator.candidate_ids) != set(candidate_ids):
-                raise ContractValidationError("evaluator must exact-match the candidate pool")
-            evaluator.definition_summary(fraction=high_value_fraction)
-        if run_spec.acquisition_id in {_GREEDY_ID, _UNCERTAINTY_ID}:
-            if not isinstance(candidate_features, LoadedFeatureMatrix):
-                raise ContractValidationError("model acquisition requires candidate features")
-            if set(candidate_features.candidate_ids) != set(candidate_ids):
-                raise ContractValidationError("candidate features must exact-cover the pool")
-            if model_config is None:
-                raise ContractValidationError("model acquisition requires frozen model config")
-            loaded_config = load_model_config(model_config)
-            if (
-                loaded_config.model_id != run_spec.model_id
-                or loaded_config.sha256 != run_spec.model_config_sha256
-            ):
-                raise ContractValidationError("model config identity differs from RunSpec")
         self._run_spec = run_spec
-        self._task_id = task_id
-        self._candidate_ids = candidate_ids
+        self._task_id = resolved_task_id
+        self._candidate_ids = validated_features.candidate_ids
         self._oracle = oracle
-        self._candidate_features = candidate_features
+        self._candidate_features = validated_features
         self._model_config = model_config
         self._evaluator = evaluator
-        self._high_value_fraction = high_value_fraction
+        self._high_value_fraction = resolved_fraction
 
     def _initial_selection(self) -> tuple[str, ...]:
         ranked = sorted(
@@ -666,8 +717,6 @@ class ReplayEngine:
         raise ContractValidationError("acquisition dispatch drifted")
 
     def _metrics(self) -> SequentialMetricSet | None:
-        if self._evaluator is None or self._high_value_fraction is None:
-            return None
         return self._evaluator.sequential_metrics(
             [observation.candidate_id for observation in self._oracle.observations],
             fraction=self._high_value_fraction,

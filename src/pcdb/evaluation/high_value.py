@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import math
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
@@ -104,6 +106,18 @@ class HighValueEvaluator:
         """Expose the selectable universe without labels or high-value membership."""
 
         return frozenset(self.__truth)
+
+    @property
+    def truth_sha256(self) -> str:
+        """Return an identity-only digest without exposing labels or membership."""
+
+        payload = json.dumps(
+            sorted(self.__truth.items()),
+            allow_nan=False,
+            ensure_ascii=False,
+            separators=(",", ":"),
+        ).encode("utf-8")
+        return hashlib.sha256(payload).hexdigest()
 
     def _definition(self, fraction: float) -> tuple[DefinitionSummary, frozenset[str]]:
         if (
