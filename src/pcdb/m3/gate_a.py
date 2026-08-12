@@ -3,8 +3,13 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.metadata
 import json
+import os
+import platform
 import re
+import subprocess
+from collections.abc import Mapping
 from dataclasses import asdict
 from pathlib import Path
 from typing import Any, cast
@@ -419,30 +424,136 @@ def load_gate_a_packet(
     return cast(dict[str, Any], value)
 
 
+def _verify_runtime_source(
+    repository_root: Path,
+    reviewed_git_commit: str,
+    reviewed_git_tree: str,
+    module_files: Mapping[str, Path],
+) -> None:
+    """Bind imported M3 modules to one exact clean reviewed checkout."""
+
+    root = repository_root.resolve()
+    expected_files = {
+        "gate_a": root / "src/pcdb/m3/gate_a.py",
+        "replay_engine": root / "src/pcdb/replay/engine.py",
+        "hidden_oracle": root / "src/pcdb/replay/oracle.py",
+    }
+    if set(module_files) != set(expected_files) or any(
+        module_files[name].resolve() != expected.resolve()
+        for name, expected in expected_files.items()
+    ):
+        raise ContractValidationError("Gate A executing source does not match repository root")
+    try:
+        checked_out_commit = subprocess.run(
+            ["git", "-C", str(root), "rev-parse", "HEAD"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        checked_out_tree = subprocess.run(
+            ["git", "-C", str(root), "rev-parse", "HEAD^{tree}"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        worktree_status = subprocess.run(
+            ["git", "-C", str(root), "status", "--porcelain=v1", "--untracked-files=all"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise ContractValidationError("Gate A runtime source could not be verified") from exc
+    if checked_out_commit != reviewed_git_commit:
+        raise ContractValidationError("Gate A checkout commit differs from reviewed source")
+    if checked_out_tree != reviewed_git_tree:
+        raise ContractValidationError("Gate A checkout tree differs from reviewed source")
+    if worktree_status:
+        raise ContractValidationError("Gate A runtime source checkout must be clean")
+
+
+def _verified_runtime_environment_digest(repository_root: Path) -> str:
+    """Rebuild the environment digest only after the running process matches its manifest."""
+
+    path = repository_root.resolve() / _ENVIRONMENT_PATH
+    try:
+        manifest, payload = _load_canonical_object(path, "Gate A environment manifest")
+        os_release = platform.freedesktop_os_release()
+    except (OSError, ValueError) as exc:
+        raise ContractValidationError("Gate A runtime environment could not be verified") from exc
+    if (
+        manifest.get("architecture") != platform.machine()
+        or cast(dict[str, object], manifest.get("python")).get("implementation")
+        != platform.python_implementation()
+        or cast(dict[str, object], manifest.get("python")).get("version")
+        != platform.python_version()
+        or manifest.get("operating_system") != os_release.get("PRETTY_NAME")
+    ):
+        raise ContractValidationError("Gate A runtime platform drifted")
+    for item in cast(list[dict[str, object]], manifest.get("packages")):
+        try:
+            actual_version = importlib.metadata.version(str(item["distribution"]))
+        except importlib.metadata.PackageNotFoundError as exc:
+            raise ContractValidationError("Gate A runtime package is absent") from exc
+        if actual_version != item["version"]:
+            raise ContractValidationError("Gate A runtime package version drifted")
+    thread_policy = cast(dict[str, object], manifest.get("thread_policy"))
+    thread_environment = cast(dict[str, str], thread_policy.get("environment"))
+    for name, expected in thread_environment.items():
+        if os.environ.get(name) != expected:
+            raise ContractValidationError("Gate A runtime thread policy drifted")
+    return hashlib.sha256(payload).hexdigest()
+
+
 def validate_gate_a_entry(
     *,
     packet_bytes: bytes,
     packet_sha256: str,
     repository_root: Path,
-    runtime_git_commit: str,
-    runtime_git_tree: str,
-    runtime_environment_digest: str,
     scratch_root: Path,
 ) -> Path:
     """Validate all non-input identities before any truth-bearing read."""
 
+    if (
+        not _SHA256.fullmatch(packet_sha256)
+        or hashlib.sha256(packet_bytes).hexdigest() != packet_sha256
+    ):
+        raise ContractValidationError("Gate A packet identity differs from reviewed bytes")
+    try:
+        untrusted = json.loads(packet_bytes)
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        raise ContractValidationError("Gate A packet must be canonical JSON") from None
+    if not isinstance(untrusted, dict) or canonical_json_bytes(untrusted) != packet_bytes:
+        raise ContractValidationError("Gate A packet must be canonical JSON")
+    reviewed = cast(dict[str, str], untrusted.get("reviewed_source"))
+    if (
+        not isinstance(reviewed, dict)
+        or not _GIT_OBJECT.fullmatch(str(reviewed.get("git_commit")))
+        or not _GIT_OBJECT.fullmatch(str(reviewed.get("git_tree")))
+    ):
+        raise ContractValidationError("Gate A packet reviewed source is invalid")
+    from pcdb.replay import engine as replay_engine_module
+    from pcdb.replay import oracle as hidden_oracle_module
+
+    _verify_runtime_source(
+        repository_root,
+        reviewed["git_commit"],
+        reviewed["git_tree"],
+        {
+            "gate_a": Path(__file__),
+            "replay_engine": Path(str(replay_engine_module.__file__)),
+            "hidden_oracle": Path(str(hidden_oracle_module.__file__)),
+        },
+    )
     packet = load_gate_a_packet(
         packet_bytes,
         expected_sha256=packet_sha256,
         repository_root=repository_root,
-        expected_git_commit=runtime_git_commit,
-        expected_git_tree=runtime_git_tree,
+        expected_git_commit=reviewed["git_commit"],
+        expected_git_tree=reviewed["git_tree"],
     )
-    reviewed = cast(dict[str, str], packet["reviewed_source"])
     environment = cast(dict[str, object], packet["environment_candidate"])
-    if reviewed != {"git_commit": runtime_git_commit, "git_tree": runtime_git_tree}:
-        raise ContractValidationError("runtime Git identity differs from reviewed source")
-    if runtime_environment_digest != environment["sha256"]:
+    if _verified_runtime_environment_digest(repository_root) != environment["sha256"]:
         raise ContractValidationError("runtime environment differs from reviewed candidate")
     resolved_scratch = scratch_root.resolve()
     resolved_repository = repository_root.resolve()

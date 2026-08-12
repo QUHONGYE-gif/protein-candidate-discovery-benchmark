@@ -6,7 +6,7 @@ import hashlib
 import json
 from dataclasses import fields
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import pytest
 
@@ -14,6 +14,8 @@ from pcdb.cli import main
 from pcdb.contracts import ContractValidationError, RunSpec
 from pcdb.contracts.experiment import canonical_json_bytes
 from pcdb.m3.gate_a import (
+    _verified_runtime_environment_digest,
+    _verify_runtime_source,
     build_gate_a_packet,
     load_gate_a_packet,
     packet_identity,
@@ -23,6 +25,11 @@ from pcdb.m3.gate_a import (
 ROOT = Path(__file__).resolve().parents[2]
 REVIEWED_COMMIT = "a" * 40
 REVIEWED_TREE = "b" * 40
+
+
+class _Completed:
+    def __init__(self, stdout: str) -> None:
+        self.stdout = stdout
 
 
 def _packet() -> tuple[bytes, dict[str, Any]]:
@@ -133,19 +140,22 @@ def test_loader_rebuilds_from_reviewed_repository_bytes_and_fails_closed_on_tamp
 
 def test_entry_validation_precedes_real_input_reads_and_requires_empty_scratch(
     tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     payload, packet = _packet()
     digest = hashlib.sha256(payload).hexdigest()
     environment = packet["environment_candidate"]
     scratch = tmp_path / "scratch"
+    monkeypatch.setattr("pcdb.m3.gate_a._verify_runtime_source", lambda *_: None)
+    monkeypatch.setattr(
+        "pcdb.m3.gate_a._verified_runtime_environment_digest",
+        lambda *_: environment["sha256"],
+    )
 
     validated = validate_gate_a_entry(
         packet_bytes=payload,
         packet_sha256=digest,
         repository_root=ROOT,
-        runtime_git_commit=REVIEWED_COMMIT,
-        runtime_git_tree=REVIEWED_TREE,
-        runtime_environment_digest=environment["sha256"],
         scratch_root=scratch,
     )
     assert validated == scratch.resolve()
@@ -156,9 +166,6 @@ def test_entry_validation_precedes_real_input_reads_and_requires_empty_scratch(
             packet_bytes=payload,
             packet_sha256=digest,
             repository_root=ROOT,
-            runtime_git_commit=REVIEWED_COMMIT,
-            runtime_git_tree=REVIEWED_TREE,
-            runtime_environment_digest=environment["sha256"],
             scratch_root=ROOT / "gate-a-output",
         )
 
@@ -169,11 +176,158 @@ def test_entry_validation_precedes_real_input_reads_and_requires_empty_scratch(
             packet_bytes=payload,
             packet_sha256=digest,
             repository_root=ROOT,
-            runtime_git_commit=REVIEWED_COMMIT,
-            runtime_git_tree=REVIEWED_TREE,
-            runtime_environment_digest=environment["sha256"],
             scratch_root=scratch,
         )
+
+
+@pytest.mark.parametrize(
+    ("head", "tree", "status", "message"),
+    [
+        ("c" * 40, REVIEWED_TREE, "", "commit"),
+        (REVIEWED_COMMIT, "d" * 40, "", "tree"),
+        (REVIEWED_COMMIT, REVIEWED_TREE, "?? unexpected.txt", "clean"),
+    ],
+)
+def test_runtime_source_rejects_actual_checkout_drift(
+    monkeypatch: pytest.MonkeyPatch,
+    head: str,
+    tree: str,
+    status: str,
+    message: str,
+) -> None:
+    outputs = iter((head + "\n", tree + "\n", status))
+    monkeypatch.setattr(
+        "subprocess.run",
+        lambda *_args, **_kwargs: _Completed(next(outputs)),
+    )
+
+    with pytest.raises(ContractValidationError, match=message):
+        _verify_runtime_source(
+            ROOT,
+            REVIEWED_COMMIT,
+            REVIEWED_TREE,
+            {
+                "gate_a": ROOT / "src/pcdb/m3/gate_a.py",
+                "replay_engine": ROOT / "src/pcdb/replay/engine.py",
+                "hidden_oracle": ROOT / "src/pcdb/replay/oracle.py",
+            },
+        )
+
+
+def test_runtime_source_accepts_exact_clean_checkout(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    outputs = iter((REVIEWED_COMMIT + "\n", REVIEWED_TREE + "\n", ""))
+    monkeypatch.setattr(
+        "subprocess.run",
+        lambda *_args, **_kwargs: _Completed(next(outputs)),
+    )
+
+    _verify_runtime_source(
+        ROOT,
+        REVIEWED_COMMIT,
+        REVIEWED_TREE,
+        {
+            "gate_a": ROOT / "src/pcdb/m3/gate_a.py",
+            "replay_engine": ROOT / "src/pcdb/replay/engine.py",
+            "hidden_oracle": ROOT / "src/pcdb/replay/oracle.py",
+        },
+    )
+
+
+def test_runtime_source_rejects_imported_module_outside_reviewed_checkout() -> None:
+    with pytest.raises(ContractValidationError, match="executing source"):
+        _verify_runtime_source(
+            ROOT,
+            REVIEWED_COMMIT,
+            REVIEWED_TREE,
+            {
+                "gate_a": ROOT / "src/pcdb/m3/gate_a.py",
+                "replay_engine": ROOT / "src/pcdb/replay/engine.py",
+                "hidden_oracle": Path("/tmp/substituted-oracle.py"),
+            },
+        )
+
+
+def _mock_reviewed_environment(monkeypatch: pytest.MonkeyPatch) -> dict[str, Any]:
+    path = ROOT / "configs/environments/m2-gate-a-linux-x86_64.json"
+    manifest = json.loads(path.read_bytes())
+    versions = {item["distribution"]: item["version"] for item in manifest["packages"]}
+    monkeypatch.setattr("platform.machine", lambda: manifest["architecture"])
+    monkeypatch.setattr(
+        "platform.python_implementation", lambda: manifest["python"]["implementation"]
+    )
+    monkeypatch.setattr("platform.python_version", lambda: manifest["python"]["version"])
+    monkeypatch.setattr(
+        "platform.freedesktop_os_release",
+        lambda: {"PRETTY_NAME": manifest["operating_system"]},
+    )
+    monkeypatch.setattr("importlib.metadata.version", lambda name: versions[name])
+    for name, value in manifest["thread_policy"]["environment"].items():
+        monkeypatch.setenv(name, value)
+    return cast(dict[str, Any], manifest)
+
+
+def test_runtime_environment_digest_requires_actual_reviewed_environment(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    path = ROOT / "configs/environments/m2-gate-a-linux-x86_64.json"
+    _mock_reviewed_environment(monkeypatch)
+
+    assert (
+        _verified_runtime_environment_digest(ROOT) == hashlib.sha256(path.read_bytes()).hexdigest()
+    )
+
+
+@pytest.mark.parametrize("drift", ["platform", "package", "thread-policy"])
+def test_runtime_environment_rejects_actual_environment_drift(
+    monkeypatch: pytest.MonkeyPatch,
+    drift: str,
+) -> None:
+    manifest = _mock_reviewed_environment(monkeypatch)
+    if drift == "platform":
+        monkeypatch.setattr("platform.machine", lambda: "drifted")
+        message = "platform drifted"
+    elif drift == "package":
+        monkeypatch.setattr("importlib.metadata.version", lambda _name: "drifted")
+        message = "package version drifted"
+    else:
+        first_name = next(iter(manifest["thread_policy"]["environment"]))
+        monkeypatch.setenv(first_name, "drifted")
+        message = "thread policy drifted"
+
+    with pytest.raises(ContractValidationError, match=message):
+        _verified_runtime_environment_digest(ROOT)
+
+
+def test_entry_derives_source_and_environment_instead_of_accepting_identity_strings(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    payload, packet = _packet()
+    calls = {"source": 0, "environment": 0}
+
+    def verify_source(*_: object) -> None:
+        calls["source"] += 1
+
+    def verify_environment(*_: object) -> str:
+        calls["environment"] += 1
+        return cast(str, packet["environment_candidate"]["sha256"])
+
+    monkeypatch.setattr("pcdb.m3.gate_a._verify_runtime_source", verify_source)
+    monkeypatch.setattr(
+        "pcdb.m3.gate_a._verified_runtime_environment_digest",
+        verify_environment,
+    )
+
+    validate_gate_a_entry(
+        packet_bytes=payload,
+        packet_sha256=hashlib.sha256(payload).hexdigest(),
+        repository_root=ROOT,
+        scratch_root=tmp_path / "scratch",
+    )
+
+    assert calls == {"source": 1, "environment": 1}
 
 
 def test_packet_cli_prints_reproducible_review_bytes_without_writing_files(

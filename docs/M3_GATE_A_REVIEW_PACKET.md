@@ -75,12 +75,16 @@ input key/size/SHA 或 policy drift 都必须重新生成并重新审核。
 `validate_gate_a_entry()` 在任何真实输入读取前验证：
 
 1. packet SHA-256 与 canonical bytes；
-2. packet 能由 exact repository bytes 重新生成；
-3. runtime commit/tree 与 packet 完全一致；
-4. runtime environment digest 与 packet 完全一致；
-5. scratch 不在仓库的非忽略目录中，且开始时为空。
+2. 通过 `git` 直接读取实际 `HEAD`、`HEAD^{tree}` 和完整 tracked/untracked status，拒绝 commit、
+   tree 或 clean-state drift；
+3. 实际导入的 Gate A validator、ReplayEngine 和 HiddenOracle module 必须来自该 repository；
+4. packet 能由 exact repository bytes 重新生成；
+5. 从实际 platform、Python/distribution versions 与 thread-policy environment 重建 environment
+   digest，并与 packet 完全一致；
+6. scratch 不在仓库的非忽略目录中，且开始时为空。
 
-此 validator 本身不读取 input inventory，不创建 scratch，也不运行 replay。真实输入 staging、
+commit、tree 与 environment identity 均由 validator 直接派生，不接受调用方自报字符串。此
+validator 本身不读取 input inventory，不创建 scratch，也不运行 replay。真实输入 staging、
 same-RunSpec double-run 和 interrupted/recovered preflight 只有在该 exact packet 获得新的独立审核与
 明确 Gate A 授权后才能执行。
 
