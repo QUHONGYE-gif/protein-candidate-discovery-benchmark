@@ -86,8 +86,8 @@ class CvmRoleCredentialsProvider:
     _BASE = "http://metadata.tencentyun.com/latest/meta-data/cam/security-credentials"
 
     def __init__(self, role_name: str = "PCDBIssue58GateBRunner") -> None:
-        if role_name != "PCDBIssue58GateBRunner":
-            raise ContractValidationError("unexpected Gate B CVM role")
+        if role_name not in {"PCDBIssue58GateBRunner", "PCDBIssue68GateAReader"}:
+            raise ContractValidationError("unexpected PCDB CVM role")
         self._role_name = role_name
         self._cached: CosCredentials | None = None
 
@@ -145,6 +145,12 @@ class CosXmlObjectClient:
         self._region = region
         self._max_transfer_bytes = max_transfer_bytes
         self._transferred_bytes = 0
+
+    @property
+    def transferred_bytes(self) -> int:
+        """Return exact request/response payload bytes counted by this client."""
+
+        return self._transferred_bytes
 
     def _request(
         self,
@@ -257,3 +263,31 @@ class CosXmlObjectClient:
         if len(keys) != len(set(keys)):
             raise ContractValidationError("COS LIST returned duplicate keys")
         return tuple(keys)
+
+
+class Issue68GateAReadOnlyCosClient:
+    """Capability wrapper exposing only the exact Gate A HEAD/GET surface."""
+
+    def __init__(
+        self,
+        *,
+        credentials: Callable[[], CosCredentials] | None = None,
+        max_transfer_bytes: int = 10_737_418_240,
+    ) -> None:
+        if credentials is None:
+            provider = CvmRoleCredentialsProvider("PCDBIssue68GateAReader")
+            credentials = provider.get
+        self.__client = CosXmlObjectClient(
+            credentials=credentials,
+            max_transfer_bytes=max_transfer_bytes,
+        )
+
+    @property
+    def transferred_bytes(self) -> int:
+        return self.__client.transferred_bytes
+
+    def head(self, bucket: str, key: str) -> Any:
+        return self.__client.head(bucket, key)
+
+    def get(self, bucket: str, key: str) -> bytes:
+        return self.__client.get(bucket, key)

@@ -88,6 +88,51 @@ validator 本身不读取 input inventory，不创建 scratch，也不运行 rep
 same-RunSpec double-run 和 interrupted/recovered preflight 只有在该 exact packet 获得新的独立审核与
 明确 Gate A 授权后才能执行。
 
+## Gate A read-only runtime
+
+Gate A runtime 是 Issue #68 的单一用途入口，不是通用实验调度器。它只允许：
+
+1. 验证 exact approval、packet SHA、实际 commit/tree、clean checkout、运行模块、environment 与空
+   scratch；
+2. 对 packet 冻结的 12 个对象依次执行 `HEAD`，校验 exact size；
+3. 仅对 IRED × Ridge × Random sentinel 的六个对象执行 fresh `GET`，hidden truth 必须最后读取；
+4. 通过 `ReplayEngine.from_reviewed_inputs()` 在 truth-owning boundary 内构建 oracle/evaluator；
+5. 对同一 RunSpec 做两次完整运行，并从排他创建且 fresh-read 的 round-0 checkpoint 恢复一次；
+6. 校验 canonical trajectory、16/24/32 budget boundary、禁止重复购买、四项 metrics 与实际可观测
+   resource caps；
+7. 仅在本地 scratch 排他创建 `gate-a-evidence.json`，不创建 RunAttempt、`_SUCCESS` 或 COS 对象。
+
+运行身份固定为 CVM role `PCDBIssue68GateAReader`。该角色只能具有 packet 内 12 个 exact object 的
+`HeadObject`/`GetObject` 与受限 `GetBucket` 权限；不得授予 `PutObject`、`DeleteObject`、其他 bucket、
+其他 prefix 或更宽 list 权限。入口不包含 PUT、Delete、automatic retry 或 replacement API。
+
+只有最终实现合并后重新物化的 packet 完成独立 exact-bytes review，并由用户明确给出以下完整授权
+字符串，才允许调用：
+
+```text
+APPROVED FOR M3 IRED SENTINEL GATE A READ-ONLY PREFLIGHT
+```
+
+授权后的服务器命令形状为：
+
+```bash
+pcdb m3-gate-a \
+  --packet /absolute/reviewed/m3-gate-a-packet.json \
+  --packet-sha256 '<reviewed-sha256>' \
+  --approval 'APPROVED FOR M3 IRED SENTINEL GATE A READ-ONLY PREFLIGHT' \
+  --repository-root /absolute/fresh-clean-checkout \
+  --scratch-root /absolute/new-empty-scratch
+```
+
+必须先通过 `taskset`/CPU affinity 或等价服务器配置，将当前进程可见 CPU 限制在 packet 的
+`max_vcpu` 内；runtime 会根据 affinity、peak RSS、wall time、fresh-GET bytes 和 checkpoint bytes
+fail closed。云账单费用无法由进程内部可靠观测，evidence 只记录 reviewed ceiling，并要求 operator
+独立核对实际费用。因此 runtime evidence 在费用核验前必须保持 `INCONCLUSIVE`；不能仅凭轨迹、
+recovery 和资源测量成功自行声明 Gate A `PASS`。
+
+任何失败均停止；不得在同一授权下 retry、替换 scratch、扩大 CAM 或复用部分 evidence。成功输出仍
+只是 Gate A preflight evidence，Gate B 保持未授权，Gate 2 仍需最终独立证据复核。
+
 ## 审核结论范围
 
 本准备完成后只能声明：

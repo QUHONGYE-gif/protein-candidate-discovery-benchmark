@@ -72,6 +72,15 @@ def build_parser() -> argparse.ArgumentParser:
     m3_packet.add_argument("--reviewed-git-commit", required=True)
     m3_packet.add_argument("--reviewed-git-tree", required=True)
     m3_packet.add_argument("--repository-root", required=True, type=Path)
+    m3_gate_a = commands.add_parser(
+        "m3-gate-a",
+        help="run one explicitly authorized read-only Issue #68 sentinel preflight",
+    )
+    m3_gate_a.add_argument("--packet", required=True, type=Path)
+    m3_gate_a.add_argument("--packet-sha256", required=True)
+    m3_gate_a.add_argument("--approval", required=True)
+    m3_gate_a.add_argument("--repository-root", required=True, type=Path)
+    m3_gate_a.add_argument("--scratch-root", required=True, type=Path)
     return parser
 
 
@@ -100,6 +109,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         sys.stdout.buffer.write(payload)
         return 0
+    if arguments.command == "m3-gate-a":
+        from pcdb.m3.gate_a_runtime import run_gate_a_cli
+
+        return run_gate_a_cli(arguments)
     return 0
 
 
