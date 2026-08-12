@@ -6,6 +6,7 @@ import hashlib
 import re
 from dataclasses import dataclass
 from datetime import datetime
+from pathlib import PurePosixPath
 
 from pcdb.contracts.experiment import ContractValidationError, canonical_json_bytes
 from pcdb.contracts.prediction import load_run_attempt_v1
@@ -84,6 +85,7 @@ def publish_replay_attempt(
     executed_git_commit: str,
     executed_environment_digest: str,
     runtime_version: str,
+    key_prefix: str = "",
 ) -> ReplayPublication:
     """Publish payloads and RunAttempt immutably, then write ``_SUCCESS`` last."""
 
@@ -95,15 +97,21 @@ def publish_replay_attempt(
         executed_environment_digest=executed_environment_digest,
         runtime_version=runtime_version,
     )
-    if (
-        executed_git_commit != trajectory.run_spec.git_commit
-        or executed_environment_digest != trajectory.run_spec.environment_digest
-    ):
-        raise ContractValidationError("executed runtime provenance must exact-match RunSpec")
+    if key_prefix:
+        normalized_prefix = key_prefix.rstrip("/")
+        prefix_path = PurePosixPath(normalized_prefix)
+        if (
+            key_prefix.startswith("/")
+            or normalized_prefix in {"", "."}
+            or ".." in prefix_path.parts
+            or str(prefix_path) != normalized_prefix
+        ):
+            raise ContractValidationError("publication key_prefix is invalid")
+        key_prefix = normalized_prefix + "/"
     validated = load_replay_trajectory(trajectory.canonical_bytes)
     if validated.sha256 != trajectory.sha256:
         raise ContractValidationError("trajectory identity drifted before publication")
-    base = f"runs/{trajectory.run_id}/attempts/{attempt_id}"
+    base = f"{key_prefix}runs/{trajectory.run_id}/attempts/{attempt_id}"
     outputs: list[ArtifactMetadata] = []
     for round_index, event in enumerate(trajectory.events):
         checkpoint = trajectory.checkpoint_bytes(round_index)
@@ -194,12 +202,7 @@ def is_replay_attempt_eligible(store: ArtifactStore, attempt_key: str) -> bool:
         }
         if output_sha256 != expected_sha256:
             return False
-        if (
-            attempt_key != f"{base}/run-attempt.json"
-            or attempt.value["executed_git_commit"] != trajectory.run_spec.git_commit
-            or attempt.value["executed_environment_digest"]
-            != trajectory.run_spec.environment_digest
-        ):
+        if attempt_key != f"{base}/run-attempt.json":
             return False
         marker = attempt.value["completion_marker"]
         return (
