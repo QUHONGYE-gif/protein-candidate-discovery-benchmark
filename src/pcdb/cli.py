@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from collections.abc import Sequence
 from pathlib import Path
 
@@ -64,6 +65,13 @@ def build_parser() -> argparse.ArgumentParser:
     gate_b.add_argument("--gate-a-root", required=True, type=Path)
     gate_b.add_argument("--repository-root", required=True, type=Path)
     gate_b.add_argument("--scratch-root", required=True, type=Path)
+    m3_packet = commands.add_parser(
+        "m3-gate-a-packet",
+        help="print the zero-real-input Issue #68 Gate A review packet",
+    )
+    m3_packet.add_argument("--reviewed-git-commit", required=True)
+    m3_packet.add_argument("--reviewed-git-tree", required=True)
+    m3_packet.add_argument("--repository-root", required=True, type=Path)
     return parser
 
 
@@ -82,6 +90,16 @@ def main(argv: Sequence[str] | None = None) -> int:
         from pcdb.m2.gate_b_runtime import run_gate_b_cli
 
         return run_gate_b_cli(arguments)
+    if arguments.command == "m3-gate-a-packet":
+        from pcdb.m3.gate_a import build_gate_a_packet
+
+        payload = build_gate_a_packet(
+            arguments.repository_root,
+            arguments.reviewed_git_commit,
+            arguments.reviewed_git_tree,
+        )
+        sys.stdout.buffer.write(payload)
+        return 0
     return 0
 
 

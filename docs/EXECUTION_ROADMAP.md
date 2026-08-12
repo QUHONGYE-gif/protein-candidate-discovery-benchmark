@@ -176,11 +176,13 @@ execution。Issue #58 随 evidence 发布的 anti-post-hoc freeze 固定了 Alph
 trajectory、recovery、artifact inventory、caps 与 authorization；任何 M2 结果不得用于同一 cohort
 的 feature/model/config post-hoc 调整。
 
-Issue #66 已建立 [M3 single-fidelity replay protocol v1 candidate](M3_SINGLE_FIDELITY_REPLAY_PROTOCOL_V1.md)，
-把 Alpha＋IRED、三模型、Random/Greedy/Uncertainty、seed `1729`、`initial=16`、`batch=8`、
-`budget=32`、18 组合 matrix、deterministic bootstrap uncertainty、trajectory/recovery 和资源 caps
-放入同一 tracked review surface。该 candidate 尚需 exact-bytes 独立批准；其存在本身不授权
-#67 implementation 或 #68 的真实 preflight/formal execution。
+截至 2026-08-12，Issue #66 的
+[M3 single-fidelity replay protocol v1](M3_SINGLE_FIDELITY_REPLAY_PROTOCOL_V1.md) 已完成 exact-bytes
+独立审核；Issue #67 的 synthetic ReplayEngine implementation 已通过审核并合并。两者完成只解除
+#68 的实现准备阻塞，不授权真实输入或正式执行。Issue #68 下一步按照
+[M3 Gate A review packet](M3_GATE_A_REVIEW_PACKET.md) 先绑定 exact merged commit/tree、environment、
+18 个 RunSpec 与 12 个 read-only input identities；该 exact packet 获得新的独立审核和明确授权前，
+server/COS access、candidate truth read、Gate A execution 与 Gate B publication 均保持关闭。
 
 ### M4：E1 单保真筛选与确认
 
