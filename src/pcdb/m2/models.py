@@ -357,6 +357,54 @@ def fit_regressor(
         development_observations,
         development_features.candidate_ids,
     )
+    return _fit_validated_regressor(config, features, observations, seed=seed)
+
+
+def fit_bootstrap_regressor(
+    model_config: bytes,
+    development_features: LoadedFeatureMatrix,
+    development_observations: Sequence[DevelopmentObservation],
+    *,
+    sampled_indices: Sequence[int],
+    seed: int,
+) -> FittedRegressor:
+    """Fit the frozen estimator on one exact with-replacement row draw."""
+
+    if isinstance(seed, bool) or not isinstance(seed, int) or seed < 0:
+        raise ContractValidationError("RunSpec seed must be a non-negative integer")
+    config = load_model_config(model_config)
+    features = _matrix_values(development_features)
+    observations = _observation_values(
+        development_observations,
+        development_features.candidate_ids,
+    )
+    if (
+        isinstance(sampled_indices, (str, bytes, bytearray))
+        or len(sampled_indices) != len(development_features.candidate_ids)
+        or any(
+            isinstance(index, bool)
+            or not isinstance(index, int)
+            or not 0 <= index < len(development_features.candidate_ids)
+            for index in sampled_indices
+        )
+    ):
+        raise ContractValidationError("bootstrap indices must exact-cover one in-range size-n draw")
+    index_array = np.asarray(sampled_indices, dtype=np.int64)
+    return _fit_validated_regressor(
+        config,
+        features[index_array],
+        observations[index_array],
+        seed=seed,
+    )
+
+
+def _fit_validated_regressor(
+    config: LoadedModelConfig,
+    features: NDArray[np.float64],
+    observations: NDArray[np.float64],
+    *,
+    seed: int,
+) -> FittedRegressor:
     if config.model_id == "ridge-sklearn-v1":
         estimator = cast(FittedRegressor, Ridge(**dict(_RIDGE_PARAMETERS)))
     elif config.model_id == "random-forest-sklearn-v1":
