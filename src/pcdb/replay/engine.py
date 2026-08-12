@@ -732,6 +732,15 @@ class ReplayEngine:
         """Construct the truth-owning engine without exposing labels to its caller."""
 
         truth = _parse_hidden_truth(hidden_truth)
+        try:
+            pool_truth = {
+                candidate_id: truth[candidate_id]
+                for candidate_id in candidate_features.candidate_ids
+            }
+        except KeyError:
+            raise ContractValidationError(
+                "hidden-truth does not cover the candidate pool"
+            ) from None
         return cls(
             run_spec=run_spec,
             experiment_config=experiment_config,
@@ -740,10 +749,10 @@ class ReplayEngine:
             hidden_truth=hidden_truth,
             task_id=task_id,
             candidate_ids=candidate_features.candidate_ids,
-            oracle=HiddenOracle(truth),
+            oracle=HiddenOracle(pool_truth),
             candidate_features=candidate_features,
             model_config=model_config,
-            evaluator=HighValueEvaluator(tuple(truth.items())),
+            evaluator=HighValueEvaluator(tuple(pool_truth.items())),
         )
 
     def __init__(
