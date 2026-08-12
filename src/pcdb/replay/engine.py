@@ -215,8 +215,24 @@ def _manifest_bound_truth_sha256(
         "size_bytes"
     ] != len(hidden_truth_bytes):
         raise ContractValidationError("hidden-truth exact bytes do not match manifest")
+    truth = _parse_hidden_truth(hidden_truth_bytes)
+    if "row_count" in reference and reference["row_count"] != len(truth):
+        raise ContractValidationError("hidden-truth row count does not match manifest")
+    if not set(candidate_ids) <= set(truth):
+        raise ContractValidationError("hidden-truth does not cover the candidate pool")
+    pool_truth = sorted((candidate_id, truth[candidate_id]) for candidate_id in candidate_ids)
+    payload = json.dumps(
+        pool_truth,
+        allow_nan=False,
+        ensure_ascii=False,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _parse_hidden_truth(payload: bytes) -> dict[str, float]:
     try:
-        text = hidden_truth_bytes.decode("utf-8")
+        text = payload.decode("utf-8")
     except UnicodeDecodeError as exc:
         raise ContractValidationError("hidden-truth must be UTF-8 CSV") from exc
     reader = csv.DictReader(io.StringIO(text, newline=""), strict=True)
@@ -246,18 +262,7 @@ def _manifest_bound_truth_sha256(
             truth[candidate_id] = target
     except csv.Error as exc:
         raise ContractValidationError("hidden-truth must be valid CSV") from exc
-    if "row_count" in reference and reference["row_count"] != len(truth):
-        raise ContractValidationError("hidden-truth row count does not match manifest")
-    if not set(candidate_ids) <= set(truth):
-        raise ContractValidationError("hidden-truth does not cover the candidate pool")
-    pool_truth = sorted((candidate_id, truth[candidate_id]) for candidate_id in candidate_ids)
-    payload = json.dumps(
-        pool_truth,
-        allow_nan=False,
-        ensure_ascii=False,
-        separators=(",", ":"),
-    ).encode("utf-8")
-    return hashlib.sha256(payload).hexdigest()
+    return truth
 
 
 def _tuple_sha256(values: list[object]) -> str:
@@ -710,6 +715,45 @@ def load_replay_trajectory(payload: bytes) -> ReplayTrajectory:
 
 class ReplayEngine:
     """Own selection-to-oracle flow for one frozen M3 RunSpec."""
+
+    @classmethod
+    def from_reviewed_inputs(
+        cls,
+        *,
+        run_spec: RunSpec,
+        experiment_config: bytes,
+        feature_descriptor: bytes,
+        processing_manifest: bytes,
+        hidden_truth: bytes,
+        task_id: str,
+        candidate_features: LoadedFeatureMatrix,
+        model_config: bytes,
+    ) -> ReplayEngine:
+        """Construct the truth-owning engine without exposing labels to its caller."""
+
+        truth = _parse_hidden_truth(hidden_truth)
+        try:
+            pool_truth = {
+                candidate_id: truth[candidate_id]
+                for candidate_id in candidate_features.candidate_ids
+            }
+        except KeyError:
+            raise ContractValidationError(
+                "hidden-truth does not cover the candidate pool"
+            ) from None
+        return cls(
+            run_spec=run_spec,
+            experiment_config=experiment_config,
+            feature_descriptor=feature_descriptor,
+            processing_manifest=processing_manifest,
+            hidden_truth=hidden_truth,
+            task_id=task_id,
+            candidate_ids=candidate_features.candidate_ids,
+            oracle=HiddenOracle(pool_truth),
+            candidate_features=candidate_features,
+            model_config=model_config,
+            evaluator=HighValueEvaluator(tuple(pool_truth.items())),
+        )
 
     def __init__(
         self,

@@ -368,6 +368,68 @@ def test_random_replay_reaches_budget_with_byte_identical_trajectory() -> None:
     ] == [candidate_id for event in first.events for candidate_id in event.selected_candidate_ids]
 
 
+def test_reviewed_inputs_project_full_truth_superset_to_candidate_pool() -> None:
+    candidate_ids = tuple(f"{index:064x}" for index in range(1, 7))
+    truth = {
+        **{candidate_id: float(index) for index, candidate_id in enumerate(candidate_ids)},
+        f"{999:064x}": 999.0,
+    }
+    features = _loaded_features(candidate_ids)
+    processing_manifest = _processing_manifest_bytes(truth)
+    processing_sha256 = hashlib.sha256(processing_manifest).hexdigest()
+    run_spec = _random_run_spec(candidate_ids, truth=truth)
+
+    trajectory = ReplayEngine.from_reviewed_inputs(
+        run_spec=run_spec,
+        experiment_config=_experiment_config_bytes(processing_manifest_sha256=processing_sha256),
+        feature_descriptor=_feature_descriptor_bytes(
+            features,
+            processing_manifest_sha256=processing_sha256,
+        ),
+        processing_manifest=processing_manifest,
+        hidden_truth=_hidden_truth_bytes(truth),
+        task_id="synthetic-toy",
+        candidate_features=features,
+        model_config=model_config_bytes(run_spec.model_id),
+    ).run()
+
+    assert trajectory.complete is True
+    assert {
+        observation.candidate_id
+        for event in trajectory.events
+        for observation in event.observations
+    } <= set(candidate_ids)
+
+
+def test_reviewed_inputs_reject_truth_missing_candidate_before_replay() -> None:
+    candidate_ids = tuple(f"{index:064x}" for index in range(1, 7))
+    truth = {candidate_id: float(index) for index, candidate_id in enumerate(candidate_ids[:-1])}
+    features = _loaded_features(candidate_ids)
+    processing_manifest = _processing_manifest_bytes(truth)
+    processing_sha256 = hashlib.sha256(processing_manifest).hexdigest()
+    run_spec = _random_run_spec(candidate_ids, truth=truth)
+
+    with pytest.raises(
+        ContractValidationError,
+        match="hidden-truth does not cover the candidate pool",
+    ):
+        ReplayEngine.from_reviewed_inputs(
+            run_spec=run_spec,
+            experiment_config=_experiment_config_bytes(
+                processing_manifest_sha256=processing_sha256
+            ),
+            feature_descriptor=_feature_descriptor_bytes(
+                features,
+                processing_manifest_sha256=processing_sha256,
+            ),
+            processing_manifest=processing_manifest,
+            hidden_truth=_hidden_truth_bytes(truth),
+            task_id="synthetic-toy",
+            candidate_features=features,
+            model_config=model_config_bytes(run_spec.model_id),
+        )
+
+
 def test_formal_experiment_config_v2_resolution_remains_run_spec_bound() -> None:
     config_bytes = M3_EXPERIMENT_CONFIG.read_bytes()
     config = load_experiment_config(config_bytes)
