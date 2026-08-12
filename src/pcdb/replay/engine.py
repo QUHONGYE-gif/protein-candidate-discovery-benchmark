@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
+import csv
 import hashlib
+import io
 import json
 import math
 import re
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import asdict, dataclass
+from pathlib import PurePosixPath
+from typing import Any, cast
 
 import numpy as np
 
@@ -19,6 +23,7 @@ from pcdb.contracts.experiment import (
 from pcdb.contracts.feature_identity import (
     LoadedFeatureMatrix,
     encode_feature_matrix,
+    load_feature_bundle_descriptor,
     load_feature_matrix,
 )
 from pcdb.contracts.run import RunSpec
@@ -45,8 +50,6 @@ _UNCERTAINTY_CONFIG_SHA256 = "7748917bf19048002b784be8c95dfe76ca138dac421e511a4f
 
 def _resolved_experiment_context(run_spec: RunSpec, payload: bytes) -> tuple[str, float]:
     loaded = load_experiment_config(payload)
-    if loaded.schema_version != "2":
-        raise ContractValidationError("M3 replay requires Experiment Config v2")
     if loaded.sha256 != run_spec.experiment_config_sha256:
         raise ContractValidationError("Experiment Config identity differs from RunSpec")
     value = loaded.value
@@ -66,21 +69,195 @@ def _resolved_experiment_context(run_spec: RunSpec, payload: bytes) -> tuple[str
         raise ContractValidationError("RunSpec model is not registered by Experiment Config")
     if run_spec.acquisition_id not in value["acquisitions"]:
         raise ContractValidationError("RunSpec acquisition is not registered by Experiment Config")
-    primary_id = value["evaluation"]["primary_high_value_definition_id"]
-    primary = next(
-        (
-            definition
-            for definition in value["evaluation"]["high_value_definitions"]
-            if definition["definition_id"] == primary_id
-        ),
-        None,
-    )
-    if primary is None or primary["purpose"] != "primary":
-        raise ContractValidationError("primary high-value definition is unresolved")
-    fraction = primary["value"]
+    if loaded.schema_version == "2":
+        primary_id = value["evaluation"]["primary_high_value_definition_id"]
+        primary = next(
+            (
+                definition
+                for definition in value["evaluation"]["high_value_definitions"]
+                if definition["definition_id"] == primary_id
+            ),
+            None,
+        )
+        if primary is None or primary["purpose"] != "primary":
+            raise ContractValidationError("primary high-value definition is unresolved")
+        task_id = value["task_id"]
+        fraction = primary["value"]
+    else:
+        if canonical_json_bytes(value) != payload or value.get("phase") != "smoke":
+            raise ContractValidationError("synthetic Experiment Config must be canonical smoke v1")
+        evaluation = value.get("evaluation")
+        task_id = value.get("task_id")
+        if not isinstance(evaluation, Mapping) or set(evaluation) != {
+            "primary_high_value_fraction"
+        }:
+            raise ContractValidationError("synthetic primary high-value definition is unresolved")
+        fraction = evaluation["primary_high_value_fraction"]
+    if not isinstance(task_id, str) or not task_id:
+        raise ContractValidationError("Experiment Config task identity is invalid")
     if isinstance(fraction, bool) or not isinstance(fraction, (int, float)):
         raise ContractValidationError("primary high-value fraction is invalid")
-    return str(value["task_id"]), float(fraction)
+    if not math.isfinite(float(fraction)) or not 0 < float(fraction) <= 1:
+        raise ContractValidationError("primary high-value fraction is invalid")
+    return task_id, float(fraction)
+
+
+def _strict_json_object(payload: bytes, field: str) -> dict[str, Any]:
+    def reject_constant(_value: str) -> None:
+        raise ContractValidationError(f"{field} contains a non-finite JSON constant")
+
+    def reject_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in pairs:
+            if key in result:
+                raise ContractValidationError(f"{field} contains a duplicate JSON key")
+            result[key] = value
+        return result
+
+    if not payload or payload.startswith(b"\xef\xbb\xbf"):
+        raise ContractValidationError(f"{field} must be strict UTF-8 JSON")
+    try:
+        value = json.loads(
+            payload.decode("utf-8"),
+            object_pairs_hook=reject_duplicates,
+            parse_constant=reject_constant,
+        )
+    except ContractValidationError:
+        raise
+    except (UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+        raise ContractValidationError(f"{field} must be strict UTF-8 JSON") from exc
+    if not isinstance(value, dict):
+        raise ContractValidationError(f"{field} must be a JSON object")
+    return cast(dict[str, Any], value)
+
+
+def _validated_candidate_features(
+    *,
+    run_spec: RunSpec,
+    task_id: str,
+    descriptor_bytes: bytes,
+    candidate_features: LoadedFeatureMatrix,
+) -> LoadedFeatureMatrix:
+    descriptor = load_feature_bundle_descriptor(
+        descriptor_bytes,
+        expected_sha256=run_spec.feature_sha256,
+    )
+    value = descriptor.value
+    if value["benchmark_task_id"] != task_id:
+        raise ContractValidationError("feature descriptor task differs from Experiment Config")
+    for field in ("dataset_manifest_sha256", "processing_manifest_sha256", "split_sha256"):
+        if value[field] != getattr(run_spec, field):
+            raise ContractValidationError(f"feature descriptor {field} differs from RunSpec")
+    candidate_members = [
+        member for member in value["matrices"] if member["role"] == "candidate-pool"
+    ]
+    if len(candidate_members) != 1:
+        raise ContractValidationError("feature descriptor candidate-pool member is unresolved")
+    reference = candidate_members[0]["artifact"]
+    payload = candidate_features.canonical_bytes
+    if (
+        hashlib.sha256(payload).hexdigest() != reference["sha256"]
+        or len(payload) != reference["size_bytes"]
+    ):
+        raise ContractValidationError("candidate feature member differs from descriptor")
+    validated = load_feature_matrix(
+        payload,
+        feature_definitions=cast(Sequence[Mapping[str, Any]], value["feature_definitions"]),
+        expected_sha256=cast(str, reference["sha256"]),
+    )
+    if candidate_features != validated:
+        raise ContractValidationError("decoded candidate features differ from their member bytes")
+    if len(validated.candidate_ids) != candidate_members[0]["row_count"]:
+        raise ContractValidationError("candidate feature member row count differs from descriptor")
+    return validated
+
+
+def _manifest_bound_truth_sha256(
+    *,
+    run_spec: RunSpec,
+    processing_manifest_bytes: bytes,
+    hidden_truth_bytes: bytes,
+    candidate_ids: tuple[str, ...],
+) -> str:
+    if hashlib.sha256(processing_manifest_bytes).hexdigest() != (
+        run_spec.processing_manifest_sha256
+    ):
+        raise ContractValidationError("processing manifest identity differs from RunSpec")
+    manifest = _strict_json_object(processing_manifest_bytes, "processing manifest")
+    if (
+        manifest.get("schema_version") != "1"
+        or manifest.get("dataset_manifest_sha256") != run_spec.dataset_manifest_sha256
+        or manifest.get("candidate_id_field") != "candidate_id"
+        or manifest.get("candidate_id_unique") is not True
+        or manifest.get("hidden_label_field") != "target"
+        or manifest.get("label_direction") != "higher_is_better"
+    ):
+        raise ContractValidationError("processing manifest domain identity drifted")
+    outputs = manifest.get("output_files")
+    if not isinstance(outputs, list):
+        raise ContractValidationError("processing manifest outputs are invalid")
+    truth_references = [
+        item
+        for item in outputs
+        if isinstance(item, dict)
+        and isinstance(item.get("object_key"), str)
+        and PurePosixPath(item["object_key"]).name == "hidden-truth.csv"
+    ]
+    if len(truth_references) != 1:
+        raise ContractValidationError(
+            "processing manifest must reference exactly one hidden-truth artifact"
+        )
+    reference = truth_references[0]
+    required = {"object_key", "sha256", "size_bytes"}
+    if not required <= set(reference) or not set(reference) <= required | {"row_count"}:
+        raise ContractValidationError("hidden-truth manifest reference fields drifted")
+    if reference["sha256"] != hashlib.sha256(hidden_truth_bytes).hexdigest() or reference[
+        "size_bytes"
+    ] != len(hidden_truth_bytes):
+        raise ContractValidationError("hidden-truth exact bytes do not match manifest")
+    try:
+        text = hidden_truth_bytes.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise ContractValidationError("hidden-truth must be UTF-8 CSV") from exc
+    reader = csv.DictReader(io.StringIO(text, newline=""), strict=True)
+    if reader.fieldnames != ["candidate_id", "target"]:
+        raise ContractValidationError("hidden-truth fields drifted")
+    truth: dict[str, float] = {}
+    try:
+        for row in reader:
+            candidate_id = row.get("candidate_id")
+            raw_target = row.get("target")
+            if (
+                set(row) != {"candidate_id", "target"}
+                or None in row
+                or not isinstance(candidate_id, str)
+                or not _CANDIDATE_ID.fullmatch(candidate_id)
+                or candidate_id in truth
+                or not isinstance(raw_target, str)
+                or not raw_target
+            ):
+                raise ContractValidationError("hidden-truth row is invalid")
+            try:
+                target = float(raw_target)
+            except ValueError as exc:
+                raise ContractValidationError("hidden-truth target must be numeric") from exc
+            if not math.isfinite(target):
+                raise ContractValidationError("hidden-truth target must be finite")
+            truth[candidate_id] = target
+    except csv.Error as exc:
+        raise ContractValidationError("hidden-truth must be valid CSV") from exc
+    if "row_count" in reference and reference["row_count"] != len(truth):
+        raise ContractValidationError("hidden-truth row count does not match manifest")
+    if not set(candidate_ids) <= set(truth):
+        raise ContractValidationError("hidden-truth does not cover the candidate pool")
+    pool_truth = sorted((candidate_id, truth[candidate_id]) for candidate_id in candidate_ids)
+    payload = json.dumps(
+        pool_truth,
+        allow_nan=False,
+        ensure_ascii=False,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
 
 
 def _tuple_sha256(values: list[object]) -> str:
@@ -539,6 +716,9 @@ class ReplayEngine:
         *,
         run_spec: RunSpec,
         experiment_config: bytes,
+        feature_descriptor: bytes,
+        processing_manifest: bytes,
+        hidden_truth: bytes,
         task_id: str,
         candidate_ids: tuple[str, ...],
         oracle: HiddenOracle,
@@ -575,15 +755,12 @@ class ReplayEngine:
             raise ContractValidationError(
                 "candidate IDs must exact-match the hidden oracle universe"
             )
-        validated_features = load_feature_matrix(
-            candidate_features.canonical_bytes,
-            feature_definitions=sequence_feature_definitions(),
-            expected_sha256=run_spec.feature_sha256,
+        validated_features = _validated_candidate_features(
+            run_spec=run_spec,
+            task_id=resolved_task_id,
+            descriptor_bytes=feature_descriptor,
+            candidate_features=candidate_features,
         )
-        if candidate_features != validated_features:
-            raise ContractValidationError(
-                "decoded candidate features differ from their canonical bytes"
-            )
         if set(validated_features.candidate_ids) != set(candidate_ids):
             raise ContractValidationError("candidate features must exact-cover the pool")
         loaded_config = load_model_config(model_config)
@@ -594,8 +771,16 @@ class ReplayEngine:
             raise ContractValidationError("model config identity differs from RunSpec")
         if set(evaluator.candidate_ids) != set(candidate_ids):
             raise ContractValidationError("evaluator must exact-match the candidate pool")
-        if evaluator.truth_sha256 != oracle.truth_sha256:
-            raise ContractValidationError("evaluator truth identity differs from hidden oracle")
+        bound_truth_sha256 = _manifest_bound_truth_sha256(
+            run_spec=run_spec,
+            processing_manifest_bytes=processing_manifest,
+            hidden_truth_bytes=hidden_truth,
+            candidate_ids=validated_features.candidate_ids,
+        )
+        if oracle.truth_sha256 != bound_truth_sha256:
+            raise ContractValidationError("hidden oracle truth identity differs from manifest")
+        if evaluator.truth_sha256 != bound_truth_sha256:
+            raise ContractValidationError("evaluator truth identity differs from manifest")
         evaluator.definition_summary(fraction=resolved_fraction)
         if run_spec.initial_sample_size > run_spec.budget:
             raise ContractValidationError("initial sample size exceeds budget")

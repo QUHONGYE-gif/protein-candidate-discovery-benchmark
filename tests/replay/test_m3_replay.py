@@ -12,13 +12,25 @@ import pytest
 from pcdb.contracts import ContractValidationError, RunSpec
 from pcdb.contracts.experiment import canonical_json_bytes, load_experiment_config
 from pcdb.contracts.feature_identity import (
+    DESCRIPTOR_FORMAT_VERSION,
+    DESCRIPTOR_SCHEMA_VERSION,
+    FEATURE_ARTIFACT_SCHEMA_VERSION,
+    FEATURE_CONFIG_SCHEMA_VERSION,
+    FEATURE_REGISTRY_VERSION,
+    FITTED_STATE_SCHEMA_VERSION,
+    MATRIX_FORMAT_VERSION,
+    PROTOCOL_VERSION,
     LoadedFeatureMatrix,
+    canonical_feature_json_bytes,
     encode_feature_matrix,
     load_feature_matrix,
 )
 from pcdb.contracts.prediction import load_run_attempt_v1
 from pcdb.evaluation import HighValueEvaluator
 from pcdb.m2.features import (
+    FEATURE_CONFIG_ID,
+    FEATURE_CONFIG_SHA256,
+    FEATURE_CONFIG_SIZE_BYTES,
     CandidateSequence,
     build_sequence_feature_rows,
     sequence_feature_definitions,
@@ -40,36 +52,172 @@ from pcdb.replay import (
     load_replay_trajectory,
     publish_replay_attempt,
 )
+from pcdb.replay.engine import _resolved_experiment_context
 from pcdb.storage import ArtifactMetadata, LocalArtifactStore
 
 ROOT = Path(__file__).parents[2]
 WORKED_EXAMPLE = ROOT / "tests/fixtures/m3/issue-66/worked-example.v1.json"
 M3_EXPERIMENT_CONFIG = ROOT / "configs/experiments/m3-single-fidelity/alpha-amylase.json"
+DATASET_SHA256 = "a" * 64
+SPLIT_SHA256 = "b" * 64
 
 
 def _experiment_config_bytes(
-    *, initial_sample_size: int = 2, batch_size: int = 2, budget: int = 4
+    *,
+    processing_manifest_sha256: str,
+    initial_sample_size: int = 2,
+    batch_size: int = 2,
+    budget: int = 4,
 ) -> bytes:
-    value = json.loads(M3_EXPERIMENT_CONFIG.read_bytes())
-    value["initial_sample_sizes"] = [initial_sample_size]
-    value["batch_sizes"] = [batch_size]
-    value["budgets"] = [budget]
-    return canonical_json_bytes(value)
+    return canonical_json_bytes(
+        {
+            "acquisitions": [
+                "random-seeded-sha256-v1",
+                "greedy-predictive-mean-v1",
+                "uncertainty-bootstrap-std-v1",
+            ],
+            "batch_sizes": [batch_size],
+            "budgets": [budget],
+            "dataset_manifest_sha256": DATASET_SHA256,
+            "evaluation": {"primary_high_value_fraction": 0.01},
+            "experiment_id": "m3-synthetic-replay-smoke-v1",
+            "held_out_authorized": False,
+            "initial_sample_sizes": [initial_sample_size],
+            "models": [
+                "ridge-sklearn-v1",
+                "random-forest-sklearn-v1",
+                "xgboost-cpu-v1",
+            ],
+            "phase": "smoke",
+            "processing_manifest_sha256": processing_manifest_sha256,
+            "schema_version": "1",
+            "seeds": [1729],
+            "split_sha256": SPLIT_SHA256,
+            "task_id": "synthetic-toy",
+        }
+    )
+
+
+def _hidden_truth_bytes(truth: dict[str, float]) -> bytes:
+    rows = ["candidate_id,target"]
+    rows.extend(
+        f"{candidate_id},{json.dumps(float(truth[candidate_id]), allow_nan=False)}"
+        for candidate_id in sorted(truth)
+    )
+    return ("\n".join(rows) + "\n").encode("utf-8")
+
+
+def _processing_manifest_bytes(truth: dict[str, float]) -> bytes:
+    hidden_truth = _hidden_truth_bytes(truth)
+    return canonical_json_bytes(
+        {
+            "candidate_id_field": "candidate_id",
+            "candidate_id_unique": True,
+            "dataset_manifest_sha256": DATASET_SHA256,
+            "duplicate_policy": {
+                "exact_duplicates": "error",
+                "near_duplicates": "not_assessed",
+            },
+            "git_commit": "f" * 40,
+            "hidden_label_field": "target",
+            "known_limitations": ["synthetic fixture only"],
+            "label_direction": "higher_is_better",
+            "observable_feature_fields": ["sequence"],
+            "output_files": [
+                {
+                    "object_key": "synthetic/hidden-truth.csv",
+                    "row_count": len(truth),
+                    "sha256": hashlib.sha256(hidden_truth).hexdigest(),
+                    "size_bytes": len(hidden_truth),
+                }
+            ],
+            "processing_config_sha256": "c" * 64,
+            "processing_id": "m3-synthetic-replay-v1",
+            "schema_version": "1",
+        }
+    )
+
+
+def _feature_descriptor_bytes(
+    features: LoadedFeatureMatrix,
+    *,
+    processing_manifest_sha256: str,
+) -> bytes:
+    feature_ids = list(features.feature_ids)
+    matrices = []
+    for role in ("development", "validation", "candidate-pool"):
+        matrices.append(
+            {
+                "artifact": {
+                    "object_key": f"synthetic/features/{role}.csv",
+                    "sha256": features.sha256,
+                    "size_bytes": len(features.canonical_bytes),
+                },
+                "candidate_id_field": "candidate_id",
+                "column_count": len(feature_ids),
+                "feature_ids": feature_ids,
+                "fit_state_refs": [],
+                "role": role,
+                "row_count": len(features.candidate_ids),
+            }
+        )
+    return canonical_feature_json_bytes(
+        {
+            "benchmark_task_id": "synthetic-toy",
+            "dataset_manifest_sha256": DATASET_SHA256,
+            "dataset_task_id": "synthetic-toy",
+            "descriptor_format_version": DESCRIPTOR_FORMAT_VERSION,
+            "feature_artifact_contract_status": "production",
+            "feature_artifact_schema_version": FEATURE_ARTIFACT_SCHEMA_VERSION,
+            "feature_config": {
+                "feature_config_id": FEATURE_CONFIG_ID,
+                "object_key": "synthetic/features/config.json",
+                "schema_version": FEATURE_CONFIG_SCHEMA_VERSION,
+                "sha256": FEATURE_CONFIG_SHA256,
+                "size_bytes": FEATURE_CONFIG_SIZE_BYTES,
+            },
+            "feature_definitions": list(sequence_feature_definitions()),
+            "feature_registry_version": FEATURE_REGISTRY_VERSION,
+            "fitted_state_format_version": FITTED_STATE_SCHEMA_VERSION,
+            "fitted_states": [],
+            "generator": {
+                "environment_digest": "e" * 64,
+                "git_commit": "f" * 40,
+            },
+            "matrices": matrices,
+            "matrix_format_version": MATRIX_FORMAT_VERSION,
+            "observable_sources": ["sequence"],
+            "processing_manifest_sha256": processing_manifest_sha256,
+            "protocol_version": PROTOCOL_VERSION,
+            "schema_version": DESCRIPTOR_SCHEMA_VERSION,
+            "split_sha256": SPLIT_SHA256,
+        }
+    )
 
 
 def _random_run_spec(
     candidate_ids: tuple[str, ...] | None = None,
     *,
+    truth: dict[str, float] | None = None,
     initial_sample_size: int = 2,
     batch_size: int = 2,
     budget: int = 4,
 ) -> RunSpec:
+    fixture = json.loads(WORKED_EXAMPLE.read_bytes())
     if candidate_ids is None:
-        fixture = json.loads(WORKED_EXAMPLE.read_bytes())
         candidate_ids = tuple(fixture["candidate_ids"])
+    if truth is None:
+        truth = fixture["synthetic_oracle"]["labels"]
     features = _loaded_features(candidate_ids)
+    processing_manifest = _processing_manifest_bytes(truth)
+    processing_sha256 = hashlib.sha256(processing_manifest).hexdigest()
+    feature_descriptor = _feature_descriptor_bytes(
+        features,
+        processing_manifest_sha256=processing_sha256,
+    )
     experiment_config = load_experiment_config(
         _experiment_config_bytes(
+            processing_manifest_sha256=processing_sha256,
             initial_sample_size=initial_sample_size,
             batch_size=batch_size,
             budget=budget,
@@ -83,7 +231,7 @@ def _random_run_spec(
         dataset_manifest_sha256=experiment_config.value["dataset_manifest_sha256"],
         processing_manifest_sha256=experiment_config.value["processing_manifest_sha256"],
         split_sha256=experiment_config.value["split_sha256"],
-        feature_sha256=features.sha256,
+        feature_sha256=hashlib.sha256(feature_descriptor).hexdigest(),
         experiment_config_sha256=experiment_config.sha256,
         model_id="ridge-sklearn-v1",
         model_config_sha256=MODEL_CONFIG_SHA256["ridge-sklearn-v1"],
@@ -122,24 +270,41 @@ def _engine(
     run_spec: RunSpec,
     candidate_ids: tuple[str, ...],
     truth: dict[str, float],
+    oracle: HiddenOracle | None = None,
     evaluator: HighValueEvaluator | None = None,
-    task_id: str = "alpha-amylase",
+    task_id: str = "synthetic-toy",
     high_value_fraction: float | None = None,
     candidate_features: LoadedFeatureMatrix | None = None,
     model_config: bytes | None = None,
+    experiment_config: bytes | None = None,
+    feature_descriptor: bytes | None = None,
+    processing_manifest: bytes | None = None,
+    hidden_truth: bytes | None = None,
 ) -> ReplayEngine:
     resolved_evaluator = evaluator or HighValueEvaluator(tuple(truth.items()))
+    resolved_features = candidate_features or _loaded_features(candidate_ids)
+    resolved_processing_manifest = processing_manifest or _processing_manifest_bytes(truth)
+    processing_sha256 = hashlib.sha256(resolved_processing_manifest).hexdigest()
     return ReplayEngine(
         run_spec=run_spec,
-        experiment_config=_experiment_config_bytes(
+        experiment_config=experiment_config
+        or _experiment_config_bytes(
+            processing_manifest_sha256=processing_sha256,
             initial_sample_size=run_spec.initial_sample_size,
             batch_size=run_spec.batch_size,
             budget=run_spec.budget,
         ),
+        feature_descriptor=feature_descriptor
+        or _feature_descriptor_bytes(
+            resolved_features,
+            processing_manifest_sha256=processing_sha256,
+        ),
+        processing_manifest=resolved_processing_manifest,
+        hidden_truth=hidden_truth or _hidden_truth_bytes(truth),
         task_id=task_id,
         candidate_ids=candidate_ids,
-        oracle=HiddenOracle(truth),
-        candidate_features=candidate_features or _loaded_features(candidate_ids),
+        oracle=oracle or HiddenOracle(truth),
+        candidate_features=resolved_features,
         model_config=model_config or model_config_bytes(run_spec.model_id),
         evaluator=resolved_evaluator,
         high_value_fraction=high_value_fraction,
@@ -147,7 +312,7 @@ def _engine(
 
 
 def _initial_selection(
-    candidate_ids: tuple[str, ...], run_spec: RunSpec, *, task_id: str = "alpha-amylase"
+    candidate_ids: tuple[str, ...], run_spec: RunSpec, *, task_id: str = "synthetic-toy"
 ) -> tuple[str, ...]:
     ranked = sorted(
         (
@@ -201,6 +366,34 @@ def test_random_replay_reaches_budget_with_byte_identical_trajectory() -> None:
     assert [
         observation.candidate_id for event in first.events for observation in event.observations
     ] == [candidate_id for event in first.events for candidate_id in event.selected_candidate_ids]
+
+
+def test_formal_experiment_config_v2_resolution_remains_run_spec_bound() -> None:
+    config_bytes = M3_EXPERIMENT_CONFIG.read_bytes()
+    config = load_experiment_config(config_bytes)
+    run_spec = RunSpec(
+        schema_version="1",
+        protocol_version="m3-single-fidelity-replay-v1",
+        git_commit="f" * 40,
+        environment_digest="e" * 64,
+        dataset_manifest_sha256=config.value["dataset_manifest_sha256"],
+        processing_manifest_sha256=config.value["processing_manifest_sha256"],
+        split_sha256=config.value["split_sha256"],
+        feature_sha256="d" * 64,
+        experiment_config_sha256=config.sha256,
+        model_id="ridge-sklearn-v1",
+        model_config_sha256=MODEL_CONFIG_SHA256["ridge-sklearn-v1"],
+        acquisition_id="random-seeded-sha256-v1",
+        acquisition_config_sha256=(
+            "24f80499cb48ad6716f86a9c47bf098d47acdb78841bcb7b8926504619983e0f"
+        ),
+        seed=1729,
+        initial_sample_size=16,
+        batch_size=8,
+        budget=32,
+    )
+
+    assert _resolved_experiment_context(run_spec, config_bytes) == ("alpha-amylase", 0.01)
 
 
 def test_recovery_from_complete_boundary_matches_uninterrupted_bytes() -> None:
@@ -540,6 +733,7 @@ def test_protocol_sized_random_replay_has_exact_16_24_32_boundaries() -> None:
     truth = {candidate_id: float(index) for index, candidate_id in enumerate(candidate_ids)}
     run_spec = _random_run_spec(
         candidate_ids,
+        truth=truth,
         initial_sample_size=16,
         batch_size=8,
         budget=32,
@@ -625,16 +819,12 @@ def test_invalid_pool_or_feature_exact_cover_fails_before_oracle_reveal() -> Non
     truth = fixture["synthetic_oracle"]["labels"]
     oracle = HiddenOracle(truth)
 
-    with pytest.raises(ContractValidationError, match="distinct"):
-        ReplayEngine(
+    with pytest.raises(ContractValidationError, match="duplicate|distinct"):
+        _engine(
             run_spec=_random_run_spec(),
-            experiment_config=_experiment_config_bytes(),
-            task_id="alpha-amylase",
             candidate_ids=(*candidate_ids[:-1], candidate_ids[0]),
+            truth=truth,
             oracle=oracle,
-            candidate_features=_loaded_features(candidate_ids),
-            model_config=model_config_bytes("ridge-sklearn-v1"),
-            evaluator=HighValueEvaluator(tuple(truth.items())),
         )
     assert oracle.observations == ()
 
@@ -647,20 +837,18 @@ def test_invalid_pool_or_feature_exact_cover_fails_before_oracle_reveal() -> Non
         ),
     )
     with pytest.raises(
-        ContractValidationError, match="feature matrix SHA-256|feature identity|exact-cover"
+        ContractValidationError,
+        match="feature bundle descriptor SHA-256|feature identity|exact-cover",
     ):
-        ReplayEngine(
+        _engine(
             run_spec=greedy_spec,
-            experiment_config=_experiment_config_bytes(),
-            task_id="alpha-amylase",
             candidate_ids=candidate_ids,
+            truth=truth,
             oracle=oracle,
             candidate_features=_subset_features(
                 _loaded_features(candidate_ids),
                 candidate_ids[:-1],
             ),
-            model_config=model_config_bytes(greedy_spec.model_id),
-            evaluator=HighValueEvaluator(tuple(truth.items())),
         )
     assert oracle.observations == ()
 
@@ -674,19 +862,17 @@ def test_replay_context_rejects_task_or_primary_definition_drift_before_reveal()
 
     for task_id, fraction, message in (
         ("different-task", 0.01, "task"),
-        ("alpha-amylase", 1 / 3, "primary high-value"),
+        ("synthetic-toy", 1 / 3, "primary high-value"),
     ):
         oracle = HiddenOracle(truth)
         with pytest.raises(ContractValidationError, match=message):
-            ReplayEngine(
+            _engine(
                 run_spec=run_spec,
-                experiment_config=_experiment_config_bytes(),
                 task_id=task_id,
                 candidate_ids=candidate_ids,
+                truth=truth,
                 oracle=oracle,
                 candidate_features=features,
-                model_config=model_config_bytes(run_spec.model_id),
-                evaluator=HighValueEvaluator(tuple(truth.items())),
                 high_value_fraction=fraction,
             )
         assert oracle.observations == ()
@@ -697,22 +883,47 @@ def test_replay_context_rejects_candidate_feature_identity_drift_before_reveal()
     candidate_ids = tuple(fixture["candidate_ids"])
     truth = fixture["synthetic_oracle"]["labels"]
     run_spec = _random_run_spec(candidate_ids)
+    processing_manifest = _processing_manifest_bytes(truth)
+    descriptor = _feature_descriptor_bytes(
+        _loaded_features(candidate_ids),
+        processing_manifest_sha256=hashlib.sha256(processing_manifest).hexdigest(),
+    )
+    assert hashlib.sha256(descriptor).hexdigest() == run_spec.feature_sha256
+    _engine(
+        run_spec=run_spec,
+        candidate_ids=candidate_ids,
+        truth=truth,
+        feature_descriptor=descriptor,
+    )
     drifted_features = _loaded_features(tuple(reversed(candidate_ids)))
     oracle = HiddenOracle(truth)
 
-    with pytest.raises(ContractValidationError, match="feature matrix SHA-256|feature identity"):
-        ReplayEngine(
+    with pytest.raises(
+        ContractValidationError, match="candidate feature member differs from descriptor"
+    ):
+        _engine(
             run_spec=run_spec,
-            experiment_config=_experiment_config_bytes(),
-            task_id="alpha-amylase",
             candidate_ids=candidate_ids,
+            truth=truth,
             oracle=oracle,
             candidate_features=drifted_features,
-            model_config=model_config_bytes(run_spec.model_id),
-            evaluator=HighValueEvaluator(tuple(truth.items())),
+            feature_descriptor=descriptor,
         )
 
     assert oracle.observations == ()
+
+    substituted_descriptor = bytearray(descriptor)
+    substituted_descriptor[-2] = ord(" ")
+    descriptor_oracle = HiddenOracle(truth)
+    with pytest.raises(ContractValidationError, match="canonical|SHA-256|strict JSON"):
+        _engine(
+            run_spec=run_spec,
+            candidate_ids=candidate_ids,
+            truth=truth,
+            oracle=descriptor_oracle,
+            feature_descriptor=bytes(substituted_descriptor),
+        )
+    assert descriptor_oracle.observations == ()
 
     valid_features = _loaded_features(candidate_ids)
     forged_rows = list(valid_features.rows)
@@ -728,15 +939,12 @@ def test_replay_context_rejects_candidate_feature_identity_drift_before_reveal()
     )
     forged_oracle = HiddenOracle(truth)
     with pytest.raises(ContractValidationError, match="decoded candidate features"):
-        ReplayEngine(
+        _engine(
             run_spec=run_spec,
-            experiment_config=_experiment_config_bytes(),
-            task_id="alpha-amylase",
             candidate_ids=candidate_ids,
+            truth=truth,
             oracle=forged_oracle,
             candidate_features=forged_features,
-            model_config=model_config_bytes(run_spec.model_id),
-            evaluator=HighValueEvaluator(tuple(truth.items())),
         )
     assert forged_oracle.observations == ()
 
@@ -749,15 +957,12 @@ def test_random_replay_rejects_model_config_drift_before_reveal() -> None:
     oracle = HiddenOracle(truth)
 
     with pytest.raises(ContractValidationError, match="model config identity"):
-        ReplayEngine(
+        _engine(
             run_spec=run_spec,
-            experiment_config=_experiment_config_bytes(),
-            task_id="alpha-amylase",
             candidate_ids=candidate_ids,
+            truth=truth,
             oracle=oracle,
-            candidate_features=_loaded_features(candidate_ids),
             model_config=model_config_bytes("random-forest-sklearn-v1"),
-            evaluator=HighValueEvaluator(tuple(truth.items())),
         )
 
     assert oracle.observations == ()
@@ -769,18 +974,21 @@ def test_replay_context_rejects_config_or_truth_drift_before_reveal() -> None:
     truth = fixture["synthetic_oracle"]["labels"]
     run_spec = _random_run_spec(candidate_ids)
     features = _loaded_features(candidate_ids)
+    processing_manifest = _processing_manifest_bytes(truth)
+    processing_sha256 = hashlib.sha256(processing_manifest).hexdigest()
 
     drifted_config_oracle = HiddenOracle(truth)
     with pytest.raises(ContractValidationError, match="Experiment Config identity"):
-        ReplayEngine(
+        _engine(
             run_spec=run_spec,
-            experiment_config=_experiment_config_bytes(budget=6),
-            task_id="alpha-amylase",
             candidate_ids=candidate_ids,
+            truth=truth,
             oracle=drifted_config_oracle,
             candidate_features=features,
-            model_config=model_config_bytes(run_spec.model_id),
-            evaluator=HighValueEvaluator(tuple(truth.items())),
+            experiment_config=_experiment_config_bytes(
+                processing_manifest_sha256=processing_sha256,
+                budget=6,
+            ),
         )
     assert drifted_config_oracle.observations == ()
 
@@ -788,17 +996,43 @@ def test_replay_context_rejects_config_or_truth_drift_before_reveal() -> None:
     drifted_truth[candidate_ids[0]] += 1.0
     drifted_truth_oracle = HiddenOracle(truth)
     with pytest.raises(ContractValidationError, match="evaluator truth identity"):
-        ReplayEngine(
+        _engine(
             run_spec=run_spec,
-            experiment_config=_experiment_config_bytes(),
-            task_id="alpha-amylase",
             candidate_ids=candidate_ids,
+            truth=truth,
             oracle=drifted_truth_oracle,
             candidate_features=features,
-            model_config=model_config_bytes(run_spec.model_id),
             evaluator=HighValueEvaluator(tuple(drifted_truth.items())),
         )
     assert drifted_truth_oracle.observations == ()
+
+
+def test_replay_context_rejects_synchronized_truth_drift_before_reveal() -> None:
+    fixture = json.loads(WORKED_EXAMPLE.read_bytes())
+    candidate_ids = tuple(fixture["candidate_ids"])
+    truth = fixture["synthetic_oracle"]["labels"]
+    run_spec = _random_run_spec(candidate_ids)
+    drifted_truth = dict(truth)
+    drifted_truth[candidate_ids[0]] += 1.0
+    oracle = HiddenOracle(drifted_truth)
+    processing_manifest = _processing_manifest_bytes(truth)
+    hidden_truth = _hidden_truth_bytes(truth)
+
+    with pytest.raises(
+        ContractValidationError,
+        match="processing manifest identity|hidden oracle truth identity",
+    ):
+        _engine(
+            run_spec=run_spec,
+            candidate_ids=candidate_ids,
+            truth=drifted_truth,
+            oracle=oracle,
+            evaluator=HighValueEvaluator(tuple(drifted_truth.items())),
+            processing_manifest=processing_manifest,
+            hidden_truth=hidden_truth,
+        )
+
+    assert oracle.observations == ()
 
 
 def test_run_identity_changes_with_seed_or_acquisition_config() -> None:
