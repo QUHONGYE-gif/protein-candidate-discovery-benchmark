@@ -59,7 +59,18 @@ class ReadOnlyInputClient(Protocol):
         ...
 
 
-EngineFactory = Callable[[RunSpec, dict[str, bytes]], ReplayEngine]
+class RunnableReplay(Protocol):
+    """Small execution surface shared by the real ReplayEngine and synthetic tests."""
+
+    def run(
+        self,
+        *,
+        checkpoint: bytes | None = None,
+        stop_after_round: int | None = None,
+    ) -> ReplayTrajectory: ...
+
+
+EngineFactory = Callable[[RunSpec, dict[str, bytes]], RunnableReplay]
 
 
 def _run_spec(value: object) -> RunSpec:
@@ -495,6 +506,7 @@ __all__ = [
     "EngineFactory",
     "GATE_A_APPROVAL",
     "ReadOnlyInputClient",
+    "RunnableReplay",
     "build_reviewed_replay_engine",
     "execute_gate_a_preflight",
     "execute_gate_a_sentinel",

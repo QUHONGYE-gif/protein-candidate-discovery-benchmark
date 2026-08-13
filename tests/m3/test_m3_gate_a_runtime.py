@@ -17,7 +17,12 @@ from pcdb.m3.gate_a_runtime import (
     write_gate_a_evidence,
 )
 from pcdb.replay import ReplayEngine
-from pcdb.storage.cos import CosCredentials, Issue68GateAReadOnlyCosClient
+from pcdb.storage.cos import (
+    CosCredentials,
+    Issue68GateAReadOnlyCosClient,
+    Issue68GateBReadOnlyCosClient,
+    Issue68GateBWriterCosClient,
+)
 from tests.replay.test_m3_replay import (
     _experiment_config_bytes,
     _feature_descriptor_bytes,
@@ -281,3 +286,18 @@ def test_gate_a_cos_capability_exposes_no_write_or_list_methods() -> None:
     assert callable(client.get)
     assert not hasattr(client, "put_forbid_overwrite")
     assert not hasattr(client, "list_keys")
+
+
+def test_gate_b_cos_capabilities_separate_writer_and_independent_reader() -> None:
+    def credentials() -> CosCredentials:
+        return CosCredentials("id", "key", "token")
+
+    writer = Issue68GateBWriterCosClient(credentials=credentials)
+    reader = Issue68GateBReadOnlyCosClient(credentials=credentials)
+
+    assert all(
+        callable(getattr(writer, method))
+        for method in ("head", "get", "list_keys", "put_forbid_overwrite")
+    )
+    assert all(callable(getattr(reader, method)) for method in ("head", "get", "list_keys"))
+    assert not hasattr(reader, "put_forbid_overwrite")

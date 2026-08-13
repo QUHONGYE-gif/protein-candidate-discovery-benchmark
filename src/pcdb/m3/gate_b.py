@@ -23,10 +23,14 @@ _PASS_CHECKS = {
 }
 _EVIDENCE_BUCKET = "pcdb-benchmark-artifacts-1408226911"
 _SOURCE_PATHS = (
+    Path("src/pcdb/cli.py"),
+    Path("src/pcdb/m3/gate_a.py"),
+    Path("src/pcdb/m3/gate_a_runtime.py"),
     Path("src/pcdb/m3/gate_b.py"),
     Path("src/pcdb/m3/gate_b_runtime.py"),
     Path("src/pcdb/replay/engine.py"),
     Path("src/pcdb/replay/publication.py"),
+    Path("src/pcdb/storage/cos.py"),
 )
 
 

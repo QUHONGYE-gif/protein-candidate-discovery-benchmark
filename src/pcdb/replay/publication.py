@@ -86,6 +86,8 @@ def publish_replay_attempt(
     executed_environment_digest: str,
     runtime_version: str,
     key_prefix: str = "",
+    executor_type: str = "local",
+    region: str | None = None,
 ) -> ReplayPublication:
     """Publish payloads and RunAttempt immutably, then write ``_SUCCESS`` last."""
 
@@ -108,6 +110,10 @@ def publish_replay_attempt(
         ):
             raise ContractValidationError("publication key_prefix is invalid")
         key_prefix = normalized_prefix + "/"
+    if executor_type not in {"local", "compute_server"}:
+        raise ContractValidationError("executor_type is invalid")
+    if region is not None and not region:
+        raise ContractValidationError("region must not be empty")
     validated = load_replay_trajectory(trajectory.canonical_bytes)
     if validated.sha256 != trajectory.sha256:
         raise ContractValidationError("trajectory identity drifted before publication")
@@ -131,13 +137,16 @@ def publish_replay_attempt(
 
     marker_key = f"{base}/_SUCCESS"
     marker = {"object_key": marker_key, "sha256": _EMPTY_SHA256, "size_bytes": 0}
+    compute = {
+        "executor_type": executor_type,
+        "runtime_version": runtime_version,
+    }
+    if region is not None:
+        compute["region"] = region
     attempt_value = {
         "attempt_id": attempt_id,
         "completion_marker": marker,
-        "compute": {
-            "executor_type": "local",
-            "runtime_version": runtime_version,
-        },
+        "compute": compute,
         "executed_environment_digest": executed_environment_digest,
         "executed_git_commit": executed_git_commit,
         "finished_at": finished_at,
