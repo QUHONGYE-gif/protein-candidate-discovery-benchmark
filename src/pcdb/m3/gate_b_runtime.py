@@ -9,8 +9,7 @@ import platform
 import resource
 import subprocess
 import sys
-import time
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from contextlib import suppress
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -33,6 +32,7 @@ _INPUT_PURPOSES = (
     "split-manifest",
     "hidden-truth",
 )
+_PHASES = ("sentinel-write", "sentinel-read", "remaining-write", "final-read")
 
 GATE_B_APPROVAL = "APPROVED FOR M3 ALPHA + IRED GATE B FORMAL EXECUTION AND PUBLICATION"
 
@@ -88,6 +88,256 @@ class FullMatrixReadback:
 
     packet_sha256: str
     exact_inventory_sha256: str
+
+
+class GateBResourceSequence:
+    """Minimal cross-process accounting for one reviewed four-phase Gate B sequence."""
+
+    def __init__(
+        self,
+        *,
+        scratch_root: Path,
+        packet_sha256: str,
+        approval_comment_id: int,
+        phase: str,
+        phase_index: int,
+        sequence_started_at: datetime,
+        completed_network_bytes: int,
+        hourly_cost_cny: float,
+        caps: Mapping[str, object],
+        now: Callable[[], datetime],
+    ) -> None:
+        self._scratch_root = scratch_root.resolve()
+        self._bound_packet_sha256 = packet_sha256
+        self._approval_comment_id = approval_comment_id
+        self._phase = phase
+        self._phase_index = phase_index
+        self._sequence_started_at = sequence_started_at
+        self._completed_network_bytes = completed_network_bytes
+        self._hourly_cost_cny = hourly_cost_cny
+        self._caps = caps
+        self._now = now
+
+    @staticmethod
+    def _packet_sha256(packet: Mapping[str, object]) -> str:
+        return hashlib.sha256(canonical_json_bytes(dict(packet))).hexdigest()
+
+    @staticmethod
+    def _aware(value: datetime) -> datetime:
+        if value.tzinfo is None or value.utcoffset() is None:
+            raise ContractValidationError("Gate B resource clock must be timezone-aware")
+        return value.astimezone(UTC)
+
+    @classmethod
+    def start(
+        cls,
+        scratch_root: Path,
+        packet: Mapping[str, object],
+        authorization: GateBAuthorization,
+        *,
+        phase: str,
+        hourly_cost_cny: float,
+        now: Callable[[], datetime] = lambda: datetime.now(UTC),
+    ) -> GateBResourceSequence:
+        _validate_authorization(packet, authorization)
+        if phase != _PHASES[0]:
+            raise ContractValidationError("Gate B resource sequence must start with sentinel write")
+        root = scratch_root.resolve()
+        root.mkdir(parents=True, exist_ok=True)
+        if any(root.glob("resource-sequence-*.json")):
+            raise ContractValidationError("Gate B resource sequence already exists")
+        caps = packet.get("execution_caps")
+        if not isinstance(caps, Mapping):
+            raise ContractValidationError("Gate B resource caps are invalid")
+        sequence = cls(
+            scratch_root=root,
+            packet_sha256=cls._packet_sha256(packet),
+            approval_comment_id=authorization.approval_comment_id,
+            phase=phase,
+            phase_index=0,
+            sequence_started_at=cls._aware(now()),
+            completed_network_bytes=0,
+            hourly_cost_cny=hourly_cost_cny,
+            caps=caps,
+            now=now,
+        )
+        sequence.guard(current_network_bytes=0)
+        started_value = {
+            "approval_comment_id": authorization.approval_comment_id,
+            "hourly_cost_cny": hourly_cost_cny,
+            "packet_sha256": sequence._bound_packet_sha256,
+            "schema_version": "m3-gate-b-resource-sequence-start-v1",
+            "sequence_started_at": sequence._sequence_started_at.isoformat().replace("+00:00", "Z"),
+        }
+        started_payload = canonical_json_bytes(started_value)
+        maximum = caps.get("max_scratch_bytes")
+        if (
+            isinstance(maximum, bool)
+            or not isinstance(maximum, int)
+            or sequence._scratch_bytes() + len(started_payload) > maximum
+        ):
+            raise ContractValidationError("Gate B sequence scratch cap exceeded")
+        _write_exclusive(
+            root / "resource-sequence-00-started.json",
+            started_payload,
+        )
+        return sequence
+
+    @classmethod
+    def resume(
+        cls,
+        scratch_root: Path,
+        packet: Mapping[str, object],
+        authorization: GateBAuthorization,
+        *,
+        phase: str,
+        hourly_cost_cny: float,
+        now: Callable[[], datetime] = lambda: datetime.now(UTC),
+    ) -> GateBResourceSequence:
+        _validate_authorization(packet, authorization)
+        if phase not in _PHASES[1:]:
+            raise ContractValidationError("Gate B resource sequence resume phase is invalid")
+        phase_index = _PHASES.index(phase)
+        root = scratch_root.resolve()
+        prior_path = root / f"resource-sequence-{phase_index:02d}-{_PHASES[phase_index - 1]}.json"
+        try:
+            payload = prior_path.read_bytes()
+            value = json.loads(payload)
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+            raise ContractValidationError("Gate B prior resource checkpoint is absent") from None
+        packet_sha256 = cls._packet_sha256(packet)
+        if (
+            not isinstance(value, dict)
+            or canonical_json_bytes(value) != payload
+            or value.get("schema_version") != "m3-gate-b-resource-sequence-v1"
+            or value.get("completed_phase") != _PHASES[phase_index - 1]
+            or value.get("packet_sha256") != packet_sha256
+            or value.get("approval_comment_id") != authorization.approval_comment_id
+            or value.get("hourly_cost_cny") != hourly_cost_cny
+        ):
+            raise ContractValidationError("Gate B prior resource checkpoint drifted")
+        later = list(root.glob(f"resource-sequence-{phase_index + 1:02d}-*.json"))
+        if later:
+            raise ContractValidationError("Gate B resource sequence phase was already completed")
+        try:
+            started = cls._aware(
+                datetime.fromisoformat(str(value["sequence_started_at"]).replace("Z", "+00:00"))
+            )
+            network_bytes = int(value["cumulative_network_bytes"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ContractValidationError("Gate B prior resource checkpoint is invalid") from exc
+        caps = packet.get("execution_caps")
+        if not isinstance(caps, Mapping):
+            raise ContractValidationError("Gate B resource caps are invalid")
+        sequence = cls(
+            scratch_root=root,
+            packet_sha256=packet_sha256,
+            approval_comment_id=authorization.approval_comment_id,
+            phase=phase,
+            phase_index=phase_index,
+            sequence_started_at=started,
+            completed_network_bytes=network_bytes,
+            hourly_cost_cny=hourly_cost_cny,
+            caps=caps,
+            now=now,
+        )
+        sequence.guard(current_network_bytes=0)
+        phase_started_path = root / (
+            f"resource-sequence-phase-{phase_index:02d}-{phase}-started.json"
+        )
+        phase_started_value = {
+            "approval_comment_id": authorization.approval_comment_id,
+            "packet_sha256": packet_sha256,
+            "phase": phase,
+            "schema_version": "m3-gate-b-resource-phase-start-v1",
+            "sequence_started_at": started.isoformat().replace("+00:00", "Z"),
+        }
+        phase_started_payload = canonical_json_bytes(phase_started_value)
+        maximum = caps.get("max_scratch_bytes")
+        if phase_started_path.exists():
+            raise ContractValidationError("Gate B resource sequence phase was already started")
+        if (
+            isinstance(maximum, bool)
+            or not isinstance(maximum, int)
+            or sequence._scratch_bytes() + len(phase_started_payload) > maximum
+        ):
+            raise ContractValidationError("Gate B sequence scratch cap exceeded")
+        try:
+            _write_exclusive(phase_started_path, phase_started_payload)
+        except FileExistsError:
+            raise ContractValidationError(
+                "Gate B resource sequence phase was already started"
+            ) from None
+        return sequence
+
+    def _scratch_bytes(self) -> int:
+        return sum(path.stat().st_size for path in self._scratch_root.rglob("*") if path.is_file())
+
+    @property
+    def remaining_network_bytes(self) -> int:
+        maximum = self._caps.get("max_network_transfer_bytes")
+        if isinstance(maximum, bool) or not isinstance(maximum, int):
+            raise ContractValidationError("Gate B network cap is invalid")
+        return maximum - self._completed_network_bytes
+
+    def guard(self, *, current_network_bytes: int) -> None:
+        now = self._aware(self._now())
+        elapsed = (now - self._sequence_started_at).total_seconds()
+        max_wall = self._caps.get("max_wall_seconds")
+        max_scratch = self._caps.get("max_scratch_bytes")
+        max_cost = self._caps.get("max_cost_cny")
+        if (
+            elapsed < 0
+            or isinstance(max_wall, bool)
+            or not isinstance(max_wall, (int, float))
+            or elapsed > max_wall
+        ):
+            raise ContractValidationError("Gate B sequence wall cap exceeded")
+        if (
+            isinstance(current_network_bytes, bool)
+            or not isinstance(current_network_bytes, int)
+            or current_network_bytes < 0
+            or current_network_bytes > self.remaining_network_bytes
+        ):
+            raise ContractValidationError("Gate B sequence network cap exceeded")
+        if (
+            isinstance(max_scratch, bool)
+            or not isinstance(max_scratch, int)
+            or self._scratch_bytes() > max_scratch
+        ):
+            raise ContractValidationError("Gate B sequence scratch cap exceeded")
+        if (
+            isinstance(max_cost, bool)
+            or not isinstance(max_cost, (int, float))
+            or elapsed * self._hourly_cost_cny / 3600 > max_cost
+        ):
+            raise ContractValidationError("Gate B sequence cost cap exceeded")
+
+    def complete(self, *, network_bytes: int) -> None:
+        self.guard(current_network_bytes=network_bytes)
+        finished = self._aware(self._now())
+        value = {
+            "approval_comment_id": self._approval_comment_id,
+            "completed_phase": self._phase,
+            "cumulative_network_bytes": self._completed_network_bytes + network_bytes,
+            "hourly_cost_cny": self._hourly_cost_cny,
+            "packet_sha256": self._bound_packet_sha256,
+            "schema_version": "m3-gate-b-resource-sequence-v1",
+            "sequence_started_at": self._sequence_started_at.isoformat().replace("+00:00", "Z"),
+            "updated_at": finished.isoformat().replace("+00:00", "Z"),
+        }
+        payload = canonical_json_bytes(value)
+        maximum = self._caps.get("max_scratch_bytes")
+        if (
+            isinstance(maximum, bool)
+            or not isinstance(maximum, int)
+            or self._scratch_bytes() + len(payload) > maximum
+        ):
+            raise ContractValidationError("Gate B sequence scratch cap exceeded")
+        path = self._scratch_root / (
+            f"resource-sequence-{self._phase_index + 1:02d}-{self._phase}.json"
+        )
+        _write_exclusive(path, payload)
 
 
 def _write_exclusive(path: Path, payload: bytes) -> None:
@@ -301,11 +551,20 @@ def _validate_cross_links(
             raise ContractValidationError("Gate B actual RunAttempt cross-link drifted")
 
 
-def _fresh(client: GateBReadClient, bucket: str, item: ActualObject) -> None:
+def _fresh(
+    client: GateBReadClient,
+    bucket: str,
+    item: ActualObject,
+    *,
+    resource_guard: Callable[[], None],
+) -> None:
+    resource_guard()
     metadata = client.head(bucket, item.object_key)
+    resource_guard()
     if getattr(metadata, "size_bytes", None) != item.size_bytes:
         raise ContractValidationError("Gate B fresh HEAD size drifted")
     payload = client.get(bucket, item.object_key)
+    resource_guard()
     if len(payload) != item.size_bytes or hashlib.sha256(payload).hexdigest() != item.sha256:
         raise ContractValidationError("Gate B fresh readback identity drifted")
 
@@ -545,6 +804,7 @@ def publish_staged_sentinel(
     actual: tuple[ActualObject, ...],
     writer: GateBObjectClient,
     authorization: GateBAuthorization,
+    resource_guard: Callable[[], None],
 ) -> tuple[str, ...]:
     """Publish only the lowest-cost sentinel, verifying every PUT immediately."""
 
@@ -565,8 +825,9 @@ def publish_staged_sentinel(
         raise ContractValidationError("Gate B evidence prefix must start empty")
     items = _sentinel_items(packet, actual)
     for item in items:
+        resource_guard()
         writer.put_forbid_overwrite(bucket, item.object_key, item.payload)
-        _fresh(writer, bucket, item)
+        _fresh(writer, bucket, item, resource_guard=resource_guard)
     return tuple(item.object_key for item in items)
 
 
@@ -575,6 +836,7 @@ def independent_read_sentinel(
     reader: GateBReadClient,
     actual: tuple[ActualObject, ...],
     authorization: GateBAuthorization,
+    resource_guard: Callable[[], None],
 ) -> SentinelReadback:
     """Exact-cover one sentinel using a capability-separated read-only identity."""
 
@@ -593,11 +855,13 @@ def independent_read_sentinel(
     bucket, prefix = str(store["bucket"]), str(store["prefix"])
     items = _sentinel_items(packet, actual)
     expected = tuple(item.object_key for item in items)
+    resource_guard()
     observed = reader.list_keys(bucket, prefix)
+    resource_guard()
     if len(observed) != len(set(observed)) or set(observed) != set(expected):
         raise ContractValidationError("Gate B independent reader exact-cover drifted")
     for item in items:
-        _fresh(reader, bucket, item)
+        _fresh(reader, bucket, item, resource_guard=resource_guard)
     return SentinelReadback(
         packet_sha256=hashlib.sha256(canonical_json_bytes(dict(packet))).hexdigest(),
         sentinel_inventory_sha256=_actual_identity(items),
@@ -611,6 +875,7 @@ def publish_staged_remaining(
     writer: GateBObjectClient,
     authorization: GateBAuthorization,
     sentinel_readback: SentinelReadback,
+    resource_guard: Callable[[], None],
 ) -> tuple[str, ...]:
     """Publish the remaining 17 RunSpecs after the exact sentinel checkpoint passes."""
 
@@ -637,13 +902,16 @@ def publish_staged_remaining(
         raise ContractValidationError("Gate B evidence store is invalid")
     bucket, prefix = str(store["bucket"]), str(store["prefix"])
     expected_existing = tuple(item.object_key for item in sentinel)
+    resource_guard()
     observed = writer.list_keys(bucket, prefix)
+    resource_guard()
     if len(observed) != len(set(observed)) or set(observed) != set(expected_existing):
         raise ContractValidationError("Gate B sentinel readback exact-cover no longer holds")
     items = _remaining_items(packet, remaining_actual)
     for item in items:
+        resource_guard()
         writer.put_forbid_overwrite(bucket, item.object_key, item.payload)
-        _fresh(writer, bucket, item)
+        _fresh(writer, bucket, item, resource_guard=resource_guard)
     return tuple(item.object_key for item in items)
 
 
@@ -652,6 +920,7 @@ def independent_read_full_matrix(
     reader: GateBReadClient,
     actual: tuple[ActualObject, ...],
     authorization: GateBAuthorization,
+    resource_guard: Callable[[], None],
 ) -> FullMatrixReadback:
     """Fresh-read and exact-cover all 162 objects with the independent reader."""
 
@@ -683,11 +952,13 @@ def independent_read_full_matrix(
         raise ContractValidationError("Gate B evidence store is invalid")
     bucket, prefix = str(store["bucket"]), str(store["prefix"])
     expected = tuple(item.object_key for item in (*sentinel, *remaining))
+    resource_guard()
     observed = reader.list_keys(bucket, prefix)
+    resource_guard()
     if len(observed) != len(set(observed)) or set(observed) != set(expected):
         raise ContractValidationError("Gate B final independent reader exact-cover drifted")
     for item in (*sentinel, *remaining):
-        _fresh(reader, bucket, item)
+        _fresh(reader, bucket, item, resource_guard=resource_guard)
     return FullMatrixReadback(
         packet_sha256=authorization.packet_sha256,
         exact_inventory_sha256=_actual_identity((*sentinel, *remaining)),
@@ -708,6 +979,7 @@ def _formal_inputs(
     input_client: ReadOnlyInputClient,
     *,
     task_ids: tuple[str, ...],
+    resource_guard: Callable[[], None],
 ) -> dict[str, dict[str, bytes]]:
     raw = packet.get("input_inventory")
     if (
@@ -721,7 +993,9 @@ def _formal_inputs(
     if len(tasks) != 2:
         raise ContractValidationError("Gate B input inventory must contain exactly two tasks")
     for item in inventory:
+        resource_guard()
         metadata = input_client.head(str(item["bucket"]), str(item["object_key"]))
+        resource_guard()
         size = getattr(metadata, "size_bytes", None)
         digest = getattr(metadata, "sha256", None)
         if size != item["size_bytes"] or (digest is not None and digest != item["sha256"]):
@@ -741,7 +1015,9 @@ def _formal_inputs(
     ]:
         raise ContractValidationError("Gate B truth-bearing inputs must remain last")
     for item in selected_items:
+        resource_guard()
         payload = input_client.get(str(item["bucket"]), str(item["object_key"]))
+        resource_guard()
         if (
             len(payload) != item["size_bytes"]
             or hashlib.sha256(payload).hexdigest() != item["sha256"]
@@ -761,6 +1037,8 @@ def execute_formal_scope(
     authorization: GateBAuthorization,
     prior_actual: tuple[ActualObject, ...] = (),
     sentinel_readback: SentinelReadback | None = None,
+    resource_guard: Callable[[], None],
+    now: Callable[[], datetime] = lambda: datetime.now(UTC),
 ) -> tuple[ActualObject, ...]:
     """Generate and freeze one formal scope locally; this function performs no COS PUT."""
 
@@ -793,6 +1071,7 @@ def execute_formal_scope(
     if root.exists() and (not root.is_dir() or any(root.iterdir())):
         raise ContractValidationError("Gate B formal scratch root must start empty")
     root.mkdir(parents=True, exist_ok=True)
+    resource_guard()
     sentinel_run_id = str(sentinel.get("run_id"))
     selected_specs = [
         item
@@ -804,28 +1083,34 @@ def execute_formal_scope(
     if len(selected_specs) != expected_count:
         raise ContractValidationError("Gate B formal RunSpec scope drifted")
     task_ids = tuple(sorted({str(item["task_id"]) for item in selected_specs}))
-    started = time.perf_counter()
-    inputs = _formal_inputs(packet, input_client, task_ids=task_ids)
+    inputs = _formal_inputs(
+        packet,
+        input_client,
+        task_ids=task_ids,
+        resource_guard=resource_guard,
+    )
     store = LocalArtifactStore(root / "objects")
     evidence_store = packet.get("evidence_store")
     if not isinstance(evidence_store, Mapping):
         raise ContractValidationError("Gate B evidence store is invalid")
     key_prefix = str(evidence_store["prefix"])
-    now = datetime.now(UTC).isoformat().replace("+00:00", "Z")
     for item in selected_specs:
+        resource_guard()
         run_spec = _run_spec(item.get("run_spec"))
         task_id = str(item.get("task_id"))
         if run_spec.run_id != item.get("run_id") or task_id not in inputs:
             raise ContractValidationError("Gate B RunSpec identity is unresolved")
+        started_at = now().astimezone(UTC).isoformat().replace("+00:00", "Z")
         trajectory = engine_factory(run_spec, inputs[task_id]).run()
+        resource_guard()
         if trajectory.run_id != run_spec.run_id or not trajectory.complete:
             raise ContractValidationError("Gate B formal trajectory is incomplete or drifted")
-        finished = datetime.now(UTC).isoformat().replace("+00:00", "Z")
+        finished = now().astimezone(UTC).isoformat().replace("+00:00", "Z")
         publish_replay_attempt(
             trajectory,
             store=store,
             attempt_id="attempt-001",
-            started_at=now,
+            started_at=started_at,
             finished_at=finished,
             executed_git_commit=str(runtime["executed_git_commit"]),
             executed_environment_digest=str(runtime["executed_environment_digest"]),
@@ -834,6 +1119,7 @@ def execute_formal_scope(
             executor_type="compute_server",
             region="ap-beijing",
         )
+        resource_guard()
     expected = [
         item
         for item in _expected(packet)
@@ -848,22 +1134,7 @@ def execute_formal_scope(
         scope=scope,
         prior_actual=prior_actual,
     )
-    scratch_bytes = sum(path.stat().st_size for path in root.rglob("*") if path.is_file())
-    max_wall = caps.get("max_wall_seconds")
-    max_scratch = caps.get("max_scratch_bytes")
-    max_network = caps.get("max_network_transfer_bytes")
-    if (
-        isinstance(max_wall, bool)
-        or not isinstance(max_wall, (int, float))
-        or time.perf_counter() - started > max_wall
-        or isinstance(max_scratch, bool)
-        or not isinstance(max_scratch, int)
-        or scratch_bytes > max_scratch
-        or isinstance(max_network, bool)
-        or not isinstance(max_network, int)
-        or input_client.transferred_bytes > max_network
-    ):
-        raise ContractValidationError("Gate B formal scope exceeded a reviewed resource cap")
+    resource_guard()
     return actual
 
 
@@ -971,13 +1242,16 @@ def validate_remote_phase_start(
     *,
     phase: str,
     sentinel_actual: tuple[ActualObject, ...] = (),
+    resource_guard: Callable[[], None],
 ) -> None:
     """Bind the remote prefix before any formal input body or truth is read."""
 
     store = packet.get("evidence_store")
     if not isinstance(store, Mapping):
         raise ContractValidationError("Gate B evidence store is invalid")
+    resource_guard()
     observed = client.list_keys(str(store["bucket"]), str(store["prefix"]))
+    resource_guard()
     if len(observed) != len(set(observed)):
         raise ContractValidationError("Gate B remote phase start returned duplicate keys")
     if phase == "sentinel-write":
@@ -1050,13 +1324,29 @@ def run_gate_b_cli(arguments: Any) -> int:
         raise ContractValidationError("Gate B CLI execution caps are invalid")
     _validate_operator_cost(arguments, caps)
     _enforce_process_caps(caps)
-    transfer_cap = int(caps["max_network_transfer_bytes"])
+    hourly_cost_cny = float(arguments.hourly_cost_cny)
 
     if phase == "sentinel-write":
         if any(scratch_root.iterdir()):
             raise ContractValidationError("Gate B sentinel scratch root must start empty")
-        writer = Issue68GateBWriterCosClient(max_transfer_bytes=transfer_cap)
-        validate_remote_phase_start(packet, writer, phase="sentinel-write")
+        resources = GateBResourceSequence.start(
+            scratch_root,
+            packet,
+            authorization,
+            phase=phase,
+            hourly_cost_cny=hourly_cost_cny,
+        )
+        writer = Issue68GateBWriterCosClient(max_transfer_bytes=resources.remaining_network_bytes)
+
+        def guard() -> None:
+            resources.guard(current_network_bytes=writer.transferred_bytes)
+
+        validate_remote_phase_start(
+            packet,
+            writer,
+            phase="sentinel-write",
+            resource_guard=guard,
+        )
         actual = execute_formal_scope(
             packet,
             input_client=writer,
@@ -1066,6 +1356,7 @@ def run_gate_b_cli(arguments: Any) -> int:
             scratch_root=sentinel_stage.parent,
             scope="sentinel",
             authorization=authorization,
+            resource_guard=guard,
         )
         freeze_actual_inventory(
             sentinel_inventory_path,
@@ -1074,32 +1365,76 @@ def run_gate_b_cli(arguments: Any) -> int:
             authorization,
             scope="sentinel",
         )
-        publish_staged_sentinel(packet, actual, writer, authorization)
+        publish_staged_sentinel(
+            packet,
+            actual,
+            writer,
+            authorization,
+            resource_guard=guard,
+        )
+        resources.complete(network_bytes=writer.transferred_bytes)
         return 0
 
-    sentinel_actual = load_actual_inventory(
-        sentinel_inventory_path,
-        sentinel_stage,
-        packet,
-        authorization,
-        scope="sentinel",
-    )
     if phase == "sentinel-read":
-        reader = Issue68GateBReadOnlyCosClient(max_transfer_bytes=transfer_cap)
-        readback = independent_read_sentinel(packet, reader, sentinel_actual, authorization)
+        resources = GateBResourceSequence.resume(
+            scratch_root,
+            packet,
+            authorization,
+            phase=phase,
+            hourly_cost_cny=hourly_cost_cny,
+        )
+        sentinel_actual = load_actual_inventory(
+            sentinel_inventory_path,
+            sentinel_stage,
+            packet,
+            authorization,
+            scope="sentinel",
+        )
+        reader = Issue68GateBReadOnlyCosClient(max_transfer_bytes=resources.remaining_network_bytes)
+
+        def guard() -> None:
+            resources.guard(current_network_bytes=reader.transferred_bytes)
+
+        readback = independent_read_sentinel(
+            packet,
+            reader,
+            sentinel_actual,
+            authorization,
+            resource_guard=guard,
+        )
         write_sentinel_readback(sentinel_readback_path, readback, authorization)
+        resources.complete(network_bytes=reader.transferred_bytes)
         return 0
 
-    readback = load_sentinel_readback(sentinel_readback_path, authorization)
     if phase == "remaining-write":
         if remaining_stage.parent.exists():
             raise ContractValidationError("Gate B remaining scratch must start absent")
-        writer = Issue68GateBWriterCosClient(max_transfer_bytes=transfer_cap)
+        resources = GateBResourceSequence.resume(
+            scratch_root,
+            packet,
+            authorization,
+            phase=phase,
+            hourly_cost_cny=hourly_cost_cny,
+        )
+        sentinel_actual = load_actual_inventory(
+            sentinel_inventory_path,
+            sentinel_stage,
+            packet,
+            authorization,
+            scope="sentinel",
+        )
+        readback = load_sentinel_readback(sentinel_readback_path, authorization)
+        writer = Issue68GateBWriterCosClient(max_transfer_bytes=resources.remaining_network_bytes)
+
+        def guard() -> None:
+            resources.guard(current_network_bytes=writer.transferred_bytes)
+
         validate_remote_phase_start(
             packet,
             writer,
             phase="remaining-write",
             sentinel_actual=sentinel_actual,
+            resource_guard=guard,
         )
         remaining = execute_formal_scope(
             packet,
@@ -1112,6 +1447,7 @@ def run_gate_b_cli(arguments: Any) -> int:
             authorization=authorization,
             prior_actual=sentinel_actual,
             sentinel_readback=readback,
+            resource_guard=guard,
         )
         freeze_actual_inventory(
             remaining_inventory_path,
@@ -1127,10 +1463,26 @@ def run_gate_b_cli(arguments: Any) -> int:
             writer,
             authorization,
             readback,
+            resource_guard=guard,
         )
+        resources.complete(network_bytes=writer.transferred_bytes)
         return 0
 
     if phase == "final-read":
+        resources = GateBResourceSequence.resume(
+            scratch_root,
+            packet,
+            authorization,
+            phase=phase,
+            hourly_cost_cny=hourly_cost_cny,
+        )
+        sentinel_actual = load_actual_inventory(
+            sentinel_inventory_path,
+            sentinel_stage,
+            packet,
+            authorization,
+            scope="sentinel",
+        )
         remaining = load_actual_inventory(
             remaining_inventory_path,
             remaining_stage,
@@ -1139,9 +1491,19 @@ def run_gate_b_cli(arguments: Any) -> int:
             scope="remaining-matrix",
             prior_actual=sentinel_actual,
         )
-        reader = Issue68GateBReadOnlyCosClient(max_transfer_bytes=transfer_cap)
+        reader = Issue68GateBReadOnlyCosClient(max_transfer_bytes=resources.remaining_network_bytes)
+
+        def guard() -> None:
+            resources.guard(current_network_bytes=reader.transferred_bytes)
+
         full = (*sentinel_actual, *remaining)
-        final_readback = independent_read_full_matrix(packet, reader, full, authorization)
+        final_readback = independent_read_full_matrix(
+            packet,
+            reader,
+            full,
+            authorization,
+            resource_guard=guard,
+        )
         final_path = scratch_root / "final-readback.json"
         write_final_readback(
             final_path,
@@ -1150,6 +1512,7 @@ def run_gate_b_cli(arguments: Any) -> int:
             authorization,
             final_readback,
         )
+        resources.complete(network_bytes=reader.transferred_bytes)
         sys.stdout.write(
             f"evidence_path={final_path}\nsize_bytes={final_path.stat().st_size}\n"
             f"sha256={hashlib.sha256(final_path.read_bytes()).hexdigest()}\n"
@@ -1164,6 +1527,7 @@ __all__ = [
     "GateBAuthorization",
     "GateBObjectClient",
     "GateBReadClient",
+    "GateBResourceSequence",
     "FullMatrixReadback",
     "SentinelReadback",
     "execute_formal_scope",

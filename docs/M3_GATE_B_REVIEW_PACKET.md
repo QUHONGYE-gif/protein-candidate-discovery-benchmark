@@ -115,6 +115,12 @@ pcdb m3-gate-b \
 重跑、替换、删除或扩权。正式启动前必须单独验收 writer/reader role binding、empty prefix、fresh
 scratch、environment 与 operator cost/resource caps。
 
+四个进程不是四份独立资源额度。`sentinel-write` 会记录一次 sequence start，之后每个 phase 只能从
+前一 phase 的 packet/approval/hourly-cost-bound resource checkpoint 继续；checkpoint 累计已用 network
+bytes，并以同一 sequence start 计算 wall time 与 cost，以整个 scratch root 计算 scratch bytes。phase
+start、每个 RunSpec 前后以及下一次 HEAD/GET/PUT/LIST 前均须检查剩余额度。任何 cap 失败后不得继续
+下一个 RunSpec 或远程操作，也不得通过重新启动 phase 重置额度。
+
 ## 当前声明边界
 
 本实现可以证明 packet builder、four-phase execution surface 和 publication consumer 对

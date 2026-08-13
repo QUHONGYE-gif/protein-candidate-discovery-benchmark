@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 from dataclasses import asdict, replace
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +19,7 @@ from pcdb.m3.gate_b_runtime import (
     GATE_B_APPROVAL,
     FullMatrixReadback,
     GateBAuthorization,
+    GateBResourceSequence,
     SentinelReadback,
     execute_formal_scope,
     freeze_actual_inventory,
@@ -217,6 +219,10 @@ def _authorization(packet: dict[str, Any]) -> GateBAuthorization:
     )
 
 
+def _within_caps() -> None:
+    return None
+
+
 def _payloads(
     tmp_path: Path,
     packet: dict[str, Any],
@@ -279,7 +285,9 @@ def test_writer_publishes_only_sentinel_with_success_last_and_fresh_readback(
     actual = validate_actual_inventory(packet, payloads)
     objects = Objects()
 
-    published = publish_staged_sentinel(packet, actual, objects, _authorization(packet))
+    published = publish_staged_sentinel(
+        packet, actual, objects, _authorization(packet), resource_guard=_within_caps
+    )
 
     sentinel = packet["sentinel"]["run_id"]
     expected = [
@@ -288,12 +296,16 @@ def test_writer_publishes_only_sentinel_with_success_last_and_fresh_readback(
     assert list(published) == expected
     assert objects.writes == expected
     assert objects.writes[-1].endswith("/_SUCCESS")
-    independent_read_sentinel(packet, objects, actual, _authorization(packet))
+    independent_read_sentinel(
+        packet, objects, actual, _authorization(packet), resource_guard=_within_caps
+    )
 
     extra = packet["evidence_store"]["prefix"] + "extra.json"
     objects.payloads[("bucket", extra)] = b"{}"
     with pytest.raises(ContractValidationError, match="exact-cover"):
-        independent_read_sentinel(packet, objects, actual, _authorization(packet))
+        independent_read_sentinel(
+            packet, objects, actual, _authorization(packet), resource_guard=_within_caps
+        )
 
 
 def test_writer_rejects_unreviewed_actual_before_first_put(tmp_path: Path) -> None:
@@ -311,7 +323,9 @@ def test_writer_rejects_unreviewed_actual_before_first_put(tmp_path: Path) -> No
     objects = Objects()
 
     with pytest.raises(ContractValidationError, match="exact-cover"):
-        publish_staged_sentinel(packet, drifted, objects, _authorization(packet))
+        publish_staged_sentinel(
+            packet, drifted, objects, _authorization(packet), resource_guard=_within_caps
+        )
 
     assert objects.writes == []
 
@@ -326,7 +340,7 @@ def test_writer_requires_exact_external_gate_b_authorization_before_first_put(
     authorization = replace(_authorization(packet), approval_text="NOT APPROVED")
 
     with pytest.raises(ContractValidationError, match="authorization"):
-        publish_staged_sentinel(packet, actual, objects, authorization)
+        publish_staged_sentinel(packet, actual, objects, authorization, resource_guard=_within_caps)
 
     assert objects.writes == []
 
@@ -425,7 +439,7 @@ def test_remaining_publication_requires_exact_independent_sentinel_readback(
     )
     objects = Objects()
     authorization = _authorization(packet)
-    publish_staged_sentinel(packet, sentinel, objects, authorization)
+    publish_staged_sentinel(packet, sentinel, objects, authorization, resource_guard=_within_caps)
 
     with pytest.raises(ContractValidationError, match="sentinel readback"):
         publish_staged_remaining(
@@ -438,10 +452,13 @@ def test_remaining_publication_requires_exact_independent_sentinel_readback(
                 packet_sha256="0" * 64,
                 sentinel_inventory_sha256="0" * 64,
             ),
+            resource_guard=_within_caps,
         )
 
     assert len(objects.writes) == 9
-    readback = independent_read_sentinel(packet, objects, sentinel, authorization)
+    readback = independent_read_sentinel(
+        packet, objects, sentinel, authorization, resource_guard=_within_caps
+    )
     published = publish_staged_remaining(
         packet,
         sentinel,
@@ -449,6 +466,7 @@ def test_remaining_publication_requires_exact_independent_sentinel_readback(
         objects,
         authorization,
         readback,
+        resource_guard=_within_caps,
     )
 
     assert len(published) == 153
@@ -462,6 +480,7 @@ def test_remaining_publication_requires_exact_independent_sentinel_readback(
         objects,
         (*sentinel, *remaining),
         authorization,
+        resource_guard=_within_caps,
     )
 
 
@@ -486,8 +505,10 @@ def test_full_reader_rejects_missing_or_extra_object(tmp_path: Path) -> None:
     )
     objects = Objects()
     authorization = _authorization(packet)
-    publish_staged_sentinel(packet, sentinel, objects, authorization)
-    readback = independent_read_sentinel(packet, objects, sentinel, authorization)
+    publish_staged_sentinel(packet, sentinel, objects, authorization, resource_guard=_within_caps)
+    readback = independent_read_sentinel(
+        packet, objects, sentinel, authorization, resource_guard=_within_caps
+    )
     publish_staged_remaining(
         packet,
         sentinel,
@@ -495,6 +516,7 @@ def test_full_reader_rejects_missing_or_extra_object(tmp_path: Path) -> None:
         objects,
         authorization,
         readback,
+        resource_guard=_within_caps,
     )
     missing_key = remaining[0].object_key
     del objects.payloads[("bucket", missing_key)]
@@ -505,6 +527,7 @@ def test_full_reader_rejects_missing_or_extra_object(tmp_path: Path) -> None:
             objects,
             (*sentinel, *remaining),
             authorization,
+            resource_guard=_within_caps,
         )
 
 
@@ -550,6 +573,7 @@ def test_formal_staging_runs_sentinel_before_remaining_and_does_not_put(
         scratch_root=tmp_path / "sentinel",
         scope="sentinel",
         authorization=_authorization(packet),
+        resource_guard=_within_caps,
     )
 
     assert len(sentinel) == 9
@@ -561,8 +585,20 @@ def test_formal_staging_runs_sentinel_before_remaining_and_does_not_put(
     ]
     assert sentinel_inputs.calls[-1][1].endswith("/hidden-truth.json")
     assert objects.writes == []
-    publish_staged_sentinel(packet, sentinel, objects, _authorization(packet))
-    checkpoint = independent_read_sentinel(packet, objects, sentinel, _authorization(packet))
+    publish_staged_sentinel(
+        packet,
+        sentinel,
+        objects,
+        _authorization(packet),
+        resource_guard=_within_caps,
+    )
+    checkpoint = independent_read_sentinel(
+        packet,
+        objects,
+        sentinel,
+        _authorization(packet),
+        resource_guard=_within_caps,
+    )
     remaining = execute_formal_scope(
         packet,
         input_client=_Inputs(inputs),
@@ -572,12 +608,78 @@ def test_formal_staging_runs_sentinel_before_remaining_and_does_not_put(
         authorization=_authorization(packet),
         prior_actual=sentinel,
         sentinel_readback=checkpoint,
+        resource_guard=_within_caps,
     )
 
     assert len(remaining) == 153
     assert len(engines) == 18
     assert set(engines) == {item.run_id for item in trajectories}
     assert objects.writes == [item.object_key for item in sentinel]
+
+
+def test_each_remaining_run_attempt_records_its_own_start_time(tmp_path: Path) -> None:
+    trajectories = tuple(_trajectory_for_index(index) for index in range(18))
+    packet = _matrix_packet(trajectories)
+    sentinel_run_id = str(packet["sentinel"]["run_id"])
+    payloads = _matrix_payloads(tmp_path, packet, trajectories)
+    sentinel = validate_actual_inventory(
+        packet,
+        {key: payload for key, payload in payloads.items() if f"/runs/{sentinel_run_id}/" in key},
+    )
+    checkpoint = SentinelReadback(
+        packet_sha256=_authorization(packet).packet_sha256,
+        sentinel_inventory_sha256=hashlib.sha256(
+            canonical_json_bytes(
+                [
+                    {
+                        "kind": item.kind,
+                        "object_key": item.object_key,
+                        "run_id": item.run_id,
+                        "sha256": item.sha256,
+                        "size_bytes": item.size_bytes,
+                    }
+                    for item in sentinel
+                ]
+            )
+        ).hexdigest(),
+    )
+    times = iter(
+        datetime(2026, 8, 13, tzinfo=UTC) + timedelta(seconds=index) for index in range(40)
+    )
+
+    class Engine:
+        def __init__(self, trajectory: ReplayTrajectory) -> None:
+            self.trajectory = trajectory
+
+        def run(
+            self,
+            *,
+            checkpoint: bytes | None = None,
+            stop_after_round: int | None = None,
+        ) -> ReplayTrajectory:
+            return self.trajectory
+
+    remaining = execute_formal_scope(
+        packet,
+        input_client=_Inputs(_input_payloads(packet)),
+        engine_factory=lambda run_spec, _inputs: Engine(
+            next(item for item in trajectories if item.run_id == run_spec.run_id)
+        ),
+        scratch_root=tmp_path / "timed-remaining",
+        scope="remaining-matrix",
+        authorization=_authorization(packet),
+        prior_actual=sentinel,
+        sentinel_readback=checkpoint,
+        resource_guard=_within_caps,
+        now=lambda: next(times),
+    )
+    starts = {
+        __import__("json").loads(item.payload)["started_at"]
+        for item in remaining
+        if item.kind == "run-attempt"
+    }
+
+    assert len(starts) == 17
 
 
 def test_cli_exposes_one_four_phase_gate_b_entry() -> None:
@@ -617,7 +719,9 @@ def test_remote_prefix_is_checked_before_formal_generation(tmp_path: Path) -> No
     objects.payloads[("bucket", str(packet["evidence_store"]["prefix"]) + "existing")] = b"x"
 
     with pytest.raises(ContractValidationError, match="must start empty"):
-        validate_remote_phase_start(packet, objects, phase="sentinel-write")
+        validate_remote_phase_start(
+            packet, objects, phase="sentinel-write", resource_guard=_within_caps
+        )
 
     objects.payloads.clear()
     for item in actual:
@@ -627,7 +731,311 @@ def test_remote_prefix_is_checked_before_formal_generation(tmp_path: Path) -> No
         objects,
         phase="remaining-write",
         sentinel_actual=actual,
+        resource_guard=_within_caps,
     )
+
+
+def test_resource_sequence_carries_network_usage_across_all_phases(tmp_path: Path) -> None:
+    packet = _matrix_packet(tuple(_trajectory_for_index(index) for index in range(18)))
+    packet["execution_caps"]["max_network_transfer_bytes"] = 10
+    authorization = _authorization(packet)
+    started = datetime(2026, 8, 13, tzinfo=UTC)
+
+    sentinel = GateBResourceSequence.start(
+        tmp_path,
+        packet,
+        authorization,
+        phase="sentinel-write",
+        hourly_cost_cny=1.0,
+        now=lambda: started,
+    )
+    sentinel.complete(network_bytes=6)
+    sentinel_reader = GateBResourceSequence.resume(
+        tmp_path,
+        packet,
+        authorization,
+        phase="sentinel-read",
+        hourly_cost_cny=1.0,
+        now=lambda: started,
+    )
+    assert sentinel_reader.remaining_network_bytes == 4
+    sentinel_reader.complete(network_bytes=0)
+    remaining = GateBResourceSequence.resume(
+        tmp_path,
+        packet,
+        authorization,
+        phase="remaining-write",
+        hourly_cost_cny=1.0,
+        now=lambda: started,
+    )
+
+    with pytest.raises(ContractValidationError, match="network"):
+        remaining.guard(current_network_bytes=5)
+
+
+def test_resource_sequence_start_is_exclusive_before_remote_work(tmp_path: Path) -> None:
+    packet = _matrix_packet(tuple(_trajectory_for_index(index) for index in range(18)))
+    authorization = _authorization(packet)
+    started = datetime(2026, 8, 13, tzinfo=UTC)
+    GateBResourceSequence.start(
+        tmp_path,
+        packet,
+        authorization,
+        phase="sentinel-write",
+        hourly_cost_cny=1.0,
+        now=lambda: started,
+    )
+
+    assert (tmp_path / "resource-sequence-00-started.json").is_file()
+    with pytest.raises(ContractValidationError, match="already exists"):
+        GateBResourceSequence.start(
+            tmp_path,
+            packet,
+            authorization,
+            phase="sentinel-write",
+            hourly_cost_cny=1.0,
+            now=lambda: started + timedelta(hours=1),
+        )
+
+
+def test_resource_sequence_start_checkpoint_obeys_scratch_cap(tmp_path: Path) -> None:
+    packet = _matrix_packet(tuple(_trajectory_for_index(index) for index in range(18)))
+    packet["execution_caps"]["max_scratch_bytes"] = 1
+
+    with pytest.raises(ContractValidationError, match="scratch"):
+        GateBResourceSequence.start(
+            tmp_path,
+            packet,
+            _authorization(packet),
+            phase="sentinel-write",
+            hourly_cost_cny=1.0,
+            now=lambda: datetime(2026, 8, 13, tzinfo=UTC),
+        )
+
+    assert not tuple(tmp_path.iterdir())
+
+
+def test_resource_sequence_cannot_restart_an_incomplete_later_phase(tmp_path: Path) -> None:
+    packet = _matrix_packet(tuple(_trajectory_for_index(index) for index in range(18)))
+    authorization = _authorization(packet)
+    started = datetime(2026, 8, 13, tzinfo=UTC)
+    sentinel = GateBResourceSequence.start(
+        tmp_path,
+        packet,
+        authorization,
+        phase="sentinel-write",
+        hourly_cost_cny=1.0,
+        now=lambda: started,
+    )
+    sentinel.complete(network_bytes=0)
+    GateBResourceSequence.resume(
+        tmp_path,
+        packet,
+        authorization,
+        phase="sentinel-read",
+        hourly_cost_cny=1.0,
+        now=lambda: started,
+    )
+
+    with pytest.raises(ContractValidationError, match="already started"):
+        GateBResourceSequence.resume(
+            tmp_path,
+            packet,
+            authorization,
+            phase="sentinel-read",
+            hourly_cost_cny=1.0,
+            now=lambda: started,
+        )
+
+
+def test_resource_sequence_carries_wall_and_scratch_across_phases(tmp_path: Path) -> None:
+    packet = _matrix_packet(tuple(_trajectory_for_index(index) for index in range(18)))
+    packet["execution_caps"]["max_wall_seconds"] = 10
+    packet["execution_caps"]["max_scratch_bytes"] = 4096
+    authorization = _authorization(packet)
+    started = datetime(2026, 8, 13, tzinfo=UTC)
+    clock = [started]
+    sequence = GateBResourceSequence.start(
+        tmp_path,
+        packet,
+        authorization,
+        phase="sentinel-write",
+        hourly_cost_cny=1.0,
+        now=lambda: clock[0],
+    )
+    (tmp_path / "sentinel-stage").mkdir()
+    (tmp_path / "sentinel-stage" / "payload").write_bytes(b"x" * 128)
+    sequence.guard(current_network_bytes=0)
+    sequence.complete(network_bytes=0)
+    clock[0] = started + timedelta(seconds=11)
+    with pytest.raises(ContractValidationError, match="wall"):
+        GateBResourceSequence.resume(
+            tmp_path,
+            packet,
+            authorization,
+            phase="sentinel-read",
+            hourly_cost_cny=1.0,
+            now=lambda: clock[0],
+        )
+
+    scratch_packet = _matrix_packet(tuple(_trajectory_for_index(index) for index in range(18)))
+    scratch_packet["execution_caps"]["max_scratch_bytes"] = 2048
+    scratch_authorization = _authorization(scratch_packet)
+    scratch_root = tmp_path / "scratch-cap"
+    scratch_sequence = GateBResourceSequence.start(
+        scratch_root,
+        scratch_packet,
+        scratch_authorization,
+        phase="sentinel-write",
+        hourly_cost_cny=1.0,
+        now=lambda: started,
+    )
+    (scratch_root / "sentinel-stage").mkdir()
+    (scratch_root / "sentinel-stage" / "payload").write_bytes(b"x" * 128)
+    scratch_sequence.complete(network_bytes=0)
+    scratch_reader = GateBResourceSequence.resume(
+        scratch_root,
+        scratch_packet,
+        scratch_authorization,
+        phase="sentinel-read",
+        hourly_cost_cny=1.0,
+        now=lambda: started,
+    )
+    scratch_reader.complete(network_bytes=0)
+    scratch_remaining = GateBResourceSequence.resume(
+        scratch_root,
+        scratch_packet,
+        scratch_authorization,
+        phase="remaining-write",
+        hourly_cost_cny=1.0,
+        now=lambda: started,
+    )
+    (scratch_root / "remaining-stage").mkdir()
+    (scratch_root / "remaining-stage" / "payload").write_bytes(b"x" * 2048)
+    with pytest.raises(ContractValidationError, match="scratch"):
+        scratch_remaining.guard(current_network_bytes=0)
+
+
+def test_resource_sequence_cost_cannot_reset_in_next_process(tmp_path: Path) -> None:
+    packet = _matrix_packet(tuple(_trajectory_for_index(index) for index in range(18)))
+    packet["execution_caps"]["max_cost_cny"] = 0.001
+    authorization = _authorization(packet)
+    started = datetime(2026, 8, 13, tzinfo=UTC)
+    sequence = GateBResourceSequence.start(
+        tmp_path,
+        packet,
+        authorization,
+        phase="sentinel-write",
+        hourly_cost_cny=1.0,
+        now=lambda: started,
+    )
+    sequence.complete(network_bytes=0)
+
+    with pytest.raises(ContractValidationError, match="cost"):
+        GateBResourceSequence.resume(
+            tmp_path,
+            packet,
+            authorization,
+            phase="sentinel-read",
+            hourly_cost_cny=1.0,
+            now=lambda: started + timedelta(seconds=4),
+        )
+
+
+def test_wall_guard_stops_before_next_runspec_and_remote_operation(tmp_path: Path) -> None:
+    trajectories = tuple(_trajectory_for_index(index) for index in range(18))
+    packet = _matrix_packet(trajectories)
+    inputs = _Inputs(_input_payloads(packet))
+    sentinel_payloads = _matrix_payloads(tmp_path, packet, trajectories)
+    sentinel_run_id = str(packet["sentinel"]["run_id"])
+    sentinel = validate_actual_inventory(
+        packet,
+        {
+            key: payload
+            for key, payload in sentinel_payloads.items()
+            if f"/runs/{sentinel_run_id}/" in key
+        },
+    )
+    checkpoint = SentinelReadback(
+        packet_sha256=_authorization(packet).packet_sha256,
+        sentinel_inventory_sha256=hashlib.sha256(
+            canonical_json_bytes(
+                [
+                    {
+                        "kind": item.kind,
+                        "object_key": item.object_key,
+                        "run_id": item.run_id,
+                        "sha256": item.sha256,
+                        "size_bytes": item.size_bytes,
+                    }
+                    for item in sentinel
+                ]
+            )
+        ).hexdigest(),
+    )
+    engine_calls: list[str] = []
+
+    class Engine:
+        def __init__(self, trajectory: ReplayTrajectory) -> None:
+            self.trajectory = trajectory
+
+        def run(
+            self,
+            *,
+            checkpoint: bytes | None = None,
+            stop_after_round: int | None = None,
+        ) -> ReplayTrajectory:
+            return self.trajectory
+
+    def factory(run_spec: RunSpec, _payloads: dict[str, bytes]) -> RunnableReplay:
+        engine_calls.append(run_spec.run_id)
+        return Engine(next(item for item in trajectories if item.run_id == run_spec.run_id))
+
+    def guard() -> None:
+        if engine_calls:
+            raise ContractValidationError("Gate B sequence wall cap exceeded")
+
+    with pytest.raises(ContractValidationError, match="wall"):
+        execute_formal_scope(
+            packet,
+            input_client=inputs,
+            engine_factory=factory,
+            scratch_root=tmp_path / "guarded-remaining",
+            scope="remaining-matrix",
+            authorization=_authorization(packet),
+            prior_actual=sentinel,
+            sentinel_readback=checkpoint,
+            resource_guard=guard,
+        )
+
+    assert len(engine_calls) == 1
+
+    trajectory = _trajectory()
+    sentinel_packet = _packet(trajectory)
+    sentinel_actual = validate_actual_inventory(
+        sentinel_packet,
+        _payloads(tmp_path / "publish", sentinel_packet, trajectory),
+    )
+    objects = Objects()
+    guard_calls = 0
+
+    def publication_guard() -> None:
+        nonlocal guard_calls
+        guard_calls += 1
+        if objects.writes:
+            raise ContractValidationError("Gate B sequence wall cap exceeded")
+
+    with pytest.raises(ContractValidationError, match="wall"):
+        publish_staged_sentinel(
+            sentinel_packet,
+            sentinel_actual,
+            objects,
+            _authorization(sentinel_packet),
+            resource_guard=publication_guard,
+        )
+
+    assert len(objects.writes) == 1
+    assert guard_calls >= 2
 
 
 def test_inventory_and_readback_checkpoints_are_exclusive_and_packet_bound(
@@ -652,8 +1060,10 @@ def test_inventory_and_readback_checkpoints_are_exclusive_and_packet_bound(
         freeze_actual_inventory(inventory_path, packet, actual, authorization, scope="sentinel")
 
     objects = Objects()
-    publish_staged_sentinel(packet, actual, objects, authorization)
-    readback = independent_read_sentinel(packet, objects, actual, authorization)
+    publish_staged_sentinel(packet, actual, objects, authorization, resource_guard=_within_caps)
+    readback = independent_read_sentinel(
+        packet, objects, actual, authorization, resource_guard=_within_caps
+    )
     readback_path = tmp_path / "sentinel-readback.json"
     write_sentinel_readback(readback_path, readback, authorization)
     assert load_sentinel_readback(readback_path, authorization) == readback
@@ -745,6 +1155,7 @@ def _matrix_packet(trajectories: tuple[ReplayTrajectory, ...]) -> dict[str, Any]
             "max_network_transfer_bytes": 10 * 1024**3,
             "max_scratch_bytes": 20 * 1024**3,
             "max_wall_seconds": 6 * 60 * 60,
+            "max_cost_cny": 50,
         }
     )
     packet["run_specs"] = [
