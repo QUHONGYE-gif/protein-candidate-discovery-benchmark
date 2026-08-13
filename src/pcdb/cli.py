@@ -81,6 +81,27 @@ def build_parser() -> argparse.ArgumentParser:
     m3_gate_a.add_argument("--approval", required=True)
     m3_gate_a.add_argument("--repository-root", required=True, type=Path)
     m3_gate_a.add_argument("--scratch-root", required=True, type=Path)
+    m3_gate_b_packet = commands.add_parser(
+        "m3-gate-b-packet",
+        help="print the zero-execution Issue #68 Gate B review packet",
+    )
+    m3_gate_b_packet.add_argument("--reviewed-git-commit", required=True)
+    m3_gate_b_packet.add_argument("--reviewed-git-tree", required=True)
+    m3_gate_b_packet.add_argument("--repository-root", required=True, type=Path)
+    m3_gate_b_packet.add_argument("--gate-a-repository-root", required=True, type=Path)
+    m3_gate_b_packet.add_argument("--gate-a-packet", required=True, type=Path)
+    m3_gate_b_packet.add_argument("--gate-a-packet-sha256", required=True)
+    m3_gate_b_packet.add_argument("--gate-a-evidence", required=True, type=Path)
+    m3_gate_b_packet.add_argument("--gate-a-evidence-sha256", required=True)
+    m3_gate_b_packet.add_argument(
+        "--gate-a-operator-attestation-comment-id",
+        required=True,
+        type=int,
+    )
+    m3_gate_b_packet.add_argument(
+        "--gate-a-evidence-acceptance-comment-id",
+        type=int,
+    )
     return parser
 
 
@@ -113,6 +134,25 @@ def main(argv: Sequence[str] | None = None) -> int:
         from pcdb.m3.gate_a_runtime import run_gate_a_cli
 
         return run_gate_a_cli(arguments)
+    if arguments.command == "m3-gate-b-packet":
+        from pcdb.m3.gate_b import build_gate_b_packet
+
+        payload = build_gate_b_packet(
+            arguments.repository_root,
+            reviewed_git_commit=arguments.reviewed_git_commit,
+            reviewed_git_tree=arguments.reviewed_git_tree,
+            gate_a_repository_root=arguments.gate_a_repository_root,
+            gate_a_packet_bytes=arguments.gate_a_packet.read_bytes(),
+            gate_a_packet_sha256=arguments.gate_a_packet_sha256,
+            gate_a_evidence_bytes=arguments.gate_a_evidence.read_bytes(),
+            gate_a_evidence_sha256=arguments.gate_a_evidence_sha256,
+            gate_a_operator_attestation_comment_id=(
+                arguments.gate_a_operator_attestation_comment_id
+            ),
+            gate_a_evidence_acceptance_comment_id=(arguments.gate_a_evidence_acceptance_comment_id),
+        )
+        sys.stdout.buffer.write(payload)
+        return 0
     return 0
 
 

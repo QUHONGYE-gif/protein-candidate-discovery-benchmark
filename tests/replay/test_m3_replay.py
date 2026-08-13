@@ -717,19 +717,6 @@ def test_publication_is_immutable_read_back_and_success_marker_last(tmp_path: Pa
             return self.delegate.exists(key)
 
     store = RecordingStore(tmp_path / "complete")
-    with pytest.raises(ContractValidationError, match="exact-match"):
-        publish_replay_attempt(
-            trajectory,
-            store=store,
-            attempt_id="attempt-invalid",
-            started_at="2026-08-11T00:00:00Z",
-            finished_at="2026-08-11T00:00:01Z",
-            executed_git_commit="a" * 40,
-            executed_environment_digest="b" * 64,
-            runtime_version="python-test",
-        )
-    assert store.writes == []
-
     publication = publish_replay_attempt(
         trajectory,
         store=store,
@@ -788,6 +775,61 @@ def test_publication_is_immutable_read_back_and_success_marker_last(tmp_path: Pa
     extra_output.put_bytes(publication.attempt_key, canonical_json_bytes(drifted_attempt))
     extra_output.put_bytes(publication.marker_key, b"")
     assert is_replay_attempt_eligible(extra_output, publication.attempt_key) is False
+
+
+def test_run_attempt_records_actual_runtime_provenance_beside_frozen_runspec(
+    tmp_path: Path,
+) -> None:
+    fixture = json.loads(WORKED_EXAMPLE.read_bytes())
+    trajectory = _engine(
+        run_spec=_random_run_spec(),
+        candidate_ids=tuple(fixture["candidate_ids"]),
+        truth=fixture["synthetic_oracle"]["labels"],
+    ).run()
+    store = LocalArtifactStore(tmp_path / "runtime-provenance")
+
+    publication = publish_replay_attempt(
+        trajectory,
+        store=store,
+        attempt_id="attempt-001",
+        started_at="2026-08-13T00:00:00Z",
+        finished_at="2026-08-13T00:00:01Z",
+        executed_git_commit="a" * 40,
+        executed_environment_digest="b" * 64,
+        runtime_version="python-test",
+    )
+
+    attempt = load_run_attempt_v1(store.get_bytes(publication.attempt_key))
+    assert trajectory.run_spec.git_commit == "f" * 40
+    assert attempt.value["executed_git_commit"] == "a" * 40
+    assert attempt.value["executed_environment_digest"] == "b" * 64
+    assert is_replay_attempt_eligible(store, publication.attempt_key) is True
+
+
+def test_publication_can_be_bound_to_one_reviewed_object_prefix(tmp_path: Path) -> None:
+    fixture = json.loads(WORKED_EXAMPLE.read_bytes())
+    trajectory = _engine(
+        run_spec=_random_run_spec(),
+        candidate_ids=tuple(fixture["candidate_ids"]),
+        truth=fixture["synthetic_oracle"]["labels"],
+    ).run()
+    store = LocalArtifactStore(tmp_path / "prefixed")
+
+    publication = publish_replay_attempt(
+        trajectory,
+        store=store,
+        attempt_id="attempt-001",
+        started_at="2026-08-13T00:00:00Z",
+        finished_at="2026-08-13T00:00:01Z",
+        executed_git_commit=trajectory.run_spec.git_commit,
+        executed_environment_digest=trajectory.run_spec.environment_digest,
+        runtime_version="python-test",
+        key_prefix="m3/issue-68/reviewed/",
+    )
+
+    assert publication.attempt_key.startswith("m3/issue-68/reviewed/runs/")
+    assert publication.marker_key.startswith("m3/issue-68/reviewed/runs/")
+    assert is_replay_attempt_eligible(store, publication.attempt_key) is True
 
 
 def test_protocol_sized_random_replay_has_exact_16_24_32_boundaries() -> None:
