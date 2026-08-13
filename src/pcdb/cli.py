@@ -98,6 +98,10 @@ def build_parser() -> argparse.ArgumentParser:
         required=True,
         type=int,
     )
+    m3_gate_b_packet.add_argument(
+        "--gate-a-evidence-acceptance-comment-id",
+        type=int,
+    )
     return parser
 
 
@@ -145,6 +149,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             gate_a_operator_attestation_comment_id=(
                 arguments.gate_a_operator_attestation_comment_id
             ),
+            gate_a_evidence_acceptance_comment_id=(arguments.gate_a_evidence_acceptance_comment_id),
         )
         sys.stdout.buffer.write(payload)
         return 0

@@ -10,6 +10,7 @@ from typing import Any, cast
 
 from pcdb.contracts.experiment import ContractValidationError, canonical_json_bytes
 from pcdb.m3.gate_a import load_gate_a_packet
+from pcdb.m3.gate_b_runtime import GATE_B_APPROVAL
 
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _GIT_OBJECT = re.compile(r"^[0-9a-f]{40}$")
@@ -149,6 +150,7 @@ def build_gate_b_packet(
     gate_a_evidence_bytes: bytes,
     gate_a_evidence_sha256: str,
     gate_a_operator_attestation_comment_id: int,
+    gate_a_evidence_acceptance_comment_id: int | None = None,
 ) -> bytes:
     """Build one zero-execution Gate B review packet from accepted Gate A evidence."""
 
@@ -162,6 +164,12 @@ def build_gate_b_packet(
         or gate_a_operator_attestation_comment_id <= 0
     ):
         raise ContractValidationError("Gate A operator attestation is absent")
+    if gate_a_evidence_acceptance_comment_id is not None and (
+        isinstance(gate_a_evidence_acceptance_comment_id, bool)
+        or not isinstance(gate_a_evidence_acceptance_comment_id, int)
+        or gate_a_evidence_acceptance_comment_id <= 0
+    ):
+        raise ContractValidationError("Gate A evidence acceptance is invalid")
     gate_a_untrusted = _strict_canonical_object(gate_a_packet_bytes, "Gate A packet")
     gate_a_source = gate_a_untrusted.get("reviewed_source")
     if not isinstance(gate_a_source, dict):
@@ -189,15 +197,21 @@ def build_gate_b_packet(
     inventory = _expected_inventory(run_specs, evidence_prefix, str(sentinel["run_id"]))
     if len(inventory) != 162 or len({item["object_key"] for item in inventory}) != 162:
         raise ContractValidationError("Gate B expected inventory is not an exact 162-key set")
+    environment = cast(dict[str, Any], gate_a["environment_candidate"])
+    gate_a_governance_status = (
+        "ACCEPTED-DISCLOSED-GOVERNANCE-DEVIATION"
+        if gate_a_evidence_acceptance_comment_id is not None
+        else "PENDING-USER-ADJUDICATION"
+    )
     value = {
         "authorization_boundaries": {
             "gate_b_execution_authorized": False,
+            "gate_b_execution_eligible": gate_a_evidence_acceptance_comment_id is not None,
+            "gate_b_requires_new_authorization": True,
             "packet_review_authorizes_cos_access": False,
             "packet_review_authorizes_server_access": False,
             "packet_review_authorizes_truth_read": False,
-            "remaining_matrix_requires_new_authorization": True,
-            "sentinel_reader_requires_new_authorization": True,
-            "sentinel_writer_requires_new_authorization": True,
+            "required_approval_text": GATE_B_APPROVAL,
         },
         "cam_roles": {
             "independent_reader": {
@@ -248,24 +262,29 @@ def build_gate_b_packet(
             "packet_sha256": gate_a_packet_sha256,
             "packet_size_bytes": len(gate_a_packet_bytes),
             "reviewed_source": {"git_commit": gate_a_commit, "git_tree": gate_a_tree},
-            "verdict": "PASS-after-operator-resource-attestation",
+            "governance": {
+                "evidence_acceptance_comment_id": gate_a_evidence_acceptance_comment_id,
+                "status": gate_a_governance_status,
+            },
+            "technical_verdict": "PASS-after-operator-resource-attestation",
         },
         "input_inventory": gate_a["input_inventory"],
         "issue_number": 68,
         "phases": {
-            "independent_reader": {
+            "gate_b": {
                 "authorized": False,
+                "scope": "one sentinel-first 18-RunSpec sequence",
+            },
+            "independent_reader": {
                 "requires_writer_exit": True,
                 "scope": "sentinel exact-cover bytes/checksums/cross-links",
             },
             "remaining_matrix": {
-                "authorized": False,
                 "requires_sentinel_reader_pass": True,
                 "run_spec_count": 17,
             },
             "writer": {
                 "actual_inventory_freeze": "after local strict validation and before first PUT",
-                "authorized": False,
                 "scope": "lowest-cost sentinel only",
             },
         },
@@ -278,6 +297,10 @@ def build_gate_b_packet(
         "reviewed_source": {
             "git_commit": reviewed_git_commit,
             "git_tree": reviewed_git_tree,
+        },
+        "runtime_identity": {
+            "executed_environment_digest": environment["sha256"],
+            "executed_git_commit": reviewed_git_commit,
         },
         "run_specs": run_specs,
         "schema_version": "m3-gate-b-review-packet-v1",
@@ -316,6 +339,7 @@ def load_gate_b_packet(
     gate_a_evidence_bytes: bytes,
     gate_a_evidence_sha256: str,
     gate_a_operator_attestation_comment_id: int,
+    gate_a_evidence_acceptance_comment_id: int | None = None,
 ) -> dict[str, Any]:
     """Strict-load and reproduce one exact Gate B review packet."""
 
@@ -331,6 +355,7 @@ def load_gate_b_packet(
         gate_a_evidence_bytes=gate_a_evidence_bytes,
         gate_a_evidence_sha256=gate_a_evidence_sha256,
         gate_a_operator_attestation_comment_id=gate_a_operator_attestation_comment_id,
+        gate_a_evidence_acceptance_comment_id=gate_a_evidence_acceptance_comment_id,
     )
     if rebuilt != packet_bytes:
         raise ContractValidationError("Gate B packet differs from reviewed inputs")

@@ -47,7 +47,7 @@ def _gate_a_material() -> tuple[bytes, str, bytes, str]:
     return packet, packet_sha256, evidence, hashlib.sha256(evidence).hexdigest()
 
 
-def test_packet_freezes_two_phase_exact_inventory_without_authorizing_execution() -> None:
+def test_packet_freezes_one_gate_b_sequence_without_authorizing_execution() -> None:
     gate_a, gate_a_sha, evidence, evidence_sha = _gate_a_material()
 
     payload = build_gate_b_packet(
@@ -84,9 +84,10 @@ def test_packet_freezes_two_phase_exact_inventory_without_authorizing_execution(
     ]
     assert len(sentinel_keys) == 9
     assert sentinel_keys[-1].endswith("/_SUCCESS")
-    assert loaded["phases"]["writer"]["authorized"] is False
-    assert loaded["phases"]["independent_reader"]["authorized"] is False
-    assert loaded["phases"]["remaining_matrix"]["authorized"] is False
+    assert loaded["phases"]["gate_b"]["authorized"] is False
+    assert loaded["authorization_boundaries"]["gate_b_requires_new_authorization"] is True
+    assert loaded["authorization_boundaries"]["gate_b_execution_eligible"] is False
+    assert loaded["gate_a_closure"]["governance"]["status"] == "PENDING-USER-ADJUDICATION"
     assert loaded["execution_caps"]["automatic_retry"] == 0
     assert loaded["execution_caps"]["replacement_attempts"] == 0
     assert loaded["execution_caps"]["delete_object"] == 0
@@ -109,6 +110,30 @@ def test_packet_rejects_gate_a_evidence_or_attestation_drift() -> None:
             gate_a_evidence_sha256=hashlib.sha256(drifted_bytes).hexdigest(),
             gate_a_operator_attestation_comment_id=5269603341,
         )
+
+
+def test_packet_records_explicit_acceptance_without_retroactive_authorization() -> None:
+    gate_a, gate_a_sha, evidence, evidence_sha = _gate_a_material()
+
+    payload = build_gate_b_packet(
+        ROOT,
+        reviewed_git_commit=COMMIT,
+        reviewed_git_tree=TREE,
+        gate_a_packet_bytes=gate_a,
+        gate_a_packet_sha256=gate_a_sha,
+        gate_a_evidence_bytes=evidence,
+        gate_a_evidence_sha256=evidence_sha,
+        gate_a_operator_attestation_comment_id=5269603341,
+        gate_a_evidence_acceptance_comment_id=1,
+    )
+    value = json.loads(payload)
+
+    assert value["gate_a_closure"]["governance"] == {
+        "evidence_acceptance_comment_id": 1,
+        "status": "ACCEPTED-DISCLOSED-GOVERNANCE-DEVIATION",
+    }
+    assert value["authorization_boundaries"]["gate_b_execution_eligible"] is True
+    assert value["authorization_boundaries"]["gate_b_execution_authorized"] is False
 
 
 def test_cli_materializes_same_review_packet(

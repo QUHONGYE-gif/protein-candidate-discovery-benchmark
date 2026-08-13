@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import hashlib
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from pathlib import Path
 from typing import Any
 
@@ -13,6 +13,8 @@ from pcdb.contracts.experiment import ContractValidationError, canonical_json_by
 from pcdb.contracts.run import RunSpec
 from pcdb.evaluation import MetricValue, SequentialMetricSet
 from pcdb.m3.gate_b_runtime import (
+    GATE_B_APPROVAL,
+    GateBAuthorization,
     independent_read_sentinel,
     publish_staged_sentinel,
     validate_actual_inventory,
@@ -113,9 +115,18 @@ def _packet(trajectory: ReplayTrajectory) -> dict[str, Any]:
         ]
     )
     return {
+        "authorization_boundaries": {
+            "gate_b_execution_authorized": False,
+            "gate_b_execution_eligible": True,
+            "required_approval_text": GATE_B_APPROVAL,
+        },
         "evidence_store": {"bucket": "bucket", "prefix": prefix},
         "execution_caps": {"cos_net_new_bytes": 2 * 1024**3, "cos_object_count": 9},
         "expected_inventory": inventory,
+        "runtime_identity": {
+            "executed_environment_digest": trajectory.run_spec.environment_digest,
+            "executed_git_commit": trajectory.run_spec.git_commit,
+        },
         "sentinel": {"run_id": run_id},
     }
 
@@ -181,6 +192,14 @@ class Objects:
         )
 
 
+def _authorization(packet: dict[str, Any]) -> GateBAuthorization:
+    return GateBAuthorization(
+        approval_comment_id=1,
+        approval_text=str(packet["authorization_boundaries"]["required_approval_text"]),
+        packet_sha256=hashlib.sha256(canonical_json_bytes(packet)).hexdigest(),
+    )
+
+
 def _payloads(
     tmp_path: Path,
     packet: dict[str, Any],
@@ -243,7 +262,7 @@ def test_writer_publishes_only_sentinel_with_success_last_and_fresh_readback(
     actual = validate_actual_inventory(packet, payloads)
     objects = Objects()
 
-    published = publish_staged_sentinel(packet, actual, objects)
+    published = publish_staged_sentinel(packet, actual, objects, _authorization(packet))
 
     sentinel = packet["sentinel"]["run_id"]
     expected = [
@@ -252,12 +271,47 @@ def test_writer_publishes_only_sentinel_with_success_last_and_fresh_readback(
     assert list(published) == expected
     assert objects.writes == expected
     assert objects.writes[-1].endswith("/_SUCCESS")
-    independent_read_sentinel(packet, objects, actual)
+    independent_read_sentinel(packet, objects, actual, _authorization(packet))
 
     extra = packet["evidence_store"]["prefix"] + "extra.json"
     objects.payloads[("bucket", extra)] = b"{}"
     with pytest.raises(ContractValidationError, match="exact-cover"):
-        independent_read_sentinel(packet, objects, actual)
+        independent_read_sentinel(packet, objects, actual, _authorization(packet))
+
+
+def test_writer_rejects_unreviewed_actual_before_first_put(tmp_path: Path) -> None:
+    trajectory = _trajectory()
+    packet = _packet(trajectory)
+    payloads = _payloads(tmp_path, packet, trajectory)
+    actual = validate_actual_inventory(packet, payloads)
+    drifted = (
+        replace(
+            actual[0],
+            object_key=str(packet["evidence_store"]["prefix"]) + "unexpected.json",
+        ),
+        *actual[1:],
+    )
+    objects = Objects()
+
+    with pytest.raises(ContractValidationError, match="exact-cover"):
+        publish_staged_sentinel(packet, drifted, objects, _authorization(packet))
+
+    assert objects.writes == []
+
+
+def test_writer_requires_exact_external_gate_b_authorization_before_first_put(
+    tmp_path: Path,
+) -> None:
+    trajectory = _trajectory()
+    packet = _packet(trajectory)
+    actual = validate_actual_inventory(packet, _payloads(tmp_path, packet, trajectory))
+    objects = Objects()
+    authorization = replace(_authorization(packet), approval_text="NOT APPROVED")
+
+    with pytest.raises(ContractValidationError, match="authorization"):
+        publish_staged_sentinel(packet, actual, objects, authorization)
+
+    assert objects.writes == []
 
 
 def test_actual_inventory_rejects_cross_link_drift_before_first_put(tmp_path: Path) -> None:
@@ -278,6 +332,10 @@ def test_actual_inventory_binds_attempt_to_actual_runtime_not_runspec_source(
 ) -> None:
     trajectory = _trajectory()
     packet = _packet(trajectory)
+    packet["runtime_identity"] = {
+        "executed_environment_digest": "5" * 64,
+        "executed_git_commit": "4" * 40,
+    }
     payloads = _payloads(
         tmp_path,
         packet,
@@ -286,17 +344,43 @@ def test_actual_inventory_binds_attempt_to_actual_runtime_not_runspec_source(
         executed_environment_digest="5" * 64,
     )
 
-    actual = validate_actual_inventory(
-        packet,
-        payloads,
-        executed_git_commit="4" * 40,
-        executed_environment_digest="5" * 64,
-    )
+    actual = validate_actual_inventory(packet, payloads)
     assert len(actual) == 9
+    packet["runtime_identity"] = {
+        "executed_environment_digest": trajectory.run_spec.environment_digest,
+        "executed_git_commit": trajectory.run_spec.git_commit,
+    }
     with pytest.raises(ContractValidationError, match="RunAttempt cross-link"):
+        validate_actual_inventory(packet, payloads)
+
+
+def test_actual_inventory_requires_packet_runtime_identity(tmp_path: Path) -> None:
+    trajectory = _trajectory()
+    packet = _packet(trajectory)
+    payloads = _payloads(tmp_path, packet, trajectory)
+    packet.pop("runtime_identity")
+
+    with pytest.raises(ContractValidationError, match="runtime identity"):
+        validate_actual_inventory(packet, payloads)
+
+
+def test_remaining_inventory_uses_cumulative_gate_b_caps(tmp_path: Path) -> None:
+    trajectory = _trajectory()
+    packet = _full_packet(trajectory)
+    payloads = _payloads(tmp_path, _packet(trajectory), trajectory)
+    sentinel = validate_actual_inventory(packet, payloads)
+    sentinel_bytes = sum(item.size_bytes for item in sentinel)
+    packet["execution_caps"]["cos_net_new_bytes"] = sentinel_bytes + 7
+    remaining_payloads = {
+        item["object_key"]: b"" if item["kind"] == "success-marker" else b"x"
+        for item in packet["expected_inventory"]
+        if item["run_id"] != trajectory.run_id
+    }
+
+    with pytest.raises(ContractValidationError, match="reviewed cap"):
         validate_actual_inventory(
             packet,
-            payloads,
-            executed_git_commit=trajectory.run_spec.git_commit,
-            executed_environment_digest=trajectory.run_spec.environment_digest,
+            remaining_payloads,
+            scope="remaining-matrix",
+            prior_actual=sentinel,
         )
