@@ -126,3 +126,21 @@ start、每个 RunSpec 前后以及下一次 HEAD/GET/PUT/LIST 前均须检查�
 本实现可以证明 packet builder、four-phase execution surface 和 publication consumer 对
 synthetic/local fixture fail closed；不能证明真实 18-RunSpec payload 已生成、COS prefix 为空、CAM
 已配置、Gate B 已授权/执行、publication 已完成、Gate 2 PASS 或任一模型/策略具有科学优越性。
+
+## 执行后状态
+
+上述声明描述的是 review packet 与实现本身能够证明的范围。后续 Issue #68 在独立审核和 exact
+authorization 下完成了一次正式四阶段 sequence，并由新的运行证据关闭了其中的 execution
+unknowns：
+
+- formal source：`e2f15d3e8dc85abc0a9e0a76345c18eb0a353566`；
+- packet SHA-256：`7a77060b92c8ad1716ca4166141a934bf6a2c74bb4923e54fd7a79be3bde329e`；
+- 18 RunSpecs / 162 immutable objects；
+- final readback SHA-256：`15b7dd2339e2eea7f71d15d444a1845e2568d766b634749d0fd6f4e5d7a73db9`；
+- final resource checkpoint SHA-256：
+  `fcdfff8b11c1ccb69c312d97f47d5db219decb5b9f42ac669c5a670633ad2a52`；
+- final independent evidence review：五项 Gate 2 engineering conditions `5/5 PASS`，blocking
+  finding `0`，Issue #68 completed。
+
+该执行后状态不修改冻结协议或 packet bytes，也不支持任一模型/策略的科学优越性、held-out、
+external validation、M4 execution 或主结果冻结。后续阶段必须使用新的 Issue 与独立授权。
