@@ -9,15 +9,28 @@ from typing import Any
 
 import pytest
 
+from pcdb.cli import build_parser
 from pcdb.contracts.experiment import ContractValidationError, canonical_json_bytes
 from pcdb.contracts.run import RunSpec
 from pcdb.evaluation import MetricValue, SequentialMetricSet
+from pcdb.m3.gate_a_runtime import RunnableReplay
 from pcdb.m3.gate_b_runtime import (
     GATE_B_APPROVAL,
+    FullMatrixReadback,
     GateBAuthorization,
+    SentinelReadback,
+    execute_formal_scope,
+    freeze_actual_inventory,
+    independent_read_full_matrix,
     independent_read_sentinel,
+    load_actual_inventory,
+    load_sentinel_readback,
+    publish_staged_remaining,
     publish_staged_sentinel,
     validate_actual_inventory,
+    validate_remote_phase_start,
+    write_final_readback,
+    write_sentinel_readback,
 )
 from pcdb.replay.engine import ReplayEvent, ReplayTrajectory
 from pcdb.replay.oracle import Observation
@@ -190,6 +203,10 @@ class Objects:
             for stored_bucket, key in self.payloads
             if stored_bucket == bucket and key.startswith(prefix)
         )
+
+    @property
+    def transferred_bytes(self) -> int:
+        return 0
 
 
 def _authorization(packet: dict[str, Any]) -> GateBAuthorization:
@@ -384,3 +401,461 @@ def test_remaining_inventory_uses_cumulative_gate_b_caps(tmp_path: Path) -> None
             scope="remaining-matrix",
             prior_actual=sentinel,
         )
+
+
+def test_remaining_publication_requires_exact_independent_sentinel_readback(
+    tmp_path: Path,
+) -> None:
+    trajectories = tuple(_trajectory_for_index(index) for index in range(18))
+    packet = _matrix_packet(trajectories)
+    payloads = _matrix_payloads(tmp_path, packet, trajectories)
+    sentinel_run_id = str(packet["sentinel"]["run_id"])
+    sentinel_payloads = {
+        key: payload for key, payload in payloads.items() if f"/runs/{sentinel_run_id}/" in key
+    }
+    remaining_payloads = {
+        key: payload for key, payload in payloads.items() if key not in sentinel_payloads
+    }
+    sentinel = validate_actual_inventory(packet, sentinel_payloads, scope="sentinel")
+    remaining = validate_actual_inventory(
+        packet,
+        remaining_payloads,
+        scope="remaining-matrix",
+        prior_actual=sentinel,
+    )
+    objects = Objects()
+    authorization = _authorization(packet)
+    publish_staged_sentinel(packet, sentinel, objects, authorization)
+
+    with pytest.raises(ContractValidationError, match="sentinel readback"):
+        publish_staged_remaining(
+            packet,
+            sentinel,
+            remaining,
+            objects,
+            authorization,
+            SentinelReadback(
+                packet_sha256="0" * 64,
+                sentinel_inventory_sha256="0" * 64,
+            ),
+        )
+
+    assert len(objects.writes) == 9
+    readback = independent_read_sentinel(packet, objects, sentinel, authorization)
+    published = publish_staged_remaining(
+        packet,
+        sentinel,
+        remaining,
+        objects,
+        authorization,
+        readback,
+    )
+
+    assert len(published) == 153
+    assert len(objects.writes) == 162
+    for run_id in {item.run_id for item in remaining}:
+        run_writes = [key for key in published if f"/runs/{run_id}/" in key]
+        assert len(run_writes) == 9
+        assert run_writes[-1].endswith("/_SUCCESS")
+    independent_read_full_matrix(
+        packet,
+        objects,
+        (*sentinel, *remaining),
+        authorization,
+    )
+
+
+def test_full_reader_rejects_missing_or_extra_object(tmp_path: Path) -> None:
+    trajectories = tuple(_trajectory_for_index(index) for index in range(18))
+    packet = _matrix_packet(trajectories)
+    payloads = _matrix_payloads(tmp_path, packet, trajectories)
+    sentinel_run_id = str(packet["sentinel"]["run_id"])
+    sentinel = validate_actual_inventory(
+        packet,
+        {key: payload for key, payload in payloads.items() if f"/runs/{sentinel_run_id}/" in key},
+    )
+    remaining = validate_actual_inventory(
+        packet,
+        {
+            key: payload
+            for key, payload in payloads.items()
+            if f"/runs/{sentinel_run_id}/" not in key
+        },
+        scope="remaining-matrix",
+        prior_actual=sentinel,
+    )
+    objects = Objects()
+    authorization = _authorization(packet)
+    publish_staged_sentinel(packet, sentinel, objects, authorization)
+    readback = independent_read_sentinel(packet, objects, sentinel, authorization)
+    publish_staged_remaining(
+        packet,
+        sentinel,
+        remaining,
+        objects,
+        authorization,
+        readback,
+    )
+    missing_key = remaining[0].object_key
+    del objects.payloads[("bucket", missing_key)]
+
+    with pytest.raises(ContractValidationError, match="exact-cover"):
+        independent_read_full_matrix(
+            packet,
+            objects,
+            (*sentinel, *remaining),
+            authorization,
+        )
+
+
+def test_formal_staging_runs_sentinel_before_remaining_and_does_not_put(
+    tmp_path: Path,
+) -> None:
+    trajectories = tuple(_trajectory_for_index(index) for index in range(18))
+    packet = _matrix_packet(trajectories)
+    inputs = _input_payloads(packet)
+    objects = Objects()
+    engines: list[str] = []
+
+    class Engine:
+        def __init__(self, trajectory: ReplayTrajectory) -> None:
+            self.trajectory = trajectory
+
+        def run(
+            self,
+            *,
+            checkpoint: bytes | None = None,
+            stop_after_round: int | None = None,
+        ) -> ReplayTrajectory:
+            return self.trajectory
+
+    def engine_factory(run_spec: RunSpec, payloads: dict[str, bytes]) -> RunnableReplay:
+        assert set(payloads) == {
+            "candidate-feature-matrix",
+            "dataset-manifest",
+            "feature-descriptor",
+            "processing-manifest",
+            "split-manifest",
+            "hidden-truth",
+        }
+        engines.append(run_spec.run_id)
+        trajectory = next(item for item in trajectories if item.run_id == run_spec.run_id)
+        return Engine(trajectory)
+
+    sentinel_inputs = _Inputs(inputs)
+    sentinel = execute_formal_scope(
+        packet,
+        input_client=sentinel_inputs,
+        engine_factory=engine_factory,
+        scratch_root=tmp_path / "sentinel",
+        scope="sentinel",
+        authorization=_authorization(packet),
+    )
+
+    assert len(sentinel) == 9
+    assert engines == [str(packet["sentinel"]["run_id"])]
+    assert [key for operation, key in sentinel_inputs.calls if operation == "get"] == [
+        str(item["object_key"])
+        for item in packet["input_inventory"]
+        if item["task_id"] == trajectories[0].task_id
+    ]
+    assert sentinel_inputs.calls[-1][1].endswith("/hidden-truth.json")
+    assert objects.writes == []
+    publish_staged_sentinel(packet, sentinel, objects, _authorization(packet))
+    checkpoint = independent_read_sentinel(packet, objects, sentinel, _authorization(packet))
+    remaining = execute_formal_scope(
+        packet,
+        input_client=_Inputs(inputs),
+        engine_factory=engine_factory,
+        scratch_root=tmp_path / "remaining",
+        scope="remaining-matrix",
+        authorization=_authorization(packet),
+        prior_actual=sentinel,
+        sentinel_readback=checkpoint,
+    )
+
+    assert len(remaining) == 153
+    assert len(engines) == 18
+    assert set(engines) == {item.run_id for item in trajectories}
+    assert objects.writes == [item.object_key for item in sentinel]
+
+
+def test_cli_exposes_one_four_phase_gate_b_entry() -> None:
+    arguments = build_parser().parse_args(
+        [
+            "m3-gate-b",
+            "--phase",
+            "sentinel-write",
+            "--packet",
+            "/review/packet.json",
+            "--packet-sha256",
+            "a" * 64,
+            "--approval",
+            GATE_B_APPROVAL,
+            "--approval-comment-id",
+            "5270000000",
+            "--hourly-cost-cny",
+            "1.5",
+            "--repository-root",
+            "/review/source",
+            "--scratch-root",
+            "/scratch/issue-68",
+        ]
+    )
+
+    assert arguments.command == "m3-gate-b"
+    assert arguments.phase == "sentinel-write"
+    assert arguments.approval_comment_id == 5270000000
+    assert arguments.hourly_cost_cny == 1.5
+
+
+def test_remote_prefix_is_checked_before_formal_generation(tmp_path: Path) -> None:
+    trajectory = _trajectory()
+    packet = _packet(trajectory)
+    actual = validate_actual_inventory(packet, _payloads(tmp_path, packet, trajectory))
+    objects = Objects()
+    objects.payloads[("bucket", str(packet["evidence_store"]["prefix"]) + "existing")] = b"x"
+
+    with pytest.raises(ContractValidationError, match="must start empty"):
+        validate_remote_phase_start(packet, objects, phase="sentinel-write")
+
+    objects.payloads.clear()
+    for item in actual:
+        objects.payloads[("bucket", item.object_key)] = item.payload
+    validate_remote_phase_start(
+        packet,
+        objects,
+        phase="remaining-write",
+        sentinel_actual=actual,
+    )
+
+
+def test_inventory_and_readback_checkpoints_are_exclusive_and_packet_bound(
+    tmp_path: Path,
+) -> None:
+    trajectory = _trajectory()
+    packet = _packet(trajectory)
+    actual = validate_actual_inventory(packet, _payloads(tmp_path, packet, trajectory))
+    authorization = _authorization(packet)
+    inventory_path = tmp_path / "sentinel-actual-inventory.json"
+
+    freeze_actual_inventory(inventory_path, packet, actual, authorization, scope="sentinel")
+    loaded = load_actual_inventory(
+        inventory_path,
+        tmp_path / "staged",
+        packet,
+        authorization,
+        scope="sentinel",
+    )
+    assert loaded == actual
+    with pytest.raises(FileExistsError):
+        freeze_actual_inventory(inventory_path, packet, actual, authorization, scope="sentinel")
+
+    objects = Objects()
+    publish_staged_sentinel(packet, actual, objects, authorization)
+    readback = independent_read_sentinel(packet, objects, actual, authorization)
+    readback_path = tmp_path / "sentinel-readback.json"
+    write_sentinel_readback(readback_path, readback, authorization)
+    assert load_sentinel_readback(readback_path, authorization) == readback
+
+    with pytest.raises(ContractValidationError, match="full 162-object"):
+        write_final_readback(
+            tmp_path / "final-readback.json",
+            packet,
+            actual,
+            authorization,
+            FullMatrixReadback(
+                packet_sha256=authorization.packet_sha256,
+                exact_inventory_sha256="0" * 64,
+            ),
+        )
+
+
+def _trajectory_for_index(index: int) -> ReplayTrajectory:
+    base = _trajectory()
+    run_spec = replace(base.run_spec, seed=1729 + index)
+    task_id = f"synthetic-{index % 2}"
+    events: list[ReplayEvent] = []
+    for round_index, event in enumerate(base.events):
+        provisional = replace(event, checkpoint_sha256="0" * 64)
+        prefix = ReplayTrajectory(
+            run_spec=run_spec,
+            task_id=task_id,
+            events=tuple([*events, provisional]),
+        )
+        events.append(
+            replace(
+                provisional,
+                checkpoint_sha256=hashlib.sha256(prefix.checkpoint_bytes(round_index)).hexdigest(),
+            )
+        )
+    return ReplayTrajectory(
+        run_spec=run_spec,
+        task_id=task_id,
+        events=tuple(events),
+    )
+
+
+def _matrix_packet(trajectories: tuple[ReplayTrajectory, ...]) -> dict[str, Any]:
+    packet = _packet(trajectories[0])
+    expected: list[dict[str, Any]] = []
+    prefix = str(packet["evidence_store"]["prefix"])
+    for trajectory in trajectories:
+        base = f"{prefix}runs/{trajectory.run_id}/attempts/attempt-001"
+        expected.extend(
+            {
+                "kind": "checkpoint",
+                "object_key": f"{base}/checkpoints/round-{round_index:03d}.json",
+                "run_id": trajectory.run_id,
+            }
+            for round_index in range(3)
+        )
+        expected.extend(
+            {
+                "kind": "metric",
+                "object_key": f"{base}/metrics/round-{round_index:03d}.json",
+                "run_id": trajectory.run_id,
+            }
+            for round_index in range(3)
+        )
+        expected.extend(
+            [
+                {
+                    "kind": "trajectory",
+                    "object_key": f"{base}/trajectory.json",
+                    "run_id": trajectory.run_id,
+                },
+                {
+                    "kind": "run-attempt",
+                    "object_key": f"{base}/run-attempt.json",
+                    "run_id": trajectory.run_id,
+                },
+                {
+                    "kind": "success-marker",
+                    "object_key": f"{base}/_SUCCESS",
+                    "run_id": trajectory.run_id,
+                },
+            ]
+        )
+    packet["expected_inventory"] = expected
+    packet["execution_caps"]["cos_object_count"] = 162
+    packet["execution_caps"].update(
+        {
+            "formal_attempts": 18,
+            "max_network_transfer_bytes": 10 * 1024**3,
+            "max_scratch_bytes": 20 * 1024**3,
+            "max_wall_seconds": 6 * 60 * 60,
+        }
+    )
+    packet["run_specs"] = [
+        {
+            "run_id": trajectory.run_id,
+            "run_spec": asdict(trajectory.run_spec),
+            "task_id": trajectory.task_id,
+        }
+        for trajectory in trajectories
+    ]
+    payloads = {
+        (task_id, purpose): f"{task_id}:{purpose}".encode()
+        for task_id in {trajectory.task_id for trajectory in trajectories}
+        for purpose in (
+            "candidate-feature-matrix",
+            "dataset-manifest",
+            "feature-descriptor",
+            "processing-manifest",
+            "split-manifest",
+            "hidden-truth",
+        )
+    }
+    packet["input_inventory"] = [
+        {
+            "bucket": "inputs",
+            "object_key": f"{task_id}/{purpose}.json",
+            "purpose": purpose,
+            "sha256": hashlib.sha256(payload).hexdigest(),
+            "size_bytes": len(payload),
+            "task_id": task_id,
+            "truth_bearing": purpose == "hidden-truth",
+        }
+        for purpose in (
+            "candidate-feature-matrix",
+            "dataset-manifest",
+            "feature-descriptor",
+            "processing-manifest",
+            "split-manifest",
+        )
+        for task_id in sorted({trajectory.task_id for trajectory in trajectories})
+        for payload in (payloads[(task_id, purpose)],)
+    ] + [
+        {
+            "bucket": "inputs",
+            "object_key": f"{task_id}/hidden-truth.json",
+            "purpose": "hidden-truth",
+            "sha256": hashlib.sha256(payloads[(task_id, "hidden-truth")]).hexdigest(),
+            "size_bytes": len(payloads[(task_id, "hidden-truth")]),
+            "task_id": task_id,
+            "truth_bearing": True,
+        }
+        for task_id in sorted({trajectory.task_id for trajectory in trajectories})
+    ]
+    return packet
+
+
+def _input_payloads(packet: dict[str, Any]) -> dict[tuple[str, str], bytes]:
+    return {
+        (str(item["bucket"]), str(item["object_key"])): (
+            f"{item['task_id']}:{item['purpose']}".encode()
+        )
+        for item in packet["input_inventory"]
+    }
+
+
+class _Inputs:
+    def __init__(self, payloads: dict[tuple[str, str], bytes]) -> None:
+        self.payloads = payloads
+        self.calls: list[tuple[str, str]] = []
+
+    @property
+    def transferred_bytes(self) -> int:
+        return 0
+
+    def head(self, bucket: str, key: str) -> object:
+        self.calls.append(("head", key))
+        payload = self.payloads[(bucket, key)]
+        return type(
+            "Metadata",
+            (),
+            {
+                "size_bytes": len(payload),
+                "sha256": hashlib.sha256(payload).hexdigest(),
+            },
+        )()
+
+    def get(self, bucket: str, key: str) -> bytes:
+        self.calls.append(("get", key))
+        return self.payloads[(bucket, key)]
+
+
+def _matrix_payloads(
+    tmp_path: Path,
+    packet: dict[str, Any],
+    trajectories: tuple[ReplayTrajectory, ...],
+) -> dict[str, bytes]:
+    store = LocalArtifactStore(tmp_path / "matrix-staged")
+    prefix = str(packet["evidence_store"]["prefix"])
+    for trajectory in trajectories:
+        publish_replay_attempt(
+            trajectory,
+            store=store,
+            attempt_id="attempt-001",
+            started_at="2026-08-13T00:00:00Z",
+            finished_at="2026-08-13T00:00:01Z",
+            executed_git_commit=trajectory.run_spec.git_commit,
+            executed_environment_digest=trajectory.run_spec.environment_digest,
+            runtime_version="python-test",
+            key_prefix=prefix,
+        )
+    return {
+        str(item["object_key"]): store.get_bytes(str(item["object_key"]))
+        for item in packet["expected_inventory"]
+    }

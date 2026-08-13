@@ -806,6 +806,36 @@ def test_run_attempt_records_actual_runtime_provenance_beside_frozen_runspec(
     assert is_replay_attempt_eligible(store, publication.attempt_key) is True
 
 
+def test_formal_publication_records_compute_server_provenance(tmp_path: Path) -> None:
+    fixture = json.loads(WORKED_EXAMPLE.read_bytes())
+    trajectory = _engine(
+        run_spec=_random_run_spec(),
+        candidate_ids=tuple(fixture["candidate_ids"]),
+        truth=fixture["synthetic_oracle"]["labels"],
+    ).run()
+    store = LocalArtifactStore(tmp_path / "compute-server-provenance")
+
+    publication = publish_replay_attempt(
+        trajectory,
+        store=store,
+        attempt_id="attempt-001",
+        started_at="2026-08-13T00:00:00Z",
+        finished_at="2026-08-13T00:00:01Z",
+        executed_git_commit="a" * 40,
+        executed_environment_digest="b" * 64,
+        runtime_version="python-test",
+        executor_type="compute_server",
+        region="ap-beijing",
+    )
+
+    attempt = load_run_attempt_v1(store.get_bytes(publication.attempt_key))
+    assert attempt.value["compute"] == {
+        "executor_type": "compute_server",
+        "region": "ap-beijing",
+        "runtime_version": "python-test",
+    }
+
+
 def test_publication_can_be_bound_to_one_reviewed_object_prefix(tmp_path: Path) -> None:
     fixture = json.loads(WORKED_EXAMPLE.read_bytes())
     trajectory = _engine(

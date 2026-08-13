@@ -102,6 +102,22 @@ def build_parser() -> argparse.ArgumentParser:
         "--gate-a-evidence-acceptance-comment-id",
         type=int,
     )
+    m3_gate_b = commands.add_parser(
+        "m3-gate-b",
+        help="execute one authorized Issue #68 Gate B sequence through four mechanical phases",
+    )
+    m3_gate_b.add_argument(
+        "--phase",
+        choices=("sentinel-write", "sentinel-read", "remaining-write", "final-read"),
+        required=True,
+    )
+    m3_gate_b.add_argument("--packet", required=True, type=Path)
+    m3_gate_b.add_argument("--packet-sha256", required=True)
+    m3_gate_b.add_argument("--approval", required=True)
+    m3_gate_b.add_argument("--approval-comment-id", required=True, type=int)
+    m3_gate_b.add_argument("--hourly-cost-cny", required=True, type=float)
+    m3_gate_b.add_argument("--repository-root", required=True, type=Path)
+    m3_gate_b.add_argument("--scratch-root", required=True, type=Path)
     return parser
 
 
@@ -153,6 +169,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         sys.stdout.buffer.write(payload)
         return 0
+    if arguments.command == "m3-gate-b":
+        from pcdb.m3.gate_b_runtime import run_gate_b_cli
+
+        return run_gate_b_cli(arguments)
     return 0
 
 

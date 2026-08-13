@@ -82,8 +82,41 @@ wc -c /tmp/m3-issue-68-gate-b-packet.json
 ineligible。packet 需经独立 exact-bytes review。随后仍须审核 actual roles/policies、fresh checkout、
 empty evidence prefix、empty scratch 和正式启动命令，并单独取得一次 exact Gate B authorization。
 
+## 最小正式执行入口
+
+execution surface 合并后，最终 packet 必须重新绑定该 merged commit/tree。正式入口只有
+`pcdb m3-gate-b`，同一 exact packet、approval text 和 approval comment ID 贯穿四个机械 phase：
+
+1. `sentinel-write`：writer role 对 12 个 reviewed inputs 先做 HEAD，仅 GET sentinel 所属 task 的
+   6 个对象且 hidden truth 最后；只生成 sentinel trajectory，在本地冻结 9-key actual inventory，
+   再以 forbid-overwrite 发布并逐对象 fresh readback；
+2. `sentinel-read`：writer 退出后切换 independent reader role，exact-cover/fresh-read sentinel，
+   生成 payload-free `sentinel-readback.json`；
+3. `remaining-write`：切回 writer role，只有 readback checkpoint 与 packet/sentinel actual inventory
+   完全一致才生成余下 17 RunSpecs；冻结 153-key actual inventory 后逐 RunSpec 发布；
+4. `final-read`：writer 再次退出并切换 reader role，exact-cover/fresh-read 全部 162 对象，随后生成
+   `final-readback.json`。该文件只声明五项 Gate 2 engineering conditions，不支持科学优越性结论。
+
+示意命令（仍需把路径、SHA 和 comment ID 换成最终独立审核并获授权的 exact 值）：
+
+```bash
+pcdb m3-gate-b \
+  --phase sentinel-write \
+  --packet /absolute/reviewed-gate-b-packet.json \
+  --packet-sha256 "$GATE_B_PACKET_SHA256" \
+  --approval 'APPROVED FOR M3 ALPHA + IRED GATE B FORMAL EXECUTION AND PUBLICATION' \
+  --approval-comment-id "$GATE_B_APPROVAL_COMMENT_ID" \
+  --hourly-cost-cny "$CVM_HOURLY_COST_CNY" \
+  --repository-root /absolute/final-clean-checkout \
+  --scratch-root /absolute/fresh-gate-b-scratch
+```
+
+其余三个 phase 只修改 `--phase`。scratch checkpoint 使用排他创建且不得覆盖；任一步失败均不得
+重跑、替换、删除或扩权。正式启动前必须单独验收 writer/reader role binding、empty prefix、fresh
+scratch、environment 与 operator cost/resource caps。
+
 ## 当前声明边界
 
-本实现可以证明 packet builder 和 publication consumer 对 synthetic/local fixture fail closed；不能
-证明真实 18-RunSpec payload 已生成、COS prefix 为空、CAM 已配置、Gate B 已授权/执行、publication
-已完成、Gate 2 PASS 或任一模型/策略具有科学优越性。
+本实现可以证明 packet builder、four-phase execution surface 和 publication consumer 对
+synthetic/local fixture fail closed；不能证明真实 18-RunSpec payload 已生成、COS prefix 为空、CAM
+已配置、Gate B 已授权/执行、publication 已完成、Gate 2 PASS 或任一模型/策略具有科学优越性。
