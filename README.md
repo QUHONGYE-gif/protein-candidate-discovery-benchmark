@@ -3,10 +3,11 @@
 面向公开蛋白数据的小样本高价值候选发现 Benchmark，重点研究固定标签预算或固定总成本下，
 不同 surrogate model、uncertainty method 与 acquisition strategy 的实际候选发现价值。
 
-截至 2026-08-10，项目已完成 **Alpha＋IRED 首批 M2 静态基线闭环**，正在进入 M3 protocol/TDD
-准备。M0 的 repository/contracts implementation 与 CI 已通过 PR #2 进入 `main`；整个 M1
-dataset portfolio 仍按 task/assay 逐项推进，M3 formal execution、Gate 2、held-out 与最终
-scientific validation 仍未授权或完成。
+截至 2026-08-13，项目已完成 **Alpha＋IRED 首批 M2 静态基线闭环**，并在 Issue #68 完成
+M3 deterministic single-fidelity replay 的正式执行、162-object immutable COS publication、独立
+fresh readback 与 Gate 2 engineering evidence 终审。M0 的 repository/contracts implementation 与
+CI 已通过 PR #2 进入 `main`；整个 M1 dataset portfolio 仍按 task/assay 逐项推进，M4、held-out、
+external validation 与最终 scientific validation 尚未开始或授权。
 
 ## 研究问题
 
@@ -90,16 +91,17 @@ results/       仅保留产物政策；正式结果写入 COS
   Alpha＋IRED、seed `1729` 的冻结 `2 tasks × 3 models` 范围内完成正式 server execution、
   68-object immutable COS publication、独立 fresh readback 与 final evidence review；该结论只限
   两个 task 的 static-baseline evidence，不支持跨 task 普遍最优或最终 scientific validation；
-- M3 readiness：M2 已发布 anti-post-hoc freeze，但 `m3_execution_authorized=false`、
-  `gate_2_authorized=false`；当前只允许建立并评审 deterministic replay protocol 和 synthetic TDD，
-  Issue #66 的 [protocol v1 candidate](docs/M3_SINGLE_FIDELITY_REPLAY_PROTOCOL_V1.md) 已形成
-  tracked review surface，但在独立批准前不授权 #67 实现、真实输入或正式 replay，也不允许
-  声明 Gate 2 PASS；
+- M3 deterministic replay closure：Issues #66/#67 已完成 protocol freeze 与 synthetic TDD；Issue
+  #68 随后在冻结的 Alpha＋IRED、`2 tasks × 3 models × 3 acquisitions × seed 1729` 范围内完成
+  Gate A real-input preflight，以及一次无 retry/replacement 的四阶段 Gate B sequence。18 个
+  RunSpecs 的 162 个对象完成 forbid-overwrite publication 与 independent final readback，最终独立
+  evidence review 判定五项 Gate 2 engineering conditions `5/5 PASS`；该结果不支持模型/策略科学
+  优越性，也不授权 M4、held-out 或 external validation；
 - Raw-ingest runtime：按 task 独立记录，不替代 processing、split 或 scientific validation；
 - Scientific validation：尚未开始；
 - Held-out evaluation：未授权；
-- COS credential availability：Issue #58 的窄权限 CVM Role 已完成该次正式 execution/readback；
-  该历史成功不证明未来 M3 操作仍具备凭据、权限或执行授权。
+- COS credential availability：Issues #58/#68 的窄权限 CVM Roles 已完成各自正式
+  execution/readback；这些历史成功不证明未来 M4 或其他操作仍具备凭据、权限或执行授权。
 
 ## 协作
 

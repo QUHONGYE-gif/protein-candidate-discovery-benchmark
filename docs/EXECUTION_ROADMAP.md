@@ -168,21 +168,21 @@ seed 和小预算。
 - 中断恢复不覆盖成功 attempt，聚合忽略无 `_SUCCESS` 产物；
 - decision metrics 通过小型确定性 fixture 验证。
 
-截至 2026-08-10，项目可以进入 M3 protocol freeze 与 synthetic TDD，但尚不能启动正式 M3
-execution。Issue #58 随 evidence 发布的 anti-post-hoc freeze 固定了 Alpha＋IRED、三模型、
-`sequence-composition-420-v1`、两份 feature root 与 seed `1729`，同时明确记录
-`m3_execution_authorized=false`、`gate_2_authorized=false` 和 held-out reads 为 0。正式 replay
-必须先由独立 M3 protocol Issue 冻结 acquisition、initial selection、tie breaking、seed/budget、
-trajectory、recovery、artifact inventory、caps 与 authorization；任何 M2 结果不得用于同一 cohort
-的 feature/model/config post-hoc 调整。
-
-截至 2026-08-12，Issue #66 的
+收尾（2026-08-13）：Issue #66 的
 [M3 single-fidelity replay protocol v1](M3_SINGLE_FIDELITY_REPLAY_PROTOCOL_V1.md) 已完成 exact-bytes
-独立审核；Issue #67 的 synthetic ReplayEngine implementation 已通过审核并合并。两者完成只解除
-#68 的实现准备阻塞，不授权真实输入或正式执行。Issue #68 下一步按照
-[M3 Gate A review packet](M3_GATE_A_REVIEW_PACKET.md) 先绑定 exact merged commit/tree、environment、
-18 个 RunSpec 与 12 个 read-only input identities；该 exact packet 获得新的独立审核和明确授权前，
-server/COS access、candidate truth read、Gate A execution 与 Gate B publication 均保持关闭。
+独立审核，Issue #67 的 synthetic ReplayEngine implementation 已通过审核并合并。Issue #68 随后在
+exact merged source `e2f15d3e8dc85abc0a9e0a76345c18eb0a353566` 上完成 Gate A real-input
+preflight 与一次正式 Gate B sequence：冻结矩阵为 Alpha＋IRED、三模型、Random/Greedy/Uncertainty、
+seed `1729`，共 18 个 RunSpecs；9-object sentinel 经独立 readback 后才发布余下 153 个对象，最终
+162-object exact-cover、bytes/checksums/cross-links 与 resource completion 均通过。执行过程中
+retry、replacement、overwrite、DeleteObject 和 cap expansion 均为 0。
+
+最终独立 evidence review 以 `15b7dd2339e2eea7f71d15d444a1845e2568d766b634749d0fd6f4e5d7a73db9`
+的 `final-readback.json` 和
+`fcdfff8b11c1ccb69c312d97f47d5db219decb5b9f42ac669c5a670633ad2a52` 的 final resource
+checkpoint 为锚点，判定五项 Gate 2 engineering conditions `5/5 PASS`；Issue #68 已以 completed
+关闭。该结论只证明冻结范围内 replay/publication/readback 的工程可信性，不证明 surrogate 或
+acquisition 的科学优越性，不代表 held-out、external validation、M4 或主结果已经完成。
 
 ### M4：E1 单保真筛选与确认
 
@@ -197,6 +197,10 @@ TabPFN 或 Ensemble 中按 Issue 逐步引入；策略至少包含 Random、Gree
 - 记录被淘汰组合及理由；
 - 冻结关键组合的 task、seed、budget、threshold 和统计计划；
 - 不读取 held-out 结果帮助筛选。
+
+当前进入状态（2026-08-13）：M3 Gate 2 engineering prerequisite 已满足。M4 尚未授权执行；下一步
+应在新的 Issue 中 prospectively 冻结 screening matrix、seed/initial-size 预算、模型与 acquisition
+候选、淘汰/保留规则、统计单位、资源上限和 held-out 禁止边界。Issue #68 的 authorization 不得复用。
 
 ### M5：E2/E3 条件与一致性分析
 
