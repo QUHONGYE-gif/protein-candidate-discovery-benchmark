@@ -118,6 +118,13 @@ def build_parser() -> argparse.ArgumentParser:
     m3_gate_b.add_argument("--hourly-cost-cny", required=True, type=float)
     m3_gate_b.add_argument("--repository-root", required=True, type=Path)
     m3_gate_b.add_argument("--scratch-root", required=True, type=Path)
+    m4_pilot_preflight = commands.add_parser(
+        "m4-pilot-preflight",
+        help="print the zero-truth Issue #76 pilot preflight packet",
+    )
+    m4_pilot_preflight.add_argument("--reviewed-git-commit", required=True)
+    m4_pilot_preflight.add_argument("--reviewed-git-tree", required=True)
+    m4_pilot_preflight.add_argument("--repository-root", required=True, type=Path)
     return parser
 
 
@@ -173,6 +180,16 @@ def main(argv: Sequence[str] | None = None) -> int:
         from pcdb.m3.gate_b_runtime import run_gate_b_cli
 
         return run_gate_b_cli(arguments)
+    if arguments.command == "m4-pilot-preflight":
+        from pcdb.m4.pilot_preflight import build_pilot_preflight_packet
+
+        payload = build_pilot_preflight_packet(
+            arguments.repository_root,
+            arguments.reviewed_git_commit,
+            arguments.reviewed_git_tree,
+        )
+        sys.stdout.buffer.write(payload)
+        return 0
     return 0
 
 
