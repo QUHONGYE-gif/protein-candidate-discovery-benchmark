@@ -1,0 +1,178 @@
+{
+  "acquisitions": [
+    "random-seeded-sha256-v1",
+    "greedy-predictive-mean-v1",
+    "uncertainty-bootstrap-std-v1",
+    "ucb-bootstrap-std-beta1-v1"
+  ],
+  "batch_sizes": [
+    16
+  ],
+  "budgets": [
+    128
+  ],
+  "contract_status": "production",
+  "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+  "evaluation": {
+    "access_boundary": {
+      "owner": "evaluator-or-hidden-oracle",
+      "prohibited_consumers": [
+        "candidate-features",
+        "surrogate-model",
+        "calibration",
+        "acquisition-strategy"
+      ]
+    },
+    "aggregation": {
+      "cross_task_equal_weight_metric_ids": [
+        "spearman_rank_correlation",
+        "high_value_recall_at_nominal_k",
+        "high_value_discovery_recall",
+        "success_probability"
+      ],
+      "pooled_seed_primary": false,
+      "primary_unit": "task",
+      "raw_unitful_cross_task_aggregate": false,
+      "seed_role": "within-task-algorithmic-randomness"
+    },
+    "high_value_definitions": [
+      {
+        "candidate_role": "candidate-pool",
+        "definition_id": "upper-tail-1pct",
+        "derivation": {
+          "fraction": 0.01,
+          "nominal_k": 23,
+          "rounding": "ceil"
+        },
+        "frozen_candidate_count": 2262,
+        "kind": "quantile",
+        "purpose": "primary",
+        "ranking_policy": {
+          "boundary_tie_policy": "include_all_equal",
+          "duplicate_candidate_id_policy": "error",
+          "label_direction": "higher_is_better",
+          "non_finite_policy": "error",
+          "secondary_order": "candidate_id_ascending"
+        },
+        "reporting_policy": {
+          "required_outputs": [
+            "nominal_k",
+            "actual_high_value_count",
+            "boundary_score",
+            "boundary_tie_count"
+          ]
+        },
+        "value": 0.01
+      },
+      {
+        "candidate_role": "candidate-pool",
+        "definition_id": "upper-tail-0.5pct",
+        "derivation": {
+          "fraction": 0.005,
+          "nominal_k": 12,
+          "rounding": "ceil"
+        },
+        "frozen_candidate_count": 2262,
+        "kind": "quantile",
+        "purpose": "sensitivity",
+        "ranking_policy": {
+          "boundary_tie_policy": "include_all_equal",
+          "duplicate_candidate_id_policy": "error",
+          "label_direction": "higher_is_better",
+          "non_finite_policy": "error",
+          "secondary_order": "candidate_id_ascending"
+        },
+        "reporting_policy": {
+          "required_outputs": [
+            "nominal_k",
+            "actual_high_value_count",
+            "boundary_score",
+            "boundary_tie_count"
+          ]
+        },
+        "value": 0.005
+      },
+      {
+        "candidate_role": "candidate-pool",
+        "definition_id": "upper-tail-2pct",
+        "derivation": {
+          "fraction": 0.02,
+          "nominal_k": 46,
+          "rounding": "ceil"
+        },
+        "frozen_candidate_count": 2262,
+        "kind": "quantile",
+        "purpose": "sensitivity",
+        "ranking_policy": {
+          "boundary_tie_policy": "include_all_equal",
+          "duplicate_candidate_id_policy": "error",
+          "label_direction": "higher_is_better",
+          "non_finite_policy": "error",
+          "secondary_order": "candidate_id_ascending"
+        },
+        "reporting_policy": {
+          "required_outputs": [
+            "nominal_k",
+            "actual_high_value_count",
+            "boundary_score",
+            "boundary_tie_count"
+          ]
+        },
+        "value": 0.02
+      }
+    ],
+    "interpretation_policy": {
+      "comparison_rule": "strict_sign_reversal",
+      "primary_tie_expansion_fraction_limit": 0.02,
+      "sensitivity_fractions": [
+        0.005,
+        0.02
+      ],
+      "triggered_status": "fragile-inconclusive"
+    },
+    "metric_sets": {
+      "m2_static": [
+        "spearman_rank_correlation",
+        "high_value_recall_at_nominal_k"
+      ],
+      "m3_m5_sequential": [
+        "best_found_value",
+        "simple_regret",
+        "high_value_discovery_recall",
+        "success_at_budget"
+      ],
+      "task_seed_aggregates": [
+        "success_probability"
+      ]
+    },
+    "primary_high_value_definition_id": "upper-tail-1pct"
+  },
+  "experiment_id": "m4-alpha-amylase-single-fidelity-screening-v1",
+  "held_out_authorized": false,
+  "initial_sample_sizes": [
+    32,
+    64
+  ],
+  "models": [
+    "ridge-sklearn-v1",
+    "random-forest-sklearn-v1",
+    "xgboost-cpu-v1"
+  ],
+  "phase": "development",
+  "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+  "schema_version": "2",
+  "seeds": [
+    1729,
+    1730,
+    1731,
+    1732,
+    1733,
+    1734,
+    1735,
+    1736,
+    1737,
+    1738
+  ],
+  "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a",
+  "task_id": "alpha-amylase"
+}

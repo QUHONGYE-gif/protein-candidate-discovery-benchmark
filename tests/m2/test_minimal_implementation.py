@@ -44,10 +44,16 @@ from pcdb.m2.features import (
 )
 from pcdb.m2.gate_a import build_gate_a_packet
 from pcdb.m2.models import (
+    M4_MODEL_CONFIG_SCHEMA_VERSION,
+    M4_MODEL_CONFIG_SHA256,
+    M4_MODEL_CONFIG_SIZE_BYTES,
     MODEL_CONFIG_SHA256,
     DevelopmentObservation,
+    fit_m4_regressor,
     fit_regressor,
+    load_m4_model_config,
     load_model_config,
+    m4_model_config_bytes,
     model_config_bytes,
     model_effective_parameters,
     predict_regressor,
@@ -160,6 +166,30 @@ def test_model_config_exact_identity(model_id: str, size_bytes: int) -> None:
         load_model_config(payload[:-1] + b" ")
 
 
+@pytest.mark.parametrize(
+    "model_id",
+    ["random-forest-sklearn-v1", "xgboost-cpu-v1"],
+)
+def test_m4_model_config_has_separate_closed_identity(model_id: str) -> None:
+    payload = m4_model_config_bytes(model_id)
+    loaded = load_m4_model_config(payload)
+
+    assert len(payload) == M4_MODEL_CONFIG_SIZE_BYTES[model_id]
+    assert hashlib.sha256(payload).hexdigest() == M4_MODEL_CONFIG_SHA256[model_id]
+    assert loaded.schema_version == M4_MODEL_CONFIG_SCHEMA_VERSION
+    assert loaded.parameters["random_state"] == 1729
+    assert "estimator-random-state-fixed-1729" in loaded.seed_policy
+    with pytest.raises(ContractValidationError, match="frozen closed profile"):
+        load_model_config(payload)
+
+
+def test_m4_ridge_reuses_the_accepted_m2_config_identity() -> None:
+    payload = m4_model_config_bytes("ridge-sklearn-v1")
+
+    assert payload == model_config_bytes("ridge-sklearn-v1")
+    assert load_m4_model_config(payload) == load_model_config(payload)
+
+
 def test_model_config_effective_parameters_are_fully_explicit() -> None:
     ridge = model_effective_parameters("ridge-sklearn-v1")
     forest = model_effective_parameters("random-forest-sklearn-v1")
@@ -255,6 +285,50 @@ def test_regressors_fit_predict_finite_deterministically(model_id: str) -> None:
         record.candidate_id for record in candidates
     )
     assert all(math.isfinite(prediction) for _, prediction in first)
+
+
+@pytest.mark.parametrize(
+    "model_id",
+    ["random-forest-sklearn-v1", "xgboost-cpu-v1"],
+)
+def test_m4_estimator_state_is_fixed_while_run_seed_varies(model_id: str) -> None:
+    namespace = "public-synthetic-v1"
+    development = [
+        CandidateSequence(_candidate_id(namespace, sequence), sequence)
+        for sequence in ("AA", "AC", "AD", "CA", "CC", "CD", "DA", "DC")
+    ]
+    candidates = [
+        CandidateSequence(_candidate_id(namespace, sequence), sequence)
+        for sequence in ("DD", "AE", "EA")
+    ]
+    loaded_development, _ = _loaded_matrix(development)
+    loaded_candidates, _ = _loaded_matrix(candidates)
+    observations = [
+        DevelopmentObservation(record.candidate_id, float(index))
+        for index, record in enumerate(development)
+    ]
+
+    predictions = [
+        predict_regressor(
+            fit_m4_regressor(
+                m4_model_config_bytes(model_id),
+                loaded_development,
+                observations,
+                seed=seed,
+            ),
+            loaded_candidates,
+        )
+        for seed in (1729, 1730)
+    ]
+
+    assert predictions[0] == predictions[1]
+    with pytest.raises(ContractValidationError, match="RunSpec seed"):
+        fit_regressor(
+            model_config_bytes(model_id),
+            loaded_development,
+            observations,
+            seed=1730,
+        )
 
 
 def test_xgboost_profile_produces_distinct_public_predictions() -> None:

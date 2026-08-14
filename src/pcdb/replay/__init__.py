@@ -8,6 +8,7 @@ from pcdb.replay.engine import (
     bootstrap_draws,
     bootstrap_prediction_std,
     load_replay_trajectory,
+    ucb_prediction_scores,
 )
 from pcdb.replay.oracle import (
     AlreadyRevealedError,
@@ -36,4 +37,5 @@ __all__ = [
     "load_replay_trajectory",
     "is_replay_attempt_eligible",
     "publish_replay_attempt",
+    "ucb_prediction_scores",
 ]

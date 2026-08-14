@@ -32,20 +32,30 @@ from pcdb.m2.features import sequence_feature_definitions
 from pcdb.m2.models import (
     DevelopmentObservation,
     fit_bootstrap_regressor,
+    fit_m4_bootstrap_regressor,
+    fit_m4_regressor,
     fit_regressor,
+    load_m4_model_config,
     load_model_config,
     predict_regressor,
 )
 from pcdb.replay.oracle import HiddenOracle, Observation
 
 _CANDIDATE_ID = re.compile(r"^[0-9a-f]{64}$")
-_PROTOCOL_ID = "m3-single-fidelity-replay-v1"
+_M3_PROTOCOL_ID = "m3-single-fidelity-replay-v1"
+_M4_PROTOCOL_ID = "m4-single-fidelity-screening-v1"
 _RANDOM_ID = "random-seeded-sha256-v1"
 _RANDOM_CONFIG_SHA256 = "24f80499cb48ad6716f86a9c47bf098d47acdb78841bcb7b8926504619983e0f"
 _GREEDY_ID = "greedy-predictive-mean-v1"
 _GREEDY_CONFIG_SHA256 = "3c7c537bf6ada03c0a86c720c1a56382247baa00ad9f71eccf4f2f7a120adc15"
 _UNCERTAINTY_ID = "uncertainty-bootstrap-std-v1"
 _UNCERTAINTY_CONFIG_SHA256 = "7748917bf19048002b784be8c95dfe76ca138dac421e511a4f79e33aa82d16f6"
+_UCB_ID = "ucb-bootstrap-std-beta1-v1"
+_UCB_CONFIG_SHA256 = "9b132ec77e71a8c6966e3eae712c56da148aa92c4d5c54001fb1c1a954b75e4d"
+_M4_SEEDS = tuple(range(1729, 1739))
+_M4_INITIAL_SAMPLE_SIZES = (32, 64)
+_M4_BATCH_SIZES = (16,)
+_M4_BUDGETS = (128,)
 
 
 def _resolved_experiment_context(run_spec: RunSpec, payload: bytes) -> tuple[str, float]:
@@ -56,20 +66,41 @@ def _resolved_experiment_context(run_spec: RunSpec, payload: bytes) -> tuple[str
     for field in ("dataset_manifest_sha256", "processing_manifest_sha256", "split_sha256"):
         if value[field] != getattr(run_spec, field):
             raise ContractValidationError(f"Experiment Config {field} differs from RunSpec")
-    registered_profile = {
-        "seeds": (run_spec.seed,),
-        "initial_sample_sizes": (run_spec.initial_sample_size,),
-        "batch_sizes": (run_spec.batch_size,),
-        "budgets": (run_spec.budget,),
-    }
-    for field, expected in registered_profile.items():
-        if value[field] != expected:
-            raise ContractValidationError(f"Experiment Config {field} differs from RunSpec")
+    if run_spec.protocol_version == _M4_PROTOCOL_ID and loaded.schema_version == "2":
+        registered_profile = {
+            "seeds": _M4_SEEDS,
+            "initial_sample_sizes": _M4_INITIAL_SAMPLE_SIZES,
+            "batch_sizes": _M4_BATCH_SIZES,
+            "budgets": _M4_BUDGETS,
+        }
+        run_profile = {
+            "seeds": run_spec.seed,
+            "initial_sample_sizes": run_spec.initial_sample_size,
+            "batch_sizes": run_spec.batch_size,
+            "budgets": run_spec.budget,
+        }
+        for field, expected in registered_profile.items():
+            if value[field] != expected or run_profile[field] not in expected:
+                raise ContractValidationError(
+                    f"M4 Experiment Config {field} differs from the frozen profile"
+                )
+    else:
+        registered_profile = {
+            "seeds": (run_spec.seed,),
+            "initial_sample_sizes": (run_spec.initial_sample_size,),
+            "batch_sizes": (run_spec.batch_size,),
+            "budgets": (run_spec.budget,),
+        }
+        for field, expected in registered_profile.items():
+            if value[field] != expected:
+                raise ContractValidationError(f"Experiment Config {field} differs from RunSpec")
     if run_spec.model_id not in value["models"]:
         raise ContractValidationError("RunSpec model is not registered by Experiment Config")
     if run_spec.acquisition_id not in value["acquisitions"]:
         raise ContractValidationError("RunSpec acquisition is not registered by Experiment Config")
     if loaded.schema_version == "2":
+        if run_spec.protocol_version == _M4_PROTOCOL_ID and value["phase"] != "development":
+            raise ContractValidationError("M4 Experiment Config phase must be development")
         primary_id = value["evaluation"]["primary_high_value_definition_id"]
         primary = next(
             (
@@ -360,9 +391,14 @@ def bootstrap_prediction_std(
 ) -> tuple[tuple[str, float], ...]:
     """Return exact five-member population prediction std for unrevealed candidates."""
 
-    if run_spec.protocol_version != _PROTOCOL_ID:
-        raise ContractValidationError("RunSpec protocol is not the frozen M3 replay protocol")
-    loaded_config = load_model_config(model_config)
+    if run_spec.protocol_version == _M3_PROTOCOL_ID:
+        loaded_config = load_model_config(model_config)
+        fit_bootstrap = fit_bootstrap_regressor
+    elif run_spec.protocol_version == _M4_PROTOCOL_ID:
+        loaded_config = load_m4_model_config(model_config)
+        fit_bootstrap = fit_m4_bootstrap_regressor
+    else:
+        raise ContractValidationError("RunSpec protocol is outside the implemented replay set")
     if (
         loaded_config.model_id != run_spec.model_id
         or loaded_config.sha256 != run_spec.model_config_sha256
@@ -408,7 +444,7 @@ def bootstrap_prediction_std(
         observation_count=len(ordered_observed_ids),
     )
     for draw in draws:
-        fitted = fit_bootstrap_regressor(
+        fitted = fit_bootstrap(
             model_config,
             observed_matrix,
             ordered_observations,
@@ -433,6 +469,95 @@ def bootstrap_prediction_std(
         (candidate_id, float(score))
         for candidate_id, score in zip(expected_ids, scores, strict=True)
     )
+
+
+def ucb_prediction_scores(
+    *,
+    run_spec: RunSpec,
+    task_id: str,
+    candidate_features: LoadedFeatureMatrix,
+    model_config: bytes,
+    observations: Sequence[Observation],
+    candidate_ids: tuple[str, ...],
+    round_index: int,
+) -> tuple[tuple[str, float], ...]:
+    """Return M4 mean + population-bootstrap-std scores in candidate order."""
+
+    if run_spec.protocol_version != _M4_PROTOCOL_ID:
+        raise ContractValidationError("UCB requires the frozen M4 replay protocol")
+    loaded_config = load_m4_model_config(model_config)
+    if (
+        loaded_config.model_id != run_spec.model_id
+        or loaded_config.sha256 != run_spec.model_config_sha256
+    ):
+        raise ContractValidationError("model config identity differs from RunSpec")
+    observed: dict[str, float] = {}
+    for observation in observations:
+        if not isinstance(observation, Observation):
+            raise ContractValidationError("UCB observations use an invalid type")
+        if observation.candidate_id in observed:
+            raise ContractValidationError("UCB observations contain duplicate candidates")
+        if not _CANDIDATE_ID.fullmatch(observation.candidate_id) or not math.isfinite(
+            observation.label
+        ):
+            raise ContractValidationError("UCB observation is invalid")
+        observed[observation.candidate_id] = observation.label
+    if not observed:
+        raise ContractValidationError("UCB requires revealed observations")
+    if not candidate_ids or len(candidate_ids) != len(set(candidate_ids)):
+        raise ContractValidationError("UCB candidate IDs must be non-empty and distinct")
+    if set(candidate_ids) & set(observed):
+        raise ContractValidationError("UCB candidates overlap revealed observations")
+    visible_ids = set(candidate_features.candidate_ids)
+    if not set(candidate_ids) | set(observed) <= visible_ids:
+        raise ContractValidationError("UCB inputs are outside observable feature membership")
+
+    observed_ids = tuple(sorted(observed))
+    fitted = fit_m4_regressor(
+        model_config,
+        _strict_feature_subset(candidate_features, observed_ids),
+        [
+            DevelopmentObservation(candidate_id=candidate_id, observation=observed[candidate_id])
+            for candidate_id in observed_ids
+        ],
+        seed=run_spec.seed,
+    )
+    means = predict_regressor(
+        fitted,
+        _strict_feature_subset(candidate_features, candidate_ids),
+    )
+    standard_deviations = bootstrap_prediction_std(
+        run_spec=run_spec,
+        task_id=task_id,
+        candidate_features=candidate_features,
+        model_config=model_config,
+        observations=observations,
+        candidate_ids=candidate_ids,
+        round_index=round_index,
+    )
+    if tuple(item[0] for item in means) != tuple(item[0] for item in standard_deviations):
+        raise ContractValidationError("UCB mean and uncertainty membership differ")
+    scores = tuple(
+        (candidate_id, mean + standard_deviation)
+        for (candidate_id, mean), (_, standard_deviation) in zip(
+            means,
+            standard_deviations,
+            strict=True,
+        )
+    )
+    if any(not math.isfinite(score) for _, score in scores):
+        raise ContractValidationError("UCB scores must be finite")
+    return scores
+
+
+def _replay_schema_version(protocol_version: str, artifact: str) -> str:
+    prefix = {
+        _M3_PROTOCOL_ID: "m3",
+        _M4_PROTOCOL_ID: "m4",
+    }.get(protocol_version)
+    if prefix is None or artifact not in {"checkpoint", "trajectory"}:
+        raise ContractValidationError("replay schema dispatch drifted")
+    return f"{prefix}-replay-{artifact}-v1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -506,7 +631,10 @@ class ReplayTrajectory:
             ],
             "run_id": self.run_id,
             "run_spec": asdict(self.run_spec),
-            "schema_version": "m3-replay-checkpoint-v1",
+            "schema_version": _replay_schema_version(
+                self.run_spec.protocol_version,
+                "checkpoint",
+            ),
             "task_id": self.task_id,
         }
         return canonical_json_bytes(value)
@@ -531,7 +659,10 @@ class ReplayTrajectory:
             "events": [self._event_value(event) for event in self.events],
             "run_id": self.run_id,
             "run_spec": asdict(self.run_spec),
-            "schema_version": "m3-replay-trajectory-v1",
+            "schema_version": _replay_schema_version(
+                self.run_spec.protocol_version,
+                "trajectory",
+            ),
             "task_id": self.task_id,
         }
         return canonical_json_bytes(value)
@@ -589,7 +720,7 @@ def _load_metrics(value: object) -> SequentialMetricSet:
 
 
 def load_replay_trajectory(payload: bytes) -> ReplayTrajectory:
-    """Strict-load one complete canonical M3 replay trajectory."""
+    """Strict-load one complete canonical M3 or M4 replay trajectory."""
 
     try:
         value = json.loads(payload)
@@ -599,8 +730,6 @@ def load_replay_trajectory(payload: bytes) -> ReplayTrajectory:
         raise ContractValidationError("trajectory bytes are not canonical")
     if set(value) != {"events", "run_id", "run_spec", "schema_version", "task_id"}:
         raise ContractValidationError("trajectory fields drifted")
-    if value["schema_version"] != "m3-replay-trajectory-v1":
-        raise ContractValidationError("trajectory schema version drifted")
     raw_run_spec = value["run_spec"]
     if not isinstance(raw_run_spec, dict):
         raise ContractValidationError("trajectory RunSpec must be an object")
@@ -613,6 +742,11 @@ def load_replay_trajectory(payload: bytes) -> ReplayTrajectory:
         run_spec = RunSpec(**raw_run_spec)
     except (TypeError, ValueError):
         raise ContractValidationError("trajectory RunSpec is invalid") from None
+    if value["schema_version"] != _replay_schema_version(
+        run_spec.protocol_version,
+        "trajectory",
+    ):
+        raise ContractValidationError("trajectory schema version drifted")
     if value["run_id"] != run_spec.run_id:
         raise ContractValidationError("trajectory run_id differs from RunSpec")
     task_id = value["task_id"]
@@ -714,7 +848,7 @@ def load_replay_trajectory(payload: bytes) -> ReplayTrajectory:
 
 
 class ReplayEngine:
-    """Own selection-to-oracle flow for one frozen M3 RunSpec."""
+    """Own selection-to-oracle flow for one frozen M3 or M4 RunSpec."""
 
     @classmethod
     def from_reviewed_inputs(
@@ -771,15 +905,25 @@ class ReplayEngine:
         evaluator: HighValueEvaluator,
         high_value_fraction: float | None = None,
     ) -> None:
-        if run_spec.protocol_version != _PROTOCOL_ID:
-            raise ContractValidationError("RunSpec protocol is not the frozen M3 replay protocol")
-        expected_acquisition_sha = {
-            _RANDOM_ID: _RANDOM_CONFIG_SHA256,
-            _GREEDY_ID: _GREEDY_CONFIG_SHA256,
-            _UNCERTAINTY_ID: _UNCERTAINTY_CONFIG_SHA256,
-        }.get(run_spec.acquisition_id)
+        acquisition_profiles = {
+            _M3_PROTOCOL_ID: {
+                _RANDOM_ID: _RANDOM_CONFIG_SHA256,
+                _GREEDY_ID: _GREEDY_CONFIG_SHA256,
+                _UNCERTAINTY_ID: _UNCERTAINTY_CONFIG_SHA256,
+            },
+            _M4_PROTOCOL_ID: {
+                _RANDOM_ID: _RANDOM_CONFIG_SHA256,
+                _GREEDY_ID: _GREEDY_CONFIG_SHA256,
+                _UNCERTAINTY_ID: _UNCERTAINTY_CONFIG_SHA256,
+                _UCB_ID: _UCB_CONFIG_SHA256,
+            },
+        }
+        protocol_acquisitions = acquisition_profiles.get(run_spec.protocol_version)
+        if protocol_acquisitions is None:
+            raise ContractValidationError("RunSpec protocol is outside the implemented replay set")
+        expected_acquisition_sha = protocol_acquisitions.get(run_spec.acquisition_id)
         if expected_acquisition_sha is None:
-            raise ContractValidationError("acquisition is outside the implemented M3 subset")
+            raise ContractValidationError("acquisition is outside the implemented protocol subset")
         if run_spec.acquisition_config_sha256 != expected_acquisition_sha:
             raise ContractValidationError("acquisition config identity drifted")
         resolved_task_id, resolved_fraction = _resolved_experiment_context(
@@ -807,7 +951,11 @@ class ReplayEngine:
         )
         if set(validated_features.candidate_ids) != set(candidate_ids):
             raise ContractValidationError("candidate features must exact-cover the pool")
-        loaded_config = load_model_config(model_config)
+        loaded_config = (
+            load_model_config(model_config)
+            if run_spec.protocol_version == _M3_PROTOCOL_ID
+            else load_m4_model_config(model_config)
+        )
         if (
             loaded_config.model_id != run_spec.model_id
             or loaded_config.sha256 != run_spec.model_config_sha256
@@ -896,7 +1044,12 @@ class ReplayEngine:
                 if candidate_id not in set(observed_ids)
             )
         )
-        fitted = fit_regressor(
+        fit = (
+            fit_regressor
+            if self._run_spec.protocol_version == _M3_PROTOCOL_ID
+            else fit_m4_regressor
+        )
+        fitted = fit(
             self._model_config,
             self._feature_subset(observed_ids),
             [
@@ -934,6 +1087,28 @@ class ReplayEngine:
         ranked = sorted(scores, key=lambda item: (-item[1], item[0]))
         return tuple(candidate_id for candidate_id, _ in ranked[: self._run_spec.batch_size])
 
+    def _ucb_selection(self, *, round_index: int) -> tuple[str, ...]:
+        if self._candidate_features is None or self._model_config is None:
+            raise ContractValidationError("UCB acquisition requires model inputs")
+        remaining_ids = tuple(
+            sorted(
+                candidate_id
+                for candidate_id in self._candidate_ids
+                if candidate_id not in self._oracle.revealed_ids
+            )
+        )
+        scores = ucb_prediction_scores(
+            run_spec=self._run_spec,
+            task_id=self._task_id,
+            candidate_features=self._candidate_features,
+            model_config=self._model_config,
+            observations=self._oracle.observations,
+            candidate_ids=remaining_ids,
+            round_index=round_index,
+        )
+        ranked = sorted(scores, key=lambda item: (-item[1], item[0]))
+        return tuple(candidate_id for candidate_id, _ in ranked[: self._run_spec.batch_size])
+
     def _expected_selection(self, round_index: int) -> tuple[str, ...]:
         if round_index == 0:
             return self._initial_selection()
@@ -943,6 +1118,8 @@ class ReplayEngine:
             return self._greedy_selection()
         if self._run_spec.acquisition_id == _UNCERTAINTY_ID:
             return self._uncertainty_selection(round_index=round_index)
+        if self._run_spec.acquisition_id == _UCB_ID:
+            return self._ucb_selection(round_index=round_index)
         raise ContractValidationError("acquisition dispatch drifted")
 
     def _metrics(self) -> SequentialMetricSet | None:
@@ -1000,7 +1177,10 @@ class ReplayEngine:
             raise ContractValidationError("checkpoint bytes are not canonical")
         if set(value) != {"events", "run_id", "run_spec", "schema_version", "task_id"}:
             raise ContractValidationError("checkpoint fields drifted")
-        if value["schema_version"] != "m3-replay-checkpoint-v1":
+        if value["schema_version"] != _replay_schema_version(
+            self._run_spec.protocol_version,
+            "checkpoint",
+        ):
             raise ContractValidationError("checkpoint schema version drifted")
         if value["run_id"] != self._run_spec.run_id or value["run_spec"] != asdict(self._run_spec):
             raise ContractValidationError("checkpoint RunSpec identity drifted")
