@@ -1,0 +1,28 @@
+{
+  "acquisition_id": "ucb-bootstrap-std-beta1-v1",
+  "failure_policy": {
+    "fallback": "none",
+    "full_fit_bootstrap_fit_predict_or_non_finite": "error"
+  },
+  "ranking": {
+    "direction": "descending",
+    "primary": "predictive_mean_plus_beta_times_bootstrap_std_float64",
+    "secondary": "candidate_id_ascending"
+  },
+  "schema_version": "m4-acquisition-config-v1",
+  "score": {
+    "beta": 1.0,
+    "bootstrap": {
+      "ddof": 0,
+      "member_count": 5,
+      "member_seed_policy": "reuse-uncertainty-bootstrap-std-v1",
+      "rng": "numpy-pcg64",
+      "sampling": "with-replacement"
+    },
+    "dtype": "float64",
+    "formula": "predictive_mean_full_observation_fit + beta * bootstrap_prediction_population_std",
+    "kind": "upper-confidence-bound-engineering-baseline",
+    "model_config_policy": "reuse-frozen-model-config",
+    "uses_unrevealed_labels": false
+  }
+}

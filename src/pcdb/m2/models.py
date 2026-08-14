@@ -1,4 +1,4 @@
-"""Closed Ridge, Random Forest, and XGBoost adapters for synthetic M2 prediction."""
+"""Closed Ridge, Random Forest, and XGBoost adapters for synthetic replay."""
 
 from __future__ import annotations
 
@@ -33,6 +33,7 @@ from pcdb.m2.model_identity import (
 from pcdb.m2.types import DevelopmentObservation as DevelopmentObservation
 
 MODEL_CONFIG_SCHEMA_VERSION = "m2-model-config-v1"
+M4_MODEL_CONFIG_SCHEMA_VERSION = "m4-model-config-v1"
 _CANDIDATE_ID = re.compile(r"^[0-9a-f]{64}$")
 _MODEL_IDS = tuple(MODEL_CONFIG_SHA256)
 _FEATURE_IDS = tuple(
@@ -132,6 +133,29 @@ _SEED_POLICIES = {
         "random-state-equals-run-spec-seed;seed-per-iteration-false;single-thread-cpu-hist"
     ),
 }
+_M4_SEED_POLICIES = {
+    "random-forest-sklearn-v1": (
+        "estimator-random-state-fixed-1729;run-spec-seed-drives-replay-acquisition"
+    ),
+    "xgboost-cpu-v1": (
+        "estimator-random-state-fixed-1729;run-spec-seed-drives-replay-acquisition;"
+        "seed-per-iteration-false;single-thread-cpu-hist"
+    ),
+}
+M4_MODEL_CONFIG_SHA256: Mapping[str, str] = MappingProxyType(
+    {
+        "random-forest-sklearn-v1": (
+            "418b0fd6189fd9b3987620b05021e5ec5ff3018c074024cd13874cd3b9845312"
+        ),
+        "xgboost-cpu-v1": ("31eb5bc146f4e810027de8870fa5632e09a5427bd8dddfee9261572c1e3473f2"),
+    }
+)
+M4_MODEL_CONFIG_SIZE_BYTES: Mapping[str, int] = MappingProxyType(
+    {
+        "random-forest-sklearn-v1": 2_615,
+        "xgboost-cpu-v1": 5_733,
+    }
+)
 _LIBRARIES: Mapping[str, Mapping[str, str]] = MappingProxyType(
     {
         "ridge-sklearn-v1": MappingProxyType(
@@ -152,6 +176,8 @@ class LoadedModelConfig:
     """One exact frozen model configuration."""
 
     model_id: str
+    schema_version: str
+    seed_policy: str
     parameters: Mapping[str, object]
     canonical_bytes: bytes
     sha256: str
@@ -217,6 +243,16 @@ def _model_config_value(model_id: str) -> dict[str, object]:
     }
 
 
+def _m4_model_config_value(model_id: str) -> dict[str, object]:
+    if model_id not in _M4_SEED_POLICIES:
+        raise ContractValidationError("model_id is outside the frozen M4 model-config set")
+    return {
+        **_model_config_value(model_id),
+        "schema_version": M4_MODEL_CONFIG_SCHEMA_VERSION,
+        "seed_policy": _M4_SEED_POLICIES[model_id],
+    }
+
+
 _MODEL_CONFIG_BYTES = {
     model_id: canonical_feature_json_bytes(_model_config_value(model_id)) for model_id in _MODEL_IDS
 }
@@ -227,6 +263,17 @@ for _model_id, _payload in _MODEL_CONFIG_BYTES.items():
     ):
         raise RuntimeError(f"frozen {_model_id} model config identity drifted")
 
+_M4_MODEL_CONFIG_BYTES = {
+    model_id: canonical_feature_json_bytes(_m4_model_config_value(model_id))
+    for model_id in _M4_SEED_POLICIES
+}
+for _model_id, _payload in _M4_MODEL_CONFIG_BYTES.items():
+    if (
+        len(_payload) != M4_MODEL_CONFIG_SIZE_BYTES[_model_id]
+        or hashlib.sha256(_payload).hexdigest() != M4_MODEL_CONFIG_SHA256[_model_id]
+    ):
+        raise RuntimeError(f"frozen M4 {_model_id} model config identity drifted")
+
 
 def model_config_bytes(model_id: str) -> bytes:
     """Return exact canonical bytes for one frozen baseline."""
@@ -234,6 +281,17 @@ def model_config_bytes(model_id: str) -> bytes:
     payload = _MODEL_CONFIG_BYTES.get(model_id)
     if payload is None:
         raise ContractValidationError("model_id is outside the frozen M2 baseline set")
+    return payload
+
+
+def m4_model_config_bytes(model_id: str) -> bytes:
+    """Return the exact M4 config, reusing the accepted Ridge bytes."""
+
+    if model_id == "ridge-sklearn-v1":
+        return model_config_bytes(model_id)
+    payload = _M4_MODEL_CONFIG_BYTES.get(model_id)
+    if payload is None:
+        raise ContractValidationError("model_id is outside the frozen M4 model-config set")
     return payload
 
 
@@ -281,6 +339,45 @@ def load_model_config(payload: bytes) -> LoadedModelConfig:
         raise ContractValidationError("model config differs from the frozen closed profile")
     return LoadedModelConfig(
         model_id=model_id,
+        schema_version=MODEL_CONFIG_SCHEMA_VERSION,
+        seed_policy=_SEED_POLICIES[model_id],
+        parameters=_EFFECTIVE_PARAMETERS[model_id],
+        canonical_bytes=payload,
+        sha256=hashlib.sha256(payload).hexdigest(),
+    )
+
+
+def load_m4_model_config(payload: bytes) -> LoadedModelConfig:
+    """Strict-decode the closed M4 profile without widening the M2/M3 loader."""
+
+    if payload == _MODEL_CONFIG_BYTES["ridge-sklearn-v1"]:
+        return load_model_config(payload)
+    if not payload or payload.startswith(b"\xef\xbb\xbf") or b"\r" in payload:
+        raise ContractValidationError("M4 model config must be canonical UTF-8 JSON")
+    try:
+        value = json.loads(
+            payload.decode("utf-8"),
+            object_pairs_hook=_reject_duplicate_keys,
+            parse_constant=_reject_constant,
+            parse_float=_reject_float,
+        )
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ContractValidationError("M4 model config must be strict UTF-8 JSON") from exc
+    if not isinstance(value, dict):
+        raise ContractValidationError("M4 model config must be a JSON object")
+    if set(value) != {"library", "model_id", "parameters", "schema_version", "seed_policy"}:
+        raise ContractValidationError("M4 model config top-level fields drifted")
+    model_id = value.get("model_id")
+    if not isinstance(model_id, str) or model_id not in _M4_MODEL_CONFIG_BYTES:
+        raise ContractValidationError("M4 model config model_id is unknown")
+    if canonical_feature_json_bytes(value) != payload:
+        raise ContractValidationError("M4 model config bytes are not canonical")
+    if payload != _M4_MODEL_CONFIG_BYTES[model_id]:
+        raise ContractValidationError("M4 model config differs from the frozen closed profile")
+    return LoadedModelConfig(
+        model_id=model_id,
+        schema_version=M4_MODEL_CONFIG_SCHEMA_VERSION,
+        seed_policy=_M4_SEED_POLICIES[model_id],
         parameters=_EFFECTIVE_PARAMETERS[model_id],
         canonical_bytes=payload,
         sha256=hashlib.sha256(payload).hexdigest(),
@@ -360,6 +457,32 @@ def fit_regressor(
     return _fit_validated_regressor(config, features, observations, seed=seed)
 
 
+def fit_m4_regressor(
+    model_config: bytes,
+    development_features: LoadedFeatureMatrix,
+    development_observations: Sequence[DevelopmentObservation],
+    *,
+    seed: int,
+) -> FittedRegressor:
+    """Fit an M4 estimator while keeping estimator RNG fixed by exact config."""
+
+    if isinstance(seed, bool) or not isinstance(seed, int) or seed < 0:
+        raise ContractValidationError("RunSpec seed must be a non-negative integer")
+    config = load_m4_model_config(model_config)
+    features = _matrix_values(development_features)
+    observations = _observation_values(
+        development_observations,
+        development_features.candidate_ids,
+    )
+    return _fit_validated_regressor(
+        config,
+        features,
+        observations,
+        seed=seed,
+        require_seed_match=False,
+    )
+
+
 def fit_bootstrap_regressor(
     model_config: bytes,
     development_features: LoadedFeatureMatrix,
@@ -398,17 +521,57 @@ def fit_bootstrap_regressor(
     )
 
 
+def fit_m4_bootstrap_regressor(
+    model_config: bytes,
+    development_features: LoadedFeatureMatrix,
+    development_observations: Sequence[DevelopmentObservation],
+    *,
+    sampled_indices: Sequence[int],
+    seed: int,
+) -> FittedRegressor:
+    """Fit one M4 estimator on an acquisition-side with-replacement draw."""
+
+    if isinstance(seed, bool) or not isinstance(seed, int) or seed < 0:
+        raise ContractValidationError("RunSpec seed must be a non-negative integer")
+    config = load_m4_model_config(model_config)
+    features = _matrix_values(development_features)
+    observations = _observation_values(
+        development_observations,
+        development_features.candidate_ids,
+    )
+    if (
+        isinstance(sampled_indices, (str, bytes, bytearray))
+        or len(sampled_indices) != len(development_features.candidate_ids)
+        or any(
+            isinstance(index, bool)
+            or not isinstance(index, int)
+            or not 0 <= index < len(development_features.candidate_ids)
+            for index in sampled_indices
+        )
+    ):
+        raise ContractValidationError("bootstrap indices must exact-cover one in-range size-n draw")
+    index_array = np.asarray(sampled_indices, dtype=np.int64)
+    return _fit_validated_regressor(
+        config,
+        features[index_array],
+        observations[index_array],
+        seed=seed,
+        require_seed_match=False,
+    )
+
+
 def _fit_validated_regressor(
     config: LoadedModelConfig,
     features: NDArray[np.float64],
     observations: NDArray[np.float64],
     *,
     seed: int,
+    require_seed_match: bool = True,
 ) -> FittedRegressor:
     if config.model_id == "ridge-sklearn-v1":
         estimator = cast(FittedRegressor, Ridge(**dict(_RIDGE_PARAMETERS)))
     elif config.model_id == "random-forest-sklearn-v1":
-        if seed != _RANDOM_FOREST_PARAMETERS["random_state"]:
+        if require_seed_match and seed != _RANDOM_FOREST_PARAMETERS["random_state"]:
             raise ContractValidationError(
                 "Random Forest random_state must exact-match the RunSpec seed"
             )
@@ -417,7 +580,7 @@ def _fit_validated_regressor(
             RandomForestRegressor(**dict(_RANDOM_FOREST_PARAMETERS)),
         )
     elif config.model_id == "xgboost-cpu-v1":
-        if seed != _XGBOOST_PARAMETERS["random_state"]:
+        if require_seed_match and seed != _XGBOOST_PARAMETERS["random_state"]:
             raise ContractValidationError("XGBoost random_state must exact-match the RunSpec seed")
         estimator = cast(
             FittedRegressor,

@@ -6,9 +6,11 @@ import json
 import math
 from dataclasses import replace
 from pathlib import Path
+from typing import cast
 
 import pytest
 
+import pcdb.replay.engine as replay_engine_module
 from pcdb.contracts import ContractValidationError, RunSpec
 from pcdb.contracts.experiment import canonical_json_bytes, load_experiment_config
 from pcdb.contracts.feature_identity import (
@@ -38,7 +40,9 @@ from pcdb.m2.features import (
 from pcdb.m2.models import (
     MODEL_CONFIG_SHA256,
     DevelopmentObservation,
+    fit_m4_regressor,
     fit_regressor,
+    m4_model_config_bytes,
     model_config_bytes,
     predict_regressor,
 )
@@ -51,6 +55,7 @@ from pcdb.replay import (
     is_replay_attempt_eligible,
     load_replay_trajectory,
     publish_replay_attempt,
+    ucb_prediction_scores,
 )
 from pcdb.replay.engine import _resolved_experiment_context
 from pcdb.storage import ArtifactMetadata, LocalArtifactStore
@@ -58,6 +63,7 @@ from pcdb.storage import ArtifactMetadata, LocalArtifactStore
 ROOT = Path(__file__).parents[2]
 WORKED_EXAMPLE = ROOT / "tests/fixtures/m3/issue-66/worked-example.v1.json"
 M3_EXPERIMENT_CONFIG = ROOT / "configs/experiments/m3-single-fidelity/alpha-amylase.json"
+M4_EXPERIMENT_CONFIG_DIRECTORY = ROOT / "configs/experiments/m4-single-fidelity"
 DATASET_SHA256 = "a" * 64
 SPLIT_SHA256 = "b" * 64
 
@@ -96,6 +102,15 @@ def _experiment_config_bytes(
             "task_id": "synthetic-toy",
         }
     )
+
+
+def _m4_experiment_config_bytes(*, processing_manifest_sha256: str) -> bytes:
+    value = json.loads(
+        _experiment_config_bytes(processing_manifest_sha256=processing_manifest_sha256)
+    )
+    value["acquisitions"].append("ucb-bootstrap-std-beta1-v1")
+    value["experiment_id"] = "m4-synthetic-replay-smoke-v1"
+    return canonical_json_bytes(value)
 
 
 def _hidden_truth_bytes(truth: dict[str, float]) -> bytes:
@@ -243,6 +258,30 @@ def _random_run_spec(
         initial_sample_size=initial_sample_size,
         batch_size=batch_size,
         budget=budget,
+    )
+
+
+def _m4_ucb_run_spec(
+    candidate_ids: tuple[str, ...] | None = None,
+    *,
+    truth: dict[str, float] | None = None,
+) -> RunSpec:
+    fixture = json.loads(WORKED_EXAMPLE.read_bytes())
+    if candidate_ids is None:
+        candidate_ids = tuple(fixture["candidate_ids"])
+    if truth is None:
+        truth = fixture["synthetic_oracle"]["labels"]
+    processing_manifest = _processing_manifest_bytes(truth)
+    processing_sha256 = hashlib.sha256(processing_manifest).hexdigest()
+    experiment_config = _m4_experiment_config_bytes(processing_manifest_sha256=processing_sha256)
+    return replace(
+        _random_run_spec(candidate_ids, truth=truth),
+        protocol_version="m4-single-fidelity-screening-v1",
+        experiment_config_sha256=hashlib.sha256(experiment_config).hexdigest(),
+        acquisition_id="ucb-bootstrap-std-beta1-v1",
+        acquisition_config_sha256=(
+            "9b132ec77e71a8c6966e3eae712c56da148aa92c4d5c54001fb1c1a954b75e4d"
+        ),
     )
 
 
@@ -458,6 +497,40 @@ def test_formal_experiment_config_v2_resolution_remains_run_spec_bound() -> None
     assert _resolved_experiment_context(run_spec, config_bytes) == ("alpha-amylase", 0.01)
 
 
+@pytest.mark.parametrize("task_id", ["alpha-amylase", "ired"])
+def test_m4_frozen_experiment_config_v2_dispatch_is_direct_and_fail_closed(
+    task_id: str,
+) -> None:
+    config_bytes = (M4_EXPERIMENT_CONFIG_DIRECTORY / f"{task_id}.json").read_bytes()
+    config = load_experiment_config(config_bytes)
+    run_spec = RunSpec(
+        schema_version="1",
+        protocol_version="m4-single-fidelity-screening-v1",
+        git_commit="f" * 40,
+        environment_digest="e" * 64,
+        dataset_manifest_sha256=config.value["dataset_manifest_sha256"],
+        processing_manifest_sha256=config.value["processing_manifest_sha256"],
+        split_sha256=config.value["split_sha256"],
+        feature_sha256="d" * 64,
+        experiment_config_sha256=config.sha256,
+        model_id="ridge-sklearn-v1",
+        model_config_sha256=MODEL_CONFIG_SHA256["ridge-sklearn-v1"],
+        acquisition_id="ucb-bootstrap-std-beta1-v1",
+        acquisition_config_sha256=(
+            "9b132ec77e71a8c6966e3eae712c56da148aa92c4d5c54001fb1c1a954b75e4d"
+        ),
+        seed=1729,
+        initial_sample_size=32,
+        batch_size=16,
+        budget=128,
+    )
+
+    assert config.schema_version == "2"
+    assert _resolved_experiment_context(run_spec, config_bytes) == (task_id, 0.01)
+    with pytest.raises(ContractValidationError, match="frozen profile"):
+        _resolved_experiment_context(replace(run_spec, seed=1739), config_bytes)
+
+
 def test_recovery_from_complete_boundary_matches_uninterrupted_bytes() -> None:
     fixture = json.loads(WORKED_EXAMPLE.read_bytes())
     candidate_ids = tuple(fixture["candidate_ids"])
@@ -612,6 +685,119 @@ def test_uncertainty_replay_is_deterministic_for_all_frozen_models(model_id: str
     assert {candidate_id for candidate_id, _ in first_scores} == set(remaining)
     assert all(math.isfinite(score) and score >= 0 for _, score in first_scores)
     assert trajectory.events[1].selected_candidate_ids == expected
+
+
+def test_m4_ucb_replay_is_deterministic_recoverable_and_strictly_versioned() -> None:
+    fixture = json.loads(WORKED_EXAMPLE.read_bytes())
+    candidate_ids = tuple(fixture["candidate_ids"])
+    truth = fixture["synthetic_oracle"]["labels"]
+    processing_sha256 = hashlib.sha256(_processing_manifest_bytes(truth)).hexdigest()
+    experiment_config = _m4_experiment_config_bytes(processing_manifest_sha256=processing_sha256)
+    run_spec = _m4_ucb_run_spec(candidate_ids, truth=truth)
+    features = _loaded_features(candidate_ids)
+
+    def make_engine() -> ReplayEngine:
+        return _engine(
+            run_spec=run_spec,
+            candidate_ids=candidate_ids,
+            truth=truth,
+            candidate_features=features,
+            model_config=m4_model_config_bytes(run_spec.model_id),
+            experiment_config=experiment_config,
+        )
+
+    first = make_engine().run()
+    second = make_engine().run()
+    interrupted = make_engine().run(stop_after_round=0)
+    recovered = make_engine().run(checkpoint=interrupted.latest_checkpoint_bytes)
+
+    assert first.canonical_bytes == second.canonical_bytes == recovered.canonical_bytes
+    assert first.canonical_bytes.startswith(b'{\n  "events"')
+    assert b'"schema_version": "m4-replay-trajectory-v1"' in first.canonical_bytes
+    assert b'"schema_version": "m4-replay-checkpoint-v1"' in first.checkpoint_bytes(0)
+    assert load_replay_trajectory(first.canonical_bytes) == first
+    drifted = json.loads(first.canonical_bytes)
+    drifted["schema_version"] = "m3-replay-trajectory-v1"
+    with pytest.raises(ContractValidationError, match="schema version"):
+        load_replay_trajectory(canonical_json_bytes(drifted))
+
+
+def test_m4_ucb_score_is_exact_mean_plus_population_std() -> None:
+    fixture = json.loads(WORKED_EXAMPLE.read_bytes())
+    candidate_ids = tuple(fixture["candidate_ids"])
+    truth = fixture["synthetic_oracle"]["labels"]
+    features = _loaded_features(candidate_ids)
+    run_spec = _m4_ucb_run_spec(candidate_ids, truth=truth)
+    initial = _initial_selection(candidate_ids, run_spec)
+    remaining = tuple(sorted(set(candidate_ids) - set(initial)))
+    observations = tuple(
+        Observation(candidate_id=candidate_id, label=truth[candidate_id])
+        for candidate_id in initial
+    )
+    model_config = m4_model_config_bytes(run_spec.model_id)
+    fitted = fit_m4_regressor(
+        model_config,
+        _subset_features(features, tuple(sorted(initial))),
+        [
+            DevelopmentObservation(candidate_id=candidate_id, observation=truth[candidate_id])
+            for candidate_id in sorted(initial)
+        ],
+        seed=run_spec.seed,
+    )
+    means = dict(predict_regressor(fitted, _subset_features(features, remaining)))
+    standard_deviations = dict(
+        bootstrap_prediction_std(
+            run_spec=run_spec,
+            task_id="synthetic-toy",
+            candidate_features=features,
+            model_config=model_config,
+            observations=observations,
+            candidate_ids=remaining,
+            round_index=1,
+        )
+    )
+
+    scores = ucb_prediction_scores(
+        run_spec=run_spec,
+        task_id="synthetic-toy",
+        candidate_features=features,
+        model_config=model_config,
+        observations=observations,
+        candidate_ids=remaining,
+        round_index=1,
+    )
+
+    assert tuple(candidate_id for candidate_id, _ in scores) == remaining
+    assert dict(scores) == {
+        candidate_id: means[candidate_id] + standard_deviations[candidate_id]
+        for candidate_id in remaining
+    }
+
+
+def test_m4_ucb_ties_use_candidate_id_ascending_without_fallback(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    fixture = json.loads(WORKED_EXAMPLE.read_bytes())
+    candidate_ids = tuple(fixture["candidate_ids"])
+    truth = fixture["synthetic_oracle"]["labels"]
+    run_spec = _m4_ucb_run_spec(candidate_ids, truth=truth)
+    processing_sha256 = hashlib.sha256(_processing_manifest_bytes(truth)).hexdigest()
+
+    def tied_scores(**kwargs: object) -> tuple[tuple[str, float], ...]:
+        ids = cast(tuple[str, ...], kwargs["candidate_ids"])
+        return tuple((candidate_id, 1.0) for candidate_id in reversed(ids))
+
+    monkeypatch.setattr(replay_engine_module, "ucb_prediction_scores", tied_scores)
+    trajectory = _engine(
+        run_spec=run_spec,
+        candidate_ids=candidate_ids,
+        truth=truth,
+        model_config=m4_model_config_bytes(run_spec.model_id),
+        experiment_config=_m4_experiment_config_bytes(processing_manifest_sha256=processing_sha256),
+    ).run()
+    remaining = sorted(set(candidate_ids) - set(trajectory.events[0].selected_candidate_ids))
+
+    assert trajectory.events[1].selected_candidate_ids == tuple(remaining[: run_spec.batch_size])
 
 
 def test_replay_reuses_sequential_evaluator_without_persisting_private_membership() -> None:
