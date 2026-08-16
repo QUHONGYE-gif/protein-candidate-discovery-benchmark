@@ -12,6 +12,7 @@ import subprocess
 from collections.abc import Mapping
 from dataclasses import asdict
 from pathlib import Path
+from types import MappingProxyType
 from typing import Any, cast
 
 from pcdb.contracts.experiment import (
@@ -286,6 +287,15 @@ def _input_inventory(m2_packet: dict[str, Any]) -> list[dict[str, object]]:
     if len({(item["bucket"], item["object_key"]) for item in inventory}) != 12:
         raise ContractValidationError("Gate A input inventory is not an exact 12-object set")
     return inventory
+
+
+def reviewed_input_inventory_metadata(
+    repository_root: Path,
+) -> tuple[Mapping[str, object], ...]:
+    """Return the accepted exact input identities without fetching any object bodies."""
+
+    _, m2_packet, _, _ = _source_state(repository_root.resolve())
+    return tuple(MappingProxyType(dict(item)) for item in _input_inventory(m2_packet))
 
 
 def build_gate_a_packet(
@@ -574,5 +584,6 @@ __all__ = [
     "build_gate_a_packet",
     "load_gate_a_packet",
     "packet_identity",
+    "reviewed_input_inventory_metadata",
     "validate_gate_a_entry",
 ]
