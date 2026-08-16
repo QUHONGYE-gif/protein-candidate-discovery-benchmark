@@ -14,6 +14,7 @@ from pcdb.contracts import ContractValidationError
 from pcdb.m4.execution_adapter import (
     InputObjectIdentity,
     TaskInputInventory,
+    _build_replay_engine_from_validated_preparation,
     build_reviewed_replay_engine,
     prepare_execution_adapter,
 )
@@ -222,6 +223,121 @@ def test_packet_rejection_precedes_input_inventory_resolution(
         )
 
 
+def test_reviewed_builder_rejects_forged_preparation_before_body_read() -> None:
+    packet, digest = _packet()
+    preparation = prepare_execution_adapter(
+        packet_bytes=packet,
+        packet_sha256=digest,
+        repository_root=ROOT,
+        expected_git_commit=REVIEWED_COMMIT,
+        expected_git_tree=REVIEWED_TREE,
+    )
+    first_task = preparation.tasks[0]
+    first_object = first_task.objects[0]
+    first_run = preparation.runs[0]
+    forged = {
+        "object-key": replace(
+            preparation,
+            tasks=(
+                replace(
+                    first_task,
+                    objects=(
+                        replace(first_object, object_key=f"{first_object.object_key}.forged"),
+                        *first_task.objects[1:],
+                    ),
+                ),
+                *preparation.tasks[1:],
+            ),
+        ),
+        "task": replace(
+            preparation,
+            tasks=(replace(first_task, task_id="ired"), *preparation.tasks[1:]),
+        ),
+        "run": replace(
+            preparation,
+            runs=(replace(first_run, task_id="ired"), *preparation.runs[1:]),
+        ),
+        "packet-digest": replace(preparation, packet_sha256="0" * 64),
+        "reviewed-commit": replace(preparation, reviewed_git_commit="0" * 40),
+        "reviewed-tree": replace(preparation, reviewed_git_tree="0" * 40),
+        "metadata-paths": replace(
+            preparation,
+            metadata_paths=(*preparation.metadata_paths, "forged-metadata-path"),
+        ),
+        "inventory-size": replace(
+            preparation,
+            inventory_size_bytes=preparation.inventory_size_bytes + 1,
+        ),
+        "inventory-digest": replace(preparation, inventory_sha256="0" * 64),
+        "oracle-path": replace(preparation, oracle_code_path="forged-oracle-path"),
+        "body-authority": replace(preparation, candidate_body_reads_authorized=True),
+        "oracle-authority": replace(preparation, oracle_calls_authorized=1),
+        "attempt-authority": replace(preparation, attempts_authorized=1),
+        "write-authority": replace(preparation, writes_authorized=1),
+    }
+
+    for field, candidate in forged.items():
+        inputs = _BodyReadSpy({purpose: b"must-not-read" for purpose in PURPOSES})
+        with pytest.raises(
+            ContractValidationError,
+            match="differs from the reviewed packet",
+        ):
+            build_reviewed_replay_engine(
+                preparation=candidate,
+                packet_bytes=packet,
+                packet_sha256=digest,
+                expected_git_commit=REVIEWED_COMMIT,
+                expected_git_tree=REVIEWED_TREE,
+                run_spec=first_run.run_spec,
+                inputs=inputs,
+                repository_root=ROOT,
+            )
+        assert inputs.reads == [], field
+
+
+def test_reviewed_builder_rebinds_canonical_preparation_before_delegating(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    packet, digest = _packet()
+    preparation = prepare_execution_adapter(
+        packet_bytes=packet,
+        packet_sha256=digest,
+        repository_root=ROOT,
+        expected_git_commit=REVIEWED_COMMIT,
+        expected_git_tree=REVIEWED_TREE,
+    )
+    inputs = _BodyReadSpy({})
+    sentinel_engine = object()
+    calls: list[dict[str, object]] = []
+
+    def capture(**kwargs: object) -> object:
+        calls.append(kwargs)
+        return sentinel_engine
+
+    monkeypatch.setattr(
+        "pcdb.m4.execution_adapter._build_replay_engine_from_validated_preparation",
+        capture,
+    )
+
+    result = build_reviewed_replay_engine(
+        preparation=preparation,
+        packet_bytes=packet,
+        packet_sha256=digest,
+        expected_git_commit=REVIEWED_COMMIT,
+        expected_git_tree=REVIEWED_TREE,
+        run_spec=preparation.runs[0].run_spec,
+        inputs=inputs,
+        repository_root=ROOT,
+    )
+
+    assert result is sentinel_engine
+    assert len(calls) == 1
+    assert calls[0]["preparation"] == preparation
+    assert calls[0]["run_spec"] == preparation.runs[0].run_spec
+    assert calls[0]["inputs"] is inputs
+    assert inputs.reads == []
+
+
 def test_adapter_rejects_nontruth_drift_before_hidden_truth_access(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -251,7 +367,7 @@ def test_adapter_rejects_nontruth_drift_before_hidden_truth_access(
     monkeypatch.setattr(ReplayEngine, "from_reviewed_inputs", classmethod(reject))
 
     with pytest.raises(ContractValidationError, match="input identity"):
-        build_reviewed_replay_engine(
+        _build_replay_engine_from_validated_preparation(
             preparation=preparation,
             run_spec=prepared_run.run_spec,
             inputs=inputs,
@@ -295,7 +411,7 @@ def test_adapter_delegates_once_to_unique_truth_owner_with_truth_last(
 
     monkeypatch.setattr(ReplayEngine, "from_reviewed_inputs", classmethod(capture))
 
-    result = build_reviewed_replay_engine(
+    result = _build_replay_engine_from_validated_preparation(
         preparation=preparation,
         run_spec=prepared_run.run_spec,
         inputs=inputs,

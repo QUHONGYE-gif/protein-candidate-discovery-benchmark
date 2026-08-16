@@ -294,14 +294,14 @@ def _validated_nontruth_inputs(
     return payloads
 
 
-def build_reviewed_replay_engine(
+def _build_replay_engine_from_validated_preparation(
     *,
     preparation: M4ExecutionPreparation,
     run_spec: RunSpec,
     inputs: Mapping[str, bytes],
     repository_root: Path,
 ) -> ReplayEngine:
-    """Build through the sole truth owner; this function never fetches an input object."""
+    """Build from an already revalidated preparation; never fetch an input object."""
 
     prepared, inventory = _resolved_run(preparation, run_spec)
     experiment_path = _EXPERIMENT_PATHS[prepared.task_id]
@@ -339,6 +339,36 @@ def build_reviewed_replay_engine(
         task_id=prepared.task_id,
         candidate_features=candidate_features,
         model_config=model_config,
+    )
+
+
+def build_reviewed_replay_engine(
+    *,
+    preparation: M4ExecutionPreparation,
+    packet_bytes: bytes,
+    packet_sha256: str,
+    expected_git_commit: str,
+    expected_git_tree: str,
+    run_spec: RunSpec,
+    inputs: Mapping[str, bytes],
+    repository_root: Path,
+) -> ReplayEngine:
+    """Rebind reviewed provenance before any input body access, then build once."""
+
+    reviewed = prepare_execution_adapter(
+        packet_bytes=packet_bytes,
+        packet_sha256=packet_sha256,
+        repository_root=repository_root,
+        expected_git_commit=expected_git_commit,
+        expected_git_tree=expected_git_tree,
+    )
+    if preparation != reviewed:
+        raise ContractValidationError("M4 preparation differs from the reviewed packet")
+    return _build_replay_engine_from_validated_preparation(
+        preparation=reviewed,
+        run_spec=run_spec,
+        inputs=inputs,
+        repository_root=repository_root,
     )
 
 
