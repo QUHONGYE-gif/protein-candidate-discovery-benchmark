@@ -11,6 +11,12 @@ from pcdb.contracts import ContractValidationError, RunSpec, load_high_value_res
 from pcdb.contracts.experiment import canonical_json_bytes, load_experiment_config
 from pcdb.contracts.high_value import MetricResultEvidence
 from pcdb.m4 import materialize_task_seed_aggregate
+from pcdb.m4.pilot_preflight import build_pilot_preflight_packet
+from pcdb.m4.screening import (
+    PilotRunRecall,
+    PilotScreeningDecision,
+    evaluate_pilot_screening,
+)
 
 ROOT = Path(__file__).parents[2]
 CONFIG_DIRECTORY = ROOT / "configs/experiments/m4-single-fidelity"
@@ -209,3 +215,160 @@ def test_m4_three_of_ten_remains_per_run_only_and_ten_of_ten_aggregates() -> Non
     assert tuple(item["seed"] for item in aggregate.value["ordered_inputs"]) == tuple(
         range(1729, 1739)
     )
+
+
+def _pilot_recall_records(
+    differences: dict[tuple[str, str, str, int, str], float] | None = None,
+) -> list[PilotRunRecall]:
+    packet = json.loads(build_pilot_preflight_packet(ROOT, "a" * 40, "b" * 40))
+    differences = {} if differences is None else differences
+    records = []
+    for item in packet["run_specs"]:
+        run_spec = RunSpec(**item["run_spec"])
+        recalls = tuple(
+            (
+                definition_id,
+                0.5
+                + differences.get(
+                    (
+                        item["task_id"],
+                        run_spec.model_id,
+                        run_spec.acquisition_id,
+                        run_spec.seed,
+                        definition_id,
+                    ),
+                    0.0,
+                ),
+            )
+            for definition_id in (
+                "upper-tail-1pct",
+                "upper-tail-0.5pct",
+                "upper-tail-2pct",
+            )
+        )
+        records.append(
+            PilotRunRecall(
+                task_id=item["task_id"],
+                run_spec=run_spec,
+                trajectory_sha256=hashlib.sha256(run_spec.run_id.encode()).hexdigest(),
+                recalls=recalls,
+            )
+        )
+    return records
+
+
+def _evaluate(records: list[PilotRunRecall]) -> PilotScreeningDecision:
+    expected = _pilot_recall_records()
+    return evaluate_pilot_screening(
+        records,
+        expected_runs=tuple((record.task_id, record.run_spec) for record in expected),
+    )
+
+
+def test_pilot_screening_applies_sensitivity_heterogeneity_and_ascii_tie_break() -> None:
+    differences: dict[tuple[str, str, str, int, str], float] = {}
+
+    def improve(
+        task_id: str,
+        model_id: str,
+        acquisition_id: str,
+        *,
+        primary: float,
+        sensitivities: tuple[float, float],
+    ) -> None:
+        for seed in (1729, 1730, 1731):
+            differences[(task_id, model_id, acquisition_id, seed, "upper-tail-1pct")] = primary
+            differences[(task_id, model_id, acquisition_id, seed, "upper-tail-0.5pct")] = (
+                sensitivities[0]
+            )
+            differences[(task_id, model_id, acquisition_id, seed, "upper-tail-2pct")] = (
+                sensitivities[1]
+            )
+
+    for task_id in ("alpha-amylase", "ired"):
+        for acquisition_id in (
+            "uncertainty-bootstrap-std-v1",
+            "ucb-bootstrap-std-beta1-v1",
+        ):
+            improve(
+                task_id,
+                "ridge-sklearn-v1",
+                acquisition_id,
+                primary=0.02,
+                sensitivities=(0.0, 0.0),
+            )
+    improve(
+        "alpha-amylase",
+        "random-forest-sklearn-v1",
+        "uncertainty-bootstrap-std-v1",
+        primary=0.02,
+        sensitivities=(0.01, 0.01),
+    )
+    improve(
+        "ired",
+        "random-forest-sklearn-v1",
+        "uncertainty-bootstrap-std-v1",
+        primary=-0.01,
+        sensitivities=(0.0, 0.0),
+    )
+    improve(
+        "alpha-amylase",
+        "xgboost-cpu-v1",
+        "uncertainty-bootstrap-std-v1",
+        primary=0.02,
+        sensitivities=(-0.01, 0.01),
+    )
+
+    decision = _evaluate(_pilot_recall_records(differences))
+
+    assert decision.status == "EXPAND"
+    assert decision.selected_explorations == (
+        ("ridge-sklearn-v1", "ucb-bootstrap-std-beta1-v1"),
+        ("random-forest-sklearn-v1", "uncertainty-bootstrap-std-v1"),
+    )
+    by_model = {item.model_id: item for item in decision.model_decisions}
+    assert by_model["ridge-sklearn-v1"].selection_status == "cross-task-directional"
+    assert by_model["random-forest-sklearn-v1"].selection_status == ("retain-as-heterogeneous")
+    assert by_model["xgboost-cpu-v1"].selection_status == "pilot-eliminated"
+    fragile = [
+        item
+        for item in by_model["xgboost-cpu-v1"].task_decisions
+        if item.acquisition_id == "uncertainty-bootstrap-std-v1" and item.task_id == "alpha-amylase"
+    ]
+    assert len(fragile) == 1 and fragile[0].status == "fragile-inconclusive"
+
+
+def test_pilot_screening_exact_threshold_and_incomplete_evidence_are_fail_closed() -> None:
+    differences = {
+        (
+            "alpha-amylase",
+            "ridge-sklearn-v1",
+            "uncertainty-bootstrap-std-v1",
+            seed,
+            definition_id,
+        ): value
+        for seed, value in zip((1729, 1730, 1731), (0.015, 0.015, 0.0), strict=True)
+        for definition_id in (
+            "upper-tail-1pct",
+            "upper-tail-0.5pct",
+            "upper-tail-2pct",
+        )
+    }
+    decision = _evaluate(_pilot_recall_records(differences))
+    ridge = decision.model_decisions[0]
+
+    assert decision.status == "EXPAND"
+    assert ridge.selected_acquisition_id == "uncertainty-bootstrap-std-v1"
+    threshold = [
+        item
+        for item in ridge.task_decisions
+        if item.task_id == "alpha-amylase" and item.acquisition_id == "uncertainty-bootstrap-std-v1"
+    ][0]
+    assert threshold.positive_primary_seeds == 2
+    assert threshold.primary_mean_difference == 0.01
+    assert threshold.status == "task-pass"
+
+    assert _evaluate(_pilot_recall_records()).status == "STOP"
+    incomplete = _evaluate(_pilot_recall_records()[:-1])
+    assert incomplete.status == "INCONCLUSIVE-FAILURE"
+    assert incomplete.selected_explorations == ()

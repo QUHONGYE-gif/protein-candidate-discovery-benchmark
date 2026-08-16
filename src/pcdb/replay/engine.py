@@ -56,6 +56,11 @@ _M4_SEEDS = tuple(range(1729, 1739))
 _M4_INITIAL_SAMPLE_SIZES = (32, 64)
 _M4_BATCH_SIZES = (16,)
 _M4_BUDGETS = (128,)
+_M4_HIGH_VALUE_DEFINITIONS = (
+    ("upper-tail-1pct", 0.01),
+    ("upper-tail-0.5pct", 0.005),
+    ("upper-tail-2pct", 0.02),
+)
 
 
 def _resolved_experiment_context(run_spec: RunSpec, payload: bytes) -> tuple[str, float]:
@@ -1127,6 +1132,26 @@ class ReplayEngine:
             [observation.candidate_id for observation in self._oracle.observations],
             fraction=self._high_value_fraction,
             success_budget=self._run_spec.budget,
+        )
+
+    def final_m4_definition_metrics(self) -> tuple[tuple[str, SequentialMetricSet], ...]:
+        """Return only the three frozen aggregate definition metrics after a complete M4 run."""
+
+        if self._run_spec.protocol_version != _M4_PROTOCOL_ID:
+            raise ContractValidationError("definition sensitivity metrics require the M4 protocol")
+        if len(self._oracle.revealed_ids) != self._run_spec.budget:
+            raise ContractValidationError("definition sensitivity metrics require a complete run")
+        revealed = [observation.candidate_id for observation in self._oracle.observations]
+        return tuple(
+            (
+                definition_id,
+                self._evaluator.sequential_metrics(
+                    revealed,
+                    fraction=fraction,
+                    success_budget=self._run_spec.budget,
+                ),
+            )
+            for definition_id, fraction in _M4_HIGH_VALUE_DEFINITIONS
         )
 
     def _make_event(
