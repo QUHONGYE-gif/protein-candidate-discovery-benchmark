@@ -159,15 +159,20 @@ class _ConditionalResources:
         if isinstance(transferred, bool) or not isinstance(transferred, int) or transferred < 0:
             raise ContractValidationError("M4 conditional transfer ledger is invalid")
         scratch = _scratch_bytes(self._scratch_root)
+        cumulative_scratch = PILOT_RESOURCE_USAGE.scratch_high_water_bytes + scratch
+        projected_cumulative_scratch = cumulative_scratch + expected_scratch_bytes
         rss = _peak_rss_bytes()
-        self._scratch_high_water_bytes = max(self._scratch_high_water_bytes, scratch)
+        self._scratch_high_water_bytes = max(
+            self._scratch_high_water_bytes,
+            cumulative_scratch,
+        )
         self._peak_rss_bytes = max(self._peak_rss_bytes, rss)
         if (
             PILOT_RESOURCE_USAGE.network_transfer_bytes + transferred + expected_network_bytes
             > _CAPS["network_transfer_bytes"]
             or max(
                 self._scratch_high_water_bytes,
-                scratch + expected_scratch_bytes,
+                projected_cumulative_scratch,
             )
             > _CAPS["scratch_high_water_bytes"]
             or rss > _CAPS["aggregate_rss_bytes"]

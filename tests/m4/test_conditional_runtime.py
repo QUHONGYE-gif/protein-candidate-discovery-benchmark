@@ -9,8 +9,11 @@ from pathlib import Path
 import pytest
 
 from pcdb.contracts import ContractValidationError
+from pcdb.m4 import conditional_runtime
 from pcdb.m4.conditional_expansion import (
+    PILOT_RESOURCE_USAGE,
     CompletedPilotAttempt,
+    PilotResourceUsage,
     build_conditional_expansion_packet,
     prepare_conditional_expansion,
 )
@@ -106,6 +109,51 @@ def test_missing_exact_authorization_fails_before_remote_input_or_scratch(tmp_pa
     assert not scratch.exists()
 
 
+def test_retained_pilot_and_expansion_scratch_fail_when_sum_exceeds_cap(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    class InputClient:
+        transferred_bytes = 0
+
+        def head(self, *_: object) -> object:
+            raise AssertionError("scratch overflow reached remote HEAD")
+
+        def get(self, *_: object) -> bytes:
+            raise AssertionError("scratch overflow reached remote GET")
+
+    monkeypatch.setattr(
+        conditional_runtime,
+        "PILOT_RESOURCE_USAGE",
+        PilotResourceUsage(
+            active_execution_wall_seconds=0.0,
+            attempts_started=72,
+            network_transfer_bytes=0,
+            scratch_high_water_bytes=6,
+        ),
+    )
+    monkeypatch.setitem(
+        conditional_runtime._CAPS,  # noqa: SLF001 - exercise the frozen runtime cap.
+        "scratch_high_water_bytes",
+        10,
+    )
+    scratch = tmp_path / "expansion"
+    scratch.mkdir()
+    (scratch / "retained.bin").write_bytes(b"12345")
+    resources = conditional_runtime._ConditionalResources(  # noqa: SLF001
+        scratch_root=scratch,
+        input_client=InputClient(),
+        packet_sha256="a" * 64,
+        approval_comment_id=1,
+        clock=lambda: 0.0,
+    )
+
+    with pytest.raises(ContractValidationError, match="cumulative resource cap"):
+        resources.guard()
+
+    assert resources.run_ids == ()
+
+
 def test_exact_runtime_starts_only_272_missing_attempts_and_reaches_344_cumulative(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
@@ -186,3 +234,9 @@ def test_exact_runtime_starts_only_272_missing_attempts_and_reaches_344_cumulati
     assert len(result.unique_run_ids_started) == 272
     assert result.cumulative_attempts_started == 344
     assert len(list((scratch / "ledger" / "attempts").glob("*.started.json"))) == 272
+    expansion_scratch_bytes = sum(
+        path.stat().st_size for path in scratch.rglob("*") if path.is_file()
+    )
+    assert result.cumulative_scratch_high_water_bytes == (
+        PILOT_RESOURCE_USAGE.scratch_high_water_bytes + expansion_scratch_bytes
+    )
