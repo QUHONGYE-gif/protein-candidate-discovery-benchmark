@@ -722,6 +722,49 @@ def test_m4_ucb_replay_is_deterministic_recoverable_and_strictly_versioned() -> 
         load_replay_trajectory(canonical_json_bytes(drifted))
 
 
+def test_m4_final_sensitivity_metrics_are_frozen_aggregate_only() -> None:
+    fixture = json.loads(WORKED_EXAMPLE.read_bytes())
+    candidate_ids = tuple(fixture["candidate_ids"])
+    truth = fixture["synthetic_oracle"]["labels"]
+    processing_sha256 = hashlib.sha256(_processing_manifest_bytes(truth)).hexdigest()
+    run_spec = _m4_ucb_run_spec(candidate_ids, truth=truth)
+
+    engine = _engine(
+        run_spec=run_spec,
+        candidate_ids=candidate_ids,
+        truth=truth,
+        candidate_features=_loaded_features(candidate_ids),
+        model_config=m4_model_config_bytes(run_spec.model_id),
+        experiment_config=_m4_experiment_config_bytes(processing_manifest_sha256=processing_sha256),
+    )
+    with pytest.raises(ContractValidationError, match="complete run"):
+        engine.final_m4_definition_metrics()
+    trajectory = engine.run()
+    metrics = engine.final_m4_definition_metrics()
+    revealed = [
+        candidate_id for event in trajectory.events for candidate_id in event.selected_candidate_ids
+    ]
+    evaluator = HighValueEvaluator(tuple(truth.items()))
+
+    assert tuple(definition_id for definition_id, _ in metrics) == (
+        "upper-tail-1pct",
+        "upper-tail-0.5pct",
+        "upper-tail-2pct",
+    )
+    for (definition_id, observed), fraction in zip(
+        metrics,
+        (0.01, 0.005, 0.02),
+        strict=True,
+    ):
+        assert definition_id.startswith("upper-tail-")
+        assert observed == evaluator.sequential_metrics(
+            revealed,
+            fraction=fraction,
+            success_budget=run_spec.budget,
+        )
+    assert "high_value_membership" not in repr(metrics)
+
+
 def test_m4_ucb_score_is_exact_mean_plus_population_std() -> None:
     fixture = json.loads(WORKED_EXAMPLE.read_bytes())
     candidate_ids = tuple(fixture["candidate_ids"])
