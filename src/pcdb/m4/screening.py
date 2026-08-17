@@ -19,7 +19,11 @@ from pcdb.contracts.high_value import (
     validate_metric_result_evidence,
     validate_task_seed_aggregate,
 )
+from pcdb.contracts.prediction import load_run_attempt_v1
 from pcdb.contracts.run import RunSpec
+from pcdb.replay.engine import load_replay_trajectory
+from pcdb.replay.publication import is_replay_attempt_eligible
+from pcdb.storage.base import ArtifactStore
 
 _PILOT_TASKS = ("alpha-amylase", "ired")
 _PILOT_MODELS = (
@@ -40,6 +44,19 @@ _DEFINITION_IDS = (
     "upper-tail-0.5pct",
     "upper-tail-2pct",
 )
+_PILOT_EXECUTION_REGION = "ap-chengdu"
+
+
+@dataclass(frozen=True, slots=True)
+class PilotRunEvidence:
+    """Fresh-readable references for one completion-marked pilot attempt."""
+
+    task_id: str
+    run_spec: RunSpec
+    store: ArtifactStore
+    attempt_key: str
+    attempt_sha256: str
+    definition_metric_key: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -106,7 +123,7 @@ def _defined_metric_value(value: object, *, metric_id: str) -> float | bool:
     return float(metric_value)
 
 
-def load_pilot_run_recall(
+def _parse_pilot_run_recall(
     payload: bytes,
     *,
     run_spec: RunSpec,
@@ -114,7 +131,7 @@ def load_pilot_run_recall(
     expected_packet_sha256: str,
     expected_trajectory_sha256: str,
 ) -> PilotRunRecall:
-    """Strict-load one local non-canonical definition record without exposing membership."""
+    """Parse one definition record after its immutable attempt chain was validated."""
 
     try:
         value = json.loads(payload)
@@ -194,16 +211,136 @@ def load_pilot_run_recall(
     )
 
 
+def load_pilot_run_recall(
+    evidence: PilotRunEvidence,
+    *,
+    expected_packet_sha256: str,
+    expected_execution_region: str,
+) -> PilotRunRecall:
+    """Fresh-validate one succeeded attempt and its trajectory-bound definition record."""
+
+    if not isinstance(evidence, PilotRunEvidence):
+        raise ContractValidationError("M4 pilot recall requires fresh evidence references")
+    if (
+        len(expected_packet_sha256) != 64
+        or any(character not in "0123456789abcdef" for character in expected_packet_sha256)
+        or expected_execution_region != _PILOT_EXECUTION_REGION
+    ):
+        raise ContractValidationError("M4 pilot expected packet or execution region drifted")
+    base = (
+        f"m4/issue-76/pilot/{expected_packet_sha256}/runs/{evidence.run_spec.run_id}/"
+        "attempts/attempt-001"
+    )
+    if (
+        evidence.attempt_key != f"{base}/run-attempt.json"
+        or evidence.definition_metric_key != f"{base}/pilot-final-definition-metrics.json"
+        or len(evidence.attempt_sha256) != 64
+        or any(character not in "0123456789abcdef" for character in evidence.attempt_sha256)
+    ):
+        raise ContractValidationError("M4 pilot evidence object key or digest drifted")
+    try:
+        attempt = load_run_attempt_v1(
+            evidence.store.get_bytes(evidence.attempt_key),
+            expected_sha256=evidence.attempt_sha256,
+        )
+    except (ContractValidationError, KeyError, OSError, TypeError, ValueError):
+        raise ContractValidationError("M4 pilot RunAttempt fresh evidence is unavailable") from None
+    compute = attempt.value["compute"]
+    if (
+        attempt.value["status"] != "succeeded"
+        or attempt.value["attempt_id"] != "attempt-001"
+        or attempt.value["run_id"] != evidence.run_spec.run_id
+        or attempt.value["executed_git_commit"] != evidence.run_spec.git_commit
+        or attempt.value["executed_environment_digest"] != evidence.run_spec.environment_digest
+        or set(compute) != {"executor_type", "region", "runtime_version"}
+        or compute["executor_type"] != "compute_server"
+        or compute["region"] != expected_execution_region
+        or attempt.value["completion_marker"]["object_key"] != f"{base}/_SUCCESS"
+    ):
+        raise ContractValidationError(
+            "M4 pilot RunAttempt is not the exact succeeded execution-region evidence"
+        )
+    if not is_replay_attempt_eligible(
+        evidence.store,
+        evidence.attempt_key,
+        additional_output_keys=(evidence.definition_metric_key,),
+    ):
+        raise ContractValidationError("M4 pilot RunAttempt is not completion-marked eligible")
+    trajectory_outputs = [
+        item
+        for item in attempt.value["outputs"]
+        if str(item["object_key"]).endswith("/trajectory.json")
+    ]
+    definition_outputs = [
+        item
+        for item in attempt.value["outputs"]
+        if item["object_key"] == evidence.definition_metric_key
+    ]
+    if len(trajectory_outputs) != 1 or len(definition_outputs) != 1:
+        raise ContractValidationError("M4 pilot attempt output cross-link drifted")
+    trajectory = load_replay_trajectory(
+        evidence.store.get_bytes(str(trajectory_outputs[0]["object_key"]))
+    )
+    if (
+        trajectory.run_spec != evidence.run_spec
+        or trajectory.task_id != evidence.task_id
+        or not trajectory.complete
+    ):
+        raise ContractValidationError("M4 pilot trajectory identity or completion drifted")
+    return _parse_pilot_run_recall(
+        evidence.store.get_bytes(evidence.definition_metric_key),
+        run_spec=evidence.run_spec,
+        expected_task_id=evidence.task_id,
+        expected_packet_sha256=expected_packet_sha256,
+        expected_trajectory_sha256=trajectory.sha256,
+    )
+
+
 def _mean(values: Sequence[Decimal]) -> Decimal:
     return sum(values, start=Decimal(0)) / Decimal(len(values))
 
 
 def evaluate_pilot_screening(
+    evidence: Sequence[PilotRunEvidence],
+    *,
+    expected_runs: Sequence[tuple[str, RunSpec]],
+    expected_packet_sha256: str,
+    expected_execution_region: str,
+) -> PilotScreeningDecision:
+    """Load all 72 fresh attempt chains before applying the prospective screening rule."""
+
+    if len(evidence) != 72 or any(not isinstance(item, PilotRunEvidence) for item in evidence):
+        return PilotScreeningDecision(
+            status="INCONCLUSIVE-FAILURE",
+            selected_explorations=(),
+            model_decisions=(),
+            failure_reason="pilot screening requires 72 fresh evidence chains",
+        )
+    try:
+        records = tuple(
+            load_pilot_run_recall(
+                item,
+                expected_packet_sha256=expected_packet_sha256,
+                expected_execution_region=expected_execution_region,
+            )
+            for item in evidence
+        )
+    except (ContractValidationError, AttributeError, KeyError, OSError, TypeError, ValueError):
+        return PilotScreeningDecision(
+            status="INCONCLUSIVE-FAILURE",
+            selected_explorations=(),
+            model_decisions=(),
+            failure_reason="pilot evidence chain is incomplete, failed, or drifted",
+        )
+    return _evaluate_validated_pilot_recalls(records, expected_runs=expected_runs)
+
+
+def _evaluate_validated_pilot_recalls(
     records: Sequence[PilotRunRecall],
     *,
     expected_runs: Sequence[tuple[str, RunSpec]],
 ) -> PilotScreeningDecision:
-    """Apply the prospective three-seed task-first selection rule without post-result choices."""
+    """Apply the frozen rule to records already validated against fresh attempt evidence."""
 
     expected = {
         (task_id, model_id, acquisition_id, seed)

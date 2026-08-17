@@ -27,6 +27,7 @@ from pcdb.storage.base import ArtifactMetadata
 from pcdb.storage.local import LocalArtifactStore
 
 PILOT_APPROVAL = "APPROVED FOR ISSUE #76 EXACT 72-RUNSPEC M4 PILOT EXECUTION"
+PILOT_EXECUTION_REGION = "ap-chengdu"
 
 _RESOURCE_CAPS = {
     "active_execution_wall_seconds": 21_600,
@@ -70,6 +71,7 @@ class PilotAuthorization:
     reviewed_git_commit: str
     reviewed_git_tree: str
     executed_environment_digest: str
+    execution_region: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -103,6 +105,7 @@ def _validate_authorization(
         or hashlib.sha256(packet_bytes).hexdigest() != packet_sha256
         or authorization.reviewed_git_commit != expected_git_commit
         or authorization.reviewed_git_tree != expected_git_tree
+        or authorization.execution_region != PILOT_EXECUTION_REGION
         or len(authorization.executed_environment_digest) != 64
         or any(
             character not in "0123456789abcdef"
@@ -443,23 +446,26 @@ def execute_reviewed_pilot_locally(
             budget=prepared.run_spec.budget,
             definitions=engine.final_m4_definition_metrics(),
         )
-        store.put_bytes(definition_metric_key, definition_metric_record, overwrite=False)
-        definition_metric_keys.append(definition_metric_key)
-        publications.append(
-            publish_replay_attempt(
-                trajectory,
-                store=store,
-                attempt_id="attempt-001",
-                started_at=started_at,
-                finished_at=_utc_timestamp(now),
-                executed_git_commit=expected_git_commit,
-                executed_environment_digest=authorization.executed_environment_digest,
-                runtime_version=f"python-{platform.python_version()}",
-                key_prefix=f"m4/issue-76/pilot/{packet_sha256}",
-                executor_type="compute_server",
-                region="ap-beijing",
-            )
+        publication = publish_replay_attempt(
+            trajectory,
+            store=store,
+            attempt_id="attempt-001",
+            started_at=started_at,
+            finished_at=_utc_timestamp(now),
+            executed_git_commit=expected_git_commit,
+            executed_environment_digest=authorization.executed_environment_digest,
+            runtime_version=f"python-{platform.python_version()}",
+            key_prefix=f"m4/issue-76/pilot/{packet_sha256}",
+            executor_type="compute_server",
+            region=authorization.execution_region,
+            additional_outputs=((definition_metric_key, definition_metric_record),),
         )
+        if definition_metric_key not in publication.output_keys:
+            raise ContractValidationError(
+                "M4 pilot definition metric is outside RunAttempt outputs"
+            )
+        publications.append(publication)
+        definition_metric_keys.append(definition_metric_key)
         resources.guard()
     if len(publications) != 72 or len(resources.run_ids) != 72:
         raise ContractValidationError("M4 pilot did not exact-cover all 72 attempts")
@@ -478,6 +484,7 @@ def execute_reviewed_pilot_locally(
 
 __all__ = [
     "PILOT_APPROVAL",
+    "PILOT_EXECUTION_REGION",
     "PilotAuthorization",
     "PilotExecutionResult",
     "ReadOnlyPilotInputClient",

@@ -3,15 +3,17 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from collections.abc import Mapping
-from dataclasses import replace
+from dataclasses import asdict, replace
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
 import pytest
 
-from pcdb.contracts import ContractValidationError
+from pcdb.contracts import ContractValidationError, load_run_attempt_v1
+from pcdb.contracts.experiment import canonical_json_bytes
 from pcdb.evaluation import MetricValue, SequentialMetricSet
 from pcdb.m4.execution_adapter import (
     InputObjectIdentity,
@@ -22,11 +24,19 @@ from pcdb.m4.execution_adapter import (
 from pcdb.m4.pilot_preflight import build_pilot_preflight_packet
 from pcdb.m4.pilot_runtime import (
     PILOT_APPROVAL,
+    PILOT_EXECUTION_REGION,
     PilotAuthorization,
     execute_reviewed_pilot_locally,
 )
-from pcdb.m4.screening import load_pilot_run_recall
-from pcdb.replay import ReplayPublication
+from pcdb.m4.screening import PilotRunEvidence, load_pilot_run_recall
+from pcdb.replay import (
+    Observation,
+    ReplayEvent,
+    ReplayPublication,
+    ReplayTrajectory,
+    publish_replay_attempt,
+)
+from pcdb.storage import LocalArtifactStore
 
 ROOT = Path(__file__).resolve().parents[2]
 REVIEWED_COMMIT = "a" * 40
@@ -122,6 +132,7 @@ def _authorization(packet_sha256: str) -> PilotAuthorization:
         executed_environment_digest=(
             "0994a73f124c2baa6f330bf8739db1673217bdec6ad7d9046ded908fc8dba4fc"
         ),
+        execution_region=PILOT_EXECUTION_REGION,
     )
 
 
@@ -171,17 +182,170 @@ def _install_runtime_fakes(
 
     monkeypatch.setattr("pcdb.m4.pilot_runtime.build_reviewed_replay_engine", engine)
 
-    def publish(trajectory: _Trajectory, **_kwargs: Any) -> ReplayPublication:
+    def publish(trajectory: _Trajectory, **kwargs: Any) -> ReplayPublication:
         publication_calls.append(trajectory.run_id)
+        additional_outputs = kwargs["additional_outputs"]
+        assert len(additional_outputs) == 1
+        definition_key, _ = additional_outputs[0]
+        assert kwargs["region"] == PILOT_EXECUTION_REGION
         return ReplayPublication(
             attempt_key=f"runs/{trajectory.run_id}/attempts/attempt-001/run-attempt.json",
             attempt_sha256="c" * 64,
             marker_key=f"runs/{trajectory.run_id}/attempts/attempt-001/_SUCCESS",
-            output_keys=(),
+            output_keys=(definition_key,),
         )
 
     monkeypatch.setattr("pcdb.m4.pilot_runtime.publish_replay_attempt", publish)
     return run_calls, publication_calls
+
+
+def _complete_m4_trajectory(run_spec: Any, task_id: str) -> ReplayTrajectory:
+    metrics = SequentialMetricSet(
+        best_found_value=MetricValue.defined(1.0),
+        simple_regret=MetricValue.defined(0.0),
+        high_value_discovery_recall=MetricValue.defined(0.5),
+        success_at_budget=MetricValue.defined(True),
+    )
+    metric_sha256 = hashlib.sha256(canonical_json_bytes(asdict(metrics))).hexdigest()
+    candidate_ids = tuple(f"{index:064x}" for index in range(1, 129))
+    events: list[ReplayEvent] = []
+    offset = 0
+    for round_index, size in enumerate((32, 16, 16, 16, 16, 16, 16)):
+        selected = candidate_ids[offset : offset + size]
+        offset += size
+        provisional = ReplayEvent(
+            round=round_index,
+            selected_candidate_ids=selected,
+            observations=tuple(
+                Observation(candidate_id=candidate_id, label=float(index))
+                for index, candidate_id in enumerate(selected)
+            ),
+            distinct_revealed=offset,
+            checkpoint_sha256="0" * 64,
+            metrics=metrics,
+            metric_sha256=metric_sha256,
+        )
+        prefix = ReplayTrajectory(
+            run_spec=run_spec,
+            task_id=task_id,
+            events=(*events, provisional),
+        )
+        events.append(
+            replace(
+                provisional,
+                checkpoint_sha256=hashlib.sha256(prefix.checkpoint_bytes(round_index)).hexdigest(),
+            )
+        )
+    return ReplayTrajectory(run_spec=run_spec, task_id=task_id, events=tuple(events))
+
+
+def _definition_record(
+    *,
+    packet_sha256: str,
+    task_id: str,
+    trajectory: ReplayTrajectory,
+) -> bytes:
+    metrics = SequentialMetricSet(
+        best_found_value=MetricValue.defined(1.0),
+        simple_regret=MetricValue.defined(0.0),
+        high_value_discovery_recall=MetricValue.defined(0.5),
+        success_at_budget=MetricValue.defined(True),
+    )
+    return canonical_json_bytes(
+        {
+            "attempt_id": "attempt-001",
+            "budget": trajectory.run_spec.budget,
+            "definitions": [
+                {"definition_id": definition_id, "metrics": asdict(metrics)}
+                for definition_id in (
+                    "upper-tail-1pct",
+                    "upper-tail-0.5pct",
+                    "upper-tail-2pct",
+                )
+            ],
+            "packet_sha256": packet_sha256,
+            "record_type": "m4-pilot-final-definition-metrics-v1",
+            "run_id": trajectory.run_id,
+            "task_id": task_id,
+            "trajectory_sha256": trajectory.sha256,
+        }
+    )
+
+
+def _published_evidence(
+    root: Path,
+) -> tuple[PilotRunEvidence, ReplayPublication, ReplayTrajectory, str]:
+    packet, packet_sha256 = _packet()
+    preparation = prepare_execution_adapter(
+        packet_bytes=packet,
+        packet_sha256=packet_sha256,
+        repository_root=ROOT,
+        expected_git_commit=REVIEWED_COMMIT,
+        expected_git_tree=REVIEWED_TREE,
+    )
+    prepared = preparation.runs[0]
+    trajectory = _complete_m4_trajectory(prepared.run_spec, prepared.task_id)
+    store = LocalArtifactStore(root)
+    key_prefix = f"m4/issue-76/pilot/{packet_sha256}"
+    definition_key = (
+        f"{key_prefix}/runs/{trajectory.run_id}/attempts/attempt-001/"
+        "pilot-final-definition-metrics.json"
+    )
+    definition_record = _definition_record(
+        packet_sha256=packet_sha256,
+        task_id=prepared.task_id,
+        trajectory=trajectory,
+    )
+    publication = publish_replay_attempt(
+        trajectory,
+        store=store,
+        attempt_id="attempt-001",
+        started_at="2026-08-17T00:00:00Z",
+        finished_at="2026-08-17T00:00:01Z",
+        executed_git_commit=prepared.run_spec.git_commit,
+        executed_environment_digest=prepared.run_spec.environment_digest,
+        runtime_version="python-test",
+        key_prefix=key_prefix,
+        executor_type="compute_server",
+        region=PILOT_EXECUTION_REGION,
+        additional_outputs=((definition_key, definition_record),),
+    )
+    return (
+        PilotRunEvidence(
+            task_id=prepared.task_id,
+            run_spec=prepared.run_spec,
+            store=store,
+            attempt_key=publication.attempt_key,
+            attempt_sha256=publication.attempt_sha256,
+            definition_metric_key=definition_key,
+        ),
+        publication,
+        trajectory,
+        packet_sha256,
+    )
+
+
+def _copy_evidence_store(
+    source: LocalArtifactStore,
+    target_root: Path,
+    publication: ReplayPublication,
+    *,
+    omit: tuple[str, ...] = (),
+    replacements: Mapping[str, bytes] | None = None,
+) -> LocalArtifactStore:
+    target = LocalArtifactStore(target_root)
+    attempt = load_run_attempt_v1(source.get_bytes(publication.attempt_key))
+    keys = (
+        *(str(item["object_key"]) for item in attempt.value["outputs"]),
+        publication.attempt_key,
+        publication.marker_key,
+    )
+    replacements = {} if replacements is None else replacements
+    for key in keys:
+        if key not in omit:
+            payload = replacements[key] if key in replacements else source.get_bytes(key)
+            target.put_bytes(key, payload)
+    return target
 
 
 def test_missing_external_authorization_fails_before_inputs_or_scratch(
@@ -210,6 +374,36 @@ def test_missing_external_authorization_fails_before_inputs_or_scratch(
             input_client=client,
             scratch_root=scratch,
             authorization=replace(_authorization(digest), approval_text="not approved"),
+        )
+
+    assert client.operations == []
+    assert not scratch.exists()
+
+
+def test_execution_region_drift_fails_before_inputs_or_scratch(tmp_path: Path) -> None:
+    packet, digest = _packet()
+    preparation = prepare_execution_adapter(
+        packet_bytes=packet,
+        packet_sha256=digest,
+        repository_root=ROOT,
+        expected_git_commit=REVIEWED_COMMIT,
+        expected_git_tree=REVIEWED_TREE,
+    )
+    preparation, values = _synthetic_preparation(preparation)
+    client = _InputClient(values)
+    scratch = tmp_path / "pilot"
+
+    with pytest.raises(ContractValidationError, match="authorization"):
+        execute_reviewed_pilot_locally(
+            preparation=preparation,
+            packet_bytes=packet,
+            packet_sha256=digest,
+            expected_git_commit=REVIEWED_COMMIT,
+            expected_git_tree=REVIEWED_TREE,
+            repository_root=ROOT,
+            input_client=client,
+            scratch_root=scratch,
+            authorization=replace(_authorization(digest), execution_region="ap-beijing"),
         )
 
     assert client.operations == []
@@ -269,22 +463,133 @@ def test_exact_pilot_heads_all_then_reads_nontruth_before_truth_and_runs_once(
         "hidden-truth",
         "hidden-truth",
     ]
-    first_metric = (tmp_path / "pilot" / "objects" / result.definition_metric_keys[0]).read_bytes()
+    assert result.definition_metric_keys[0] in result.publications[0].output_keys
+
+
+def test_pilot_recall_requires_fresh_succeeded_attempt_output_and_chengdu_region(
+    tmp_path: Path,
+) -> None:
+    evidence, publication, trajectory, packet_sha256 = _published_evidence(tmp_path / "complete")
+
     loaded = load_pilot_run_recall(
-        first_metric,
-        run_spec=preparation.runs[0].run_spec,
-        expected_task_id=preparation.runs[0].task_id,
-        expected_packet_sha256=digest,
-        expected_trajectory_sha256=hashlib.sha256(
-            preparation.runs[0].run_spec.run_id.encode()
-        ).hexdigest(),
+        evidence,
+        expected_packet_sha256=packet_sha256,
+        expected_execution_region=PILOT_EXECUTION_REGION,
     )
-    assert loaded.task_id == preparation.runs[0].task_id
+    attempt = load_run_attempt_v1(evidence.store.get_bytes(publication.attempt_key))
+
+    assert loaded.task_id == evidence.task_id
+    assert loaded.trajectory_sha256 == trajectory.sha256
     assert dict(loaded.recalls) == {
         "upper-tail-1pct": 0.5,
         "upper-tail-0.5pct": 0.5,
         "upper-tail-2pct": 0.5,
     }
+    assert attempt.value["compute"]["region"] == "ap-chengdu"
+    assert evidence.definition_metric_key in {
+        str(item["object_key"]) for item in attempt.value["outputs"]
+    }
+
+
+def test_pilot_recall_rejects_incomplete_failed_or_drifted_evidence_chain(
+    tmp_path: Path,
+) -> None:
+    evidence, publication, _trajectory, packet_sha256 = _published_evidence(tmp_path / "source")
+    source = evidence.store
+    assert isinstance(source, LocalArtifactStore)
+    attempt = load_run_attempt_v1(source.get_bytes(publication.attempt_key))
+    trajectory_key = next(
+        str(item["object_key"])
+        for item in attempt.value["outputs"]
+        if str(item["object_key"]).endswith("/trajectory.json")
+    )
+
+    sidecar_only = LocalArtifactStore(tmp_path / "sidecar-only")
+    sidecar_only.put_bytes(
+        evidence.definition_metric_key,
+        source.get_bytes(evidence.definition_metric_key),
+    )
+    with pytest.raises(ContractValidationError, match="fresh evidence"):
+        load_pilot_run_recall(
+            replace(evidence, store=sidecar_only),
+            expected_packet_sha256=packet_sha256,
+            expected_execution_region=PILOT_EXECUTION_REGION,
+        )
+
+    missing_marker = _copy_evidence_store(
+        source,
+        tmp_path / "missing-marker",
+        publication,
+        omit=(publication.marker_key,),
+    )
+    with pytest.raises(ContractValidationError, match="eligible"):
+        load_pilot_run_recall(
+            replace(evidence, store=missing_marker),
+            expected_packet_sha256=packet_sha256,
+            expected_execution_region=PILOT_EXECUTION_REGION,
+        )
+
+    failed_value = json.loads(source.get_bytes(publication.attempt_key))
+    failed_value["status"] = "failed"
+    failed_value.pop("completion_marker")
+    failed_value["failure"] = {
+        "code": "publication-failed",
+        "message": "synthetic failure",
+        "retryable": False,
+    }
+    failed_bytes = canonical_json_bytes(failed_value)
+    failed_store = _copy_evidence_store(
+        source,
+        tmp_path / "failed-attempt",
+        publication,
+        omit=(publication.marker_key,),
+        replacements={publication.attempt_key: failed_bytes},
+    )
+    with pytest.raises(ContractValidationError, match="succeeded"):
+        load_pilot_run_recall(
+            replace(
+                evidence,
+                store=failed_store,
+                attempt_sha256=hashlib.sha256(failed_bytes).hexdigest(),
+            ),
+            expected_packet_sha256=packet_sha256,
+            expected_execution_region=PILOT_EXECUTION_REGION,
+        )
+
+    trajectory_drift = _copy_evidence_store(
+        source,
+        tmp_path / "trajectory-drift",
+        publication,
+        replacements={trajectory_key: source.get_bytes(trajectory_key) + b"\n"},
+    )
+    with pytest.raises(ContractValidationError, match="eligible"):
+        load_pilot_run_recall(
+            replace(evidence, store=trajectory_drift),
+            expected_packet_sha256=packet_sha256,
+            expected_execution_region=PILOT_EXECUTION_REGION,
+        )
+
+    sidecar_drift = _copy_evidence_store(
+        source,
+        tmp_path / "sidecar-drift",
+        publication,
+        replacements={
+            evidence.definition_metric_key: source.get_bytes(evidence.definition_metric_key) + b"\n"
+        },
+    )
+    with pytest.raises(ContractValidationError, match="eligible"):
+        load_pilot_run_recall(
+            replace(evidence, store=sidecar_drift),
+            expected_packet_sha256=packet_sha256,
+            expected_execution_region=PILOT_EXECUTION_REGION,
+        )
+
+    with pytest.raises(ContractValidationError, match="region"):
+        load_pilot_run_recall(
+            evidence,
+            expected_packet_sha256=packet_sha256,
+            expected_execution_region="ap-beijing",
+        )
 
 
 def test_input_identity_failure_starts_no_attempt(

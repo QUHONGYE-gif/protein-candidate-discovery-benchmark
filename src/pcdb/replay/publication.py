@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import PurePosixPath
@@ -88,6 +89,7 @@ def publish_replay_attempt(
     key_prefix: str = "",
     executor_type: str = "local",
     region: str | None = None,
+    additional_outputs: Sequence[tuple[str, bytes]] = (),
 ) -> ReplayPublication:
     """Publish payloads and RunAttempt immutably, then write ``_SUCCESS`` last."""
 
@@ -134,6 +136,26 @@ def publish_replay_attempt(
                 raise ContractValidationError("metric publication differs from trajectory")
             outputs.append(metric_metadata)
     outputs.append(_put_verified(store, f"{base}/trajectory.json", trajectory.canonical_bytes))
+    additional_keys: list[str] = []
+    for item in additional_outputs:
+        if (
+            not isinstance(item, tuple)
+            or len(item) != 2
+            or not isinstance(item[0], str)
+            or not isinstance(item[1], bytes)
+        ):
+            raise ContractValidationError("additional publication output is invalid")
+        key, payload = item
+        if (
+            not key.startswith(f"{base}/")
+            or key in {metadata.key for metadata in outputs}
+            or key in additional_keys
+            or key.endswith("/run-attempt.json")
+            or key.endswith("/_SUCCESS")
+        ):
+            raise ContractValidationError("additional publication output key is invalid")
+        outputs.append(_put_verified(store, key, payload))
+        additional_keys.append(key)
 
     marker_key = f"{base}/_SUCCESS"
     marker = {"object_key": marker_key, "sha256": _EMPTY_SHA256, "size_bytes": 0}
@@ -171,7 +193,12 @@ def publish_replay_attempt(
     )
 
 
-def is_replay_attempt_eligible(store: ArtifactStore, attempt_key: str) -> bool:
+def is_replay_attempt_eligible(
+    store: ArtifactStore,
+    attempt_key: str,
+    *,
+    additional_output_keys: Sequence[str] = (),
+) -> bool:
     """Return whether one attempt has complete fresh-readable immutable evidence."""
 
     try:
@@ -206,10 +233,26 @@ def is_replay_attempt_eligible(store: ArtifactStore, attempt_key: str) -> bool:
                 expected_sha256[f"{base}/metrics/round-{round_index:03d}.json"] = (
                     event.metric_sha256
                 )
+        if (
+            isinstance(additional_output_keys, (str, bytes))
+            or any(not isinstance(key, str) for key in additional_output_keys)
+            or len(additional_output_keys) != len(set(additional_output_keys))
+        ):
+            return False
         output_sha256 = {
             str(output["object_key"]): str(output["sha256"]) for output in attempt.value["outputs"]
         }
-        if output_sha256 != expected_sha256:
+        if set(additional_output_keys) & set(expected_sha256) or any(
+            not key.startswith(f"{base}/") for key in additional_output_keys
+        ):
+            return False
+        additional_sha256 = {
+            key: output_sha256[key] for key in additional_output_keys if key in output_sha256
+        }
+        if (
+            len(additional_sha256) != len(additional_output_keys)
+            or output_sha256 != expected_sha256 | additional_sha256
+        ):
             return False
         if attempt_key != f"{base}/run-attempt.json":
             return False

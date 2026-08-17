@@ -4,6 +4,7 @@ import copy
 import hashlib
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -15,6 +16,7 @@ from pcdb.m4.pilot_preflight import build_pilot_preflight_packet
 from pcdb.m4.screening import (
     PilotRunRecall,
     PilotScreeningDecision,
+    _evaluate_validated_pilot_recalls,
     evaluate_pilot_screening,
 )
 
@@ -259,10 +261,25 @@ def _pilot_recall_records(
 
 def _evaluate(records: list[PilotRunRecall]) -> PilotScreeningDecision:
     expected = _pilot_recall_records()
-    return evaluate_pilot_screening(
+    return _evaluate_validated_pilot_recalls(
         records,
         expected_runs=tuple((record.task_id, record.run_spec) for record in expected),
     )
+
+
+def test_public_pilot_screening_rejects_directly_forged_recall_records() -> None:
+    records = _pilot_recall_records()
+    forged_evidence: Any = records
+
+    decision = evaluate_pilot_screening(
+        forged_evidence,
+        expected_runs=tuple((record.task_id, record.run_spec) for record in records),
+        expected_packet_sha256="d" * 64,
+        expected_execution_region="ap-chengdu",
+    )
+
+    assert decision.status == "INCONCLUSIVE-FAILURE"
+    assert decision.selected_explorations == ()
 
 
 def test_pilot_screening_applies_sensitivity_heterogeneity_and_ascii_tie_break() -> None:

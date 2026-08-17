@@ -2,6 +2,7 @@
 
 from pcdb.m4.screening import (
     PilotModelDecision,
+    PilotRunEvidence,
     PilotRunRecall,
     PilotScreeningDecision,
     PilotTaskDecision,
@@ -12,6 +13,7 @@ from pcdb.m4.screening import (
 
 __all__ = [
     "PilotModelDecision",
+    "PilotRunEvidence",
     "PilotRunRecall",
     "PilotScreeningDecision",
     "PilotTaskDecision",
