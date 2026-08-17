@@ -6,6 +6,7 @@ import base64
 import hashlib
 import hmac
 import json
+import re
 import time
 import urllib.error
 import urllib.parse
@@ -13,7 +14,7 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from pcdb.contracts.experiment import ContractValidationError
@@ -91,6 +92,7 @@ class CvmRoleCredentialsProvider:
             "PCDBIssue68GateAReader",
             "PCDBIssue68GateBWriter",
             "PCDBIssue68GateBReader",
+            "PCDBStsIssuer",
         }:
             raise ContractValidationError("unexpected PCDB CVM role")
         self._role_name = role_name
@@ -129,6 +131,147 @@ class CvmRoleCredentialsProvider:
             raise ContractValidationError("CVM role credential response drifted") from exc
         if not credentials.secret_id or not credentials.secret_key or not credentials.token:
             raise ContractValidationError("CVM role returned empty credentials")
+        self._cached = credentials
+        return credentials
+
+
+_ISSUE76_INPUT_ROLE = re.compile(r"^qcs::cam::uin/[0-9]+:roleName/PCDBIssue76M4InputReader$")
+_STS_HOST = "sts.tencentcloudapi.com"
+_STS_SERVICE = "sts"
+_STS_VERSION = "2018-08-13"
+_ISSUE76_SESSION_NAME = "pcdb-issue76-m4-pilot"
+_ISSUE76_CREDENTIAL_SECONDS = 21_600
+_ISSUE76_TRANSFER_BYTES = 2 * 1024**3
+
+
+def _tc3_assume_role_headers(
+    *,
+    payload: bytes,
+    credentials: CosCredentials,
+    timestamp: int,
+) -> dict[str, str]:
+    """Sign one Tencent Cloud API 3.0 STS request without exposing key material."""
+
+    content_type = "application/json"
+    canonical_headers = f"content-type:{content_type}\nhost:{_STS_HOST}\n"
+    signed_headers = "content-type;host"
+    canonical_request = (
+        f"POST\n/\n\n{canonical_headers}\n{signed_headers}\n{hashlib.sha256(payload).hexdigest()}"
+    )
+    date = datetime.fromtimestamp(timestamp, UTC).strftime("%Y-%m-%d")
+    credential_scope = f"{date}/{_STS_SERVICE}/tc3_request"
+    string_to_sign = (
+        "TC3-HMAC-SHA256\n"
+        f"{timestamp}\n"
+        f"{credential_scope}\n"
+        f"{hashlib.sha256(canonical_request.encode()).hexdigest()}"
+    )
+
+    def sign(key: bytes, message: str) -> bytes:
+        return hmac.new(key, message.encode(), hashlib.sha256).digest()
+
+    secret_date = sign(("TC3" + credentials.secret_key).encode(), date)
+    secret_service = sign(secret_date, _STS_SERVICE)
+    secret_signing = sign(secret_service, "tc3_request")
+    signature = hmac.new(
+        secret_signing,
+        string_to_sign.encode(),
+        hashlib.sha256,
+    ).hexdigest()
+    return {
+        "authorization": (
+            "TC3-HMAC-SHA256 "
+            f"Credential={credentials.secret_id}/{credential_scope}, "
+            f"SignedHeaders={signed_headers}, Signature={signature}"
+        ),
+        "content-type": content_type,
+        "host": _STS_HOST,
+        "x-tc-action": "AssumeRole",
+        "x-tc-region": "ap-chengdu",
+        "x-tc-timestamp": str(timestamp),
+        "x-tc-token": credentials.token,
+        "x-tc-version": _STS_VERSION,
+    }
+
+
+class AssumeRoleCredentialsProvider:
+    """Exchange the exact Lighthouse issuer role for the Issue #76 input-reader role."""
+
+    def __init__(
+        self,
+        role_arn: str,
+        *,
+        issuer_credentials: Callable[[], CosCredentials] | None = None,
+        now: Callable[[], int] = lambda: int(time.time()),
+    ) -> None:
+        if not isinstance(role_arn, str) or not _ISSUE76_INPUT_ROLE.fullmatch(role_arn):
+            raise ContractValidationError("unexpected Issue #76 input-reader role ARN")
+        if issuer_credentials is None:
+            issuer = CvmRoleCredentialsProvider("PCDBStsIssuer")
+            issuer_credentials = issuer.get
+        self._role_arn = role_arn
+        self._issuer_credentials = issuer_credentials
+        self._now = now
+        self._cached: CosCredentials | None = None
+
+    def get(self) -> CosCredentials:
+        """Return one cached short-lived reader credential, refreshing only near expiry."""
+
+        timestamp = self._now()
+        if self._cached is not None and (
+            self._cached.expires_at is None or self._cached.expires_at - timestamp > 300
+        ):
+            return self._cached
+        payload = json.dumps(
+            {
+                "DurationSeconds": _ISSUE76_CREDENTIAL_SECONDS,
+                "RoleArn": self._role_arn,
+                "RoleSessionName": _ISSUE76_SESSION_NAME,
+            },
+            separators=(",", ":"),
+            sort_keys=True,
+        ).encode()
+        headers = _tc3_assume_role_headers(
+            payload=payload,
+            credentials=self._issuer_credentials(),
+            timestamp=timestamp,
+        )
+        request = urllib.request.Request(
+            f"https://{_STS_HOST}/",
+            data=payload,
+            headers=headers,
+            method="POST",
+        )
+        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+        try:
+            with opener.open(request, timeout=10) as response:
+                value = json.loads(response.read())
+        except (OSError, ValueError, urllib.error.URLError) as exc:
+            raise ContractValidationError("Issue #76 STS AssumeRole failed") from exc
+        try:
+            result = value["Response"]
+            if not isinstance(result, dict) or "Error" in result:
+                raise ValueError
+            raw = result["Credentials"]
+            expires_at = result["ExpiredTime"]
+            if (
+                not isinstance(raw, dict)
+                or isinstance(expires_at, bool)
+                or not isinstance(expires_at, int)
+                or expires_at - timestamp <= 300
+                or expires_at - timestamp > _ISSUE76_CREDENTIAL_SECONDS + 300
+            ):
+                raise ValueError
+            credentials = CosCredentials(
+                secret_id=str(raw["TmpSecretId"]),
+                secret_key=str(raw["TmpSecretKey"]),
+                token=str(raw["Token"]),
+                expires_at=expires_at,
+            )
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ContractValidationError("Issue #76 STS credential response drifted") from exc
+        if not credentials.secret_id or not credentials.secret_key or not credentials.token:
+            raise ContractValidationError("Issue #76 STS returned empty credentials")
         self._cached = credentials
         return credentials
 
@@ -361,3 +504,36 @@ class Issue68GateBWriterCosClient:
 
     def put_forbid_overwrite(self, bucket: str, key: str, payload: bytes) -> None:
         self.__client.put_forbid_overwrite(bucket, key, payload)
+
+
+class Issue76M4ReadOnlyCosClient:
+    """HEAD/GET-only COS surface backed by the exact Issue #76 assumed role."""
+
+    def __init__(
+        self,
+        role_arn: str,
+        *,
+        credentials: Callable[[], CosCredentials] | None = None,
+        max_transfer_bytes: int = _ISSUE76_TRANSFER_BYTES,
+    ) -> None:
+        if max_transfer_bytes != _ISSUE76_TRANSFER_BYTES:
+            raise ContractValidationError("Issue #76 COS transfer cap must remain exactly 2 GiB")
+        if credentials is None:
+            provider = AssumeRoleCredentialsProvider(role_arn)
+            credentials = provider.get
+        elif not _ISSUE76_INPUT_ROLE.fullmatch(role_arn):
+            raise ContractValidationError("unexpected Issue #76 input-reader role ARN")
+        self.__client = CosXmlObjectClient(
+            credentials=credentials,
+            max_transfer_bytes=max_transfer_bytes,
+        )
+
+    @property
+    def transferred_bytes(self) -> int:
+        return self.__client.transferred_bytes
+
+    def head(self, bucket: str, key: str) -> Any:
+        return self.__client.head(bucket, key)
+
+    def get(self, bucket: str, key: str) -> bytes:
+        return self.__client.get(bucket, key)
