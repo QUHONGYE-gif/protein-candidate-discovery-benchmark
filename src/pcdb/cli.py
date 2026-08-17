@@ -139,6 +139,33 @@ def build_parser() -> argparse.ArgumentParser:
     m4_pilot_run.add_argument("--input-role-arn", required=True)
     m4_pilot_run.add_argument("--repository-root", required=True, type=Path)
     m4_pilot_run.add_argument("--scratch-root", required=True, type=Path)
+    m4_conditional_preflight = commands.add_parser(
+        "m4-conditional-preflight",
+        help="fresh-reconcile the pilot and print the review-only 272-run expansion packet",
+    )
+    m4_conditional_preflight.add_argument("--reviewed-git-commit", required=True)
+    m4_conditional_preflight.add_argument("--reviewed-git-tree", required=True)
+    m4_conditional_preflight.add_argument("--repository-root", required=True, type=Path)
+    m4_conditional_preflight.add_argument("--pilot-packet", required=True, type=Path)
+    m4_conditional_preflight.add_argument("--pilot-packet-sha256", required=True)
+    m4_conditional_preflight.add_argument("--pilot-scratch-root", required=True, type=Path)
+    m4_conditional_run = commands.add_parser(
+        "m4-conditional-run",
+        help="execute one exact authorized 272-run expansion and fresh Gate 3 reconciliation",
+    )
+    m4_conditional_run.add_argument("--packet", required=True, type=Path)
+    m4_conditional_run.add_argument("--packet-sha256", required=True)
+    m4_conditional_run.add_argument("--pilot-packet", required=True, type=Path)
+    m4_conditional_run.add_argument("--pilot-packet-sha256", required=True)
+    m4_conditional_run.add_argument("--approval", required=True)
+    m4_conditional_run.add_argument("--approval-comment-id", required=True, type=int)
+    m4_conditional_run.add_argument("--reviewed-git-commit", required=True)
+    m4_conditional_run.add_argument("--reviewed-git-tree", required=True)
+    m4_conditional_run.add_argument("--environment-digest", required=True)
+    m4_conditional_run.add_argument("--input-role-arn", required=True)
+    m4_conditional_run.add_argument("--repository-root", required=True, type=Path)
+    m4_conditional_run.add_argument("--pilot-scratch-root", required=True, type=Path)
+    m4_conditional_run.add_argument("--scratch-root", required=True, type=Path)
     return parser
 
 
@@ -208,6 +235,32 @@ def main(argv: Sequence[str] | None = None) -> int:
         from pcdb.m4.pilot_launch import run_pilot_cli
 
         return run_pilot_cli(arguments)
+    if arguments.command == "m4-conditional-preflight":
+        from pcdb.m4.conditional_expansion import (
+            build_conditional_expansion_packet,
+            reconcile_completed_pilot_attempts,
+        )
+
+        pilot_packet = arguments.pilot_packet.read_bytes()
+        completed = reconcile_completed_pilot_attempts(
+            repository_root=arguments.repository_root,
+            pilot_packet_bytes=pilot_packet,
+            pilot_packet_sha256=arguments.pilot_packet_sha256,
+            pilot_scratch_root=arguments.pilot_scratch_root,
+        )
+        payload = build_conditional_expansion_packet(
+            arguments.repository_root,
+            reviewed_git_commit=arguments.reviewed_git_commit,
+            reviewed_git_tree=arguments.reviewed_git_tree,
+            pilot_packet_bytes=pilot_packet,
+            completed_pilot_attempts=completed,
+        )
+        sys.stdout.buffer.write(payload)
+        return 0
+    if arguments.command == "m4-conditional-run":
+        from pcdb.m4.conditional_launch import run_conditional_cli
+
+        return run_conditional_cli(arguments)
     return 0
 
 
