@@ -125,6 +125,20 @@ def build_parser() -> argparse.ArgumentParser:
     m4_pilot_preflight.add_argument("--reviewed-git-commit", required=True)
     m4_pilot_preflight.add_argument("--reviewed-git-tree", required=True)
     m4_pilot_preflight.add_argument("--repository-root", required=True, type=Path)
+    m4_pilot_run = commands.add_parser(
+        "m4-pilot-run",
+        help="execute one exact authorized Issue #76 pilot and its screening once",
+    )
+    m4_pilot_run.add_argument("--packet", required=True, type=Path)
+    m4_pilot_run.add_argument("--packet-sha256", required=True)
+    m4_pilot_run.add_argument("--approval", required=True)
+    m4_pilot_run.add_argument("--approval-comment-id", required=True, type=int)
+    m4_pilot_run.add_argument("--reviewed-git-commit", required=True)
+    m4_pilot_run.add_argument("--reviewed-git-tree", required=True)
+    m4_pilot_run.add_argument("--environment-digest", required=True)
+    m4_pilot_run.add_argument("--input-role-arn", required=True)
+    m4_pilot_run.add_argument("--repository-root", required=True, type=Path)
+    m4_pilot_run.add_argument("--scratch-root", required=True, type=Path)
     return parser
 
 
@@ -190,6 +204,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         sys.stdout.buffer.write(payload)
         return 0
+    if arguments.command == "m4-pilot-run":
+        from pcdb.m4.pilot_launch import run_pilot_cli
+
+        return run_pilot_cli(arguments)
     return 0
 
 
