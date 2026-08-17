@@ -6,7 +6,7 @@ import base64
 import hashlib
 import hmac
 import json
-import re
+import os
 import time
 import urllib.error
 import urllib.parse
@@ -92,7 +92,6 @@ class CvmRoleCredentialsProvider:
             "PCDBIssue68GateAReader",
             "PCDBIssue68GateBWriter",
             "PCDBIssue68GateBReader",
-            "PCDBStsIssuer",
         }:
             raise ContractValidationError("unexpected PCDB CVM role")
         self._role_name = role_name
@@ -135,7 +134,30 @@ class CvmRoleCredentialsProvider:
         return credentials
 
 
-_ISSUE76_INPUT_ROLE = re.compile(r"^qcs::cam::uin/[0-9]+:roleName/PCDBIssue76M4InputReader$")
+class EnvironmentCredentialsProvider:
+    """Read the existing CAM sub-user credential source without persisting secrets."""
+
+    _SECRET_ID = "TENCENTCLOUD_SECRET_ID"
+    _SECRET_KEY = "TENCENTCLOUD_SECRET_KEY"
+    _TOKEN = "TENCENTCLOUD_SESSION_TOKEN"
+
+    def __init__(self, environment: Mapping[str, str] | None = None) -> None:
+        self._environment = os.environ if environment is None else environment
+
+    def get(self) -> CosCredentials:
+        secret_id = self._environment.get(self._SECRET_ID, "")
+        secret_key = self._environment.get(self._SECRET_KEY, "")
+        token = self._environment.get(self._TOKEN, "")
+        if not secret_id or not secret_key:
+            raise ContractValidationError("CAM issuer environment credentials are absent")
+        return CosCredentials(
+            secret_id=secret_id,
+            secret_key=secret_key,
+            token=token,
+        )
+
+
+_ISSUE76_INPUT_ROLE = "qcs::cam::uin/100046646417:roleName/PCDBIssue76M4InputReader"
 _STS_HOST = "sts.tencentcloudapi.com"
 _STS_SERVICE = "sts"
 _STS_VERSION = "2018-08-13"
@@ -178,7 +200,7 @@ def _tc3_assume_role_headers(
         string_to_sign.encode(),
         hashlib.sha256,
     ).hexdigest()
-    return {
+    headers = {
         "authorization": (
             "TC3-HMAC-SHA256 "
             f"Credential={credentials.secret_id}/{credential_scope}, "
@@ -189,9 +211,11 @@ def _tc3_assume_role_headers(
         "x-tc-action": "AssumeRole",
         "x-tc-region": "ap-chengdu",
         "x-tc-timestamp": str(timestamp),
-        "x-tc-token": credentials.token,
         "x-tc-version": _STS_VERSION,
     }
+    if credentials.token:
+        headers["x-tc-token"] = credentials.token
+    return headers
 
 
 class AssumeRoleCredentialsProvider:
@@ -204,10 +228,10 @@ class AssumeRoleCredentialsProvider:
         issuer_credentials: Callable[[], CosCredentials] | None = None,
         now: Callable[[], int] = lambda: int(time.time()),
     ) -> None:
-        if not isinstance(role_arn, str) or not _ISSUE76_INPUT_ROLE.fullmatch(role_arn):
+        if role_arn != _ISSUE76_INPUT_ROLE:
             raise ContractValidationError("unexpected Issue #76 input-reader role ARN")
         if issuer_credentials is None:
-            issuer = CvmRoleCredentialsProvider("PCDBStsIssuer")
+            issuer = EnvironmentCredentialsProvider()
             issuer_credentials = issuer.get
         self._role_arn = role_arn
         self._issuer_credentials = issuer_credentials
@@ -521,7 +545,7 @@ class Issue76M4ReadOnlyCosClient:
         if credentials is None:
             provider = AssumeRoleCredentialsProvider(role_arn)
             credentials = provider.get
-        elif not _ISSUE76_INPUT_ROLE.fullmatch(role_arn):
+        elif role_arn != _ISSUE76_INPUT_ROLE:
             raise ContractValidationError("unexpected Issue #76 input-reader role ARN")
         self.__client = CosXmlObjectClient(
             credentials=credentials,

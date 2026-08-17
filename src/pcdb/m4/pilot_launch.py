@@ -41,6 +41,15 @@ class PilotLaunchResult:
     screening: PilotScreeningDecision
 
 
+class PilotAttemptFailure(RuntimeError):
+    """A sanitized terminal failure from the single reviewed runtime invocation."""
+
+    def __init__(self, *, packet_sha256: str, attempts_started: int) -> None:
+        super().__init__("M4 pilot runtime failed")
+        self.packet_sha256 = packet_sha256
+        self.attempts_started = attempts_started
+
+
 def _entry_packet_bindings(
     *,
     packet_bytes: bytes,
@@ -200,6 +209,13 @@ def _screening_evidence(
     )
 
 
+def _started_attempt_count(scratch_root: Path) -> int:
+    ledger = scratch_root.resolve() / "ledger" / "attempts"
+    if not ledger.is_dir():
+        return 0
+    return sum(1 for path in ledger.glob("*.started.json") if path.is_file())
+
+
 def run_reviewed_pilot(
     *,
     packet_bytes: bytes,
@@ -249,17 +265,23 @@ def run_reviewed_pilot(
         execution_region=PILOT_EXECUTION_REGION,
     )
     input_client = Issue76M4ReadOnlyCosClient(input_role_arn)
-    execution = execute_reviewed_pilot_locally(
-        preparation=preparation,
-        packet_bytes=packet_bytes,
-        packet_sha256=packet_sha256,
-        expected_git_commit=reviewed_git_commit,
-        expected_git_tree=reviewed_git_tree,
-        repository_root=repository_root,
-        input_client=input_client,
-        scratch_root=root,
-        authorization=authorization,
-    )
+    try:
+        execution = execute_reviewed_pilot_locally(
+            preparation=preparation,
+            packet_bytes=packet_bytes,
+            packet_sha256=packet_sha256,
+            expected_git_commit=reviewed_git_commit,
+            expected_git_tree=reviewed_git_tree,
+            repository_root=repository_root,
+            input_client=input_client,
+            scratch_root=root,
+            authorization=authorization,
+        )
+    except Exception as exc:
+        raise PilotAttemptFailure(
+            packet_sha256=packet_sha256,
+            attempts_started=_started_attempt_count(root),
+        ) from exc
     evidence = _screening_evidence(
         preparation=preparation,
         execution=execution,
@@ -301,29 +323,51 @@ def pilot_launch_summary_bytes(result: PilotLaunchResult) -> bytes:
     )
 
 
+def pilot_launch_failure_summary_bytes(failure: PilotAttemptFailure) -> bytes:
+    """Return the canonical non-secret terminal record for an incomplete pilot."""
+
+    return canonical_json_bytes(
+        {
+            "attempts_started": failure.attempts_started,
+            "failure_reason": "runtime-failure",
+            "packet_sha256": failure.packet_sha256,
+            "record_type": "m4-pilot-launch-summary-v1",
+            "screening_status": "INCONCLUSIVE-FAILURE",
+            "selected_explorations": [],
+            "screening_model_decisions": [],
+        }
+    )
+
+
 def run_pilot_cli(arguments: Any) -> int:
     """Execute the SHA-bound CLI entry and print its non-secret terminal state."""
 
-    result = run_reviewed_pilot(
-        packet_bytes=arguments.packet.read_bytes(),
-        packet_sha256=arguments.packet_sha256,
-        reviewed_git_commit=arguments.reviewed_git_commit,
-        reviewed_git_tree=arguments.reviewed_git_tree,
-        executed_environment_digest=arguments.environment_digest,
-        approval_comment_id=arguments.approval_comment_id,
-        approval_text=arguments.approval,
-        input_role_arn=arguments.input_role_arn,
-        repository_root=arguments.repository_root,
-        scratch_root=arguments.scratch_root,
-    )
     import sys
 
+    try:
+        result = run_reviewed_pilot(
+            packet_bytes=arguments.packet.read_bytes(),
+            packet_sha256=arguments.packet_sha256,
+            reviewed_git_commit=arguments.reviewed_git_commit,
+            reviewed_git_tree=arguments.reviewed_git_tree,
+            executed_environment_digest=arguments.environment_digest,
+            approval_comment_id=arguments.approval_comment_id,
+            approval_text=arguments.approval,
+            input_role_arn=arguments.input_role_arn,
+            repository_root=arguments.repository_root,
+            scratch_root=arguments.scratch_root,
+        )
+    except PilotAttemptFailure as failure:
+        sys.stdout.buffer.write(pilot_launch_failure_summary_bytes(failure))
+        return 2
     sys.stdout.buffer.write(pilot_launch_summary_bytes(result))
     return 2 if result.screening.status == "INCONCLUSIVE-FAILURE" else 0
 
 
 __all__ = [
     "PilotLaunchResult",
+    "PilotAttemptFailure",
+    "pilot_launch_failure_summary_bytes",
     "pilot_launch_summary_bytes",
     "run_pilot_cli",
     "run_reviewed_pilot",

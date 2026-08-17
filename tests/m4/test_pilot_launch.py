@@ -13,7 +13,7 @@ import pytest
 from pcdb.cli import build_parser
 from pcdb.contracts import ContractValidationError
 from pcdb.m4.execution_adapter import prepare_execution_adapter
-from pcdb.m4.pilot_launch import run_reviewed_pilot
+from pcdb.m4.pilot_launch import PilotAttemptFailure, run_pilot_cli, run_reviewed_pilot
 from pcdb.m4.pilot_preflight import build_pilot_preflight_packet
 from pcdb.m4.pilot_runtime import (
     PILOT_APPROVAL,
@@ -26,6 +26,7 @@ from pcdb.storage.cos import (
     AssumeRoleCredentialsProvider,
     CosCredentials,
     CvmRoleCredentialsProvider,
+    EnvironmentCredentialsProvider,
     Issue76M4ReadOnlyCosClient,
 )
 
@@ -33,7 +34,7 @@ ROOT = Path(__file__).resolve().parents[2]
 REVIEWED_COMMIT = "a" * 40
 REVIEWED_TREE = "b" * 40
 ENVIRONMENT_DIGEST = "0994a73f124c2baa6f330bf8739db1673217bdec6ad7d9046ded908fc8dba4fc"
-ROLE_ARN = "qcs::cam::uin/10001:roleName/PCDBIssue76M4InputReader"
+ROLE_ARN = "qcs::cam::uin/100046646417:roleName/PCDBIssue76M4InputReader"
 
 
 def _packet() -> tuple[bytes, str]:
@@ -149,7 +150,7 @@ def test_assume_role_rejects_wrong_target_before_issuer_or_network(
     monkeypatch.setattr("urllib.request.build_opener", lambda *_: Opener())
     with pytest.raises(ContractValidationError, match="Issue #76 input-reader role"):
         AssumeRoleCredentialsProvider(
-            "qcs::cam::uin/10001:roleName/Administrator",
+            "qcs::cam::uin/10001:roleName/PCDBIssue76M4InputReader",
             issuer_credentials=issuer,
         )
 
@@ -203,8 +204,69 @@ def test_assume_role_rejects_expiry_drift_without_returning_credentials(
     assert "reader-secret" not in str(error.value)
 
 
-def test_cvm_metadata_role_is_exact_issuer_not_direct_input_reader() -> None:
-    CvmRoleCredentialsProvider("PCDBStsIssuer")
+def test_default_assume_role_source_is_cam_sub_user_environment(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("TENCENTCLOUD_SECRET_ID", "AKIDISSUER")
+    monkeypatch.setenv("TENCENTCLOUD_SECRET_KEY", "issuer-secret-must-not-leak")
+    monkeypatch.delenv("TENCENTCLOUD_SESSION_TOKEN", raising=False)
+    requests: list[Any] = []
+
+    class Response:
+        def __enter__(self) -> Response:
+            return self
+
+        def __exit__(self, *_: object) -> None:
+            return None
+
+        def read(self) -> bytes:
+            return json.dumps(
+                {
+                    "Response": {
+                        "Credentials": {
+                            "TmpSecretId": "AKIDREADER",
+                            "TmpSecretKey": "reader-secret",
+                            "Token": "reader-token",
+                        },
+                        "ExpiredTime": 1_700_021_600,
+                    }
+                }
+            ).encode()
+
+    class Opener:
+        def open(self, request: Any, timeout: int) -> Response:
+            requests.append(request)
+            assert timeout == 10
+            return Response()
+
+    monkeypatch.setattr("urllib.request.build_opener", lambda *_: Opener())
+    provider = AssumeRoleCredentialsProvider(ROLE_ARN, now=lambda: 1_700_000_000)
+
+    credentials = provider.get()
+
+    assert credentials.secret_id == "AKIDREADER"
+    headers = {key.lower(): value for key, value in requests[0].header_items()}
+    assert "x-tc-token" not in headers
+    assert "issuer-secret-must-not-leak" not in str(headers)
+    assert "issuer-secret-must-not-leak" not in str(requests[0].data)
+
+
+def test_environment_issuer_requires_secret_id_and_key_without_echoing_values() -> None:
+    provider = EnvironmentCredentialsProvider(
+        {
+            "TENCENTCLOUD_SECRET_ID": "AKIDISSUER",
+            "TENCENTCLOUD_SECRET_KEY": "",
+        }
+    )
+    with pytest.raises(ContractValidationError, match="credentials are absent") as error:
+        provider.get()
+
+    assert "AKIDISSUER" not in str(error.value)
+
+
+def test_cvm_metadata_role_rejects_cam_sub_user_and_direct_input_reader() -> None:
+    with pytest.raises(ContractValidationError, match="unexpected PCDB CVM role"):
+        CvmRoleCredentialsProvider("PCDBStsIssuer")
     with pytest.raises(ContractValidationError, match="unexpected PCDB CVM role"):
         CvmRoleCredentialsProvider("PCDBIssue76M4InputReader")
 
@@ -454,7 +516,7 @@ def test_launch_runtime_failure_stops_without_screening_or_retry(
     def execute(**_: Any) -> PilotExecutionResult:
         nonlocal runtime_calls
         runtime_calls += 1
-        raise RuntimeError("attempt failed")
+        raise RuntimeError("attempt failed: issuer-secret-must-not-leak")
 
     def screen(*_: Any, **__: Any) -> PilotScreeningDecision:
         nonlocal screening_calls
@@ -464,7 +526,7 @@ def test_launch_runtime_failure_stops_without_screening_or_retry(
     monkeypatch.setattr("pcdb.m4.pilot_launch.execute_reviewed_pilot_locally", execute)
     monkeypatch.setattr("pcdb.m4.pilot_launch.evaluate_pilot_screening", screen)
 
-    with pytest.raises(RuntimeError, match="attempt failed"):
+    with pytest.raises(PilotAttemptFailure, match="runtime failed") as error:
         run_reviewed_pilot(
             packet_bytes=packet,
             packet_sha256=digest,
@@ -480,6 +542,66 @@ def test_launch_runtime_failure_stops_without_screening_or_retry(
 
     assert runtime_calls == 1
     assert screening_calls == 0
+    assert error.value.attempts_started == 0
+    assert "issuer-secret-must-not-leak" not in str(error.value)
+
+
+def test_cli_emits_non_secret_inconclusive_terminal_record(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    packet = tmp_path / "pilot.json"
+    packet.write_bytes(b"{}\n")
+    arguments = build_parser().parse_args(
+        [
+            "m4-pilot-run",
+            "--packet",
+            str(packet),
+            "--packet-sha256",
+            "d" * 64,
+            "--approval",
+            PILOT_APPROVAL,
+            "--approval-comment-id",
+            "123",
+            "--reviewed-git-commit",
+            REVIEWED_COMMIT,
+            "--reviewed-git-tree",
+            REVIEWED_TREE,
+            "--environment-digest",
+            ENVIRONMENT_DIGEST,
+            "--input-role-arn",
+            ROLE_ARN,
+            "--repository-root",
+            str(ROOT),
+            "--scratch-root",
+            str(tmp_path / "scratch"),
+        ]
+    )
+
+    def fail(**_: Any) -> Any:
+        try:
+            raise RuntimeError("issuer-secret-must-not-leak")
+        except RuntimeError as cause:
+            raise PilotAttemptFailure(
+                packet_sha256="d" * 64,
+                attempts_started=1,
+            ) from cause
+
+    monkeypatch.setattr("pcdb.m4.pilot_launch.run_reviewed_pilot", fail)
+
+    assert run_pilot_cli(arguments) == 2
+    summary = json.loads(capsys.readouterr().out)
+    assert summary == {
+        "attempts_started": 1,
+        "failure_reason": "runtime-failure",
+        "packet_sha256": "d" * 64,
+        "record_type": "m4-pilot-launch-summary-v1",
+        "screening_model_decisions": [],
+        "screening_status": "INCONCLUSIVE-FAILURE",
+        "selected_explorations": [],
+    }
+    assert "issuer-secret-must-not-leak" not in json.dumps(summary)
 
 
 def test_cli_exposes_one_sha_bound_m4_pilot_entry() -> None:
