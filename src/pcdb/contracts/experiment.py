@@ -379,6 +379,90 @@ def _validate_v2(value: dict[str, Any]) -> None:
         raise ContractValidationError("interpretation policy does not match the frozen contract")
 
 
+def _validate_v3(value: dict[str, Any]) -> None:
+    """Validate the single-run M5 seed-source tracer identity contract."""
+
+    expected_fields = {
+        "acquisitions",
+        "batch_sizes",
+        "budgets",
+        "contract_status",
+        "dataset_manifest_sha256",
+        "evaluation",
+        "experiment_id",
+        "held_out_authorized",
+        "initial_sample_sizes",
+        "models",
+        "phase",
+        "processing_manifest_sha256",
+        "protocol_version",
+        "schema_version",
+        "seed_axes",
+        "seeds",
+        "split_sha256",
+        "task_id",
+    }
+    _require_exact_keys(value, expected_fields, "Experiment Config v3")
+    v2_compatible = {
+        key: item for key, item in value.items() if key not in {"protocol_version", "seed_axes"}
+    }
+    v2_compatible["schema_version"] = "2"
+    _validate_v2(v2_compatible)
+    if (
+        value["schema_version"] != "3"
+        or value["protocol_version"] != "m5-seed-source-tracer-v1"
+        or value["phase"] != "development"
+        or value["held_out_authorized"] is not False
+        or value["models"] != ["random-forest-sklearn-v1"]
+        or value["initial_sample_sizes"] != [32]
+        or value["batch_sizes"] != [16]
+        or value["budgets"] != [128]
+        or len(value["seeds"]) != 1
+        or len(value["acquisitions"]) != 1
+        or value["acquisitions"][0]
+        not in {"uncertainty-bootstrap-std-v1", "greedy-predictive-mean-v1"}
+    ):
+        raise ContractValidationError("M5 tracer Experiment Config profile drifted")
+    seed_axes = value["seed_axes"]
+    if not isinstance(seed_axes, dict):
+        raise ContractValidationError("M5 tracer seed_axes must be an object")
+    _require_exact_keys(
+        seed_axes,
+        {
+            "estimator_seed",
+            "estimator_seed_binding",
+            "initial_seed",
+            "initial_seed_binding",
+            "internal_seed",
+            "internal_seed_binding",
+        },
+        "M5 tracer seed_axes",
+    )
+    initial_seed = seed_axes["initial_seed"]
+    internal_seed = seed_axes["internal_seed"]
+    if (
+        isinstance(initial_seed, bool)
+        or not isinstance(initial_seed, int)
+        or initial_seed not in range(1729, 1734)
+        or value["seeds"] != [initial_seed]
+        or seed_axes["estimator_seed"] != 1729
+        or seed_axes["initial_seed_binding"] != "run-spec.seed"
+        or seed_axes["internal_seed_binding"] != "experiment-config-sha256"
+        or seed_axes["estimator_seed_binding"] != "frozen-model-config"
+    ):
+        raise ContractValidationError("M5 tracer seed-axis identity drifted")
+    acquisition_id = value["acquisitions"][0]
+    if acquisition_id == "uncertainty-bootstrap-std-v1":
+        if (
+            isinstance(internal_seed, bool)
+            or not isinstance(internal_seed, int)
+            or internal_seed not in range(2719, 2724)
+        ):
+            raise ContractValidationError("M5 exploration requires one frozen internal seed")
+    elif internal_seed is not None:
+        raise ContractValidationError("M5 Greedy forbids an internal seed")
+
+
 def _validate_v1(value: dict[str, Any]) -> None:
     required = {
         "acquisitions",
@@ -403,7 +487,7 @@ def _validate_v1(value: dict[str, Any]) -> None:
 
 
 def load_experiment_config(payload: bytes) -> LoadedContract:
-    """Dispatch v1/v2 while applying v2 canonical byte and domain validation."""
+    """Dispatch versioned Experiment Configs with canonical domain validation."""
 
     value = _parse_json_bytes(payload)
     version = value.get("schema_version")
@@ -414,6 +498,11 @@ def load_experiment_config(payload: bytes) -> LoadedContract:
         if canonical_json_bytes(value) != payload:
             raise ContractValidationError("Experiment Config v2 bytes are not canonical")
         _validate_v2(value)
+        accepted_bytes = payload
+    elif version == "3":
+        if canonical_json_bytes(value) != payload:
+            raise ContractValidationError("Experiment Config v3 bytes are not canonical")
+        _validate_v3(value)
         accepted_bytes = payload
     else:
         raise ContractValidationError(f"unknown Experiment Config schema_version: {version!r}")

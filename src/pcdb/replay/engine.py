@@ -44,6 +44,7 @@ from pcdb.replay.oracle import HiddenOracle, Observation
 _CANDIDATE_ID = re.compile(r"^[0-9a-f]{64}$")
 _M3_PROTOCOL_ID = "m3-single-fidelity-replay-v1"
 _M4_PROTOCOL_ID = "m4-single-fidelity-screening-v1"
+_M5_TRACER_PROTOCOL_ID = "m5-seed-source-tracer-v1"
 _RANDOM_ID = "random-seeded-sha256-v1"
 _RANDOM_CONFIG_SHA256 = "24f80499cb48ad6716f86a9c47bf098d47acdb78841bcb7b8926504619983e0f"
 _GREEDY_ID = "greedy-predictive-mean-v1"
@@ -68,6 +69,8 @@ def _resolved_experiment_context(run_spec: RunSpec, payload: bytes) -> tuple[str
     if loaded.sha256 != run_spec.experiment_config_sha256:
         raise ContractValidationError("Experiment Config identity differs from RunSpec")
     value = loaded.value
+    if loaded.schema_version == "3" and value["protocol_version"] != run_spec.protocol_version:
+        raise ContractValidationError("Experiment Config protocol differs from RunSpec")
     for field in ("dataset_manifest_sha256", "processing_manifest_sha256", "split_sha256"):
         if value[field] != getattr(run_spec, field):
             raise ContractValidationError(f"Experiment Config {field} differs from RunSpec")
@@ -103,9 +106,16 @@ def _resolved_experiment_context(run_spec: RunSpec, payload: bytes) -> tuple[str
         raise ContractValidationError("RunSpec model is not registered by Experiment Config")
     if run_spec.acquisition_id not in value["acquisitions"]:
         raise ContractValidationError("RunSpec acquisition is not registered by Experiment Config")
-    if loaded.schema_version == "2":
-        if run_spec.protocol_version == _M4_PROTOCOL_ID and value["phase"] != "development":
-            raise ContractValidationError("M4 Experiment Config phase must be development")
+    if loaded.schema_version in {"2", "3"}:
+        if (
+            run_spec.protocol_version
+            in {
+                _M4_PROTOCOL_ID,
+                _M5_TRACER_PROTOCOL_ID,
+            }
+            and value["phase"] != "development"
+        ):
+            raise ContractValidationError("development Experiment Config phase must be development")
         primary_id = value["evaluation"]["primary_high_value_definition_id"]
         primary = next(
             (
@@ -136,6 +146,51 @@ def _resolved_experiment_context(run_spec: RunSpec, payload: bytes) -> tuple[str
     if not math.isfinite(float(fraction)) or not 0 < float(fraction) <= 1:
         raise ContractValidationError("primary high-value fraction is invalid")
     return task_id, float(fraction)
+
+
+@dataclass(frozen=True, slots=True)
+class ReplaySeedAxes:
+    """Random-source identities consumed by one replay."""
+
+    initial_seed: int
+    internal_seed: int | None
+    estimator_seed: int
+
+
+def _resolved_seed_axes(run_spec: RunSpec, payload: bytes) -> ReplaySeedAxes:
+    """Resolve random sources from the hash-bound Experiment Config."""
+
+    _resolved_experiment_context(run_spec, payload)
+    if run_spec.protocol_version != _M5_TRACER_PROTOCOL_ID:
+        return ReplaySeedAxes(
+            initial_seed=run_spec.seed,
+            internal_seed=run_spec.seed,
+            estimator_seed=run_spec.seed,
+        )
+    loaded = load_experiment_config(payload)
+    if loaded.schema_version != "3":
+        raise ContractValidationError("M5 tracer requires Experiment Config v3")
+    axes = loaded.value["seed_axes"]
+    initial_seed = axes["initial_seed"]
+    internal_seed = axes["internal_seed"]
+    estimator_seed = axes["estimator_seed"]
+    if initial_seed != run_spec.seed:
+        raise ContractValidationError("M5 initial seed differs from RunSpec seed")
+    if run_spec.acquisition_id == _UNCERTAINTY_ID:
+        if isinstance(internal_seed, bool) or not isinstance(internal_seed, int):
+            raise ContractValidationError("M5 uncertainty internal seed is unresolved")
+    elif run_spec.acquisition_id == _GREEDY_ID:
+        if internal_seed is not None:
+            raise ContractValidationError("M5 Greedy must not consume an internal seed")
+    else:
+        raise ContractValidationError("M5 acquisition is outside the tracer protocol")
+    if estimator_seed != 1729:
+        raise ContractValidationError("M5 estimator seed differs from frozen model config")
+    return ReplaySeedAxes(
+        initial_seed=initial_seed,
+        internal_seed=internal_seed,
+        estimator_seed=estimator_seed,
+    )
 
 
 def _strict_json_object(payload: bytes, field: str) -> dict[str, Any]:
@@ -393,13 +448,14 @@ def bootstrap_prediction_std(
     observations: Sequence[Observation],
     candidate_ids: tuple[str, ...],
     round_index: int,
+    experiment_config: bytes | None = None,
 ) -> tuple[tuple[str, float], ...]:
     """Return exact five-member population prediction std for unrevealed candidates."""
 
     if run_spec.protocol_version == _M3_PROTOCOL_ID:
         loaded_config = load_model_config(model_config)
         fit_bootstrap = fit_bootstrap_regressor
-    elif run_spec.protocol_version == _M4_PROTOCOL_ID:
+    elif run_spec.protocol_version in {_M4_PROTOCOL_ID, _M5_TRACER_PROTOCOL_ID}:
         loaded_config = load_m4_model_config(model_config)
         fit_bootstrap = fit_m4_bootstrap_regressor
     else:
@@ -440,9 +496,21 @@ def bootstrap_prediction_std(
     ]
     candidate_matrix = _strict_feature_subset(candidate_features, candidate_ids)
     member_predictions: list[tuple[tuple[str, float], ...]] = []
+    bootstrap_seed = run_spec.seed
+    estimator_seed = run_spec.seed
+    if run_spec.protocol_version == _M5_TRACER_PROTOCOL_ID:
+        if experiment_config is None:
+            raise ContractValidationError(
+                "M5 uncertainty requires its hash-bound Experiment Config"
+            )
+        seed_axes = _resolved_seed_axes(run_spec, experiment_config)
+        if seed_axes.internal_seed is None:
+            raise ContractValidationError("M5 uncertainty internal seed is unresolved")
+        bootstrap_seed = seed_axes.internal_seed
+        estimator_seed = seed_axes.estimator_seed
     draws = bootstrap_draws(
         protocol_id=run_spec.protocol_version,
-        run_seed=run_spec.seed,
+        run_seed=bootstrap_seed,
         task_id=task_id,
         model_id=run_spec.model_id,
         round_index=round_index,
@@ -454,7 +522,7 @@ def bootstrap_prediction_std(
             observed_matrix,
             ordered_observations,
             sampled_indices=draw.indices,
-            seed=run_spec.seed,
+            seed=estimator_seed,
         )
         member_predictions.append(predict_regressor(fitted, candidate_matrix))
     expected_ids = candidate_matrix.candidate_ids
@@ -559,6 +627,7 @@ def _replay_schema_version(protocol_version: str, artifact: str) -> str:
     prefix = {
         _M3_PROTOCOL_ID: "m3",
         _M4_PROTOCOL_ID: "m4",
+        _M5_TRACER_PROTOCOL_ID: "m4",
     }.get(protocol_version)
     if prefix is None or artifact not in {"checkpoint", "trajectory"}:
         raise ContractValidationError("replay schema dispatch drifted")
@@ -853,7 +922,7 @@ def load_replay_trajectory(payload: bytes) -> ReplayTrajectory:
 
 
 class ReplayEngine:
-    """Own selection-to-oracle flow for one frozen M3 or M4 RunSpec."""
+    """Own selection-to-oracle flow for one supported replay RunSpec."""
 
     @classmethod
     def from_reviewed_inputs(
@@ -922,6 +991,10 @@ class ReplayEngine:
                 _UNCERTAINTY_ID: _UNCERTAINTY_CONFIG_SHA256,
                 _UCB_ID: _UCB_CONFIG_SHA256,
             },
+            _M5_TRACER_PROTOCOL_ID: {
+                _GREEDY_ID: _GREEDY_CONFIG_SHA256,
+                _UNCERTAINTY_ID: _UNCERTAINTY_CONFIG_SHA256,
+            },
         }
         protocol_acquisitions = acquisition_profiles.get(run_spec.protocol_version)
         if protocol_acquisitions is None:
@@ -934,6 +1007,7 @@ class ReplayEngine:
         resolved_task_id, resolved_fraction = _resolved_experiment_context(
             run_spec, experiment_config
         )
+        seed_axes = _resolved_seed_axes(run_spec, experiment_config)
         if task_id != resolved_task_id:
             raise ContractValidationError("task identity differs from Experiment Config")
         if high_value_fraction is not None and high_value_fraction != resolved_fraction:
@@ -986,6 +1060,8 @@ class ReplayEngine:
         if (run_spec.budget - run_spec.initial_sample_size) % run_spec.batch_size:
             raise ContractValidationError("budget is not reachable by complete batches")
         self._run_spec = run_spec
+        self._experiment_config = experiment_config
+        self._seed_axes = seed_axes
         self._task_id = resolved_task_id
         self._candidate_ids = validated_features.candidate_ids
         self._oracle = oracle
@@ -1001,7 +1077,7 @@ class ReplayEngine:
                     [
                         self._run_spec.protocol_version,
                         self._task_id,
-                        self._run_spec.seed,
+                        self._seed_axes.initial_seed,
                         candidate_id,
                     ]
                 ),
@@ -1064,7 +1140,7 @@ class ReplayEngine:
                 )
                 for observation in observations
             ],
-            seed=self._run_spec.seed,
+            seed=self._seed_axes.estimator_seed,
         )
         predictions = predict_regressor(fitted, self._feature_subset(remaining_ids))
         ranked = sorted(predictions, key=lambda item: (-item[1], item[0]))
@@ -1088,6 +1164,7 @@ class ReplayEngine:
             observations=self._oracle.observations,
             candidate_ids=remaining_ids,
             round_index=round_index,
+            experiment_config=self._experiment_config,
         )
         ranked = sorted(scores, key=lambda item: (-item[1], item[0]))
         return tuple(candidate_id for candidate_id, _ in ranked[: self._run_spec.batch_size])
@@ -1135,10 +1212,15 @@ class ReplayEngine:
         )
 
     def final_m4_definition_metrics(self) -> tuple[tuple[str, SequentialMetricSet], ...]:
-        """Return only the three frozen aggregate definition metrics after a complete M4 run."""
+        """Return the three frozen definition metrics after a complete M4-compatible run."""
 
-        if self._run_spec.protocol_version != _M4_PROTOCOL_ID:
-            raise ContractValidationError("definition sensitivity metrics require the M4 protocol")
+        if self._run_spec.protocol_version not in {
+            _M4_PROTOCOL_ID,
+            _M5_TRACER_PROTOCOL_ID,
+        }:
+            raise ContractValidationError(
+                "definition sensitivity metrics require an M4-compatible protocol"
+            )
         if len(self._oracle.revealed_ids) != self._run_spec.budget:
             raise ContractValidationError("definition sensitivity metrics require a complete run")
         revealed = [observation.candidate_id for observation in self._oracle.observations]

@@ -34,6 +34,34 @@ def _fixture_bytes(task: str) -> bytes:
     return (FIXTURE_DIRECTORY / f"experiment-v2-{task}.json").read_bytes()
 
 
+def _v3_value(*, acquisition_id: str = "uncertainty-bootstrap-std-v1") -> dict[str, Any]:
+    value = json.loads(_fixture_bytes("alpha"))
+    internal_seed = 2719 if acquisition_id == "uncertainty-bootstrap-std-v1" else None
+    value.update(
+        {
+            "acquisitions": [acquisition_id],
+            "batch_sizes": [16],
+            "budgets": [128],
+            "experiment_id": "m5-seed-tracer.alpha-amylase.i1729.r2719",
+            "initial_sample_sizes": [32],
+            "models": ["random-forest-sklearn-v1"],
+            "phase": "development",
+            "protocol_version": "m5-seed-source-tracer-v1",
+            "schema_version": "3",
+            "seed_axes": {
+                "estimator_seed": 1729,
+                "estimator_seed_binding": "frozen-model-config",
+                "initial_seed": 1729,
+                "initial_seed_binding": "run-spec.seed",
+                "internal_seed": internal_seed,
+                "internal_seed_binding": "experiment-config-sha256",
+            },
+            "seeds": [1729],
+        }
+    )
+    return cast(dict[str, Any], value)
+
+
 def _loaded_contract_for_mutation_regression(kind: str) -> LoadedContract:
     if kind == "experiment":
         return load_experiment_config(_fixture_bytes("alpha"))
@@ -71,6 +99,55 @@ def test_v2_schema_accepts_both_exact_task_bindings() -> None:
 
     for task in ("alpha", "ired"):
         validator.validate(json.loads(_fixture_bytes(task)))
+
+
+@pytest.mark.parametrize(
+    "acquisition_id",
+    ["uncertainty-bootstrap-std-v1", "greedy-predictive-mean-v1"],
+)
+def test_v3_loader_accepts_only_canonical_hash_bound_seed_roles(
+    acquisition_id: str,
+) -> None:
+    payload = canonical_json_bytes(_v3_value(acquisition_id=acquisition_id))
+
+    loaded = load_experiment_config(payload)
+
+    assert loaded.schema_version == "3"
+    assert loaded.canonical_bytes == payload
+    assert loaded.sha256 == hashlib.sha256(payload).hexdigest()
+    assert loaded.value["seed_axes"]["initial_seed"] == 1729
+    assert loaded.value["seed_axes"]["internal_seed"] == (
+        2719 if acquisition_id == "uncertainty-bootstrap-std-v1" else None
+    )
+
+
+@pytest.mark.parametrize(
+    ("path", "value", "error"),
+    [
+        (("seed_axes", "initial_seed"), 1730, "seed-axis"),
+        (("seed_axes", "internal_seed"), None, "internal seed"),
+        (("seed_axes", "estimator_seed"), 1730, "seed-axis"),
+        (("protocol_version",), "m4-single-fidelity-screening-v1", "profile"),
+    ],
+)
+def test_v3_loader_rejects_seed_role_drift(
+    path: tuple[str, ...], value: object, error: str
+) -> None:
+    config = _v3_value()
+    target: dict[str, Any] = config
+    for segment in path[:-1]:
+        target = cast(dict[str, Any], target[segment])
+    target[path[-1]] = value
+
+    with pytest.raises(ContractValidationError, match=error):
+        load_experiment_config(canonical_json_bytes(config))
+
+
+def test_v3_loader_rejects_noncanonical_bytes() -> None:
+    compact = json.dumps(_v3_value(), sort_keys=True).encode()
+
+    with pytest.raises(ContractValidationError, match="canonical"):
+        load_experiment_config(compact)
 
 
 def test_v2_held_out_authorization_conditional_accepts_explicit_true_reference() -> None:
