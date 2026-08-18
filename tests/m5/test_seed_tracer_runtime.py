@@ -156,6 +156,10 @@ def test_prepare_exact_28_run_execution() -> None:
     assert len(preparation.runs) == len(preparation.execution.runs) == 28
     assert len(preparation.execution.tasks) == 2
     assert len({item.run_spec.run_id for item in preparation.runs}) == 28
+    input_bytes = sum(
+        item.size_bytes for task in preparation.execution.tasks for item in task.objects
+    )
+    assert 16 * 1024**2 < input_bytes < 32 * 1024**2
 
 
 def test_cli_exposes_preflight_and_run_entries() -> None:

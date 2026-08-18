@@ -396,7 +396,7 @@ def build_seed_tracer_packet(
             "active_execution_wall_seconds": 900,
             "automatic_retry": 0,
             "delete": 0,
-            "network_transfer_bytes": 16 * 1024**2,
+            "network_transfer_bytes": 32 * 1024**2,
             "peak_rss_bytes": 1024**3,
             "replacement_attempts": 0,
             "scratch_high_water_bytes": 16 * 1024**2,
