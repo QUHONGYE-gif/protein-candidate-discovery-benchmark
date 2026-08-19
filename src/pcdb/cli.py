@@ -166,6 +166,20 @@ def build_parser() -> argparse.ArgumentParser:
     m4_conditional_run.add_argument("--repository-root", required=True, type=Path)
     m4_conditional_run.add_argument("--pilot-scratch-root", required=True, type=Path)
     m4_conditional_run.add_argument("--scratch-root", required=True, type=Path)
+    proteingym = commands.add_parser(
+        "proteingym-four-assay",
+        help=(
+            "execute one authorized ProteinGym four-assay acquisition and "
+            "data-readiness publication"
+        ),
+    )
+    proteingym.add_argument("--config", required=True, type=Path)
+    proteingym.add_argument("--reviewed-git-commit", required=True)
+    proteingym.add_argument("--approval", required=True)
+    proteingym.add_argument("--approval-comment-id", required=True, type=int)
+    proteingym.add_argument("--cos-destination", required=True)
+    proteingym.add_argument("--repository-root", required=True, type=Path)
+    proteingym.add_argument("--scratch-root", required=True, type=Path)
     return parser
 
 
@@ -261,6 +275,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         from pcdb.m4.conditional_launch import run_conditional_cli
 
         return run_conditional_cli(arguments)
+    if arguments.command == "proteingym-four-assay":
+        from pcdb.datasets.proteingym import run_cli
+
+        return run_cli(arguments)
     return 0
 
 

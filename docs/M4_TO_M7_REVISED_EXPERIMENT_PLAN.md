@@ -227,9 +227,10 @@ M5B 只识别“冻结 observation state 下下一批决策的 immediate batch e
 
 ### 目的
 
-增加真正独立的 assay-level 统计单位，检验 M5B 机制是否跨景观保持。ProteinGym 数据准备不是
-本方案的科学阻塞假设，但任何实际使用仍必须先闭合 task-level license、manifest、processing、
-split/leakage 和 held-out 边界。
+增加真正独立的 assay-level 统计单位，检验 M5B 机制是否跨景观保持。#11 在一个统一 data-readiness
+切片中闭合 task-level license、raw/manifest、candidate/hidden-truth separation、score coverage 和
+单一 `candidate-pool` membership；M5C 实际使用前仍须另行冻结实验 split/leakage、代理身份和
+held-out 边界。
 
 ### 固定 prospective cohort
 
@@ -249,10 +250,12 @@ eligibility 或 immutable identity/readback 检查失败时才允许排除，并
 
 ### 执行顺序
 
-1. 由 #11 完成 exact 四-assay selective bundle acquisition；
-2. 用一个共享 processing/split protocol 生成四套 per-assay manifests 并完成各自 Gate 1；
-3. 在相同 observable feature family 上完成最小 M2 static baseline；
-4. 在一个 M5C confirmation Issue 中运行 M5B 单步三分支 confirmation；
+1. 由 #11 的一个统一实现完成 exact 四-assay selective acquisition、四套 per-assay Dataset /
+   Processing / candidate-pool Split manifests、immutable publication/readback 与 ingest attempts；
+2. BLAT 在同一程序中先行，失败即 fail closed，成功则自动继续其余三个 assay，不增加人工 Gate；
+3. 在 M5C Issue 中前瞻冻结实验 split/leakage、zero-shot proxy identity、coverage eligibility 与
+   observable feature family，再完成最小 M2 static baseline；
+4. 在同一 M5C Issue 中运行 M5B 单步三分支 confirmation；
 5. 仅当预先定义的机制类别在独立 assay 中可复现时，选择每类最多一个代表 assay 进入多轮确认；
 6. seed 用于配对不确定性，不替代 assay-level 汇总。
 
@@ -360,8 +363,8 @@ M6 不是 M4 的救援性扩量。它回答固定总成本下低保真信息何�
 默认只保留下列必要执行单元：
 
 1. 一个 M5 主 Issue：覆盖 M5A 新只读 analysis execution 和 M5B Alpha/IRED 同状态分支；
-2. ProteinGym 保持 #11 bundle acquisition＋一个共享 processing/split protocol（四套 per-assay
-   manifests）＋一个 M5C confirmation Issue；不默认每 assay 新建 Issue；
+2. ProteinGym 保持 #11 一个 acquisition＋data-readiness 统一切片（四套 per-assay manifests）＋
+   一个 M5C experiment/confirmation Issue；不默认每 assay 新建 Issue，也不为 BLAT 另设人工 Gate；
 3. 一个最小 SKEMPI processing/split Issue 和一个 external execution Issue；若合同允许合并则优先合并；
 4. 一个 M6 主 Issue，E4/E5 只有在数据授权边界不同且无法同一审批时才拆分；
 5. 一个 M7 freeze/release Issue。
@@ -376,7 +379,9 @@ M6 不是 M4 的救援性扩量。它回答固定总成本下低保真信息何�
   exact source/environment/input/report checksum 与 resource probe/caps 在执行前冻结；0 COS write；
 - M5B Alpha/IRED：先使用既有 first-decision states；任何新 truth-bearing branch evaluation 在
   protocol review 和明确启动授权前保持 0；
-- ProteinGym、SKEMPI、M6：先做单任务/单条件 resource probe，再冻结正式 cap，不提前承诺全矩阵；
+- ProteinGym #11 data-readiness 使用已冻结的 550,000,000 B network、2.5 GiB scratch 和 2.0 GB
+  decimal COS caps；M5C、SKEMPI、M6 的实验计算仍先做单任务/单条件 resource probe，不提前承诺
+  全矩阵；
 - 所有正式运行均保持一次手动启动、无自动 retry/expansion、成功产物不可覆盖；
 - 任何 held-out、external validation、COS 写入、云资源或凭据使用仍需对应独立授权；
 - 本规划、实现、CI、server execution、benchmark evidence 与 scientific gate 分别报告。
@@ -395,8 +400,9 @@ M6 不是 M4 的救援性扩量。它回答固定总成本下低保真信息何�
 
 本文冻结方向和阶段边界，不冻结下列实验参数：
 
-- ProteinGym 四 assay 的 provenance/processing/candidate-label/score-coverage/split-leakage
-  eligibility 判据；cohort 名单本文件已冻结，不再作为可选参数；
+- ProteinGym 四 assay 的 data-readiness 基本 candidate/label/score-coverage 规则由 #11 统一实现；
+  M5C 的实验 split/leakage、coverage eligibility threshold 与 proxy identity 仍需前瞻冻结；cohort
+  名单本文件已冻结，不再作为可选参数；
 - M5B 等价界值、置信区间方法、matched-random 重复数和 seed 派生；
 - 是否以及何时进入 bounded multi-round confirmation；
 - SKEMPI label/candidate/split 的精确定义；
