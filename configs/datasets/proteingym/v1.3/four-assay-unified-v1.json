@@ -1,0 +1,122 @@
+{
+  "approval": "APPROVED FOR ISSUE #11 UNIFIED PROTEINGYM DATA READINESS EXECUTION",
+  "archives": [
+    {
+      "archive_id": "truth-substitutions",
+      "etag": "2907348-6329ff6970941",
+      "last_modified": "2025-04-13 02:47:58 GMT",
+      "size_bytes": 43021128,
+      "url": "https://marks.hms.harvard.edu/proteingym/ProteinGym_v1.3/DMS_ProteinGym_substitutions.zip"
+    },
+    {
+      "archive_id": "zero-shot-substitutions",
+      "etag": "71e83e47-633cd6a03f0f6",
+      "last_modified": "2025-04-28 02:26:40 GMT",
+      "size_bytes": 1911045703,
+      "url": "https://marks.hms.harvard.edu/proteingym/ProteinGym_v1.3/zero_shot_substitutions_scores.zip"
+    }
+  ],
+  "assays": [
+    {
+      "assay_id": "BLAT_ECOLX_Firnberg_2014",
+      "expected_truth_rows": 4783,
+      "paper_doi": "10.1093/molbev/msu081",
+      "score": {
+        "archive_id": "zero-shot-substitutions",
+        "compressed_size": 3639148,
+        "crc32": "a236d400",
+        "local_header_offset": 83927717,
+        "member_name": "BLAT_ECOLX_Firnberg_2014.csv",
+        "uncompressed_size": 9445772
+      },
+      "truth": {
+        "archive_id": "truth-substitutions",
+        "compressed_size": 53296,
+        "crc32": "ce71a0a6",
+        "local_header_offset": 10044879,
+        "member_name": "BLAT_ECOLX_Firnberg_2014.csv",
+        "uncompressed_size": 1443286
+      }
+    },
+    {
+      "assay_id": "CAPSD_AAV2S_Sinai_2021",
+      "expected_truth_rows": null,
+      "paper_doi": "10.1038/s42256-021-00338-1",
+      "score": {
+        "archive_id": "zero-shot-substitutions",
+        "compressed_size": 34129661,
+        "crc32": "e79623d0",
+        "local_header_offset": 103576594,
+        "member_name": "CAPSD_AAV2S_Sinai_2021.csv",
+        "uncompressed_size": 103766443
+      },
+      "truth": {
+        "archive_id": "truth-substitutions",
+        "compressed_size": 1136579,
+        "crc32": "30cf7614",
+        "local_header_offset": 35898344,
+        "member_name": "CAPSD_AAV2S_Sinai_2021.csv",
+        "uncompressed_size": 33124725
+      }
+    },
+    {
+      "assay_id": "GFP_AEQVI_Sarkisyan_2016",
+      "expected_truth_rows": null,
+      "paper_doi": "10.1038/nature17995",
+      "score": {
+        "archive_id": "zero-shot-substitutions",
+        "compressed_size": 41507707,
+        "crc32": "288cce1d",
+        "local_header_offset": 253686141,
+        "member_name": "GFP_AEQVI_Sarkisyan_2016.csv",
+        "uncompressed_size": 100611316
+      },
+      "truth": {
+        "archive_id": "truth-substitutions",
+        "compressed_size": 1432309,
+        "crc32": "7c560c53",
+        "local_header_offset": 29590791,
+        "member_name": "GFP_AEQVI_Sarkisyan_2016.csv",
+        "uncompressed_size": 14347114
+      }
+    },
+    {
+      "assay_id": "SPG1_STRSG_Olson_2014",
+      "expected_truth_rows": null,
+      "paper_doi": "10.1016/j.cub.2014.09.072",
+      "score": {
+        "archive_id": "zero-shot-substitutions",
+        "compressed_size": 396432965,
+        "crc32": "02f0279a",
+        "local_header_offset": 1337935330,
+        "member_name": "SPG1_STRSG_Olson_2014.csv",
+        "uncompressed_size": 1152181940
+      },
+      "truth": {
+        "archive_id": "truth-substitutions",
+        "compressed_size": 9082982,
+        "crc32": "534bc181",
+        "local_header_offset": 14436898,
+        "member_name": "SPG1_STRSG_Olson_2014.csv",
+        "uncompressed_size": 258413726
+      }
+    }
+  ],
+  "caps": {
+    "blat_cos_growth_bytes": 15000000,
+    "blat_network_bytes": 5000000,
+    "blat_scratch_bytes": 67108864,
+    "cos_growth_bytes": 2000000000,
+    "network_bytes": 550000000,
+    "scratch_bytes": 2684354560
+  },
+  "contract_version": "1",
+  "dataset_id": "proteingym",
+  "dataset_version": "v1.3",
+  "doi": "10.5281/zenodo.15293562",
+  "license": "ProteinGym project MIT declaration accepted for bounded private research use",
+  "license_boundary": "Do not commit or publicly redistribute raw/extracted CSV bytes; this does not relicense upstream assay data.",
+  "object_prefix": "proteingym/v1.3/four-assay-unified-v1",
+  "source_url": "https://github.com/OATML-Markslab/ProteinGym",
+  "task_id": "four-assay-substitutions"
+}
