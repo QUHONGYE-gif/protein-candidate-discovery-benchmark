@@ -9,8 +9,8 @@ normative plan。它不删除、不覆盖、
 执行补充与后续 Issue 设计依据。
 
 [`M5_SAME_STATE_CAUSAL_DIAGNOSTIC_EXPLANATION.md`](M5_SAME_STATE_CAUSAL_DIAGNOSTIC_EXPLANATION.md)
-只保留形成本文的简要理由与证据索引，是非规范性说明，不与本文并行维护 protocol。二者出现
-术语、cohort、证据成熟度或执行边界差异时，以本文为准。
+按用户要求逐字保存形成本文之前的讨论，只是不可变、非规范的 historical decision record，
+不与本文并行维护。二者出现术语、cohort、证据成熟度或执行边界差异时，以本文为准。
 
 本文不改变 M0–M3 的完成状态，不追溯性改变 M4 Gate 3，也不因提出后续路线而授权新的
 RunSpec、hidden truth、held-out、COS、服务器、凭据、数据集或付费计算操作。
