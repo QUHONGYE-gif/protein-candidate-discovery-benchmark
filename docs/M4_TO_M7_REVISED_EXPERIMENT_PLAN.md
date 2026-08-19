@@ -2,10 +2,15 @@
 
 ## 文件职责与生效边界
 
-本文是在 M4 已产生正式阴性筛选结果后建立的 M4→M7 新实验规划。它不删除、不覆盖、
+本文是在 M4 已产生正式阴性筛选结果后建立的 M4→M7 新实验规划，也是 M4 之后唯一的
+normative plan。它不删除、不覆盖、
 不原地修改 [`EXECUTION_ROADMAP.md`](EXECUTION_ROADMAP.md) 或任何已冻结协议、RunSpec、
 成功 attempt 与审核记录。原路线继续作为历史规划基线；本文经审核合并后，作为 M4 之后的
 执行补充与后续 Issue 设计依据。
+
+[`M5_SAME_STATE_CAUSAL_DIAGNOSTIC_EXPLANATION.md`](M5_SAME_STATE_CAUSAL_DIAGNOSTIC_EXPLANATION.md)
+按用户要求逐字保存形成本文之前的讨论，只是不可变、非规范的 historical decision record，
+不与本文并行维护。二者出现术语、cohort、证据成熟度或执行边界差异时，以本文为准。
 
 本文不改变 M0–M3 的完成状态，不追溯性改变 M4 Gate 3，也不因提出后续路线而授权新的
 RunSpec、hidden truth、held-out、COS、服务器、凭据、数据集或付费计算操作。
@@ -32,19 +37,25 @@ acquisition 网格制造阳性结果。
 | 证据 | 当前事实 | 在新方案中的用途 |
 |---|---|---|
 | M4 pilot＋conditional expansion | 344 个成功 attempts；Gate 3 为 `STOP`；6 个 fragile、2 个 eliminated、0 retained | 保留为正式 L1 screening 与多轮阴性证据，不重跑、不改写 |
-| #83 H1–H7 failure analysis | H2/H4/H5/H7 `SUPPORTED`，H1/H3/H6 `INCONCLUSIVE`；多个失败现象共同存在 | 只用于提出机制假设，不作为因果确认 |
-| #85 28-run seed-source tracer | `MIXED-INCONCLUSIVE`；只在 Alpha/simple-regret 观察到 initial-dominant | 不继续用 seed 扩量代替 task/assay 扩展 |
-| H1 修正只读分析 | 两个 task 均 0/4 支持，8 个 cell 的变异未随标签增加下降 | 标签稀少保留为可能放大因素，不作为首要补救方向 |
-| H3/H6 首批只读分析 | 79/80 Exploration–Greedy next-batch 不同；78/80 Exploration 至少与 Greedy 的相似度不低于 Random | 证明首批存在 ranking→decision 脱节和部分冗余，尚未形成完整逐轮机制或因果归因 |
+| #83 H1–H7 failure analysis | merged `main@d8f4915`；canonical report 98,778 bytes / SHA-256 `2b0b23e2b01002fe4fe7fdf19252873b265395935c9680d562ddc8e159ca04ef`；result review [comment 5324953978](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/83#issuecomment-5324953978)；H2/H4/H5/H7 `SUPPORTED`，H1/H3/H6 `INCONCLUSIVE` | accepted exploratory report；只用于提出机制假设，不作为因果确认 |
+| #85 28-run seed-source tracer | `executed result candidate / pending merge`；result ledger [comment 5328839257](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/85#issuecomment-5328839257)；aggregate SHA-256 `6eb41d8d56782020cb441da721548cfe2e5651ecf6d01b687b627d938313aa56`；实现仍在 Draft PR #86 head `209e230`，Issue #85 仍 Open | 在 PR #86 审核合并与 #85 闭环前，不作为已进入 `main` 的冻结基线；不继续用 seed 扩量代替 task/assay 扩展 |
 
 344 个 attempts 不能被解释为 344 个独立科研样本。跨任务结论的统计单位仍然是 task、assay、
 protein 或 complex；seed 只用于估计算法随机性。
+
+此前 H1 corrected-boundary 与 H3/H6 first-batch 补充检查没有持久化 canonical report，因此不列为
+accepted/frozen evidence。其只读实现身份分别为 SHA-256
+`ec63626ec2714759382f7d0b83f629c6b0b87d1b24b7c14a327f32be55373472` 与
+`58b4634e51a8bafa329e1e6d5abe040afe8d345dd855db0723fc25609cfb4f6b`，输入包含上述 #83 report 与
+344 条 accepted M4 trajectories；它们只能作为本路线的描述性动机。若要进入 scientific evidence，
+必须由 M5A 在 reviewed exact source/environment/input 下重新产生 checksum-bound report，不能引用
+聊天摘要或未持久化终端输出替代。
 
 ## 总体执行顺序
 
 ```text
 保留 M4 Gate 3 STOP
-→ M5A：既有轨迹逐轮机制测量（零新运行）
+→ M5A：既有轨迹逐轮机制测量（新的只读 analysis execution；零新 benchmark attempt）
 → M5B：同状态单步分支干预（Alpha/IRED 探索）
 → M5C：ProteinGym 独立 assay 前瞻确认
 → M5D：最小 SKEMPI 2.0 external validation
@@ -52,8 +63,9 @@ protein 或 complex；seed 只用于估计算法随机性。
 → M7：证据冻结、统计汇总与论文产物
 ```
 
-M5A 不是独立的大型科研阶段，不单独增加模型、task、seed、基础设施或审批链。它是 M5B 的
-零运行测量与实现校验。真正新增的科研信息来自 M5B 的同状态干预和 M5C/M5D 的独立确认。
+M5A 不是独立的大型科研阶段，不单独增加模型、task、seed 或基础设施。它是 M5B 的新只读
+analysis execution 与实现校验，会读取既有 revealed observations 并消耗计算资源，但不创建新的
+科学 RunSpec/RunAttempt。真正新增的科研信息来自 M5B 的同状态干预和 M5C/M5D 的独立确认。
 
 ## M4：保留阴性 screening terminal
 
@@ -80,6 +92,10 @@ M4 已完成。任何后续实验使用新的 M5/M6 protocol identity，不得�
 
 补齐现有轨迹未持久化的逐轮中间机制，判断首批观察到的脱节或冗余是否持续、累积、收敛或
 发生阶段性变化。M5A 不再重复 H1–H7，也不声称单独完成因果识别。
+
+M5A 是一次新的只读 analysis execution，不是“零运行”。它允许读取成功 trajectory 中已经由
+历史 benchmark attempt 揭示的 `Observation` 及其 label，并重新拟合/评分历史状态；它不允许
+新的 oracle reveal、未揭示 hidden truth 或 held-out access。
 
 ### 最小动作
 
@@ -115,8 +131,12 @@ M4 已完成。任何后续实验使用新的 M5/M6 protocol identity，不得�
 - 344 条轨迹 exact cover，不纳入失败或无 `_SUCCESS` attempt；
 - 实际 selected batch 必须可由 frozen config 确定性重建；
 - 两次独立聚合结果 byte-identical；
-- 不读取新的 hidden truth、held-out 或未揭示标签；
-- 不产生新 RunSpec、attempt 或 COS 对象。
+- exact-bind analysis source commit/tree、runtime environment、input inventory/checksums、report
+  bytes/checksum 与 resource terminal；
+- 正式执行前完成最小 resource probe，并前瞻冻结 wall/RSS/scratch/network/cost caps；
+- 允许读取既有 revealed observations；保持 `0 new RunSpec / 0 new benchmark attempt /
+  0 new oracle reveal / 0 unrevealed hidden-truth or held-out access`；
+- 不产生新的科学 RunAttempt 或 COS 对象。
 
 ### 停止条件
 
@@ -139,14 +159,21 @@ M4 已完成。任何后续实验使用新的 M5/M6 protocol identity，不得�
 每个冻结 observation state 只比较下一批，不立即延伸为完整多轮轨迹：
 
 ```text
-相同 model＋observation prefix＋remaining pool
-├─ Greedy：predictive mean top-k
-├─ Exploration：Uncertainty 或 UCB top-k
-└─ Matched Random：保持与 Exploration 相同的 Greedy-overlap，随机选择偏离部分
+同一个 immutable model＋observation prefix＋remaining pool
+├─ 隔离分支 G：Greedy predictive-mean top-k
+├─ 隔离分支 E：Exploration Uncertainty 或 UCB top-k
+└─ 隔离分支 M：固定保留 E ∩ G，再随机选择其余偏离部分
 ```
 
-若 Exploration 与 Greedy 的 top-k overlap 为 `o/k`，Matched Random 必须从 Greedy top-k 中
-确定性抽取 `o` 个、从其外部抽取 `k-o` 个。其 seed 派生与 tie-break 在读取任何分支结果前冻结。
+三个分支必须分别从同一个 immutable observation prefix 建立 branch-local evaluator/HiddenOracle
+state；不得依次复用同一个有状态 HiddenOracle。任一分支的 reveal 不得改变另外两个分支的
+revealed state、remaining pool 或 evaluator 输入。
+
+令 `E` 为 Exploration top-k、`G` 为 Greedy top-k、batch size 为 `k`。Matched Random 必须固定
+保留 exact `E ∩ G`，再从 `remaining_pool − G` 中按预冻结 seed 抽取
+`k − |E ∩ G|` 个候选；不得重新抽取 Greedy 内成员。matched-random replicate 数、seed 派生与
+tie-break 必须在读取任何分支结果前冻结。replicate 先在 observation state 内聚合；replicate、
+branch 和 seed 均不作为独立 assay 样本。
 
 ### 方法范围
 
@@ -168,6 +195,10 @@ hidden oracle/evaluator 只揭示分支所选批次并输出聚合指标：
 - undefined、tie 与 sensitivity-definition 状态。
 
 原始 truth、高价值 membership、candidate ID 与 score distribution 不进入公开聚合报告。
+
+M5B 只识别“冻结 observation state 下下一批决策的 immediate batch effect”。单批结果不能被
+表述为完整多轮 active-learning trajectory 的长期因果收益；只有满足前瞻继续条件后，才能另行
+进入 bounded multi-round confirmation。
 
 ### 机制判定
 
@@ -197,20 +228,30 @@ hidden oracle/evaluator 只揭示分支所选批次并输出聚合指标：
 本方案的科学阻塞假设，但任何实际使用仍必须先闭合 task-level license、manifest、processing、
 split/leakage 和 held-out 边界。
 
-### assay 选择
+### 固定 prospective cohort
 
-- 在读取策略结果前，根据公开元数据前瞻选择 2–3 个 assay；
-- 选择规则可使用候选规模、突变深度、标签完整度、蛋白/assay 类型和可形成泄漏安全 split 的能力；
-- 不根据模型预测、acquisition 表现、high-value hit rate 或 held-out 结果选择 assay；
-- 每个 assay 保持独立 manifest chain 和 task identity。
+M5C 使用 Issue #11 已冻结并在 [comment 5336871661](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/11#issuecomment-5336871661)
+确认的完整四-assay cohort，不再从中选择 2–3 个：
+
+- `BLAT_ECOLX_Firnberg_2014`；
+- `CAPSD_AAV2S_Sinai_2021`；
+- `GFP_AEQVI_Sarkisyan_2016`；
+- `SPG1_STRSG_Olson_2014`。
+
+每个 assay 保持独立 task identity、truth/score artifact、manifest chain、processing/split eligibility
+与结果报告。只有在读取任何模型/acquisition 结果、high-value membership 或 held-out 结果前，
+预冻结的 source/provenance/license、candidate/label semantics、truth-score coverage、split/leakage
+eligibility 或 immutable identity/readback 检查失败时才允许排除，并必须保留失败记录。不得用模型
+表现、high-value hit rate 或结果方向决定纳入。
 
 ### 执行顺序
 
-1. 完成 task-level onboarding 与 Gate 1；
-2. 在相同 observable feature family 上完成最小 M2 static baseline；
-3. 运行 M5B 单步三分支 confirmation；
-4. 仅当预先定义的机制类别在独立 assay 中可复现时，选择每类最多一个代表 assay 进入多轮确认；
-5. seed 用于配对不确定性，不替代 assay-level 汇总。
+1. 由 #11 完成 exact 四-assay selective bundle acquisition；
+2. 用一个共享 processing/split protocol 生成四套 per-assay manifests 并完成各自 Gate 1；
+3. 在相同 observable feature family 上完成最小 M2 static baseline；
+4. 在一个 M5C confirmation Issue 中运行 M5B 单步三分支 confirmation；
+5. 仅当预先定义的机制类别在独立 assay 中可复现时，选择每类最多一个代表 assay 进入多轮确认；
+6. seed 用于配对不确定性，不替代 assay-level 汇总。
 
 ### 完成条件
 
@@ -313,8 +354,9 @@ M6 不是 M4 的救援性扩量。它回答固定总成本下低保真信息何�
 
 默认只保留下列必要执行单元：
 
-1. 一个 M5 主 Issue：覆盖 M5A 零运行测量和 M5B Alpha/IRED 同状态分支；
-2. ProteinGym 每个被选 assay 的必要 onboarding Issue；能安全共享的 M5C 执行保持一个主 Issue；
+1. 一个 M5 主 Issue：覆盖 M5A 新只读 analysis execution 和 M5B Alpha/IRED 同状态分支；
+2. ProteinGym 保持 #11 bundle acquisition＋一个共享 processing/split protocol（四套 per-assay
+   manifests）＋一个 M5C confirmation Issue；不默认每 assay 新建 Issue；
 3. 一个最小 SKEMPI processing/split Issue 和一个 external execution Issue；若合同允许合并则优先合并；
 4. 一个 M6 主 Issue，E4/E5 只有在数据授权边界不同且无法同一审批时才拆分；
 5. 一个 M7 freeze/release Issue。
@@ -324,7 +366,9 @@ M6 不是 M4 的救援性扩量。它回答固定总成本下低保真信息何�
 
 ## 资源与授权边界
 
-- M5A：0 新 RunSpec、0 attempt、0 truth/held-out read、0 COS write；
+- M5A：新的只读 analysis execution；读取既有 revealed observations；`0 new RunSpec /
+  0 new benchmark attempt / 0 new oracle reveal / 0 unrevealed hidden-truth or held-out access`；
+  exact source/environment/input/report checksum 与 resource probe/caps 在执行前冻结；0 COS write；
 - M5B Alpha/IRED：先使用既有 first-decision states；任何新 truth-bearing branch evaluation 在
   protocol review 和明确启动授权前保持 0；
 - ProteinGym、SKEMPI、M6：先做单任务/单条件 resource probe，再冻结正式 cap，不提前承诺全矩阵；
