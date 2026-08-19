@@ -99,7 +99,10 @@ M5A 是一次新的只读 analysis execution，不是“零运行”。它允许
 
 ### 最小动作
 
-对现有 344 条成功轨迹逐轮复用：
+从 344 个成功 M4 attempts 中 exact-select 160 条 M5A 相关轨迹：80 条已选择 exploration
+（RF+Uncertainty 与 XGBoost+UCB）加同 task/model/initial/seed 的 80 条 Greedy。其余 120 条
+Random、40 条 Ridge Greedy 与 24 条已淘汰 Ridge exploration 只核验 identity/exclusion count，
+不读取 trajectory payload，也不重新拟合。对 160 条相关轨迹逐轮复用：
 
 1. 已揭示 observations；
 2. exact observable feature、model config 与 acquisition config；
@@ -128,7 +131,8 @@ M5A 是一次新的只读 analysis execution，不是“零运行”。它允许
 
 ### 完成条件
 
-- 344 条轨迹 exact cover，不纳入失败或无 `_SUCCESS` attempt；
+- 160 条相关轨迹 exact cover，且 184 条非目标成功 attempt exclusion exact cover；不纳入失败、
+  无 `_SUCCESS` attempt 或任何非目标 trajectory payload；
 - 实际 selected batch 必须可由 frozen config 确定性重建；
 - 两次独立聚合结果 byte-identical；
 - exact-bind analysis source commit/tree、runtime environment、input inventory/checksums、report
