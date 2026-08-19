@@ -9,8 +9,8 @@ normative plan。它不删除、不覆盖、
 执行补充与后续 Issue 设计依据。
 
 [`M5_SAME_STATE_CAUSAL_DIAGNOSTIC_EXPLANATION.md`](M5_SAME_STATE_CAUSAL_DIAGNOSTIC_EXPLANATION.md)
-按用户要求逐字保存形成本文之前的讨论，只是不可变、非规范的 historical decision record，
-不与本文并行维护。二者出现术语、cohort、证据成熟度或执行边界差异时，以本文为准。
+只保留形成本文的简要理由与证据索引，是非规范性说明，不与本文并行维护 protocol。二者出现
+术语、cohort、证据成熟度或执行边界差异时，以本文为准。
 
 本文不改变 M0–M3 的完成状态，不追溯性改变 M4 Gate 3，也不因提出后续路线而授权新的
 RunSpec、hidden truth、held-out、COS、服务器、凭据、数据集或付费计算操作。
@@ -43,13 +43,12 @@ acquisition 网格制造阳性结果。
 344 个 attempts 不能被解释为 344 个独立科研样本。跨任务结论的统计单位仍然是 task、assay、
 protein 或 complex；seed 只用于估计算法随机性。
 
-此前 H1 corrected-boundary 与 H3/H6 first-batch 补充检查没有持久化 canonical report，因此不列为
-accepted/frozen evidence。其只读实现身份分别为 SHA-256
-`ec63626ec2714759382f7d0b83f629c6b0b87d1b24b7c14a327f32be55373472` 与
-`58b4634e51a8bafa329e1e6d5abe040afe8d345dd855db0723fc25609cfb4f6b`，输入包含上述 #83 report 与
-344 条 accepted M4 trajectories；它们只能作为本路线的描述性动机。若要进入 scientific evidence，
-必须由 M5A 在 reviewed exact source/environment/input 下重新产生 checksum-bound report，不能引用
-聊天摘要或未持久化终端输出替代。
+此前 H1 corrected-boundary 与 H3/H6 first-batch 补充检查没有持久化 canonical report；现由
+[author-side non-review evidence ledger](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/83#issuecomment-5337682238)
+绑定 `main@d8f4915`、M4 terminal、#83 input report、只读实现 identity 与聚合结果。该评论不是独立
+审核或 canonical report，因此仍不列为 accepted/frozen evidence，只作为本路线的描述性动机。
+若要进入 scientific evidence，必须由 M5A 在 reviewed exact source/environment/input 下重新产生
+checksum-bound report，不能用作者评论或未持久化终端输出替代。
 
 ## 总体执行顺序
 
@@ -57,7 +56,7 @@ accepted/frozen evidence。其只读实现身份分别为 SHA-256
 保留 M4 Gate 3 STOP
 → M5A：既有轨迹逐轮机制测量（新的只读 analysis execution；零新 benchmark attempt）
 → M5B：同状态单步分支干预（Alpha/IRED 探索）
-→ M5C：ProteinGym 独立 assay 前瞻确认
+→ M5C：ProteinGym 四-assay prospective cohort 前瞻确认
 → M5D：最小 SKEMPI 2.0 external validation
 → M6：E4 可控多保真＋E5 ProteinGym 真实代理
 → M7：证据冻结、统计汇总与论文产物
@@ -259,10 +258,11 @@ eligibility 或 immutable identity/readback 检查失败时才允许排除，并
 
 ### 完成条件
 
-- assay 选择与协议先于结果冻结；
+- 四-assay cohort、eligibility rules 与协议先于结果冻结；
 - 报告 assay-level effect、置信区间和异质性，不把 seed 当独立 task；
 - exploratory Alpha/IRED 与 confirmatory ProteinGym 明确分层；
-- 无论正负均按冻结规则保留，不通过追加 assay 隐藏方向翻转。
+- 无论正负均按冻结规则保留；任何 eligibility exclusion 保留失败证据，不通过删除或追加 assay
+  隐藏方向翻转。
 
 ## M5D：最小 SKEMPI 2.0 external validation
 
@@ -329,7 +329,8 @@ M6 不是 M4 的救援性扩量。它回答固定总成本下低保真信息何�
 - M4 immutable terminal 保持完整；
 - M5A 逐轮机制重建完成；
 - M5B 同状态分支结果完成；
-- M5C 至少完成前瞻独立 assay confirmation；
+- M5C 对全部四个 prospective assays 完成 confirmation，或在任何结果读取前按冻结 eligibility
+  rules 记录不可纳入的失败证据；
 - M5D 最小 SKEMPI external validation 完成；
 - M6 E4 完成，E5 在其 task-level 数据边界满足后完成或明确记录为未完成范围。
 
@@ -394,7 +395,8 @@ M6 不是 M4 的救援性扩量。它回答固定总成本下低保真信息何�
 
 本文冻结方向和阶段边界，不冻结下列实验参数：
 
-- ProteinGym assay 的精确名单和选择规则；
+- ProteinGym 四 assay 的 provenance/processing/candidate-label/score-coverage/split-leakage
+  eligibility 判据；cohort 名单本文件已冻结，不再作为可选参数；
 - M5B 等价界值、置信区间方法、matched-random 重复数和 seed 派生；
 - 是否以及何时进入 bounded multi-round confirmation；
 - SKEMPI label/candidate/split 的精确定义；
