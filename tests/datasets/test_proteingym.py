@@ -4,6 +4,7 @@ import gzip
 import hashlib
 import io
 import json
+import os
 import subprocess
 import zipfile
 from collections.abc import Callable
@@ -469,7 +470,8 @@ def test_local_bundle_acquires_and_revalidates_exact_eight_members(
     )
     repository_root = tmp_path / "repo"
     repository_root.mkdir()
-    config_path = repository_root / "config.json"
+    config_path = repository_root.joinpath(*proteingym_module.CANONICAL_CONFIG_RELATIVE.parts)
+    config_path.parent.mkdir(parents=True)
     config_path.write_text("{}\n", encoding="utf-8")
     scratch_root = tmp_path / "bundle"
     reviewed_commit = "a" * 40
@@ -506,7 +508,83 @@ def test_local_bundle_acquires_and_revalidates_exact_eight_members(
     )
     assert tuple(loaded.members) == assay_ids
     assert loaded.source_network_bytes == manifest["source_network_bytes"]
-    assert loaded.transfer_bytes > sum(len(value) for value in truth_payloads.values())
+    assert loaded.transfer_bytes == sum(
+        path.stat().st_size for path in scratch_root.rglob("*") if path.is_file()
+    )
+
+    def load_bundle() -> object:
+        return proteingym_module._load_local_bundle(
+            bundle_root=scratch_root,
+            repository_root=repository_root,
+            config=config,
+            config_sha256=hashlib.sha256(b"{}\n").hexdigest(),
+            reviewed_git_commit=reviewed_commit,
+            approval_comment_id=999,
+            original_approval_comment_id=5352364303,
+        )
+
+    extra_file = scratch_root / "DMS_ProteinGym_substitutions.zip"
+    extra_file.write_bytes(b"must not transfer")
+    with pytest.raises(ProteinGymError, match="nine-file inventory"):
+        load_bundle()
+    extra_file.unlink()
+
+    extra_symlink = scratch_root / "unexpected-link"
+    extra_symlink.symlink_to(scratch_root / "local-acquisition-bundle.json")
+    with pytest.raises(ProteinGymError, match="contains a symlink"):
+        load_bundle()
+    extra_symlink.unlink()
+
+    extra_fifo = scratch_root / "unexpected-fifo"
+    os.mkfifo(extra_fifo)
+    with pytest.raises(ProteinGymError, match="contains a special file"):
+        load_bundle()
+    extra_fifo.unlink()
+
+    manifest_path = scratch_root / "local-acquisition-bundle.json"
+    manifest_copy = tmp_path / "manifest-copy.json"
+    manifest_copy.write_bytes(manifest_path.read_bytes())
+    manifest_path.unlink()
+    manifest_path.symlink_to(manifest_copy)
+    with pytest.raises(ProteinGymError, match="manifest must be a regular non-symlink file"):
+        load_bundle()
+
+
+@pytest.mark.parametrize("location", ["outside", "inside-drift"])
+def test_local_bundle_rejects_noncanonical_config_before_side_effects(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, location: str
+) -> None:
+    repository_root = tmp_path / "repo"
+    repository_root.mkdir()
+    config_path = (
+        tmp_path / "outside-config.json"
+        if location == "outside"
+        else repository_root / "config.json"
+    )
+    config_path.write_text("{}\n", encoding="utf-8")
+    scratch_root = tmp_path / f"bundle-{location}"
+    monkeypatch.setattr(proteingym_module, "_verify_repository", lambda _root, _commit: None)
+    monkeypatch.setattr(
+        proteingym_module,
+        "load_config",
+        lambda _path: pytest.fail("config must be rejected before it is loaded"),
+    )
+
+    with pytest.raises(ProteinGymError, match="canonical file in the reviewed repository"):
+        run_local_bundle(
+            config_path=config_path,
+            repository_root=repository_root,
+            scratch_root=scratch_root,
+            reviewed_git_commit="a" * 40,
+            approval=CONTINUATION_APPROVAL,
+            approval_comment_id=999,
+            original_approval_comment_id=5352364303,
+            open_url=lambda _request: pytest.fail(
+                "config must be rejected before any network request"
+            ),
+        )
+
+    assert not scratch_root.exists()
 
 
 class _InventoryPublisher:

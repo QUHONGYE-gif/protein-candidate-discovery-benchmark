@@ -26,6 +26,9 @@ from urllib.request import Request, urlopen
 
 APPROVAL = "APPROVED FOR ISSUE #11 UNIFIED PROTEINGYM DATA READINESS EXECUTION"
 CONTINUATION_APPROVAL = "APPROVED FOR ISSUE #11 PROTEINGYM LOCAL BUNDLE CONTINUATION"
+CANONICAL_CONFIG_RELATIVE = PurePosixPath(
+    "configs/datasets/proteingym/v1.3/four-assay-unified-v1.json"
+)
 STANDARD_AMINO_ACIDS = frozenset("ACDEFGHIKLMNPQRSTVWY")
 LOCAL_HEADER = struct.Struct("<IHHHHHIIIHH")
 LOCAL_HEADER_SIGNATURE = 0x04034B50
@@ -1229,6 +1232,15 @@ def _require_outside_repository(path: Path, repository_root: Path, *, field: str
     raise ProteinGymError(f"{field} must be outside the reviewed repository")
 
 
+def _require_canonical_config_path(config_path: Path, repository_root: Path) -> Path:
+    canonical = repository_root.resolve().joinpath(*CANONICAL_CONFIG_RELATIVE.parts)
+    if config_path.resolve() != canonical:
+        raise ProteinGymError("config must be the canonical file in the reviewed repository")
+    if config_path.is_symlink() or not config_path.is_file():
+        raise ProteinGymError("canonical config must be a regular non-symlink file")
+    return canonical
+
+
 def _prepare_new_scratch(
     scratch_root: Path, repository_root: Path, *, required_free_bytes: int
 ) -> None:
@@ -1272,6 +1284,31 @@ def _mapping(value: object, *, field: str) -> dict[str, object]:
     return cast(dict[str, object], value)
 
 
+def _expected_bundle_paths(config: ProteinGymConfig) -> set[str]:
+    expected = {"local-acquisition-bundle.json"}
+    for assay in config.assays:
+        expected.add(f"raw/{assay.assay_id}/truth.csv")
+        expected.add(f"raw/{assay.assay_id}/zero-shot-scores.csv")
+    return expected
+
+
+def _validate_bundle_inventory(bundle_root: Path, config: ProteinGymConfig) -> None:
+    if bundle_root.is_symlink() or not bundle_root.is_dir():
+        raise ProteinGymError("bundle root must be a regular non-symlink directory")
+    observed: set[str] = set()
+    for path in bundle_root.rglob("*"):
+        relative = path.relative_to(bundle_root).as_posix()
+        if path.is_symlink():
+            raise ProteinGymError(f"bundle contains a symlink: {relative}")
+        if path.is_dir():
+            continue
+        if not path.is_file():
+            raise ProteinGymError(f"bundle contains a special file: {relative}")
+        observed.add(relative)
+    if observed != _expected_bundle_paths(config):
+        raise ProteinGymError("bundle file inventory differs from the frozen nine-file inventory")
+
+
 def _bundle_member_record(
     *, assay: Assay, role: str, acquired: AcquiredMember, root: Path, acquired_at: datetime
 ) -> dict[str, object]:
@@ -1309,6 +1346,7 @@ def run_local_bundle(
     if approval_comment_id == original_approval_comment_id:
         raise ProteinGymError("continuation and original approval IDs must differ")
     _verify_repository(repository_root, reviewed_git_commit)
+    config_path = _require_canonical_config_path(config_path, repository_root)
     config_bytes = config_path.read_bytes()
     config = load_config(config_path)
     _prepare_new_scratch(
@@ -1398,6 +1436,9 @@ def _load_local_bundle(
 ) -> LocalBundle:
     _require_outside_repository(bundle_root, repository_root, field="bundle_root")
     manifest_path = bundle_root / "local-acquisition-bundle.json"
+    if manifest_path.is_symlink() or not manifest_path.is_file():
+        raise ProteinGymError("local bundle manifest must be a regular non-symlink file")
+    _validate_bundle_inventory(bundle_root, config)
     try:
         manifest_bytes = manifest_path.read_bytes()
         raw = cast(object, json.loads(manifest_bytes))
