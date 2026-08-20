@@ -180,6 +180,35 @@ def build_parser() -> argparse.ArgumentParser:
     proteingym.add_argument("--cos-destination", required=True)
     proteingym.add_argument("--repository-root", required=True, type=Path)
     proteingym.add_argument("--scratch-root", required=True, type=Path)
+    proteingym_bundle = commands.add_parser(
+        "proteingym-local-bundle",
+        help="acquire and seal the authorized private ProteinGym local handoff bundle",
+    )
+    proteingym_bundle.add_argument("--config", required=True, type=Path)
+    proteingym_bundle.add_argument("--reviewed-git-commit", required=True)
+    proteingym_bundle.add_argument("--approval", required=True)
+    proteingym_bundle.add_argument("--approval-comment-id", required=True, type=int)
+    proteingym_bundle.add_argument("--original-approval-comment-id", required=True, type=int)
+    proteingym_bundle.add_argument("--repository-root", required=True, type=Path)
+    proteingym_bundle.add_argument("--scratch-root", required=True, type=Path)
+    proteingym_continue = commands.add_parser(
+        "proteingym-continue",
+        help="continue ProteinGym publication with prefix-wide exact-match reuse",
+    )
+    proteingym_continue.add_argument("--config", required=True, type=Path)
+    proteingym_continue.add_argument("--reviewed-git-commit", required=True)
+    proteingym_continue.add_argument("--original-reviewed-git-commit", required=True)
+    proteingym_continue.add_argument("--approval", required=True)
+    proteingym_continue.add_argument("--approval-comment-id", required=True, type=int)
+    proteingym_continue.add_argument("--bundle-approval-comment-id", required=True, type=int)
+    proteingym_continue.add_argument("--original-approval-comment-id", required=True, type=int)
+    proteingym_continue.add_argument(
+        "--prior-continuation-approval-comment-id", action="append", default=[], type=int
+    )
+    proteingym_continue.add_argument("--cos-destination", required=True)
+    proteingym_continue.add_argument("--repository-root", required=True, type=Path)
+    proteingym_continue.add_argument("--bundle-root", required=True, type=Path)
+    proteingym_continue.add_argument("--scratch-root", required=True, type=Path)
     return parser
 
 
@@ -279,6 +308,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         from pcdb.datasets.proteingym import run_cli
 
         return run_cli(arguments)
+    if arguments.command == "proteingym-local-bundle":
+        from pcdb.datasets.proteingym import run_local_bundle_cli
+
+        return run_local_bundle_cli(arguments)
+    if arguments.command == "proteingym-continue":
+        from pcdb.datasets.proteingym import run_continuation_cli
+
+        return run_continuation_cli(arguments)
     return 0
 
 
