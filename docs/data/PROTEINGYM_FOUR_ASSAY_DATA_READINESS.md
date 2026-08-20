@@ -18,28 +18,54 @@ The versioned contract is
 selected-member offsets/sizes/CRC-32, BLAT's expected 4,783 truth rows, provenance DOI, license
 boundary and hard caps.
 
-## One bounded runtime
+## Bounded local bundle and server continuation
 
 After the implementation commit is merged and one separate execution authorization is recorded, the
-operator runs:
+operator first runs the local Range acquisition in a clean exact worktree:
 
 ```text
-pcdb proteingym-four-assay \
+pcdb proteingym-local-bundle \
   --config configs/datasets/proteingym/v1.3/four-assay-unified-v1.json \
   --reviewed-git-commit <exact-merged-commit> \
-  --approval "APPROVED FOR ISSUE #11 UNIFIED PROTEINGYM DATA READINESS EXECUTION" \
+  --approval "APPROVED FOR ISSUE #11 PROTEINGYM LOCAL BUNDLE CONTINUATION" \
   --approval-comment-id <positive-comment-id> \
-  --cos-destination cos://<approved-bucket>/<approved-prefix> \
+  --original-approval-comment-id 5352364303 \
   --repository-root <clean-exact-worktree> \
-  --scratch-root <new-empty-local-directory>
+  --scratch-root <new-empty-private-local-directory>
 ```
 
-This command is documentation, not current execution authorization. Credentials and the exact COS
-destination remain outside Git.
+It transfers that private directory to the approved server without changing any byte, then runs:
 
-The runtime performs BLAT first. HTTP/source identity, CRC, 4,783-row truth, processing, COS cap,
-immutable publication or fresh-readback failure stops the whole run. A passing BLAT checkpoint
-continues automatically to CAPSD, GFP and SPG1 without another human Gate.
+```text
+pcdb proteingym-continue \
+  --config configs/datasets/proteingym/v1.3/four-assay-unified-v1.json \
+  --reviewed-git-commit <exact-merged-commit> \
+  --original-reviewed-git-commit cfad30502bf130adad2d4bd019f9ba207d7df841 \
+  --approval "APPROVED FOR ISSUE #11 PROTEINGYM LOCAL BUNDLE CONTINUATION" \
+  --approval-comment-id <same-positive-comment-id> \
+  --bundle-approval-comment-id <local-bundle-comment-id> \
+  --original-approval-comment-id 5352364303 \
+  --cos-destination cos://<approved-bucket> \
+  --repository-root <clean-exact-worktree> \
+  --bundle-root <transferred-private-bundle-directory> \
+  --scratch-root <new-empty-server-directory>
+```
+
+These commands are documentation, not current execution authorization. Credentials and the exact COS
+destination remain outside Git. One new authorization/comment ID binds both stages. Completing the
+local bundle does not consume its first server start. On that first start, `--approval-comment-id` and
+`--bundle-approval-comment-id` are equal. Any replacement after a formal server start uses a new
+`--approval-comment-id`, retains the original bundle ID, and records every prior server-start ID with
+`--prior-continuation-approval-comment-id`; it does not reacquire or reseal the bundle.
+
+The older approval string inside the frozen JSON config is retained only to preserve the already
+published BLAT config/manifests' byte identity. It does not authorize v3 execution; both commands above
+require the new exact continuation approval string independently.
+
+The local command acquires all eight members and writes `local-acquisition-bundle.json` last. The
+server command recomputes the full CAPSD/GFP/SPG1 output inventory before its first PUT, fresh-lists the
+exact prefix, and fresh-reads every existing expected object. BLAT's complete 11-object chain must match
+the local source bytes, its prior manifest chain and `main@cfad305`; it is reused without a PUT.
 
 ## Fail-closed acquisition
 
@@ -53,9 +79,10 @@ For each selected member the runtime:
 6. validates CSV readability and row count;
 7. uses no automatic retry and has no full-archive fallback.
 
-Hard caps are 550,000,000 source network bytes, 2.5 GiB local scratch and 2.0 GB decimal COS growth.
-The BLAT internal checkpoint additionally uses 5,000,000 B network, 64 MiB scratch and 15,000,000 B
-COS growth caps.
+The 550,000,000-byte source-network cap applies to the v3 local acquisition only. The consumed direct-
+server attempt is recorded separately and is not included in a claim that this v3 cap covers complete
+historical traffic. Each new scratch root is capped at 2.5 GiB, and the completed exact COS prefix is
+capped at 2.0 GB decimal.
 
 ## Artifact separation
 
@@ -79,6 +106,16 @@ Publication is payload-first and manifest/evidence-last. Every object uses COSCL
 `--forbid-overwrite --err-retry-num 0`, receives a fresh exact SHA-256/size readback, and each assay
 records a duplicate-write rejection probe. Temporary readback files are removed after verification;
 published success objects are never overwritten or deleted.
+
+For every expected non-final object, the continuation chooses exactly one action before its first PUT:
+
+- absent: publish once with forbid-overwrite and fresh-read it;
+- present with exact prepared SHA-256 and size: record `reuse` and do not PUT it;
+- present with any mismatch, out-of-order partial state, or outside-inventory key: fail closed.
+
+This rule applies to CAPSD, GFP and SPG1 as well as BLAT, so an interrupted continuation cannot lock the
+prefix merely because an exact successful payload already exists. `unified-attempt.json` remains the
+only final object and is published last after a second exact-prefix inventory check.
 
 ## Boundaries
 
