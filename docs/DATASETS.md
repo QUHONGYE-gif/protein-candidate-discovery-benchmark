@@ -95,14 +95,17 @@ M1 portfolio、M3/Gate 2、held-out 或 scientific validation 完成。其他候
   Manifest、source inspection 与 ingest attempt 已完成 immutable publication/readback。processing、
   mutation/chain normalization、structure mapping、leakage-safe split 与 external-validation use
   仍未授权，见 [SKEMPI 2.0 raw ingest](data/SKEMPI_2_INGEST.md)。
-- ProteinGym：Issue #11 已由 maintainer 以四-assay / 八 selected-member 路线取代 full-archive
-  `NO-GO`。当前统一实现覆盖 HTTP Range 获取、raw immutable publication/readback、每 assay
-  Dataset Manifest / DatasetIngestAttempt、candidate/hidden-truth 分离、zero-shot coverage audit、
-  Processing Manifest 和仅含 `candidate-pool` 的 Split Manifest，见
-  [ProteinGym four-assay data readiness](data/PROTEINGYM_FOUR_ASSAY_DATA_READINESS.md)。BLAT 是
-  自动 fail-closed 内部检查点，不再产生第二个人工审批；正式 transfer/COS 写入仍需一次明确运行
-  授权。当前尚无正式数据运行证据、zero-shot model 批准、实验 split、held-out、replay 或 scientific
-  gate。
+- ProteinGym：Issue #11 已按四-assay / 八 selected-member 路线完成 data readiness，并以
+  `completed` 关闭。Reviewed PR #88 已 squash-merged 为
+  `main@45f058d9aabb4745853451989f875850d453cb97`；正式 local-bundle/continuation attempt
+  完成四个 assay 的 immutable publication/fresh readback，以及每 assay Dataset Manifest /
+  DatasetIngestAttempt、candidate/hidden-truth 分离、zero-shot coverage audit、Processing
+  Manifest 和仅含 `candidate-pool` 的 Split Manifest。最终 exact prefix 为 45 个对象 /
+  `1,758,940,765 B`；最后发布并 fresh-read 的 `unified-attempt.json` 为 33,951 bytes / SHA-256
+  `5dad6220ae74a86a052a45386fd0540995f3e8e5abd7fea0274eb69441164ba1`，见
+  [ProteinGym four-assay data readiness](data/PROTEINGYM_FOUR_ASSAY_DATA_READINESS.md)。这些
+  evidence 只证明 data readiness；不批准 zero-shot model、实验 split、held-out、replay、benchmark
+  result 或 scientific gate。
 - Alpha Amylase 与 IRED processing implementation、正式 immutable publication/recovery 与 fresh
   readback 已完成。Issue #19 冻结的 primary topology-isolation split 已在 reviewed commit
   `b540bfb3ed65066cb74418d5a4336452bf837af1` 上正式发布；protocol hash 为

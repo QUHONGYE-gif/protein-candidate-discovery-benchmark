@@ -67,6 +67,29 @@ server command recomputes the full CAPSD/GFP/SPG1 output inventory before its fi
 exact prefix, and fresh-reads every existing expected object. BLAT's complete 11-object chain must match
 the local source bytes, its prior manifest chain and `main@cfad305`; it is reused without a PUT.
 
+## Completed execution evidence
+
+Issue #11 completed its authorized formal continuation on 2026-08-20:
+
+- reviewed implementation `45f058d9aabb4745853451989f875850d453cb97` / tree
+  `0e9dd0e802e5685f66d309bf8c9f50f8a3dbea23`;
+- attempt `proteingym-server-continuation-5357037808` used the exact eight-member bundle; local
+  source network was `487,415,441 / 550,000,000 B`, and server source network was zero;
+- BLAT (4,783 rows / 11 objects) was fresh-read validated and reused without PUT; CAPSD (42,328
+  rows), GFP (51,714 rows) and SPG1 (536,962 rows) were newly published and fresh-read validated;
+- the final exact prefix contains 45 unique objects / `1,758,940,765 B`; automatic retries,
+  full-archive acquisition, held-out access, successful overwrite and DeleteObject were all
+  zero/false;
+- `unified-attempt.json` was published last and fresh-read exact: 33,951 bytes, SHA-256
+  `5dad6220ae74a86a052a45386fd0540995f3e8e5abd7fea0274eb69441164ba1`.
+
+The [completion record](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/11#issuecomment-5357846394),
+[independent post-run review](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/11#issuecomment-5357910563)
+and [closure review](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/11#issuecomment-5358532472)
+bind the terminal evidence and its limits. The commands above remain reproducibility/traceability
+documentation; they do not authorize another execution or access to credentials, COS, held-out truth
+or later experimental stages.
+
 ## Fail-closed acquisition
 
 For each selected member the runtime:
@@ -119,8 +142,9 @@ only final object and is published last after a second exact-prefix inventory ch
 
 ## Boundaries
 
-This implementation and its CI establish only an executable data-readiness route. A later formal run
-establishes server-execution evidence. Neither establishes a benchmark result or scientific Gate.
+The implementation and CI establish an executable data-readiness route. The authorized formal
+continuation recorded above establishes server-execution and four-assay data-readiness evidence.
+Neither engineering nor execution evidence establishes a benchmark result or scientific Gate.
 
 The runtime does not:
 
