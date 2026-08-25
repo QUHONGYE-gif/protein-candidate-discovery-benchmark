@@ -149,9 +149,10 @@ Never replace a missing scientific run with mocked evidence.
 
 ## GitHub workflow
 
-GitHub Issues are authoritative. Use short-lived Issue-linked branches named `feat/`, `fix/`,
-`data/`, `exp/`, `infra/`, `docs/`, or `codex/`. Do not create long-lived personal, `dev`, or
-`test` branches.
+GitHub Issues are authoritative for task-specific decisions and lifecycle. `docs/STATUS.md` is
+authoritative for the cross-project current-state summary. Use short-lived Issue-linked branches
+named `feat/`, `fix/`, `data/`, `exp/`, `infra/`, `docs/`, or `codex/`. Do not create long-lived
+personal, `dev`, or `test` branches.
 
 Open a Draft PR early for non-trivial work. State scope, out-of-scope items, verification, data and
 privacy impact, protocol impact, and the boundary of scientific claims. Use `Closes #<issue>` only

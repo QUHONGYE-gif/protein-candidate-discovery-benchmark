@@ -5,6 +5,27 @@
 本文提供跨 Issue 的方向控制：当多个实现、数据或实验选项竞争资源时，用一致的原则决定先做
 什么、何时停止，以及哪些变化必须重新审批。具体时间线见
 [`EXECUTION_ROADMAP.md`](EXECUTION_ROADMAP.md)，持久化协议由 accepted ADR 和 Schema 决定。
+跨项目当前状态摘要只在 [`STATUS.md`](STATUS.md) 维护；具体任务决策与 lifecycle 仍以 GitHub
+Issue 为准。
+
+### 状态与证据职责
+
+| 文件或系统 | 唯一职责 |
+|---|---|
+| `README.md` | 稳定项目入口并指向 `STATUS.md` |
+| `docs/STATUS.md` | 跨项目 current-state snapshot |
+| ADR | 长期架构与治理决策 |
+| Experiment contract | 单个研究问题、identity、预算、指标、停止条件与 promotion rule |
+| `research_log.jsonl` | runner 产生的 append-only server attempt/event 历史；不是 Issue 评论流 |
+| Candidate summary | 等待 accepted/frozen 的紧凑聚合结果候选 |
+| COS/frozen manifest | 正式不可变证据与 checksum |
+| GitHub Issue | task-specific 决策、责任人、lifecycle 和证据链接；不保存 PID、STS 调试、packet dump 或完整服务器日志 |
+| GitHub PR | 代码/文档变更及其验证 |
+
+`STATUS.md` 是带 `Last verified` 的项目快照，只在其九个项目级字段实质变化时更新。PID、单个
+attempt、普通 Issue 评论和 code-review 事件不触发同步；lifecycle closeout 应尽量先完成，再一次性
+固化新的项目快照。历史计划、Issue 评论和运行记录继续保留各自证据职责，但不维护并行的
+“当前状态”。
 
 ## 北极星目标
 

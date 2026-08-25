@@ -1,5 +1,9 @@
 # 项目执行路线与初始时间线
 
+> 状态：历史规划基线。当前事实见 [`STATUS.md`](STATUS.md)；M4 之后的规范路线见
+> [`M4_TO_M7_REVISED_EXPERIMENT_PLAN.md`](M4_TO_M7_REVISED_EXPERIMENT_PLAN.md)。本文不再作为
+> M4 之后阶段状态或下一动作的实时来源。
+
 ## 规划基线
 
 - 基线版本：2026-07-20；
