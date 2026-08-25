@@ -372,18 +372,53 @@ M6 不是 M4 的救援性扩量。它回答固定总成本下低保真信息何�
 不因分析结果自动创建新模型、框架、Schema、服务、VM、Docker、CI Gate 或子 Issue。新依赖或
 持久化契约必须由真实失败、结论有效性或明确用户要求直接证明必要。
 
+### 运行层演进规则
+
+- M4 的 preflight、launch、pilot runtime 与 conditional runtime 是 Issue #76 的
+  **frozen-specific / legacy execution surface**。它们继续服务于复现与关键正确性修复，但不作为
+  新 development 实验的复制模板。
+- 当前不重构 M2-M5 的全部运行框架。M5A/M5B 只允许先增加一个薄的 server attempt runner：
+  study root 可以持续存在，每个 `attempt_id` 使用新的 append-only attempt 目录并绑定当次
+  source/config/input identity；每个 attempt 各有一个 terminal，不把整个研究问题限制为一次
+  terminal 或一个永远为空的根目录。
+- experiment contract 可以为 transient infrastructure failure 前瞻设置有限自动重试；每次重试使用
+  新 `attempt_id` 并保留失败记录。代码或配置修正必须创建新 attempt，不得覆盖或续写旧 attempt。
+- 基础设施资源使用粗粒度告警和灾难性损失上限，不进入科学判定。科学 budget、held-out、
+  publication 和权限扩大才是硬 Gate；科学选择、evaluator 与停止规则仍由 experiment contract 持有。
+- PR #86 的 seed tracer runtime 可以作为已执行 #85 的历史可复现实现集成，但同样属于
+  legacy/frozen-specific execution，不得作为 M5A/M5B runner 的基础。
+- 至少两个新的实验复用同一 runner 并证明边界稳定后，才另行评估共享 orchestration；在此之前
+  停止新增阶段专用重复层，也不回写或泛化已冻结的 M4 证据代码。
+- development 实验默认使用一个研究问题/预算/停止条件记录和一次实现审核。只有扩大权限范围、
+  使用新的付费资源、访问 held-out 或进行 COS publication 时才增加独立授权；普通 probe、
+  PID、STS 调试、packet 明细和完整服务器日志进入 append-only `research_log.jsonl` 与正式 artifact，
+  不在 GitHub Issue 中形成逐步审批链。
+
 ## 资源与授权边界
 
-- M5A：新的只读 analysis execution；读取既有 revealed observations；`0 new RunSpec /
-  0 new benchmark attempt / 0 new oracle reveal / 0 unrevealed hidden-truth or held-out access`；
-  exact source/environment/input/report checksum 与 resource probe/caps 在执行前冻结；0 COS write；
-- M5B Alpha/IRED：先使用既有 first-decision states；任何新 truth-bearing branch evaluation 在
-  protocol review 和明确启动授权前保持 0；
-- ProteinGym #11 data-readiness 使用已冻结的 550,000,000 B network、2.5 GiB scratch 和 2.0 GB
-  decimal COS caps；M5C、SKEMPI、M6 的实验计算仍先做单任务/单条件 resource probe，不提前承诺
-  全矩阵；
-- 所有正式运行均保持一次手动启动、无自动 retry/expansion、成功产物不可覆盖；
-- 任何 held-out、external validation、COS 写入、云资源或凭据使用仍需对应独立授权；
+### ITERATION / development
+
+- M5A/M5B development 实验在 server-local、边界明确的 experiment contract 下运行。study root
+  可以持续存在；每次启动或重试创建新的 append-only `attempt_id` 目录，每个 attempt 各有一个
+  terminal，成功或失败产物均不得覆盖。
+- contract 可以前瞻声明 transient infrastructure failure 的有限自动重试；代码或配置修正创建新
+  attempt。合同内启动、重试，以及复用既有授权范围内的服务器和凭据，不需要 per-attempt 审批。
+- M5A 只读取既有 revealed observations，并保持 `0 new benchmark attempt / 0 new oracle reveal /
+  0 unrevealed hidden-truth or held-out access / 0 COS publication`。source/config/input identity 按
+  attempt 绑定；report checksum 在产物生成后记录，不要求在运行前预测并冻结。
+- M5B Alpha/IRED 先使用既有 first-decision states。truth-bearing development evaluation 必须在
+  experiment contract 中声明并保持在 development-data 边界内，但不因此新增逐 attempt 启动审批。
+- resource probe、粗粒度告警和灾难性损失上限只用于控制基础设施风险，不进入科学判定，也不
+  形成逐步审批链。ProteinGym #11 的 550,000,000 B network、2.5 GiB scratch 和 2.0 GB decimal
+  COS caps 仅是该冻结运行的历史证据，不继承为 M5 的精确 caps。
+
+### FROZEN / publication
+
+- 每个 frozen execution contract 使用一次明确批准的正式启动决策；禁止未声明的协议、资源或
+  publication 扩展，并保留完整 provenance 与不可覆盖的正式产物。retry 或 replacement 只能按
+  前瞻冻结的合同执行，未声明时不得临时追加。
+- 只有扩大权限范围、使用新的付费资源、访问 held-out 或进行 COS publication 时才要求独立授权；
+  既有权限范围内的凭据复用、STS 调试、资源探测和基础设施失败本身不触发新的授权链。
 - 本规划、实现、CI、server execution、benchmark evidence 与 scientific gate 分别报告。
 
 ## 全局停止与转向条件

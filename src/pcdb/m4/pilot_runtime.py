@@ -1,4 +1,7 @@
-"""Minimal fail-closed local execution layer for the bounded Issue #76 pilot."""
+"""Frozen-specific one-shot execution layer.
+
+It supports the completed pilot execution defined by Issue #76.
+"""
 
 from __future__ import annotations
 

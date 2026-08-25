@@ -1,4 +1,7 @@
-"""One-shot local runtime for the reviewed Issue #76 conditional expansion."""
+"""Frozen-specific one-shot runtime.
+
+It supports the completed conditional-expansion execution defined by Issue #76.
+"""
 
 from __future__ import annotations
 

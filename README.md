@@ -3,11 +3,8 @@
 面向公开蛋白数据的小样本高价值候选发现 Benchmark，重点研究固定标签预算或固定总成本下，
 不同 surrogate model、uncertainty method 与 acquisition strategy 的实际候选发现价值。
 
-截至 2026-08-13，项目已完成 **Alpha＋IRED 首批 M2 静态基线闭环**，并在 Issue #68 完成
-M3 deterministic single-fidelity replay 的正式执行、162-object immutable COS publication、独立
-fresh readback 与 Gate 2 engineering evidence 终审。M0 的 repository/contracts implementation 与
-CI 已通过 PR #2 进入 `main`；整个 M1 dataset portfolio 仍按 task/assay 逐项推进，M4、held-out、
-external validation 与最终 scientific validation 尚未开始或授权。
+项目当前所处阶段、最新 accepted result、活跃 PR/实验、阻塞项与下一 promotion gate 统一见
+[Current project status](docs/STATUS.md)。README 只作为稳定入口，不复制易漂移的运行状态。
 
 ## 研究问题
 
@@ -76,32 +73,18 @@ results/       仅保留产物政策；正式结果写入 COS
 [Benchmark Contract](docs/BENCHMARK_CONTRACT.md) 和
 [Privacy Boundary](docs/PRIVACY_BOUNDARY.md)。
 
-项目的长期研究定位、范围控制和阶段路线分别见
+项目的实时状态、长期研究定位、范围控制和阶段路线分别见
+[Current project status](docs/STATUS.md)、
 [Project Background](docs/PROJECT_BACKGROUND.md)、
 [Project Direction](docs/PROJECT_DIRECTION.md) 和
-[Execution Roadmap](docs/EXECUTION_ROADMAP.md)。
+[Execution Roadmap](docs/EXECUTION_ROADMAP.md)。M4 之后的规范路线以
+[M4 to M7 revised experiment plan](docs/M4_TO_M7_REVISED_EXPERIMENT_PLAN.md) 为准；旧路线图保留为
+历史规划基线。
 
 ## 当前状态
 
-- M0 engineering readiness：repository、contracts 与 CI 基线已进入 `main`；
-- M1 dataset onboarding：按 task/assay 进行中；Alpha Amylase＋IRED 已由 Issue #42 获得首批
-  M2 entry cohort 的 Gate 1 PASS，但整个 M1 portfolio 仍未完成；
-- M2 static-baseline closure：production Experiment Config v2、feature/prediction artifact、canonical
-  feature identity 与 Ridge、Random Forest、XGBoost producer 均已进入 `main`；Issue #58 已在
-  Alpha＋IRED、seed `1729` 的冻结 `2 tasks × 3 models` 范围内完成正式 server execution、
-  68-object immutable COS publication、独立 fresh readback 与 final evidence review；该结论只限
-  两个 task 的 static-baseline evidence，不支持跨 task 普遍最优或最终 scientific validation；
-- M3 deterministic replay closure：Issues #66/#67 已完成 protocol freeze 与 synthetic TDD；Issue
-  #68 随后在冻结的 Alpha＋IRED、`2 tasks × 3 models × 3 acquisitions × seed 1729` 范围内完成
-  Gate A real-input preflight，以及一次无 retry/replacement 的四阶段 Gate B sequence。18 个
-  RunSpecs 的 162 个对象完成 forbid-overwrite publication 与 independent final readback，最终独立
-  evidence review 判定五项 Gate 2 engineering conditions `5/5 PASS`；该结果不支持模型/策略科学
-  优越性，也不授权 M4、held-out 或 external validation；
-- Raw-ingest runtime：按 task 独立记录，不替代 processing、split 或 scientific validation；
-- Scientific validation：尚未开始；
-- Held-out evaluation：未授权；
-- COS credential availability：Issues #58/#68 的窄权限 CVM Roles 已完成各自正式
-  execution/readback；这些历史成功不证明未来 M4 或其他操作仍具备凭据、权限或执行授权。
+当前事实只在 [docs/STATUS.md](docs/STATUS.md) 维护。阶段推进时更新该文件，不在 README、历史
+路线图和多个 Issue 评论中复制另一份“当前状态”。
 
 ## 协作
 
