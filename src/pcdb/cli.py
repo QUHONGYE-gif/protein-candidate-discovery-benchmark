@@ -209,6 +209,28 @@ def build_parser() -> argparse.ArgumentParser:
     proteingym_continue.add_argument("--repository-root", required=True, type=Path)
     proteingym_continue.add_argument("--bundle-root", required=True, type=Path)
     proteingym_continue.add_argument("--scratch-root", required=True, type=Path)
+    m5_seed_tracer_preflight = commands.add_parser(
+        "m5-seed-tracer-preflight",
+        help="print the zero-truth exact 28-RunSpec Issue #85 tracer packet",
+    )
+    m5_seed_tracer_preflight.add_argument("--reviewed-git-commit", required=True)
+    m5_seed_tracer_preflight.add_argument("--reviewed-git-tree", required=True)
+    m5_seed_tracer_preflight.add_argument("--repository-root", required=True, type=Path)
+    m5_seed_tracer_run = commands.add_parser(
+        "m5-seed-tracer-run",
+        help="execute one exact authorized Issue #85 28-RunSpec tracer once",
+    )
+    m5_seed_tracer_run.add_argument("--packet", required=True, type=Path)
+    m5_seed_tracer_run.add_argument("--packet-sha256", required=True)
+    m5_seed_tracer_run.add_argument("--approval", required=True)
+    m5_seed_tracer_run.add_argument("--approval-comment-id", required=True, type=int)
+    m5_seed_tracer_run.add_argument("--reviewed-git-commit", required=True)
+    m5_seed_tracer_run.add_argument("--reviewed-git-tree", required=True)
+    m5_seed_tracer_run.add_argument("--environment-digest", required=True)
+    m5_seed_tracer_run.add_argument("--hourly-cost-cny", required=True)
+    m5_seed_tracer_run.add_argument("--input-role-arn", required=True)
+    m5_seed_tracer_run.add_argument("--repository-root", required=True, type=Path)
+    m5_seed_tracer_run.add_argument("--scratch-root", required=True, type=Path)
     return parser
 
 
@@ -316,6 +338,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         from pcdb.datasets.proteingym import run_continuation_cli
 
         return run_continuation_cli(arguments)
+    if arguments.command == "m5-seed-tracer-preflight":
+        from pcdb.m5.seed_tracer import build_seed_tracer_packet
+
+        payload = build_seed_tracer_packet(
+            arguments.repository_root,
+            arguments.reviewed_git_commit,
+            arguments.reviewed_git_tree,
+        )
+        sys.stdout.buffer.write(payload)
+        return 0
+    if arguments.command == "m5-seed-tracer-run":
+        from pcdb.m5.seed_tracer_runtime import run_seed_tracer_cli
+
+        return run_seed_tracer_cli(arguments)
     return 0
 
 

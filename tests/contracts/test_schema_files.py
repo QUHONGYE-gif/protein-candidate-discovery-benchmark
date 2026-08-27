@@ -15,6 +15,7 @@ FIXTURE_DIRECTORY = REPOSITORY_ROOT / "tests/fixtures/contracts"
 SCHEMA_NAMES = [path.name for path in sorted(SCHEMA_DIRECTORY.glob("*.schema.json"))]
 STANDALONE_FIXTURE_SCHEMAS = {
     "experiment-v2.schema.json",
+    "experiment-v3.schema.json",
     "m2-feature-artifact-v1.schema.json",
     "m2-feature-bundle-descriptor-v1.schema.json",
     "m2-feature-config-v1.schema.json",
@@ -30,6 +31,35 @@ def _schema_fixture(schema_name: str, *, valid: bool) -> object:
         )
         if not valid:
             fixture["contract_status"] = "proposal"
+        return fixture
+    if schema_name == "experiment-v3.schema.json":
+        fixture = json.loads(
+            (FIXTURE_DIRECTORY / "experiment-v2-alpha.json").read_text(encoding="utf-8")
+        )
+        fixture.update(
+            {
+                "acquisitions": ["uncertainty-bootstrap-std-v1"],
+                "batch_sizes": [16],
+                "budgets": [128],
+                "experiment_id": "m5-seed-tracer.alpha-amylase.uncertainty.i1729.r2719",
+                "initial_sample_sizes": [32],
+                "models": ["random-forest-sklearn-v1"],
+                "phase": "development",
+                "protocol_version": "m5-seed-source-tracer-v1",
+                "schema_version": "3",
+                "seed_axes": {
+                    "estimator_seed": 1729,
+                    "estimator_seed_binding": "frozen-model-config",
+                    "initial_seed": 1729,
+                    "initial_seed_binding": "run-spec.seed",
+                    "internal_seed": 2719,
+                    "internal_seed_binding": "experiment-config-sha256",
+                },
+                "seeds": [1729],
+            }
+        )
+        if not valid:
+            fixture["seed_axes"]["internal_seed"] = None
         return fixture
     if schema_name == "m2-feature-artifact-v1.schema.json":
         fixture = json.loads(

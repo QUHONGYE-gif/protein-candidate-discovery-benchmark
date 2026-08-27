@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/experiment-v3.schema.json",
+  "title": "SeedSourceTracerExperimentConfigV3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_status",
+    "experiment_id",
+    "protocol_version",
+    "phase",
+    "task_id",
+    "dataset_manifest_sha256",
+    "processing_manifest_sha256",
+    "split_sha256",
+    "models",
+    "acquisitions",
+    "seeds",
+    "initial_sample_sizes",
+    "batch_sizes",
+    "budgets",
+    "seed_axes",
+    "evaluation",
+    "held_out_authorized"
+  ],
+  "properties": {
+    "schema_version": { "const": "3" },
+    "contract_status": { "const": "production" },
+    "experiment_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "protocol_version": { "const": "m5-seed-source-tracer-v1" },
+    "phase": { "const": "development" },
+    "task_id": { "enum": ["alpha-amylase", "ired"] },
+    "dataset_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "processing_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "split_sha256": { "$ref": "#/$defs/sha256" },
+    "models": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "prefixItems": [{ "const": "random-forest-sklearn-v1" }]
+    },
+    "acquisitions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "enum": [
+          "uncertainty-bootstrap-std-v1",
+          "greedy-predictive-mean-v1"
+        ]
+      }
+    },
+    "seeds": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": { "type": "integer", "minimum": 1729, "maximum": 1733 }
+    },
+    "initial_sample_sizes": { "const": [32] },
+    "batch_sizes": { "const": [16] },
+    "budgets": { "const": [128] },
+    "seed_axes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "estimator_seed",
+        "estimator_seed_binding",
+        "initial_seed",
+        "initial_seed_binding",
+        "internal_seed",
+        "internal_seed_binding"
+      ],
+      "properties": {
+        "estimator_seed": { "const": 1729 },
+        "estimator_seed_binding": { "const": "frozen-model-config" },
+        "initial_seed": {
+          "type": "integer",
+          "minimum": 1729,
+          "maximum": 1733
+        },
+        "initial_seed_binding": { "const": "run-spec.seed" },
+        "internal_seed": {
+          "type": ["integer", "null"],
+          "minimum": 2719,
+          "maximum": 2723
+        },
+        "internal_seed_binding": { "const": "experiment-config-sha256" }
+      }
+    },
+    "evaluation": { "type": "object" },
+    "held_out_authorized": { "const": false }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "acquisitions": { "const": ["uncertainty-bootstrap-std-v1"] }
+        }
+      },
+      "then": {
+        "properties": {
+          "seed_axes": {
+            "properties": { "internal_seed": { "type": "integer" } }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "seed_axes": {
+            "properties": { "internal_seed": { "const": null } }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}
