@@ -479,7 +479,7 @@ def compare_reconstruction_bytes(
     """Require two byte-identical artifacts and one exact ordered policy match."""
 
     if first != second:
-        raise ReconstructionStop("independent reconstructions are not byte-identical")
+        raise ReconstructionStop("repeated reconstructions are not byte-identical")
     value = _load_compact_json(first, artifact="ranking artifact")
     if set(value) != {"input_identity", "ranking", "schema_version", "top_k"}:
         raise ReconstructionStop("ranking artifact fields drifted")

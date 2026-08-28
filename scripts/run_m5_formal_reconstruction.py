@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the authorized exact-select 160-trajectory formal M5A reconstruction."""
+"""Run the exact-select 160-trajectory formal M5A reconstruction."""
 
 from __future__ import annotations
 
@@ -293,7 +293,7 @@ def _run(args: argparse.Namespace) -> int:
             aggregate_hashes.append(hashlib.sha256(b"".join(payloads)).hexdigest())
         if reports[0] != reports[1]:
             raise AttemptFailure(
-                "independent aggregate reports are not byte-identical",
+                "repeated aggregate reports are not byte-identical",
                 failure_class="validity",
             )
         active_wall = time.monotonic() - active_started
