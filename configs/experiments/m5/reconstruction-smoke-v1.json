@@ -1,0 +1,230 @@
+{
+  "artifact_contract": {
+    "independent_reconstructions_per_state": 2,
+    "ranking_order": "score-descending-then-candidate-id-ascending-ascii",
+    "schema_version": "m5a-reconstruction-smoke-artifact-v1",
+    "score_encoding": "ieee754-binary64-big-endian-lowercase-16-hex",
+    "top_k_match": "exact-ordered-candidate-id"
+  },
+  "features": {
+    "alpha-amylase": {
+      "row_count": 2262,
+      "sha256": "9a89f12e7c521462a412320937f4455200c75282fae8196d1302b0eac0bf5596",
+      "size_bytes": 16306803
+    },
+    "ired": {
+      "row_count": 2070,
+      "sha256": "1573d70651f2f6450bc354960b170dff2b8b19fd4766f1e0fc6a9622f4e6cb6b",
+      "size_bytes": 14923443
+    }
+  },
+  "resource_caps": {
+    "active_execution_network_bytes": 0,
+    "attempt_wall_seconds": 1800,
+    "process_tree_peak_rss_bytes": 2147483648,
+    "scratch_high_water_bytes": 536870912,
+    "state_cumulative_wall_seconds": 180,
+    "vcpu": 2
+  },
+  "retry_policy": {
+    "automatic_retries": 0,
+    "maximum_attempts": 2,
+    "maximum_cumulative_wall_seconds": 3600,
+    "retryable_failure_class": "transient-infrastructure"
+  },
+  "schema_version": "m5a-reconstruction-smoke-contract-v1",
+  "selection_rule": {
+    "initial_regime_order": [32, 64],
+    "model_acquisition_order": [
+      "random-forest-sklearn-v1+uncertainty-bootstrap-std-v1",
+      "xgboost-cpu-v1+ucb-bootstrap-std-beta1-v1"
+    ],
+    "outcome_free": true,
+    "round_rule": "d=(128-initial_sample_size)/16; round=1+(stratum_ordinal mod d)",
+    "seed": 1729,
+    "state_count": 8,
+    "task_order": ["alpha-amylase", "ired"]
+  },
+  "shared_run_spec": {
+    "batch_size": 16,
+    "budget": 128,
+    "environment_digest": "0994a73f124c2baa6f330bf8739db1673217bdec6ad7d9046ded908fc8dba4fc",
+    "protocol_version": "m4-single-fidelity-screening-v1",
+    "schema_version": "1",
+    "seed": 1729
+  },
+  "sources": {
+    "conditional-expansion": {
+      "git_commit": "fff8ae7047b88c9f562ed5e1dfbc6aa81bcab8a1",
+      "git_tree": "c6f02ca26b22dd5332754bb05343c40bdc0d2839",
+      "packet_sha256": "5885bc25fd4beb2d73284a4271c3ae28e7684984fe968c457cd523ab1781e5ee"
+    },
+    "pilot": {
+      "git_commit": "a7cac96335ada2041457982f63e654dca97c8cd7",
+      "git_tree": "04d41337e562a5fa975fd7fd14cdd52bd08bad5b",
+      "packet_sha256": "2c6bcdbe3ff73eb0ac241fd3b25738af467a355be9c8d12e8bcf8c28aab74b12"
+    }
+  },
+  "states": [
+    {
+      "acquisition_id": "uncertainty-bootstrap-std-v1",
+      "actual_selected_ids_sha256": "b180ccab981bda3faa19bab21acf1233b4e7dbf8855bd59fea826d9f3e47f2f6",
+      "checkpoint_sha256": "1af3d462a483fa85ca57e4adb66f61f845406374278527411191ffa4af26b769",
+      "initial_sample_size": 32,
+      "model_id": "random-forest-sklearn-v1",
+      "observation_prefix_sha256": "140261ff617b9c2cd5289625dfe82b571331e043e74e6bf53f67a449973cfa07",
+      "prefix_observation_count": 32,
+      "remaining_candidate_ids_sha256": "1c9fab7740a77d81acc056c299abb85a902c1205c289fe7deb3bd84c242059e2",
+      "round": 1,
+      "run_attempt_sha256": "1fd5ca9e98ea14500af6ea22cce031e11f8c3e5c8cae55c5b833e14b0762c1e7",
+      "run_id": "a812f7d8781a3b7990f909baa32e1f873d7a2fff8c11e104a4ff65b8cc66c68b",
+      "source": "pilot",
+      "state_id": "S0",
+      "stratum_ordinal": 0,
+      "task_id": "alpha-amylase",
+      "trajectory_sha256": "7502d90ee2d4a465e0340a0b78129165077dbaf4e4274357c78ee99a92a3ecb1"
+    },
+    {
+      "acquisition_id": "uncertainty-bootstrap-std-v1",
+      "actual_selected_ids_sha256": "8173b3b04785a277b43f539464abc1fea200121b4fc2d7d8c7afefcadc767697",
+      "checkpoint_sha256": "81bbc9be42cdb66463a2380568e5960527b964db73938bbea4120919a81f6f3a",
+      "initial_sample_size": 64,
+      "model_id": "random-forest-sklearn-v1",
+      "observation_prefix_sha256": "160eedb6eb61a4a807e66cc78ff275b248b26ce25022730359e0b059cddc1104",
+      "prefix_observation_count": 80,
+      "remaining_candidate_ids_sha256": "e04405a114cff93b368bac024f9634acf20943b8cf745f1a8e753fc2c4cf3610",
+      "round": 2,
+      "run_attempt_sha256": "7cbc4b01406dfc4546792abe1638d4c5aca2ee97e0e516f3fbd65163e59903d8",
+      "run_id": "01d6761e4792a0dc932b17e25265a831896fc0e83231c12aeb77179ebc6129ca",
+      "source": "conditional-expansion",
+      "state_id": "S1",
+      "stratum_ordinal": 1,
+      "task_id": "alpha-amylase",
+      "trajectory_sha256": "91666e0adbc605815dad0a4ab54553a2104617d644b90933bc2c7ed30a0566a0"
+    },
+    {
+      "acquisition_id": "ucb-bootstrap-std-beta1-v1",
+      "actual_selected_ids_sha256": "8e610ec49eb9017094696189300e0ca2cc31045f0f9bbda252fadbd5d7e0ba3c",
+      "checkpoint_sha256": "c4a604fb28329428695b09063cc4db728f8c7d1a857ea95e1f694e784f32b117",
+      "initial_sample_size": 32,
+      "model_id": "xgboost-cpu-v1",
+      "observation_prefix_sha256": "51ab14230335f07756775f1ad3fff6a3f3ca4821327dda9cc1569a54abc679fb",
+      "prefix_observation_count": 64,
+      "remaining_candidate_ids_sha256": "90f694345cae012b27238645f2b2e478b950db7b82bddd5f440da16908ce617b",
+      "round": 3,
+      "run_attempt_sha256": "5c48d0852670c6dad7ab0497beb320244abe3649f70a0dcda22a0fd7c6050a09",
+      "run_id": "ba73e26820865aaa7c8430a5ca667b5d2f8c1120a6a0f4e9027480198cb92db3",
+      "source": "pilot",
+      "state_id": "S2",
+      "stratum_ordinal": 2,
+      "task_id": "alpha-amylase",
+      "trajectory_sha256": "d89031787f90245a491015214e6d849bb1c00eb20dc96e4e02ce86457530c603"
+    },
+    {
+      "acquisition_id": "ucb-bootstrap-std-beta1-v1",
+      "actual_selected_ids_sha256": "05157dc5c6e0fcf33943fded65f48abde63c84cf235c692a6a12d20294c54012",
+      "checkpoint_sha256": "1986a63ee22f48f2619af8cad58f3878392ddda8f76514fac14022cdc95a9630",
+      "initial_sample_size": 64,
+      "model_id": "xgboost-cpu-v1",
+      "observation_prefix_sha256": "d141624a45ee32fd73026e684a6d33328897e59cd85c61eb29c1607725520dd6",
+      "prefix_observation_count": 112,
+      "remaining_candidate_ids_sha256": "2073db9406e842bc2e27ab7c65a46df502658953bd5cda14917e1ef57b317286",
+      "round": 4,
+      "run_attempt_sha256": "ce064529f3dae941f07a28c8c17be0dd93bd5e6a92e4e82a3ce6057e621e6b06",
+      "run_id": "ce0ef3135cc58f283b8ee290d23b8aea3eeacfbf5f171612640fd8f176322c15",
+      "source": "conditional-expansion",
+      "state_id": "S3",
+      "stratum_ordinal": 3,
+      "task_id": "alpha-amylase",
+      "trajectory_sha256": "acc73cb8def2fdbb4f87c4c5949c2d5370bfb5d1ada70935995103947311dbf5"
+    },
+    {
+      "acquisition_id": "uncertainty-bootstrap-std-v1",
+      "actual_selected_ids_sha256": "7620e7147b82030ebc8251b9ef54f6c1d20fa616166eb9770857363f4e7cac32",
+      "checkpoint_sha256": "1a665d637d69a23db8d8d88397db1e581eca144c6393b77d8cbe167811260de3",
+      "initial_sample_size": 32,
+      "model_id": "random-forest-sklearn-v1",
+      "observation_prefix_sha256": "4bf07de96ef3f61d0c718ed0ee77e7d4b7c10d3a44b2dc979b0073f662d7b712",
+      "prefix_observation_count": 96,
+      "remaining_candidate_ids_sha256": "27ab4dc262adfbe3f1b2dc0dfa6f7812153cc94beaa07bbf94cb34c47d68a686",
+      "round": 5,
+      "run_attempt_sha256": "672fa55ea94e6a781a7600938010d1e606a98548dec1a93f2acaf6a6f53c76f8",
+      "run_id": "a84adf90320fca0b376e360936c528fb73053587849bc9d06f79bcfb6662fb64",
+      "source": "pilot",
+      "state_id": "S4",
+      "stratum_ordinal": 4,
+      "task_id": "ired",
+      "trajectory_sha256": "3d311c1e5c8ace9dbd3b77327ab11bdcf2db1462dc38846daed34427f8c884d8"
+    },
+    {
+      "acquisition_id": "uncertainty-bootstrap-std-v1",
+      "actual_selected_ids_sha256": "60b4114c51e1111ffba88f4d89102c4dfc12d889a7855f30be3cec806597fa1a",
+      "checkpoint_sha256": "f5f31cfbe9f3f5189b85b3f9bedc6761522a86d6023d332ea8c8e3f505336a80",
+      "initial_sample_size": 64,
+      "model_id": "random-forest-sklearn-v1",
+      "observation_prefix_sha256": "b68d1e2a1cd65f50130d0067a2fb7c3cf5ea1e2269dd485902cb65ab73a38b52",
+      "prefix_observation_count": 80,
+      "remaining_candidate_ids_sha256": "97334c0c9d32072344a13ed1b1c5caee670057511ff2bb85fc1de395f9c08000",
+      "round": 2,
+      "run_attempt_sha256": "5a1c199564646a69e06224a73aa85fbf545f332a263ca12fe72ca14df4bb3e3f",
+      "run_id": "609cf505e0705eed6380ef8e6cf0ed8c406aac925da3dc9e358b5315c4c854da",
+      "source": "conditional-expansion",
+      "state_id": "S5",
+      "stratum_ordinal": 5,
+      "task_id": "ired",
+      "trajectory_sha256": "2496d658ad77d662ac1ea9b341318004f5b1a90bf0bbe7b7244e2bff09444597"
+    },
+    {
+      "acquisition_id": "ucb-bootstrap-std-beta1-v1",
+      "actual_selected_ids_sha256": "2e6ef58e7a29eda6bddac844fe6f5dc884e6a128c324a352c7b1d876b7a4799c",
+      "checkpoint_sha256": "d63f731e720c5560c2d2c336935f2898d7a001296386bb792583ba7698605bc7",
+      "initial_sample_size": 32,
+      "model_id": "xgboost-cpu-v1",
+      "observation_prefix_sha256": "e37f904fbde6043df26dc06bf12b91ad84f434aeafbda98acc45630d58712d40",
+      "prefix_observation_count": 32,
+      "remaining_candidate_ids_sha256": "41ea04cb419a50248b35a3a65260b8077746e868e53e2ccf8893b6a0f97d97f5",
+      "round": 1,
+      "run_attempt_sha256": "beaa9d30d27bdfd867f2d79e63495eb7588dc9f85d2cc49186a71f74e1e0953f",
+      "run_id": "be2af83713bb9fac333abff4cb1b4f3ab7d1d0f758c5f651f4c96e5cd7a97a24",
+      "source": "pilot",
+      "state_id": "S6",
+      "stratum_ordinal": 6,
+      "task_id": "ired",
+      "trajectory_sha256": "9322f5306d1c610b8ad3e564db0d4a14b37d43abd71bf7338b28831c254efb59"
+    },
+    {
+      "acquisition_id": "ucb-bootstrap-std-beta1-v1",
+      "actual_selected_ids_sha256": "7bad27c87d528a1d372e55aab131824b431d48c3151a7f595832e6aafd386847",
+      "checkpoint_sha256": "6a748886a042eb93689ef3a64291270df644e3ca8688079904536b101fd2597f",
+      "initial_sample_size": 64,
+      "model_id": "xgboost-cpu-v1",
+      "observation_prefix_sha256": "27c00bae51035be31101ec91dc11b952767e2e78bc34b46776fcd084de832418",
+      "prefix_observation_count": 112,
+      "remaining_candidate_ids_sha256": "c82515cf8ed5ceefdd870d7a7505e0db571c73994b8665637a8981341af5481f",
+      "round": 4,
+      "run_attempt_sha256": "de7ab1aaaceea662f1c63f0c03c25034121d1f4010aad4023caa15449594e433",
+      "run_id": "876eb42ac2e772d84c36b1c07ec0cd4769c3020d22cff34f9a8fd2add84e626b",
+      "source": "conditional-expansion",
+      "state_id": "S7",
+      "stratum_ordinal": 7,
+      "task_id": "ired",
+      "trajectory_sha256": "a7fc5198aaccbc7ef2b3a8c095d3168fbf5ed3a049e018e99dc1b3f45de6758d"
+    }
+  ],
+  "tasks": {
+    "alpha-amylase": {
+      "dataset_manifest_sha256": "c1679ca0d58c69f368b34974fbf43e9b23579892d0a7daef04bb1e354e1a1bac",
+      "experiment_config_sha256": "193f8ee0102a654e63cd7ea31fc77a93bcf7f5fae0c0305570117eac54c097aa",
+      "feature_sha256": "fa64315824eccde93e5c4740bbaf638aa54da2d2b8b96053bbae193ec89bbe42",
+      "processing_manifest_sha256": "cc0582a0c5f3a2d854c9c64c78b2995fd81d87e328241cd42121deee0ca2aaec",
+      "split_sha256": "c6b67b962b78656f8083b088909d801dd8c40c908333f310a4fc39cb86b3184a"
+    },
+    "ired": {
+      "dataset_manifest_sha256": "37938d62ec61c0ac912bfd49d690696d7b750f0a497558faf525a9b7d3e61643",
+      "experiment_config_sha256": "7bfdc48ca2f4d41f039b8f119c3dca5910e9eb26c156cdee53f584b4af7c38fa",
+      "feature_sha256": "3d20f04020f1b136d1097d6beee7fcaa7b09729e80babd6d96154f71c510fb1b",
+      "processing_manifest_sha256": "929f0a46bfca015fb020bb7ebcc3a91e4de33922cd217399551b3dae1cc437ba",
+      "split_sha256": "9bff199ec81b9b5b1e0548c237b923b2ac7db1bf36382377ed36d30c042c725e"
+    }
+  }
+}
