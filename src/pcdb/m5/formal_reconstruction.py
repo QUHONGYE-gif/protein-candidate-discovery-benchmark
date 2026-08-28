@@ -71,7 +71,7 @@ def binary64_from_hex(value: object) -> float:
     if not isinstance(value, str) or len(value) != 16:
         raise ContractValidationError("formal binary64 hex is invalid")
     try:
-        decoded = struct.unpack(">d", bytes.fromhex(value))[0]
+        decoded = cast(float, struct.unpack(">d", bytes.fromhex(value))[0])
     except (ValueError, struct.error):
         raise ContractValidationError("formal binary64 hex is invalid") from None
     if not math.isfinite(decoded):
@@ -140,13 +140,14 @@ def _attempt_root(
     store_roots: Mapping[str, Path],
 ) -> Path:
     phase = "pilot" if source == "pilot" else "conditional-expansion"
+    packet_sha256 = cast(str, contract["sources"][source]["packet_sha256"])
     return (
         store_roots[source]
         / "objects"
         / "m4"
         / "issue-76"
         / phase
-        / contract["sources"][source]["packet_sha256"]
+        / packet_sha256
         / "runs"
         / prepared.run_spec.run_id
         / "attempts"
@@ -327,8 +328,7 @@ def ordinal_spearman(first: Sequence[str], second: Sequence[str]) -> float:
         raise ContractValidationError("rankings must be equal non-trivial permutations")
     positions = {candidate_id: index + 1 for index, candidate_id in enumerate(second)}
     squared = sum(
-        (index + 1 - positions[candidate_id]) ** 2
-        for index, candidate_id in enumerate(first)
+        (index + 1 - positions[candidate_id]) ** 2 for index, candidate_id in enumerate(first)
     )
     count = len(first)
     return 1.0 - (6.0 * squared) / (count * (count * count - 1))
@@ -359,9 +359,7 @@ def _numeric_summary(values: Iterable[float]) -> dict[str, object]:
     }
 
 
-def _row_group(
-    rows: Sequence[Mapping[str, Any]], fields: Sequence[str]
-) -> list[dict[str, object]]:
+def _row_group(rows: Sequence[Mapping[str, Any]], fields: Sequence[str]) -> list[dict[str, object]]:
     groups: dict[tuple[object, ...], list[Mapping[str, Any]]] = defaultdict(list)
     for row in rows:
         groups[tuple(row[field] for field in fields)].append(row)
@@ -379,8 +377,7 @@ def _row_group(
                     binary64_from_hex(item["divergence_binary64"]) for item in items
                 ),
                 "mean_acquisition_spearman": _numeric_summary(
-                    binary64_from_hex(item["mean_acquisition_spearman_binary64"])
-                    for item in items
+                    binary64_from_hex(item["mean_acquisition_spearman_binary64"]) for item in items
                 ),
                 "selected_mean_ranks": _numeric_summary(
                     rank for item in items for rank in item["selected_mean_ranks"]
@@ -402,12 +399,10 @@ def _pearson(first: Sequence[float], second: Sequence[float]) -> float:
     mean_first = statistics.fmean(first)
     mean_second = statistics.fmean(second)
     numerator = sum(
-        (x - mean_first) * (y - mean_second)
-        for x, y in zip(first, second, strict=True)
+        (x - mean_first) * (y - mean_second) for x, y in zip(first, second, strict=True)
     )
     denominator = math.sqrt(
-        sum((x - mean_first) ** 2 for x in first)
-        * sum((y - mean_second) ** 2 for y in second)
+        sum((x - mean_first) ** 2 for x in first) * sum((y - mean_second) ** 2 for y in second)
     )
     return 0.0 if denominator == 0.0 else numerator / denominator
 

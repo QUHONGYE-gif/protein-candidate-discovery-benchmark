@@ -47,21 +47,13 @@ def _metric(value: float) -> dict[str, object]:
 def _summaries(*, mismatch: bool = False) -> list[bytes]:
     payloads: list[bytes] = []
     for task_index, task_id in enumerate(("alpha-amylase", "ired")):
-        for model_index, model_id in enumerate(
-            ("random-forest-sklearn-v1", "xgboost-cpu-v1")
-        ):
+        for model_index, model_id in enumerate(("random-forest-sklearn-v1", "xgboost-cpu-v1")):
             for initial_sample_size in (32, 64):
                 for seed in range(1729, 1739):
                     for policy in ("exploration", "greedy"):
                         rounds = []
                         for round_index in range(1, 7 if initial_sample_size == 32 else 5):
-                            value = float(
-                                task_index
-                                + model_index
-                                + round_index
-                                + seed
-                                - 1729
-                            )
+                            value = float(task_index + model_index + round_index + seed - 1729)
                             rounds.append(
                                 {
                                     "actual_policy_exact_match": not (
@@ -91,8 +83,7 @@ def _summaries(*, mismatch: bool = False) -> list[bytes]:
                                         1.0 if policy == "greedy" else 0.5
                                     ),
                                     "remaining_count": 2000 - initial_sample_size,
-                                    "revealed_before": initial_sample_size
-                                    + (round_index - 1) * 16,
+                                    "revealed_before": initial_sample_size + (round_index - 1) * 16,
                                     "round": round_index,
                                     "selected_mean_ranks": list(range(1, 17)),
                                     "selected_uncertainty_ranks": list(range(16, 0, -1)),

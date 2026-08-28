@@ -58,8 +58,7 @@ def _spearman(first: tuple[str, ...], second: tuple[str, ...]) -> float:
         raise ValueError("ranking exact-cover drifted")
     positions = {candidate_id: index + 1 for index, candidate_id in enumerate(second)}
     squared = sum(
-        (index + 1 - positions[candidate_id]) ** 2
-        for index, candidate_id in enumerate(first)
+        (index + 1 - positions[candidate_id]) ** 2 for index, candidate_id in enumerate(first)
     )
     count = len(first)
     return 1.0 - (6.0 * squared) / (count * (count * count - 1))
@@ -77,13 +76,7 @@ def _write_exclusive(path: Path, payload: bytes) -> None:
 def _metric(metric: Any) -> dict[str, object]:
     if metric.status == "undefined":
         return {"status": "undefined", "undefined_reason": metric.undefined_reason}
-    value = (
-        1.0
-        if metric.value is True
-        else 0.0
-        if metric.value is False
-        else float(metric.value)
-    )
+    value = 1.0 if metric.value is True else 0.0 if metric.value is False else float(metric.value)
     return {"status": "defined", "value_binary64": _hex(value)}
 
 
@@ -152,9 +145,7 @@ def main() -> int:
         )
         observed = {observation.candidate_id: observation.label for observation in prefix}
         remaining = tuple(
-            candidate_id
-            for candidate_id in features.candidate_ids
-            if candidate_id not in observed
+            candidate_id for candidate_id in features.candidate_ids if candidate_id not in observed
         )
         ordered_observed = tuple(sorted(observed))
         fitted = fit_m4_regressor(
@@ -176,8 +167,7 @@ def main() -> int:
             candidate_features=features,
             model_config=model_config,
             observations=[
-                Observation(candidate_id=item.candidate_id, label=item.label)
-                for item in prefix
+                Observation(candidate_id=item.candidate_id, label=item.label) for item in prefix
             ],
             candidate_ids=remaining,
             round_index=round_index,
@@ -217,12 +207,10 @@ def main() -> int:
         if metrics is None:
             raise ValueError("formal trajectory lacks checkpoint metrics")
         mean_positions = {
-            candidate_id: index + 1
-            for index, candidate_id in enumerate(mean_ranking)
+            candidate_id: index + 1 for index, candidate_id in enumerate(mean_ranking)
         }
         uncertainty_positions = {
-            candidate_id: index + 1
-            for index, candidate_id in enumerate(uncertainty_ranking)
+            candidate_id: index + 1 for index, candidate_id in enumerate(uncertainty_ranking)
         }
         rounds.append(
             {

@@ -216,8 +216,7 @@ def _run(args: argparse.Namespace) -> int:
                 if elapsed >= cap["attempt_wall_seconds"]:
                     raise AttemptFailure("attempt wall cap reached", failure_class="budget")
                 remaining_trajectory = (
-                    cap["trajectory_two_run_cumulative_wall_seconds"]
-                    - trajectory_wall[index]
+                    cap["trajectory_two_run_cumulative_wall_seconds"] - trajectory_wall[index]
                 )
                 timeout = min(remaining_trajectory, cap["attempt_wall_seconds"] - elapsed)
                 if timeout <= 0:
@@ -320,8 +319,7 @@ def _run(args: argparse.Namespace) -> int:
         status = "succeeded"
         failure_class = "none"
         result_summary = (
-            "RECONSTRUCTION_VALID: 160 trajectories, 800 states, "
-            "two byte-identical aggregates"
+            "RECONSTRUCTION_VALID: 160 trajectories, 800 states, two byte-identical aggregates"
         )
     except (ContractValidationError, AttemptFailure, ValueError) as exc:
         active_wall = time.monotonic() - active_started
