@@ -1,0 +1,82 @@
+{
+  "artifact_contract": {
+    "candidate_ids_in_report": false,
+    "independent_aggregations": 2,
+    "raw_labels_in_report": false,
+    "report_schema_version": "m5a-formal-mechanism-report-v1",
+    "score_encoding": "ieee754-binary64-big-endian-lowercase-16-hex",
+    "tie_break": "score-descending-then-candidate-id-ascending-ascii"
+  },
+  "cohort": {
+    "excluded_successful_attempts": 184,
+    "initial_sample_sizes": [32, 64],
+    "models_and_policies": [
+      ["random-forest-sklearn-v1", "greedy-predictive-mean-v1"],
+      ["random-forest-sklearn-v1", "uncertainty-bootstrap-std-v1"],
+      ["xgboost-cpu-v1", "greedy-predictive-mean-v1"],
+      ["xgboost-cpu-v1", "ucb-bootstrap-std-beta1-v1"]
+    ],
+    "seeds": [1729, 1730, 1731, 1732, 1733, 1734, 1735, 1736, 1737, 1738],
+    "selected_trajectories": 160,
+    "successful_attempt_inventory": 344,
+    "tasks": ["alpha-amylase", "ired"]
+  },
+  "features": {
+    "alpha-amylase": {
+      "row_count": 2262,
+      "sha256": "9a89f12e7c521462a412320937f4455200c75282fae8196d1302b0eac0bf5596",
+      "size_bytes": 16306803
+    },
+    "ired": {
+      "row_count": 2070,
+      "sha256": "1573d70651f2f6450bc354960b170dff2b8b19fd4766f1e0fc6a9622f4e6cb6b",
+      "size_bytes": 14923443
+    }
+  },
+  "resource_caps": {
+    "active_execution_network_bytes": 0,
+    "attempt_wall_seconds": 18000,
+    "estimated_hourly_cost_cny": "1.62",
+    "estimated_maximum_cost_cny": "8.10",
+    "process_tree_peak_rss_bytes": 2147483648,
+    "scratch_high_water_bytes": 1073741824,
+    "trajectory_two_run_cumulative_wall_seconds": 360,
+    "vcpu": 2
+  },
+  "resource_probe": {
+    "result_sha256": "f12be77b36584b39eb8e1859eecb5e3e3e8b7a10f844b51edf0043b241bca09a",
+    "smoke_active_wall_seconds": 129.08163334196433,
+    "smoke_peak_rss_bytes": 669212672,
+    "smoke_scratch_high_water_bytes": 5499609,
+    "smoke_states": 8
+  },
+  "retry_policy": {
+    "automatic_retries": 0,
+    "maximum_attempts": 2,
+    "maximum_cumulative_wall_seconds": 36000,
+    "retryable_failure_class": "transient-infrastructure"
+  },
+  "schema_version": "m5a-formal-reconstruction-contract-v1",
+  "sources": {
+    "conditional-expansion": {
+      "git_commit": "fff8ae7047b88c9f562ed5e1dfbc6aa81bcab8a1",
+      "git_tree": "c6f02ca26b22dd5332754bb05343c40bdc0d2839",
+      "packet_sha256": "5885bc25fd4beb2d73284a4271c3ae28e7684984fe968c457cd523ab1781e5ee",
+      "successful_attempts": 272
+    },
+    "pilot": {
+      "git_commit": "a7cac96335ada2041457982f63e654dca97c8cd7",
+      "git_tree": "04d41337e562a5fa975fd7fd14cdd52bd08bad5b",
+      "packet_sha256": "2c6bcdbe3ff73eb0ac241fd3b25738af467a355be9c8d12e8bcf8c28aab74b12",
+      "successful_attempts": 72
+    }
+  },
+  "stop_conditions": {
+    "actual_selection_mismatches": 0,
+    "aggregate_byte_mismatches": 0,
+    "identity_or_exclusion_drift": 0,
+    "new_benchmark_attempts": 0,
+    "new_oracle_reveals": 0,
+    "unrevealed_truth_or_held_out_reads": 0
+  }
+}
