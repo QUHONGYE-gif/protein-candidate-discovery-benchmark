@@ -78,6 +78,16 @@ def _digest(label: str) -> str:
     return hashlib.sha256(label.encode()).hexdigest()
 
 
+_EXPECTED_BRANCH_IDS = ("E", "G", *(f"M{replicate:02d}" for replicate in range(64)))
+
+
+def _complete_branch_batches() -> dict[str, frozenset[str]]:
+    return {
+        branch_id: frozenset(_digest(f"{branch_id}:{index}") for index in range(16))
+        for branch_id in _EXPECTED_BRANCH_IDS
+    }
+
+
 def _state_payload(
     *,
     task_id: str = "alpha-amylase",
@@ -151,6 +161,30 @@ def test_state_loader_rejects_task_identity_drift_before_truth_read() -> None:
     ),
 )
 def test_state_loader_rejects_v2_scientific_identity_drift(
+    field: str,
+    value: object,
+) -> None:
+    state = _state_payload()
+    state[field] = value
+
+    with pytest.raises(ContractValidationError, match="identity"):
+        load_same_state(compact_json_bytes(state))
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    (
+        ("batch_size", 16.0),
+        ("round_index", 1.0),
+        ("initial_sample_size", 32.0),
+        ("run_seed", 1729.0),
+        ("batch_size", True),
+        ("round_index", True),
+        ("initial_sample_size", True),
+        ("run_seed", True),
+    ),
+)
+def test_state_loader_rejects_non_integer_scientific_identity_aliases(
     field: str,
     value: object,
 ) -> None:
@@ -252,20 +286,29 @@ class _SpyEvaluator:
     ) -> BranchOutcome:
         self.calls.append((observation_prefix_ids, selected_ids))
         return BranchOutcome(
-            actual_high_value_count=self.evaluator_id,
-            best_found_improvement=float(self.evaluator_id),
-            high_value_recall_increment=float(self.evaluator_id) / 10,
-            simple_regret_reduction=-float(self.evaluator_id),
+            actual_high_value_count=1,
+            best_found_improvement=0.2,
+            high_value_recall_increment=0.1,
+            simple_regret_reduction=0.2,
         )
+
+
+@dataclass(frozen=True)
+class _FixedOutcomeEvaluator:
+    outcome: BranchOutcome
+
+    def evaluate_batch(
+        self,
+        *,
+        observation_prefix_ids: tuple[str, ...],
+        selected_ids: frozenset[str],
+    ) -> BranchOutcome:
+        return self.outcome
 
 
 def test_each_branch_uses_a_fresh_evaluator_from_the_same_immutable_prefix() -> None:
     prefix = tuple(_digest(f"prefix:{index}") for index in range(4))
-    branch_batches = {
-        "G": frozenset(_digest(f"greedy:{index}") for index in range(16)),
-        "E": frozenset(_digest(f"exploration:{index}") for index in range(16)),
-        "M00": frozenset(_digest(f"matched:{index}") for index in range(16)),
-    }
+    branch_batches = _complete_branch_batches()
     evaluators: list[_SpyEvaluator] = []
 
     def factory() -> _SpyEvaluator:
@@ -279,23 +322,56 @@ def test_each_branch_uses_a_fresh_evaluator_from_the_same_immutable_prefix() -> 
         branch_batches=branch_batches,
     )
 
-    assert tuple(outcomes) == ("E", "G", "M00")
-    assert len(evaluators) == 3
-    assert len({id(evaluator) for evaluator in evaluators}) == 3
+    assert tuple(outcomes) == _EXPECTED_BRANCH_IDS
+    assert len(evaluators) == 66
+    assert len({id(evaluator) for evaluator in evaluators}) == 66
     assert [evaluator.calls for evaluator in evaluators] == [
-        [(prefix, branch_batches[branch_id])] for branch_id in ("E", "G", "M00")
+        [(prefix, branch_batches[branch_id])] for branch_id in _EXPECTED_BRANCH_IDS
     ]
     assert outcomes["E"].high_value_recall_increment == 0.1
-    assert outcomes["G"].high_value_recall_increment == 0.2
-    assert outcomes["M00"].high_value_recall_increment == 0.3
+    assert outcomes["G"].high_value_recall_increment == 0.1
+    assert outcomes["M63"].high_value_recall_increment == 0.1
+
+
+@pytest.mark.parametrize(
+    "branch_ids",
+    (
+        _EXPECTED_BRANCH_IDS[1:],
+        (_EXPECTED_BRANCH_IDS[0], *_EXPECTED_BRANCH_IDS[2:]),
+        tuple(branch_id for branch_id in _EXPECTED_BRANCH_IDS if branch_id != "M17"),
+        tuple(
+            "matched-17" if branch_id == "M17" else branch_id for branch_id in _EXPECTED_BRANCH_IDS
+        ),
+        (*_EXPECTED_BRANCH_IDS, "extra"),
+        (*_EXPECTED_BRANCH_IDS, "M64"),
+    ),
+)
+def test_branch_dispatch_rejects_any_non_exact_branch_cover_before_evaluation(
+    branch_ids: tuple[str, ...],
+) -> None:
+    factory_calls = 0
+
+    def factory() -> _SpyEvaluator:
+        nonlocal factory_calls
+        factory_calls += 1
+        return _SpyEvaluator(factory_calls)
+
+    with pytest.raises(ContractValidationError, match="exact-cover"):
+        evaluate_isolated_branches(
+            evaluator_factory=factory,
+            observation_prefix_ids=tuple(_digest(f"prefix:{index}") for index in range(4)),
+            branch_batches={
+                branch_id: frozenset(_digest(f"{branch_id}:{index}") for index in range(16))
+                for branch_id in branch_ids
+            },
+        )
+
+    assert factory_calls == 0
 
 
 def test_branch_dispatch_rejects_a_shared_evaluator_instance() -> None:
     prefix = tuple(_digest(f"prefix:{index}") for index in range(4))
-    branches = {
-        "E": frozenset(_digest(f"exploration:{index}") for index in range(16)),
-        "G": frozenset(_digest(f"greedy:{index}") for index in range(16)),
-    }
+    branches = _complete_branch_batches()
     shared = _SpyEvaluator(1)
 
     with pytest.raises(ContractValidationError, match="branch-local"):
@@ -308,11 +384,8 @@ def test_branch_dispatch_rejects_a_shared_evaluator_instance() -> None:
 
 def test_branch_dispatch_keeps_fresh_evaluators_alive_for_the_complete_call() -> None:
     prefix = tuple(_digest(f"prefix:{index}") for index in range(4))
-    branches = {
-        branch_id: frozenset(_digest(f"{branch_id}:{index}") for index in range(16))
-        for branch_id in ("E", "G", "M00", "M01")
-    }
-    next_id = iter(range(1, 5))
+    branches = _complete_branch_batches()
+    next_id = iter(range(1, 67))
 
     outcomes = evaluate_isolated_branches(
         evaluator_factory=lambda: _SpyEvaluator(next(next_id)),
@@ -320,7 +393,50 @@ def test_branch_dispatch_keeps_fresh_evaluators_alive_for_the_complete_call() ->
         branch_batches=branches,
     )
 
-    assert tuple(outcomes) == ("E", "G", "M00", "M01")
+    assert tuple(outcomes) == _EXPECTED_BRANCH_IDS
+
+
+@pytest.mark.parametrize(
+    "outcome",
+    (
+        BranchOutcome(1, -0.1, 0.1, 0.1),
+        BranchOutcome(1, 0.1, -0.1, 0.1),
+        BranchOutcome(1, 0.1, 1.1, 0.1),
+        BranchOutcome(1, 0.1, 0.1, -0.1),
+        BranchOutcome(1, float("nan"), 0.1, 0.1),
+        BranchOutcome(1, 0.1, float("inf"), 0.1),
+        BranchOutcome(1, 0.1, 0.1, float("-inf")),
+    ),
+)
+def test_branch_dispatch_rejects_impossible_aggregate_metrics(
+    outcome: BranchOutcome,
+) -> None:
+    with pytest.raises(ContractValidationError, match="aggregate outcome"):
+        evaluate_isolated_branches(
+            evaluator_factory=lambda: _FixedOutcomeEvaluator(outcome),
+            observation_prefix_ids=tuple(_digest(f"prefix:{index}") for index in range(4)),
+            branch_batches=_complete_branch_batches(),
+        )
+
+
+@pytest.mark.parametrize(
+    "outcome",
+    (
+        BranchOutcome(0, 0.0, 0.0, 0.0),
+        BranchOutcome(16, 0.0, 1.0, 0.0),
+    ),
+)
+def test_branch_dispatch_accepts_valid_aggregate_metric_boundaries(
+    outcome: BranchOutcome,
+) -> None:
+    outcomes = evaluate_isolated_branches(
+        evaluator_factory=lambda: _FixedOutcomeEvaluator(outcome),
+        observation_prefix_ids=tuple(_digest(f"prefix:{index}") for index in range(4)),
+        branch_batches=_complete_branch_batches(),
+    )
+
+    assert tuple(outcomes) == _EXPECTED_BRANCH_IDS
+    assert set(outcomes.values()) == {outcome}
 
 
 def test_same_state_module_never_calls_hidden_oracle_reveal() -> None:

@@ -25,6 +25,8 @@ _MODEL_ORDER = ("random-forest-sklearn-v1", "xgboost-cpu-v1")
 _INITIAL_SIZE_ORDER = (32, 64)
 _RUN_SEEDS = tuple(range(1729, 1739))
 _BOOTSTRAP_DRAWS = 20_000
+_BRANCH_ORDER = ("E", "G", *(f"M{replicate:02d}" for replicate in range(64)))
+_BRANCH_IDS = frozenset(_BRANCH_ORDER)
 
 _TASK_BINDINGS = {
     "alpha-amylase": {
@@ -262,6 +264,10 @@ def load_same_state(payload: bytes) -> SameState:
         model_binding is None
         or any(value[field] != expected for field, expected in model_binding.items())
         or any(value[field] != expected for field, expected in _GREEDY_BINDING.items())
+        or any(
+            type(value[field]) is not int
+            for field in ("batch_size", "round_index", "initial_sample_size", "run_seed")
+        )
         or value["batch_size"] != 16
         or value["round_index"] != 1
         or value["initial_sample_size"] not in {32, 64}
@@ -408,14 +414,12 @@ def evaluate_isolated_branches(
     prefix = tuple(observation_prefix_ids)
     if len(set(prefix)) != len(prefix) or any(not _SHA256.fullmatch(item) for item in prefix):
         raise ContractValidationError("M5B observation prefix candidate IDs are invalid")
-    if not branch_batches:
-        raise ContractValidationError("M5B branch batches are empty")
+    if set(branch_batches) != _BRANCH_IDS:
+        raise ContractValidationError("M5B branches must exact-cover E, G, and M00..M63")
     outcomes: dict[str, BranchOutcome] = {}
     evaluator_ids: set[int] = set()
     evaluators: list[BranchEvaluator] = []
-    for branch_id in sorted(branch_batches):
-        if branch_id not in {"E", "G"} and not re.fullmatch(r"M\d{2}", branch_id):
-            raise ContractValidationError("M5B branch identity is invalid")
+    for branch_id in _BRANCH_ORDER:
         selected = branch_batches[branch_id]
         if (
             not isinstance(selected, frozenset)
@@ -448,6 +452,9 @@ def evaluate_isolated_branches(
                     outcome.simple_regret_reduction,
                 )
             )
+            or outcome.best_found_improvement < 0
+            or not 0 <= outcome.high_value_recall_increment <= 1
+            or outcome.simple_regret_reduction < 0
         ):
             raise ContractValidationError("M5B evaluator returned an invalid aggregate outcome")
         outcomes[branch_id] = outcome
