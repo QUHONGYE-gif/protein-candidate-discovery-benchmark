@@ -7,6 +7,7 @@ import hashlib
 import json
 from dataclasses import dataclass, field, replace
 from pathlib import Path
+from typing import Any, cast
 
 import pytest
 
@@ -411,6 +412,25 @@ def test_branch_dispatch_keeps_fresh_evaluators_alive_for_the_complete_call() ->
 def test_branch_dispatch_rejects_impossible_aggregate_metrics(
     outcome: BranchOutcome,
 ) -> None:
+    with pytest.raises(ContractValidationError, match="aggregate outcome"):
+        evaluate_isolated_branches(
+            evaluator_factory=lambda: _FixedOutcomeEvaluator(outcome),
+            observation_prefix_ids=tuple(_digest(f"prefix:{index}") for index in range(4)),
+            branch_batches=_complete_branch_batches(),
+        )
+
+
+@pytest.mark.parametrize("actual_high_value_count", (1.0, 1.5, True, "one"))
+def test_branch_dispatch_rejects_non_integer_high_value_counts(
+    actual_high_value_count: object,
+) -> None:
+    outcome = BranchOutcome(
+        actual_high_value_count=cast(Any, actual_high_value_count),
+        best_found_improvement=0.1,
+        high_value_recall_increment=0.1,
+        simple_regret_reduction=0.1,
+    )
+
     with pytest.raises(ContractValidationError, match="aggregate outcome"):
         evaluate_isolated_branches(
             evaluator_factory=lambda: _FixedOutcomeEvaluator(outcome),

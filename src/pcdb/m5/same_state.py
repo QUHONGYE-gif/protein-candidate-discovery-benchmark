@@ -440,7 +440,7 @@ def evaluate_isolated_branches(
         )
         if (
             not isinstance(outcome, BranchOutcome)
-            or isinstance(outcome.actual_high_value_count, bool)
+            or type(outcome.actual_high_value_count) is not int
             or not 0 <= outcome.actual_high_value_count <= 16
             or any(
                 not isinstance(value, (int, float))
