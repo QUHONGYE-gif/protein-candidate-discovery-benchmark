@@ -2,14 +2,34 @@
 
 from __future__ import annotations
 
+import ast
 import hashlib
 import json
+from dataclasses import dataclass, field, replace
+from pathlib import Path
 
 import pytest
 
 from pcdb.contracts import ContractValidationError
 from pcdb.m5.reconstruction_smoke import compact_json_bytes
-from pcdb.m5.same_state import build_state_inventory, load_same_state, matched_random_batch
+from pcdb.m5.same_state import (
+    AttemptRecord,
+    BranchOutcome,
+    StateEffects,
+    TaskContrastSummary,
+    TaskTaxonomyInput,
+    bootstrap_index,
+    bootstrap_task_effects,
+    build_state_inventory,
+    classify_contrast,
+    classify_taxonomy,
+    evaluate_isolated_branches,
+    load_same_state,
+    matched_random_batch,
+    matched_replicate_bootstrap_mean,
+    percentile_type7,
+    select_canonical_attempt,
+)
 
 _TASK_BINDINGS = {
     "alpha-amylase": {
@@ -117,6 +137,30 @@ def test_state_loader_rejects_task_identity_drift_before_truth_read() -> None:
         load_same_state(compact_json_bytes(value))
 
 
+@pytest.mark.parametrize(
+    ("field", "value"),
+    (
+        ("batch_size", 15),
+        ("round_index", 2),
+        ("run_seed", 1739),
+        ("initial_sample_size", 48),
+        ("parent_inventory_sha256", "b" * 64),
+        ("model_config_sha256", "b" * 64),
+        ("exploration_acquisition_config_sha256", "b" * 64),
+        ("attempt_sha256_greedy", "B" * 64),
+    ),
+)
+def test_state_loader_rejects_v2_scientific_identity_drift(
+    field: str,
+    value: object,
+) -> None:
+    state = _state_payload()
+    state[field] = value
+
+    with pytest.raises(ContractValidationError, match="identity"):
+        load_same_state(compact_json_bytes(state))
+
+
 def test_inventory_exact_covers_and_orders_the_80_outcome_free_states() -> None:
     payloads = [
         compact_json_bytes(
@@ -193,3 +237,411 @@ def test_matched_random_preserves_exact_greedy_overlap_and_frozen_draw() -> None
     assert selection.selected_ids == exact_overlap | frozenset(expected_draw)
     assert selection.selected_ids & frozenset(greedy) == exact_overlap
     assert len(selection.selected_ids) == 16
+
+
+@dataclass
+class _SpyEvaluator:
+    evaluator_id: int
+    calls: list[tuple[tuple[str, ...], frozenset[str]]] = field(default_factory=list)
+
+    def evaluate_batch(
+        self,
+        *,
+        observation_prefix_ids: tuple[str, ...],
+        selected_ids: frozenset[str],
+    ) -> BranchOutcome:
+        self.calls.append((observation_prefix_ids, selected_ids))
+        return BranchOutcome(
+            actual_high_value_count=self.evaluator_id,
+            best_found_improvement=float(self.evaluator_id),
+            high_value_recall_increment=float(self.evaluator_id) / 10,
+            simple_regret_reduction=-float(self.evaluator_id),
+        )
+
+
+def test_each_branch_uses_a_fresh_evaluator_from_the_same_immutable_prefix() -> None:
+    prefix = tuple(_digest(f"prefix:{index}") for index in range(4))
+    branch_batches = {
+        "G": frozenset(_digest(f"greedy:{index}") for index in range(16)),
+        "E": frozenset(_digest(f"exploration:{index}") for index in range(16)),
+        "M00": frozenset(_digest(f"matched:{index}") for index in range(16)),
+    }
+    evaluators: list[_SpyEvaluator] = []
+
+    def factory() -> _SpyEvaluator:
+        evaluator = _SpyEvaluator(len(evaluators) + 1)
+        evaluators.append(evaluator)
+        return evaluator
+
+    outcomes = evaluate_isolated_branches(
+        evaluator_factory=factory,
+        observation_prefix_ids=prefix,
+        branch_batches=branch_batches,
+    )
+
+    assert tuple(outcomes) == ("E", "G", "M00")
+    assert len(evaluators) == 3
+    assert len({id(evaluator) for evaluator in evaluators}) == 3
+    assert [evaluator.calls for evaluator in evaluators] == [
+        [(prefix, branch_batches[branch_id])] for branch_id in ("E", "G", "M00")
+    ]
+    assert outcomes["E"].high_value_recall_increment == 0.1
+    assert outcomes["G"].high_value_recall_increment == 0.2
+    assert outcomes["M00"].high_value_recall_increment == 0.3
+
+
+def test_branch_dispatch_rejects_a_shared_evaluator_instance() -> None:
+    prefix = tuple(_digest(f"prefix:{index}") for index in range(4))
+    branches = {
+        "E": frozenset(_digest(f"exploration:{index}") for index in range(16)),
+        "G": frozenset(_digest(f"greedy:{index}") for index in range(16)),
+    }
+    shared = _SpyEvaluator(1)
+
+    with pytest.raises(ContractValidationError, match="branch-local"):
+        evaluate_isolated_branches(
+            evaluator_factory=lambda: shared,
+            observation_prefix_ids=prefix,
+            branch_batches=branches,
+        )
+
+
+def test_branch_dispatch_keeps_fresh_evaluators_alive_for_the_complete_call() -> None:
+    prefix = tuple(_digest(f"prefix:{index}") for index in range(4))
+    branches = {
+        branch_id: frozenset(_digest(f"{branch_id}:{index}") for index in range(16))
+        for branch_id in ("E", "G", "M00", "M01")
+    }
+    next_id = iter(range(1, 5))
+
+    outcomes = evaluate_isolated_branches(
+        evaluator_factory=lambda: _SpyEvaluator(next(next_id)),
+        observation_prefix_ids=prefix,
+        branch_batches=branches,
+    )
+
+    assert tuple(outcomes) == ("E", "G", "M00", "M01")
+
+
+def test_same_state_module_never_calls_hidden_oracle_reveal() -> None:
+    module_path = Path(__file__).resolve().parents[2] / "src/pcdb/m5/same_state.py"
+    tree = ast.parse(module_path.read_text(encoding="utf-8"))
+
+    reveal_calls = [
+        node
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Attribute)
+        and node.func.attr == "reveal"
+    ]
+    assert reveal_calls == []
+
+
+def test_counter_based_bootstrap_index_matches_the_v2_golden_formula() -> None:
+    payload = ("seed-cluster", "alpha-amylase", 32, 17, 4)
+    golden_bytes = compact_json_bytes(["m5b-alpha-ired-one-step-v2-bootstrap", *payload])
+    expected = int.from_bytes(hashlib.sha256(golden_bytes).digest()[:8], "big") % 10
+
+    assert bootstrap_index(10, payload) == expected
+    assert bootstrap_index(10, payload) == bootstrap_index(10, payload)
+
+
+def test_type7_percentile_uses_the_frozen_9875_percent_ci_endpoints() -> None:
+    draws = (0.0, 10.0, 20.0, 30.0, 40.0)
+
+    assert percentile_type7(draws, 0.00625) == 0.25
+    assert percentile_type7(draws, 0.99375) == 39.75
+    assert percentile_type7(draws, 0.5) == 20.0
+
+
+@pytest.mark.parametrize(
+    ("lower", "upper", "expected"),
+    (
+        (0.11, 0.30, "SUPERIOR"),
+        (-0.30, -0.11, "INFERIOR"),
+        (-0.10, 0.10, "EQUIVALENT"),
+        (-0.09, 0.20, "NONINFERIOR_ONLY"),
+        (-0.20, 0.20, "INCONCLUSIVE"),
+    ),
+)
+def test_contrast_status_has_one_frozen_boundary_result(
+    lower: float,
+    upper: float,
+    expected: str,
+) -> None:
+    assert classify_contrast(lower=lower, upper=upper, delta=0.10) == expected
+
+
+def test_task_first_bootstrap_runs_the_frozen_20000_draw_protocol() -> None:
+    effects = tuple(
+        StateEffects(
+            exploration_minus_greedy=0.20 if task_id == "alpha-amylase" else -0.20,
+            exploration_minus_matched=((0.15 if task_id == "alpha-amylase" else -0.15),) * 64,
+            initial_sample_size=initial_sample_size,
+            model_id=model_id,
+            run_seed=run_seed,
+            state_id=_digest(f"effect:{task_id}:{model_id}:{initial_sample_size}:{run_seed}"),
+            task_id=task_id,
+        )
+        for task_id in _TASK_BINDINGS
+        for model_id in _MODEL_BINDINGS
+        for initial_sample_size in (32, 64)
+        for run_seed in range(1729, 1739)
+    )
+
+    summaries = {
+        (summary.task_id, summary.contrast): summary for summary in bootstrap_task_effects(effects)
+    }
+
+    assert set(summaries) == {
+        ("alpha-amylase", "E-G"),
+        ("alpha-amylase", "E-M"),
+        ("ired", "E-G"),
+        ("ired", "E-M"),
+    }
+    assert all(summary.bootstrap_draws == 20_000 for summary in summaries.values())
+    assert summaries[("alpha-amylase", "E-G")].status == "SUPERIOR"
+    assert summaries[("alpha-amylase", "E-M")].status == "SUPERIOR"
+    assert summaries[("ired", "E-G")].status == "INFERIOR"
+    assert summaries[("ired", "E-M")].status == "INFERIOR"
+    assert summaries[("alpha-amylase", "E-G")].ci_lower == pytest.approx(0.20)
+    assert summaries[("alpha-amylase", "E-G")].ci_upper == pytest.approx(0.20)
+
+
+def test_matched_replicate_bootstrap_mean_uses_all_64_frozen_counters() -> None:
+    state = StateEffects(
+        exploration_minus_greedy=0.0,
+        exploration_minus_matched=tuple(index / 64 for index in range(64)),
+        initial_sample_size=32,
+        model_id="random-forest-sklearn-v1",
+        run_seed=1729,
+        state_id=_digest("matched-bootstrap-state"),
+        task_id="alpha-amylase",
+    )
+    expected = (
+        sum(
+            state.exploration_minus_matched[
+                bootstrap_index(
+                    64,
+                    ("m-replicate", state.state_id, 23, 2, replicate_slot),
+                )
+            ]
+            for replicate_slot in range(64)
+        )
+        / 64
+    )
+
+    assert matched_replicate_bootstrap_mean(state, draw=23, occurrence=2) == pytest.approx(expected)
+
+
+def _contrast_summary(
+    task_id: str,
+    contrast: str,
+    status: str,
+    point_estimate: float | None = None,
+    cell_point_estimates: tuple[float, ...] | None = None,
+) -> TaskContrastSummary:
+    defaults = {
+        "SUPERIOR": (0.10, 0.10, 0.10),
+        "INFERIOR": (-0.10, -0.10, -0.10),
+        "EQUIVALENT": (0.0, 0.0, 0.0),
+        "NONINFERIOR_ONLY": (0.02, -0.04, 0.08),
+        "INCONCLUSIVE": (0.0, -0.10, 0.10),
+    }
+    default_point, lower, upper = defaults[status]
+    resolved_point = default_point if point_estimate is None else point_estimate
+    return TaskContrastSummary(
+        bootstrap_draws=20_000,
+        cell_point_estimates=cell_point_estimates or (resolved_point,) * 4,
+        ci_lower=lower if point_estimate is None else resolved_point,
+        ci_upper=upper if point_estimate is None else resolved_point,
+        contrast=contrast,
+        point_estimate=resolved_point,
+        status=status,
+        task_id=task_id,
+    )
+
+
+def _taxonomy_input(
+    task_id: str,
+    *,
+    eg_status: str,
+    em_status: str,
+    differences: tuple[int, ...],
+) -> TaskTaxonomyInput:
+    e_g = _contrast_summary(task_id, "E-G", eg_status)
+    e_m = _contrast_summary(task_id, "E-M", em_status)
+    return TaskTaxonomyInput(
+        actual_high_value_count=23 if task_id == "alpha-amylase" else 21,
+        exploration_greedy_difference_counts=differences,
+        frozen_candidate_count=2262 if task_id == "alpha-amylase" else 2070,
+        primary_e_g=e_g,
+        primary_e_m=e_m,
+        required_defined=True,
+        sensitivity_e_g_point_estimates=(e_g.point_estimate,) * 2,
+        sensitivity_e_m_point_estimates=(e_m.point_estimate,) * 2,
+        task_id=task_id,
+    )
+
+
+@pytest.mark.parametrize(
+    ("eg_status", "em_status", "differences", "expected"),
+    (
+        ("EQUIVALENT", "EQUIVALENT", (1,) * 40, "BEHAVIOR_REDUNDANCY"),
+        ("INFERIOR", "EQUIVALENT", (3,) * 40, "UNINFORMATIVE_DEVIATION"),
+        ("EQUIVALENT", "SUPERIOR", (3,) * 40, "OPPORTUNITY_COST"),
+        ("SUPERIOR", "SUPERIOR", (3,) * 40, "CONDITIONAL_POSITIVE"),
+        ("INFERIOR", "INCONCLUSIVE", (3,) * 40, "OTHER_NEGATIVE"),
+        ("NONINFERIOR_ONLY", "NONINFERIOR_ONLY", (3,) * 40, "INCONCLUSIVE"),
+    ),
+)
+def test_task_mechanism_and_overall_rollup_are_single_valued(
+    eg_status: str,
+    em_status: str,
+    differences: tuple[int, ...],
+    expected: str,
+) -> None:
+    inputs = tuple(
+        _taxonomy_input(
+            task_id,
+            eg_status=eg_status,
+            em_status=em_status,
+            differences=differences,
+        )
+        for task_id in _TASK_BINDINGS
+    )
+
+    taxonomy = classify_taxonomy(inputs, validity_ok=True)
+
+    assert taxonomy.overall_status == expected
+    assert dict(taxonomy.task_statuses) == {
+        "alpha-amylase": expected,
+        "ired": expected,
+    }
+
+
+def test_taxonomy_precedence_is_validity_then_undefined_fragility_instability() -> None:
+    base = tuple(
+        TaskTaxonomyInput(
+            actual_high_value_count=23 if task_id == "alpha-amylase" else 21,
+            exploration_greedy_difference_counts=(3,) * 40,
+            frozen_candidate_count=2262 if task_id == "alpha-amylase" else 2070,
+            primary_e_g=_contrast_summary(task_id, "E-G", "SUPERIOR", 0.05),
+            primary_e_m=_contrast_summary(task_id, "E-M", "SUPERIOR", 0.05),
+            required_defined=True,
+            sensitivity_e_g_point_estimates=(0.04, 0.06),
+            sensitivity_e_m_point_estimates=(0.04, 0.06),
+            task_id=task_id,
+        )
+        for task_id in _TASK_BINDINGS
+    )
+    undefined = (replace(base[0], required_defined=False), base[1])
+    fragile = (replace(base[0], actual_high_value_count=46), base[1])
+    unstable = (
+        replace(
+            base[0],
+            primary_e_g=replace(
+                base[0].primary_e_g,
+                cell_point_estimates=(0.10, -0.10, 0.05, 0.05),
+            ),
+        ),
+        base[1],
+    )
+
+    assert classify_taxonomy(fragile, validity_ok=False).overall_status == "VALIDITY_STOP"
+    assert classify_taxonomy(undefined, validity_ok=True).overall_status == (
+        "UNDEFINED_INCONCLUSIVE"
+    )
+    assert classify_taxonomy(fragile, validity_ok=True).overall_status == "FRAGILE_INCONCLUSIVE"
+    assert classify_taxonomy(unstable, validity_ok=True).overall_status == "UNSTABLE"
+
+
+def test_taxonomy_rejects_a_status_that_disagrees_with_its_frozen_ci() -> None:
+    inputs = tuple(
+        _taxonomy_input(
+            task_id,
+            eg_status="SUPERIOR",
+            em_status="SUPERIOR",
+            differences=(3,) * 40,
+        )
+        for task_id in _TASK_BINDINGS
+    )
+    forged = (
+        replace(
+            inputs[0],
+            primary_e_g=replace(inputs[0].primary_e_g, status="EQUIVALENT"),
+        ),
+        inputs[1],
+    )
+
+    with pytest.raises(ContractValidationError, match="taxonomy input"):
+        classify_taxonomy(forged, validity_ok=True)
+
+
+def _attempt(
+    attempt_id: str,
+    *,
+    complete: bool,
+    valid: bool,
+    failure_class: str | None = None,
+    external_evidence: bool = False,
+    unchanged_inputs: bool = True,
+    human_retry_authorized: bool = False,
+    input_identity: str | None = None,
+) -> AttemptRecord:
+    return AttemptRecord(
+        attempt_id=attempt_id,
+        complete_terminal=complete,
+        external_failure_evidence=external_evidence,
+        failure_class=failure_class,
+        human_retry_authorized=human_retry_authorized,
+        input_identity_sha256=input_identity or _digest("frozen-m5b-input"),
+        unchanged_input_checksums=unchanged_inputs,
+        valid_terminal=valid,
+    )
+
+
+def test_retry_and_canonical_result_rules_reject_outcome_selected_attempts() -> None:
+    first_complete = _attempt("attempt-001", complete=True, valid=True)
+    complete_selection = select_canonical_attempt((first_complete,))
+    forbidden_second = _attempt(
+        "attempt-002",
+        complete=True,
+        valid=True,
+        human_retry_authorized=True,
+    )
+    timeout = _attempt(
+        "attempt-001",
+        complete=False,
+        valid=False,
+        failure_class="timeout",
+        external_evidence=True,
+    )
+    preempted = _attempt(
+        "attempt-001",
+        complete=False,
+        valid=False,
+        failure_class="scheduler_preemption",
+        external_evidence=True,
+    )
+    authorized_second = _attempt(
+        "attempt-002",
+        complete=True,
+        valid=True,
+        human_retry_authorized=True,
+    )
+
+    assert complete_selection.status == "COMPLETE"
+    assert complete_selection.canonical_attempt_id == "attempt-001"
+    assert complete_selection.retry_eligible is False
+    assert select_canonical_attempt((first_complete, forbidden_second)).status == "VALIDITY_STOP"
+    assert select_canonical_attempt((timeout,)).retry_eligible is False
+    assert select_canonical_attempt((preempted,)).retry_eligible is True
+    assert select_canonical_attempt((preempted, authorized_second)).canonical_attempt_id == (
+        "attempt-002"
+    )
+    drifted_second = replace(
+        authorized_second,
+        input_identity_sha256=_digest("drifted-input"),
+    )
+    assert select_canonical_attempt((preempted, drifted_second)).status == "VALIDITY_STOP"
