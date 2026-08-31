@@ -17,6 +17,7 @@ from pcdb.m5.reconstruction_smoke import compact_json_bytes
 STATE_SCHEMA_VERSION = "m5b-alpha-ired-state-v2"
 INVENTORY_SCHEMA_VERSION = "m5b-alpha-ired-state-inventory-v2"
 PARENT_INVENTORY_SHA256 = "11c3ba0f64d9db8b9967c1df1e5c4ebbf3b5b0d855b472885564ddd0ce70573b"
+SOURCE_ENVIRONMENT_DIGEST = "863ddd6ce1e79542013efe338e7a65cef2bb35ed3c6c53645630ba7278c3732d"
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _MATCHED_RANDOM_PREFIX = b"m5b-alpha-ired-one-step-v2\0matched-random\0"
 _BOOTSTRAP_ID = "m5b-alpha-ired-one-step-v2-bootstrap"
@@ -259,6 +260,8 @@ def load_same_state(payload: bytes) -> SameState:
         value[field] != expected for field, expected in task_binding.items()
     ):
         raise ContractValidationError("M5B task binding drifted")
+    if value["source_environment_digest"] != SOURCE_ENVIRONMENT_DIGEST:
+        raise ContractValidationError("M5B source environment identity drifted")
     model_binding = _MODEL_BINDINGS.get(value["model_id"])
     if (
         model_binding is None
