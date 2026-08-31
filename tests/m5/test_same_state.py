@@ -125,7 +125,9 @@ def _state_payload(
         "round_index": 1,
         "run_seed": run_seed,
         "schema_version": "m5b-alpha-ired-state-v2",
-        "source_environment_digest": _digest("synthetic-environment"),
+        "source_environment_digest": (
+            "863ddd6ce1e79542013efe338e7a65cef2bb35ed3c6c53645630ba7278c3732d"
+        ),
         "task_id": task_id,
     }
 
@@ -145,6 +147,14 @@ def test_state_loader_rejects_task_identity_drift_before_truth_read() -> None:
     value["dataset_manifest_sha256"] = "b" * 64
 
     with pytest.raises(ContractValidationError, match="task binding"):
+        load_same_state(compact_json_bytes(value))
+
+
+def test_state_loader_rejects_source_environment_drift_before_truth_read() -> None:
+    value = _state_payload()
+    value["source_environment_digest"] = _digest("different-runtime-environment")
+
+    with pytest.raises(ContractValidationError, match="source environment"):
         load_same_state(compact_json_bytes(value))
 
 
