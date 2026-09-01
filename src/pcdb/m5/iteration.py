@@ -38,7 +38,7 @@ _TASKS = ("alpha-amylase", "ired")
 _BRANCH_IDS = ("E", "G", *(f"M{index:02d}" for index in range(64)))
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _GIT_COMMIT = re.compile(r"^[0-9a-f]{40}$")
-_ATTEMPT_ID = re.compile(r"^attempt-[0-9]{3}$")
+_ATTEMPT_ID = "attempt-001"
 _SCIENTIFIC_PARENT = {
     "execution_commit": "f75382ae6f90267b47c4379fc58b75b61a1da885",
     "execution_tree": "fb93c07b772c49939695647c8260aa837047539d",
@@ -65,6 +65,7 @@ class IterationEvaluation:
     inventory_sha256: str
     primary_effects: tuple[StateEffects, ...]
     sensitivity_effects: MappingProxyType[float, tuple[StateEffects, ...]]
+    consistency_effects: MappingProxyType[str, tuple[StateEffects, ...]]
     difference_counts: MappingProxyType[str, tuple[int, ...]]
     high_value_counts: MappingProxyType[str, int]
     truth_sha256: MappingProxyType[str, str]
@@ -197,7 +198,7 @@ def load_iteration_authorization(payload: bytes) -> IterationAuthorization:
     ):
         raise ContractValidationError("M5B iteration scientific parent drifted")
     study = _mapping(value["study"], {"attempt_id", "study_root"}, "study")
-    if not isinstance(study["attempt_id"], str) or not _ATTEMPT_ID.fullmatch(study["attempt_id"]):
+    if study["attempt_id"] != _ATTEMPT_ID:
         raise ContractValidationError("M5B iteration attempt ID is invalid")
     _path(study["study_root"], "study root")
     boundary = _mapping(
@@ -415,6 +416,10 @@ def evaluate_iteration(
         for state in inventory.states
     }
     effects: dict[float, list[StateEffects]] = {fraction: [] for fraction in _FRACTIONS}
+    consistency_effects: dict[str, list[StateEffects]] = {
+        "best_found_improvement": [],
+        "simple_regret_reduction": [],
+    }
     difference_counts: dict[str, list[int]] = {task_id: [] for task_id in _TASKS}
     for key in sorted(grouped):
         task_id, model_id, initial_size, run_seed = key
@@ -468,11 +473,36 @@ def evaluate_iteration(
                     task_id=task_id,
                 )
             )
+        for metric_id in consistency_effects:
+            exploration_value = cast(float, getattr(outcomes["E"][0.01], metric_id))
+            consistency_effects[metric_id].append(
+                StateEffects(
+                    exploration_minus_greedy=(
+                        exploration_value - cast(float, getattr(outcomes["G"][0.01], metric_id))
+                    ),
+                    exploration_minus_matched=tuple(
+                        exploration_value
+                        - cast(
+                            float,
+                            getattr(outcomes[f"M{replicate:02d}"][0.01], metric_id),
+                        )
+                        for replicate in range(64)
+                    ),
+                    initial_sample_size=initial_size,
+                    model_id=model_id,
+                    run_seed=run_seed,
+                    state_id=state_ids[key],
+                    task_id=task_id,
+                )
+            )
     return IterationEvaluation(
         inventory_sha256=inventory.sha256,
         primary_effects=tuple(effects[0.01]),
         sensitivity_effects=MappingProxyType(
             {fraction: tuple(effects[fraction]) for fraction in (0.005, 0.02)}
+        ),
+        consistency_effects=MappingProxyType(
+            {metric_id: tuple(values) for metric_id, values in consistency_effects.items()}
         ),
         difference_counts=MappingProxyType(
             {task_id: tuple(values) for task_id, values in difference_counts.items()}
@@ -531,8 +561,27 @@ def build_iteration_report(evaluation: IterationEvaluation) -> bytes:
             )
         return cast(dict[str, object], value)
 
+    consistency_summaries = {
+        metric_id: [
+            {
+                "contrasts": {
+                    "E-G": binary64_hex(
+                        _task_point(evaluation.consistency_effects[metric_id], task_id, "E-G")
+                    ),
+                    "E-M": binary64_hex(
+                        _task_point(evaluation.consistency_effects[metric_id], task_id, "E-M")
+                    ),
+                },
+                "task_id": task_id,
+            }
+            for task_id in _TASKS
+        ]
+        for metric_id in ("best_found_improvement", "simple_regret_reduction")
+    }
+
     report = {
         "branch_evaluations": 80 * 66,
+        "consistency_summaries": consistency_summaries,
         "development_truth_files_read": 2,
         "held_out_reads": 0,
         "inventory_sha256": evaluation.inventory_sha256,

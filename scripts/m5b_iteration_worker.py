@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build one outcome-free M5B state inventory in an isolated fresh process."""
+"""Validate the M5B inventory, then run one authorized truth-bearing iteration."""
 
 from __future__ import annotations
 
@@ -47,12 +47,15 @@ def _write_exclusive(path: Path, payload: bytes) -> None:
 
 
 def _git(root: Path, *args: str) -> str:
-    return subprocess.run(
-        ("git", "-C", str(root), *args),
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout.strip()
+    try:
+        return subprocess.run(
+            ("git", "-C", str(root), *args),
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        raise ContractValidationError("M5B git identity command failed") from None
 
 
 def _environment_digest() -> str:

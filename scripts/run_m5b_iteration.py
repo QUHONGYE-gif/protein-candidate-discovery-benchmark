@@ -240,7 +240,9 @@ def _run(authorization_path: Path) -> tuple[dict[str, object], int]:
         result = json.loads(result_bytes)
         audit = json.loads((artifacts / "audit.json").read_bytes())
         elapsed = time.monotonic() - started
-        estimated_cost = elapsed / 3600 * float(caps["estimated_hourly_cost_cny"])
+        estimated_cost = (
+            elapsed / 3600 * float(cast(str | float | int, caps["estimated_hourly_cost_cny"]))
+        )
         if (
             result.get("schema_version") != "m5b-bounded-iteration-result-v1"
             or audit.get("schema_version") != "m5b-bounded-iteration-audit-v1"
@@ -258,7 +260,7 @@ def _run(authorization_path: Path) -> tuple[dict[str, object], int]:
         ):
             failure_class = "validity"
             raise ContractValidationError("M5B iteration result or boundary audit drifted")
-        if estimated_cost > float(caps["maximum_cost_cny"]):
+        if estimated_cost > float(cast(str | float | int, caps["maximum_cost_cny"])):
             failure_class = "budget"
             raise ContractValidationError("M5B iteration coarse cost cap exceeded")
         status = "succeeded"
@@ -305,6 +307,11 @@ def _run(authorization_path: Path) -> tuple[dict[str, object], int]:
         "study_id": STUDY_ID,
     }
     _append(study_root / "attempts.jsonl", compact_json_bytes(ledger))
+    if status == "succeeded":
+        marker_path = attempt_root / "_SUCCESS"
+        _write_exclusive(marker_path, b"")
+        if marker_path.read_bytes() != b"":
+            raise ContractValidationError("M5B success marker identity drifted")
     return terminal, 0 if status == "succeeded" else 2
 
 

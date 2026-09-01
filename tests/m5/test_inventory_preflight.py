@@ -8,6 +8,7 @@ import subprocess
 import sys
 from dataclasses import replace
 from pathlib import Path
+from types import MappingProxyType
 
 import pytest
 
@@ -29,7 +30,7 @@ from pcdb.m5.iteration import (
 )
 from pcdb.m5.reconstruction_smoke import compact_json_bytes
 from pcdb.m5.same_state import build_state_inventory
-from pcdb.replay.engine import ReplayEvent, ReplayTrajectory
+from pcdb.replay.engine import ImmediateBatchEvaluator, ReplayEvent, ReplayTrajectory
 from pcdb.replay.oracle import Observation
 
 _TASK_BINDINGS = {
@@ -410,6 +411,20 @@ def test_iteration_authorization_exact_binds_truth_attempt_and_budget(tmp_path: 
     assert loaded.value["automatic_retries"] == 0
 
 
+@pytest.mark.parametrize("attempt_id", ("attempt-002", "attempt-003"))
+def test_iteration_authorization_rejects_noncanonical_attempt(
+    tmp_path: Path, attempt_id: str
+) -> None:
+    value = _iteration_authorization(tmp_path)
+    value["study"] = {
+        "attempt_id": attempt_id,
+        "study_root": str(tmp_path / "study"),
+    }
+
+    with pytest.raises(ContractValidationError, match="attempt ID"):
+        load_iteration_authorization(compact_json_bytes(value))
+
+
 @pytest.mark.parametrize(
     ("field", "invalid", "match"),
     (
@@ -489,6 +504,88 @@ def test_iteration_runner_records_one_append_only_failed_attempt(tmp_path: Path)
     ledger = json.loads((tmp_path / "study" / "attempts.jsonl").read_text())
     assert ledger["attempt_id"] == "attempt-001"
     assert ledger["status"] == "failed"
+    assert not (attempt_root / "_SUCCESS").exists()
+
+
+def test_iteration_runner_writes_success_marker_last_for_valid_terminal(tmp_path: Path) -> None:
+    value = _iteration_authorization(tmp_path)
+    parent = value["authoritative_parent"]
+    assert isinstance(parent, dict)
+    for field in (
+        "conditional_source_root",
+        "conditional_store_root",
+        "feature_root",
+        "formal_attempt_root",
+        "pilot_source_root",
+        "pilot_store_root",
+    ):
+        directory = tmp_path / field
+        directory.mkdir()
+        parent[field] = str(directory)
+    formal_contract = tmp_path / "formal-contract.json"
+    formal_contract.write_bytes(b"{}\n")
+    parent["formal_contract_path"] = str(formal_contract)
+    truth_inputs = value["truth_inputs"]
+    assert isinstance(truth_inputs, dict)
+    for item in truth_inputs.values():
+        assert isinstance(item, dict)
+        Path(item["hidden_truth_path"]).write_bytes(b"candidate_id,target\n")
+        Path(item["processing_manifest_path"]).write_bytes(b"{}\n")
+    worker = tmp_path / "successful-worker.py"
+    worker.write_text(
+        """\
+import argparse
+import hashlib
+import json
+from pathlib import Path
+
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument("--authorization-sha256", required=True)
+parser.add_argument("--expected-runtime-environment-digest", required=True)
+parser.add_argument("--output-root", type=Path, required=True)
+args, _ = parser.parse_known_args()
+inventory = b"{}\\n"
+inventory_sha256 = hashlib.sha256(inventory).hexdigest()
+result = json.dumps({
+    "inventory_sha256": inventory_sha256,
+    "overall_status": "INCONCLUSIVE",
+    "schema_version": "m5b-bounded-iteration-result-v1",
+}, sort_keys=True, separators=(",", ":")).encode() + b"\\n"
+audit = json.dumps({
+    "authorization_sha256": args.authorization_sha256,
+    "branch_evaluations": 5280,
+    "cos_publication_writes": 0,
+    "held_out_reads": 0,
+    "inventory_sha256": inventory_sha256,
+    "network_bytes": 0,
+    "parent_read_only_verified": True,
+    "result_sha256": hashlib.sha256(result).hexdigest(),
+    "runtime_environment_digest": args.expected_runtime_environment_digest,
+    "schema_version": "m5b-bounded-iteration-audit-v1",
+    "selected_candidate_reveals": 84480,
+}, sort_keys=True, separators=(",", ":")).encode() + b"\\n"
+args.output_root.joinpath("inventory.json").write_bytes(inventory)
+args.output_root.joinpath("result.json").write_bytes(result)
+args.output_root.joinpath("audit.json").write_bytes(audit)
+""",
+        encoding="utf-8",
+    )
+    runner = value["runner"]
+    assert isinstance(runner, dict)
+    runner["worker_command"] = [sys.executable, str(worker)]
+    authorization_path = tmp_path / "authorization.json"
+    authorization_path.write_bytes(compact_json_bytes(value))
+
+    completed = _run_iteration_cli(authorization_path)
+    terminal = json.loads(completed.stdout)
+    attempt_root = tmp_path / "study" / "attempt-001"
+
+    assert completed.returncode == 0
+    assert terminal["status"] == "COMPLETE_FOR_SCIENTIFIC_VALIDITY_REVIEW"
+    assert (attempt_root / "_SUCCESS").read_bytes() == b""
+    assert json.loads((attempt_root / "terminal.json").read_bytes()) == terminal
+    ledger = json.loads((tmp_path / "study" / "attempts.jsonl").read_text())
+    assert ledger["status"] == "succeeded"
 
 
 def _development_truths(
@@ -551,6 +648,54 @@ def test_bounded_iteration_continues_from_valid_inventory_to_aggregate_terminal(
     assert value["branch_evaluations"] == 5280
     assert value["selected_candidate_reveals"] == 84480
     assert value["held_out_reads"] == 0
+    assert set(value["consistency_summaries"]) == {
+        "best_found_improvement",
+        "simple_regret_reduction",
+    }
+    assert all(
+        len(value["consistency_summaries"][metric_id]) == 2
+        for metric_id in value["consistency_summaries"]
+    )
+    assert all(
+        set(item) == {"contrasts", "task_id"} and set(item["contrasts"]) == {"E-G", "E-M"}
+        for summaries in value["consistency_summaries"].values()
+        for item in summaries
+    )
+    changed_consistency = {
+        metric_id: tuple(
+            replace(
+                item,
+                exploration_minus_greedy=-1000.0,
+                exploration_minus_matched=tuple(1000.0 for _ in range(64)),
+            )
+            for item in items
+        )
+        for metric_id, items in evaluation.consistency_effects.items()
+    }
+    changed = json.loads(
+        build_iteration_report(
+            replace(
+                evaluation,
+                consistency_effects=MappingProxyType(changed_consistency),
+            )
+        )
+    )
+    assert changed["overall_status"] == value["overall_status"]
+    assert changed["task_statuses"] == value["task_statuses"]
     assert b"candidate_id" not in report
     assert b"target" not in report
     assert b"membership" not in report
+
+
+def test_immediate_batch_evaluator_normalizes_invalid_truth_and_candidate_ids() -> None:
+    with pytest.raises(ContractValidationError, match="truth boundary"):
+        ImmediateBatchEvaluator({}, (0.01,))
+
+    truth = {f"candidate-{index:02d}": float(index) for index in range(32)}
+    evaluator = ImmediateBatchEvaluator(truth, (0.01,))
+
+    with pytest.raises(ContractValidationError, match="truth universe"):
+        evaluator.evaluate(
+            observation_prefix_ids=("outside-truth",),
+            selected_ids=tuple(f"candidate-{index:02d}" for index in range(16)),
+        )

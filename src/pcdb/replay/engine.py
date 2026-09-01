@@ -172,7 +172,10 @@ class ImmediateBatchEvaluator:
     """Truth-owning capability with immutable definitions and branch-local oracle state."""
 
     def __init__(self, truth: Mapping[str, float], fractions: Sequence[float]) -> None:
-        validated = HiddenOracle(truth)
+        try:
+            validated = HiddenOracle(truth)
+        except ValueError:
+            raise ContractValidationError("immediate batch truth boundary is invalid") from None
         self.__truth = dict(truth)
         if set(validated.candidate_ids) != set(self.__truth) or not fractions:
             raise ContractValidationError("immediate batch truth boundary is invalid")
@@ -215,6 +218,10 @@ class ImmediateBatchEvaluator:
             or not set(prefix).isdisjoint(selected)
         ):
             raise ContractValidationError("immediate batch boundary is invalid")
+        if not set((*prefix, *selected)).issubset(self.__truth):
+            raise ContractValidationError(
+                "immediate batch candidate is outside the bound truth universe"
+            )
         oracle = HiddenOracle(self.__truth)
         oracle.reveal(prefix)
         before_best = max(item.label for item in oracle.observations)
