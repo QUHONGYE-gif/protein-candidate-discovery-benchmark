@@ -11,6 +11,7 @@ import re
 from collections.abc import Mapping, Sequence
 from dataclasses import asdict, dataclass
 from pathlib import PurePosixPath
+from types import MappingProxyType
 from typing import Any, cast
 
 import numpy as np
@@ -155,6 +156,90 @@ class ReplaySeedAxes:
     initial_seed: int
     internal_seed: int | None
     estimator_seed: int
+
+
+@dataclass(frozen=True, slots=True)
+class ImmediateBatchMetrics:
+    """Aggregate-only truth result for one branch-local immediate batch."""
+
+    actual_high_value_count: int
+    best_found_improvement: float
+    high_value_recall_increment: float
+    simple_regret_reduction: float
+
+
+class ImmediateBatchEvaluator:
+    """Truth-owning capability with immutable definitions and branch-local oracle state."""
+
+    def __init__(self, truth: Mapping[str, float], fractions: Sequence[float]) -> None:
+        try:
+            validated = HiddenOracle(truth)
+        except ValueError:
+            raise ContractValidationError("immediate batch truth boundary is invalid") from None
+        self.__truth = dict(truth)
+        if set(validated.candidate_ids) != set(self.__truth) or not fractions:
+            raise ContractValidationError("immediate batch truth boundary is invalid")
+        memberships: dict[float, frozenset[str]] = {}
+        ranked = sorted(self.__truth.items(), key=lambda item: (-item[1], item[0]))
+        for raw_fraction in fractions:
+            fraction = float(raw_fraction)
+            if not math.isfinite(fraction) or not 0 < fraction <= 1 or fraction in memberships:
+                raise ContractValidationError("immediate batch definition is invalid")
+            nominal = math.ceil(fraction * len(ranked))
+            boundary = ranked[nominal - 1][1]
+            memberships[fraction] = frozenset(
+                candidate_id for candidate_id, value in ranked if value >= boundary
+            )
+        self.__memberships = memberships
+
+    @property
+    def definition_counts(self) -> MappingProxyType[float, int]:
+        """Expose tie-inclusive counts without membership or truth values."""
+
+        return MappingProxyType(
+            {fraction: len(membership) for fraction, membership in self.__memberships.items()}
+        )
+
+    def evaluate(
+        self,
+        *,
+        observation_prefix_ids: Sequence[str],
+        selected_ids: Sequence[str],
+    ) -> MappingProxyType[float, ImmediateBatchMetrics]:
+        """Reveal one isolated branch and return no truth-bearing detail."""
+
+        prefix = tuple(observation_prefix_ids)
+        selected = tuple(selected_ids)
+        if (
+            not prefix
+            or len(set(prefix)) != len(prefix)
+            or len(selected) != 16
+            or len(set(selected)) != 16
+            or not set(prefix).isdisjoint(selected)
+        ):
+            raise ContractValidationError("immediate batch boundary is invalid")
+        if not set((*prefix, *selected)).issubset(self.__truth):
+            raise ContractValidationError(
+                "immediate batch candidate is outside the bound truth universe"
+            )
+        oracle = HiddenOracle(self.__truth)
+        oracle.reveal(prefix)
+        before_best = max(item.label for item in oracle.observations)
+        oracle.reveal(selected)
+        after_best = max(item.label for item in oracle.observations)
+        improvement = after_best - before_best
+        selected_set = frozenset(selected)
+        return MappingProxyType(
+            {
+                fraction: ImmediateBatchMetrics(
+                    actual_high_value_count=len(selected_set & membership),
+                    best_found_improvement=improvement,
+                    high_value_recall_increment=(len(selected_set & membership) / len(membership)),
+                    simple_regret_reduction=improvement,
+                )
+                for fraction, membership in self.__memberships.items()
+            }
+        )
 
 
 def _resolved_seed_axes(run_spec: RunSpec, payload: bytes) -> ReplaySeedAxes:
