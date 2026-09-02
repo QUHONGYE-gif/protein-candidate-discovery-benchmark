@@ -588,6 +588,54 @@ args.output_root.joinpath("audit.json").write_bytes(audit)
     assert ledger["status"] == "succeeded"
 
 
+def test_development_truth_binds_full_superset_but_retains_only_candidate_pool() -> None:
+    candidate_ids = tuple(_digest(f"pool-{index}") for index in range(3))
+    outside_ids = tuple(_digest(f"outside-{index}") for index in range(2))
+    full_rows = (*candidate_ids, *outside_ids)
+    hidden_truth = (
+        "candidate_id,target\n"
+        + "".join(f"{candidate_id},{index}.0\n" for index, candidate_id in enumerate(full_rows))
+    ).encode()
+    truth_sha256 = hashlib.sha256(hidden_truth).hexdigest()
+    processing_manifest = compact_json_bytes(
+        {
+            "candidate_id_field": "candidate_id",
+            "candidate_id_unique": True,
+            "hidden_label_field": "target",
+            "label_direction": "higher_is_better",
+            "output_files": [
+                {
+                    "object_key": "development/superset/hidden-truth.csv",
+                    "sha256": truth_sha256,
+                    "size_bytes": len(hidden_truth),
+                }
+            ],
+        }
+    )
+
+    def load(candidate_pool: tuple[str, ...]) -> DevelopmentTruth:
+        return load_development_truth(
+            task_id="alpha-amylase",
+            processing_manifest=processing_manifest,
+            expected_processing_manifest_sha256=hashlib.sha256(processing_manifest).hexdigest(),
+            hidden_truth=hidden_truth,
+            expected_hidden_truth_sha256=truth_sha256,
+            candidate_ids=candidate_pool,
+        )
+
+    loaded = load(candidate_ids)
+
+    assert loaded.sha256 == truth_sha256
+    assert dict(loaded.rows) == {
+        candidate_id: float(full_rows.index(candidate_id)) for candidate_id in candidate_ids
+    }
+    assert not set(dict(loaded.rows)) & set(outside_ids)
+    with pytest.raises(ContractValidationError, match="cover candidate universe"):
+        load((*candidate_ids, _digest("missing")))
+    with pytest.raises(ContractValidationError, match="candidate universe"):
+        load((*candidate_ids, candidate_ids[0]))
+
+
 def _development_truths(
     universes: dict[str, tuple[str, ...]],
 ) -> dict[str, DevelopmentTruth]:
