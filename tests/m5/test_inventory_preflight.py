@@ -291,6 +291,29 @@ def test_extractor_uniquely_builds_the_80_state_outcome_free_inventory() -> None
     )
 
 
+def test_extractor_accepts_selected_pilot_source_provenance() -> None:
+    selected, universes = _selected_trajectories()
+    mixed_sources = tuple(
+        replace(item, source="pilot") if index < 24 else item for index, item in enumerate(selected)
+    )
+
+    payloads = extract_first_decision_state_payloads(
+        mixed_sources,
+        candidate_ids_by_task=universes,
+        parent_inventory_sha256=ACCEPTED_M5A_INVENTORY_SHA256,
+        source_environment_digest=ACCEPTED_M5A_SOURCE_ENVIRONMENT_DIGEST,
+    )
+
+    assert len(payloads) == 80
+    with pytest.raises(ContractValidationError, match="source identity"):
+        extract_first_decision_state_payloads(
+            (replace(selected[0], source="unknown"), *selected[1:]),
+            candidate_ids_by_task=universes,
+            parent_inventory_sha256=ACCEPTED_M5A_INVENTORY_SHA256,
+            source_environment_digest=ACCEPTED_M5A_SOURCE_ENVIRONMENT_DIGEST,
+        )
+
+
 def test_extractor_stops_on_pair_prefix_or_parent_identity_drift() -> None:
     selected, universes = _selected_trajectories()
     first = selected[0]
@@ -357,14 +380,16 @@ def test_iteration_runner_missing_authorization_does_not_start_or_write(tmp_path
 
 def _iteration_authorization(tmp_path: Path) -> dict[str, object]:
     value = _authorization()
+    value.pop("automatic_retries")
     value.pop("extractor")
     value.pop("preflight_runtime_environment_digest")
     value.pop("scratch")
-    value["schema_version"] = "m5b-bounded-iteration-authorization-v1"
+    value["schema_version"] = "m5b-bounded-iteration-authorization-v2"
     value["approval"] = {
         "comment_id": 123456789,
-        "verdict": "AUTHORIZE_M5B_BOUNDED_ITERATION_V1",
+        "verdict": "AUTHORIZE_M5B_BOUNDED_ITERATION_V2",
     }
+    value["maximum_automatic_retries"] = 2
     parent = value["authoritative_parent"]
     assert isinstance(parent, dict)
     parent.pop("access_method")
@@ -381,7 +406,7 @@ def _iteration_authorization(tmp_path: Path) -> dict[str, object]:
     }
     value["runtime_environment_digest"] = _digest("iteration-runtime")
     value["study"] = {
-        "attempt_id": "attempt-001",
+        "primary_attempt_id": "attempt-001",
         "study_root": str(tmp_path / "study"),
     }
     value["truth_boundary"] = {
@@ -408,16 +433,16 @@ def test_iteration_authorization_exact_binds_truth_attempt_and_budget(tmp_path: 
 
     assert loaded.canonical_bytes == payload
     assert loaded.sha256 == hashlib.sha256(payload).hexdigest()
-    assert loaded.value["automatic_retries"] == 0
+    assert loaded.value["maximum_automatic_retries"] == 2
 
 
-@pytest.mark.parametrize("attempt_id", ("attempt-002", "attempt-003"))
+@pytest.mark.parametrize("attempt_id", ("attempt-000", "attempt-2", "attempt-1000"))
 def test_iteration_authorization_rejects_noncanonical_attempt(
     tmp_path: Path, attempt_id: str
 ) -> None:
     value = _iteration_authorization(tmp_path)
     value["study"] = {
-        "attempt_id": attempt_id,
+        "primary_attempt_id": attempt_id,
         "study_root": str(tmp_path / "study"),
     }
 
@@ -428,9 +453,13 @@ def test_iteration_authorization_rejects_noncanonical_attempt(
 @pytest.mark.parametrize(
     ("field", "invalid", "match"),
     (
-        ("automatic_retries", 1, "approval or retry"),
+        ("maximum_automatic_retries", 3, "approval or retry"),
         ("runtime_environment_digest", "UNKNOWN", "runtime"),
-        ("study", {"attempt_id": "attempt-001", "study_root": "relative"}, "path"),
+        (
+            "study",
+            {"primary_attempt_id": "attempt-001", "study_root": "relative"},
+            "path",
+        ),
         (
             "truth_boundary",
             {
@@ -456,7 +485,33 @@ def test_iteration_authorization_rejects_unbound_or_expanded_authority(
         load_iteration_authorization(compact_json_bytes(value))
 
 
-def test_iteration_runner_records_one_append_only_failed_attempt(tmp_path: Path) -> None:
+@pytest.mark.parametrize(
+    ("worker_body", "expected_failure_class"),
+    (
+        ("raise SystemExit(17)\n", "implementation"),
+        (
+            "import json, sys\n"
+            'print(json.dumps({"failure_class": "validity", '
+            '"reason": "synthetic validity stop", '
+            '"schema_version": "m5b-bounded-iteration-worker-failure-v1"}, '
+            'sort_keys=True, separators=(",", ":")), file=sys.stderr)\n'
+            "raise SystemExit(2)\n",
+            "validity",
+        ),
+        (
+            "import json, sys\n"
+            'print(json.dumps({"failure_class": "budget", '
+            '"reason": "synthetic budget stop", '
+            '"schema_version": "m5b-bounded-iteration-worker-failure-v1"}, '
+            'sort_keys=True, separators=(",", ":")), file=sys.stderr)\n'
+            "raise SystemExit(2)\n",
+            "budget",
+        ),
+    ),
+)
+def test_iteration_runner_records_one_append_only_nonretryable_attempt(
+    tmp_path: Path, worker_body: str, expected_failure_class: str
+) -> None:
     value = _iteration_authorization(tmp_path)
     parent = value["authoritative_parent"]
     assert isinstance(parent, dict)
@@ -475,7 +530,7 @@ def test_iteration_runner_records_one_append_only_failed_attempt(tmp_path: Path)
     formal_contract.write_bytes(b"{}\n")
     parent["formal_contract_path"] = str(formal_contract)
     failing_worker = tmp_path / "intentionally-failing-worker.py"
-    failing_worker.write_text("raise SystemExit(17)\n", encoding="utf-8")
+    failing_worker.write_text(worker_body, encoding="utf-8")
     runner = value["runner"]
     assert isinstance(runner, dict)
     runner["worker_command"] = [
@@ -504,7 +559,9 @@ def test_iteration_runner_records_one_append_only_failed_attempt(tmp_path: Path)
     ledger = json.loads((tmp_path / "study" / "attempts.jsonl").read_text())
     assert ledger["attempt_id"] == "attempt-001"
     assert ledger["status"] == "failed"
+    assert ledger["failure_class"] == expected_failure_class
     assert not (attempt_root / "_SUCCESS").exists()
+    assert not (tmp_path / "study" / "attempt-002").exists()
 
 
 def test_iteration_runner_writes_success_marker_last_for_valid_terminal(tmp_path: Path) -> None:
@@ -586,6 +643,171 @@ args.output_root.joinpath("audit.json").write_bytes(audit)
     assert json.loads((attempt_root / "terminal.json").read_bytes()) == terminal
     ledger = json.loads((tmp_path / "study" / "attempts.jsonl").read_text())
     assert ledger["status"] == "succeeded"
+
+
+def test_iteration_runner_retries_only_transient_failures_append_only(tmp_path: Path) -> None:
+    value = _iteration_authorization(tmp_path)
+    value["study"] = {
+        "primary_attempt_id": "attempt-002",
+        "study_root": str(tmp_path / "study"),
+    }
+    parent = value["authoritative_parent"]
+    assert isinstance(parent, dict)
+    for field in (
+        "conditional_source_root",
+        "conditional_store_root",
+        "feature_root",
+        "formal_attempt_root",
+        "pilot_source_root",
+        "pilot_store_root",
+    ):
+        directory = tmp_path / field
+        directory.mkdir()
+        parent[field] = str(directory)
+    formal_contract = tmp_path / "formal-contract.json"
+    formal_contract.write_bytes(b"{}\n")
+    parent["formal_contract_path"] = str(formal_contract)
+    truth_inputs = value["truth_inputs"]
+    assert isinstance(truth_inputs, dict)
+    for item in truth_inputs.values():
+        assert isinstance(item, dict)
+        Path(item["hidden_truth_path"]).write_bytes(b"candidate_id,target\n")
+        Path(item["processing_manifest_path"]).write_bytes(b"{}\n")
+
+    study_root = tmp_path / "study"
+    prior_root = study_root / "attempt-001"
+    prior_root.mkdir(parents=True)
+    (study_root / "contract.md").write_bytes(
+        b"# M5B bounded same-state iteration\n\n"
+        b"One exact authorization covers outcome-free 80-state validation followed "
+        b"by Alpha/IRED development truth evaluation. No held-out access or COS "
+        b"publication.\n"
+    )
+    (prior_root / "terminal.json").write_bytes(
+        compact_json_bytes(
+            {
+                "attempt_id": "attempt-001",
+                "reason": "reviewed implementation diagnostic",
+                "schema_version": "m5b-bounded-iteration-terminal-v1",
+                "status": "STOPPED",
+                "truth_bearing_execution_completed": False,
+            }
+        )
+    )
+    (study_root / "attempts.jsonl").write_bytes(
+        compact_json_bytes(
+            {
+                "attempt_id": "attempt-001",
+                "command": "prior-reviewed-command",
+                "config_identity": ["authorization:" + _digest("prior-authorization")],
+                "data_identities": ["m5a-inventory:" + ACCEPTED_M5A_INVENTORY_SHA256],
+                "executed_git_commit": "a" * 40,
+                "failure_class": "validity",
+                "failure_reason": "reviewed implementation diagnostic",
+                "finished_at": "2026-09-02T00:00:01Z",
+                "parent_attempt_id": None,
+                "result_summary": None,
+                "selection_disposition": "discarded",
+                "started_at": "2026-09-02T00:00:00Z",
+                "status": "failed",
+                "study_id": "m5b-same-state-iteration",
+            }
+        )
+    )
+
+    worker = tmp_path / "transient-twice-then-success.py"
+    worker.write_text(
+        """\
+import argparse
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument("--authorization-sha256", required=True)
+parser.add_argument("--expected-runtime-environment-digest", required=True)
+parser.add_argument("--output-root", type=Path, required=True)
+args, _ = parser.parse_known_args()
+attempt_id = args.output_root.parent.name
+if attempt_id in {"attempt-002", "attempt-003"}:
+    print(json.dumps({
+        "failure_class": "transient-infrastructure",
+        "reason": "synthetic transient infrastructure failure",
+        "schema_version": "m5b-bounded-iteration-worker-failure-v1",
+    }, sort_keys=True, separators=(",", ":")), file=sys.stderr)
+    raise SystemExit(2)
+inventory = b"{}\\n"
+inventory_sha256 = hashlib.sha256(inventory).hexdigest()
+result = json.dumps({
+    "inventory_sha256": inventory_sha256,
+    "overall_status": "INCONCLUSIVE",
+    "schema_version": "m5b-bounded-iteration-result-v1",
+}, sort_keys=True, separators=(",", ":")).encode() + b"\\n"
+audit = json.dumps({
+    "authorization_sha256": args.authorization_sha256,
+    "branch_evaluations": 5280,
+    "cos_publication_writes": 0,
+    "held_out_reads": 0,
+    "inventory_sha256": inventory_sha256,
+    "network_bytes": 0,
+    "parent_read_only_verified": True,
+    "result_sha256": hashlib.sha256(result).hexdigest(),
+    "runtime_environment_digest": args.expected_runtime_environment_digest,
+    "schema_version": "m5b-bounded-iteration-audit-v1",
+    "selected_candidate_reveals": 84480,
+}, sort_keys=True, separators=(",", ":")).encode() + b"\\n"
+args.output_root.joinpath("inventory.json").write_bytes(inventory)
+args.output_root.joinpath("result.json").write_bytes(result)
+args.output_root.joinpath("audit.json").write_bytes(audit)
+""",
+        encoding="utf-8",
+    )
+    runner = value["runner"]
+    assert isinstance(runner, dict)
+    runner["worker_command"] = [sys.executable, str(worker)]
+    authorization_path = tmp_path / "authorization.json"
+    authorization_path.write_bytes(compact_json_bytes(value))
+
+    completed = _run_iteration_cli(authorization_path)
+    terminal = json.loads(completed.stdout)
+    ledgers = [
+        json.loads(line) for line in (study_root / "attempts.jsonl").read_text().splitlines()
+    ]
+
+    assert completed.returncode == 0
+    assert terminal["attempt_id"] == "attempt-004"
+    assert terminal["status"] == "COMPLETE_FOR_SCIENTIFIC_VALIDITY_REVIEW"
+    assert [item["attempt_id"] for item in ledgers] == [
+        "attempt-001",
+        "attempt-002",
+        "attempt-003",
+        "attempt-004",
+    ]
+    assert [item["parent_attempt_id"] for item in ledgers[1:]] == [
+        "attempt-001",
+        "attempt-002",
+        "attempt-003",
+    ]
+    assert [item["failure_class"] for item in ledgers[1:]] == [
+        "transient-infrastructure",
+        "transient-infrastructure",
+        "none",
+    ]
+    assert not (study_root / "attempt-002" / "_SUCCESS").exists()
+    assert not (study_root / "attempt-003" / "_SUCCESS").exists()
+    assert (study_root / "attempt-004" / "_SUCCESS").read_bytes() == b""
+    assert not (study_root / "attempt-005").exists()
+    study = value["study"]
+    assert isinstance(study, dict)
+    study["primary_attempt_id"] = "attempt-005"
+    authorization_path.write_bytes(compact_json_bytes(value))
+
+    forbidden_after_complete = _run_iteration_cli(authorization_path)
+
+    assert forbidden_after_complete.returncode == 2
+    assert json.loads(forbidden_after_complete.stdout)["status"] == "NOT_STARTED"
+    assert not (study_root / "attempt-005").exists()
 
 
 def test_development_truth_binds_full_superset_but_retains_only_candidate_pool() -> None:

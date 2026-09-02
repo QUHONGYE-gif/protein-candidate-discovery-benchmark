@@ -38,7 +38,7 @@ _TASKS = ("alpha-amylase", "ired")
 _BRANCH_IDS = ("E", "G", *(f"M{index:02d}" for index in range(64)))
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _GIT_COMMIT = re.compile(r"^[0-9a-f]{40}$")
-_ATTEMPT_ID = "attempt-001"
+_ATTEMPT_ID = re.compile(r"^attempt-([0-9]{3})$")
 _SCIENTIFIC_PARENT = {
     "execution_commit": "f75382ae6f90267b47c4379fc58b75b61a1da885",
     "execution_tree": "fb93c07b772c49939695647c8260aa837047539d",
@@ -105,8 +105,8 @@ def load_iteration_authorization(payload: bytes) -> IterationAuthorization:
         ) from None
     fields = {
         "approval",
-        "automatic_retries",
         "authoritative_parent",
+        "maximum_automatic_retries",
         "resource_caps",
         "reviewed_source",
         "runner",
@@ -121,7 +121,7 @@ def load_iteration_authorization(payload: bytes) -> IterationAuthorization:
         not isinstance(value, dict)
         or compact_json_bytes(value) != payload
         or set(value) != fields
-        or value["schema_version"] != "m5b-bounded-iteration-authorization-v1"
+        or value["schema_version"] != "m5b-bounded-iteration-authorization-v2"
     ):
         raise ContractValidationError("M5B iteration authorization fields drifted")
     value = cast(dict[str, Any], value)
@@ -129,9 +129,9 @@ def load_iteration_authorization(payload: bytes) -> IterationAuthorization:
     if (
         type(approval["comment_id"]) is not int
         or approval["comment_id"] <= 0
-        or approval["verdict"] != "AUTHORIZE_M5B_BOUNDED_ITERATION_V1"
-        or type(value["automatic_retries"]) is not int
-        or value["automatic_retries"] != 0
+        or approval["verdict"] != "AUTHORIZE_M5B_BOUNDED_ITERATION_V2"
+        or type(value["maximum_automatic_retries"]) is not int
+        or not 0 <= value["maximum_automatic_retries"] <= 2
     ):
         raise ContractValidationError("M5B iteration approval or retry binding is invalid")
     parent_fields = {
@@ -197,8 +197,17 @@ def load_iteration_authorization(payload: bytes) -> IterationAuthorization:
         _SCIENTIFIC_PARENT
     ):
         raise ContractValidationError("M5B iteration scientific parent drifted")
-    study = _mapping(value["study"], {"attempt_id", "study_root"}, "study")
-    if study["attempt_id"] != _ATTEMPT_ID:
+    study = _mapping(value["study"], {"primary_attempt_id", "study_root"}, "study")
+    attempt_match = (
+        _ATTEMPT_ID.fullmatch(study["primary_attempt_id"])
+        if isinstance(study["primary_attempt_id"], str)
+        else None
+    )
+    if (
+        attempt_match is None
+        or int(attempt_match.group(1)) == 0
+        or int(attempt_match.group(1)) + value["maximum_automatic_retries"] > 999
+    ):
         raise ContractValidationError("M5B iteration attempt ID is invalid")
     _path(study["study_root"], "study root")
     boundary = _mapping(

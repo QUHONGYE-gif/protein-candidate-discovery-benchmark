@@ -732,7 +732,7 @@ def _attempt(
     failure_class: str | None = None,
     external_evidence: bool = False,
     unchanged_inputs: bool = True,
-    human_retry_authorized: bool = False,
+    automatic_retry_authorized: bool = False,
     input_identity: str | None = None,
 ) -> AttemptRecord:
     return AttemptRecord(
@@ -740,7 +740,7 @@ def _attempt(
         complete_terminal=complete,
         external_failure_evidence=external_evidence,
         failure_class=failure_class,
-        human_retry_authorized=human_retry_authorized,
+        automatic_retry_authorized=automatic_retry_authorized,
         input_identity_sha256=input_identity or _digest("frozen-m5b-input"),
         unchanged_input_checksums=unchanged_inputs,
         valid_terminal=valid,
@@ -754,7 +754,7 @@ def test_retry_and_canonical_result_rules_reject_outcome_selected_attempts() -> 
         "attempt-002",
         complete=True,
         valid=True,
-        human_retry_authorized=True,
+        automatic_retry_authorized=True,
     )
     timeout = _attempt(
         "attempt-001",
@@ -763,18 +763,26 @@ def test_retry_and_canonical_result_rules_reject_outcome_selected_attempts() -> 
         failure_class="timeout",
         external_evidence=True,
     )
-    preempted = _attempt(
+    transient = _attempt(
         "attempt-001",
         complete=False,
         valid=False,
-        failure_class="scheduler_preemption",
+        failure_class="transient-infrastructure",
         external_evidence=True,
     )
     authorized_second = _attempt(
         "attempt-002",
+        complete=False,
+        valid=False,
+        failure_class="transient-infrastructure",
+        external_evidence=True,
+        automatic_retry_authorized=True,
+    )
+    authorized_third = _attempt(
+        "attempt-003",
         complete=True,
         valid=True,
-        human_retry_authorized=True,
+        automatic_retry_authorized=True,
     )
 
     assert complete_selection.status == "COMPLETE"
@@ -782,12 +790,29 @@ def test_retry_and_canonical_result_rules_reject_outcome_selected_attempts() -> 
     assert complete_selection.retry_eligible is False
     assert select_canonical_attempt((first_complete, forbidden_second)).status == "VALIDITY_STOP"
     assert select_canonical_attempt((timeout,)).retry_eligible is False
-    assert select_canonical_attempt((preempted,)).retry_eligible is True
-    assert select_canonical_attempt((preempted, authorized_second)).canonical_attempt_id == (
-        "attempt-002"
+    assert select_canonical_attempt((transient,)).retry_eligible is True
+    assert select_canonical_attempt((transient, authorized_second)).retry_eligible is True
+    assert (
+        select_canonical_attempt(
+            (transient, authorized_second, authorized_third)
+        ).canonical_attempt_id
+        == "attempt-003"
     )
+    shifted_chain = (
+        replace(transient, attempt_id="attempt-002"),
+        replace(authorized_second, attempt_id="attempt-003"),
+        replace(authorized_third, attempt_id="attempt-004"),
+    )
+    assert select_canonical_attempt(shifted_chain).canonical_attempt_id == "attempt-004"
+    with pytest.raises(ContractValidationError, match="canonical and ordered"):
+        select_canonical_attempt(
+            (
+                replace(transient, attempt_id="attempt-999"),
+                replace(authorized_second, attempt_id="attempt-1000"),
+            )
+        )
     drifted_second = replace(
         authorized_second,
         input_identity_sha256=_digest("drifted-input"),
     )
-    assert select_canonical_attempt((preempted, drifted_second)).status == "VALIDITY_STOP"
+    assert select_canonical_attempt((transient, drifted_second)).status == "VALIDITY_STOP"

@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import os
+import resource
 import shlex
 import signal
 import subprocess
@@ -17,7 +18,7 @@ from pathlib import Path
 from typing import Any, cast
 
 from pcdb.contracts.experiment import ContractValidationError
-from pcdb.m5.iteration import load_iteration_authorization
+from pcdb.m5.iteration import IterationAuthorization, load_iteration_authorization
 from pcdb.m5.reconstruction_smoke import compact_json_bytes
 
 STUDY_ID = "m5b-same-state-iteration"
@@ -27,6 +28,10 @@ _CONTRACT_BYTES = (
     b"by Alpha/IRED development truth evaluation. No held-out access or COS "
     b"publication.\n"
 )
+
+
+class _TransientInfrastructureError(RuntimeError):
+    """Machine-classified process-launch or communication failure."""
 
 
 def _utc_now() -> str:
@@ -87,7 +92,14 @@ def _paths_available(value: dict[str, Any]) -> bool:
     )
 
 
-def _worker_command(value: dict[str, Any], output_root: Path, auth_sha256: str) -> tuple[str, ...]:
+def _worker_command(
+    value: dict[str, Any],
+    output_root: Path,
+    auth_sha256: str,
+    *,
+    cpu_seconds: int,
+    scratch_high_water_bytes: int,
+) -> tuple[str, ...]:
     parent = cast(dict[str, str], value["authoritative_parent"])
     reviewed = cast(dict[str, str], value["reviewed_source"])
     scientific = cast(dict[str, str], value["scientific_parent"])
@@ -111,7 +123,7 @@ def _worker_command(value: dict[str, Any], output_root: Path, auth_sha256: str) 
         "--conditional-store-root",
         parent["conditional_store_root"],
         "--cpu-seconds",
-        str(caps["cpu_seconds"]),
+        str(cpu_seconds),
         "--expected-git-commit",
         reviewed["git_commit"],
         "--expected-git-tree",
@@ -141,7 +153,7 @@ def _worker_command(value: dict[str, Any], output_root: Path, auth_sha256: str) 
         "--process-tree-peak-rss-bytes",
         str(caps["process_tree_peak_rss_bytes"]),
         "--scratch-high-water-bytes",
-        str(caps["scratch_high_water_bytes"]),
+        str(scratch_high_water_bytes),
         "--source-root",
         str(source_root),
     )
@@ -159,19 +171,26 @@ def _run_worker(command: tuple[str, ...], wall_seconds: int) -> subprocess.Compl
             "VECLIB_MAXIMUM_THREADS": "1",
         }
     )
-    process = subprocess.Popen(
-        command,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        env=environment,
-        start_new_session=True,
-    )
+    try:
+        process = subprocess.Popen(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            env=environment,
+            start_new_session=True,
+        )
+    except OSError as exc:
+        raise _TransientInfrastructureError("M5B worker process launch failed") from exc
     try:
         stdout, stderr = process.communicate(timeout=wall_seconds)
     except subprocess.TimeoutExpired:
         os.killpg(process.pid, signal.SIGKILL)
         process.communicate()
         raise ContractValidationError("M5B iteration wall cap exceeded") from None
+    except OSError as exc:
+        os.killpg(process.pid, signal.SIGKILL)
+        process.communicate()
+        raise _TransientInfrastructureError("M5B worker process communication failed") from exc
     return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
 
 
@@ -183,55 +202,137 @@ def _worker_failure(stderr: bytes) -> tuple[str, str]:
     if (
         not isinstance(value, dict)
         or value.get("schema_version") != "m5b-bounded-iteration-worker-failure-v1"
-        or value.get("failure_class") not in {"budget", "validity"}
+        or value.get("failure_class") not in {"budget", "transient-infrastructure", "validity"}
         or not isinstance(value.get("reason"), str)
     ):
         return "implementation", "M5B iteration worker failure terminal drifted"
     return cast(str, value["failure_class"]), cast(str, value["reason"])
 
 
-def _run(authorization_path: Path) -> tuple[dict[str, object], int]:
+def _directory_bytes(root: Path) -> int:
+    if not root.exists():
+        return 0
+    return sum(path.stat().st_size for path in root.rglob("*") if path.is_file())
+
+
+def _children_cpu_seconds() -> float:
+    usage = resource.getrusage(resource.RUSAGE_CHILDREN)
+    return usage.ru_utime + usage.ru_stime
+
+
+def _prepare_study(study_root: Path, primary_attempt_id: str) -> str | None:
+    primary_number = int(primary_attempt_id.removeprefix("attempt-"))
+    expected_prior = tuple(f"attempt-{index:03d}" for index in range(1, primary_number))
+    ledger_path = study_root / "attempts.jsonl"
     try:
-        loaded = load_iteration_authorization(authorization_path.read_bytes())
-    except (OSError, ContractValidationError) as exc:
-        return _not_started(str(exc)), 2
-    value = dict(loaded.value)
-    if not _paths_available(value):
-        return _not_started("authorized source, parent, truth, or runner path is unavailable"), 2
-    study = cast(dict[str, str], value["study"])
-    study_root = Path(study["study_root"])
-    attempt_id = study["attempt_id"]
+        ledgers = (
+            tuple(json.loads(line) for line in ledger_path.read_text().splitlines())
+            if ledger_path.exists()
+            else ()
+        )
+    except (OSError, json.JSONDecodeError):
+        raise ContractValidationError("M5B prior attempt ledger is invalid") from None
+    actual_prior = tuple(
+        item.get("attempt_id") if isinstance(item, dict) else None for item in ledgers
+    )
+    actual_parents = tuple(
+        item.get("parent_attempt_id") if isinstance(item, dict) else None for item in ledgers
+    )
+    expected_parents = (None, *expected_prior[:-1]) if expected_prior else ()
+    prior_directories = tuple(
+        path.name for path in sorted(study_root.glob("attempt-*")) if path.is_dir()
+    )
+    if (
+        actual_prior != expected_prior
+        or actual_parents != expected_parents
+        or prior_directories != expected_prior
+        or any(not isinstance(item, dict) or item.get("status") != "failed" for item in ledgers)
+    ):
+        raise ContractValidationError("M5B prior attempt chain is not canonical and append-only")
+    for attempt_id in expected_prior:
+        terminal_path = study_root / attempt_id / "terminal.json"
+        try:
+            terminal = json.loads(terminal_path.read_bytes())
+        except (OSError, json.JSONDecodeError):
+            raise ContractValidationError(
+                "M5B prior attempt terminal prevents a new primary attempt"
+            ) from None
+        if (
+            not isinstance(terminal, dict)
+            or terminal.get("attempt_id") != attempt_id
+            or terminal.get("status") != "STOPPED"
+            or (study_root / attempt_id / "_SUCCESS").exists()
+        ):
+            raise ContractValidationError(
+                "M5B prior attempt terminal prevents a new primary attempt"
+            )
+    study_root.mkdir(parents=True, exist_ok=True)
+    contract_path = study_root / "contract.md"
+    if not contract_path.exists():
+        _write_exclusive(contract_path, _CONTRACT_BYTES)
+    elif contract_path.read_bytes() != _CONTRACT_BYTES:
+        raise ContractValidationError("M5B study contract identity drifted")
+    return expected_prior[-1] if expected_prior else None
+
+
+def _run_attempt(
+    *,
+    loaded: IterationAuthorization,
+    value: dict[str, Any],
+    study_root: Path,
+    attempt_id: str,
+    parent_attempt_id: str | None,
+    chain_started: float,
+    children_cpu_started: float,
+) -> tuple[dict[str, object], int, str]:
+    caps = cast(dict[str, object], value["resource_caps"])
+    elapsed_before = time.monotonic() - chain_started
+    cpu_used_before = _children_cpu_seconds() - children_cpu_started
+    scratch_used_before = _directory_bytes(study_root)
+    wall_seconds = int(cast(int, caps["wall_seconds"]) - elapsed_before)
+    cpu_seconds = int(cast(int, caps["cpu_seconds"]) - cpu_used_before)
+    scratch_bytes = cast(int, caps["scratch_high_water_bytes"]) - scratch_used_before
+    if min(wall_seconds, cpu_seconds, scratch_bytes) < 1:
+        return _not_started("M5B cumulative resource cap is exhausted"), 2, "budget"
     attempt_root = study_root / attempt_id
     artifacts = attempt_root / "artifacts"
+    command = _worker_command(
+        value,
+        artifacts,
+        loaded.sha256,
+        cpu_seconds=cpu_seconds,
+        scratch_high_water_bytes=scratch_bytes,
+    )
     try:
-        study_root.mkdir(parents=True, exist_ok=True)
         if attempt_root.exists():
             raise ContractValidationError("M5B attempt directory already exists")
         attempt_root.mkdir(mode=0o700)
         artifacts.mkdir(mode=0o700)
-        contract_path = study_root / "contract.md"
-        if not contract_path.exists():
-            _write_exclusive(contract_path, _CONTRACT_BYTES)
-        elif contract_path.read_bytes() != _CONTRACT_BYTES:
-            raise ContractValidationError("M5B study contract identity drifted")
         _write_exclusive(attempt_root / "authorization.json", loaded.canonical_bytes)
+        _write_exclusive(attempt_root / "command.txt", (shlex.join(command) + "\n").encode())
     except (OSError, ContractValidationError) as exc:
-        return _not_started(str(exc)), 2
+        return _not_started(str(exc)), 2, "implementation"
 
-    command = _worker_command(value, artifacts, loaded.sha256)
-    _write_exclusive(attempt_root / "command.txt", (shlex.join(command) + "\n").encode())
     started_at = _utc_now()
-    started = time.monotonic()
     status = "failed"
     failure_class = "implementation"
     failure_reason: str | None = None
     result_summary: str | None = None
     terminal: dict[str, object]
     try:
-        caps = cast(dict[str, object], value["resource_caps"])
-        completed = _run_worker(command, cast(int, caps["wall_seconds"]))
+        completed = _run_worker(command, wall_seconds)
         _write_exclusive(attempt_root / "stdout.log", completed.stdout)
         _write_exclusive(attempt_root / "stderr.log", completed.stderr)
+        elapsed = time.monotonic() - chain_started
+        estimated_cost = (
+            elapsed / 3600 * float(cast(str | float | int, caps["estimated_hourly_cost_cny"]))
+        )
+        if _directory_bytes(study_root) > cast(int, caps["scratch_high_water_bytes"]):
+            failure_class = "budget"
+            raise ContractValidationError("M5B iteration cumulative scratch cap exceeded")
+        if estimated_cost > float(cast(str | float | int, caps["maximum_cost_cny"])):
+            failure_class = "budget"
+            raise ContractValidationError("M5B iteration cumulative cost cap exceeded")
         if completed.returncode != 0:
             failure_class, worker_reason = _worker_failure(completed.stderr)
             raise ContractValidationError(worker_reason)
@@ -239,10 +340,6 @@ def _run(authorization_path: Path) -> tuple[dict[str, object], int]:
         inventory_bytes = (artifacts / "inventory.json").read_bytes()
         result = json.loads(result_bytes)
         audit = json.loads((artifacts / "audit.json").read_bytes())
-        elapsed = time.monotonic() - started
-        estimated_cost = (
-            elapsed / 3600 * float(cast(str | float | int, caps["estimated_hourly_cost_cny"]))
-        )
         if (
             result.get("schema_version") != "m5b-bounded-iteration-result-v1"
             or audit.get("schema_version") != "m5b-bounded-iteration-audit-v1"
@@ -260,9 +357,6 @@ def _run(authorization_path: Path) -> tuple[dict[str, object], int]:
         ):
             failure_class = "validity"
             raise ContractValidationError("M5B iteration result or boundary audit drifted")
-        if estimated_cost > float(cast(str | float | int, caps["maximum_cost_cny"])):
-            failure_class = "budget"
-            raise ContractValidationError("M5B iteration coarse cost cap exceeded")
         status = "succeeded"
         failure_class = "none"
         result_summary = cast(str, result["overall_status"])
@@ -275,11 +369,15 @@ def _run(authorization_path: Path) -> tuple[dict[str, object], int]:
             "status": "COMPLETE_FOR_SCIENTIFIC_VALIDITY_REVIEW",
             "truth_bearing_execution_completed": True,
         }
-    except (OSError, ContractValidationError, ValueError) as exc:
-        if isinstance(exc, OSError):
+    except (_TransientInfrastructureError, OSError, ContractValidationError, ValueError) as exc:
+        if isinstance(exc, _TransientInfrastructureError):
             failure_class = "transient-infrastructure"
         elif "cap exceeded" in str(exc):
             failure_class = "budget"
+        for name in ("stdout.log", "stderr.log"):
+            path = attempt_root / name
+            if not path.exists():
+                _write_exclusive(path, b"")
         failure_reason = str(exc)
         terminal = {
             "attempt_id": attempt_id,
@@ -299,7 +397,7 @@ def _run(authorization_path: Path) -> tuple[dict[str, object], int]:
         "failure_class": failure_class,
         "failure_reason": failure_reason,
         "finished_at": finished_at,
-        "parent_attempt_id": None,
+        "parent_attempt_id": parent_attempt_id,
         "result_summary": result_summary,
         "selection_disposition": "diagnostic" if status == "succeeded" else "discarded",
         "started_at": started_at,
@@ -312,7 +410,44 @@ def _run(authorization_path: Path) -> tuple[dict[str, object], int]:
         _write_exclusive(marker_path, b"")
         if marker_path.read_bytes() != b"":
             raise ContractValidationError("M5B success marker identity drifted")
-    return terminal, 0 if status == "succeeded" else 2
+    return terminal, 0 if status == "succeeded" else 2, failure_class
+
+
+def _run(authorization_path: Path) -> tuple[dict[str, object], int]:
+    try:
+        loaded = load_iteration_authorization(authorization_path.read_bytes())
+    except (OSError, ContractValidationError) as exc:
+        return _not_started(str(exc)), 2
+    value = dict(loaded.value)
+    if not _paths_available(value):
+        return _not_started("authorized source, parent, truth, or runner path is unavailable"), 2
+    study = cast(dict[str, str], value["study"])
+    study_root = Path(study["study_root"])
+    primary_attempt_id = study["primary_attempt_id"]
+    try:
+        parent_attempt_id = _prepare_study(study_root, primary_attempt_id)
+    except (OSError, ContractValidationError) as exc:
+        return _not_started(str(exc)), 2
+    primary_number = int(primary_attempt_id.removeprefix("attempt-"))
+    maximum_retries = cast(int, value["maximum_automatic_retries"])
+    chain_started = time.monotonic()
+    children_cpu_started = _children_cpu_seconds()
+    terminal: dict[str, object] = _not_started("M5B controller did not start an attempt")
+    for offset in range(maximum_retries + 1):
+        attempt_id = f"attempt-{primary_number + offset:03d}"
+        terminal, exit_code, failure_class = _run_attempt(
+            loaded=loaded,
+            value=value,
+            study_root=study_root,
+            attempt_id=attempt_id,
+            parent_attempt_id=parent_attempt_id,
+            chain_started=chain_started,
+            children_cpu_started=children_cpu_started,
+        )
+        if exit_code == 0 or failure_class != "transient-infrastructure":
+            return terminal, exit_code
+        parent_attempt_id = attempt_id
+    return terminal, 2
 
 
 def main() -> int:
