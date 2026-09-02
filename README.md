@@ -16,8 +16,10 @@
 ## 系统边界
 
 - GitHub：代码、配置、Schema、Issue、PR 和小型公开 fixture；
-- COS：公开原始数据、处理数据、embedding、trajectory、日志和冻结结果；
-- Compute server：通过精确 Git commit 或 container digest 执行实验；
+- Compute server：M5+ 的 active raw/processed/embedding/split、普通 run 和 release candidate
+  事实基准；通过精确 Git commit 或 container digest 执行；
+- COS：保留 M0–M4 历史对象；M5+ 只在 Gate B 后写入有效 terminal milestone 的精简、
+  不可覆盖 archive，普通 run 零 COS write；
 - Local NVMe：可清理的 cache/scratch，不作为最终证据存储。
 
 项目只允许使用公开数据。内部序列、内部筛选结果、私有结构/MD/湿实验结果和内部阈值不得
@@ -60,18 +62,23 @@ pcdb m2-synthetic \
 
 ```text
 configs/       versioned experiment configuration
-manifests/     versioned compact manifest copies; large objects remain in COS
+manifests/     versioned compact manifest copies; large objects use the version-appropriate data plane
 schemas/       dataset, processing, split, experiment, RunSpec and attempt contracts
 src/pcdb/      benchmark implementation
 tests/         unit, contract, leakage and integration tests
 docs/          科学协议、数据边界、复现说明和 ADR
-data/          仅保留存储政策；实际数据不进入 Git
-results/       仅保留产物政策；正式结果写入 COS
+data/          仅保留存储政策；实际数据不进入 Git，M5+ active data 位于服务器
+results/       仅保留产物政策；M5+ terminal archive 在 Gate B 后写入 COS
 ```
 
 开发前请阅读 [AGENTS.md](AGENTS.md)、[CONTEXT.md](CONTEXT.md)、
 [Benchmark Contract](docs/BENCHMARK_CONTRACT.md) 和
 [Privacy Boundary](docs/PRIVACY_BOUNDARY.md)。
+
+新 milestone 还必须阅读 [Governance v2](docs/GOVERNANCE_V2.md)、
+[server-first/archive runbook](docs/GOVERNANCE_V2_RUNBOOK.md) 和
+[Legacy Execution Surface index](docs/LEGACY_EXECUTION_SURFACE.md)。本地与 CI 通过同一入口
+`make governance-check` 执行 Governance v2 的静态机器检查；该 Check 不产生科学批准事件。
 
 项目的实时状态、长期研究定位、范围控制和阶段路线分别见
 [Current project status](docs/STATUS.md)、

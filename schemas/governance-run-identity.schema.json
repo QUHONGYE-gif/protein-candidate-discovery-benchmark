@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/governance-run-identity.schema.json",
+  "title": "Governance v2 server-first run identity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "attempt_id", "contract_digest", "input_manifest_digest", "git_commit", "git_tree", "source_clean", "environment_digest", "attempt_root", "cos_write_count", "resource_caps", "observed_usage"],
+  "properties": {
+    "schema_version": { "const": "pcdb-governance-run-identity-v1" },
+    "run_id": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "attempt_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "contract_digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "input_manifest_digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "git_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "git_tree": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "source_clean": { "const": true },
+    "environment_digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "attempt_root": { "type": "string", "pattern": "^/srv/pcdb/runs/[A-Za-z0-9._-]+/[a-z0-9][a-z0-9._-]*$" },
+    "cos_write_count": { "const": 0 },
+    "resource_caps": { "$ref": "#/$defs/resources" },
+    "observed_usage": { "$ref": "#/$defs/resources" }
+  },
+  "$defs": {
+    "resources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wall_seconds", "cpu_seconds", "peak_rss_bytes", "scratch_bytes", "network_bytes", "cost"],
+      "properties": {
+        "wall_seconds": { "type": "number", "minimum": 0 },
+        "cpu_seconds": { "type": "number", "minimum": 0 },
+        "peak_rss_bytes": { "type": "integer", "minimum": 0 },
+        "scratch_bytes": { "type": "integer", "minimum": 0 },
+        "network_bytes": { "type": "integer", "minimum": 0 },
+        "cost": { "type": "number", "minimum": 0 }
+      }
+    }
+  }
+}

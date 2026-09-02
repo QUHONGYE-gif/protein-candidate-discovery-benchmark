@@ -1,0 +1,39 @@
+{
+  "claim_boundary": "Synthetic schema example only; no scientific or population claim.",
+  "contract_digest": "05dafeb913b9956ec879de9dfe3e4bbb1e7f2388d5054db78e4a733e0df522b7",
+  "contract_id": "m5-example-contract",
+  "contract_version": 1,
+  "decided_at": "2026-09-02T00:02:00Z",
+  "decision_id": "gate-b-m5-example-v1",
+  "evidence_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "explicit_boundary_approvals": [
+    {
+      "authority": "github:QUHONGYE-gif",
+      "boundaries": [
+        "held_out_boundary",
+        "primary_endpoint",
+        "dataset_inclusion",
+        "cost_semantics"
+      ]
+    },
+    {
+      "authority": "git:will-zhang",
+      "boundaries": [
+        "held_out_boundary",
+        "primary_endpoint",
+        "dataset_inclusion",
+        "cost_semantics"
+      ]
+    }
+  ],
+  "rationale": "Schema example only; no evidence was reviewed or accepted.",
+  "record_status": "example",
+  "reviewers": [
+    {
+      "authority": "git:will-zhang",
+      "relation": "not_summary_preparer"
+    }
+  ],
+  "schema_version": "pcdb-gate-b-decision-v1",
+  "verdict": "inconclusive"
+}

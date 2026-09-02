@@ -29,3 +29,10 @@ canonical URL、发布方 checksum、byte size、task-level license 和 COS obje
 同一目录也可保存经独立 Issue prospectively frozen 的 processing/split machine-readable config；
 这类 config 必须以名称和字段明确区分 source inventory，并绑定对应 Dataset/Processing Manifest。
 任何 config 都不替代 Dataset、Processing 或 Split Manifest，也不单独构成 COS 或 scientific evidence。
+
+## Governance v2
+
+`governance/v2.json` 固定当前两位 scientific authority handle、`/srv/pcdb/` namespace、Unix
+group `pcdb`、`pcdb-runner` / `pcdb-archiver` service account、分层 backup/RPO、50% target /
+70% hard-cap 和 `milestone-archives/v2/` archive policy。文件只包含身份与政策，不包含凭据。
+服务器部署前用 `pcdb governance-check server` 核验实际 group、writer set 与容量。

@@ -116,8 +116,9 @@ Add fail-closed leakage tests whenever dataset, replay, split, feature, or evalu
 ## Data and artifact rules
 
 Git stores source code, configuration, schemas, manifests, documentation, small public fixtures,
-and compact summaries. COS stores raw and processed public datasets, embeddings, caches,
-trajectories, checkpoints, logs, complete results, and frozen releases.
+and compact summaries. M0–M4 retain their historical COS storage identities. For M5+,
+`/srv/pcdb/` is the active raw/processed/embedding/split and run data plane; COS receives only the
+compact immutable archive of a valid terminal milestone after Gate B.
 
 Do not treat COS as a POSIX shared filesystem. Every scientific artifact must be traceable to its
 Git commit, environment or container digest, dataset manifest, split and feature hashes,
@@ -127,10 +128,13 @@ splits, successful runs, or releases. A run completes only after validation and 
 ## Local and cloud execution
 
 Formal experiments run on designated compute servers using an exact Git commit or container
-digest. Local NVMe is recoverable cache or scratch space. Upload validated outputs to COS before
-deleting local artifacts. Never store permanent COS credentials in Git, examples, Issues, PRs,
-logs, or fixtures. GitHub Actions validates code and small fixtures; it does not run the full
-benchmark or serve as the scientific artifact store.
+digest. M5+ ordinary runs use append-only server attempt directories and must perform zero COS
+writes. After Gate B, the separate archiver fresh-readback verifies a compact immutable COS bundle
+before writing `_SUCCESS` last. Never store permanent COS credentials in Git, examples, Issues,
+PRs, logs, or fixtures. GitHub Actions validates code and small fixtures; it does not run the full
+benchmark or serve as the scientific artifact store. See `docs/GOVERNANCE_V2.md` and
+`docs/GOVERNANCE_V2_RUNBOOK.md`; legacy entry points remain indexed in
+`docs/LEGACY_EXECUTION_SURFACE.md`.
 
 ## Testing and verification
 
@@ -139,6 +143,7 @@ Use the canonical commands:
 - `make format`: format owned files;
 - `make lint`: static checks;
 - `make test`: default test suite;
+- `make governance-check`: Governance v2 docs/schema/example compatibility checks;
 - `make check`: required pre-PR checks;
 - `make replay-smoke`: deterministic small-fixture replay.
 

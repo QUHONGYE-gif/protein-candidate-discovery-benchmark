@@ -1,0 +1,29 @@
+{
+  "attempt_id": "attempt-001",
+  "attempt_root": "/srv/pcdb/runs/M5-EXAMPLE/attempt-001",
+  "contract_digest": "05dafeb913b9956ec879de9dfe3e4bbb1e7f2388d5054db78e4a733e0df522b7",
+  "cos_write_count": 0,
+  "environment_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "git_commit": "38af0edfa800578f381c32bba10201cf0e9d4e1d",
+  "git_tree": "e8a01ce507f351c38d9e5c5ab87dc4423789e7d5",
+  "input_manifest_digest": "e86337db5cc146f43f39b5734b95abd90699b66289487d336bdd6682d8d2ec03",
+  "observed_usage": {
+    "cost": 0,
+    "cpu_seconds": 2,
+    "network_bytes": 0,
+    "peak_rss_bytes": 1048576,
+    "scratch_bytes": 4096,
+    "wall_seconds": 3
+  },
+  "resource_caps": {
+    "cost": 1,
+    "cpu_seconds": 10,
+    "network_bytes": 1024,
+    "peak_rss_bytes": 10485760,
+    "scratch_bytes": 1048576,
+    "wall_seconds": 30
+  },
+  "run_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "schema_version": "pcdb-governance-run-identity-v1",
+  "source_clean": true
+}

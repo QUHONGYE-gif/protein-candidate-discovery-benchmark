@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/milestone-archive-manifest.schema.json",
+  "title": "Governance v2 milestone archive manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "archive_id", "milestone_id", "request_sha256", "gate_b_verdict", "objects", "completion_marker", "retention"],
+  "properties": {
+    "schema_version": { "const": "pcdb-milestone-archive-manifest-v1" },
+    "archive_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "milestone_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$" },
+    "request_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "gate_b_verdict": { "enum": ["accept", "reject", "inconclusive"] },
+    "objects": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "path", "size_bytes", "sha256"],
+        "properties": {
+          "role": { "enum": ["contract_manifest", "run_identity", "final_result", "important_log", "summary", "provenance", "gate_b_decision"] },
+          "path": { "type": "string", "pattern": "^[^/].+$" },
+          "size_bytes": { "type": "integer", "minimum": 0 },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "completion_marker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "size_bytes", "sha256"],
+      "properties": {
+        "path": { "const": "_SUCCESS" },
+        "size_bytes": { "const": 0 },
+        "sha256": { "const": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" }
+      }
+    },
+    "retention": { "const": "no_automatic_deletion" }
+  }
+}

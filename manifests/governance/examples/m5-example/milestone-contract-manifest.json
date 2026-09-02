@@ -1,0 +1,69 @@
+{
+  "contract_digest": "05dafeb913b9956ec879de9dfe3e4bbb1e7f2388d5054db78e4a733e0df522b7",
+  "contract_id": "m5-example-contract",
+  "contract_version": 1,
+  "gate_a": {
+    "path": "gate-a-decision.json",
+    "sha256": "f8ae2ddc225568f6a61550c4a907a5abee3e5940d4861f74500476ef0d01bad6"
+  },
+  "gate_b": {
+    "path": "gate-b-decision.json",
+    "sha256": "59c3d812eab36a3e8759d249461f2b651324c75ede10dcfec2782aaa474e224c",
+    "verdict": "inconclusive"
+  },
+  "input_artifacts": [
+    {
+      "consumers": [
+        "runner",
+        "surrogate_model",
+        "acquisition_strategy"
+      ],
+      "path": "input-manifest.json",
+      "role": "dataset_manifest",
+      "sha256": "e86337db5cc146f43f39b5734b95abd90699b66289487d336bdd6682d8d2ec03",
+      "size_bytes": 89,
+      "visibility": "observable"
+    }
+  ],
+  "major_boundaries": [
+    "held_out_boundary",
+    "primary_endpoint",
+    "dataset_inclusion",
+    "cost_semantics"
+  ],
+  "manifest_revision": 2,
+  "manifest_status": "example",
+  "milestone_id": "M5-EXAMPLE",
+  "run_policy": {
+    "attempt_semantics": "append_only",
+    "completion_marker": "_SUCCESS_last",
+    "ordinary_run_cos_writes": 0,
+    "storage_mode": "server_first"
+  },
+  "schema_version": "pcdb-milestone-contract-manifest-v1",
+  "scientific_authorities": [
+    "github:QUHONGYE-gif",
+    "git:will-zhang"
+  ],
+  "scientific_contract": {
+    "allowed_deviations": [
+      "retry transient infrastructure failure with a new attempt ID"
+    ],
+    "budget_cost_model": "Synthetic example: fixed 16-label batch and zero paid cost.",
+    "candidate_high_value_definition": "Synthetic upper-tail example defined before any result read.",
+    "comparison_set": [
+      "greedy",
+      "exploration"
+    ],
+    "dataset_split_semantics": "Synthetic public fixture; development only; no held-out access.",
+    "held_out_boundary": "No held-out access is permitted in this example.",
+    "known_risks": [
+      "Example-only record; not scientific evidence."
+    ],
+    "primary_metrics": [
+      "simple_regret"
+    ],
+    "research_question": "Can the example acquisition change immediate synthetic decision value?",
+    "statistical_rule": "Report the paired synthetic example without population claims."
+  }
+}

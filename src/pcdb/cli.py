@@ -15,6 +15,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="pcdb")
     parser.add_argument("--version", action="version", version=__version__)
     commands = parser.add_subparsers(dest="command")
+    from pcdb.governance.cli import add_governance_commands
+
+    add_governance_commands(commands)
     synthetic = commands.add_parser(
         "m2-synthetic",
         help="run the bounded synthetic feature/model producer into local scratch",
@@ -237,6 +240,14 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: Sequence[str] | None = None) -> int:
     """Run the command-line interface."""
     arguments = build_parser().parse_args(argv)
+    if arguments.command == "governance-check":
+        from pcdb.governance.cli import run_governance_check_cli
+
+        return run_governance_check_cli(arguments)
+    if arguments.command == "governance-archive":
+        from pcdb.governance.cli import run_governance_archive_cli
+
+        return run_governance_archive_cli(arguments)
     if arguments.command == "m2-synthetic":
         from pcdb.m2.cli import run_synthetic_cli
 

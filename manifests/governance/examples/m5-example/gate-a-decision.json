@@ -1,0 +1,39 @@
+{
+  "approvals": [
+    {
+      "authority": "github:QUHONGYE-gif",
+      "decided_at": "2026-09-02T00:00:00Z",
+      "explicit_boundaries": [
+        "held_out_boundary",
+        "primary_endpoint",
+        "dataset_inclusion",
+        "cost_semantics"
+      ],
+      "verdict": "authorized"
+    },
+    {
+      "authority": "git:will-zhang",
+      "decided_at": "2026-09-02T00:01:00Z",
+      "explicit_boundaries": [
+        "held_out_boundary",
+        "primary_endpoint",
+        "dataset_inclusion",
+        "cost_semantics"
+      ],
+      "verdict": "authorized"
+    }
+  ],
+  "contract_digest": "05dafeb913b9956ec879de9dfe3e4bbb1e7f2388d5054db78e4a733e0df522b7",
+  "contract_id": "m5-example-contract",
+  "contract_version": 1,
+  "decided_at": "2026-09-02T00:01:00Z",
+  "decision_id": "gate-a-m5-example-v1",
+  "formulation": "proposed_and_approved",
+  "proposers": [
+    "github:QUHONGYE-gif"
+  ],
+  "rationale": "Schema example only; this record does not authorize a scientific run.",
+  "record_status": "example",
+  "schema_version": "pcdb-gate-a-decision-v1",
+  "verdict": "authorized"
+}
