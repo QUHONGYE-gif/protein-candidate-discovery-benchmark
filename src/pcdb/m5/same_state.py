@@ -19,6 +19,7 @@ INVENTORY_SCHEMA_VERSION = "m5b-alpha-ired-state-inventory-v2"
 PARENT_INVENTORY_SHA256 = "11c3ba0f64d9db8b9967c1df1e5c4ebbf3b5b0d855b472885564ddd0ce70573b"
 SOURCE_ENVIRONMENT_DIGEST = "863ddd6ce1e79542013efe338e7a65cef2bb35ed3c6c53645630ba7278c3732d"
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
+_ATTEMPT_ID = re.compile(r"^attempt-([0-9]{3})$")
 _MATCHED_RANDOM_PREFIX = b"m5b-alpha-ired-one-step-v2\0matched-random\0"
 _BOOTSTRAP_ID = "m5b-alpha-ired-one-step-v2-bootstrap"
 _TASK_ORDER = ("alpha-amylase", "ired")
@@ -216,7 +217,7 @@ class AttemptRecord:
     complete_terminal: bool
     external_failure_evidence: bool
     failure_class: str | None
-    human_retry_authorized: bool
+    automatic_retry_authorized: bool
     input_identity_sha256: str
     unchanged_input_checksums: bool
     valid_terminal: bool
@@ -828,23 +829,28 @@ def classify_taxonomy(
 
 
 def _retry_eligible(attempt: AttemptRecord) -> bool:
-    if attempt.complete_terminal or not attempt.external_failure_evidence:
-        return False
-    if attempt.failure_class in {"scheduler_preemption", "host_interruption"}:
-        return True
-    return attempt.failure_class == "transient_local_io" and attempt.unchanged_input_checksums
+    return (
+        not attempt.complete_terminal
+        and attempt.external_failure_evidence
+        and attempt.failure_class == "transient-infrastructure"
+        and attempt.unchanged_input_checksums
+    )
 
 
 def select_canonical_attempt(
     attempts: Sequence[AttemptRecord],
 ) -> CanonicalAttemptSelection:
-    """Apply the v2 no-automatic-retry and first-complete terminal rule."""
+    """Select the first valid terminal across one primary plus two transient retries."""
 
-    if not 1 <= len(attempts) <= 2:
-        raise ContractValidationError(
-            "M5B attempts must contain attempt-001 and at most attempt-002"
-        )
-    expected_ids = tuple(f"attempt-{index:03d}" for index in range(1, len(attempts) + 1))
+    if not 1 <= len(attempts) <= 3:
+        raise ContractValidationError("M5B execution chain must contain at most three attempts")
+    first_match = _ATTEMPT_ID.fullmatch(attempts[0].attempt_id)
+    if first_match is None or int(first_match.group(1)) == 0:
+        raise ContractValidationError("M5B attempt IDs are not canonical and ordered")
+    first_number = int(first_match.group(1))
+    expected_ids = tuple(
+        f"attempt-{index:03d}" for index in range(first_number, first_number + len(attempts))
+    )
     if tuple(attempt.attempt_id for attempt in attempts) != expected_ids:
         raise ContractValidationError("M5B attempt IDs are not canonical and ordered")
     if any(
@@ -853,28 +859,26 @@ def select_canonical_attempt(
         or not isinstance(attempt.valid_terminal, bool)
         or not isinstance(attempt.external_failure_evidence, bool)
         or not isinstance(attempt.unchanged_input_checksums, bool)
-        or not isinstance(attempt.human_retry_authorized, bool)
+        or not isinstance(attempt.automatic_retry_authorized, bool)
         or (attempt.valid_terminal and not attempt.complete_terminal)
         for attempt in attempts
     ):
         raise ContractValidationError("M5B attempt record is invalid")
-    first = attempts[0]
-    first_retry_eligible = _retry_eligible(first)
-    if first.complete_terminal:
-        if len(attempts) == 2 or not first.valid_terminal:
+    input_identity = attempts[0].input_identity_sha256
+    for index, attempt in enumerate(attempts):
+        if index > 0 and (
+            not attempt.automatic_retry_authorized
+            or attempt.input_identity_sha256 != input_identity
+        ):
             return CanonicalAttemptSelection(None, False, "VALIDITY_STOP")
-        return CanonicalAttemptSelection(first.attempt_id, False, "COMPLETE")
-    if len(attempts) == 1:
-        return CanonicalAttemptSelection(None, first_retry_eligible, "NO_SCIENTIFIC_RESULT")
-    second = attempts[1]
-    if (
-        not first_retry_eligible
-        or not second.human_retry_authorized
-        or second.input_identity_sha256 != first.input_identity_sha256
-    ):
-        return CanonicalAttemptSelection(None, False, "VALIDITY_STOP")
-    if second.complete_terminal:
-        if not second.valid_terminal:
+        if attempt.complete_terminal:
+            if not attempt.valid_terminal or index != len(attempts) - 1:
+                return CanonicalAttemptSelection(None, False, "VALIDITY_STOP")
+            return CanonicalAttemptSelection(attempt.attempt_id, False, "COMPLETE")
+        if not _retry_eligible(attempt):
             return CanonicalAttemptSelection(None, False, "VALIDITY_STOP")
-        return CanonicalAttemptSelection(second.attempt_id, False, "COMPLETE")
-    return CanonicalAttemptSelection(None, False, "NO_SCIENTIFIC_RESULT")
+    return CanonicalAttemptSelection(
+        None,
+        len(attempts) < 3,
+        "NO_SCIENTIFIC_RESULT",
+    )

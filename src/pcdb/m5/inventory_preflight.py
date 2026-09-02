@@ -92,7 +92,7 @@ def _validate_pair_identity(
         if (
             item.prepared.task_id != item.trajectory.task_id
             or item.prepared.run_spec != item.trajectory.run_spec
-            or item.source != "conditional-expansion"
+            or item.source not in {"conditional-expansion", "pilot"}
             or not _SHA256.fullmatch(item.attempt_sha256)
             or not _SHA256.fullmatch(item.trajectory_sha256)
         ):
