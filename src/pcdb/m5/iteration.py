@@ -320,9 +320,24 @@ def load_development_truth(
     ):
         raise ContractValidationError("M5B development truth manifest binding drifted")
     rows = _parse_truth(hidden_truth)
-    if set(dict(rows)) != set(candidate_ids):
-        raise ContractValidationError("M5B development truth must exact-cover candidate universe")
-    return DevelopmentTruth(task_id=task_id, rows=rows, sha256=expected_hidden_truth_sha256)
+    candidate_pool = tuple(candidate_ids)
+    if (
+        not candidate_pool
+        or len(set(candidate_pool)) != len(candidate_pool)
+        or any(not isinstance(candidate_id, str) for candidate_id in candidate_pool)
+    ):
+        raise ContractValidationError("M5B candidate universe is invalid")
+    full_truth = dict(rows)
+    if not set(candidate_pool) <= set(full_truth):
+        raise ContractValidationError("M5B development truth does not cover candidate universe")
+    pool_rows = tuple(
+        sorted((candidate_id, full_truth[candidate_id]) for candidate_id in candidate_pool)
+    )
+    return DevelopmentTruth(
+        task_id=task_id,
+        rows=pool_rows,
+        sha256=expected_hidden_truth_sha256,
+    )
 
 
 class _TruthContext:
