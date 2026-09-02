@@ -853,6 +853,8 @@ def select_canonical_attempt(
     )
     if tuple(attempt.attempt_id for attempt in attempts) != expected_ids:
         raise ContractValidationError("M5B attempt IDs are not canonical and ordered")
+    if any(_ATTEMPT_ID.fullmatch(attempt.attempt_id) is None for attempt in attempts):
+        raise ContractValidationError("M5B attempt IDs are not canonical and ordered")
     if any(
         not _SHA256.fullmatch(attempt.input_identity_sha256)
         or not isinstance(attempt.complete_terminal, bool)

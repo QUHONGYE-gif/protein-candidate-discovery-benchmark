@@ -804,6 +804,13 @@ def test_retry_and_canonical_result_rules_reject_outcome_selected_attempts() -> 
         replace(authorized_third, attempt_id="attempt-004"),
     )
     assert select_canonical_attempt(shifted_chain).canonical_attempt_id == "attempt-004"
+    with pytest.raises(ContractValidationError, match="canonical and ordered"):
+        select_canonical_attempt(
+            (
+                replace(transient, attempt_id="attempt-999"),
+                replace(authorized_second, attempt_id="attempt-1000"),
+            )
+        )
     drifted_second = replace(
         authorized_second,
         input_identity_sha256=_digest("drifted-input"),

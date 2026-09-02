@@ -296,15 +296,6 @@ def _run_attempt(
         return _not_started("M5B cumulative resource cap is exhausted"), 2, "budget"
     attempt_root = study_root / attempt_id
     artifacts = attempt_root / "artifacts"
-    try:
-        if attempt_root.exists():
-            raise ContractValidationError("M5B attempt directory already exists")
-        attempt_root.mkdir(mode=0o700)
-        artifacts.mkdir(mode=0o700)
-        _write_exclusive(attempt_root / "authorization.json", loaded.canonical_bytes)
-    except (OSError, ContractValidationError) as exc:
-        return _not_started(str(exc)), 2, "implementation"
-
     command = _worker_command(
         value,
         artifacts,
@@ -312,7 +303,16 @@ def _run_attempt(
         cpu_seconds=cpu_seconds,
         scratch_high_water_bytes=scratch_bytes,
     )
-    _write_exclusive(attempt_root / "command.txt", (shlex.join(command) + "\n").encode())
+    try:
+        if attempt_root.exists():
+            raise ContractValidationError("M5B attempt directory already exists")
+        attempt_root.mkdir(mode=0o700)
+        artifacts.mkdir(mode=0o700)
+        _write_exclusive(attempt_root / "authorization.json", loaded.canonical_bytes)
+        _write_exclusive(attempt_root / "command.txt", (shlex.join(command) + "\n").encode())
+    except (OSError, ContractValidationError) as exc:
+        return _not_started(str(exc)), 2, "implementation"
+
     started_at = _utc_now()
     status = "failed"
     failure_class = "implementation"
