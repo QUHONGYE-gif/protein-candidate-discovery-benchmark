@@ -116,9 +116,10 @@ Add fail-closed leakage tests whenever dataset, replay, split, feature, or evalu
 ## Data and artifact rules
 
 Git stores source code, configuration, schemas, manifests, documentation, small public fixtures,
-and compact summaries. M0–M4 retain their historical COS storage identities. For M5+,
-`/srv/pcdb/` is the active raw/processed/embedding/split and run data plane; COS receives only the
-compact immutable archive of a valid terminal milestone after Gate B.
+and compact summaries. M0–M4 and already-authorized issue-scoped M5 work retain their reviewed COS
+storage identities. Under ADR-0005, only a newly authorized Governance v2 milestone uses
+`/srv/pcdb/` as its active raw/processed/embedding/split and run data plane; COS then receives only
+the compact immutable archive of a valid terminal milestone after Gate B.
 
 Do not treat COS as a POSIX shared filesystem. Every scientific artifact must be traceable to its
 Git commit, environment or container digest, dataset manifest, split and feature hashes,
@@ -128,8 +129,8 @@ splits, successful runs, or releases. A run completes only after validation and 
 ## Local and cloud execution
 
 Formal experiments run on designated compute servers using an exact Git commit or container
-digest. M5+ ordinary runs use append-only server attempt directories and must perform zero COS
-writes. After Gate B, the separate archiver fresh-readback verifies a compact immutable COS bundle
+digest. Newly authorized Governance v2 ordinary runs use append-only server attempt directories and
+must perform zero COS writes. After Gate B, the separate archiver fresh-readback verifies a compact immutable COS bundle
 before writing `_SUCCESS` last. Never store permanent COS credentials in Git, examples, Issues,
 PRs, logs, or fixtures. GitHub Actions validates code and small fixtures; it does not run the full
 benchmark or serve as the scientific artifact store. See `docs/GOVERNANCE_V2.md` and

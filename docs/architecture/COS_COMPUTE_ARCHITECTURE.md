@@ -1,9 +1,9 @@
 # COS and Compute Architecture
 
-> Historical M0–M4 architecture and adapter rationale. Governance v2 supersedes its active data
-> plane for new M5+ milestones with server-first execution and milestone-only COS archive. Existing
-> paths and objects remain a Legacy Execution Surface; see `../GOVERNANCE_V2.md` and
-> `../GOVERNANCE_V2_RUNBOOK.md`.
+> Historical architecture and adapter rationale. Under ADR-0005, Governance v2 supersedes its active
+> data plane only for milestones first authorized after the v2 decision is merged. Issue #91/current
+> M5B and all earlier paths remain grandfathered Legacy Execution Surfaces; see
+> `../GOVERNANCE_V2.md`, `../GOVERNANCE_V2_RUNBOOK.md` and `../adr/0005-adopt-governance-v2-for-new-milestones.md`.
 
 ## Decision summary
 

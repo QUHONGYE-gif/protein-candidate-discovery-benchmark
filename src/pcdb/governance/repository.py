@@ -53,6 +53,7 @@ def repository_check_report(repository_root: Path) -> CheckReport:
         required = (
             "docs/LEGACY_EXECUTION_SURFACE.md",
             "docs/GOVERNANCE_V2_RUNBOOK.md",
+            "docs/adr/0005-adopt-governance-v2-for-new-milestones.md",
             "configs/governance/v2.json",
         )
         missing = [item for item in required if not (root / item).is_file()]
@@ -60,7 +61,10 @@ def repository_check_report(repository_root: Path) -> CheckReport:
             raise CheckViolation(f"active Governance v2 files are missing: {missing}")
         validate_governance_config(config.value)
         return CheckEvidence(
-            reason="accepted RFC bytes, active runbook, legacy index and deployment config exist",
+            reason=(
+                "accepted RFC bytes, prospective adoption ADR, runbook, legacy index and "
+                "deployment config exist"
+            ),
             evidence={"rfc_sha256": GOVERNANCE_RFC_SHA256},
         )
 

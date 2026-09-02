@@ -5,6 +5,11 @@ run identity shapes. Every decision has `record_status: example`; it is test dat
 authorization, evidence or a historical milestone. Production checks reject example records unless
 the explicit developer-only `--allow-example` flag is used.
 
+The example attestation envelopes use placeholder GitHub comment identities and body hashes. A
+final record must instead bind a fresh-fetched GitHub actor, comment/node ID, object `updated_at`,
+exact body hash and the digest emitted by `pcdb governance-decision-digest`; placeholder evidence
+can never pass a production Check.
+
 The manifest binds the canonical SHA-256 of its `scientific_contract` object and the exact bytes of
 each decision/input. A terminal revision adds the Gate B reference without rewriting the frozen
 scientific contract digest. Production revisions are append-only artifacts; the example file is

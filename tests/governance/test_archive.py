@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 from jsonschema import Draft202012Validator, FormatChecker
@@ -10,15 +11,21 @@ from pcdb.cli import main
 from pcdb.contracts.experiment import canonical_json_bytes
 from pcdb.governance.archive import (
     ArchiveAttemptRecorder,
+    ArchiveObject,
     ImmutableArchiveStore,
     LocalArchiveStore,
+    archive_evidence_digest,
     archive_terminal_milestone,
 )
 from pcdb.governance.checks import CheckViolation, sha256_bytes
+from tests.governance.helpers import (
+    FakeDecisionEvidenceVerifier,
+    attach_example_attestations,
+)
 
 REPOSITORY_ROOT = Path(__file__).parents[2]
 CONFIG = REPOSITORY_ROOT / "configs/governance/v2.json"
-AUTHORITIES = ("github:QUHONGYE-gif", "git:will-zhang")
+AUTHORITIES = ("github:QUHONGYE-gif", "github:willzhang")
 
 
 def _write_json(path: Path, value: object) -> bytes:
@@ -78,6 +85,7 @@ def _build_bundle(
         "schema_version": "pcdb-gate-a-decision-v1",
         "verdict": "authorized",
     }
+    attach_example_attestations(gate_a, first_comment_id=101)
     gate_b = {
         "claim_boundary": "synthetic test result only",
         "contract_digest": contract_digest,
@@ -99,7 +107,7 @@ def _build_bundle(
         root / "input-manifest.json",
         {"dataset": "public-synthetic", "schema_version": "test-input-v1"},
     )
-    manifest = {
+    manifest: dict[str, Any] = {
         "contract_digest": contract_digest,
         "contract_id": "m5-test-contract",
         "contract_version": 1,
@@ -183,11 +191,31 @@ def _build_bundle(
         ),
         "gate_b_decision": ("gate-b.json", gate_b_payload, "gate-b-decision.json"),
     }
-    inventory = []
+    inventory: list[dict[str, Any]] = []
     for role, (source_path, payload, archive_path) in payloads.items():
         if role not in {"contract_manifest", "gate_b_decision"}:
             (root / source_path).write_bytes(payload)
         inventory.append({"role": role, **_reference(source_path, payload, archive_path)})
+    evidence_objects = tuple(
+        ArchiveObject(
+            role=str(item["role"]),
+            path=str(item["path"]),
+            archive_path=str(item["archive_path"]),
+            size_bytes=int(item["size_bytes"]),
+            sha256=str(item["sha256"]),
+        )
+        for item in inventory
+    )
+    gate_b["evidence_digest"] = archive_evidence_digest(evidence_objects)
+    attach_example_attestations(gate_b, first_comment_id=201)
+    gate_b_payload = _write_json(root / "gate-b.json", gate_b)
+    manifest["gate_b"]["sha256"] = sha256_bytes(gate_b_payload)
+    manifest_payload = _write_json(root / "contract.json", manifest)
+    for item in inventory:
+        if item["role"] == "contract_manifest":
+            item.update(_reference("contract.json", manifest_payload, "contract-manifest.json"))
+        elif item["role"] == "gate_b_decision":
+            item.update(_reference("gate-b.json", gate_b_payload, "gate-b-decision.json"))
     role_map = {item["role"]: item for item in inventory}
     contract_reference = dict(role_map["contract_manifest"])
     del contract_reference["role"]
@@ -254,12 +282,14 @@ def test_all_valid_scientific_terminal_verdicts_archive_with_success_last(
         config_path=CONFIG,
         store=store,
         recorder=ArchiveAttemptRecorder(recorder_root),
+        evidence_verifier=FakeDecisionEvidenceVerifier(),
     )
 
     assert receipt.status == "archived"
     assert receipt.object_count == 9
     assert receipt.check_report.overall_status == "pass"
     assert {item.category for item in receipt.check_report.checks} >= {
+        "authenticated_human_evidence",
         "archive_readback",
         "completion_marker",
         "hash_exact_bytes",
@@ -279,6 +309,8 @@ def test_all_valid_scientific_terminal_verdicts_archive_with_success_last(
         (REPOSITORY_ROOT / "schemas/milestone-archive-manifest.schema.json").read_bytes()
     )
     Draft202012Validator(archive_schema, format_checker=FormatChecker()).validate(archive_manifest)
+    gate_b = json.loads(gate_b_path.read_bytes())
+    assert archive_manifest["evidence_digest"] == gate_b["evidence_digest"]
     attempt_records = sorted((recorder_root / "M5T/archive-attempts").glob("*.json"))
     assert [path.name for path in attempt_records] == [
         "attempt-001.started.json",
@@ -304,6 +336,7 @@ def test_non_scientific_attempt_classes_write_only_server_record(
         config_path=CONFIG,
         store=store,
         recorder=ArchiveAttemptRecorder(recorder_root),
+        evidence_verifier=FakeDecisionEvidenceVerifier(),
     )
 
     assert receipt.status == "skipped"
@@ -325,6 +358,7 @@ def test_readback_failure_never_writes_completion_marker(tmp_path: Path) -> None
             config_path=CONFIG,
             store=store,
             recorder=ArchiveAttemptRecorder(recorder_root),
+            evidence_verifier=FakeDecisionEvidenceVerifier(),
         )
 
     assert not any(key.endswith("_SUCCESS") for key in store.list_keys(""))
@@ -344,16 +378,75 @@ def test_existing_prefix_fails_closed_without_overwrite(tmp_path: Path) -> None:
             config_path=CONFIG,
             store=store,
             recorder=ArchiveAttemptRecorder(tmp_path / "attempts"),
+            evidence_verifier=FakeDecisionEvidenceVerifier(),
         )
 
     assert store.get("milestone-archives/v2/M5T/archive-001/existing.txt") == b"existing"
     assert not any(key.endswith("_SUCCESS") for key in store.list_keys(""))
 
 
-def test_standalone_archive_cli_publishes_to_local_store(
-    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+def test_archive_rejects_gate_b_inventory_path_different_from_validated_decision(
+    tmp_path: Path,
 ) -> None:
     root, request_path, gate_b_path = _build_bundle(tmp_path)
+    alternate = root / "alternate-gate-b.json"
+    alternate.write_bytes(gate_b_path.read_bytes())
+    request = json.loads(request_path.read_bytes())
+    request["gate_b_decision"]["path"] = alternate.name
+    gate_b_entry = next(
+        item for item in request["source_inventory"] if item["role"] == "gate_b_decision"
+    )
+    gate_b_entry["path"] = alternate.name
+    _write_json(request_path, request)
+
+    with pytest.raises(CheckViolation, match="Gate B path differs"):
+        archive_terminal_milestone(
+            request_path=request_path,
+            source_root=root,
+            gate_b_path=gate_b_path,
+            config_path=CONFIG,
+            store=RecordingStore(tmp_path / "archive"),
+            recorder=ArchiveAttemptRecorder(tmp_path / "attempts"),
+            evidence_verifier=FakeDecisionEvidenceVerifier(),
+        )
+
+
+def test_archive_rejects_gate_b_evidence_digest_different_from_inventory(
+    tmp_path: Path,
+) -> None:
+    root, request_path, gate_b_path = _build_bundle(tmp_path)
+    changed = b"metric,value\nsimple_regret,0.2\n"
+    (root / "final.csv").write_bytes(changed)
+    request = json.loads(request_path.read_bytes())
+    result_entry = next(
+        item for item in request["source_inventory"] if item["role"] == "final_result"
+    )
+    result_entry["sha256"] = sha256_bytes(changed)
+    result_entry["size_bytes"] = len(changed)
+    _write_json(request_path, request)
+
+    with pytest.raises(CheckViolation, match="evidence digest differs"):
+        archive_terminal_milestone(
+            request_path=request_path,
+            source_root=root,
+            gate_b_path=gate_b_path,
+            config_path=CONFIG,
+            store=RecordingStore(tmp_path / "archive"),
+            recorder=ArchiveAttemptRecorder(tmp_path / "attempts"),
+            evidence_verifier=FakeDecisionEvidenceVerifier(),
+        )
+
+
+def test_standalone_archive_cli_publishes_to_local_store(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root, request_path, gate_b_path = _build_bundle(tmp_path)
+    monkeypatch.setattr(
+        "pcdb.governance.cli.GitHubCommentEvidenceVerifier.from_environment",
+        FakeDecisionEvidenceVerifier,
+    )
 
     exit_code = main(
         [

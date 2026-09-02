@@ -32,7 +32,9 @@ canonical URL、发布方 checksum、byte size、task-level license 和 COS obje
 
 ## Governance v2
 
-`governance/v2.json` 固定当前两位 scientific authority handle、`/srv/pcdb/` namespace、Unix
-group `pcdb`、`pcdb-runner` / `pcdb-archiver` service account、分层 backup/RPO、50% target /
-70% hard-cap 和 `milestone-archives/v2/` archive policy。文件只包含身份与政策，不包含凭据。
-服务器部署前用 `pcdb governance-check server` 核验实际 group、writer set 与容量。
+`governance/v2.json` 固定两位 scientific authority 的 GitHub 身份与服务器用户名、
+`/srv/pcdb/` namespace、Unix group `pcdb`、`pcdb-runner` / `pcdb-archiver` service account、
+分层 backup/RPO、50% target / 70% hard-cap 和 `milestone-archives/v2/` archive policy。文件只
+包含身份与政策，不包含凭据。ADR-0005 合入后新授权的 milestone 才使用此配置；当前 #91/M5B
+保持原执行边界。服务器部署后必须在目标主机运行 `pcdb governance-check server`，由工具直接
+读取 group membership、目录 mode 与 filesystem free space，不接受调用者回填观测值。

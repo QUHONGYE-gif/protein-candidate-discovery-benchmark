@@ -248,6 +248,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         from pcdb.governance.cli import run_governance_archive_cli
 
         return run_governance_archive_cli(arguments)
+    if arguments.command == "governance-decision-digest":
+        from pcdb.governance.cli import run_governance_decision_digest_cli
+
+        return run_governance_decision_digest_cli(arguments)
     if arguments.command == "m2-synthetic":
         from pcdb.m2.cli import run_synthetic_cli
 

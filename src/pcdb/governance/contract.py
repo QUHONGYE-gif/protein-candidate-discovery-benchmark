@@ -11,6 +11,11 @@ from pathlib import Path
 from typing import Any, cast
 
 from pcdb.contracts.experiment import canonical_json_bytes
+from pcdb.governance.attestation import (
+    DecisionEvidenceVerifier,
+    decision_payload_digest,
+    validate_attestation_shape,
+)
 from pcdb.governance.checks import (
     CheckEvidence,
     CheckReport,
@@ -150,29 +155,48 @@ def validate_governance_config(value: Mapping[str, Any]) -> tuple[str, ...]:
 
     _exact_fields(
         value,
-        {"schema_version", "governance_version", "scientific_authorities", "server", "archive"},
+        {
+            "schema_version",
+            "governance_version",
+            "governance_repository",
+            "scientific_authorities",
+            "server",
+            "archive",
+        },
         "governance config",
     )
-    if value["schema_version"] != "pcdb-governance-config-v1" or value["governance_version"] != "2":
-        raise CheckViolation("governance config version is not v2/v1")
+    if (
+        value["schema_version"] != "pcdb-governance-config-v1"
+        or value["governance_version"] != "2"
+        or value["governance_repository"] != "QUHONGYE-gif/protein-candidate-discovery-benchmark"
+    ):
+        raise CheckViolation("governance config version or repository binding is invalid")
     raw_authorities = value["scientific_authorities"]
     if not isinstance(raw_authorities, list) or len(raw_authorities) != 2:
         raise CheckViolation("governance config must name exactly two scientific authorities")
     handles: list[str] = []
+    server_users: list[str] = []
     for index, raw in enumerate(raw_authorities):
         item = _mapping(raw, f"scientific_authorities[{index}]")
-        _exact_fields(item, {"handle", "display_name"}, f"scientific_authorities[{index}]")
+        _exact_fields(
+            item,
+            {"handle", "display_name", "server_user"},
+            f"scientific_authorities[{index}]",
+        )
         handle = item["handle"]
         if (
             not isinstance(handle, str)
-            or not re.fullmatch(r"(?:github|git):[A-Za-z0-9._-]+", handle)
+            or not re.fullmatch(r"github:[A-Za-z0-9._-]+", handle)
             or not isinstance(item["display_name"], str)
             or not item["display_name"]
+            or not isinstance(item["server_user"], str)
+            or not re.fullmatch(r"[a-z_][a-z0-9_-]*", item["server_user"])
         ):
             raise CheckViolation("scientific authority identity is invalid")
         handles.append(handle)
-    if len(set(handles)) != 2:
-        raise CheckViolation("scientific authority handles must be distinct")
+        server_users.append(item["server_user"])
+    if len(set(handles)) != 2 or len(set(server_users)) != 2:
+        raise CheckViolation("scientific authority handles and server users must be distinct")
 
     server = _mapping(value["server"], "server")
     _exact_fields(
@@ -242,8 +266,10 @@ def validate_gate_a(
     contract_version: int,
     contract_digest: str,
     major_boundaries: set[str],
+    governance_repository: str,
+    evidence_verifier: DecisionEvidenceVerifier | None,
     require_final: bool,
-) -> None:
+) -> tuple[int, ...]:
     """Validate human Gate A roles and all explicit two-person boundaries."""
 
     required = {
@@ -275,6 +301,7 @@ def validate_gate_a(
         raise CheckViolation("Gate A decision_id is invalid")
     _date_time(value["decided_at"], "Gate A decided_at")
     _nonempty(value["rationale"], "Gate A rationale")
+    decision_digest = decision_payload_digest(value)
     authority_set = set(authorities)
     proposers = set(_strings(value["proposers"], "Gate A proposers"))
     if not proposers <= authority_set:
@@ -283,12 +310,13 @@ def validate_gate_a(
     if not isinstance(approvals, list) or not approvals:
         raise CheckViolation("Gate A must contain human approval records")
     approval_authorities: set[str] = set()
+    attestation_comment_ids: list[int] = []
     boundary_by_authority: dict[str, set[str]] = {}
     for index, raw in enumerate(approvals):
         item = _mapping(raw, f"Gate A approvals[{index}]")
         _exact_fields(
             item,
-            {"authority", "verdict", "decided_at", "explicit_boundaries"},
+            {"authority", "verdict", "decided_at", "explicit_boundaries", "attestation"},
             f"Gate A approvals[{index}]",
         )
         authority = item["authority"]
@@ -306,6 +334,23 @@ def validate_gate_a(
             raise CheckViolation("Gate A explicit boundary is unknown")
         if authority in approval_authorities:
             raise CheckViolation("Gate A authority must not have duplicate approval records")
+        attestation = validate_attestation_shape(
+            item["attestation"],
+            field=f"Gate A approvals[{index}].attestation",
+            expected_actor=str(authority),
+            expected_repository=governance_repository,
+            expected_decision_digest=decision_digest,
+        )
+        if require_final:
+            if evidence_verifier is None:
+                raise CheckViolation("final Gate A requires an authenticated evidence verifier")
+            evidence_verifier.verify(
+                attestation,
+                expected_actor=str(authority),
+                expected_repository=governance_repository,
+                expected_decision_digest=decision_digest,
+            )
+        attestation_comment_ids.append(cast(int, attestation["comment_id"]))
         approval_authorities.add(authority)
         boundary_by_authority[str(authority)] = boundaries
     formulation = value["formulation"]
@@ -322,6 +367,7 @@ def validate_gate_a(
         for authority in authority_set
     ):
         raise CheckViolation("major Gate A boundaries require both authorities' explicit approval")
+    return tuple(attestation_comment_ids)
 
 
 def validate_gate_b(
@@ -332,8 +378,10 @@ def validate_gate_b(
     contract_version: int,
     contract_digest: str,
     major_boundaries: set[str],
+    governance_repository: str,
+    evidence_verifier: DecisionEvidenceVerifier | None,
     require_final: bool,
-) -> str:
+) -> tuple[str, tuple[int, ...]]:
     """Validate Gate B scientific review without inferring it from Checks."""
 
     required = {
@@ -369,20 +417,43 @@ def validate_gate_b(
     _date_time(value["decided_at"], "Gate B decided_at")
     _nonempty(value["rationale"], "Gate B rationale")
     _nonempty(value["claim_boundary"], "Gate B claim_boundary")
+    decision_digest = decision_payload_digest(value)
     authority_set = set(authorities)
     reviewers = value["reviewers"]
     if not isinstance(reviewers, list) or not reviewers:
         raise CheckViolation("Gate B requires at least one human reviewer")
     reviewer_authorities: set[str] = set()
+    attestation_comment_ids: list[int] = []
     for index, raw in enumerate(reviewers):
         item = _mapping(raw, f"Gate B reviewers[{index}]")
-        _exact_fields(item, {"authority", "relation"}, f"Gate B reviewers[{index}]")
+        _exact_fields(
+            item,
+            {"authority", "relation", "attestation"},
+            f"Gate B reviewers[{index}]",
+        )
         if item["authority"] not in authority_set or item["relation"] not in {
             "not_summary_preparer",
             "summary_preparer",
             "internal_non_independent_review",
         }:
             raise CheckViolation("Gate B reviewer identity or relation is invalid")
+        attestation = validate_attestation_shape(
+            item["attestation"],
+            field=f"Gate B reviewers[{index}].attestation",
+            expected_actor=str(item["authority"]),
+            expected_repository=governance_repository,
+            expected_decision_digest=decision_digest,
+        )
+        if require_final:
+            if evidence_verifier is None:
+                raise CheckViolation("final Gate B requires an authenticated evidence verifier")
+            evidence_verifier.verify(
+                attestation,
+                expected_actor=str(item["authority"]),
+                expected_repository=governance_repository,
+                expected_decision_digest=decision_digest,
+            )
+        attestation_comment_ids.append(cast(int, attestation["comment_id"]))
         reviewer_authorities.add(str(item["authority"]))
     if len(reviewer_authorities) != len(reviewers):
         raise CheckViolation("Gate B reviewer authorities must be unique")
@@ -406,12 +477,15 @@ def validate_gate_b(
         if authority in boundary_by_authority:
             raise CheckViolation("Gate B authority has duplicate boundary approvals")
         boundary_by_authority[str(authority)] = boundaries
-    if major_boundaries and any(
-        not major_boundaries <= boundary_by_authority.get(authority, set())
-        for authority in authority_set
+    if major_boundaries and (
+        reviewer_authorities != authority_set
+        or any(
+            not major_boundaries <= boundary_by_authority.get(authority, set())
+            for authority in authority_set
+        )
     ):
         raise CheckViolation("major Gate B boundaries require both authorities' explicit approval")
-    return str(verdict)
+    return str(verdict), tuple(attestation_comment_ids)
 
 
 def validate_run_identity(
@@ -481,6 +555,7 @@ def contract_check_report(
     runtime_git_commit: str | None = None,
     runtime_git_tree: str | None = None,
     runtime_environment_digest: str | None = None,
+    evidence_verifier: DecisionEvidenceVerifier | None = None,
     require_final: bool = True,
 ) -> CheckReport:
     """Run the contract/hash/Gate/leakage/cross-link/identity Check suite."""
@@ -610,6 +685,7 @@ def contract_check_report(
     contract_id = str(manifest.value["contract_id"])
     contract_version = int(manifest.value["contract_version"])
     boundaries = set(cast(list[str], manifest.value["major_boundaries"]))
+    governance_repository = str(config.value["governance_repository"])
 
     def hashes() -> CheckEvidence:
         actual_contract_digest = sha256_bytes(
@@ -670,15 +746,18 @@ def contract_check_report(
         )
 
     def gate_decisions() -> CheckEvidence:
-        validate_gate_a(
+        gate_a_comment_ids = validate_gate_a(
             gate_a.value,
             authorities=authorities,
             contract_id=contract_id,
             contract_version=contract_version,
             contract_digest=contract_digest,
             major_boundaries=boundaries,
+            governance_repository=governance_repository,
+            evidence_verifier=evidence_verifier,
             require_final=require_final,
         )
+        gate_b_comment_ids: tuple[int, ...] = ()
         if gate_b_path is not None:
             gate_b = loaded["gate_b"]
             gate_b_ref = _mapping(manifest.value.get("gate_b"), "manifest gate_b")
@@ -692,22 +771,38 @@ def contract_check_report(
                 size_bytes=len(gate_b.payload),
                 sha256=_sha256(gate_b_ref["sha256"], "Gate B reference SHA-256"),
             )
-            verdict = validate_gate_b(
+            verdict, gate_b_comment_ids = validate_gate_b(
                 gate_b.value,
                 authorities=authorities,
                 contract_id=contract_id,
                 contract_version=contract_version,
                 contract_digest=contract_digest,
                 major_boundaries=boundaries,
+                governance_repository=governance_repository,
+                evidence_verifier=evidence_verifier,
                 require_final=require_final,
             )
             if gate_b_ref["verdict"] != verdict:
                 raise CheckViolation("manifest and Gate B verdicts differ")
         elif manifest.value["manifest_status"] == "terminal" or "gate_b" in manifest.value:
             raise CheckViolation("terminal contract manifest requires its exact Gate B decision")
+        authentication = "fresh_github_verified" if require_final else "example_not_authenticated"
+        reason = (
+            "Gate A/B roles, exact bindings and fresh-authenticated human evidence satisfy v2"
+            if require_final
+            else (
+                "Gate A/B example roles and exact bindings are structurally valid; "
+                "not authenticated"
+            )
+        )
         return CheckEvidence(
-            reason="Gate A/B human decision roles and bindings satisfy Governance v2",
-            evidence={"gate_a_decision_id": gate_a.value["decision_id"]},
+            reason=reason,
+            evidence={
+                "authentication": authentication,
+                "gate_a_comment_ids": list(gate_a_comment_ids),
+                "gate_a_decision_id": gate_a.value["decision_id"],
+                "gate_b_comment_ids": list(gate_b_comment_ids),
+            },
         )
 
     def leakage() -> CheckEvidence:
@@ -755,6 +850,9 @@ def contract_check_report(
             evidence={"input_count": len(paths)},
         )
 
+    gate_input_digests = [contract_digest, gate_a.sha256]
+    if gate_b_path is not None:
+        gate_input_digests.append(loaded["gate_b"].sha256)
     checks = [
         schema_result,
         capture_check(
@@ -766,9 +864,9 @@ def contract_check_report(
         ),
         capture_check(
             name="scientific-gate-bindings",
-            category="schema_domain",
+            category="authenticated_human_evidence",
             blocks=("formal_execution", "archive"),
-            input_digests=(contract_digest, gate_a.sha256),
+            input_digests=gate_input_digests,
             operation=gate_decisions,
         ),
         capture_check(

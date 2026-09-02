@@ -4,11 +4,11 @@
   "contract_version": 1,
   "gate_a": {
     "path": "gate-a-decision.json",
-    "sha256": "f8ae2ddc225568f6a61550c4a907a5abee3e5940d4861f74500476ef0d01bad6"
+    "sha256": "b1a43733d6683a58a40a0fae1b03c3f742d22b5c7187ab71706611cb7e868f7c"
   },
   "gate_b": {
     "path": "gate-b-decision.json",
-    "sha256": "59c3d812eab36a3e8759d249461f2b651324c75ede10dcfec2782aaa474e224c",
+    "sha256": "1be78a8216f55825c1403b16ef4c1b51d4a1225fac8372871d3b64abbf8d1acd",
     "verdict": "inconclusive"
   },
   "input_artifacts": [
@@ -43,7 +43,7 @@
   "schema_version": "pcdb-milestone-contract-manifest-v1",
   "scientific_authorities": [
     "github:QUHONGYE-gif",
-    "git:will-zhang"
+    "github:willzhang"
   ],
   "scientific_contract": {
     "allowed_deviations": [

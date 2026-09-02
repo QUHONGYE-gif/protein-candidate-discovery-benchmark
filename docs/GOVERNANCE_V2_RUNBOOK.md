@@ -4,16 +4,25 @@ The normative rules are in [`GOVERNANCE_V2.md`](GOVERNANCE_V2.md). This runbook 
 into the minimum operator path. It does not authorize a scientific run, hidden-label access, COS
 credentials, data deletion or a GitHub ruleset change.
 
+[`ADR-0005`](adr/0005-adopt-governance-v2-for-new-milestones.md) fixes the activation boundary. V2
+applies only to a milestone first authorized after that decision and this implementation merge.
+Current #91/M5B and all already-authorized work remain on their reviewed legacy path. The RFC's
+section 1 “本阶段” restrictions describe its Stage 2 drafting turn; its section 10 defines the later
+implementation sequence, subject to ADR-0005.
+
 ## Deployment identities
 
-`configs/governance/v2.json` is the machine-readable source for the two scientific-authority
-handles and deployment names. Governance v2 uses Unix group `pcdb`; `pcdb-runner` owns ordinary
+`configs/governance/v2.json` is the machine-readable source for the two GitHub authority identities,
+their server usernames and deployment names. Governance v2 uses Unix group `pcdb`; `pcdb-runner` owns ordinary
 server attempts and has no COS write capability, while `pcdb-archiver` receives only the temporary
 credentials required for immutable milestone publication. Human write membership is limited to
 the two configured scientific authorities.
 
-Before production use, an operator must verify that the configured identities resolve to the
-intended humans/accounts on the target server. A mismatch is a failed Check, not an approval prompt.
+Final Gate records do not trust those strings by themselves. Each human decision references a
+GitHub issue/PR comment and binds its authenticated actor, comment/node ID, `updated_at`, exact body
+SHA-256 and exact decision digest. The checker fresh-fetches that object from GitHub; a missing,
+edited or differently authored comment fails closed. `GITHUB_TOKEN` may provide read-only access for
+a private repository and is never passed in a manifest or CLI argument.
 
 ## Server namespace and ACL
 
@@ -37,21 +46,18 @@ must report `cos_write_count = 0`.
 
 ## Capacity and backup preflight
 
-Run the same machine entry point used by CI before starting a milestone:
+Run this command on the target host before starting a milestone:
 
 ```bash
 pcdb governance-check server \
   --config configs/governance/v2.json \
-  --expected-peak-bytes <bytes> \
-  --available-bytes <bytes> \
-  --observed-group pcdb \
-  --observed-writer github:QUHONGYE-gif \
-  --observed-writer git:will-zhang \
-  --observed-writer service:pcdb-runner \
-  --observed-writer service:pcdb-archiver
+  --expected-peak-bytes <bytes>
 ```
 
-A peak at or below 50% of currently available space passes the target. Above 50% requires an
+The checker itself reads the host name, Unix group and primary/supplementary membership, directory
+type/group/mode and filesystem free space. The caller cannot supply observed ACL or capacity facts.
+Every required directory must be group-owned, group-writable, setgid and closed to other users. A
+peak at or below 50% of currently available space passes the target. Above 50% requires an
 explicit smaller plan or more space; 70% is the hard fail-closed cap and cannot be overridden by a
 human approval event. Public raw keeps source URL and SHA-256 so it can be downloaded again.
 Low-cost processed/embedding data may be recomputed. High-cost trajectories and release candidates
@@ -62,6 +68,17 @@ before treating the backup as evidence.
 
 Create one `Milestone Contract Manifest` and Gate A record from the schemas in `schemas/`. Validate
 the exact files before the first formal side effect:
+
+Before filling an attestation envelope, compute the decision digest and post the emitted marker as
+an exact line in the approving authority's GitHub comment:
+
+```bash
+pcdb governance-decision-digest --decision <gate-a-or-gate-b-decision.json>
+```
+
+Then record the comment's authenticated actor, numeric ID, node ID, `updated_at` and exact UTF-8 body
+SHA-256. For a final decision, the contract Check fresh-fetches the comment and verifies all fields.
+Examples use non-final placeholder attestations and never authorize execution.
 
 ```bash
 pcdb governance-check contract \
@@ -96,18 +113,24 @@ pcdb governance-archive \
   --attempt-root /srv/pcdb/runs
 ```
 
-The archiver checks that the new prefix is empty, uses forbid-overwrite writes, fresh-reads every
-object, reconciles the exact inventory and writes the empty `_SUCCESS` marker last. A partial or
+The Gate B `evidence_digest` is the canonical digest of the proposed non-decision archive inventory.
+The archiver requires its CLI Gate B path to be the same exact object as the inventory's
+`gate_b_decision`, checks the evidence digest, verifies the authenticated reviewer comment, checks
+that the new prefix is empty, uses forbid-overwrite writes, fresh-reads every object, reconciles the
+exact inventory and writes the empty `_SUCCESS` marker last. A partial or
 failed publication has no marker and is never resumed in place; retry with a new archive ID/prefix.
 Every invocation leaves an append-only server-side attempt record. Excluded attempt classes leave
-only that record and perform zero COS writes.
+only that record and perform zero COS writes. `pcdb governance-archive` is the synchronous mandatory
+closeout entry point; no background daemon or event queue is claimed in this PR. The first future v2
+milestone must invoke it after Gate B and treat a nonzero exit as incomplete closeout.
 
 ## Migration and closeout
 
-M0–M4 keep their historical COS identities. M5+ starts server-first; needed legacy raw is copied on
-demand, checksum-verified and shadow-read before cutover. Never delete the legacy object during this
-procedure. Deletion remains unauthorized until server copy, reconciliation, a real milestone and a
-restore/reproducibility check have all completed and a separate decision is made.
+M0–M4 and current #91/M5B keep their reviewed COS identities. A future milestone first authorized
+under ADR-0005 starts server-first; needed legacy raw is copied on demand, checksum-verified and
+shadow-read before cutover. Never delete the legacy object during this procedure. Deletion remains
+unauthorized until server copy, reconciliation, a real milestone and a restore/reproducibility check
+have all completed and a separate decision is made.
 
 Update `docs/STATUS.md` only for Gate A scientific transition, Gate B terminal or milestone
 closeout. Record contract/evidence/archive identities and claim boundary; do not treat a PR, CI or

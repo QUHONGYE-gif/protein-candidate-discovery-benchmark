@@ -31,7 +31,7 @@
         "properties": {
           "name": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
           "version": { "type": "string", "pattern": "^[1-9][0-9]*$" },
-          "category": { "enum": ["schema_domain", "hash_exact_bytes", "source_environment_identity", "prefix_storage_safety", "resource_cost_cap", "hidden_label_leakage", "inventory_cross_links", "completion_marker", "ci", "archive_readback"] },
+          "category": { "enum": ["schema_domain", "authenticated_human_evidence", "hash_exact_bytes", "source_environment_identity", "prefix_storage_safety", "resource_cost_cap", "hidden_label_leakage", "inventory_cross_links", "completion_marker", "ci", "archive_readback"] },
           "status": { "enum": ["pass", "fail", "error"] },
           "reason": { "type": "string", "minLength": 1 },
           "input_digests": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" } },

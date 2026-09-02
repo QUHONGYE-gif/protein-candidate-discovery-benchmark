@@ -4,12 +4,13 @@
   "title": "Governance v2 milestone archive manifest",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "archive_id", "milestone_id", "request_sha256", "gate_b_verdict", "objects", "completion_marker", "retention"],
+  "required": ["schema_version", "archive_id", "milestone_id", "request_sha256", "evidence_digest", "gate_b_verdict", "objects", "completion_marker", "retention"],
   "properties": {
     "schema_version": { "const": "pcdb-milestone-archive-manifest-v1" },
     "archive_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
     "milestone_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$" },
     "request_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "evidence_digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
     "gate_b_verdict": { "enum": ["accept", "reject", "inconclusive"] },
     "objects": {
       "type": "array",

@@ -10,6 +10,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Protocol, cast
 
 from pcdb.contracts.experiment import canonical_json_bytes
+from pcdb.governance.attestation import DecisionEvidenceVerifier
 from pcdb.governance.checks import (
     CheckEvidence,
     CheckReport,
@@ -42,6 +43,7 @@ REQUIRED_ARCHIVE_ROLES = {
     "provenance",
     "gate_b_decision",
 }
+EVIDENCE_ARCHIVE_ROLES = REQUIRED_ARCHIVE_ROLES - {"contract_manifest", "gate_b_decision"}
 _PREFIX = re.compile(
     r"^milestone-archives/v2/(?P<milestone>[A-Za-z0-9][A-Za-z0-9._-]*)/"
     r"(?P<archive>[a-z0-9][a-z0-9._-]*)/$"
@@ -361,6 +363,23 @@ def _object_without_role(item: ArchiveObject) -> dict[str, Any]:
     }
 
 
+def archive_evidence_digest(inventory: tuple[ArchiveObject, ...]) -> str:
+    """Bind Gate B to the exact non-decision evidence proposed for archive."""
+
+    evidence = [
+        {
+            "archive_path": item.archive_path,
+            "path": item.path,
+            "role": item.role,
+            "sha256": item.sha256,
+            "size_bytes": item.size_bytes,
+        }
+        for item in sorted(inventory, key=lambda item: (item.role, item.archive_path))
+        if item.role in EVIDENCE_ARCHIVE_ROLES
+    ]
+    return sha256_bytes(canonical_json_bytes(evidence))
+
+
 def _archive_manifest(request: ArchiveRequest, *, verdict: str) -> bytes:
     return canonical_json_bytes(
         {
@@ -370,6 +389,7 @@ def _archive_manifest(request: ArchiveRequest, *, verdict: str) -> bytes:
                 "sha256": sha256_bytes(b""),
                 "size_bytes": 0,
             },
+            "evidence_digest": archive_evidence_digest(request.source_inventory),
             "gate_b_verdict": verdict,
             "milestone_id": request.milestone_id,
             "objects": [
@@ -396,6 +416,7 @@ def archive_terminal_milestone(
     config_path: Path,
     store: ImmutableArchiveStore,
     recorder: ArchiveAttemptRecorder,
+    evidence_verifier: DecisionEvidenceVerifier | None = None,
 ) -> ArchiveReceipt:
     """Archive one valid scientific terminal or record an excluded attempt without COS writes."""
 
@@ -440,6 +461,14 @@ def archive_terminal_milestone(
         run_identity = next(
             item for item in request.source_inventory if item.role == "run_identity"
         )
+        expected_gate_b_path = safe_relative_path(source_root, request.gate_b_decision.path)
+        if expected_gate_b_path.resolve() != gate_b_path.resolve():
+            raise CheckViolation("archive Gate B path differs from its exact inventory entry")
+        exact_file(
+            gate_b_path,
+            size_bytes=request.gate_b_decision.size_bytes,
+            sha256=request.gate_b_decision.sha256,
+        )
         contract_report = contract_check_report(
             manifest_path=manifest_path,
             gate_a_path=gate_a_path,
@@ -447,6 +476,7 @@ def archive_terminal_milestone(
             run_identity_path=safe_relative_path(source_root, run_identity.path),
             config_path=config_path,
             source_root=source_root,
+            evidence_verifier=evidence_verifier,
             require_final=True,
         )
         contract_report.require_pass()
@@ -454,6 +484,10 @@ def archive_terminal_milestone(
         verdict = str(gate_b.value.get("verdict"))
         if verdict not in TERMINAL_VERDICTS:
             raise CheckViolation("archive requires an accept/reject/inconclusive Gate B verdict")
+        if gate_b.value.get("evidence_digest") != archive_evidence_digest(request.source_inventory):
+            raise CheckViolation(
+                "Gate B evidence digest differs from the exact proposed archive inventory"
+            )
     except Exception as exc:
         recorder.record(
             request,

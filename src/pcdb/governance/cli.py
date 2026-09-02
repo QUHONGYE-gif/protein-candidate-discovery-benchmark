@@ -15,8 +15,13 @@ from pcdb.governance.archive import (
     LocalArchiveStore,
     archive_terminal_milestone,
 )
+from pcdb.governance.attestation import (
+    ATTESTATION_MARKER,
+    GitHubCommentEvidenceVerifier,
+    decision_payload_digest,
+)
 from pcdb.governance.checks import CheckReport, CheckViolation
-from pcdb.governance.contract import contract_check_report
+from pcdb.governance.contract import contract_check_report, load_json
 from pcdb.governance.repository import repository_check_report
 from pcdb.governance.server import server_preflight_report
 
@@ -46,12 +51,11 @@ def add_governance_commands(commands: argparse._SubParsersAction[argparse.Argume
     contract.add_argument("--allow-example", action="store_true")
     contract.add_argument("--output", type=Path)
 
-    server = modes.add_parser("server", help="check server namespace, ACL and capacity")
+    server = modes.add_parser(
+        "server", help="observe the current host's server namespace, ACL and capacity"
+    )
     server.add_argument("--config", required=True, type=Path)
     server.add_argument("--expected-peak-bytes", required=True, type=int)
-    server.add_argument("--available-bytes", required=True, type=int)
-    server.add_argument("--observed-group", required=True)
-    server.add_argument("--observed-writer", action="append", default=[])
     server.add_argument("--output", type=Path)
 
     archive = commands.add_parser(
@@ -69,6 +73,13 @@ def add_governance_commands(commands: argparse._SubParsersAction[argparse.Argume
     archive.add_argument("--max-transfer-bytes", type=int, default=10_737_418_240)
     archive.add_argument("--attempt-root", required=True, type=Path)
     archive.add_argument("--output", type=Path)
+
+    decision = commands.add_parser(
+        "governance-decision-digest",
+        help="print the exact digest and GitHub comment marker for one Gate decision",
+    )
+    decision.add_argument("--decision", required=True, type=Path)
+    decision.add_argument("--output", type=Path)
 
 
 def _emit(value: dict[str, object], output: Path | None) -> None:
@@ -98,15 +109,13 @@ def run_governance_check_cli(arguments: argparse.Namespace) -> int:
                 runtime_git_commit=arguments.runtime_git_commit,
                 runtime_git_tree=arguments.runtime_git_tree,
                 runtime_environment_digest=arguments.runtime_environment_digest,
+                evidence_verifier=GitHubCommentEvidenceVerifier.from_environment(),
                 require_final=not arguments.allow_example,
             )
         elif arguments.governance_check_mode == "server":
             report = server_preflight_report(
                 config_path=arguments.config,
                 expected_peak_bytes=arguments.expected_peak_bytes,
-                available_bytes=arguments.available_bytes,
-                observed_group=arguments.observed_group,
-                observed_writers=arguments.observed_writer,
             )
         else:
             raise CheckViolation("unknown governance check mode")
@@ -137,9 +146,29 @@ def run_governance_archive_cli(arguments: argparse.Namespace) -> int:
             config_path=arguments.config,
             store=store,
             recorder=ArchiveAttemptRecorder(arguments.attempt_root),
+            evidence_verifier=GitHubCommentEvidenceVerifier.from_environment(),
         )
     except (CheckViolation, ContractValidationError, FileExistsError, OSError) as exc:
         print(f"governance archive error: {exc}", file=sys.stderr)
         return 2
     _emit(receipt.as_dict(), arguments.output)
+    return 0
+
+
+def run_governance_decision_digest_cli(arguments: argparse.Namespace) -> int:
+    """Emit the stable payload digest a human GitHub comment must attest."""
+
+    try:
+        decision = load_json(arguments.decision)
+        digest = decision_payload_digest(decision.value)
+    except CheckViolation as exc:
+        print(f"governance decision digest error: {exc}", file=sys.stderr)
+        return 2
+    _emit(
+        {
+            "decision_digest": digest,
+            "github_comment_marker": f"{ATTESTATION_MARKER}: {digest}",
+        },
+        arguments.output,
+    )
     return 0

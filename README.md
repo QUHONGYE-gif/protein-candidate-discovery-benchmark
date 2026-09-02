@@ -16,10 +16,10 @@
 ## 系统边界
 
 - GitHub：代码、配置、Schema、Issue、PR 和小型公开 fixture；
-- Compute server：M5+ 的 active raw/processed/embedding/split、普通 run 和 release candidate
-  事实基准；通过精确 Git commit 或 container digest 执行；
-- COS：保留 M0–M4 历史对象；M5+ 只在 Gate B 后写入有效 terminal milestone 的精简、
-  不可覆盖 archive，普通 run 零 COS write；
+- Compute server：ADR-0005 合入后新授权的 Governance v2 milestone，以服务器作为 active
+  raw/processed/embedding/split、普通 run 和 release candidate 事实基准；
+- COS：保留 M0–M4 及已授权的 issue-scoped M5 历史对象；新 Governance v2 milestone 只在
+  Gate B 后写入有效 terminal milestone 的精简、不可覆盖 archive，普通 run 零 COS write；
 - Local NVMe：可清理的 cache/scratch，不作为最终证据存储。
 
 项目只允许使用公开数据。内部序列、内部筛选结果、私有结构/MD/湿实验结果和内部阈值不得
@@ -67,8 +67,8 @@ schemas/       dataset, processing, split, experiment, RunSpec and attempt contr
 src/pcdb/      benchmark implementation
 tests/         unit, contract, leakage and integration tests
 docs/          科学协议、数据边界、复现说明和 ADR
-data/          仅保留存储政策；实际数据不进入 Git，M5+ active data 位于服务器
-results/       仅保留产物政策；M5+ terminal archive 在 Gate B 后写入 COS
+data/          仅保留存储政策；实际数据不进入 Git，新 Governance v2 active data 位于服务器
+results/       仅保留产物政策；Governance v2 terminal archive 在 Gate B 后写入 COS
 ```
 
 开发前请阅读 [AGENTS.md](AGENTS.md)、[CONTEXT.md](CONTEXT.md)、

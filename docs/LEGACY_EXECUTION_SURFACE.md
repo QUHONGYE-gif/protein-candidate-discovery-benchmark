@@ -21,8 +21,9 @@ milestone archiver uses a separate prefix and does not broaden, reinterpret or r
 ## Compatibility rules
 
 - Read-only audit and explicitly labelled historical replay remain allowed.
-- New M5+ milestones use `pcdb governance-check` and server-first storage; they do not enter the
-  commands above merely because an old command can reach COS.
+- A milestone whose first Gate A is authorized after ADR-0005 merges uses `pcdb governance-check`
+  and server-first storage. Current #91/M5B and other already-authorized work stay on their reviewed
+  commands and data plane; v2 does not become a mid-chain prerequisite.
 - A correctness or security patch to a legacy path must preserve its scientific contract and create
   a new source identity. It must not overwrite historical evidence.
 - A path that can no longer run safely remains an indexed historical record with its limitation;

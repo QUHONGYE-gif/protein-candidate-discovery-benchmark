@@ -4,10 +4,11 @@
   "title": "Governance v2 configuration",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "governance_version", "scientific_authorities", "server", "archive"],
+  "required": ["schema_version", "governance_version", "governance_repository", "scientific_authorities", "server", "archive"],
   "properties": {
     "schema_version": { "const": "pcdb-governance-config-v1" },
     "governance_version": { "const": "2" },
+    "governance_repository": { "const": "QUHONGYE-gif/protein-candidate-discovery-benchmark" },
     "scientific_authorities": {
       "type": "array",
       "minItems": 2,
@@ -15,10 +16,11 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["handle", "display_name"],
+        "required": ["handle", "display_name", "server_user"],
         "properties": {
-          "handle": { "type": "string", "pattern": "^(github|git):[A-Za-z0-9._-]+$" },
-          "display_name": { "type": "string", "minLength": 1 }
+          "handle": { "type": "string", "pattern": "^github:[A-Za-z0-9._-]+$" },
+          "display_name": { "type": "string", "minLength": 1 },
+          "server_user": { "type": "string", "pattern": "^[a-z_][a-z0-9_-]*$" }
         }
       }
     },

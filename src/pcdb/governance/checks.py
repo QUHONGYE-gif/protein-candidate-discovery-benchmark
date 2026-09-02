@@ -15,6 +15,7 @@ from pcdb.contracts.experiment import canonical_json_bytes
 CheckStatus = Literal["pass", "fail", "error"]
 CheckCategory = Literal[
     "schema_domain",
+    "authenticated_human_evidence",
     "hash_exact_bytes",
     "source_environment_identity",
     "prefix_storage_safety",

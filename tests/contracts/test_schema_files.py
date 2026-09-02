@@ -138,6 +138,7 @@ def _schema_fixture(schema_name: str, *, valid: bool) -> object:
                 "sha256": hashlib.sha256(b"").hexdigest(),
                 "size_bytes": 0,
             },
+            "evidence_digest": "c" * 64,
             "gate_b_verdict": "accept",
             "milestone_id": "M5-EXAMPLE",
             "objects": [

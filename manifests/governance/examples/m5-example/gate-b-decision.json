@@ -17,7 +17,7 @@
       ]
     },
     {
-      "authority": "git:will-zhang",
+      "authority": "github:willzhang",
       "boundaries": [
         "held_out_boundary",
         "primary_endpoint",
@@ -30,7 +30,33 @@
   "record_status": "example",
   "reviewers": [
     {
-      "authority": "git:will-zhang",
+      "attestation": {
+        "actor": "github:QUHONGYE-gif",
+        "body": "Example-only attestation; not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: 294291810fab03471f347be5cac866e7ac967c252de1dbb5a6a97efc0ab0c8f7\n",
+        "body_sha256": "26644eb6bbd4360aba96680e819f6fcdfed113fa66cf66c2f9f20c109d815378",
+        "comment_id": 3,
+        "decision_digest": "294291810fab03471f347be5cac866e7ac967c252de1dbb5a6a97efc0ab0c8f7",
+        "node_id": "EXAMPLE_GATE_B_OWNER_COMMENT",
+        "repository": "QUHONGYE-gif/protein-candidate-discovery-benchmark",
+        "schema_version": "pcdb-github-comment-attestation-v1",
+        "updated_at": "2026-09-02T00:02:00Z"
+      },
+      "authority": "github:QUHONGYE-gif",
+      "relation": "summary_preparer"
+    },
+    {
+      "attestation": {
+        "actor": "github:willzhang",
+        "body": "Example-only attestation; not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: 294291810fab03471f347be5cac866e7ac967c252de1dbb5a6a97efc0ab0c8f7\n",
+        "body_sha256": "26644eb6bbd4360aba96680e819f6fcdfed113fa66cf66c2f9f20c109d815378",
+        "comment_id": 4,
+        "decision_digest": "294291810fab03471f347be5cac866e7ac967c252de1dbb5a6a97efc0ab0c8f7",
+        "node_id": "EXAMPLE_GATE_B_REVIEWER_COMMENT",
+        "repository": "QUHONGYE-gif/protein-candidate-discovery-benchmark",
+        "schema_version": "pcdb-github-comment-attestation-v1",
+        "updated_at": "2026-09-02T00:02:00Z"
+      },
+      "authority": "github:willzhang",
       "relation": "not_summary_preparer"
     }
   ],
