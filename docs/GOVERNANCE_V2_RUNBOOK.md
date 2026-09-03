@@ -175,6 +175,11 @@ milestone must invoke it after Gate B and treat a nonzero exit as incomplete clo
 
 ## Migration and closeout
 
+The repository-level Stage 5 rehearsal and its explicit deployment gaps are recorded in
+[`GOVERNANCE_V2_MIGRATION_CLOSEOUT.md`](GOVERNANCE_V2_MIGRATION_CLOSEOUT.md). That engineering
+record does not replace final authenticated Gate evidence, target-host preflight, production backup
+evidence or a separate COS operation authorization.
+
 M0–M4 and current #91/M5B keep their reviewed COS identities. A future milestone first authorized
 under ADR-0005 starts server-first; needed legacy raw is copied on demand, checksum-verified and
 shadow-read before cutover. Never delete the legacy object during this procedure. Deletion remains
