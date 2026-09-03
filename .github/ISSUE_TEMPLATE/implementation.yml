@@ -1,8 +1,26 @@
 name: Implementation
-description: 有明确接口与验收标准的工程实现
+description: 达到独立 Issue 门槛且有明确接口与验收标准的工程实现
 title: "[Implementation] "
 labels: ["needs-triage"]
 body:
+  - type: dropdown
+    id: independent_issue_reason
+    attributes:
+      label: Independent GitHub Issue threshold
+      description: 纯 maintenance 且已有父 Issue 时，请改用父 Issue checklist，不新建 Issue。
+      options:
+        - Major / semantic change
+        - Independent value, acceptance criteria, risk, or authorization boundary
+        - Cross-milestone, multi-PR, multi-owner, or external coordination
+        - Data, held-out, permission, cost, privacy, security, release, or external-config risk
+        - No suitable parent Issue
+    validations:
+      required: true
+  - type: input
+    id: multica_tracking
+    attributes:
+      label: Multica execution tracking
+      description: 可填写一个或多个 Multica issue URL；允许多个 Multica issues 对应本 Issue。
   - type: textarea
     id: background
     attributes:

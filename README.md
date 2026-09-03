@@ -90,10 +90,13 @@ results/       仅保留产物政策；Governance v2 terminal archive 在 Gate B
 
 ## 当前状态
 
-当前事实只在 [docs/STATUS.md](docs/STATUS.md) 维护。阶段推进时更新该文件，不在 README、历史
-路线图和多个 Issue 评论中复制另一份“当前状态”。
+当前事实只在 [docs/STATUS.md](docs/STATUS.md) 维护。仅在 Gate A scientific transition、
+Gate B terminal 或 milestone closeout 时更新该文件；普通 PR/CI、run/retry、日志、plot 和
+maintenance batch 不触发更新。不在 README、历史路线图和多个 Issue 评论中复制另一份
+“当前状态”。
 
 ## 协作
 
-工作通过 GitHub Issue、短期 branch 和 reviewed PR 推进。贡献规则见
-[CONTRIBUTING.md](CONTRIBUTING.md)。
+所有进入 `main` 的工作通过短期 branch 和 reviewed PR 推进；只有达到独立门槛时才新建 GitHub
+Issue，多个 Multica execution issues 可以共用一个 GitHub 父 Issue。PR 分类、maintenance batch
+触发点与 cross-link 规则见 [CONTRIBUTING.md](CONTRIBUTING.md)。

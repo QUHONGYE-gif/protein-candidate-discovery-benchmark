@@ -48,7 +48,8 @@ Green tests do not imply a positive scientific result.
 
 Before a non-trivial change:
 
-- read the linked Issue, relevant comments, `CONTEXT.md`, contracts, and ADRs;
+- read the current Multica issue, any linked GitHub parent Issue, relevant comments, `CONTEXT.md`,
+  contracts, and ADRs;
 - state assumptions that materially affect the implementation;
 - surface ambiguity instead of silently choosing an interpretation;
 - identify the smallest independently testable slice;
@@ -155,23 +156,49 @@ Never replace a missing scientific run with mocked evidence.
 
 ## GitHub workflow
 
-GitHub Issues are authoritative for task-specific decisions and lifecycle. `docs/STATUS.md` is
-authoritative for the cross-project current-state summary. Use short-lived Issue-linked branches
-named `feat/`, `fix/`, `data/`, `exp/`, `infra/`, `docs/`, or `codex/`. Do not create long-lived
-personal, `dev`, or `test` branches.
+All changes entering `main` use a reviewed PR; the repository ruleset does not provide a direct-write
+fast path. Classify each change before deciding when to open the PR:
 
-Open a Draft PR early for non-trivial work. State scope, out-of-scope items, verification, data and
-privacy impact, protocol impact, and the boundary of scientific claims. Use `Closes #<issue>` only
-when all acceptance criteria are met. Merge reviewed PRs through squash merge. Do not force-push
-or commit directly to protected `main`.
+- A **Major / semantic PR** covers scientific protocol, dataset/split, metrics, cost models,
+  architecture, major runners, storage policy, governance, releases, or anything that may change
+  scientific semantics, data identity, execution boundaries, storage responsibility, or a public
+  interface. Open it once the smallest reviewable semantic unit exists; do not batch it with
+  maintenance.
+- A **Maintenance batch PR** may contain only independently reversible tests, docs, logging, small
+  bugs, minor refactors, plots, or CLI polish with no impact on those semantic boundaries. Open it
+  at the earliest of 10 logical small changes, the current Issue/milestone ending, or
+  the next experiment needing its information. One logical change is one independently described,
+  tested and reversible atomic commit.
+
+Create an independent GitHub Issue only when at least one threshold is met: the work is
+Major/semantic; has independent user/scientific value, acceptance criteria, risk or authorization;
+crosses milestones or requires multiple PRs/owners/external coordination; involves data,
+held-out access, permissions, spending, privacy, security, release or external configuration; or
+has no suitable parent Issue. Otherwise record a maintenance change as an atomic commit and a
+checklist/comment on the parent Issue. Git plus that parent Issue is the ledger; do not create a
+maintenance ledger or cross-link registry.
+
+Multica issues and GitHub Issues are not one-to-one: several Multica execution issues may share one
+GitHub source-of-truth Issue. Use only the title/description/backlink convention in
+`CONTRIBUTING.md`; do not create example Issues. Use short-lived branches named `feat/`, `fix/`,
+`data/`, `exp/`, `infra/`, `docs/`, or `codex/`. State PR class, tracking links, scope,
+out-of-scope items, verification, data/privacy/protocol/public-interface impact, batch trigger when
+applicable, and scientific claim boundary. Use `Closes #<issue>` only when merge should close an
+Issue whose acceptance criteria are met. Merge reviewed PRs through squash merge. Do not
+force-push or commit directly to protected `main`.
+
+Update `docs/STATUS.md` only for a Gate A scientific-state transition, a Gate B terminal, or
+milestone closeout. Ordinary PR/CI events, runs, retries, logs, plots and maintenance batches do not
+update STATUS.
 
 ## Agent skills
 
 ### Issue tracker
 
-Issues and PRDs are tracked in GitHub Issues for
-`QUHONGYE-gif/protein-candidate-discovery-benchmark`. Use the GitHub connector first and the GitHub
-CLI only when available. See `docs/agents/issue-tracker.md`.
+Repository-level source-of-truth Issues and PRDs that meet the independent-Issue threshold are
+tracked in GitHub Issues for `QUHONGYE-gif/protein-candidate-discovery-benchmark`. Multica issues
+track execution ownership and stages and may map many-to-one to a GitHub Issue. Use the GitHub
+connector first and the GitHub CLI only when available. See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 

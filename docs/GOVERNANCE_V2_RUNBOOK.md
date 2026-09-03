@@ -10,6 +10,55 @@ Current #91/M5B and all already-authorized work remain on their reviewed legacy 
 section 1 “本阶段” restrictions describe its Stage 2 drafting turn; its section 10 defines the later
 implementation sequence, subject to ADR-0005.
 
+## Repository PR and Issue workflow
+
+Every change entering `main` still uses a reviewed PR. The two workflow classes decide review
+scope and timing; neither is an approval event or a ruleset bypass.
+
+| Question | Major / semantic PR | Maintenance batch PR |
+|---|---|---|
+| What belongs | Scientific protocol, dataset/split, metric, cost model, architecture, major runner, storage policy, governance, release | Tests, docs, logging, small bugs, minor refactors, plots and CLI polish |
+| Override | Any possible change to scientific semantics, data identity, execution boundary, storage responsibility or public interface makes the change Major | Every item must leave all five boundaries unchanged and be independently reversible |
+| Earliest PR trigger | As soon as the smallest reviewable semantic unit exists | First of: 10 logical small changes; current Issue/milestone closeout; the next experiment needs the information |
+| Evidence | Contract/ADR and compatibility impact, claim boundary, tests | Atomic commits, parent Issue checklist, per-item tests and no-semantic-change statement |
+
+Classify the effect, not the diff size or label. A one-line primary-metric, split-membership, archive-
+prefix or CLI-output-contract change is Major. A typo, a behavior-preserving test, extra logging or
+a plot-label fix may be Maintenance. A small bug that changes candidate identity or a public
+interface is Major. Split mixed work; if it cannot be split safely, treat the whole PR as Major.
+
+Create an independent GitHub Issue when any of these thresholds applies: Major/semantic work;
+independent user/scientific value, acceptance criteria, risk or authorization boundary; cross-
+milestone, multi-PR, multi-owner or external coordination; data migration, held-out, permission,
+cost, privacy, security, release or external-configuration risk; or no suitable parent Issue. A pure
+maintenance item with a suitable parent stays in that parent. Git commits plus the parent Issue are
+the only ledger; do not add `maintenance-batch-ledger.yaml`, `MulticaGithubLinkRegistry` or another
+status registry.
+
+One GitHub Issue may cover several Multica execution issues. Use only these minimal cross-links:
+
+```text
+Multica title: [GH#123] Improve repository workflow checks
+Multica description: Source of truth: https://github.com/OWNER/REPO/issues/123
+GitHub Issue comment: Execution tracked in Multica: https://MULTICA-EXAMPLE/issues/MIRA-123
+```
+
+The URLs are placeholders; do not create external objects for an example. A maintenance parent
+comment can remain a normal checklist:
+
+```text
+Maintenance batch (3/10 logical changes)
+- [x] abc1234 docs: clarify retry wording — docs check
+- [x] def5678 test: cover empty log field — targeted pytest
+- [x] 012abcd cli: clarify help text only — CLI snapshot test
+Trigger: current milestone closeout
+Semantic/data/interface impact: none
+```
+
+The PR template records exactly one class, tracking links, and (for a Maintenance batch) the first
+trigger reached. Issue forms require the creator to select the independent-Issue threshold. These
+records organize engineering review; they do not produce Gate A/B or Check approvals.
+
 ## Deployment identities
 
 `configs/governance/v2.json` is the machine-readable source for the two GitHub authority identities,

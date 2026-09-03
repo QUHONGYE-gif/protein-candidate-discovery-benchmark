@@ -1,8 +1,26 @@
 name: Bug report
-description: 可复现的实现、数据或运行错误
+description: 达到独立 Issue 门槛的可复现实现、数据或运行错误
 title: "[Bug] "
 labels: ["needs-triage"]
 body:
+  - type: dropdown
+    id: independent_issue_reason
+    attributes:
+      label: Independent GitHub Issue threshold
+      description: 纯 maintenance 且已有父 Issue 时，请改用父 Issue checklist，不新建 Issue。
+      options:
+        - Major / semantic change
+        - Independent value, acceptance criteria, risk, or authorization boundary
+        - Cross-milestone, multi-PR, multi-owner, or external coordination
+        - Data, held-out, permission, cost, privacy, security, release, or external-config risk
+        - No suitable parent Issue
+    validations:
+      required: true
+  - type: input
+    id: multica_tracking
+    attributes:
+      label: Multica execution tracking
+      description: 可填写一个或多个 Multica issue URL；允许多个 Multica issues 对应本 Issue。
   - type: textarea
     id: observed
     attributes:
