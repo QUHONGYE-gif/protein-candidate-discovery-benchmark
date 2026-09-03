@@ -64,10 +64,10 @@ class SystemServerStateProbe:
     def observe(
         self, *, root: Path, group: str, subdirectories: tuple[str, ...]
     ) -> ServerObservation:
+        group_error: str | None
         try:
             group_record = grp.getgrnam(group)
         except KeyError:
-            group_record = None
             group_error = f"target host has no Unix group {group!r}"
             members: set[str] = set()
         else:
@@ -119,6 +119,7 @@ class SystemServerStateProbe:
         capacity_path = root
         while not capacity_path.exists() and capacity_path.parent != capacity_path:
             capacity_path = capacity_path.parent
+        capacity_error: str | None
         try:
             available_bytes = shutil.disk_usage(capacity_path).free
         except OSError as exc:
