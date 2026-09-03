@@ -1,0 +1,65 @@
+{
+  "archive": {
+    "allowed_terminal_verdicts": [
+      "accept",
+      "reject",
+      "inconclusive"
+    ],
+    "excluded_attempt_classes": [
+      "invalid_run",
+      "debug_run",
+      "aborted_attempt",
+      "failed_implementation_run"
+    ],
+    "prefix": "milestone-archives/v2",
+    "retention": "no_automatic_deletion"
+  },
+  "governance_repository": "QUHONGYE-gif/protein-candidate-discovery-benchmark",
+  "governance_version": "2",
+  "schema_version": "pcdb-governance-config-v1",
+  "scientific_authorities": [
+    {
+      "display_name": "曲鸿烨",
+      "handle": "github:QUHONGYE-gif",
+      "server_user": "hongye"
+    },
+    {
+      "display_name": "will zhang",
+      "handle": "github:willzhang",
+      "server_user": "siyuan"
+    }
+  ],
+  "server": {
+    "backup": {
+      "high_cost_trajectories_rpo_hours": 24,
+      "public_raw": "source_url_and_sha256_redownloadable",
+      "recomputable_processed": "recompute_allowed",
+      "release_candidates": "daily_snapshot_or_rsync"
+    },
+    "capacity": {
+      "hard_cap_fraction": 0.7,
+      "target_fraction": 0.5
+    },
+    "project_group": "pcdb",
+    "root": "/srv/pcdb",
+    "service_accounts": [
+      "pcdb-runner",
+      "pcdb-archiver"
+    ],
+    "subdirectories": [
+      "data/raw",
+      "data/processed",
+      "data/embeddings",
+      "data/splits",
+      "runs",
+      "releases",
+      "scratch"
+    ],
+    "writers": [
+      "github:QUHONGYE-gif",
+      "github:willzhang",
+      "service:pcdb-runner",
+      "service:pcdb-archiver"
+    ]
+  }
+}

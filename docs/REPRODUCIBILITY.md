@@ -26,10 +26,14 @@ RunSpec 与 RunAttempt 使用独立 Schema。RunSpec 只保存影响科学运行
 
 ## Artifact completion
 
-Worker 先写入临时对象或本地临时文件，校验成功后再发布最终对象。所有必需产物存在且 checksum
-一致后才能写 `_SUCCESS`。汇总程序不得读取没有 `_SUCCESS` 的运行。
+新 Governance v2 worker 先写入服务器 attempt 内的临时文件，校验成功后再 seal 最终对象。
+所有必需产物存在且 checksum 一致后才能写 attempt `_SUCCESS`。汇总程序不得读取没有
+`_SUCCESS` 的运行。该规则仅适用于 ADR-0005 合入后新授权的 milestone；当前 #91/M5B 保持原
+授权路径。新流程普通 run 零 COS write；Gate B 后的独立 archive 使用新 prefix、
+forbid-overwrite、exact inventory 和 fresh readback，并把 archive `_SUCCESS` 作为最后一个写入对象。
 
 ## 结果冻结
 
-冻结结果写入新的 versioned release prefix，并保存 release manifest。禁止原地覆盖已经用于
-图表、报告或论文的 artifact。协议变化通过新 config version 和 superseding ADR 表达。
+冻结结果写入新的 versioned release/archive prefix，并保存 manifest。禁止原地覆盖已经用于
+图表、报告或论文的 artifact。协议变化通过新 config/contract version 和 superseding ADR 表达。
+Governance v2 不授权删除 terminal evidence 或既有 COS raw object。

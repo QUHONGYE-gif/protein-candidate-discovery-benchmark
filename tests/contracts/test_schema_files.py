@@ -14,17 +14,165 @@ FIXTURE_DIRECTORY = REPOSITORY_ROOT / "tests/fixtures/contracts"
 
 SCHEMA_NAMES = [path.name for path in sorted(SCHEMA_DIRECTORY.glob("*.schema.json"))]
 STANDALONE_FIXTURE_SCHEMAS = {
+    "archive-attempt-record.schema.json",
+    "check-report.schema.json",
     "experiment-v2.schema.json",
     "experiment-v3.schema.json",
+    "gate-a-decision.schema.json",
+    "gate-b-decision.schema.json",
+    "governance-config.schema.json",
+    "governance-run-identity.schema.json",
     "m2-feature-artifact-v1.schema.json",
     "m2-feature-bundle-descriptor-v1.schema.json",
     "m2-feature-config-v1.schema.json",
     "m2-feature-fitted-state-json-v1.schema.json",
     "m2-prediction-artifact-v1.schema.json",
+    "milestone-archive-request.schema.json",
+    "milestone-archive-manifest.schema.json",
+    "milestone-contract-manifest.schema.json",
 }
 
 
 def _schema_fixture(schema_name: str, *, valid: bool) -> object:
+    governance_examples = REPOSITORY_ROOT / "manifests/governance/examples/m5-example"
+    governance_paths = {
+        "gate-a-decision.schema.json": governance_examples / "gate-a-decision.json",
+        "gate-b-decision.schema.json": governance_examples / "gate-b-decision.json",
+        "governance-config.schema.json": REPOSITORY_ROOT / "configs/governance/v2.json",
+        "governance-run-identity.schema.json": governance_examples / "run-identity.json",
+        "milestone-contract-manifest.schema.json": (
+            governance_examples / "milestone-contract-manifest.json"
+        ),
+    }
+    if schema_name in governance_paths:
+        fixture = json.loads(governance_paths[schema_name].read_text(encoding="utf-8"))
+        if not valid:
+            if schema_name == "gate-a-decision.schema.json":
+                fixture["approvals"] = []
+            elif schema_name == "gate-b-decision.schema.json":
+                fixture["verdict"] = "pass"
+            elif schema_name == "governance-config.schema.json":
+                fixture["server"]["capacity"]["hard_cap_fraction"] = 1.0
+            elif schema_name == "governance-run-identity.schema.json":
+                fixture["cos_write_count"] = 1
+            else:
+                fixture["run_policy"]["ordinary_run_cos_writes"] = 1
+        return fixture
+    if schema_name == "check-report.schema.json":
+        fixture = {
+            "approval_events_emitted": 0,
+            "checked_at": "2026-09-02T00:00:00Z",
+            "checks": [
+                {
+                    "blocks": ["ci"],
+                    "category": "ci",
+                    "input_digests": [],
+                    "name": "example-ci-check",
+                    "reason": "example passed",
+                    "status": "pass",
+                    "version": "1",
+                }
+            ],
+            "overall_status": "pass",
+            "report_id": "a" * 64,
+            "schema_version": "pcdb-governance-check-report-v1",
+            "tool": {"name": "pcdb-governance-check", "version": "0.1.0"},
+        }
+        if not valid:
+            fixture["approval_events_emitted"] = 1
+        return fixture
+    if schema_name == "milestone-archive-request.schema.json":
+        reference = {
+            "archive_path": "contract.json",
+            "path": "contract.json",
+            "sha256": "a" * 64,
+            "size_bytes": 1,
+        }
+        roles = (
+            "contract_manifest",
+            "run_identity",
+            "final_result",
+            "important_log",
+            "summary",
+            "provenance",
+            "gate_b_decision",
+        )
+        fixture = {
+            "archive_id": "archive-001",
+            "attempt_id": "attempt-001",
+            "contract_manifest": reference,
+            "destination_prefix": "milestone-archives/v2/M5-EXAMPLE/archive-001/",
+            "gate_b_decision": {**reference, "archive_path": "gate-b.json"},
+            "limits": {"max_bytes": 1000, "max_objects": 10},
+            "milestone_id": "M5-EXAMPLE",
+            "request_status": "example",
+            "schema_version": "pcdb-milestone-archive-request-v1",
+            "source_inventory": [
+                {
+                    **reference,
+                    "archive_path": f"{role}.json",
+                    "path": f"{role}.json",
+                    "role": role,
+                }
+                for role in roles
+            ],
+            "terminal_class": "scientific_terminal",
+        }
+        if not valid:
+            fixture["destination_prefix"] = "legacy/archive-001/"
+        return fixture
+    if schema_name == "milestone-archive-manifest.schema.json":
+        roles = (
+            "contract_manifest",
+            "run_identity",
+            "final_result",
+            "important_log",
+            "summary",
+            "provenance",
+            "gate_b_decision",
+        )
+        fixture = {
+            "archive_id": "archive-001",
+            "completion_marker": {
+                "path": "_SUCCESS",
+                "sha256": hashlib.sha256(b"").hexdigest(),
+                "size_bytes": 0,
+            },
+            "evidence_digest": "c" * 64,
+            "gate_b_verdict": "accept",
+            "milestone_id": "M5-EXAMPLE",
+            "objects": [
+                {
+                    "path": f"{role}.json",
+                    "role": role,
+                    "sha256": "a" * 64,
+                    "size_bytes": 1,
+                }
+                for role in roles
+            ],
+            "request_sha256": "b" * 64,
+            "retention": "no_automatic_deletion",
+            "schema_version": "pcdb-milestone-archive-manifest-v1",
+        }
+        if not valid:
+            fixture["completion_marker"]["size_bytes"] = 1
+        return fixture
+    if schema_name == "archive-attempt-record.schema.json":
+        fixture = {
+            "archive_id": "archive-001",
+            "attempt_id": "attempt-001",
+            "destination_prefix": "milestone-archives/v2/M5-EXAMPLE/archive-001/",
+            "detail": {},
+            "milestone_id": "M5-EXAMPLE",
+            "recorded_at": "2026-09-02T00:00:00Z",
+            "request_sha256": "a" * 64,
+            "schema_version": "pcdb-archive-attempt-record-v1",
+            "status": "started",
+            "terminal_class": "scientific_terminal",
+        }
+        if not valid:
+            fixture["status"] = "complete"
+        return fixture
     if schema_name == "experiment-v2.schema.json":
         fixture = json.loads(
             (FIXTURE_DIRECTORY / "experiment-v2-alpha.json").read_text(encoding="utf-8")

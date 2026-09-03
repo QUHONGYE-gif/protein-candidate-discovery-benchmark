@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/check-report.schema.json",
+  "title": "Governance v2 Check report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "report_id", "checked_at", "tool", "overall_status", "checks", "approval_events_emitted"],
+  "properties": {
+    "schema_version": { "const": "pcdb-governance-check-report-v1" },
+    "report_id": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "checked_at": { "type": "string", "format": "date-time" },
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "const": "pcdb-governance-check" },
+        "version": { "type": "string", "minLength": 1 },
+        "git_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+      }
+    },
+    "overall_status": { "enum": ["pass", "fail", "error"] },
+    "approval_events_emitted": { "const": 0 },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "version", "category", "status", "reason", "input_digests", "blocks"],
+        "properties": {
+          "name": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+          "version": { "type": "string", "pattern": "^[1-9][0-9]*$" },
+          "category": { "enum": ["schema_domain", "authenticated_human_evidence", "hash_exact_bytes", "source_environment_identity", "prefix_storage_safety", "resource_cost_cap", "hidden_label_leakage", "inventory_cross_links", "completion_marker", "ci", "archive_readback"] },
+          "status": { "enum": ["pass", "fail", "error"] },
+          "reason": { "type": "string", "minLength": 1 },
+          "input_digests": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" } },
+          "blocks": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+          "evidence": { "type": "object" }
+        }
+      }
+    }
+  }
+}

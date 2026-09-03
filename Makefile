@@ -1,4 +1,4 @@
-.PHONY: format lint test check replay-smoke m5b-synthetic-smoke
+.PHONY: format lint test governance-check check replay-smoke m5b-synthetic-smoke
 
 PYTHON ?= python
 
@@ -14,7 +14,10 @@ lint:
 test:
 	$(PYTHON) -m pytest
 
-check: lint test
+governance-check:
+	$(PYTHON) -m pcdb.cli governance-check repository --repository-root .
+
+check: lint governance-check test
 
 replay-smoke:
 	$(PYTHON) -m pytest tests/replay/test_hidden_oracle.py tests/replay/test_m3_replay.py tests/m3/test_m3_gate_a_packet.py tests/m3/test_m3_gate_a_runtime.py tests/m3/test_m3_gate_b_packet.py tests/m3/test_m3_gate_b_runtime.py tests/contracts/test_m3_protocol_v1.py tests/contracts/test_run_spec.py

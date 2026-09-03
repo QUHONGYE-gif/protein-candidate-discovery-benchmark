@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/governance-config.schema.json",
+  "title": "Governance v2 configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "governance_version", "governance_repository", "scientific_authorities", "server", "archive"],
+  "properties": {
+    "schema_version": { "const": "pcdb-governance-config-v1" },
+    "governance_version": { "const": "2" },
+    "governance_repository": { "const": "QUHONGYE-gif/protein-candidate-discovery-benchmark" },
+    "scientific_authorities": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["handle", "display_name", "server_user"],
+        "properties": {
+          "handle": { "type": "string", "pattern": "^github:[A-Za-z0-9._-]+$" },
+          "display_name": { "type": "string", "minLength": 1 },
+          "server_user": { "type": "string", "pattern": "^[a-z_][a-z0-9_-]*$" }
+        }
+      }
+    },
+    "server": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root", "subdirectories", "project_group", "service_accounts", "writers", "capacity", "backup"],
+      "properties": {
+        "root": { "const": "/srv/pcdb" },
+        "subdirectories": {
+          "type": "array",
+          "minItems": 7,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9/_-]*$" }
+        },
+        "project_group": { "const": "pcdb" },
+        "service_accounts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" }
+        },
+        "writers": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^(github|git|service):[A-Za-z0-9._-]+$" }
+        },
+        "capacity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["target_fraction", "hard_cap_fraction"],
+          "properties": {
+            "target_fraction": { "const": 0.5 },
+            "hard_cap_fraction": { "const": 0.7 }
+          }
+        },
+        "backup": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["public_raw", "recomputable_processed", "release_candidates", "high_cost_trajectories_rpo_hours"],
+          "properties": {
+            "public_raw": { "const": "source_url_and_sha256_redownloadable" },
+            "recomputable_processed": { "const": "recompute_allowed" },
+            "release_candidates": { "const": "daily_snapshot_or_rsync" },
+            "high_cost_trajectories_rpo_hours": { "const": 24 }
+          }
+        }
+      }
+    },
+    "archive": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prefix", "allowed_terminal_verdicts", "excluded_attempt_classes", "retention"],
+      "properties": {
+        "prefix": { "const": "milestone-archives/v2" },
+        "allowed_terminal_verdicts": {
+          "const": ["accept", "reject", "inconclusive"]
+        },
+        "excluded_attempt_classes": {
+          "const": ["invalid_run", "debug_run", "aborted_attempt", "failed_implementation_run"]
+        },
+        "retention": { "const": "no_automatic_deletion" }
+      }
+    }
+  }
+}

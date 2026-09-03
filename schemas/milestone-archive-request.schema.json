@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/milestone-archive-request.schema.json",
+  "title": "Governance v2 milestone archive request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "request_status", "archive_id", "milestone_id", "attempt_id", "terminal_class", "destination_prefix", "contract_manifest", "gate_b_decision", "source_inventory", "limits"],
+  "properties": {
+    "schema_version": { "const": "pcdb-milestone-archive-request-v1" },
+    "request_status": { "enum": ["example", "final"] },
+    "archive_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "milestone_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$" },
+    "attempt_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "terminal_class": { "enum": ["scientific_terminal", "invalid_run", "debug_run", "aborted_attempt", "failed_implementation_run"] },
+    "destination_prefix": { "type": "string", "pattern": "^milestone-archives/v2/[A-Za-z0-9._-]+/[a-z0-9][a-z0-9._-]*/$" },
+    "contract_manifest": { "$ref": "#/$defs/source_reference" },
+    "gate_b_decision": { "$ref": "#/$defs/source_reference" },
+    "source_inventory": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "path", "archive_path", "size_bytes", "sha256"],
+        "properties": {
+          "role": { "enum": ["contract_manifest", "run_identity", "final_result", "important_log", "summary", "provenance", "gate_b_decision"] },
+          "path": { "type": "string", "pattern": "^[^/].+$" },
+          "archive_path": { "type": "string", "pattern": "^[^/].+$" },
+          "size_bytes": { "type": "integer", "minimum": 0 },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_objects", "max_bytes"],
+      "properties": {
+        "max_objects": { "type": "integer", "minimum": 3, "maximum": 1000 },
+        "max_bytes": { "type": "integer", "minimum": 1 }
+      }
+    }
+  },
+  "$defs": {
+    "source_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "archive_path", "size_bytes", "sha256"],
+      "properties": {
+        "path": { "type": "string", "pattern": "^[^/].+$" },
+        "archive_path": { "type": "string", "pattern": "^[^/].+$" },
+        "size_bytes": { "type": "integer", "minimum": 0 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    }
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/milestone-contract-manifest.schema.json",
+  "title": "Milestone Contract Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "manifest_status", "manifest_revision", "milestone_id", "contract_id", "contract_version", "contract_digest", "scientific_authorities", "scientific_contract", "major_boundaries", "gate_a", "run_policy"],
+  "properties": {
+    "schema_version": { "const": "pcdb-milestone-contract-manifest-v1" },
+    "manifest_status": { "enum": ["example", "authorized", "terminal"] },
+    "manifest_revision": { "type": "integer", "minimum": 1 },
+    "milestone_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$" },
+    "contract_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "contract_version": { "type": "integer", "minimum": 1 },
+    "contract_digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "scientific_authorities": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "scientific_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["research_question", "dataset_split_semantics", "candidate_high_value_definition", "primary_metrics", "budget_cost_model", "comparison_set", "held_out_boundary", "statistical_rule", "known_risks", "allowed_deviations"],
+      "properties": {
+        "research_question": { "type": "string", "minLength": 1 },
+        "dataset_split_semantics": { "type": "string", "minLength": 1 },
+        "candidate_high_value_definition": { "type": "string", "minLength": 1 },
+        "primary_metrics": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "budget_cost_model": { "type": "string", "minLength": 1 },
+        "comparison_set": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "held_out_boundary": { "type": "string", "minLength": 1 },
+        "statistical_rule": { "type": "string", "minLength": 1 },
+        "known_risks": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "allowed_deviations": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "major_boundaries": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "enum": ["held_out_boundary", "primary_endpoint", "dataset_inclusion", "cost_semantics"] }
+    },
+    "gate_a": { "$ref": "#/$defs/decision_reference" },
+    "gate_b": { "$ref": "#/$defs/terminal_decision_reference" },
+    "input_artifacts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/artifact" }
+    },
+    "run_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["storage_mode", "ordinary_run_cos_writes", "attempt_semantics", "completion_marker"],
+      "properties": {
+        "storage_mode": { "const": "server_first" },
+        "ordinary_run_cos_writes": { "const": 0 },
+        "attempt_semantics": { "const": "append_only" },
+        "completion_marker": { "const": "_SUCCESS_last" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "manifest_status": { "const": "terminal" } }, "required": ["manifest_status"] },
+      "then": { "required": ["gate_b"] }
+    }
+  ],
+  "$defs": {
+    "decision_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "pattern": "^[^/].*\\.json$" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "verdict": { "type": "string", "minLength": 1 }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "size_bytes", "sha256", "visibility", "consumers"],
+      "properties": {
+        "role": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "pattern": "^[^/].+$" },
+        "size_bytes": { "type": "integer", "minimum": 0 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "visibility": { "enum": ["observable", "revealed_evidence", "hidden_truth", "held_out"] },
+        "consumers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["runner", "surrogate_model", "acquisition_strategy", "hidden_oracle", "evaluator", "reporting"] }
+        }
+      }
+    },
+    "terminal_decision_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "verdict"],
+      "properties": {
+        "path": { "type": "string", "pattern": "^[^/].*\\.json$" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "verdict": { "enum": ["accept", "reject", "inconclusive"] }
+      }
+    }
+  }
+}

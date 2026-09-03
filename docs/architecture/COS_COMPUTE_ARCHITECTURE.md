@@ -1,5 +1,10 @@
 # COS and Compute Architecture
 
+> Historical architecture and adapter rationale. Under ADR-0005, Governance v2 supersedes its active
+> data plane only for milestones first authorized after the v2 decision is merged. Issue #91/current
+> M5B and all earlier paths remain grandfathered Legacy Execution Surfaces; see
+> `../GOVERNANCE_V2.md`, `../GOVERNANCE_V2_RUNBOOK.md` and `../adr/0005-adopt-governance-v2-for-new-milestones.md`.
+
 ## Decision summary
 
 GitHub is the control plane, COS is the immutable data and artifact plane, and compute servers are

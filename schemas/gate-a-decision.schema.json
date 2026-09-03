@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/gate-a-decision.schema.json",
+  "title": "Gate A Scientific Contract Authorization",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "github_comment_attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "repository", "comment_id", "node_id", "actor", "updated_at", "body", "body_sha256", "decision_digest"],
+      "properties": {
+        "schema_version": { "const": "pcdb-github-comment-attestation-v1" },
+        "repository": { "const": "QUHONGYE-gif/protein-candidate-discovery-benchmark" },
+        "comment_id": { "type": "integer", "minimum": 1 },
+        "node_id": { "type": "string", "minLength": 1 },
+        "actor": { "type": "string", "pattern": "^github:[A-Za-z0-9._-]+$" },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "body": { "type": "string", "minLength": 1 },
+        "body_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "decision_digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    }
+  },
+  "required": ["schema_version", "record_status", "decision_id", "contract_id", "contract_version", "contract_digest", "formulation", "proposers", "approvals", "verdict", "decided_at", "rationale"],
+  "properties": {
+    "schema_version": { "const": "pcdb-gate-a-decision-v1" },
+    "record_status": { "enum": ["example", "final"] },
+    "decision_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "contract_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "contract_version": { "type": "integer", "minimum": 1 },
+    "contract_digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "formulation": { "enum": ["proposed_and_approved", "jointly_approved"] },
+    "proposers": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "approvals": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["authority", "verdict", "decided_at", "explicit_boundaries", "attestation"],
+        "properties": {
+          "authority": { "type": "string", "minLength": 1 },
+          "verdict": { "enum": ["authorized", "revise", "rejected"] },
+          "decided_at": { "type": "string", "format": "date-time" },
+          "explicit_boundaries": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "enum": ["held_out_boundary", "primary_endpoint", "dataset_inclusion", "cost_semantics"] }
+          },
+          "attestation": { "$ref": "#/$defs/github_comment_attestation" }
+        }
+      }
+    },
+    "verdict": { "enum": ["authorized", "revise", "rejected"] },
+    "decided_at": { "type": "string", "format": "date-time" },
+    "rationale": { "type": "string", "minLength": 1 }
+  }
+}

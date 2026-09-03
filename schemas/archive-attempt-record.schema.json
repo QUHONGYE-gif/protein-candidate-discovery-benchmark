@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/schemas/archive-attempt-record.schema.json",
+  "title": "Governance v2 server-side archive attempt record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "archive_id", "attempt_id", "milestone_id", "terminal_class", "destination_prefix", "request_sha256", "status", "recorded_at", "detail"],
+  "properties": {
+    "schema_version": { "const": "pcdb-archive-attempt-record-v1" },
+    "archive_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "attempt_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "milestone_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$" },
+    "terminal_class": { "enum": ["scientific_terminal", "invalid_run", "debug_run", "aborted_attempt", "failed_implementation_run"] },
+    "destination_prefix": { "type": "string", "pattern": "^milestone-archives/v2/[A-Za-z0-9._-]+/[a-z0-9][a-z0-9._-]*/$" },
+    "request_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "status": { "enum": ["started", "succeeded", "failed", "skipped"] },
+    "recorded_at": { "type": "string", "format": "date-time" },
+    "detail": { "type": "object" }
+  }
+}

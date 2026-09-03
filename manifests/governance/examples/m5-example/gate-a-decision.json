@@ -1,0 +1,61 @@
+{
+  "approvals": [
+    {
+      "attestation": {
+        "actor": "github:QUHONGYE-gif",
+        "body": "Example-only attestation; not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: 8ca6aba47a63214b06466048bf956d7b4c9fa5b92c9a7efe36ab2817fb4b18b1\n",
+        "body_sha256": "2c7f375d029a649dfc3876abe9391f84979d7c1746614791a7f00751a131530c",
+        "comment_id": 1,
+        "decision_digest": "8ca6aba47a63214b06466048bf956d7b4c9fa5b92c9a7efe36ab2817fb4b18b1",
+        "node_id": "EXAMPLE_GATE_A_OWNER_COMMENT",
+        "repository": "QUHONGYE-gif/protein-candidate-discovery-benchmark",
+        "schema_version": "pcdb-github-comment-attestation-v1",
+        "updated_at": "2026-09-02T00:00:00Z"
+      },
+      "authority": "github:QUHONGYE-gif",
+      "decided_at": "2026-09-02T00:00:00Z",
+      "explicit_boundaries": [
+        "held_out_boundary",
+        "primary_endpoint",
+        "dataset_inclusion",
+        "cost_semantics"
+      ],
+      "verdict": "authorized"
+    },
+    {
+      "attestation": {
+        "actor": "github:willzhang",
+        "body": "Example-only attestation; not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: 8ca6aba47a63214b06466048bf956d7b4c9fa5b92c9a7efe36ab2817fb4b18b1\n",
+        "body_sha256": "2c7f375d029a649dfc3876abe9391f84979d7c1746614791a7f00751a131530c",
+        "comment_id": 2,
+        "decision_digest": "8ca6aba47a63214b06466048bf956d7b4c9fa5b92c9a7efe36ab2817fb4b18b1",
+        "node_id": "EXAMPLE_GATE_A_REVIEWER_COMMENT",
+        "repository": "QUHONGYE-gif/protein-candidate-discovery-benchmark",
+        "schema_version": "pcdb-github-comment-attestation-v1",
+        "updated_at": "2026-09-02T00:01:00Z"
+      },
+      "authority": "github:willzhang",
+      "decided_at": "2026-09-02T00:01:00Z",
+      "explicit_boundaries": [
+        "held_out_boundary",
+        "primary_endpoint",
+        "dataset_inclusion",
+        "cost_semantics"
+      ],
+      "verdict": "authorized"
+    }
+  ],
+  "contract_digest": "05dafeb913b9956ec879de9dfe3e4bbb1e7f2388d5054db78e4a733e0df522b7",
+  "contract_id": "m5-example-contract",
+  "contract_version": 1,
+  "decided_at": "2026-09-02T00:01:00Z",
+  "decision_id": "gate-a-m5-example-v1",
+  "formulation": "proposed_and_approved",
+  "proposers": [
+    "github:QUHONGYE-gif"
+  ],
+  "rationale": "Schema example only; this record does not authorize a scientific run.",
+  "record_status": "example",
+  "schema_version": "pcdb-gate-a-decision-v1",
+  "verdict": "authorized"
+}
