@@ -4,9 +4,11 @@ import json
 import shutil
 from pathlib import Path
 
+import pytest
+
 from pcdb.contracts.experiment import canonical_json_bytes
-from pcdb.governance.checks import CheckReport, sha256_bytes
-from pcdb.governance.contract import contract_check_report
+from pcdb.governance.checks import CheckReport, CheckViolation, sha256_bytes
+from pcdb.governance.contract import contract_check_report, validate_governance_config
 from tests.governance.helpers import (
     FakeDecisionEvidenceVerifier,
     attach_example_attestations,
@@ -54,6 +56,14 @@ def test_complete_example_contract_passes_every_check() -> None:
         "hidden_label_leakage",
         "inventory_cross_links",
     }
+
+
+def test_governance_config_rejects_repository_workflow_drift() -> None:
+    config = json.loads(CONFIG.read_bytes())
+    config["repository_workflow"]["maintenance_batch"]["logical_change_limit"] = 11
+
+    with pytest.raises(CheckViolation, match="repository workflow classification"):
+        validate_governance_config(config)
 
 
 def test_final_gate_requires_and_uses_authenticated_human_evidence(tmp_path: Path) -> None:

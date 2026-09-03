@@ -4,11 +4,81 @@
   "title": "Governance v2 configuration",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "governance_version", "governance_repository", "scientific_authorities", "server", "archive"],
+  "required": ["schema_version", "governance_version", "governance_repository", "repository_workflow", "scientific_authorities", "server", "archive"],
   "properties": {
     "schema_version": { "const": "pcdb-governance-config-v1" },
     "governance_version": { "const": "2" },
     "governance_repository": { "const": "QUHONGYE-gif/protein-candidate-discovery-benchmark" },
+    "repository_workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["major_semantic", "maintenance_batch", "independent_github_issue_triggers", "cross_links", "tracking_ledger", "forbidden_tracking_files", "status"],
+      "properties": {
+        "major_semantic": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["categories", "semantic_boundaries"],
+          "properties": {
+            "categories": {
+              "const": ["scientific_protocol", "dataset_or_split", "metric", "cost_model", "architecture", "major_runner", "storage_policy", "governance", "release"]
+            },
+            "semantic_boundaries": {
+              "const": ["scientific_semantics", "data_identity", "execution_boundary", "storage_responsibility", "public_interface"]
+            }
+          }
+        },
+        "maintenance_batch": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["categories", "logical_change_limit", "flush_on_issue_or_milestone_closeout", "flush_when_required_by_next_experiment"],
+          "properties": {
+            "categories": {
+              "const": ["tests", "docs", "logging", "small_bugs", "minor_refactors", "plots", "cli_polish"]
+            },
+            "logical_change_limit": { "const": 10 },
+            "flush_on_issue_or_milestone_closeout": { "const": true },
+            "flush_when_required_by_next_experiment": { "const": true }
+          }
+        },
+        "independent_github_issue_triggers": {
+          "const": [
+            "Major / semantic change",
+            "Independent value, acceptance criteria, risk, or authorization boundary",
+            "Cross-milestone, multi-PR, multi-owner, or external coordination",
+            "Data, held-out, permission, cost, privacy, security, release, or external-config risk",
+            "No suitable parent Issue"
+          ]
+        },
+        "cross_links": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mapping", "multica_title", "multica_source_of_truth", "github_backlink"],
+          "properties": {
+            "mapping": { "const": "many_to_one" },
+            "multica_title": { "const": "[GH#123] Improve repository workflow checks" },
+            "multica_source_of_truth": { "const": "Source of truth: https://github.com/OWNER/REPO/issues/123" },
+            "github_backlink": { "const": "Execution tracked in Multica: https://MULTICA-EXAMPLE/issues/MIRA-123" }
+          }
+        },
+        "tracking_ledger": { "const": "git_and_parent_issue" },
+        "forbidden_tracking_files": {
+          "const": ["maintenance-batch-ledger.yaml", "MulticaGithubLinkRegistry", "reviewer-registry.schema.json"]
+        },
+        "status": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["update_events", "ignored_events"],
+          "properties": {
+            "update_events": {
+              "const": ["gate_a_scientific_transition", "gate_b_terminal", "milestone_closeout"]
+            },
+            "ignored_events": {
+              "const": ["ordinary_pr", "ci", "run", "retry", "log", "plot", "maintenance_batch", "engineering_only_progress"]
+            }
+          }
+        }
+      }
+    },
     "scientific_authorities": {
       "type": "array",
       "minItems": 2,

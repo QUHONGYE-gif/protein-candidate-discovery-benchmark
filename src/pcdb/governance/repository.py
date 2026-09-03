@@ -16,6 +16,7 @@ from pcdb.governance.checks import (
 )
 from pcdb.governance.contract import (
     GOVERNANCE_RFC_SHA256,
+    REPOSITORY_WORKFLOW_CONFIG,
     contract_check_report,
     load_json,
     validate_governance_config,
@@ -47,6 +48,8 @@ def repository_check_report(repository_root: Path) -> CheckReport:
         )
 
     def active_docs() -> CheckEvidence:
+        from jsonschema import Draft202012Validator
+
         governance = (root / "docs/GOVERNANCE_V2.md").read_bytes()
         if sha256_bytes(governance) != GOVERNANCE_RFC_SHA256:
             raise CheckViolation("active Governance v2 RFC differs from the accepted exact bytes")
@@ -59,6 +62,15 @@ def repository_check_report(repository_root: Path) -> CheckReport:
         missing = [item for item in required if not (root / item).is_file()]
         if missing:
             raise CheckViolation(f"active Governance v2 files are missing: {missing}")
+        config_schema = json.loads((root / "schemas/governance-config.schema.json").read_bytes())
+        schema_errors = sorted(
+            Draft202012Validator(config_schema).iter_errors(config.value),
+            key=lambda error: tuple(str(part) for part in error.absolute_path),
+        )
+        if schema_errors:
+            raise CheckViolation(
+                f"Governance v2 config differs from its schema: {schema_errors[0].message}"
+            )
         validate_governance_config(config.value)
         return CheckEvidence(
             reason=(
@@ -84,6 +96,217 @@ def repository_check_report(repository_root: Path) -> CheckReport:
         return CheckEvidence(
             reason="all indexed historical execution surfaces remain addressable",
             evidence={"paths": list(paths)},
+        )
+
+    def repository_workflow() -> CheckEvidence:
+        workflow = REPOSITORY_WORKFLOW_CONFIG
+        active_paths = (
+            "AGENTS.md",
+            "CONTRIBUTING.md",
+            "README.md",
+            "docs/GOVERNANCE_V2_RUNBOOK.md",
+            "docs/PROJECT_DIRECTION.md",
+            "docs/agents/issue-tracker.md",
+            ".github/pull_request_template.md",
+            "manifests/governance/examples/README.md",
+        )
+        active_docs = {path: (root / path).read_text(encoding="utf-8") for path in active_paths}
+        classification_paths = (
+            "AGENTS.md",
+            "CONTRIBUTING.md",
+            "docs/GOVERNANCE_V2_RUNBOOK.md",
+            "docs/agents/issue-tracker.md",
+            ".github/pull_request_template.md",
+            "manifests/governance/examples/README.md",
+        )
+        missing_classes = [
+            path
+            for path in classification_paths
+            if "Major / semantic PR" not in active_docs[path]
+            or "Maintenance batch PR" not in active_docs[path]
+        ]
+        if missing_classes:
+            raise CheckViolation(
+                f"repository workflow classes are missing from active files: {missing_classes}"
+            )
+
+        stale_phrases = ("Fast path", "Large/Risk path", "Large-Risk path")
+        stale_locations = [
+            f"{path}:{phrase}"
+            for path in classification_paths
+            for phrase in stale_phrases
+            if phrase in active_docs[path]
+        ]
+        if stale_locations:
+            raise CheckViolation(f"legacy PR classification remains active: {stale_locations}")
+
+        maintenance = workflow["maintenance_batch"]
+        if not isinstance(maintenance, dict):
+            raise CheckViolation("repository workflow maintenance policy is not an object")
+        limit = maintenance["logical_change_limit"]
+        trigger_markers = {
+            "AGENTS.md": (
+                f"earliest of {limit} logical small changes",
+                "current Issue/milestone ending",
+                "next experiment needing its information",
+            ),
+            "CONTRIBUTING.md": (
+                f"累计 {limit} 个逻辑小变化",
+                "当前 Issue/milestone 结束",
+                "下一段实验需要其中信息",
+            ),
+            "docs/GOVERNANCE_V2_RUNBOOK.md": (
+                f"First of: {limit} logical small changes",
+                "current Issue/milestone closeout",
+                "next experiment needs the information",
+            ),
+            ".github/pull_request_template.md": (
+                f"累计 {limit} 个逻辑小变化",
+                "当前 Issue/milestone 结束",
+                "下一段实验需要其中信息",
+            ),
+        }
+        missing_triggers = [
+            f"{path}:{marker}"
+            for path, markers in trigger_markers.items()
+            for marker in markers
+            if marker not in active_docs[path]
+        ]
+        if missing_triggers:
+            raise CheckViolation(
+                f"maintenance batch triggers differ from governance config: {missing_triggers}"
+            )
+
+        category_docs = ("CONTRIBUTING.md", "docs/GOVERNANCE_V2_RUNBOOK.md")
+        missing_categories = [
+            f"{path}:{category}"
+            for path in category_docs
+            for group in ("major_semantic", "maintenance_batch")
+            for category in workflow[group]["categories"]
+            if category.replace("_or_", "/").replace("_", " ") not in active_docs[path].lower()
+        ]
+        missing_boundaries = [
+            boundary
+            for boundary in workflow["major_semantic"]["semantic_boundaries"]
+            if boundary.replace("_", " ")
+            not in active_docs["docs/GOVERNANCE_V2_RUNBOOK.md"].lower()
+        ]
+        if missing_categories or missing_boundaries:
+            raise CheckViolation(
+                "PR category or semantic-boundary examples differ from governance config: "
+                f"categories={missing_categories}, boundaries={missing_boundaries}"
+            )
+
+        cross_links = workflow["cross_links"]
+        if not isinstance(cross_links, dict):
+            raise CheckViolation("repository workflow cross-link policy is not an object")
+        example_docs = ("CONTRIBUTING.md", "docs/GOVERNANCE_V2_RUNBOOK.md")
+        missing_examples = [
+            f"{path}:{field}"
+            for path in example_docs
+            for field in ("multica_title", "multica_source_of_truth", "github_backlink")
+            if cross_links[field] not in active_docs[path]
+        ]
+        checklist_markers = (
+            f"Maintenance batch (3/{limit} logical changes)",
+            "Semantic/data/interface impact: none",
+        )
+        missing_examples.extend(
+            f"{path}:parent_checklist"
+            for path in example_docs
+            if any(marker not in active_docs[path] for marker in checklist_markers)
+        )
+        if missing_examples:
+            raise CheckViolation(
+                f"cross-link or parent checklist examples drifted: {missing_examples}"
+            )
+        mapping_markers = {
+            "CONTRIBUTING.md": "不要求一一对应",
+            "docs/GOVERNANCE_V2_RUNBOOK.md": (
+                "One GitHub Issue may cover several Multica execution issues"
+            ),
+        }
+        if cross_links["mapping"] != "many_to_one" or any(
+            marker not in active_docs[path] for path, marker in mapping_markers.items()
+        ):
+            raise CheckViolation("Multica/GitHub many-to-one tracking policy drifted")
+
+        issue_forms = sorted((root / ".github/ISSUE_TEMPLATE").glob("*.yml"))
+        issue_forms = [path for path in issue_forms if path.name != "config.yml"]
+        issue_triggers = workflow["independent_github_issue_triggers"]
+        if not isinstance(issue_triggers, list):
+            raise CheckViolation("independent GitHub Issue triggers are not a list")
+        invalid_forms = []
+        for path in issue_forms:
+            content = path.read_text(encoding="utf-8")
+            if "id: independent_issue_reason" not in content or any(
+                trigger not in content for trigger in issue_triggers
+            ):
+                invalid_forms.append(str(path.relative_to(root)))
+        if not issue_forms or invalid_forms:
+            raise CheckViolation(
+                "GitHub Issue forms do not enforce the independent-Issue threshold: "
+                f"{invalid_forms}"
+            )
+
+        pull_request_template = active_docs[".github/pull_request_template.md"]
+        if any(line.strip() == "Closes #" for line in pull_request_template.splitlines()):
+            raise CheckViolation("pull request template contains an unconditional close intent")
+
+        forbidden = workflow["forbidden_tracking_files"]
+        if not isinstance(forbidden, list):
+            raise CheckViolation("forbidden tracking files are not a list")
+        forbidden_paths = [
+            str(path.relative_to(root))
+            for path in root.rglob("*")
+            if path.is_file() and path.name in forbidden
+        ]
+        if forbidden_paths:
+            raise CheckViolation(
+                f"forbidden workflow ledger or registry files exist: {forbidden_paths}"
+            )
+
+        status_markers = {
+            "AGENTS.md": ("Gate A scientific-state transition", "Gate B terminal"),
+            "CONTRIBUTING.md": ("Gate A 触发科学阶段迁移", "Gate B 产生 terminal"),
+            "README.md": ("Gate A scientific transition", "Gate B terminal"),
+            "docs/GOVERNANCE_V2_RUNBOOK.md": (
+                "Gate A scientific transition",
+                "Gate B terminal",
+            ),
+            "docs/PROJECT_DIRECTION.md": (
+                "Gate A 触发 scientific state",
+                "Gate B 产生 terminal",
+            ),
+            ".github/pull_request_template.md": (
+                "Gate A scientific transition",
+                "Gate B terminal",
+            ),
+        }
+        missing_status_rules = [
+            f"{path}:{marker}"
+            for path, markers in status_markers.items()
+            for marker in (*markers, "milestone closeout")
+            if marker not in active_docs[path]
+        ]
+        if missing_status_rules:
+            raise CheckViolation(
+                f"STATUS update rules differ from governance config: {missing_status_rules}"
+            )
+
+        return CheckEvidence(
+            reason=(
+                "repository workflow config, active docs, templates and examples agree without "
+                "a third tracking ledger"
+            ),
+            evidence={
+                "active_document_count": len(active_docs),
+                "cross_link_mapping": cross_links["mapping"],
+                "independent_issue_trigger_count": len(issue_triggers),
+                "issue_form_count": len(issue_forms),
+                "maintenance_logical_change_limit": limit,
+                "status_update_events": workflow["status"]["update_events"],
+            },
         )
 
     def ci_entry() -> CheckEvidence:
@@ -134,6 +357,13 @@ def repository_check_report(repository_root: Path) -> CheckReport:
             blocks=("ci", "legacy_compatibility"),
             input_digests=(GOVERNANCE_RFC_SHA256,),
             operation=legacy_surface,
+        ),
+        capture_check(
+            name="repository-workflow-v2",
+            category="inventory_cross_links",
+            blocks=("ci", "operator_documentation", "pr_engineering_quality"),
+            input_digests=(config.sha256, GOVERNANCE_RFC_SHA256),
+            operation=repository_workflow,
         ),
         capture_check(
             name="governance-ci-entry",

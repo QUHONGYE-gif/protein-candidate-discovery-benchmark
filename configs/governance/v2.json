@@ -16,6 +16,78 @@
   },
   "governance_repository": "QUHONGYE-gif/protein-candidate-discovery-benchmark",
   "governance_version": "2",
+  "repository_workflow": {
+    "cross_links": {
+      "github_backlink": "Execution tracked in Multica: https://MULTICA-EXAMPLE/issues/MIRA-123",
+      "mapping": "many_to_one",
+      "multica_source_of_truth": "Source of truth: https://github.com/OWNER/REPO/issues/123",
+      "multica_title": "[GH#123] Improve repository workflow checks"
+    },
+    "forbidden_tracking_files": [
+      "maintenance-batch-ledger.yaml",
+      "MulticaGithubLinkRegistry",
+      "reviewer-registry.schema.json"
+    ],
+    "independent_github_issue_triggers": [
+      "Major / semantic change",
+      "Independent value, acceptance criteria, risk, or authorization boundary",
+      "Cross-milestone, multi-PR, multi-owner, or external coordination",
+      "Data, held-out, permission, cost, privacy, security, release, or external-config risk",
+      "No suitable parent Issue"
+    ],
+    "maintenance_batch": {
+      "categories": [
+        "tests",
+        "docs",
+        "logging",
+        "small_bugs",
+        "minor_refactors",
+        "plots",
+        "cli_polish"
+      ],
+      "flush_on_issue_or_milestone_closeout": true,
+      "flush_when_required_by_next_experiment": true,
+      "logical_change_limit": 10
+    },
+    "major_semantic": {
+      "categories": [
+        "scientific_protocol",
+        "dataset_or_split",
+        "metric",
+        "cost_model",
+        "architecture",
+        "major_runner",
+        "storage_policy",
+        "governance",
+        "release"
+      ],
+      "semantic_boundaries": [
+        "scientific_semantics",
+        "data_identity",
+        "execution_boundary",
+        "storage_responsibility",
+        "public_interface"
+      ]
+    },
+    "status": {
+      "ignored_events": [
+        "ordinary_pr",
+        "ci",
+        "run",
+        "retry",
+        "log",
+        "plot",
+        "maintenance_batch",
+        "engineering_only_progress"
+      ],
+      "update_events": [
+        "gate_a_scientific_transition",
+        "gate_b_terminal",
+        "milestone_closeout"
+      ]
+    },
+    "tracking_ledger": "git_and_parent_issue"
+  },
   "schema_version": "pcdb-governance-config-v1",
   "scientific_authorities": [
     {
