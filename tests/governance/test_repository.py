@@ -4,10 +4,14 @@ import json
 import shutil
 from pathlib import Path
 
+import pytest
 from jsonschema import Draft202012Validator, FormatChecker
 
-from pcdb.governance.checks import CheckReport, CheckResult
-from pcdb.governance.repository import repository_check_report
+from pcdb.governance.checks import CheckReport, CheckResult, CheckViolation
+from pcdb.governance.repository import (
+    repository_check_report,
+    validate_tracking_declaration,
+)
 
 REPOSITORY_ROOT = Path(__file__).parents[2]
 
@@ -23,8 +27,8 @@ def test_repository_workflow_and_check_report_schema_agree() -> None:
     assert workflow.status == "pass"
     assert workflow.evidence == {
         "active_document_count": 8,
+        "allowed_tracking_authorities": ["github_issue", "multica"],
         "cross_link_mapping": "many_to_one",
-        "independent_issue_trigger_count": 5,
         "issue_form_count": 4,
         "maintenance_logical_change_limit": 10,
         "status_update_events": [
@@ -32,6 +36,7 @@ def test_repository_workflow_and_check_report_schema_agree() -> None:
             "gate_b_terminal",
             "milestone_closeout",
         ],
+        "tracking_authority_trigger_count": 5,
     }
 
     schema = json.loads(
@@ -39,6 +44,28 @@ def test_repository_workflow_and_check_report_schema_agree() -> None:
     )
     Draft202012Validator(schema, format_checker=FormatChecker()).validate(report.as_dict())
     assert report.as_dict()["approval_events_emitted"] == 0
+
+
+def test_tracking_declarations_require_only_the_selected_authority_fields() -> None:
+    workflow = json.loads(
+        (REPOSITORY_ROOT / "configs/governance/v2.json").read_text(encoding="utf-8")
+    )["repository_workflow"]
+    policy = workflow["tracking_authority"]
+
+    validate_tracking_declaration(workflow["tracking_examples"]["github_issue"], policy)
+    validate_tracking_declaration(workflow["tracking_examples"]["multica"], policy)
+
+    missing_multica_identity = json.loads(json.dumps(workflow["tracking_examples"]["multica"]))
+    del missing_multica_identity["objects"][0]["object_id"]
+    with pytest.raises(CheckViolation, match="Multica tracking object fields"):
+        validate_tracking_declaration(missing_multica_identity, policy)
+
+    multica_with_github_only_field = json.loads(
+        json.dumps(workflow["tracking_examples"]["multica"])
+    )
+    multica_with_github_only_field["issue_number"] = 123
+    with pytest.raises(CheckViolation, match="tracking declaration fields differ for multica"):
+        validate_tracking_declaration(multica_with_github_only_field, policy)
 
 
 def test_repository_workflow_fails_closed_when_batch_trigger_drifts(tmp_path: Path) -> None:

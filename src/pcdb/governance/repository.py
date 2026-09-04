@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 from pathlib import Path
 
@@ -16,11 +17,90 @@ from pcdb.governance.checks import (
 )
 from pcdb.governance.contract import (
     GOVERNANCE_RFC_SHA256,
-    REPOSITORY_WORKFLOW_CONFIG,
     contract_check_report,
     load_json,
     validate_governance_config,
 )
+
+UUID_PATTERN = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+MIRA_KEY_PATTERN = re.compile(r"^[A-Z][A-Z0-9]*-[1-9][0-9]*$")
+
+
+def validate_tracking_declaration(declaration: object, policy: object) -> None:
+    """Fail closed when a PR tracking declaration omits authority-specific identity."""
+
+    if not isinstance(declaration, dict) or not isinstance(policy, dict):
+        raise CheckViolation("tracking declaration and policy must be objects")
+    authority = declaration.get("authority")
+    allowed = policy.get("allowed")
+    common = policy.get("common_required_fields")
+    authority_fields = policy.get("authority_required_fields")
+    object_fields = policy.get("multica_object_required_fields")
+    if (
+        not isinstance(authority, str)
+        or not isinstance(allowed, list)
+        or authority not in allowed
+        or not isinstance(common, list)
+        or not isinstance(authority_fields, dict)
+        or not isinstance(authority_fields.get(authority), list)
+        or not isinstance(object_fields, list)
+    ):
+        raise CheckViolation("tracking authority policy or selection is invalid")
+
+    required = {*common, *authority_fields[authority]}
+    actual = set(declaration)
+    if actual != required:
+        raise CheckViolation(
+            "tracking declaration fields differ for "
+            f"{authority}: missing={sorted(required - actual)}, extra={sorted(actual - required)}"
+        )
+    relationship = declaration.get("authorization_and_acceptance")
+    if not isinstance(relationship, str) or not relationship.strip():
+        raise CheckViolation("tracking declaration must state authorization and acceptance")
+
+    if authority == "github_issue":
+        repository = declaration.get("repository")
+        issue_number = declaration.get("issue_number")
+        url = declaration.get("url")
+        if (
+            not isinstance(repository, str)
+            or not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repository)
+            or isinstance(issue_number, bool)
+            or not isinstance(issue_number, int)
+            or issue_number < 1
+            or url != f"https://github.com/{repository}/issues/{issue_number}"
+        ):
+            raise CheckViolation("GitHub tracking authority identity or URL is invalid")
+        return
+
+    workspace_id = declaration.get("workspace_id")
+    objects = declaration.get("objects")
+    if (
+        not isinstance(workspace_id, str)
+        or not UUID_PATTERN.fullmatch(workspace_id)
+        or not isinstance(objects, list)
+        or not objects
+    ):
+        raise CheckViolation("Multica tracking authority workspace or objects are invalid")
+    identities: set[tuple[str, str, str]] = set()
+    for item in objects:
+        if not isinstance(item, dict) or set(item) != set(object_fields):
+            raise CheckViolation("Multica tracking object fields differ from policy")
+        object_id = item.get("object_id")
+        key = item.get("key")
+        url = item.get("url")
+        if (
+            not isinstance(object_id, str)
+            or not UUID_PATTERN.fullmatch(object_id)
+            or not isinstance(key, str)
+            or not MIRA_KEY_PATTERN.fullmatch(key)
+            or not isinstance(url, str)
+            or not re.fullmatch(rf"https://[^\s]+/issues/{re.escape(key)}", url)
+        ):
+            raise CheckViolation("Multica tracking object identity or URL is invalid")
+        identities.add((object_id, key, url))
+    if len(identities) != len(objects):
+        raise CheckViolation("Multica tracking objects must be unique")
 
 
 def repository_check_report(repository_root: Path) -> CheckReport:
@@ -99,7 +179,9 @@ def repository_check_report(repository_root: Path) -> CheckReport:
         )
 
     def repository_workflow() -> CheckEvidence:
-        workflow = REPOSITORY_WORKFLOW_CONFIG
+        workflow = config.value["repository_workflow"]
+        if not isinstance(workflow, dict):
+            raise CheckViolation("repository workflow config is not an object")
         active_paths = (
             "AGENTS.md",
             "CONTRIBUTING.md",
@@ -197,6 +279,43 @@ def repository_check_report(repository_root: Path) -> CheckReport:
                 f"categories={missing_categories}, boundaries={missing_boundaries}"
             )
 
+        tracking_authority = workflow["tracking_authority"]
+        tracking_examples = workflow["tracking_examples"]
+        if not isinstance(tracking_authority, dict) or not isinstance(tracking_examples, dict):
+            raise CheckViolation("tracking authority policy and examples must be objects")
+        allowed_authorities = tracking_authority.get("allowed")
+        if allowed_authorities != ["github_issue", "multica"]:
+            raise CheckViolation("Major tracking authority must allow GitHub Issue or Multica")
+        for authority in allowed_authorities:
+            if authority not in tracking_examples:
+                raise CheckViolation(f"tracking example is missing for authority: {authority}")
+            validate_tracking_declaration(tracking_examples[authority], tracking_authority)
+
+        authority_docs = (
+            "AGENTS.md",
+            "CONTRIBUTING.md",
+            "docs/GOVERNANCE_V2_RUNBOOK.md",
+            "docs/agents/issue-tracker.md",
+            ".github/pull_request_template.md",
+        )
+        authority_markers = (
+            "github_issue",
+            "multica",
+            "authorization_and_acceptance",
+            "workspace_id",
+            "object_id",
+        )
+        missing_authority_policy = [
+            f"{path}:{marker}"
+            for path in authority_docs
+            for marker in authority_markers
+            if marker not in active_docs[path]
+        ]
+        if missing_authority_policy:
+            raise CheckViolation(
+                f"tracking authority choices or required fields drifted: {missing_authority_policy}"
+            )
+
         cross_links = workflow["cross_links"]
         if not isinstance(cross_links, dict):
             raise CheckViolation("repository workflow cross-link policy is not an object")
@@ -204,7 +323,11 @@ def repository_check_report(repository_root: Path) -> CheckReport:
         missing_examples = [
             f"{path}:{field}"
             for path in example_docs
-            for field in ("multica_title", "multica_source_of_truth", "github_backlink")
+            for field in (
+                "github_authority_multica_title",
+                "github_authority_multica_source",
+                "github_authority_backlink",
+            )
             if cross_links[field] not in active_docs[path]
         ]
         checklist_markers = (
@@ -223,29 +346,33 @@ def repository_check_report(repository_root: Path) -> CheckReport:
         mapping_markers = {
             "CONTRIBUTING.md": "不要求一一对应",
             "docs/GOVERNANCE_V2_RUNBOOK.md": (
-                "One GitHub Issue may cover several Multica execution issues"
+                "one GitHub Issue may cover several Multica execution issues"
             ),
         }
-        if cross_links["mapping"] != "many_to_one" or any(
-            marker not in active_docs[path] for path, marker in mapping_markers.items()
+        if (
+            cross_links["mapping"] != "many_to_one"
+            or cross_links["required_only_when"] != "github_issue"
+            or any(marker not in active_docs[path] for path, marker in mapping_markers.items())
         ):
             raise CheckViolation("Multica/GitHub many-to-one tracking policy drifted")
 
         issue_forms = sorted((root / ".github/ISSUE_TEMPLATE").glob("*.yml"))
         issue_forms = [path for path in issue_forms if path.name != "config.yml"]
-        issue_triggers = workflow["independent_github_issue_triggers"]
-        if not isinstance(issue_triggers, list):
-            raise CheckViolation("independent GitHub Issue triggers are not a list")
+        selection_triggers = tracking_authority["selection_required_for"]
+        if not isinstance(selection_triggers, list):
+            raise CheckViolation("tracking-authority selection triggers are not a list")
         invalid_forms = []
         for path in issue_forms:
             content = path.read_text(encoding="utf-8")
-            if "id: independent_issue_reason" not in content or any(
-                trigger not in content for trigger in issue_triggers
+            if (
+                "id: tracking_threshold_reason" not in content
+                or "id: github_tracking_authority" not in content
+                or any(trigger not in content for trigger in selection_triggers)
             ):
                 invalid_forms.append(str(path.relative_to(root)))
         if not issue_forms or invalid_forms:
             raise CheckViolation(
-                "GitHub Issue forms do not enforce the independent-Issue threshold: "
+                "GitHub Issue forms do not enforce authority selection and threshold: "
                 f"{invalid_forms}"
             )
 
@@ -301,11 +428,12 @@ def repository_check_report(repository_root: Path) -> CheckReport:
             ),
             evidence={
                 "active_document_count": len(active_docs),
+                "allowed_tracking_authorities": allowed_authorities,
                 "cross_link_mapping": cross_links["mapping"],
-                "independent_issue_trigger_count": len(issue_triggers),
                 "issue_form_count": len(issue_forms),
                 "maintenance_logical_change_limit": limit,
                 "status_update_events": workflow["status"]["update_events"],
+                "tracking_authority_trigger_count": len(selection_triggers),
             },
         )
 

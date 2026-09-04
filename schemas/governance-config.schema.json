@@ -6,13 +6,13 @@
   "additionalProperties": false,
   "required": ["schema_version", "governance_version", "governance_repository", "repository_workflow", "scientific_authorities", "server", "archive"],
   "properties": {
-    "schema_version": { "const": "pcdb-governance-config-v1" },
+    "schema_version": { "const": "pcdb-governance-config-v2" },
     "governance_version": { "const": "2" },
     "governance_repository": { "const": "QUHONGYE-gif/protein-candidate-discovery-benchmark" },
     "repository_workflow": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["major_semantic", "maintenance_batch", "independent_github_issue_triggers", "cross_links", "tracking_ledger", "forbidden_tracking_files", "status"],
+      "required": ["major_semantic", "maintenance_batch", "tracking_authority", "tracking_examples", "cross_links", "tracking_ledger", "forbidden_tracking_files", "status"],
       "properties": {
         "major_semantic": {
           "type": "object",
@@ -40,27 +40,90 @@
             "flush_when_required_by_next_experiment": { "const": true }
           }
         },
-        "independent_github_issue_triggers": {
-          "const": [
-            "Major / semantic change",
-            "Independent value, acceptance criteria, risk, or authorization boundary",
-            "Cross-milestone, multi-PR, multi-owner, or external coordination",
-            "Data, held-out, permission, cost, privacy, security, release, or external-config risk",
-            "No suitable parent Issue"
-          ]
+        "tracking_authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["allowed", "common_required_fields", "authority_required_fields", "multica_object_required_fields", "selection_required_for"],
+          "properties": {
+            "allowed": { "const": ["github_issue", "multica"] },
+            "common_required_fields": { "const": ["authority", "authorization_and_acceptance"] },
+            "authority_required_fields": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["github_issue", "multica"],
+              "properties": {
+                "github_issue": { "const": ["repository", "issue_number", "url"] },
+                "multica": { "const": ["workspace_id", "objects"] }
+              }
+            },
+            "multica_object_required_fields": { "const": ["object_id", "key", "url"] },
+            "selection_required_for": {
+              "const": [
+                "Major / semantic change",
+                "Independent value, acceptance criteria, risk, or authorization boundary",
+                "Cross-milestone, multi-PR, multi-owner, or external coordination",
+                "Data, held-out, permission, cost, privacy, security, release, or external-config risk",
+                "No suitable parent Issue"
+              ]
+            }
+          }
+        },
+        "tracking_examples": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["github_issue", "multica"],
+          "properties": {
+            "github_issue": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["authority", "authorization_and_acceptance", "repository", "issue_number", "url"],
+              "properties": {
+                "authority": { "const": "github_issue" },
+                "authorization_and_acceptance": { "const": "Named owner authorizes scope and accepts completion" },
+                "repository": { "const": "OWNER/REPO" },
+                "issue_number": { "const": 123 },
+                "url": { "const": "https://github.com/OWNER/REPO/issues/123" }
+              }
+            },
+            "multica": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["authority", "authorization_and_acceptance", "workspace_id", "objects"],
+              "properties": {
+                "authority": { "const": "multica" },
+                "authorization_and_acceptance": { "const": "Workspace member authorizes scope and marks the issue done after review" },
+                "workspace_id": { "const": "00000000-0000-4000-8000-000000000000" },
+                "objects": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["object_id", "key", "url"],
+                    "properties": {
+                      "object_id": { "const": "00000000-0000-7000-8000-000000000123" },
+                      "key": { "const": "MIRA-123" },
+                      "url": { "const": "https://MULTICA-EXAMPLE/issues/MIRA-123" }
+                    }
+                  }
+                }
+              }
+            }
+          }
         },
         "cross_links": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["mapping", "multica_title", "multica_source_of_truth", "github_backlink"],
+          "required": ["mapping", "required_only_when", "github_authority_multica_title", "github_authority_multica_source", "github_authority_backlink"],
           "properties": {
             "mapping": { "const": "many_to_one" },
-            "multica_title": { "const": "[GH#123] Improve repository workflow checks" },
-            "multica_source_of_truth": { "const": "Source of truth: https://github.com/OWNER/REPO/issues/123" },
-            "github_backlink": { "const": "Execution tracked in Multica: https://MULTICA-EXAMPLE/issues/MIRA-123" }
+            "required_only_when": { "const": "github_issue" },
+            "github_authority_multica_title": { "const": "[GH#123] Improve repository workflow checks" },
+            "github_authority_multica_source": { "const": "Source of truth: https://github.com/OWNER/REPO/issues/123" },
+            "github_authority_backlink": { "const": "Execution tracked in Multica: https://MULTICA-EXAMPLE/issues/MIRA-123" }
           }
         },
-        "tracking_ledger": { "const": "git_and_parent_issue" },
+        "tracking_ledger": { "const": "git_and_authority_record" },
         "forbidden_tracking_files": {
           "const": ["maintenance-batch-ledger.yaml", "MulticaGithubLinkRegistry", "reviewer-registry.schema.json"]
         },

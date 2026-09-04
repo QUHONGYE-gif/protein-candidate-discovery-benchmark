@@ -4,10 +4,10 @@ title: "[Dataset] "
 labels: ["needs-triage"]
 body:
   - type: dropdown
-    id: independent_issue_reason
+    id: tracking_threshold_reason
     attributes:
-      label: Independent GitHub Issue threshold
-      description: 纯 maintenance 且已有父 Issue 时，请改用父 Issue checklist，不新建 Issue。
+      label: Independent tracking threshold
+      description: 此表单选择 `github_issue`；若选择 `multica`，请勿创建形式性的 GitHub Issue。
       options:
         - Major / semantic change
         - Independent value, acceptance criteria, risk, or authorization boundary
@@ -16,6 +16,13 @@ body:
         - No suitable parent Issue
     validations:
       required: true
+  - type: checkboxes
+    id: github_tracking_authority
+    attributes:
+      label: Tracking authority
+      options:
+        - label: 我确认本对象选择 `github_issue`，而不是 `multica`
+          required: true
   - type: input
     id: multica_tracking
     attributes:

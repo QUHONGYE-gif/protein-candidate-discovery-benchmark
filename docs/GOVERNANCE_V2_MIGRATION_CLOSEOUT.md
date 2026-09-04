@@ -157,7 +157,8 @@ pcdb governance-archive \
 Production COS publication substitutes the separately authorized `--cos-bucket` destination; this
 rehearsal did not do so. The active schema list is:
 
-- `schemas/governance-config.schema.json` — `pcdb-governance-config-v1`;
+- `schemas/governance-config.schema.json` — `pcdb-governance-config-v2`; the v2 identity makes the
+  required repository workflow contract explicit instead of silently changing the earlier v1;
 - `schemas/milestone-contract-manifest.schema.json` —
   `pcdb-milestone-contract-manifest-v1`;
 - `schemas/gate-a-decision.schema.json` — `pcdb-gate-a-decision-v1`;
@@ -169,6 +170,19 @@ rehearsal did not do so. The active schema list is:
 - `schemas/milestone-archive-manifest.schema.json` —
   `pcdb-milestone-archive-manifest-v1`;
 - `schemas/archive-attempt-record.schema.json` — `pcdb-archive-attempt-record-v1`.
+
+## Tracking authority migration decision
+
+The accepted RFC bytes preserve the original GitHub-Issue assumption. During exact-head review,
+the repository owner made a human-verifiable follow-up decision to allow a Major/semantic PR to
+select either GitHub Issue or Multica as its sole tracking authority; the decision is recorded on
+[PR #102](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/102#issuecomment-5536839481).
+The `pcdb-governance-config-v2` contract carries that choice without rewriting the accepted RFC:
+
+- `github_issue` requires repository, issue number, URL and the authorization/acceptance relation;
+- `multica` requires stable workspace and object UUIDs, MIRA keys, URLs and the same relationship;
+- the repository Check validates both declaration shapes and the PR/template field contract;
+- a Multica-only declaration does not create or imply a formal GitHub parent.
 
 ## Evidence and claim boundary
 
@@ -194,6 +208,7 @@ Still required before a production run or closeout:
   deletion.
 
 No COS write/delete, raw-data migration, hidden/truth access, scientific experiment, server
-provisioning, GitHub ruleset/required-check change, or independent GitHub Issue occurred. GitHub
-Issue #101 was not restored. `docs/STATUS.md` was not changed because this engineering rehearsal did
-not create a Gate A scientific transition, Gate B terminal or scientific milestone closeout.
+provisioning, GitHub ruleset/required-check change, or independent GitHub Issue occurred. This PR
+uses its explicit Multica authority record, and GitHub Issue #101 was not restored. `docs/STATUS.md`
+was not changed because this engineering rehearsal did not create a Gate A scientific transition,
+Gate B terminal or scientific milestone closeout.

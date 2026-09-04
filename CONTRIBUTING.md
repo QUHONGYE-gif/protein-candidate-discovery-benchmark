@@ -1,7 +1,7 @@
 # 贡献指南
 
 所有进入 `main` 的变更都通过 short-lived branch、Pull Request 和 squash merge。先按下表判断
-PR 类型，再判断是否需要独立 GitHub Issue；Maintenance batch 不是绕过 PR 的 fast path。
+PR 类型，再判断是否需要独立 tracking authority；Maintenance batch 不是绕过 PR 的 fast path。
 
 ## PR 分类
 
@@ -26,9 +26,9 @@ PR 都按 Major 处理。
   `Major / semantic PR`，不能因改动小进入 maintenance；
 - 同时包含日志修正和 schema 语义变化：拆分；无法拆分则整体按 Major。
 
-## 独立 GitHub Issue 门槛
+## Tracking authority 门槛
 
-满足任一条件时才建立独立 GitHub Issue：
+满足任一条件时，PR 必须从 `github_issue` 或 `multica` 中选择且只选择一个权威来源：
 
 - 属于 Major / semantic PR；
 - 有独立用户或科研价值、独立验收标准，或独立风险/授权边界；
@@ -36,12 +36,15 @@ PR 都按 Major 处理。
 - 涉及数据迁移、held-out、权限、付费、隐私、安全、release 或外部配置；
 - 没有合适的现有父 Issue 可以承载范围、证据和验收。
 
-已有合适父 Issue 的纯 maintenance 小变化不另建 Issue。Git 与父 Issue comment/checklist 就是
-ledger；不得创建 `maintenance-batch-ledger.yaml`、`MulticaGithubLinkRegistry` 或其他平行
-状态文件。
+选择 `github_issue` 时，PR 记录 `repository`、`issue_number`、`url` 和
+`authorization_and_acceptance`。选择 `multica` 时，PR 记录稳定的 `workspace_id`，并为每个对象
+记录 `object_id`、MIRA `key`、`url`，以及统一的 `authorization_and_acceptance` 关系。URL 必须是
+可读取的 `https://` 链接，不能只写 `MIRA-123` 简称。已有合适 authority record 的纯 maintenance
+小变化不另建 Issue。Git 与所选 authority 的 comment/checklist 就是 ledger；不得创建
+`maintenance-batch-ledger.yaml`、`MulticaGithubLinkRegistry` 或其他平行状态文件。
 
-Multica issue 与 GitHub Issue 不要求一一对应；多个执行用 Multica issues 可以归入一个 GitHub
-父 Issue。需要互链时使用最小约定，例如：
+选择 `github_issue` 时，Multica issue 与 GitHub Issue 不要求一一对应；多个执行用 Multica issues
+可以归入一个 GitHub 父 Issue。此时需要互链，使用最小约定，例如：
 
 ```text
 Multica title: [GH#123] Improve repository workflow checks
@@ -51,7 +54,11 @@ GitHub Issue comment: Execution tracked in Multica: https://MULTICA-EXAMPLE/issu
 
 这些 URL 都是占位示例，不应为了示例创建真实 Issue。
 
-父 Issue 中的 maintenance checklist 可以直接记录 atomic commit 和验证：
+选择 `multica` 时不创建形式性的 GitHub parent，也不要求上述 cross-link；PR 自身携带完整的
+Multica authority declaration。迁移审核对这一二选一规则的授权记录见
+[PR #102 tracking decision](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/102#issuecomment-5536839481)。
+
+所选 authority 中的 maintenance checklist 可以直接记录 atomic commit 和验证：
 
 ```text
 Maintenance batch (3/10 logical changes)
@@ -64,10 +71,10 @@ Semantic/data/interface impact: none
 
 ## 开始工作
 
-1. 阅读当前 Multica issue、已有 GitHub 父 Issue（如有）、`AGENTS.md`、`CONTEXT.md` 和相关
-   accepted ADR；
+1. 阅读当前 Multica issue、所选 tracking authority、`AGENTS.md`、`CONTEXT.md` 和相关 accepted
+   ADR；
 2. 明确 acceptance criteria、out-of-scope、scientific claim boundary 和 PR 分类；
-3. 核对独立 GitHub Issue 门槛；没有达到门槛时，在现有父 Issue 下记录 maintenance checklist；
+3. 核对 tracking authority 门槛；达到时选择 `github_issue` 或 `multica` 并补齐对应身份字段；
 4. 从最新 `main` 创建短期分支；Major 形成最小语义单元后提交 PR，Maintenance 到最早触发点
    提交 batch PR。
 
@@ -83,8 +90,8 @@ docs/<issue>-<slug>
 codex/<issue>-<slug>
 ```
 
-若没有独立 GitHub Issue，`<issue>` 可使用父 Issue 编号或明确的 maintenance batch 标识。不建立
-长期个人分支、`dev` 分支或 `test` 分支。
+若没有 GitHub Issue，`<issue>` 可使用 MIRA key、现有 authority 编号或明确的 maintenance batch
+标识。不建立长期个人分支、`dev` 分支或 `test` 分支。
 
 ## 本地检查
 
@@ -101,7 +108,7 @@ make check
 PR 必须说明：
 
 - `Major / semantic PR` 或 `Maintenance batch PR`，且只能选一个；
-- GitHub 父 Issue（若达到独立门槛）与所有相关 Multica issues；
+- 所选 `github_issue` 或 `multica` authority 及其全部必填身份、URL、授权/验收关系；
 - scope 与 out-of-scope；
 - 已执行的 tests；
 - data/privacy/protocol/public-interface 影响；

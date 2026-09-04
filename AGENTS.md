@@ -170,22 +170,25 @@ fast path. Classify each change before deciding when to open the PR:
   the next experiment needing its information. One logical change is one independently described,
   tested and reversible atomic commit.
 
-Create an independent GitHub Issue only when at least one threshold is met: the work is
-Major/semantic; has independent user/scientific value, acceptance criteria, risk or authorization;
-crosses milestones or requires multiple PRs/owners/external coordination; involves data,
-held-out access, permissions, spending, privacy, security, release or external configuration; or
-has no suitable parent Issue. Otherwise record a maintenance change as an atomic commit and a
-checklist/comment on the parent Issue. Git plus that parent Issue is the ledger; do not create a
-maintenance ledger or cross-link registry.
+When at least one independent-tracking threshold is met, select exactly one authority:
+`github_issue` or `multica`. The thresholds are Major/semantic work; independent user/scientific
+value, acceptance criteria, risk or authorization; cross-milestone or multi-PR/owner/external
+coordination; data, held-out, permission, spending, privacy, security, release or external-config
+risk; or no suitable parent. Every declaration includes `authority` and
+`authorization_and_acceptance`. GitHub authority adds `repository`, `issue_number` and `url`;
+Multica authority adds `workspace_id` and per-object `object_id`, MIRA key and `url`. Otherwise
+record maintenance as an atomic commit and a checklist/comment on the existing authority. Git plus
+that authority record is the ledger; do not create a maintenance ledger or cross-link registry.
 
-Multica issues and GitHub Issues are not one-to-one: several Multica execution issues may share one
-GitHub source-of-truth Issue. Use only the title/description/backlink convention in
-`CONTRIBUTING.md`; do not create example Issues. Use short-lived branches named `feat/`, `fix/`,
-`data/`, `exp/`, `infra/`, `docs/`, or `codex/`. State PR class, tracking links, scope,
-out-of-scope items, verification, data/privacy/protocol/public-interface impact, batch trigger when
-applicable, and scientific claim boundary. Use `Closes #<issue>` only when merge should close an
-Issue whose acceptance criteria are met. Merge reviewed PRs through squash merge. Do not
-force-push or commit directly to protected `main`.
+When `github_issue` is selected, Multica issues and GitHub Issues are not one-to-one: several
+Multica execution issues may share one GitHub source-of-truth Issue. Use only the
+title/description/backlink convention in `CONTRIBUTING.md`; do not create example Issues. When
+`multica` is selected, do not create a formal GitHub parent. Use short-lived branches named
+`feat/`, `fix/`, `data/`, `exp/`, `infra/`, `docs/`, or `codex/`. State PR class, tracking links,
+scope, out-of-scope items, verification, data/privacy/protocol/public-interface impact, batch
+trigger when applicable, and scientific claim boundary. Use `Closes #<issue>` only when merge
+should close an Issue whose acceptance criteria are met. Merge reviewed PRs through squash merge.
+Do not force-push or commit directly to protected `main`.
 
 Update `docs/STATUS.md` only for a Gate A scientific-state transition, a Gate B terminal, or
 milestone closeout. Ordinary PR/CI events, runs, retries, logs, plots and maintenance batches do not
@@ -195,10 +198,10 @@ update STATUS.
 
 ### Issue tracker
 
-Repository-level source-of-truth Issues and PRDs that meet the independent-Issue threshold are
-tracked in GitHub Issues for `QUHONGYE-gif/protein-candidate-discovery-benchmark`. Multica issues
-track execution ownership and stages and may map many-to-one to a GitHub Issue. Use the GitHub
-connector first and the GitHub CLI only when available. See `docs/agents/issue-tracker.md`.
+Repository-level work that meets the independent-tracking threshold uses its declared
+`github_issue` or `multica` authority. Multica issues track execution ownership and stages and may
+map many-to-one to a GitHub Issue when that authority was selected. Use the appropriate tracker
+connector or CLI and see `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 

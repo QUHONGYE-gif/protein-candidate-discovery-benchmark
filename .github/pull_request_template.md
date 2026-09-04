@@ -1,7 +1,12 @@
 ## Tracking
 
-- GitHub Issue（达到独立 Issue 门槛时；否则写父 Issue 或 `N/A`）：
-- Multica issue(s)：
+- Authority（只能选择一个）：
+  - [ ] `github_issue`
+  - [ ] `multica`
+- Common field `authorization_and_acceptance`（谁授权范围、谁在 review 后接受完成）：
+- 选择 `github_issue`：`repository`、`issue_number`、`url`：
+- 选择 `multica`：`workspace_id`，以及每个对象的 `object_id`、MIRA `key`、`url`：
+- Authority-selection decision（若规则选择需要人类决定，填写可核验链接）：
 - Close intent（仅在验收完成且合并应关闭 Issue 时写 `Closes #...`；否则写 `Related #...` 或
   `N/A`）：
 

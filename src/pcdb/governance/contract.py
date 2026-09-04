@@ -40,24 +40,20 @@ TERMINAL_VERDICTS = {"accept", "reject", "inconclusive"}
 GOVERNANCE_RFC_SHA256 = "e9f5fbdadfc3f82fe1011fbc7e1e55ecc4d4c6a0c86db15473da3cf76b7a05d1"
 REPOSITORY_WORKFLOW_CONFIG: dict[str, Any] = {
     "cross_links": {
-        "github_backlink": (
+        "github_authority_backlink": (
             "Execution tracked in Multica: https://MULTICA-EXAMPLE/issues/MIRA-123"
         ),
+        "github_authority_multica_source": (
+            "Source of truth: https://github.com/OWNER/REPO/issues/123"
+        ),
+        "github_authority_multica_title": "[GH#123] Improve repository workflow checks",
         "mapping": "many_to_one",
-        "multica_source_of_truth": ("Source of truth: https://github.com/OWNER/REPO/issues/123"),
-        "multica_title": "[GH#123] Improve repository workflow checks",
+        "required_only_when": "github_issue",
     },
     "forbidden_tracking_files": [
         "maintenance-batch-ledger.yaml",
         "MulticaGithubLinkRegistry",
         "reviewer-registry.schema.json",
-    ],
-    "independent_github_issue_triggers": [
-        "Major / semantic change",
-        "Independent value, acceptance criteria, risk, or authorization boundary",
-        "Cross-milestone, multi-PR, multi-owner, or external coordination",
-        "Data, held-out, permission, cost, privacy, security, release, or external-config risk",
-        "No suitable parent Issue",
     ],
     "maintenance_batch": {
         "categories": [
@@ -110,7 +106,46 @@ REPOSITORY_WORKFLOW_CONFIG: dict[str, Any] = {
             "milestone_closeout",
         ],
     },
-    "tracking_ledger": "git_and_parent_issue",
+    "tracking_authority": {
+        "allowed": ["github_issue", "multica"],
+        "authority_required_fields": {
+            "github_issue": ["repository", "issue_number", "url"],
+            "multica": ["workspace_id", "objects"],
+        },
+        "common_required_fields": ["authority", "authorization_and_acceptance"],
+        "multica_object_required_fields": ["object_id", "key", "url"],
+        "selection_required_for": [
+            "Major / semantic change",
+            "Independent value, acceptance criteria, risk, or authorization boundary",
+            "Cross-milestone, multi-PR, multi-owner, or external coordination",
+            "Data, held-out, permission, cost, privacy, security, release, or external-config risk",
+            "No suitable parent Issue",
+        ],
+    },
+    "tracking_examples": {
+        "github_issue": {
+            "authority": "github_issue",
+            "authorization_and_acceptance": ("Named owner authorizes scope and accepts completion"),
+            "issue_number": 123,
+            "repository": "OWNER/REPO",
+            "url": "https://github.com/OWNER/REPO/issues/123",
+        },
+        "multica": {
+            "authority": "multica",
+            "authorization_and_acceptance": (
+                "Workspace member authorizes scope and marks the issue done after review"
+            ),
+            "objects": [
+                {
+                    "key": "MIRA-123",
+                    "object_id": "00000000-0000-7000-8000-000000000123",
+                    "url": "https://MULTICA-EXAMPLE/issues/MIRA-123",
+                }
+            ],
+            "workspace_id": "00000000-0000-4000-8000-000000000000",
+        },
+    },
+    "tracking_ledger": "git_and_authority_record",
 }
 
 
@@ -241,7 +276,7 @@ def validate_governance_config(value: Mapping[str, Any]) -> tuple[str, ...]:
         "governance config",
     )
     if (
-        value["schema_version"] != "pcdb-governance-config-v1"
+        value["schema_version"] != "pcdb-governance-config-v2"
         or value["governance_version"] != "2"
         or value["governance_repository"] != "QUHONGYE-gif/protein-candidate-discovery-benchmark"
     ):

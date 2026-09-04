@@ -27,15 +27,22 @@ prefix or CLI-output-contract change is Major. A typo, a behavior-preserving tes
 a plot-label fix may be Maintenance. A small bug that changes candidate identity or a public
 interface is Major. Split mixed work; if it cannot be split safely, treat the whole PR as Major.
 
-Create an independent GitHub Issue when any of these thresholds applies: Major/semantic work;
-independent user/scientific value, acceptance criteria, risk or authorization boundary; cross-
-milestone, multi-PR, multi-owner or external coordination; data migration, held-out, permission,
-cost, privacy, security, release or external-configuration risk; or no suitable parent Issue. A pure
-maintenance item with a suitable parent stays in that parent. Git commits plus the parent Issue are
-the only ledger; do not add `maintenance-batch-ledger.yaml`, `MulticaGithubLinkRegistry` or another
-status registry.
+Select exactly one tracking authority, `github_issue` or `multica`, when any of these thresholds
+applies: Major/semantic work; independent user/scientific value, acceptance criteria, risk or
+authorization boundary; cross-milestone, multi-PR, multi-owner or external coordination; data
+migration, held-out, permission, cost, privacy, security, release or external-configuration risk;
+or no suitable parent Issue. A pure maintenance item with a suitable authority record stays there.
+Git commits plus that authority's checklist/comment are the only ledger; do not add
+`maintenance-batch-ledger.yaml`, `MulticaGithubLinkRegistry` or another status registry.
 
-One GitHub Issue may cover several Multica execution issues. Use only these minimal cross-links:
+Every declaration includes `authority` and `authorization_and_acceptance`. A `github_issue`
+declaration also includes `repository`, `issue_number` and `url`. A `multica` declaration includes
+the stable `workspace_id` and, for every tracked object, `object_id`, MIRA `key` and `url`. Bare MIRA
+keys are not sufficient. The migration-review decision authorizing this choice is recorded in
+[PR #102](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/102#issuecomment-5536839481).
+
+When `github_issue` is selected, one GitHub Issue may cover several Multica execution issues. Use
+only these minimal cross-links:
 
 ```text
 Multica title: [GH#123] Improve repository workflow checks
@@ -43,8 +50,9 @@ Multica description: Source of truth: https://github.com/OWNER/REPO/issues/123
 GitHub Issue comment: Execution tracked in Multica: https://MULTICA-EXAMPLE/issues/MIRA-123
 ```
 
-The URLs are placeholders; do not create external objects for an example. A maintenance parent
-comment can remain a normal checklist:
+The URLs are placeholders; do not create external objects for an example. When `multica` is
+selected, the PR carries the declaration and no formal GitHub parent or cross-link is required. A
+maintenance authority comment can remain a normal checklist:
 
 ```text
 Maintenance batch (3/10 logical changes)
@@ -55,9 +63,10 @@ Trigger: current milestone closeout
 Semantic/data/interface impact: none
 ```
 
-The PR template records exactly one class, tracking links, and (for a Maintenance batch) the first
-trigger reached. Issue forms require the creator to select the independent-Issue threshold. These
-records organize engineering review; they do not produce Gate A/B or Check approvals.
+The PR template records exactly one class, one tracking authority with its required fields, and
+(for a Maintenance batch) the first trigger reached. GitHub Issue forms confirm that GitHub was
+intentionally selected instead of Multica-only tracking. These records organize engineering
+review; they do not produce Gate A/B or Check approvals.
 
 ## Deployment identities
 

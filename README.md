@@ -97,6 +97,7 @@ maintenance batch 不触发更新。不在 README、历史路线图和多个 Iss
 
 ## 协作
 
-所有进入 `main` 的工作通过短期 branch 和 reviewed PR 推进；只有达到独立门槛时才新建 GitHub
-Issue，多个 Multica execution issues 可以共用一个 GitHub 父 Issue。PR 分类、maintenance batch
-触发点与 cross-link 规则见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+所有进入 `main` 的工作通过短期 branch 和 reviewed PR 推进；达到独立 tracking 门槛时，从
+GitHub Issue 或 Multica 中选择一个权威来源。选择 GitHub 时，多个 Multica execution issues
+可以共用一个 GitHub 父 Issue；选择 Multica 时不创建形式性的 GitHub parent。PR 分类、
+maintenance batch 触发点与 authority 字段见 [CONTRIBUTING.md](CONTRIBUTING.md)。

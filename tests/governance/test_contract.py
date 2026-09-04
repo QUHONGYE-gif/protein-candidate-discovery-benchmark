@@ -66,6 +66,14 @@ def test_governance_config_rejects_repository_workflow_drift() -> None:
         validate_governance_config(config)
 
 
+def test_governance_config_v2_does_not_reinterpret_the_legacy_v1_identity() -> None:
+    config = json.loads(CONFIG.read_bytes())
+    config["schema_version"] = "pcdb-governance-config-v1"
+
+    with pytest.raises(CheckViolation, match="version or repository binding"):
+        validate_governance_config(config)
+
+
 def test_final_gate_requires_and_uses_authenticated_human_evidence(tmp_path: Path) -> None:
     root = _copy_example(tmp_path)
     gate_a_path = root / "gate-a-decision.json"
