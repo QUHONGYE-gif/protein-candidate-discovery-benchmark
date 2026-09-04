@@ -1,6 +1,6 @@
 # Current project status
 
-> Snapshot last verified: 2026-08-31. Update this file only when one of the nine project-level
+> Snapshot last verified: 2026-09-03. Update this file only when one of the nine project-level
 > fields below changes materially. PID, individual attempts, routine Issue comments and code-review
 > events do not trigger an update. Prefer lifecycle closeout before taking a new snapshot, but do
 > not require this file to be transactionally synchronized with every GitHub event.
@@ -9,31 +9,30 @@
 
 | Field | Current fact |
 |---|---|
-| Verified upstream base | [`main@6efe4c08`](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/commit/6efe4c0812bd218f2f3ac8f4d7f43c19467276a9); PR #93 and PR #94 are merged, including the synthetic M5B contract core and accepted-M5A source-environment fail-closed guard |
-| Current scientific stage | M4 has an accepted negative terminal; M5A is governance-accepted and integrated; M5B v2 is frozen, the final bounded ITERATION adapter is under review, and scientific execution has not started |
-| Latest accepted scientific result | M4 prospectively returned `Gate 3 = STOP`: 0 retained, 6 fragile-inconclusive and 2 eliminated cells; #83 is accepted exploratory mechanism evidence, not causal confirmation |
-| Current decision question | Under one exact bounded authorization, can the accepted M5A parent uniquely materialize 80 same-states and then distinguish Greedy redundancy, uninformative deviation, opportunity cost or conditional positive value from one immediate Alpha/IRED batch? |
-| Active implementation PR | Draft [PR #95](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/95) prepares the one bounded authorization, real-parent 80-state extraction and append-only G/E/64M iteration adapter; it has not accessed the real parent or executed Alpha/IRED |
-| Active experiment | None. The M5B focused synthetic suite is engineering verification, not a scientific attempt; no Alpha/IRED truth, server/COS, held-out, retry or evidence promotion is authorized |
-| Next promotion gate | After the final adapter is reviewed, exact-bind one GitHub-time-stamped bounded ITERATION authorization covering reviewed source/tree, parent and development-truth paths, runner/runtime and coarse resource/cost caps; the same append-only attempt validates the inventory before any truth read and then continues directly to G/E/64M |
-| Known blockers | The one execution authorization remains `UNKNOWN / authority=0`; authoritative paths, reviewed final source/tree, runtime digest and resource/cost caps are not bound, so no parent/truth access or attempt is permitted |
+| Verified upstream base | [`main@747b009`](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/commit/747b009357583df0f9a5c5027c0ba8f12baf82c1); PRs #95-#97 and #99 are merged, including the bounded M5B adapter, retry/source-provenance guards and actual-source feature-root binding fix |
+| Current scientific stage | M4 has an accepted negative terminal; M5A is governance-accepted and integrated; M5B has an independently accepted L1 exploratory ITERATION terminal with a permanently disclosed source-authorization deviation; M5C has not started |
+| Latest accepted scientific result | M5B `attempt-002` is the first complete terminal over the frozen 80 Alpha/IRED development same-states: all four primary contrasts are inside their frozen 98.75% equivalence intervals, while both task taxonomies and the overall taxonomy are `INCONCLUSIVE` |
+| Current decision question | M5B is closed within its directional one-batch scope. The next planned slice is M5C ProteinGym four-assay prospective disambiguation, which must not assume M5B established behavioral redundancy |
+| Active implementation PR | None. PR #99 integrated the exact feature-root binding used by M5B `attempt-002`; no M5C implementation has been opened |
+| Active experiment | None. M5B stopped at its first complete terminal; no `attempt-003` exists and executable authority is 0 |
+| Next promotion gate | No M5B promotion is approved. Before M5C, a new Issue must prospectively freeze the experiment split and leakage boundary, zero-shot proxy identity, coverage eligibility, observable feature family and minimum M2 baseline |
+| Known blockers | None for M5B closeout. M5C remains unscoped and unauthorized; no held-out, COS publication, server execution or evidence promotion is permitted |
 | Superseded plans | For M4 onward, [`M4_TO_M7_REVISED_EXPERIMENT_PLAN.md`](M4_TO_M7_REVISED_EXPERIMENT_PLAN.md) supersedes the corresponding forward-looking sections of [`EXECUTION_ROADMAP.md`](EXECUTION_ROADMAP.md). The old roadmap remains historical context |
 
 Stage summary: M0-M3 are complete within their accepted engineering/evidence scopes; M4 terminal is
-`STOP`; M5A is accepted and integrated; M5B synthetic engineering and the source-environment guard
-are integrated, its bounded end-to-end ITERATION adapter is under review, and scientific execution
-has not started; M6-M7 have not started.
+`STOP`; M5A is accepted and integrated; M5B is complete within its accepted L1 exploratory
+ITERATION scope with overall `INCONCLUSIVE`, no rerun and no evidence promotion; M5C and M6-M7 have
+not started.
 
-## Immediate closeout queue
+## Next bounded queue
 
-1. Review and merge the final thin bounded-iteration adapter without running it.
-2. Exact-bind one authorization for reviewed source/tree, authoritative parent, two development
-   truth files, runner/runtime, append-only attempt ID and coarse wall/CPU/RSS/scratch/cost caps.
-3. Under that same authorization, validate the exact 80-state inventory before truth access and,
-   only if valid, continue directly to the immediate G/E/M00..M63 evaluation.
-4. Submit the aggregate terminal and attempt ledger to one independent scientific-validity review;
-   keep [Issue #91](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/91)
-   open through reviewed M5B terminal closeout.
+1. [Issue #91](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/91)
+   is closed as completed. It closed after PR #99 merged and before this status synchronization;
+   after PR #100 is integrated and read back, publish one compact final closeout record on the
+   already-closed Issue without reopening or reclosing it.
+2. Scope M5C in a new Issue before implementation or execution, retaining the existing development,
+   held-out and claim boundaries.
+3. Defer M5D SKEMPI 2.0 external validation until after M5C, as specified by the revised plan.
 
 The queue records the order visible at the snapshot date. Routine progress within it does not require
 transactional STATUS synchronization. No Issue, PR, experiment, credential, server or COS state is
@@ -46,9 +45,13 @@ changed by this file.
   same-environment repeatability and 800/800 historical selection matching. It is not an
   independent implementation replication, statistical significance result or causal mechanism
   claim.
-- M5B v2, the merged synthetic implementation, source-environment guard, bounded adapter, CI and
-  smoke tests cannot become a scientific result or authorize real parent/truth access. Only one
-  future exact ITERATION authorization may start the append-only attempt; its aggregate terminal
-  still requires independent scientific-validity review.
+- M5B `attempt-002` is accepted only as an L1 exploratory ITERATION terminal with the actual-source
+  deviation permanently disclosed: authorization named `a797efa` / `e8a01ce`, while the attempt
+  used the pre-attempt feature-root correction `2aefbe0` / `00aaf06`. This is not retrospective
+  exact-source authorization and does not permit a rerun.
+- On the frozen 80 development same-states, the four primary immediate recall contrasts are inside
+  their frozen 98.75% equivalence intervals. The registered task and overall classifications remain
+  `INCONCLUSIVE`; this is not global equivalence, behavioral redundancy, multi-round benefit,
+  causal mechanism, cross-assay generalization or benchmark evidence.
 - No experiment is currently active. No held-out evaluation, new COS publication, multi-fidelity
   run, SKEMPI external validation or final scientific validation is authorized by this file.
