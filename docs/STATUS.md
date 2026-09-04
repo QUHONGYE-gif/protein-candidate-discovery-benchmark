@@ -26,9 +26,10 @@ not started.
 
 ## Next bounded queue
 
-1. Close [Issue #91](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/91)
-   after this status synchronization is integrated; no further M5B execution or scientific review
-   is required.
+1. [Issue #91](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/91)
+   is closed as completed. It closed after PR #99 merged and before this status synchronization;
+   after PR #100 is integrated and read back, publish one compact final closeout record on the
+   already-closed Issue without reopening or reclosing it.
 2. Scope M5C in a new Issue before implementation or execution, retaining the existing development,
    held-out and claim boundaries.
 3. Defer M5D SKEMPI 2.0 external validation until after M5C, as specified by the revised plan.
