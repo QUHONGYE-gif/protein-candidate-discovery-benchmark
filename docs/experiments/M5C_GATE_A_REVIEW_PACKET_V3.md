@@ -176,11 +176,12 @@ raw-data publication, candidate-level reviewer access and evidence promotion bef
 
 1. Mika re-reviews this exact revision against the five recorded findings and records a verdict in
    MIRA-13; optional engineering improvements remain deferred.
-2. The two authorities resolve the single confirmation list. If item 2 is authorized, Moka performs
-   only that outcome-free preflight and exact-binds the input/capability manifest by path, SHA-256
-   and size; any generator source/environment recorded for provenance is explicitly a generator
-   identity, not the execution Run identity. Any necessary change receives findings-focused recheck
-   without creating another approval stage.
+2. The two authorities resolve the single confirmation list. If item 2 is authorized, the named
+   operator `github:willzhang` / server user `siyuan` performs only that outcome-free preflight and
+   exact-binds the input/capability manifest by path, SHA-256 and size; any generator
+   source/environment recorded for provenance is explicitly a generator identity, not the execution
+   Run identity. Any necessary change receives findings-focused recheck without creating another
+   approval stage.
 3. Author the final Gate A JSON, then compute its exact decision marker with
    `pcdb governance-decision-digest`.
 4. Both `github:QUHONGYE-gif` and `github:willzhang` post fresh authenticated comments containing
