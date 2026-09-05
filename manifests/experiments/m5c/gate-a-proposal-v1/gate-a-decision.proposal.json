@@ -1,0 +1,61 @@
+{
+  "approvals": [
+    {
+      "attestation": {
+        "actor": "github:QUHONGYE-gif",
+        "body": "PROPOSAL ONLY; this is not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: be7b473c2973ee1f84b0ec3d28531e9b84313dad2a299038a6a4b7acefd0fbe4\n",
+        "body_sha256": "813d5f92db076e301246d7a69edb5209b7fcc3994796449b5e260406caead02e",
+        "comment_id": 1,
+        "decision_digest": "be7b473c2973ee1f84b0ec3d28531e9b84313dad2a299038a6a4b7acefd0fbe4",
+        "node_id": "M5C_GATE_A_PROPOSAL_NOT_EXTERNAL_EVIDENCE_1",
+        "repository": "QUHONGYE-gif/protein-candidate-discovery-benchmark",
+        "schema_version": "pcdb-github-comment-attestation-v1",
+        "updated_at": "2026-09-05T00:00:00Z"
+      },
+      "authority": "github:QUHONGYE-gif",
+      "decided_at": "2026-09-05T00:00:00Z",
+      "explicit_boundaries": [
+        "held_out_boundary",
+        "primary_endpoint",
+        "dataset_inclusion",
+        "cost_semantics"
+      ],
+      "verdict": "authorized"
+    },
+    {
+      "attestation": {
+        "actor": "github:willzhang",
+        "body": "PROPOSAL ONLY; this is not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: be7b473c2973ee1f84b0ec3d28531e9b84313dad2a299038a6a4b7acefd0fbe4\n",
+        "body_sha256": "813d5f92db076e301246d7a69edb5209b7fcc3994796449b5e260406caead02e",
+        "comment_id": 2,
+        "decision_digest": "be7b473c2973ee1f84b0ec3d28531e9b84313dad2a299038a6a4b7acefd0fbe4",
+        "node_id": "M5C_GATE_A_PROPOSAL_NOT_EXTERNAL_EVIDENCE_2",
+        "repository": "QUHONGYE-gif/protein-candidate-discovery-benchmark",
+        "schema_version": "pcdb-github-comment-attestation-v1",
+        "updated_at": "2026-09-05T00:00:00Z"
+      },
+      "authority": "github:willzhang",
+      "decided_at": "2026-09-05T00:00:00Z",
+      "explicit_boundaries": [
+        "held_out_boundary",
+        "primary_endpoint",
+        "dataset_inclusion",
+        "cost_semantics"
+      ],
+      "verdict": "authorized"
+    }
+  ],
+  "contract_digest": "c8ed6e2af08c2afa3c3316f650124835f01be510a41826db55daba13bc3a5730",
+  "contract_id": "m5c-proteingym-prospective-v1",
+  "contract_version": 1,
+  "decided_at": "2026-09-05T00:00:00Z",
+  "decision_id": "gate-a-m5c-proteingym-v1",
+  "formulation": "proposed_and_approved",
+  "proposers": [
+    "github:willzhang"
+  ],
+  "rationale": "Proposal skeleton only. Final Gate A requires Mika's review, resolution of the confirmation list, two fresh authenticated GitHub authority comments bound to the final decision digest, and a manifest revision from example to authorized.",
+  "record_status": "example",
+  "schema_version": "pcdb-gate-a-decision-v1",
+  "verdict": "authorized"
+}

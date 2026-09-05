@@ -1,0 +1,74 @@
+{
+  "contract_digest": "c8ed6e2af08c2afa3c3316f650124835f01be510a41826db55daba13bc3a5730",
+  "contract_id": "m5c-proteingym-prospective-v1",
+  "contract_version": 1,
+  "gate_a": {
+    "path": "manifests/experiments/m5c/gate-a-proposal-v1/gate-a-decision.proposal.json",
+    "sha256": "2068aa05d9fa2f1462800b7cd883a0cbad0410156f650bddad4b9ac84c1d83f4"
+  },
+  "input_artifacts": [
+    {
+      "consumers": [
+        "runner"
+      ],
+      "path": "configs/datasets/proteingym/v1.3/four-assay-unified-v1.json",
+      "role": "proteingym_four_assay_readiness_contract",
+      "sha256": "ee631056538071c7d162fa56609d95b6e7cda4afff4f63281b16b374480b2f4e",
+      "size_bytes": 4160,
+      "visibility": "observable"
+    }
+  ],
+  "major_boundaries": [
+    "held_out_boundary",
+    "primary_endpoint",
+    "dataset_inclusion",
+    "cost_semantics"
+  ],
+  "manifest_revision": 1,
+  "manifest_status": "example",
+  "milestone_id": "M5C",
+  "run_policy": {
+    "attempt_semantics": "append_only",
+    "completion_marker": "_SUCCESS_last",
+    "ordinary_run_cos_writes": 0,
+    "storage_mode": "server_first"
+  },
+  "schema_version": "pcdb-milestone-contract-manifest-v1",
+  "scientific_authorities": [
+    "github:QUHONGYE-gif",
+    "github:willzhang"
+  ],
+  "scientific_contract": {
+    "allowed_deviations": [
+      "Before any DMS outcome, high-value membership, proxy-performance result or acquisition result is read, an assay may be excluded only for a retained failure of a frozen eligibility check: source/provenance/license, candidate/label semantics, exact candidate/truth/score alignment, 100% finite selected-proxy coverage, leakage-safe identity, or immutable readback.",
+      "At most two main execution attempts are permitted in the cumulative envelope. A second attempt may follow only an externally evidenced scheduler preemption, host interruption or transient local-I/O failure with no complete terminal and unchanged contract/input/source/environment, or a pre-result implementation repair that preserves this scientific contract, uses a new reviewed commit and Run-pinned identity, and passes fresh technical review. No result-driven retry is permitted.",
+      "Outcome-free implementation repair before the first attempt may change source identity without changing the contract; every such change requires a new exact commit/tree and technical review before execution."
+    ],
+    "budget_cost_model": "One sealed formal slice covers the minimal static proxy baseline plus the complete four-assay one-step comparison; bounded multi-round continuation is not covered by v1. Per assay, method and state, the label budget is initial observations 32 or 64 plus one batch of 16; branch-local evaluator reads do not create independent assay units. The selected public zero-shot score is pre-existing observable information and has zero label cost in M5C; no monetary low-fidelity cost claim is made. Proposed main-execution cumulative caps across at most two attempts are 86,400 wall seconds, 1,382,400 CPU seconds, 48,000,000,000 process-tree peak RSS bytes, 32,212,254,720 scratch high-water bytes, 4,294,967,296 staging/network bytes and 100 CNY, with zero ordinary-run COS writes and no new paid resource purchase. Proposed Mika aggregate-only reproduction caps are 3,600 wall seconds, 7,200 CPU seconds, 4,000,000,000 RSS bytes, 2,147,483,648 scratch bytes, 1,073,741,824 network bytes and 5 CNY. Target host is the observed SSH target protein-6000 (hostname ps), but execution is blocked until /srv/pcdb, group pcdb, writer membership, backup/RPO and capacity checks pass on that host. These values are a proposal and are not inherited from M5B.",
+    "candidate_high_value_definition": "Within each frozen eligible assay candidate-pool independently, DMS_score is higher-is-better. Primary high value is the tie-inclusive upper 1% with nominal K=ceil(0.01*N); sensitivities are tie-inclusive upper 0.5% and 2%. Candidate ID ascending is the secondary order; duplicate IDs, missing or non-finite truth fail closed. Frozen readiness counts are BLAT 4,783 (K 24/48/96 for 0.5%/1%/2%), CAPSD 42,328 (212/424/847), GFP 51,714 (259/518/1,035), and SPG1 536,962 (2,685/5,370/10,740). Membership and boundary values remain evaluator-only; aggregate actual count and boundary-tie count are reportable.",
+    "comparison_set": [
+      "ESM1v single-seed static proxy baseline (descriptive; not an acquisition arm)",
+      "random-forest-sklearn-v1 + greedy-predictive-mean-v1",
+      "random-forest-sklearn-v1 + uncertainty-bootstrap-std-v1",
+      "random-forest-sklearn-v1 + overlap-matched-random (64 replicates)",
+      "xgboost-cpu-v1 + greedy-predictive-mean-v1",
+      "xgboost-cpu-v1 + ucb-bootstrap-std-beta1-v1",
+      "xgboost-cpu-v1 + overlap-matched-random (64 replicates)"
+    ],
+    "dataset_split_semantics": "Prospective cohort exact-covers BLAT_ECOLX_Firnberg_2014, CAPSD_AAV2S_Sinai_2021, GFP_AEQVI_Sarkisyan_2016 and SPG1_STRSG_Olson_2014, bound to ProteinGym v1.3 readiness config SHA-256 ee631056538071c7d162fa56609d95b6e7cda4afff4f63281b16b374480b2f4e and completed unified attempt proteingym-server-continuation-5357037808 SHA-256 5dad6220ae74a86a052a45386fd0540995f3e8e5abd7fea0274eb69441164ba1. Each assay remains an independent identity and is never pooled for fitting. Its complete validated candidate-pool is the replay universe; there is no outcome-selected train/test partition. Initial observations are nested, truth-blind SHA-256 selections: sort candidates by SHA256(canonical compact JSON [\"m5c-proteingym-one-step-v1\", assay_id, run_seed, candidate_id]) then candidate_id, and take the first 32 or 64 for seeds 1729..1738. RF and XGBoost share the exact observation prefix within an initial-size/seed state; Greedy, Exploration and all Matched Random branches use branch-local oracle/evaluator state. Model-visible features are only the stateless sequence-composition-420-v1 family (config SHA-256 2b9a9dbfb322f8b34296d208a2b8eb9392cac2b7056508039589fc3a0e34b77d) derived from mutated_sequence. The proposed static proxy is exact score column esm1v_t33_650M_UR90S_1 with upstream direction +1; it is evaluated as a separate M2-static baseline and is not consumed by the RF/XGBoost one-step arms. Coverage audit selects nothing by performance and permits no imputation.",
+    "held_out_boundary": "Before final Gate A and successful outcome-free eligibility/input checks: zero DMS truth, high-value membership, static proxy performance or acquisition outcome reads. After authorization, full per-assay DMS truth may be read only inside the hidden-oracle/evaluator capability to derive frozen high-value definitions, evaluate the sealed M2-static proxy baseline and reveal initial/selected branch labels. Surrogates and acquisitions receive only sequence-composition features plus the branch's revealed observations; the proxy column is isolated from those arms. M2 results remain sealed until every one-step arm reaches the same terminal, so they cannot tune methods or eligibility. Public reporting is aggregate-only and excludes candidate IDs, raw labels, membership, boundary scores and score distributions. No external assay, M5D/M6, pool-external label, multi-round continuation, ordinary-run COS write or evidence promotion is authorized.",
+    "known_risks": [
+      "The exact score-coverage artifact for esm1v_t33_650M_UR90S_1 has not been fresh-read in this Stage 1 checkout; every assay therefore remains subject to the frozen 100% finite outcome-free eligibility check.",
+      "protein-6000 was observed with 192 CPUs, 263,713,240 kB total RAM, 203,107,364 kB available RAM and 122,686,394,368 bytes free on its current filesystem, but /srv/pcdb and group pcdb are absent; it is not execution-ready.",
+      "SPG1 dominates candidate count; the 30 GiB scratch and 48 GB RSS proposal requires target-host expected-peak and 50%/70% capacity preflight before Gate A can cover execution.",
+      "While verifying the upstream score-column name, the drafting context inadvertently received published assay-level zero-shot benchmark table excerpts. No such outcome was used in the proxy rationale or contract; fresh reviewers must treat proxy identity as requiring explicit outcome-independent ratification.",
+      "M5B is accepted only as an exploratory INCONCLUSIVE terminal with a disclosed source-authorization deviation. No M5B execution identity, budget, authorization or behavioral-redundancy claim carries into M5C."
+    ],
+    "primary_metrics": [
+      "assay-level immediate one-batch high-value recall increment: Exploration minus Greedy",
+      "assay-level immediate one-batch high-value recall increment: Exploration minus the 64-replicate overlap-matched Random mean"
+    ],
+    "research_question": "Across the complete prospective four-assay ProteinGym cohort, does the frozen same-state one-batch acquisition intervention produce immediate decision value relative to model-matched Greedy and overlap-matched Random, and do the pre-registered mechanism classifications replicate, reverse or remain heterogeneous across independent assays? M5B's accepted L1 INCONCLUSIVE terminal is motivation only and is not a redundancy premise.",
+    "statistical_rule": "The assay is the primary scientific unit. Each assay has 40 paired states (2 models x initial sizes 32/64 x seeds 1729..1738), batch size 16, and branch set G/E/M00..M63. Matched Random preserves E-intersection-G and samples the remaining divergence from remaining_pool-minus-G with the M5B counter-based SHA-256 rule namespaced to m5c-proteingym-one-step-v1. For each assay and contrast, use 20,000 deterministic cluster-bootstrap draws: resample the ten seed slots jointly across models within each initial size, resample 64 matched replicates within an E-M state occurrence, equal-weight the four model-by-initial cells, and use Hyndman-Fan type-7 quantiles 0.003125/0.996875 (99.375% two-sided intervals for eight primary assay-by-contrast tests). Equivalence margin is one nominal primary high-value candidate, delta=1/K_assay. Contrast status precedence is SUPERIOR, INFERIOR, EQUIVALENT, NONINFERIOR_ONLY, INCONCLUSIVE as in M5B. Per-assay taxonomy precedence is VALIDITY_STOP; UNDEFINED_INCONCLUSIVE; FRAGILE_INCONCLUSIVE for primary tie expansion above 2% or strict sign reversal by 0.5%/2% sensitivity; UNSTABLE for opposite model-by-initial cell effects beyond delta; then BEHAVIOR_REDUNDANCY when mean divergence count <=1, max <=2 and both contrasts are EQUIVALENT; UNINFORMATIVE_DEVIATION when E-M is EQUIVALENT and E-G INFERIOR; OPPORTUNITY_COST when E-M SUPERIOR and E-G EQUIVALENT/INFERIOR; CONDITIONAL_POSITIVE when both SUPERIOR; OTHER_NEGATIVE for any remaining INFERIOR; otherwise INCONCLUSIVE. Cohort classification is REPLICATED_<label> only when at least two eligible assays share one non-inconclusive mechanism label and no eligible assay has a different non-inconclusive mechanism label; HETEROGENEOUS when at least two different non-inconclusive labels occur or a primary contrast is SUPERIOR in one assay and INFERIOR in another; otherwise INCONCLUSIVE. Fewer than three eligible assays yields ELIGIBILITY_INCONCLUSIVE. No pooled-seed or pseudo-replicate inference is allowed. Report all assay rows, exclusions, unweighted descriptive effect range/mean, label counts and required aggregate inputs: frozen/actual high-value counts, boundary-tie counts, 40 divergence counts, four cell estimates, bootstrap point/interval/status, sensitivity point estimates, defined/validity flags and attempt selection. M2-static Spearman and high-value recall at 0.5%/1%/2% are descriptive secondary baseline outputs and never alter taxonomy. The first complete valid terminal is canonical; valid negative, heterogeneous or inconclusive outcomes stop the v1 slice."
+  }
+}
