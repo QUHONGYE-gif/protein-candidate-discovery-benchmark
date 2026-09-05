@@ -1,0 +1,114 @@
+{
+  "aggregate": {
+    "cohort_preflight_status": "ELIGIBILITY_INCONCLUSIVE",
+    "eligible_assay_count": 0,
+    "minimum_required_eligible_assays": 3,
+    "selected_proxy_finite_count": null,
+    "selected_proxy_missing_count": null,
+    "selected_proxy_non_finite_count": null
+  },
+  "assays": [
+    {
+      "assay_id": "BLAT_ECOLX_Firnberg_2014",
+      "eligibility": "failed_closed",
+      "failure_reasons": [
+        "selected_proxy_column_absent",
+        "proxy_source_not_capability_separable_from_dms_truth"
+      ],
+      "observed_prohibited_columns": [
+        "DMS_score",
+        "DMS_score_bin"
+      ],
+      "observed_related_proxy_columns": [
+        "ESM1v_single",
+        "ESM1v_ensemble"
+      ],
+      "raw_score_data_rows_read": 0,
+      "selected_proxy_column_present": false
+    },
+    {
+      "assay_id": "CAPSD_AAV2S_Sinai_2021",
+      "eligibility": "failed_closed",
+      "failure_reasons": [
+        "selected_proxy_column_absent",
+        "proxy_source_not_capability_separable_from_dms_truth"
+      ],
+      "observed_prohibited_columns": [
+        "DMS_score",
+        "DMS_score_bin"
+      ],
+      "observed_related_proxy_columns": [
+        "ESM1v_single",
+        "ESM1v_ensemble"
+      ],
+      "raw_score_data_rows_read": 0,
+      "selected_proxy_column_present": false
+    },
+    {
+      "assay_id": "GFP_AEQVI_Sarkisyan_2016",
+      "eligibility": "failed_closed",
+      "failure_reasons": [
+        "selected_proxy_column_absent",
+        "proxy_source_not_capability_separable_from_dms_truth"
+      ],
+      "observed_prohibited_columns": [
+        "DMS_score",
+        "DMS_score_bin"
+      ],
+      "observed_related_proxy_columns": [
+        "ESM1v_single",
+        "ESM1v_ensemble"
+      ],
+      "raw_score_data_rows_read": 0,
+      "selected_proxy_column_present": false
+    },
+    {
+      "assay_id": "SPG1_STRSG_Olson_2014",
+      "eligibility": "failed_closed",
+      "failure_reasons": [
+        "selected_proxy_column_absent",
+        "proxy_source_not_capability_separable_from_dms_truth"
+      ],
+      "observed_prohibited_columns": [
+        "DMS_score",
+        "DMS_score_bin"
+      ],
+      "observed_related_proxy_columns": [
+        "ESM1v_single",
+        "ESM1v_ensemble"
+      ],
+      "raw_score_data_rows_read": 0,
+      "selected_proxy_column_present": false
+    }
+  ],
+  "contract_id": "m5c-proteingym-prospective-v1",
+  "contract_version": 4,
+  "generated_at": "2026-09-05T17:07:15Z",
+  "prohibited_access": {
+    "dms_truth_values_read": false,
+    "high_value_membership_read": false,
+    "performance_analysis_performed": false,
+    "raw_score_data_rows_read": 0
+  },
+  "report_status": "blocked_not_run",
+  "resource_usage_upper_bounds": {
+    "cos_writes": 0,
+    "cost_cny": 0,
+    "read_and_network_bytes": 40000000,
+    "scratch_bytes": 0,
+    "wall_seconds": 600
+  },
+  "schema_version": "pcdb-m5c-finite-coverage-report-v1",
+  "selected_proxy_column": "esm1v_t33_650M_UR90S_1",
+  "source_observation": {
+    "method": "header_only_fail_closed",
+    "physical_host": "129.28.97.247",
+    "remote_hostname": "VM-0-8-debian",
+    "server_principal": "siyuan"
+  },
+  "stop": {
+    "authorization_ended_on_boundary_failure": true,
+    "reason": "All four whitelisted raw score headers omit the exact frozen proxy column and co-locate proxy columns with DMS_score and DMS_score_bin; row scanning would read prohibited truth bytes.",
+    "stopped_before_data_rows": true
+  }
+}

@@ -1,10 +1,10 @@
 {
-  "contract_digest": "d858600374d35ad394f125cc575507c7173dddd4f2e755bb97bfbda959ce856a",
+  "contract_digest": "b0e2268fe2a89157b18501e7955566599ab6ab2d4b02fc875507b5212e547810",
   "contract_id": "m5c-proteingym-prospective-v1",
-  "contract_version": 3,
+  "contract_version": 4,
   "gate_a": {
     "path": "manifests/experiments/m5c/gate-a-proposal-v3/gate-a-decision.proposal.json",
-    "sha256": "90f3d8d69c003bec590524b719741dba2bc73af09e31a6ea1fe869a3a0310e6f"
+    "sha256": "0431033dffffbe904ec1ce77c41fced67bc468e3399038e8d116004ecb7a2e23"
   },
   "input_artifacts": [
     {
@@ -16,6 +16,28 @@
       "sha256": "ee631056538071c7d162fa56609d95b6e7cda4afff4f63281b16b374480b2f4e",
       "size_bytes": 4160,
       "visibility": "observable"
+    },
+    {
+      "consumers": [
+        "evaluator",
+        "reporting"
+      ],
+      "path": "manifests/experiments/m5c/preflight-result-v4/input-capability-manifest.json",
+      "role": "blocked_preflight_input_capability_manifest",
+      "sha256": "3197bf3ce0c864b96528bd0c158862d14611776b846f02bf5cbeb6c43c6b1e7a",
+      "size_bytes": 12186,
+      "visibility": "observable"
+    },
+    {
+      "consumers": [
+        "evaluator",
+        "reporting"
+      ],
+      "path": "manifests/experiments/m5c/preflight-result-v4/finite-coverage-report.json",
+      "role": "blocked_preflight_finite_coverage_report",
+      "sha256": "b427737c9d5e6e52e51fe7364f3f0e78a5d202ef84db424a2d2ffc27b16c5266",
+      "size_bytes": 3453,
+      "visibility": "observable"
     }
   ],
   "major_boundaries": [
@@ -24,7 +46,7 @@
     "dataset_inclusion",
     "cost_semantics"
   ],
-  "manifest_revision": 3,
+  "manifest_revision": 4,
   "manifest_status": "example",
   "milestone_id": "M5C",
   "run_policy": {
@@ -58,7 +80,7 @@
     "dataset_split_semantics": "Prospective cohort exact-covers BLAT_ECOLX_Firnberg_2014, CAPSD_AAV2S_Sinai_2021, GFP_AEQVI_Sarkisyan_2016 and SPG1_STRSG_Olson_2014, bound to ProteinGym v1.3 readiness config SHA-256 ee631056538071c7d162fa56609d95b6e7cda4afff4f63281b16b374480b2f4e and accepted Issue #11 COS prefix proteingym/v1.3/four-assay-unified-v1: exactly 45 objects and 1,758,940,765 bytes, with terminal proteingym-server-continuation-5357037808/unified-attempt.json at 33,951 bytes and SHA-256 5dad6220ae74a86a052a45386fd0540995f3e8e5abd7fea0274eb69441164ba1. Each assay remains an independent identity and is never pooled for fitting. Its complete validated candidate-pool is the replay universe; there is no outcome-selected train/test partition. Initial observations are nested, truth-blind SHA-256 selections: sort candidates by SHA256(canonical compact JSON [\"m5c-proteingym-one-step-v2\", assay_id, run_seed, candidate_id]) then candidate_id, and take the first 32 or 64 for seeds 1729..1738. RF and XGBoost share the exact observation prefix within an initial-size/seed state; Greedy, Exploration and all Matched Random branches use branch-local oracle/evaluator state. Model-visible features are only the stateless sequence-composition-420-v1 family (config SHA-256 2b9a9dbfb322f8b34296d208a2b8eb9392cac2b7056508039589fc3a0e34b77d) derived from mutated_sequence. The proposed static proxy is exact score column esm1v_t33_650M_UR90S_1 with upstream direction +1; it is evaluated as a separate M2-static baseline and is not consumed by the RF/XGBoost one-step arms. Coverage audit selects nothing by performance and permits no imputation. Before final Gate A authorization and before any DMS truth read, an outcome-free canonical compact JSON input/capability manifest must be generated from an exact read-only staging of that accepted prefix and added to the final authorized milestone manifest by exact path, SHA-256 and size. It must exact-bind the accepted prefix and per-object identities; for every assay it must bind candidate, proxy and hidden-truth artifact identities plus alignment/coverage checks, visibility and consumers, and it must bind the finite-coverage report. Candidate/sequence artifacts are observable to runner, surrogate, acquisition and evaluator; the selected proxy artifact is observable only to coverage check and static-proxy evaluator; hidden truth is hidden and consumable only by branch-local oracle/evaluator. The coverage report may expose counts and finite/missing status but no proxy performance, DMS outcome, high-value membership or candidate-level value. If generator provenance is recorded, its source commit/tree and environment digest form a separate generator identity and are explicitly not the final execution source or Run identity. The final contract and Gate A decision must reference the exact input/capability-manifest path, SHA-256 and size. After valid Gate A and before the first DMS-truth read or protected side effect, a separate Run identity must bind the actual final execution source commit/tree and environment digest and reverse-bind the authorized contract digest and input/capability-manifest digest. Any missing object, identity mismatch, non-finite proxy value, consumer drift, missing reverse binding or inability to enforce these capabilities excludes the assay prospectively or fails closed under the cohort rule.",
     "held_out_boundary": "Before final Gate A and successful outcome-free eligibility/input checks: zero DMS truth, high-value membership, static proxy performance or acquisition outcome reads, and no final execution Run identity exists. A separately recorded pre-Gate operation authorization may allow only github:willzhang/server user siyuan, for 48 hours and at most 2,147,483,648 read/network bytes, to read the accepted candidate/score identities necessary for exact alignment, 100% finite selected-proxy coverage and the outcome-free input/capability manifest; the source/COS/server data planes remain read-only and only the generated small manifest/report may be committed to the review branch. That artifact does not bind the branch's own final commit and therefore creates no self-reference; any recorded source/environment is generator identity only. Inability to separate score from hidden truth stops the read, and no score-versus-DMS calculation or ranking evaluation is allowed. After final authorization and creation of a valid Run identity, full per-assay DMS truth may be read only inside the hidden-oracle/evaluator capability to derive frozen high-value definitions, evaluate the sealed M2-static proxy baseline and reveal initial/selected branch labels. Surrogates and acquisitions receive only sequence-composition features plus the branch's revealed observations; the proxy column is isolated from those arms. M2 results remain sealed until every one-step arm reaches the same terminal, so they cannot tune methods or eligibility. Mika's reproduction receives only the exact sealed aggregate manifest named in budget_cost_model and cannot resolve or access any candidate-level artifact. Public reporting is aggregate-only and excludes candidate IDs, raw labels, membership, boundary scores and score distributions. No external assay, M5D/M6, pool-external label, multi-round continuation, ordinary-run COS write, raw-data publication or evidence promotion before valid Gate B is authorized.",
     "known_risks": [
-      "The exact score-coverage artifact for esm1v_t33_650M_UR90S_1 has not been fresh-read in this Stage 1 checkout. A read-only, no-performance input/capability-manifest preflight is required before final Gate A and requires explicit access/operation authorization; every assay remains subject to the frozen 100% finite outcome-free eligibility check.",
+      "The authorized outcome-free preflight stopped before every raw-score data row: all four whitelisted raw score headers omit the frozen exact column esm1v_t33_650M_UR90S_1 and co-locate related proxy columns with DMS_score and DMS_score_bin. The resulting exact-bound input/capability manifest and finite-coverage report are blocked artifacts, not a passing final input manifest. Switching to ESM1v_single or ESM1v_ensemble is a scientific choice requiring outcome-independent authority review; creating a capability-separable proxy artifact requires separately bounded operation authority. Until both are resolved, every assay fails closed and Gate A/formal execution remain blocked.",
       "protein-6000 was observed with 192 CPUs, 263,713,240 kB total RAM, 203,107,364 kB available RAM and 122,686,394,368 bytes free on its current filesystem, but /srv/pcdb and group pcdb are absent; it is not execution-ready.",
       "SPG1 dominates candidate count; the 30 GiB scratch and 48 GB RSS proposal requires target-host expected-peak and 50%/70% capacity preflight before Gate A can cover execution.",
       "While verifying the upstream score-column name, the drafting context inadvertently received published assay-level zero-shot benchmark table excerpts. No such outcome was used in the proxy rationale or contract; fresh reviewers must treat proxy identity as requiring explicit outcome-independent ratification.",
