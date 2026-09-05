@@ -1,4 +1,4 @@
-# M5C Gate A review packet v2
+# M5C Gate A review packet v3
 
 ## Status and authority
 
@@ -8,7 +8,7 @@ This packet materializes the smallest reviewable M5C Governance v2 contract for
 authority; no GitHub parent Issue is created.
 
 The candidate manifest is
-`manifests/experiments/m5c/gate-a-proposal-v2/milestone-contract-manifest.json`. Its
+`manifests/experiments/m5c/gate-a-proposal-v3/milestone-contract-manifest.json`. Its
 `manifest_status: example` and the referenced Gate A record's `record_status: example` mean the
 packet is schema-testable but **does not authorize execution**. After technical review and the
 confirmations below, the final decision record must be regenerated, bound to fresh authenticated
@@ -17,9 +17,9 @@ GitHub comments from both scientific authorities, and only then may the manifest
 
 Contract identity:
 
-- ID/version: `m5c-proteingym-prospective-v1` / `2`;
-- scientific-contract digest: `a2c39412000d26f80c025a37f7553ccfb918b4652ff940f30b76f533ee994014`;
-- proposal decision digest: `2676ca4824d8122790276e441919477a092c51d3a96c02d884c0f23ab5503008`;
+- ID/version: `m5c-proteingym-prospective-v1` / `3`;
+- scientific-contract digest: `d858600374d35ad394f125cc575507c7173dddd4f2e755bb97bfbda959ce856a`;
+- proposal decision digest: `54630e2419789afa9823caa8ae02f2d930285d7cc75c88e3bec0b61b33a86946`;
 - base: `origin/main@9f332c2935b53ab1697688d0024944bc12a99161`;
 - PR class: `Major / semantic PR`;
 - authorities: `github:QUHONGYE-gif`, `github:willzhang`.
@@ -67,10 +67,14 @@ The candidate manifest is normative for review; this section is a navigation sum
    informative and inconclusive labels plus directional-reversal/heterogeneity precedence.
    `REPLICATED_*` means at least two non-conflicting M5C assays, never all four by implication and
    never M5B replication. No pooled-seed inference is allowed.
-8. **Input capability manifest.** Before final Gate A and any truth read, an outcome-free exact
-   Run-pinned manifest must bind the accepted 45-object/1,758,940,765-byte Issue #11 prefix, server
-   staging, source/environment, and per-assay candidate/proxy/truth visibility and consumers. The
-   selected proxy requires a finite-coverage-only readback with no performance access.
+8. **Input/capability manifest and Run identity.** Before final Gate A and any truth read, an
+   outcome-free input/capability manifest must exact-bind the accepted
+   45-object/1,758,940,765-byte Issue #11 prefix, server staging, per-assay candidate/proxy/truth
+   identities, visibility and consumers, and finite-coverage report; the final contract binds that
+   manifest's path/hash/size. Its optional generator identity is not execution identity. After Gate
+   A, the final execution commit/tree/environment enters a separate Run identity, reverse-bound to
+   the authorized contract and input/capability-manifest digests, before the first truth read or
+   protected side effect.
 9. **Auditability.** Aggregate output must expose every non-sensitive classifier input requested by
    the M5B review: counts, 40 divergence counts, cell estimates, interval/status, sensitivity inputs,
    validity flags, cohort precedence/reason and attempt selection. Candidate identities and truth
@@ -96,7 +100,7 @@ credential or infrastructure was created or changed during this check.
 ## Mika REVISE disposition
 
 The initial independent review is recorded in MIRA-13 at comment
-`01a07097-73ee-70ee-8088-ae3d517e3545`. Revision 2 responds as follows:
+`01a07097-73ee-70ee-8088-ae3d517e3545`. Revisions 2 and 3 respond as follows:
 
 1. **Nested bootstrap — revised.** One assay/draw now creates one ten-slot seed index vector and
    reuses it across both models and both nested 32/64 cells. Matched-replicate resampling remains
@@ -107,8 +111,10 @@ The initial independent review is recorded in MIRA-13 at comment
    `REPLICATED_*` and the final `INCONCLUSIVE` fallback now have explicit precedence and claim limits.
 3. **Machine-protectable comparison/input boundary — revised at contract level.** All existing
    model/acquisition hashes, recall formula, truth-tie rule, state identity and counter tuples are
-   exact in the digest. A per-assay Run-pinned capability manifest and finite proxy-coverage readback
-   are mandatory before final Gate A/truth access.
+   exact in the digest. Revision 3 separates the outcome-free pre-Gate input/capability manifest
+   from the post-Gate Run identity: the former binds accepted objects, roles, consumers and finite
+   coverage; the latter binds final execution source/environment and reverse-binds the authorized
+   contract and input/capability-manifest digests before any protected side effect.
 4. **Operation authorization and reproduction — revised as a proposal.** Exact actors, host/paths,
    validity windows, rollback/stop conditions and disjoint main/reviewer/archive ceilings are now
    normative. Human authorization remains outstanding in the single list below.
@@ -116,9 +122,11 @@ The initial independent review is recorded in MIRA-13 at comment
    its decision digest/marker.
 
 Deferred as non-blocking engineering, consistent with Mika's review: runner/schema/golden-vector
-implementation, target-host provisioning and generation of the final Run-pinned artifact occur only
-after the relevant authorization. The absent Multica linked-PR display is tracking UI state, not a
-scientific or contract blocker; PR #103 remains routable by title and branch. No new assay, seed,
+implementation, target-host provisioning and generation of the final execution Run identity occur
+only after the relevant authorization. The pre-Gate generator may record a separate generator
+identity, but it is never described as final run source. The absent Multica linked-PR display is
+tracking UI state, not a scientific or contract blocker; PR #103 remains routable by title and
+branch. No new assay, seed,
 model, beta, round, approval layer, service or subtask is introduced.
 
 ## One confirmation list
@@ -126,14 +134,15 @@ model, beta, round, approval layer, service or subtask is introduced.
 These are the only unresolved items. The recommendation is part of the proposal, not an
 authorization.
 
-1. **Scientific contract and proxy risk.** Both authorities must approve version 2's complete cohort,
+1. **Scientific contract and proxy risk.** Both authorities must approve version 3's complete cohort,
    nested design/bootstrap, exact comparison hashes/counters, recall/tie rule, 99.375% intervals,
    assay/cohort taxonomy and one-batch stopping; and explicitly accept the disclosed proxy drafting
    exposure while keeping `esm1v_t33_650M_UR90S_1` descriptive-only, +1, 100%-finite/no-imputation
    and unable to affect eligibility, method or taxonomy. Recommendation: approve; this is the
    smallest outcome-independent continuation of M5B and does not treat M5B as replicated evidence.
 2. **Outcome-free pre-Gate read.** Authorize `github:willzhang`/server user `siyuan` once to read only
-   the accepted candidate/score identities needed to create the Run-pinned capability manifest and
+   the accepted candidate/score identities needed to create the outcome-free input/capability
+   manifest and
    finite-coverage report, with read-only source/COS/server data planes, zero DMS truth/performance
    read, a 48-hour window, 1 h wall, 2 CPU h, 4 GB RSS, 2 GiB scratch/read/network and 5 CNY caps.
    Only the generated small manifest/report may be committed to the review branch. Any inability to
@@ -168,16 +177,22 @@ raw-data publication, candidate-level reviewer access and evidence promotion bef
 1. Mika re-reviews this exact revision against the five recorded findings and records a verdict in
    MIRA-13; optional engineering improvements remain deferred.
 2. The two authorities resolve the single confirmation list. If item 2 is authorized, Moka performs
-   only that outcome-free preflight and exact-binds its artifacts; any necessary change receives
-   findings-focused recheck without creating another approval stage.
+   only that outcome-free preflight and exact-binds the input/capability manifest by path, SHA-256
+   and size; any generator source/environment recorded for provenance is explicitly a generator
+   identity, not the execution Run identity. Any necessary change receives findings-focused recheck
+   without creating another approval stage.
 3. Author the final Gate A JSON, then compute its exact decision marker with
    `pcdb governance-decision-digest`.
 4. Both `github:QUHONGYE-gif` and `github:willzhang` post fresh authenticated comments containing
    the exact marker and explicit approval of all four major boundaries. GitHub review or CI alone is
    insufficient.
-5. Bind both attestations, change the manifest to `authorized`, run the final production contract
-   check, and update `docs/STATUS.md` for the Gate A scientific transition. Only then may Stage 2 be
-   promoted.
+5. Bind both attestations and the input/capability-manifest digest, change the manifest to
+   `authorized`, run the final production contract check, and update `docs/STATUS.md` for the Gate A
+   scientific transition.
+6. Only after valid Gate A may the parent barrier promote Stage 2. Stage 2 must create the final Run
+   identity from the actual execution commit/tree/environment and reverse-bind the authorized
+   contract and input/capability-manifest digests before its first truth read or protected side
+   effect.
 
 No formal experiment, held-out access, label reveal, COS write, server provisioning, M5D/M6 start or
 evidence promotion is performed by this packet.

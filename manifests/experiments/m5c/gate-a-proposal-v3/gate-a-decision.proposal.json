@@ -3,10 +3,10 @@
     {
       "attestation": {
         "actor": "github:QUHONGYE-gif",
-        "body": "PROPOSAL ONLY; this is not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: 2676ca4824d8122790276e441919477a092c51d3a96c02d884c0f23ab5503008\n",
-        "body_sha256": "19e694965f3200ec759cb4ccd7f1f9e1349ac6549bee3b3c93e33070831ad6b6",
+        "body": "PROPOSAL ONLY; this is not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: 54630e2419789afa9823caa8ae02f2d930285d7cc75c88e3bec0b61b33a86946\n",
+        "body_sha256": "a37dca52f0fa57b5462d1b119354744416da08faced126cffdf6d48886218877",
         "comment_id": 1,
-        "decision_digest": "2676ca4824d8122790276e441919477a092c51d3a96c02d884c0f23ab5503008",
+        "decision_digest": "54630e2419789afa9823caa8ae02f2d930285d7cc75c88e3bec0b61b33a86946",
         "node_id": "M5C_GATE_A_PROPOSAL_NOT_EXTERNAL_EVIDENCE_1",
         "repository": "QUHONGYE-gif/protein-candidate-discovery-benchmark",
         "schema_version": "pcdb-github-comment-attestation-v1",
@@ -25,10 +25,10 @@
     {
       "attestation": {
         "actor": "github:willzhang",
-        "body": "PROPOSAL ONLY; this is not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: 2676ca4824d8122790276e441919477a092c51d3a96c02d884c0f23ab5503008\n",
-        "body_sha256": "19e694965f3200ec759cb4ccd7f1f9e1349ac6549bee3b3c93e33070831ad6b6",
+        "body": "PROPOSAL ONLY; this is not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: 54630e2419789afa9823caa8ae02f2d930285d7cc75c88e3bec0b61b33a86946\n",
+        "body_sha256": "a37dca52f0fa57b5462d1b119354744416da08faced126cffdf6d48886218877",
         "comment_id": 2,
-        "decision_digest": "2676ca4824d8122790276e441919477a092c51d3a96c02d884c0f23ab5503008",
+        "decision_digest": "54630e2419789afa9823caa8ae02f2d930285d7cc75c88e3bec0b61b33a86946",
         "node_id": "M5C_GATE_A_PROPOSAL_NOT_EXTERNAL_EVIDENCE_2",
         "repository": "QUHONGYE-gif/protein-candidate-discovery-benchmark",
         "schema_version": "pcdb-github-comment-attestation-v1",
@@ -45,16 +45,16 @@
       "verdict": "authorized"
     }
   ],
-  "contract_digest": "a2c39412000d26f80c025a37f7553ccfb918b4652ff940f30b76f533ee994014",
+  "contract_digest": "d858600374d35ad394f125cc575507c7173dddd4f2e755bb97bfbda959ce856a",
   "contract_id": "m5c-proteingym-prospective-v1",
-  "contract_version": 2,
+  "contract_version": 3,
   "decided_at": "2026-09-05T00:00:00Z",
-  "decision_id": "gate-a-m5c-proteingym-v2",
+  "decision_id": "gate-a-m5c-proteingym-v3",
   "formulation": "proposed_and_approved",
   "proposers": [
     "github:willzhang"
   ],
-  "rationale": "Revision 2 proposal skeleton only. It resolves Mika's initial necessary findings at contract level. Final Gate A still requires Mika's findings-focused re-review, outcome-free proxy coverage and input-boundary preflight, resolution of the confirmation list, two fresh authenticated GitHub authority comments bound to the final decision digest, and a manifest revision from example to authorized.",
+  "rationale": "Revision 3 proposal skeleton only. It separates the outcome-free pre-Gate input/capability manifest from the post-Gate execution Run identity and retains the earlier necessary findings fixes. Final Gate A still requires Mika's findings-focused re-review, outcome-free proxy coverage and input-boundary preflight, resolution of the confirmation list, two fresh authenticated GitHub authority comments bound to the final decision digest, and a manifest revision from example to authorized.",
   "record_status": "example",
   "schema_version": "pcdb-gate-a-decision-v1",
   "verdict": "authorized"
