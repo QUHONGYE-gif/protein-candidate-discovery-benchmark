@@ -1,0 +1,61 @@
+{
+  "attempt_id": "m5c-input-preflight-access-20260905T143640Z",
+  "authorization": {
+    "caps": {
+      "cost_cny": 5,
+      "cpu_seconds": 7200,
+      "network_and_read_bytes": 2147483648,
+      "peak_rss_bytes": 4000000000,
+      "scratch_bytes": 2147483648,
+      "wall_seconds": 3600
+    },
+    "expires_at": "2026-09-07T11:20:44Z",
+    "scope_comment_id": "01a0714c-aa7b-7b0d-835d-40b703549198",
+    "source_supplement_comment_id": "01a071fb-dd2c-707a-b07b-cb6d280e5b47",
+    "source_supplement_resets_window": false,
+    "started_at": "2026-09-05T11:20:44Z"
+  },
+  "handoff_claim": {
+    "cos_deletes": 0,
+    "cos_writes": 0,
+    "migration_readback_hash_and_size_matches": 45,
+    "object_count": 45,
+    "source_download_hash_and_size_matches": 45,
+    "total_size_bytes": 1758940765,
+    "verification_status": "reported_by_migration_party_not_independently_verified"
+  },
+  "observations": [
+    {
+      "candidate_score_truth_object_bytes_read": 0,
+      "objects_returned": 0,
+      "reason": "403 AccessDenied",
+      "source": "existing local COS data alias at the accepted Issue #11 prefix",
+      "status": "failed_closed"
+    },
+    {
+      "authenticated": false,
+      "candidate_score_truth_object_bytes_read": 0,
+      "host_key_accepted": false,
+      "password_authentication_attempted": false,
+      "path_checks_performed": false,
+      "reason": "Host key verification failed",
+      "source": "siyuan@129.28.97.247",
+      "status": "blocked_before_source_authentication",
+      "writes": 0
+    }
+  ],
+  "recorded_at": "2026-09-05T14:36:40Z",
+  "schema_version": "pcdb-m5c-input-preflight-access-audit-v1",
+  "server_replica": {
+    "access_principal": "github:willzhang/server:siyuan",
+    "data_root": "/srv/pcdb/data/imports/proteingym/v1.3/four-assay-unified-v1/",
+    "formal_execution_host_change_authorized": false,
+    "host": "129.28.97.247",
+    "migration_receipt": "/srv/pcdb/scratch/proteingym-migration-20260905-01/migration-receipt.json"
+  },
+  "status": "blocked_before_input_read",
+  "writes": {
+    "cos": 0,
+    "server_data_or_receipt": 0
+  }
+}

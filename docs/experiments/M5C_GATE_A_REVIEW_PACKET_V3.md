@@ -97,6 +97,39 @@ Read-only observation on 2026-09-05 found:
 Therefore no target is currently Governance v2-ready. No directory, group, account, data, process,
 credential or infrastructure was created or changed during this check.
 
+## Preflight source handoff and access audit
+
+The item 2 operation authorization began at Multica comment
+`01a0714c-aa7b-7b0d-835d-40b703549198` (`2026-09-05T11:20:44Z`) and expires at
+`2026-09-07T11:20:44Z`; the source supplement in comment
+`01a071fb-dd2c-707a-b07b-cb6d280e5b47` does not reset that window or any cap. The supplement permits
+the named operator `github:willzhang` / server user `siyuan` to use the reported server replica at
+`129.28.97.247` solely for the same outcome-free preflight:
+
+- data root: `/srv/pcdb/data/imports/proteingym/v1.3/four-assay-unified-v1/`;
+- migration receipt:
+  `/srv/pcdb/scratch/proteingym-migration-20260905-01/migration-receipt.json`.
+
+The migration party reports 45 objects / 1,758,940,765 bytes, with source-download and independent
+post-import size/SHA-256 agreement for 45/45 objects and zero COS write/delete. These are explicitly
+**unverified handoff claims**, not Moka observations. Exact per-object source identity, size, SHA-256,
+path mapping and coverage remain pending independent read-only verification.
+
+The first COS-prefix List attempt remains a failed `403 AccessDenied` record with zero returned
+objects and zero candidate/score/truth object bytes. A subsequent strict SSH attempt as `siyuan`
+stopped before authentication with `Host key verification failed`: no password authentication was
+attempted, no host key was accepted, no server path/receipt/data was read and no write occurred. The
+machine therefore still needs an independently trusted SSH host-key identity before the named
+principal's read/traverse permissions can be checked. No account switch or privilege change was
+attempted because the authorization fixes `siyuan` as the access principal and forbids account
+switching or permission changes.
+
+This handoff changes only the permitted physical source for the outcome-free preflight. It does not
+change the proposed formal execution host `protein-6000` / `ps`, authorize a new migration,
+provisioning or formal run, or establish that the server replica is identical to the accepted Issue
+#11 prefix. The exact machine-readable access audit is retained at
+`manifests/experiments/m5c/preflight-attempts/m5c-input-preflight-access-20260905T143640Z.json`.
+
 ## Mika REVISE disposition
 
 The initial independent review is recorded in MIRA-13 at comment
