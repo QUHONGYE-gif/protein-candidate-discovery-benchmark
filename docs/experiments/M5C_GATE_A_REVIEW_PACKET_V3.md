@@ -119,16 +119,31 @@ The first COS-prefix List attempt remains a failed `403 AccessDenied` record wit
 objects and zero candidate/score/truth object bytes. A subsequent strict SSH attempt as `siyuan`
 stopped before authentication with `Host key verification failed`: no password authentication was
 attempted, no host key was accepted, no server path/receipt/data was read and no write occurred. The
-machine therefore still needs an independently trusted SSH host-key identity before the named
-principal's read/traverse permissions can be checked. No account switch or privilege change was
-attempted because the authorization fixes `siyuan` as the access principal and forbids account
-switching or permission changes.
+attempt lacked the later-supplied legacy-address host-key alias and is retained as a failed historical
+attempt rather than generalized as proof that no trusted key existed.
+
+The follow-up authorization in Multica comment `01a07236-a0a9-765d-835a-0fa74af25582` supplied the
+existing `HostKeyAlias=1.14.72.82` mapping. Strict verification independently recomputed the stored
+ED25519 fingerprint as `SHA256:oLhxE/lEXpnkIF5eFE59kTaK7PcaRDZTCwA/2Si2i5k`, matched the authorized
+fingerprint, and authenticated by public key as `siyuan` to kernel hostname `VM-0-8-debian` without
+password fallback. The authenticated principal is in group `pcdb`. Exact read-only `stat` then found:
+
+- `/srv/pcdb/data/imports`: `2700`, owner `hongye:pcdb`;
+- `/srv/pcdb/scratch/proteingym-migration-20260905-01`: `2700`, owner `hongye:pcdb`.
+
+Both block group traversal. The comment permits a one-time minimal administrator repair after
+recording those modes, but this runtime has no administrator credential through a secure input
+channel and `sudo -n true` reports `a password is required`. No interactive or password-supplied sudo
+was attempted. Consequently no mode/ACL was changed, no receipt or data object was read, and the
+preflight remains blocked on the administrator repair. This follow-up is recorded append-only at
+`manifests/experiments/m5c/preflight-attempts/m5c-input-preflight-access-20260905T153753Z.json`.
 
 This handoff changes only the permitted physical source for the outcome-free preflight. It does not
 change the proposed formal execution host `protein-6000` / `ps`, authorize a new migration,
 provisioning or formal run, or establish that the server replica is identical to the accepted Issue
 #11 prefix. The exact machine-readable access audit is retained at
-`manifests/experiments/m5c/preflight-attempts/m5c-input-preflight-access-20260905T143640Z.json`.
+`manifests/experiments/m5c/preflight-attempts/m5c-input-preflight-access-20260905T143640Z.json` and
+the append-only follow-up named above.
 
 ## Mika REVISE disposition
 

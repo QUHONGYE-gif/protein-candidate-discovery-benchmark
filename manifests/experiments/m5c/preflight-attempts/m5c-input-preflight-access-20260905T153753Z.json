@@ -1,0 +1,78 @@
+{
+  "attempt_id": "m5c-input-preflight-access-20260905T153753Z",
+  "authorization": {
+    "caps": {
+      "cost_cny": 5,
+      "cpu_seconds": 7200,
+      "network_and_read_bytes": 2147483648,
+      "peak_rss_bytes": 4000000000,
+      "scratch_bytes": 2147483648,
+      "wall_seconds": 3600
+    },
+    "expires_at": "2026-09-07T11:20:44Z",
+    "filesystem_repair_comment_id": "01a07236-a0a9-765d-835a-0fa74af25582",
+    "scope_comment_id": "01a0714c-aa7b-7b0d-835d-40b703549198",
+    "source_supplement_comment_id": "01a071fb-dd2c-707a-b07b-cb6d280e5b47",
+    "source_supplement_resets_window": false,
+    "started_at": "2026-09-05T11:20:44Z"
+  },
+  "filesystem_observations": [
+    {
+      "group": "pcdb",
+      "mode": "2700",
+      "owner": "hongye",
+      "path": "/srv/pcdb/data/imports",
+      "principal_can_traverse": false
+    },
+    {
+      "group": "pcdb",
+      "mode": "2700",
+      "owner": "hongye",
+      "path": "/srv/pcdb/scratch/proteingym-migration-20260905-01",
+      "principal_can_traverse": false
+    }
+  ],
+  "handoff_claim_verification_status": "not_started_due_to_filesystem_permissions",
+  "host_identity": {
+    "access_principal": "github:willzhang/server:siyuan",
+    "authenticated_by_public_key": true,
+    "expected_ed25519_fingerprint_sha256": "SHA256:oLhxE/lEXpnkIF5eFE59kTaK7PcaRDZTCwA/2Si2i5k",
+    "host": "129.28.97.247",
+    "host_key_alias": "1.14.72.82",
+    "observed_ed25519_fingerprint_sha256": "SHA256:oLhxE/lEXpnkIF5eFE59kTaK7PcaRDZTCwA/2Si2i5k",
+    "remote_hostname": "VM-0-8-debian",
+    "strict_host_key_checking": true,
+    "verification_status": "matched"
+  },
+  "principal_identity": {
+    "gid": 1005,
+    "groups": [
+      "siyuan",
+      "sudo",
+      "users",
+      "pcdb"
+    ],
+    "uid": 1003,
+    "user": "siyuan"
+  },
+  "recorded_at": "2026-09-05T15:37:53Z",
+  "remediation": {
+    "admin_credential_available_through_secure_input": false,
+    "changes_applied": [],
+    "noninteractive_sudo_check": "password_required",
+    "interactive_or_password_sudo_attempted": false,
+    "status": "blocked_before_authorized_minimal_repair"
+  },
+  "schema_version": "pcdb-m5c-input-preflight-access-audit-v1",
+  "server_replica": {
+    "data_root": "/srv/pcdb/data/imports/proteingym/v1.3/four-assay-unified-v1/",
+    "formal_execution_host_change_authorized": false,
+    "migration_receipt": "/srv/pcdb/scratch/proteingym-migration-20260905-01/migration-receipt.json"
+  },
+  "status": "blocked_before_input_read",
+  "writes": {
+    "cos": 0,
+    "filesystem_permissions_or_acl": 0,
+    "server_data_or_receipt": 0
+  }
+}
