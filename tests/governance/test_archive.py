@@ -311,6 +311,21 @@ def test_all_valid_scientific_terminal_verdicts_archive_with_success_last(
     Draft202012Validator(archive_schema, format_checker=FormatChecker()).validate(archive_manifest)
     gate_b = json.loads(gate_b_path.read_bytes())
     assert archive_manifest["evidence_digest"] == gate_b["evidence_digest"]
+    expected_object_paths = {
+        "contract-manifest.json",
+        "final.csv",
+        "gate-b-decision.json",
+        "important.log",
+        "provenance.json",
+        "run-identity.json",
+        "summary.md",
+    }
+    assert {item["path"] for item in archive_manifest["objects"]} == expected_object_paths
+    assert set(store.list_keys("milestone-archives/v2/M5T/archive-001/")) == {
+        *(f"milestone-archives/v2/M5T/archive-001/{path}" for path in expected_object_paths),
+        "milestone-archives/v2/M5T/archive-001/archive-manifest.json",
+        "milestone-archives/v2/M5T/archive-001/_SUCCESS",
+    }
     attempt_records = sorted((recorder_root / "M5T/archive-attempts").glob("*.json"))
     assert [path.name for path in attempt_records] == [
         "attempt-001.started.json",
@@ -363,6 +378,25 @@ def test_readback_failure_never_writes_completion_marker(tmp_path: Path) -> None
 
     assert not any(key.endswith("_SUCCESS") for key in store.list_keys(""))
     assert (recorder_root / "M5T/archive-attempts/attempt-001.failed.json").is_file()
+
+    keys_after_failure = store.list_keys("")
+    request = json.loads(request_path.read_bytes())
+    request["attempt_id"] = "attempt-002"
+    _write_json(request_path, request)
+
+    with pytest.raises(CheckViolation, match="archive-prefix-safety=fail"):
+        archive_terminal_milestone(
+            request_path=request_path,
+            source_root=root,
+            gate_b_path=gate_b_path,
+            config_path=CONFIG,
+            store=store,
+            recorder=ArchiveAttemptRecorder(recorder_root),
+            evidence_verifier=FakeDecisionEvidenceVerifier(),
+        )
+
+    assert store.list_keys("") == keys_after_failure
+    assert (recorder_root / "M5T/archive-attempts/attempt-002.failed.json").is_file()
 
 
 def test_existing_prefix_fails_closed_without_overwrite(tmp_path: Path) -> None:

@@ -5,8 +5,9 @@
 本文提供跨 Issue 的方向控制：当多个实现、数据或实验选项竞争资源时，用一致的原则决定先做
 什么、何时停止，以及哪些变化必须重新审批。具体时间线见
 [`EXECUTION_ROADMAP.md`](EXECUTION_ROADMAP.md)，持久化协议由 accepted ADR 和 Schema 决定。
-跨项目当前状态摘要只在 [`STATUS.md`](STATUS.md) 维护；具体任务决策与 lifecycle 仍以 GitHub
-Issue 为准。
+跨项目当前状态摘要只在 [`STATUS.md`](STATUS.md) 维护；达到独立 tracking 门槛的仓库级任务选择
+GitHub Issue 或 Multica 作为权威决策与 lifecycle 记录。选择 GitHub 时，执行归属与阶段可由多个
+Multica issues 多对一映射到该 Issue。
 
 ### 状态与证据职责
 
@@ -19,13 +20,13 @@ Issue 为准。
 | `research_log.jsonl` | runner 产生的 append-only server attempt/event 历史；不是 Issue 评论流 |
 | Candidate summary | 等待 accepted/frozen 的紧凑聚合结果候选 |
 | COS/frozen manifest | 正式不可变证据与 checksum |
-| GitHub Issue | task-specific 决策、责任人、lifecycle 和证据链接；不保存 PID、STS 调试、packet dump 或完整服务器日志 |
+| GitHub Issue 或 Multica authority | 达到独立门槛的 task-specific 决策、lifecycle 和证据链接；只选择一个，不保存 PID、STS 调试、packet dump 或完整服务器日志 |
 | GitHub PR | 代码/文档变更及其验证 |
 
-`STATUS.md` 是带 `Last verified` 的项目快照，只在其九个项目级字段实质变化时更新。PID、单个
-attempt、普通 Issue 评论和 code-review 事件不触发同步；lifecycle closeout 应尽量先完成，再一次性
-固化新的项目快照。历史计划、Issue 评论和运行记录继续保留各自证据职责，但不维护并行的
-“当前状态”。
+`STATUS.md` 是带 `Last verified` 的低频科学状态快照，只在 Gate A 触发 scientific state
+transition、Gate B 产生 terminal，或 milestone closeout 时更新。普通 PR/CI、单个 run/attempt、
+retry、日志、plot、maintenance batch、Issue 评论和 code-review 事件不触发同步。历史计划、Issue
+评论和运行记录继续保留各自证据职责，但不维护并行的“当前状态”。
 
 ## 北极星目标
 
@@ -99,7 +100,7 @@ hidden-label 边界，成本比和相关性也不能根据 held-out 结果调节
 
 ## 范围变化规则
 
-以下变化需要新的或更新后的 GitHub Issue，并在实现前明确影响：
+以下变化需要新的或更新后的 tracking authority record，并在实现前明确影响：
 
 - 新增 dataset/task/assay、外部服务或生产依赖；
 - 改变可观察字段、hidden label、candidate unit 或 duplicate 规则；

@@ -30,6 +30,7 @@ class DirectoryObservation:
     is_directory: bool
     group: str
     mode: int
+    error: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -42,6 +43,9 @@ class ServerObservation:
     group_members: tuple[str, ...]
     available_bytes: int
     directories: tuple[DirectoryObservation, ...]
+    capacity_path: str | None = None
+    group_error: str | None = None
+    capacity_error: str | None = None
 
 
 class ServerStateProbe(Protocol):
@@ -60,27 +64,49 @@ class SystemServerStateProbe:
     def observe(
         self, *, root: Path, group: str, subdirectories: tuple[str, ...]
     ) -> ServerObservation:
+        group_error: str | None
         try:
             group_record = grp.getgrnam(group)
-        except KeyError as exc:
-            raise CheckViolation(f"target host has no Unix group {group!r}") from exc
-        members = set(group_record.gr_mem)
-        members.update(
-            account.pw_name for account in pwd.getpwall() if account.pw_gid == group_record.gr_gid
-        )
+        except KeyError:
+            group_error = f"target host has no Unix group {group!r}"
+            members: set[str] = set()
+        else:
+            group_error = None
+            members = set(group_record.gr_mem)
+            members.update(
+                account.pw_name
+                for account in pwd.getpwall()
+                if account.pw_gid == group_record.gr_gid
+            )
         paths = (root, *(root / item for item in subdirectories))
         observations: list[DirectoryObservation] = []
         for path in paths:
             try:
                 metadata = path.stat()
             except OSError as exc:
-                raise CheckViolation(
-                    f"cannot stat required server directory {path}: {exc}"
-                ) from exc
+                observations.append(
+                    DirectoryObservation(
+                        path=str(path),
+                        is_directory=False,
+                        group="",
+                        mode=0,
+                        error=f"cannot stat required server directory {path}: {exc}",
+                    )
+                )
+                continue
             try:
                 observed_group = grp.getgrgid(metadata.st_gid).gr_name
-            except KeyError as exc:
-                raise CheckViolation(f"server directory {path} has an unknown group id") from exc
+            except KeyError:
+                observations.append(
+                    DirectoryObservation(
+                        path=str(path),
+                        is_directory=stat.S_ISDIR(metadata.st_mode),
+                        group=f"gid:{metadata.st_gid}",
+                        mode=stat.S_IMODE(metadata.st_mode),
+                        error=f"server directory {path} has unknown group id {metadata.st_gid}",
+                    )
+                )
+                continue
             observations.append(
                 DirectoryObservation(
                     path=str(path),
@@ -89,10 +115,20 @@ class SystemServerStateProbe:
                     mode=stat.S_IMODE(metadata.st_mode),
                 )
             )
+
+        capacity_path = root
+        while not capacity_path.exists() and capacity_path.parent != capacity_path:
+            capacity_path = capacity_path.parent
+        capacity_error: str | None
         try:
-            available_bytes = shutil.disk_usage(root).free
+            available_bytes = shutil.disk_usage(capacity_path).free
         except OSError as exc:
-            raise CheckViolation(f"cannot read filesystem capacity for {root}: {exc}") from exc
+            available_bytes = 0
+            capacity_error = (
+                f"cannot read filesystem capacity for target {root} via {capacity_path}: {exc}"
+            )
+        else:
+            capacity_error = None
         return ServerObservation(
             hostname=socket.gethostname(),
             observed_at=datetime.now(UTC).isoformat().replace("+00:00", "Z"),
@@ -100,6 +136,9 @@ class SystemServerStateProbe:
             group_members=tuple(sorted(members)),
             available_bytes=available_bytes,
             directories=tuple(observations),
+            capacity_path=str(capacity_path),
+            group_error=group_error,
+            capacity_error=capacity_error,
         )
 
 
@@ -140,17 +179,24 @@ def server_preflight_report(
             *cast(list[str], server["service_accounts"]),
         }
         actual_members = set(observation.group_members)
+        violations: list[str] = []
+        if observation.group_error is not None:
+            violations.append(observation.group_error)
         if observation.group != server["project_group"] or actual_members != expected_members:
-            raise CheckViolation(
+            violations.append(
                 f"target-host writer group mismatch: expected={sorted(expected_members)}, "
                 f"actual={sorted(actual_members)}"
             )
         invalid: list[str] = []
+        observation_errors: list[str] = []
         modes: dict[str, str] = {}
         for item in observation.directories:
             modes[item.path] = oct(item.mode)
+            if item.error is not None:
+                observation_errors.append(item.error)
             if (
-                not item.is_directory
+                item.error is not None
+                or not item.is_directory
                 or item.group != observation.group
                 or not item.mode & stat.S_IWGRP
                 or not item.mode & stat.S_ISGID
@@ -158,10 +204,13 @@ def server_preflight_report(
             ):
                 invalid.append(item.path)
         if invalid:
-            raise CheckViolation(
+            violations.append(
                 "required server directories must be group-owned, group-writable, setgid and "
                 f"closed to others: {invalid}"
             )
+        violations.extend(observation_errors)
+        if violations:
+            raise CheckViolation("; ".join(violations))
         return CheckEvidence(
             reason="target-host namespace, Unix group and directory modes match",
             evidence={
@@ -177,6 +226,8 @@ def server_preflight_report(
         observation = observed()
         if type(expected_peak_bytes) is not int or expected_peak_bytes < 0:
             raise CheckViolation("expected peak bytes must be a non-negative integer")
+        if observation.capacity_error is not None:
+            raise CheckViolation(observation.capacity_error)
         if observation.available_bytes <= 0:
             raise CheckViolation("target-host available bytes must be positive")
         fraction = expected_peak_bytes / observation.available_bytes
@@ -195,6 +246,7 @@ def server_preflight_report(
                 "hard_cap_fraction": 0.7,
                 "hostname": observation.hostname,
                 "observed_at": observation.observed_at,
+                "observed_filesystem_path": observation.capacity_path,
                 "target_fraction": 0.5,
             },
         )

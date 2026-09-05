@@ -1,6 +1,35 @@
-## 关联 Issue
+## Tracking
 
-Closes #
+- Authority（只能选择一个）：
+  - [ ] `github_issue`
+  - [ ] `multica`
+- Common field `authorization_and_acceptance`（谁授权范围、谁在 review 后接受完成）：
+- 选择 `github_issue`：`repository`、`issue_number`、`url`：
+- 选择 `multica`：`workspace_id`，以及每个对象的 `object_id`、MIRA `key`、`url`：
+- Authority-selection decision（若规则选择需要人类决定，填写可核验链接）：
+- Close intent（仅在验收完成且合并应关闭 Issue 时写 `Closes #...`；否则写 `Related #...` 或
+  `N/A`）：
+
+## PR classification
+
+只能选择一个：
+
+- [ ] Major / semantic PR
+- [ ] Maintenance batch PR
+
+Major / semantic PR：
+
+- [ ] 已说明 contract/ADR、兼容/迁移与 public-interface 影响
+- [ ] 已形成可审阅的最小语义单元，且未与 maintenance 混批
+
+Maintenance batch PR：
+
+- [ ] 每项都是 atomic commit，且不改变科学语义、数据身份、执行边界、存储责任或公开接口
+- [ ] 父 Issue comment/checklist 已记录每项变更与测试
+- 最早触发点（选一个）：
+  - [ ] 累计 10 个逻辑小变化
+  - [ ] 当前 Issue/milestone 结束
+  - [ ] 下一段实验需要其中信息
 
 ## Scope
 
@@ -24,8 +53,9 @@ Closes #
 
 ## Protocol and storage impact
 
-说明是否改变 dataset/split/feature/run schema、frozen protocol、COS object layout 或
-held-out authorization。若无，写“无”。
+说明是否改变 scientific semantics、data identity、dataset/split/feature/run schema、执行边界、
+存储责任、public interface、COS object layout 或 held-out authorization。Maintenance 必须写
+“无”。
 
 ## Evidence boundary
 
@@ -36,3 +66,9 @@ held-out authorization。若无，写“无”。
 - Scientific evidence：
 
 CI green 不等于 scientific gate passed。
+
+## STATUS impact
+
+- [ ] 本 PR 不因普通 merge、CI、run、retry、日志、plot 或 maintenance batch 更新 STATUS
+- [ ] 若更新 `docs/STATUS.md`，本 PR 已绑定 Gate A scientific transition、Gate B terminal 或
+  milestone closeout 的可验证记录

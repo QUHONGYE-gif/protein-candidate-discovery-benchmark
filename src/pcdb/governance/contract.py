@@ -38,6 +38,115 @@ MAJOR_BOUNDARIES = {
 }
 TERMINAL_VERDICTS = {"accept", "reject", "inconclusive"}
 GOVERNANCE_RFC_SHA256 = "e9f5fbdadfc3f82fe1011fbc7e1e55ecc4d4c6a0c86db15473da3cf76b7a05d1"
+REPOSITORY_WORKFLOW_CONFIG: dict[str, Any] = {
+    "cross_links": {
+        "github_authority_backlink": (
+            "Execution tracked in Multica: https://MULTICA-EXAMPLE/issues/MIRA-123"
+        ),
+        "github_authority_multica_source": (
+            "Source of truth: https://github.com/OWNER/REPO/issues/123"
+        ),
+        "github_authority_multica_title": "[GH#123] Improve repository workflow checks",
+        "mapping": "many_to_one",
+        "required_only_when": "github_issue",
+    },
+    "forbidden_tracking_files": [
+        "maintenance-batch-ledger.yaml",
+        "MulticaGithubLinkRegistry",
+        "reviewer-registry.schema.json",
+    ],
+    "maintenance_batch": {
+        "categories": [
+            "tests",
+            "docs",
+            "logging",
+            "small_bugs",
+            "minor_refactors",
+            "plots",
+            "cli_polish",
+        ],
+        "flush_on_issue_or_milestone_closeout": True,
+        "flush_when_required_by_next_experiment": True,
+        "logical_change_limit": 10,
+    },
+    "major_semantic": {
+        "categories": [
+            "scientific_protocol",
+            "dataset_or_split",
+            "metric",
+            "cost_model",
+            "architecture",
+            "major_runner",
+            "storage_policy",
+            "governance",
+            "release",
+        ],
+        "semantic_boundaries": [
+            "scientific_semantics",
+            "data_identity",
+            "execution_boundary",
+            "storage_responsibility",
+            "public_interface",
+        ],
+    },
+    "status": {
+        "ignored_events": [
+            "ordinary_pr",
+            "ci",
+            "run",
+            "retry",
+            "log",
+            "plot",
+            "maintenance_batch",
+            "engineering_only_progress",
+        ],
+        "update_events": [
+            "gate_a_scientific_transition",
+            "gate_b_terminal",
+            "milestone_closeout",
+        ],
+    },
+    "tracking_authority": {
+        "allowed": ["github_issue", "multica"],
+        "authority_required_fields": {
+            "github_issue": ["repository", "issue_number", "url"],
+            "multica": ["workspace_id", "objects"],
+        },
+        "common_required_fields": ["authority", "authorization_and_acceptance"],
+        "multica_object_required_fields": ["object_id", "key", "url"],
+        "selection_required_for": [
+            "Major / semantic change",
+            "Independent value, acceptance criteria, risk, or authorization boundary",
+            "Cross-milestone, multi-PR, multi-owner, or external coordination",
+            "Data, held-out, permission, cost, privacy, security, release, or external-config risk",
+            "No suitable parent Issue",
+        ],
+    },
+    "tracking_examples": {
+        "github_issue": {
+            "authority": "github_issue",
+            "authorization_and_acceptance": ("Named owner authorizes scope and accepts completion"),
+            "issue_number": 123,
+            "repository": "OWNER/REPO",
+            "url": "https://github.com/OWNER/REPO/issues/123",
+        },
+        "multica": {
+            "authority": "multica",
+            "authorization_and_acceptance": (
+                "Workspace member authorizes scope and marks the issue done after review"
+            ),
+            "objects": [
+                {
+                    "key": "MIRA-123",
+                    "object_id": "00000000-0000-7000-8000-000000000123",
+                    "url": "https://MULTICA-EXAMPLE/issues/MIRA-123",
+                }
+            ],
+            "workspace_id": "00000000-0000-4000-8000-000000000000",
+        },
+    },
+    "tracking_ledger": "git_and_authority_record",
+}
 
 
 @dataclass(frozen=True, slots=True)
@@ -151,7 +260,7 @@ def _sha256(value: object, field: str) -> str:
 
 
 def validate_governance_config(value: Mapping[str, Any]) -> tuple[str, ...]:
-    """Validate the active authority and server/archive deployment contract."""
+    """Validate the active authority, repository workflow and deployment contract."""
 
     _exact_fields(
         value,
@@ -159,6 +268,7 @@ def validate_governance_config(value: Mapping[str, Any]) -> tuple[str, ...]:
             "schema_version",
             "governance_version",
             "governance_repository",
+            "repository_workflow",
             "scientific_authorities",
             "server",
             "archive",
@@ -166,11 +276,13 @@ def validate_governance_config(value: Mapping[str, Any]) -> tuple[str, ...]:
         "governance config",
     )
     if (
-        value["schema_version"] != "pcdb-governance-config-v1"
+        value["schema_version"] != "pcdb-governance-config-v2"
         or value["governance_version"] != "2"
         or value["governance_repository"] != "QUHONGYE-gif/protein-candidate-discovery-benchmark"
     ):
         raise CheckViolation("governance config version or repository binding is invalid")
+    if value["repository_workflow"] != REPOSITORY_WORKFLOW_CONFIG:
+        raise CheckViolation("repository workflow classification or trigger policy drifted")
     raw_authorities = value["scientific_authorities"]
     if not isinstance(raw_authorities, list) or len(raw_authorities) != 2:
         raise CheckViolation("governance config must name exactly two scientific authorities")

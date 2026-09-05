@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Tracking authority 门槛与 maintenance 记录
+    url: https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/main/CONTRIBUTING.md
+    about: 先选择 GitHub Issue 或 Multica；未达到独立门槛的 maintenance 请记录到现有 authority checklist。
   - name: 数据与隐私边界
     url: https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/main/docs/PRIVACY_BOUNDARY.md
     about: 提交 Issue 前确认公开数据与 private data boundary。

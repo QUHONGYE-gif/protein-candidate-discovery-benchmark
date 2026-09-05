@@ -57,6 +57,8 @@ class CheckResult:
         """Return the JSON representation, omitting absent evidence."""
 
         value = asdict(self)
+        value["input_digests"] = list(self.input_digests)
+        value["blocks"] = list(self.blocks)
         if self.evidence is None:
             del value["evidence"]
         return value

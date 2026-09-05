@@ -14,3 +14,10 @@ The manifest binds the canonical SHA-256 of its `scientific_contract` object and
 each decision/input. A terminal revision adds the Gate B reference without rewriting the frozen
 scientific contract digest. Production revisions are append-only artifacts; the example file is
 only maintained alongside code and schemas.
+
+Repository-workflow examples are deliberately kept in
+[`docs/GOVERNANCE_V2_RUNBOOK.md`](../../../docs/GOVERNANCE_V2_RUNBOOK.md), not in another manifest
+or registry. They show Major / semantic PR and Maintenance batch PR classification, an authority
+checklist, both `github_issue` and `multica` declaration shapes, and placeholder Multica/GitHub
+many-to-one links for the GitHub-authority path. The repository Check validates those examples
+against `configs/governance/v2.json`; it does not create or approve an external Issue or PR.
