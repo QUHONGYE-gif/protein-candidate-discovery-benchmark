@@ -1,4 +1,4 @@
-# M5C Gate A review packet v4
+# M5C Gate A review packet v5
 
 ## Status and authority
 
@@ -17,10 +17,10 @@ GitHub comments from both scientific authorities, and only then may the manifest
 
 Contract identity:
 
-- ID/version: `m5c-proteingym-prospective-v1` / `4`;
-- scientific-contract digest: `b0e2268fe2a89157b18501e7955566599ab6ab2d4b02fc875507b5212e547810`;
-- proposal decision digest: `0d47458a4a8f948b2266e7d5535f2b67f5121b7c7efc803981eaadd52c67aee0`;
-- Gate proposal SHA-256: `0431033dffffbe904ec1ce77c41fced67bc468e3399038e8d116004ecb7a2e23`;
+- ID/version: `m5c-proteingym-prospective-v1` / `5`;
+- scientific-contract digest: `0e5bd957e5450605cd418eab8768cef404142bf4548fb17864520727b3bfeadd`;
+- proposal decision digest: `10c5356964be425e0c201627ebea043f2a5f5571f96f179871561a811d383c0c`;
+- Gate proposal SHA-256: `eaaac2511a06267614e741b44fb97fb8e14e719167ba8ed2f73cb19b0efb4e8f`;
 - base: `origin/main@9f332c2935b53ab1697688d0024944bc12a99161`;
 - PR class: `Major / semantic PR`;
 - authorities: `github:QUHONGYE-gif`, `github:willzhang`.
@@ -53,10 +53,12 @@ The candidate manifest is normative for review; this section is a navigation sum
 3. **Split and features.** Each assay's complete candidate-pool is its independent replay universe.
    Initial 32/64 observations are nested truth-blind SHA-256 samples for seeds 1729–1738. RF and
    XGBoost use only stateless `sequence-composition-420-v1`; there is no cross-assay fitting.
-4. **Static proxy baseline.** The frozen proposal names exact ProteinGym column
-   `esm1v_t33_650M_UR90S_1`, direction +1, requiring 100% finite coverage with no imputation. The
-   v4 preflight found that exact column absent from all four whitelisted raw-score headers and found
-   the available related columns co-located with DMS truth columns. No substitute was selected.
+4. **Static proxy baseline.** The proposed archive column is `ESM1v_single`, direction +1. At the
+   frozen ProteinGym upstream commit, the official config maps that export alias to
+   `input_score_name = esm1v_t33_650M_UR90S_1`, while the official constants distinguish it from
+   the five-model `ESM1v_ensemble`. This outcome-independent identity mapping still requires both
+   authorities' ratification; it requires 100% finite coverage with no imputation and never enters
+   the RF/XGBoost one-step arms.
 5. **One-step arms.** Exact-bind RF `418b0fd…`, XGBoost `31eb5bc…`, Greedy `3c7c537…`,
    Uncertainty `7748917…`, UCB `9b132ec…`, and the full M5C Matched Random state/counter tuples.
    Every selected batch has size 16; each model/state has 64 matched controls.
@@ -172,15 +174,21 @@ The exact blocked artifacts are:
   `b427737c9d5e6e52e51fe7364f3f0e78a5d202ef84db424a2d2ffc27b16c5266`.
 
 Both live under `manifests/experiments/m5c/preflight-result-v4/` and are exact-bound in manifest
-revision 4 as evaluator/reporting inputs. Their status is `blocked`, not a passing final input
+revision 5 as evaluator/reporting inputs. Their status is `blocked`, not a passing final input
 manifest. Generator identity is separately recorded as Moka plus remote principal `siyuan`, source
 commit/tree `6e18a5d` / `a3478a5`, environment digest
 `3d1b633ca515100d493e93f9620ad30221584314635a4285a947febdb22ecd17`; it is not a Run identity.
 
+Mika's exact-head review in MIRA-13 comment `01a074c0-6e91-7493-892c-45e6c843dc61` passes the
+header-only stop and both artifacts **as failure evidence**. It requires only two proposal
+corrections: use the official outcome-independent single-seed alias mapping as the recommendation,
+and replace the assumed derived-proxy prerequisite with a summary-only finite/alignment path plus
+an independent accepted-inventory binding. It does not authorize either operation or Gate A.
+
 ## Mika REVISE disposition
 
 The initial independent review is recorded in MIRA-13 at comment
-`01a07097-73ee-70ee-8088-ae3d517e3545`. Revisions 2 through 4 respond as follows:
+`01a07097-73ee-70ee-8088-ae3d517e3545`. Revisions 2 through 5 respond as follows:
 
 1. **Nested bootstrap — revised.** One assay/draw now creates one ten-slot seed index vector and
    reuses it across both models and both nested 32/64 cells. Matched-replicate resampling remains
@@ -196,7 +204,9 @@ The initial independent review is recorded in MIRA-13 at comment
    coverage; the latter binds final execution source/environment and reverse-binds the authorized
    contract and input/capability-manifest digests before any protected side effect. Revision 4
    applies that boundary fail-closed and binds the resulting blocked artifacts without selecting a
-   replacement proxy or reading a raw-score data row.
+   replacement proxy or reading a raw-score data row. Revision 5 then records the official
+   `ESM1v_single` export-alias mapping and the smaller summary-only validation route without treating
+   either as already ratified or authorized.
 4. **Operation authorization and reproduction — revised as a proposal.** Exact actors, host/paths,
    validity windows, rollback/stop conditions and disjoint main/reviewer/archive ceilings are now
    normative. Human authorization remains outstanding in the single list below.
@@ -205,10 +215,12 @@ The initial independent review is recorded in MIRA-13 at comment
 
 Deferred as non-blocking engineering, consistent with Mika's review: runner/schema/golden-vector
 implementation, target-host provisioning and generation of the final execution Run identity occur
-only after the relevant authorization. The pre-Gate generator may record a separate generator
-identity, but it is never described as final run source. The absent Multica linked-PR display is
-tracking UI state, not a scientific or contract blocker; PR #103 remains routable by title and
-branch. No new assay, seed,
+only after the relevant authorization. A derived candidate-id/proxy-only artifact is not a Gate A
+prerequisite while the existing summary and future static-evaluator capability boundaries suffice;
+if Stage 2 cannot enforce the latter boundary, it must fail closed and add that artifact as an
+engineering repair. The pre-Gate generator may record a separate generator identity, but it is never
+described as final run source. The absent Multica linked-PR display is tracking UI state, not a
+scientific or contract blocker; PR #103 remains routable by title and branch. No new assay, seed,
 model, beta, round, approval layer, service or subtask is introduced.
 
 ## One confirmation list
@@ -216,20 +228,27 @@ model, beta, round, approval layer, service or subtask is introduced.
 These are the only unresolved items. The recommendation is part of the proposal, not an
 authorization.
 
-1. **Scientific contract and proxy identity.** Both authorities must approve version 4's complete cohort,
+1. **Scientific contract and proxy identity.** Both authorities must approve version 5's complete cohort,
    nested design/bootstrap, exact comparison hashes/counters, recall/tie rule, 99.375% intervals,
-   assay/cohort taxonomy and one-batch stopping. They must now decide outcome-independently whether
-   the intended static baseline is `ESM1v_single`, `ESM1v_ensemble`, or neither; the frozen
-   `esm1v_t33_650M_UR90S_1` identifier is absent. No recommendation is made between those scientific
-   alternatives because the current authorization forbids outcome/performance use and did not
-   authorize a proxy substitution.
-2. **Capability-separable proxy input.** The original outcome-free read was authorized and stopped
-   correctly before raw-score rows. If item 1 selects a present column, authorize a minimal method
-   to create and independently verify an immutable candidate-id/selected-proxy-only artifact without
-   exposing `DMS_score` or `DMS_score_bin` to Moka, the runner, surrogate or acquisition. It must have
-   its own exact path/SHA-256/size, consumer boundary and fresh finite/alignment report. This is a
-   necessary replacement for the failed preflight input, not permission to analyze proxy performance
-   or a new scientific approval stage.
+   assay/cohort taxonomy and one-batch stopping. Recommendation: ratify `ESM1v_single` / direction +1
+   as the archive alias for the already-selected ESM1v single-seed baseline. The frozen upstream
+   [config](https://github.com/OATML-Markslab/ProteinGym/blob/144fe22b07dfaeec2b366f2346203a9838a55b4c/config.json#L81-L94)
+   maps it to `input_score_name = esm1v_t33_650M_UR90S_1`; the upstream
+   [constants](https://github.com/OATML-Markslab/ProteinGym/blob/144fe22b07dfaeec2b366f2346203a9838a55b4c/proteingym/constants.json#L9-L17)
+   distinguish `ESM1v_ensemble` as a different five-model method. This recommendation uses identity
+   metadata only, not proxy performance. A departure from single-seed is a semantic revision.
+2. **Summary-only finite/alignment and source identity.** The original outcome-free read stopped
+   correctly and its inability-to-separate authorization ended. Authorize one smaller continuation
+   that may read only the four immutable `score-coverage.json` summaries, their four processing
+   manifests, the migration receipt, and either a read-only copy of the Issue #11 accepted terminal
+   inventory or an authenticated binding of its canonical inventory digest. For every assay it must
+   verify `ESM1v_single` is listed; `finite == truth_candidate_count == score_row_count`; `missing`,
+   `non_finite` and `truth_candidates_without_score_row` are zero; and every summary path/hash/size
+   agrees with its processing manifest, the receipt and the accepted inventory. It must not open any
+   raw-score data row or truth file. The new authorization reuses only the original 5 CNY preflight
+   bucket and other remaining cumulative caps and may not reset or extend the approved
+   `2026-09-07T11:20:44Z` deadline. Recommendation: approve after supplying the independent inventory
+   binding; this is not permission for performance analysis or a new scientific approval stage.
 3. **Provision, stage and run.** Authorize the proposed subject/path/window/rollback policy:
    `github:willzhang`/`siyuan` provisions `protein-6000`/`ps` and byte-stages exactly the accepted
    45-object prefix; `service:pcdb-runner` owns one formal slice under `/srv/pcdb/runs/M5C/`.
@@ -255,15 +274,15 @@ raw-data publication, candidate-level reviewer access and evidence promotion bef
 
 ## Gate sequence
 
-1. Mika reviews this exact revision, the two blocked preflight artifacts and the proxy/capability
-   findings, and records whether the stop is correct and which changes are truly necessary; optional
-   engineering improvements remain deferred.
-2. The two authorities resolve the single confirmation list. Items 1 and 2 now require an explicit
-   proxy identity choice and a bounded capability-separable artifact operation. A replacement
-   outcome-free preflight must exact-bind a passing input/capability manifest by path, SHA-256 and
-   size; any generator source/environment recorded for provenance remains a generator identity, not
-   the execution Run identity. Necessary changes receive findings-focused recheck without creating
-   another approval stage.
+1. Mika reviews this exact revision against comment `01a074c0-6e91-7493-892c-45e6c843dc61` and
+   records whether both necessary findings are resolved; optional engineering improvements remain
+   deferred.
+2. The two authorities resolve the single confirmation list. Items 1 and 2 require explicit alias
+   ratification, a bounded summary-only operation and an independent accepted-inventory binding. A
+   replacement outcome-free preflight must exact-bind a passing input/capability manifest by path,
+   SHA-256 and size; any generator source/environment recorded for provenance remains a generator
+   identity, not the execution Run identity. Necessary changes receive findings-focused recheck
+   without creating another approval stage.
 3. Author the final Gate A JSON, then compute its exact decision marker with
    `pcdb governance-decision-digest`.
 4. Both `github:QUHONGYE-gif` and `github:willzhang` post fresh authenticated comments containing

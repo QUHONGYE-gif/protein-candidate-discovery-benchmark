@@ -3,10 +3,10 @@
     {
       "attestation": {
         "actor": "github:QUHONGYE-gif",
-        "body": "PROPOSAL ONLY; this is not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: 0d47458a4a8f948b2266e7d5535f2b67f5121b7c7efc803981eaadd52c67aee0\n",
-        "body_sha256": "9519fe35d2ac918a20cf0cced9396e96fc4c661632ba4edb5b43f720924d4709",
+        "body": "PROPOSAL ONLY; this is not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: 10c5356964be425e0c201627ebea043f2a5f5571f96f179871561a811d383c0c\n",
+        "body_sha256": "8239e8426629dfb2f6d7c9ea1e25141694890e62de1a1706b26c2a9332b452c3",
         "comment_id": 1,
-        "decision_digest": "0d47458a4a8f948b2266e7d5535f2b67f5121b7c7efc803981eaadd52c67aee0",
+        "decision_digest": "10c5356964be425e0c201627ebea043f2a5f5571f96f179871561a811d383c0c",
         "node_id": "M5C_GATE_A_PROPOSAL_NOT_EXTERNAL_EVIDENCE_1",
         "repository": "QUHONGYE-gif/protein-candidate-discovery-benchmark",
         "schema_version": "pcdb-github-comment-attestation-v1",
@@ -25,10 +25,10 @@
     {
       "attestation": {
         "actor": "github:willzhang",
-        "body": "PROPOSAL ONLY; this is not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: 0d47458a4a8f948b2266e7d5535f2b67f5121b7c7efc803981eaadd52c67aee0\n",
-        "body_sha256": "9519fe35d2ac918a20cf0cced9396e96fc4c661632ba4edb5b43f720924d4709",
+        "body": "PROPOSAL ONLY; this is not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: 10c5356964be425e0c201627ebea043f2a5f5571f96f179871561a811d383c0c\n",
+        "body_sha256": "8239e8426629dfb2f6d7c9ea1e25141694890e62de1a1706b26c2a9332b452c3",
         "comment_id": 2,
-        "decision_digest": "0d47458a4a8f948b2266e7d5535f2b67f5121b7c7efc803981eaadd52c67aee0",
+        "decision_digest": "10c5356964be425e0c201627ebea043f2a5f5571f96f179871561a811d383c0c",
         "node_id": "M5C_GATE_A_PROPOSAL_NOT_EXTERNAL_EVIDENCE_2",
         "repository": "QUHONGYE-gif/protein-candidate-discovery-benchmark",
         "schema_version": "pcdb-github-comment-attestation-v1",
@@ -45,16 +45,16 @@
       "verdict": "authorized"
     }
   ],
-  "contract_digest": "b0e2268fe2a89157b18501e7955566599ab6ab2d4b02fc875507b5212e547810",
+  "contract_digest": "0e5bd957e5450605cd418eab8768cef404142bf4548fb17864520727b3bfeadd",
   "contract_id": "m5c-proteingym-prospective-v1",
-  "contract_version": 4,
+  "contract_version": 5,
   "decided_at": "2026-09-05T00:00:00Z",
-  "decision_id": "gate-a-m5c-proteingym-v4",
+  "decision_id": "gate-a-m5c-proteingym-v5",
   "formulation": "proposed_and_approved",
   "proposers": [
     "github:willzhang"
   ],
-  "rationale": "Revision 4 blocked proposal skeleton. It exact-binds the outcome-free preflight artifacts, which stopped before raw-score data rows because the frozen proxy column is absent and the available raw score files co-locate related proxy columns with DMS truth columns. These are failure artifacts, not a passing final input manifest. Final Gate A requires Mika's findings-focused review, explicit outcome-independent resolution of proxy identity and capability separation, a passing replacement input/coverage preflight, resolution of the remaining confirmation list, two fresh authenticated GitHub authority comments bound to the resulting final decision digest, and a manifest revision from example to authorized.",
+  "rationale": "Revision 5 blocked proposal skeleton. It preserves the exact-bound v4 preflight artifacts as failure evidence and applies Mika's two necessary findings: recommend the official outcome-independent ESM1v_single export alias for the already-selected single-seed baseline, and use an authorized summary-only finite/alignment path plus independent accepted-inventory binding instead of requiring a derived proxy-only artifact before Gate A. Final Gate A still requires both authorities' alias ratification, a bounded summary-only authorization within the original remaining cap/window, a passing replacement input/coverage preflight, resolution of the remaining confirmation list, two fresh authenticated GitHub authority comments bound to the resulting final decision digest, and a manifest revision from example to authorized.",
   "record_status": "example",
   "schema_version": "pcdb-gate-a-decision-v1",
   "verdict": "authorized"
