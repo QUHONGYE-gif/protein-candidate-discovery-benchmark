@@ -4,7 +4,7 @@
   "contract_version": 6,
   "gate_a": {
     "path": "manifests/experiments/m5c/gate-a-proposal-v3/gate-a-decision.proposal.json",
-    "sha256": "f6a2f4a20f0a091150a04c502ad348f65410f6549e91db95d7f545f84f4bdc8a"
+    "sha256": "8213cb52e512340a4d70880ee4be1637fcb34187bbed6eb5d039449ce79a8361"
   },
   "input_artifacts": [
     {
@@ -70,7 +70,7 @@
     "dataset_inclusion",
     "cost_semantics"
   ],
-  "manifest_revision": 6,
+  "manifest_revision": 7,
   "manifest_status": "example",
   "milestone_id": "M5C",
   "run_policy": {

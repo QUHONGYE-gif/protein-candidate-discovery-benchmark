@@ -9,23 +9,26 @@ authority; no GitHub parent Issue is created.
 
 The candidate manifest remains at the legacy proposal path
 `manifests/experiments/m5c/gate-a-proposal-v3/milestone-contract-manifest.json`. Its
-`manifest_status: example` and the referenced Gate A record's `record_status: example` mean the
-packet is schema-testable but **does not authorize execution**. After revision 6 technical review,
-the final decision record must be regenerated, bound to fresh authenticated
-GitHub comments from both scientific authorities, and only then may the manifest become
-`authorized`.
+`manifest_status: example` and the final decision carrier's pending placeholder attestations mean
+the packet is schema-testable but **does not authorize execution**. Mika passed revision 6 at exact
+HEAD `1542008c043cc5bbdc1fc9e30ca9188f1b0f29fa`; manifest revision 7 now contains the stable final
+decision payload and marker. Both scientific authorities must still publish fresh authenticated
+GitHub comments for that marker. Only after their exact envelopes replace the placeholders and the
+production contract Check passes may the manifest become `authorized`.
 
 Contract identity:
 
 - ID/version: `m5c-proteingym-prospective-v1` / `6`;
 - scientific-contract digest: `abc16ed38664d63efede535de3ecd8b8552031e52b156c37023e7b7e717d5278`;
-- proposal decision digest: `ad21acf9e1a051f36074448007918e8ce3dd5f612ff4d507d1de28848129e906`;
-- Gate proposal SHA-256: `f6a2f4a20f0a091150a04c502ad348f65410f6549e91db95d7f545f84f4bdc8a`;
+- final decision digest: `2d7b6e869a56e364383e3f84ba4496a95e239a7766743af24cb3e3f8a1d7a7f0`;
+- current final-decision carrier SHA-256: `8213cb52e512340a4d70880ee4be1637fcb34187bbed6eb5d039449ce79a8361`
+  (pending envelopes; its file SHA-256 will change when the authenticated transport evidence is
+  inserted, while the decision digest remains stable);
 - base: `origin/main@9f332c2935b53ab1697688d0024944bc12a99161`;
 - PR class: `Major / semantic PR`;
 - authorities: `github:QUHONGYE-gif`, `github:willzhang`.
 
-## Revision 6 pre-final result
+## Revision 6 result and findings-focused PASS
 
 Both authorities published native GitHub comments against exact PR HEAD `77ccde1c` before the
 authorized deadline:
@@ -62,9 +65,12 @@ passing replacements are:
 
 The v4 blocked artifacts remain immutable historical failure evidence. Revision 6 replaces their
 normative role with the passing v5 pair while retaining both histories. It does not authorize a
-formal run. Mika must now review only this new evidence/binding and its affected contract surface;
-after that PASS, a final decision object and exact marker can be generated for two fresh human
-attestations.
+formal run. Mika's findings-focused review passed exact HEAD `1542008c043cc5bbdc1fc9e30ca9188f1b0f29fa`,
+tree `04d7034fe9d694a9336e309ee778aeb5bec252df`, scientific-contract digest
+`abc16ed38664d63efede535de3ecd8b8552031e52b156c37023e7b7e717d5278`, with no remaining necessary
+finding. Manifest revision 7 therefore changes only the Gate finalization carrier: it fixes the
+stable final decision payload/marker and keeps the manifest fail-closed pending two human
+attestations and a production contract Check.
 
 ## Existing decisions used directly
 
@@ -297,21 +303,17 @@ raw-data publication, candidate-level reviewer access and evidence promotion bef
 
 ## Gate sequence
 
-1. Mika reviews revision 6's exact new evidence and binding plus their affected contract surface;
-   resolved historical findings are not reopened without new evidence, and optional engineering
-   improvements remain deferred.
-2. If Mika finds a necessary defect, Moka repairs it and requests only a findings-focused recheck.
-   Otherwise the passing input/capability manifest remains the pre-Gate generator artifact, not a
-   final execution Run identity.
-3. Author the final Gate A JSON, then compute its exact decision marker with
-   `pcdb governance-decision-digest`.
-4. Both `github:QUHONGYE-gif` and `github:willzhang` post fresh authenticated comments containing
+1. Mika's findings-focused revision 6 review is complete and PASS; the passing input/capability
+   manifest remains a pre-Gate generator artifact, not a final execution Run identity.
+2. The final Gate A payload has been authored and its stable marker computed with
+   `pcdb governance-decision-digest`; placeholder envelopes remain explicitly non-authorizing.
+3. Both `github:QUHONGYE-gif` and `github:willzhang` post fresh authenticated comments containing
    the exact marker and explicit approval of all four major boundaries. GitHub review or CI alone is
    insufficient.
-5. Bind both attestations and the input/capability-manifest digest, change the manifest to
+4. Bind both attestations and the input/capability-manifest digest, change the manifest to
    `authorized`, run the final production contract check, and update `docs/STATUS.md` for the Gate A
    scientific transition.
-6. Only after valid Gate A may the parent barrier promote Stage 2. Stage 2 must create the final Run
+5. Only after valid Gate A may the parent barrier promote Stage 2. Stage 2 must create the final Run
    identity from the actual execution commit/tree/environment and reverse-bind the authorized
    contract and input/capability-manifest digests before its first truth read or protected side
    effect.

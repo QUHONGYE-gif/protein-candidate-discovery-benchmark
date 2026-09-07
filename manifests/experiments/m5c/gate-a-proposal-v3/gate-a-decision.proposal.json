@@ -3,17 +3,17 @@
     {
       "attestation": {
         "actor": "github:QUHONGYE-gif",
-        "body": "PROPOSAL ONLY; this is not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: ad21acf9e1a051f36074448007918e8ce3dd5f612ff4d507d1de28848129e906\n",
-        "body_sha256": "c74654a17978ac004a4ff8d3af0ec7f81c60136acf5409011a19b5415c0e2308",
+        "body": "PENDING HUMAN ATTESTATION; this final payload is not yet an effective Gate A.\nPCDB-GOVERNANCE-DECISION-SHA256: 2d7b6e869a56e364383e3f84ba4496a95e239a7766743af24cb3e3f8a1d7a7f0\n",
+        "body_sha256": "e134f2e30834a00ee2a9ea4c51ccf49d720844fb559e4e767291f260b12a8368",
         "comment_id": 1,
-        "decision_digest": "ad21acf9e1a051f36074448007918e8ce3dd5f612ff4d507d1de28848129e906",
-        "node_id": "M5C_GATE_A_PROPOSAL_NOT_EXTERNAL_EVIDENCE_1",
+        "decision_digest": "2d7b6e869a56e364383e3f84ba4496a95e239a7766743af24cb3e3f8a1d7a7f0",
+        "node_id": "M5C_GATE_A_FINAL_PENDING_EXTERNAL_EVIDENCE_1",
         "repository": "QUHONGYE-gif/protein-candidate-discovery-benchmark",
         "schema_version": "pcdb-github-comment-attestation-v1",
         "updated_at": "2026-09-05T00:00:00Z"
       },
       "authority": "github:QUHONGYE-gif",
-      "decided_at": "2026-09-05T00:00:00Z",
+      "decided_at": "2026-09-07T07:54:59Z",
       "explicit_boundaries": [
         "held_out_boundary",
         "primary_endpoint",
@@ -25,17 +25,17 @@
     {
       "attestation": {
         "actor": "github:willzhang",
-        "body": "PROPOSAL ONLY; this is not an authorization.\nPCDB-GOVERNANCE-DECISION-SHA256: ad21acf9e1a051f36074448007918e8ce3dd5f612ff4d507d1de28848129e906\n",
-        "body_sha256": "c74654a17978ac004a4ff8d3af0ec7f81c60136acf5409011a19b5415c0e2308",
+        "body": "PENDING HUMAN ATTESTATION; this final payload is not yet an effective Gate A.\nPCDB-GOVERNANCE-DECISION-SHA256: 2d7b6e869a56e364383e3f84ba4496a95e239a7766743af24cb3e3f8a1d7a7f0\n",
+        "body_sha256": "e134f2e30834a00ee2a9ea4c51ccf49d720844fb559e4e767291f260b12a8368",
         "comment_id": 2,
-        "decision_digest": "ad21acf9e1a051f36074448007918e8ce3dd5f612ff4d507d1de28848129e906",
-        "node_id": "M5C_GATE_A_PROPOSAL_NOT_EXTERNAL_EVIDENCE_2",
+        "decision_digest": "2d7b6e869a56e364383e3f84ba4496a95e239a7766743af24cb3e3f8a1d7a7f0",
+        "node_id": "M5C_GATE_A_FINAL_PENDING_EXTERNAL_EVIDENCE_2",
         "repository": "QUHONGYE-gif/protein-candidate-discovery-benchmark",
         "schema_version": "pcdb-github-comment-attestation-v1",
         "updated_at": "2026-09-05T00:00:00Z"
       },
       "authority": "github:willzhang",
-      "decided_at": "2026-09-05T00:00:00Z",
+      "decided_at": "2026-09-07T07:54:59Z",
       "explicit_boundaries": [
         "held_out_boundary",
         "primary_endpoint",
@@ -48,14 +48,14 @@
   "contract_digest": "abc16ed38664d63efede535de3ecd8b8552031e52b156c37023e7b7e717d5278",
   "contract_id": "m5c-proteingym-prospective-v1",
   "contract_version": 6,
-  "decided_at": "2026-09-05T00:00:00Z",
+  "decided_at": "2026-09-07T07:54:59Z",
   "decision_id": "gate-a-m5c-proteingym-v6",
   "formulation": "proposed_and_approved",
   "proposers": [
     "github:willzhang"
   ],
-  "rationale": "Revision 6 pre-final proposal. It preserves the exact-bound v4 artifacts as failure evidence and binds the passing v5 replacement input/capability manifest and finite-coverage report. Authenticated GitHub comments 5566509712 and 5566572994 ratify the outcome-independent ESM1v_single alias/direction, bind the migration receipt to the accepted Issue #11 terminal inventory, bound the completed summary-only attempt, and conditionally approve main, aggregate-only reproduction and terminal archive resources/operations. The replacement exact-checks all four allowed summary/processing-manifest pairs without opening a raw-score data row or truth file. Final Gate A still requires Mika's findings-focused review of this revision, two fresh authenticated authority comments containing the exact final decision marker and all four major boundaries, their attestation envelopes, manifest_status authorized, and a passing final production contract Check.",
-  "record_status": "example",
+  "rationale": "Final Gate A decision payload prepared after Mika's revision 6 findings-focused PASS. It preserves the exact-bound v4 artifacts as historical failure evidence and binds the passing v5 replacement input/capability manifest and finite-coverage report. Authenticated GitHub comments 5566509712 and 5566572994 ratify the outcome-independent ESM1v_single alias/direction, bind the migration receipt to the accepted Issue #11 terminal inventory, bound the completed summary-only attempt, and conditionally approve main, aggregate-only reproduction and terminal archive resources/operations. The replacement exact-checks all four allowed summary/processing-manifest pairs without opening a raw-score data row or truth file. This final payload does not become an effective Gate A until both authorities publish fresh comments containing its exact marker and all four major boundaries, their authenticated envelopes replace the pending placeholders, manifest_status becomes authorized, and the production contract Check passes.",
+  "record_status": "final",
   "schema_version": "pcdb-gate-a-decision-v1",
   "verdict": "authorized"
 }
