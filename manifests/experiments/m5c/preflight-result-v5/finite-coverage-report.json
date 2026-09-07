@@ -1,0 +1,124 @@
+{
+  "aggregate": {
+    "cohort_preflight_status": "PASS",
+    "eligible_assay_count": 4,
+    "minimum_required_eligible_assays": 3,
+    "selected_proxy_finite_count": 635787,
+    "selected_proxy_missing_count": 0,
+    "selected_proxy_non_finite_count": 0
+  },
+  "assays": [
+    {
+      "assay_id": "BLAT_ECOLX_Firnberg_2014",
+      "eligibility": "eligible",
+      "finite": 4783,
+      "missing": 0,
+      "non_finite": 0,
+      "score_row_count": 4783,
+      "truth_candidate_count": 4783,
+      "truth_candidates_without_score_row": 0
+    },
+    {
+      "assay_id": "CAPSD_AAV2S_Sinai_2021",
+      "eligibility": "eligible",
+      "finite": 42328,
+      "missing": 0,
+      "non_finite": 0,
+      "score_row_count": 42328,
+      "truth_candidate_count": 42328,
+      "truth_candidates_without_score_row": 0
+    },
+    {
+      "assay_id": "GFP_AEQVI_Sarkisyan_2016",
+      "eligibility": "eligible",
+      "finite": 51714,
+      "missing": 0,
+      "non_finite": 0,
+      "score_row_count": 51714,
+      "truth_candidate_count": 51714,
+      "truth_candidates_without_score_row": 0
+    },
+    {
+      "assay_id": "SPG1_STRSG_Olson_2014",
+      "eligibility": "eligible",
+      "finite": 536962,
+      "missing": 0,
+      "non_finite": 0,
+      "score_row_count": 536962,
+      "truth_candidate_count": 536962,
+      "truth_candidates_without_score_row": 0
+    }
+  ],
+  "attempt": {
+    "attempt_id": "m5c-summary-preflight-20260907T071812Z",
+    "automatic_retries": 0,
+    "finished_at": "2026-09-07T07:20:17Z",
+    "started_at": "2026-09-07T07:18:12Z"
+  },
+  "authorization": {
+    "expires_at": "2026-09-07T11:20:44Z",
+    "github_comments": [
+      {
+        "actor": "github:willzhang",
+        "body_sha256": "3ee865f6aea498b99ede0a49e29c44e7e3720864019894cb9f4e80a81ff8f6ef",
+        "comment_id": 5566509712,
+        "node_id": "IC_kwDOTdCmcM8AAAABS8oykA",
+        "updated_at": "2026-09-07T07:09:49Z"
+      },
+      {
+        "actor": "github:QUHONGYE-gif",
+        "body_sha256": "fd0875072d3e089c54a5e09f47064c7dc2ac37573939cc381a59a6758df115fd",
+        "comment_id": 5566572994,
+        "node_id": "IC_kwDOTdCmcM8AAAABS8spwg",
+        "updated_at": "2026-09-07T07:13:50Z"
+      }
+    ],
+    "max_attempts": 1,
+    "remaining_budget_attested": true
+  },
+  "checks": {
+    "authenticated_issue_11_inventory_binding": "pass",
+    "candidate_count_alignment": "pass",
+    "processing_manifest_summary_binding": "pass",
+    "receipt_path_size_sha256": "pass",
+    "selected_proxy_present": "pass"
+  },
+  "contract_id": "m5c-proteingym-prospective-v1",
+  "contract_version": 6,
+  "generated_at": "2026-09-07T07:20:17Z",
+  "prohibited_access": {
+    "cos_writes": 0,
+    "dms_truth_values_read": false,
+    "held_out_accessed": false,
+    "high_value_membership_read": false,
+    "performance_analysis_performed": false,
+    "raw_score_data_rows_read": 0,
+    "server_writes": 0,
+    "truth_files_opened": 0
+  },
+  "report_status": "passed",
+  "resource_usage": {
+    "content_bytes_read": 91898,
+    "cost_cny": 0,
+    "parser_cpu_seconds": 0.002432,
+    "parser_peak_rss_kib": 14780,
+    "scratch_bytes": 0
+  },
+  "resource_usage_upper_bounds": {
+    "cost_cny": 0,
+    "cpu_seconds": 10,
+    "peak_rss_bytes": 268435456,
+    "read_and_network_bytes": 1048576,
+    "scratch_bytes": 1048576,
+    "wall_seconds": 180
+  },
+  "schema_version": "pcdb-m5c-finite-coverage-report-v1",
+  "selected_proxy_column": "ESM1v_single",
+  "selected_proxy_direction": 1,
+  "source_observation": {
+    "method": "summary_only_fail_closed",
+    "physical_host": "129.28.97.247",
+    "remote_hostname": "VM-0-8-debian",
+    "server_principal": "siyuan"
+  }
+}

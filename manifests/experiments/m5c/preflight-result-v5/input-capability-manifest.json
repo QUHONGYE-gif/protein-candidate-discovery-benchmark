@@ -1,0 +1,377 @@
+{
+  "assays": [
+    {
+      "artifacts": {
+        "candidate": {
+          "consumers": [
+            "runner",
+            "surrogate_model",
+            "acquisition_strategy",
+            "evaluator"
+          ],
+          "path": "processed/BLAT_ECOLX_Firnberg_2014/proteingym-blat_ecolx_firnberg_2014-5658aa768b28c9c061031829f0df1c54443a3d25e4530acd882340aa7f72d815/candidates.csv.gz",
+          "sha256": "3e11ee04c09c87931549cebcaef49d4ca3f022d472f0a1df0e3616ee2d59e7d7",
+          "size_bytes": 231558,
+          "visibility": "observable"
+        },
+        "hidden_truth": {
+          "consumers": [
+            "hidden_oracle",
+            "evaluator"
+          ],
+          "path": "processed/BLAT_ECOLX_Firnberg_2014/proteingym-blat_ecolx_firnberg_2014-5658aa768b28c9c061031829f0df1c54443a3d25e4530acd882340aa7f72d815/hidden-truth.csv.gz",
+          "read_in_this_attempt": false,
+          "sha256": "fd99db9919e05539eeeb5b7bfafa849e784b6166fdfb2e3c8a7da37cd057da01",
+          "size_bytes": 195982,
+          "visibility": "hidden_truth"
+        },
+        "processing_manifest": {
+          "path": "processed/BLAT_ECOLX_Firnberg_2014/proteingym-blat_ecolx_firnberg_2014-5658aa768b28c9c061031829f0df1c54443a3d25e4530acd882340aa7f72d815/processing-manifest.json",
+          "sha256": "7e074b72b0a92707002d2060712cee0c29b506f1b82320b6a1a58ed06ba933e0",
+          "size_bytes": 2486
+        },
+        "proxy_source": {
+          "consumers": [
+            "static_proxy_evaluator"
+          ],
+          "path": "raw/BLAT_ECOLX_Firnberg_2014/zero-shot-scores.csv",
+          "read_in_this_attempt": false,
+          "selected_export_column": "ESM1v_single",
+          "sha256": "f3a26f3bb475224c2e306e990024dbc223c8a1dcd77f507da29557b7e9b2dd42",
+          "size_bytes": 9445772,
+          "visibility": "capability_limited_after_gate_a"
+        },
+        "score_coverage_summary": {
+          "path": "processed/BLAT_ECOLX_Firnberg_2014/proteingym-blat_ecolx_firnberg_2014-5658aa768b28c9c061031829f0df1c54443a3d25e4530acd882340aa7f72d815/score-coverage.json",
+          "sha256": "47806f68acd0bfbd561567dbea7c0cf7e18ff8226a96ba41b4527b66a5cfe7f4",
+          "size_bytes": 10910
+        }
+      },
+      "assay_id": "BLAT_ECOLX_Firnberg_2014",
+      "eligibility": "eligible",
+      "finite_coverage": {
+        "finite": 4783,
+        "missing": 0,
+        "non_finite": 0,
+        "score_row_count": 4783,
+        "truth_candidate_count": 4783,
+        "truth_candidates_without_score_row": 0
+      }
+    },
+    {
+      "artifacts": {
+        "candidate": {
+          "consumers": [
+            "runner",
+            "surrogate_model",
+            "acquisition_strategy",
+            "evaluator"
+          ],
+          "path": "processed/CAPSD_AAV2S_Sinai_2021/proteingym-capsd_aav2s_sinai_2021-90ba135b25bcae0e92f7925a7edd2648d624fb482343a8fa27dc73163a024b74/candidates.csv.gz",
+          "sha256": "9f5c4e3c08906fc707026cfd6d7d88c30f4fee7fcee92e3fee0f58181d494489",
+          "size_bytes": 2415066,
+          "visibility": "observable"
+        },
+        "hidden_truth": {
+          "consumers": [
+            "hidden_oracle",
+            "evaluator"
+          ],
+          "path": "processed/CAPSD_AAV2S_Sinai_2021/proteingym-capsd_aav2s_sinai_2021-90ba135b25bcae0e92f7925a7edd2648d624fb482343a8fa27dc73163a024b74/hidden-truth.csv.gz",
+          "read_in_this_attempt": false,
+          "sha256": "96870aede289f50912a9457232e8987e411508cfe68154ef89dd72c2e39952f7",
+          "size_bytes": 1958481,
+          "visibility": "hidden_truth"
+        },
+        "processing_manifest": {
+          "path": "processed/CAPSD_AAV2S_Sinai_2021/proteingym-capsd_aav2s_sinai_2021-90ba135b25bcae0e92f7925a7edd2648d624fb482343a8fa27dc73163a024b74/processing-manifest.json",
+          "sha256": "4132a1a8f150ee6080e2a3b4a73539f6d392894d515d88ab802c0cdace41a80a",
+          "size_bytes": 2472
+        },
+        "proxy_source": {
+          "consumers": [
+            "static_proxy_evaluator"
+          ],
+          "path": "raw/CAPSD_AAV2S_Sinai_2021/zero-shot-scores.csv",
+          "read_in_this_attempt": false,
+          "selected_export_column": "ESM1v_single",
+          "sha256": "a32ef39cdfbdc27148efabbe7805510c1f693c5227c2e250dc2e6d32eea3416e",
+          "size_bytes": 103766443,
+          "visibility": "capability_limited_after_gate_a"
+        },
+        "score_coverage_summary": {
+          "path": "processed/CAPSD_AAV2S_Sinai_2021/proteingym-capsd_aav2s_sinai_2021-90ba135b25bcae0e92f7925a7edd2648d624fb482343a8fa27dc73163a024b74/score-coverage.json",
+          "sha256": "6855effd12db919fa0f9f91601365f6c2758414bc817db72b51a580bd3fbadd9",
+          "size_bytes": 11005
+        }
+      },
+      "assay_id": "CAPSD_AAV2S_Sinai_2021",
+      "eligibility": "eligible",
+      "finite_coverage": {
+        "finite": 42328,
+        "missing": 0,
+        "non_finite": 0,
+        "score_row_count": 42328,
+        "truth_candidate_count": 42328,
+        "truth_candidates_without_score_row": 0
+      }
+    },
+    {
+      "artifacts": {
+        "candidate": {
+          "consumers": [
+            "runner",
+            "surrogate_model",
+            "acquisition_strategy",
+            "evaluator"
+          ],
+          "path": "processed/GFP_AEQVI_Sarkisyan_2016/proteingym-gfp_aeqvi_sarkisyan_2016-35096aae85a1a6599626135de22f3fae9eb4dc181822103f9cb65fbbf0c94bd2/candidates.csv.gz",
+          "sha256": "39594bc0eb279284b6886a10f454ab24d760dbc7068d65b6014f60cfe76b8102",
+          "size_bytes": 3150440,
+          "visibility": "observable"
+        },
+        "hidden_truth": {
+          "consumers": [
+            "hidden_oracle",
+            "evaluator"
+          ],
+          "path": "processed/GFP_AEQVI_Sarkisyan_2016/proteingym-gfp_aeqvi_sarkisyan_2016-35096aae85a1a6599626135de22f3fae9eb4dc181822103f9cb65fbbf0c94bd2/hidden-truth.csv.gz",
+          "read_in_this_attempt": false,
+          "sha256": "e0d0daa17b9c2df6d6f53becad344639d45d1ed077d2ffe9d27e591751d946c7",
+          "size_bytes": 2330406,
+          "visibility": "hidden_truth"
+        },
+        "processing_manifest": {
+          "path": "processed/GFP_AEQVI_Sarkisyan_2016/proteingym-gfp_aeqvi_sarkisyan_2016-35096aae85a1a6599626135de22f3fae9eb4dc181822103f9cb65fbbf0c94bd2/processing-manifest.json",
+          "sha256": "8e3e9b2d027e6f141ec95a208b4d212fa7761beaad0318f25e4423fcf90095cd",
+          "size_bytes": 2490
+        },
+        "proxy_source": {
+          "consumers": [
+            "static_proxy_evaluator"
+          ],
+          "path": "raw/GFP_AEQVI_Sarkisyan_2016/zero-shot-scores.csv",
+          "read_in_this_attempt": false,
+          "selected_export_column": "ESM1v_single",
+          "sha256": "112f862df40720855e1d6df902b0797f14b52e1ca97192fc441ccbd3b8bc80b9",
+          "size_bytes": 100611316,
+          "visibility": "capability_limited_after_gate_a"
+        },
+        "score_coverage_summary": {
+          "path": "processed/GFP_AEQVI_Sarkisyan_2016/proteingym-gfp_aeqvi_sarkisyan_2016-35096aae85a1a6599626135de22f3fae9eb4dc181822103f9cb65fbbf0c94bd2/score-coverage.json",
+          "sha256": "51d7d2556c2b522b3fcd5dda587aaf2e1e6c393b97d31a1f2a38737473be1dd9",
+          "size_bytes": 11007
+        }
+      },
+      "assay_id": "GFP_AEQVI_Sarkisyan_2016",
+      "eligibility": "eligible",
+      "finite_coverage": {
+        "finite": 51714,
+        "missing": 0,
+        "non_finite": 0,
+        "score_row_count": 51714,
+        "truth_candidate_count": 51714,
+        "truth_candidates_without_score_row": 0
+      }
+    },
+    {
+      "artifacts": {
+        "candidate": {
+          "consumers": [
+            "runner",
+            "surrogate_model",
+            "acquisition_strategy",
+            "evaluator"
+          ],
+          "path": "processed/SPG1_STRSG_Olson_2014/proteingym-spg1_strsg_olson_2014-8d8e4be68b080bd3fe9c4f339c5d9b0d744d7f6c4aabcbbf512f6989e7599f26/candidates.csv.gz",
+          "sha256": "9db91d18805875e85400be6976bed541cb0054ddf18377610fa5d95aaed03c23",
+          "size_bytes": 26185692,
+          "visibility": "observable"
+        },
+        "hidden_truth": {
+          "consumers": [
+            "hidden_oracle",
+            "evaluator"
+          ],
+          "path": "processed/SPG1_STRSG_Olson_2014/proteingym-spg1_strsg_olson_2014-8d8e4be68b080bd3fe9c4f339c5d9b0d744d7f6c4aabcbbf512f6989e7599f26/hidden-truth.csv.gz",
+          "read_in_this_attempt": false,
+          "sha256": "4f8a72c7e435879ef19ea6a35318b7302c1a407848877a432bdffafd60137350",
+          "size_bytes": 24384966,
+          "visibility": "hidden_truth"
+        },
+        "processing_manifest": {
+          "path": "processed/SPG1_STRSG_Olson_2014/proteingym-spg1_strsg_olson_2014-8d8e4be68b080bd3fe9c4f339c5d9b0d744d7f6c4aabcbbf512f6989e7599f26/processing-manifest.json",
+          "sha256": "15e474f649af97e94b17dbe85634db1d232e49795edc62e3e11ab4fc2386d0c8",
+          "size_bytes": 2467
+        },
+        "proxy_source": {
+          "consumers": [
+            "static_proxy_evaluator"
+          ],
+          "path": "raw/SPG1_STRSG_Olson_2014/zero-shot-scores.csv",
+          "read_in_this_attempt": false,
+          "selected_export_column": "ESM1v_single",
+          "sha256": "cabd24c6e22d23e77d2bb602f6bd3ea60b12b31e849bd9bda44ab5b618b28ab1",
+          "size_bytes": 1152181940,
+          "visibility": "capability_limited_after_gate_a"
+        },
+        "score_coverage_summary": {
+          "path": "processed/SPG1_STRSG_Olson_2014/proteingym-spg1_strsg_olson_2014-8d8e4be68b080bd3fe9c4f339c5d9b0d744d7f6c4aabcbbf512f6989e7599f26/score-coverage.json",
+          "sha256": "af0721261771ad2f38e99c3a769c38e3f91489db889f0b6bd890385cd55b1824",
+          "size_bytes": 11101
+        }
+      },
+      "assay_id": "SPG1_STRSG_Olson_2014",
+      "eligibility": "eligible",
+      "finite_coverage": {
+        "finite": 536962,
+        "missing": 0,
+        "non_finite": 0,
+        "score_row_count": 536962,
+        "truth_candidate_count": 536962,
+        "truth_candidates_without_score_row": 0
+      }
+    }
+  ],
+  "authorization": {
+    "ended_at": "2026-09-07T07:20:17Z",
+    "expires_at": "2026-09-07T11:20:44Z",
+    "github_comments": [
+      {
+        "actor": "github:willzhang",
+        "actor_id": 220442040,
+        "body_sha256": "3ee865f6aea498b99ede0a49e29c44e7e3720864019894cb9f4e80a81ff8f6ef",
+        "comment_id": 5566509712,
+        "node_id": "IC_kwDOTdCmcM8AAAABS8oykA",
+        "updated_at": "2026-09-07T07:09:49Z"
+      },
+      {
+        "actor": "github:QUHONGYE-gif",
+        "actor_id": 224611369,
+        "body_sha256": "fd0875072d3e089c54a5e09f47064c7dc2ac37573939cc381a59a6758df115fd",
+        "comment_id": 5566572994,
+        "node_id": "IC_kwDOTdCmcM8AAAABS8spwg",
+        "updated_at": "2026-09-07T07:13:50Z"
+      }
+    ],
+    "max_attempts": 1,
+    "remaining_budget_attested": true,
+    "started_at": "2026-09-07T07:18:12Z"
+  },
+  "contract_id": "m5c-proteingym-prospective-v1",
+  "contract_version": 6,
+  "finite_coverage_report": {
+    "path": "manifests/experiments/m5c/preflight-result-v5/finite-coverage-report.json",
+    "sha256": "2d37b203515fd4009c067d6be81e6ff80c878560ee4f1bbe9dfc815fd31e6f0a",
+    "size_bytes": 3649,
+    "status": "passed"
+  },
+  "generated_at": "2026-09-07T07:20:17Z",
+  "generator_identity": {
+    "agent": "multica-agent:51906483-af16-4d8f-8e79-f0c1c5b50425",
+    "environment": {
+      "local": {
+        "os": "Darwin 25.5.0 arm64",
+        "python": "3.14.3",
+        "ssh": "OpenSSH_10.2p1 LibreSSL 3.3.6"
+      },
+      "remote": {
+        "hostname": "VM-0-8-debian",
+        "principal": "siyuan",
+        "python_major_minor": "3.11"
+      },
+      "transport": {
+        "host": "129.28.97.247",
+        "host_key_alias": "1.14.72.82",
+        "strict_host_key_checking": true
+      }
+    },
+    "environment_sha256": "3d1b633ca515100d493e93f9620ad30221584314635a4285a947febdb22ecd17",
+    "generation_method": "bounded summary-only SSH parser; no raw-score row or truth file opened",
+    "generator_script_sha256": "c46f21054c4036ea1afb5038f03fe4df1abb7d54a27b9616c836b193ee78df7e",
+    "source_commit": "77ccde1c2133960fecdfb137a9b04d8c239e51e2",
+    "source_tree": "24ef2f22266dd29c603bb50e6cf7d0a0dc7b5c5a"
+  },
+  "inventory_binding": {
+    "accepted_issue_11_reference": {
+      "completion_comment_id": 5357846394,
+      "independent_review_comment_id": 5357910563,
+      "object_count": 45,
+      "source_prefix": "proteingym/v1.3/four-assay-unified-v1/",
+      "terminal_object": {
+        "path": "evidence/unified-attempt.json",
+        "sha256": "5dad6220ae74a86a052a45386fd0540995f3e8e5abd7fea0274eb69441164ba1",
+        "size_bytes": 33951
+      },
+      "total_size_bytes": 1758940765
+    },
+    "authenticated_canonical_digest_binding": {
+      "actor": "github:willzhang",
+      "comment_id": 5566509712,
+      "reviewed_by": "github:QUHONGYE-gif",
+      "review_comment_id": 5566572994,
+      "status": "verified"
+    },
+    "migration_receipt": {
+      "object_count": 45,
+      "path": "/srv/pcdb/scratch/proteingym-migration-20260905-01/migration-receipt.json",
+      "readable": true,
+      "sha256": "c0a9e9916572eba22054b8bdc1cfb64eee199abe5a8102017dd45a5bf8eb55e8",
+      "size_bytes": 12282,
+      "total_size_bytes": 1758940765,
+      "writable": false
+    },
+    "object_identity_binding": "The authenticated GitHub authority comment binds every receipt relative path, size and SHA-256 tuple to the accepted Issue #11 terminal inventory; the preflight then exact-checked both allowed artifacts per assay against that receipt.",
+    "server_path_mapping": "join(/srv/pcdb/data/imports/proteingym/v1.3/four-assay-unified-v1, receipt.objects[].path)"
+  },
+  "manifest_status": "passing",
+  "physical_source": {
+    "formal_execution_host_change_authorized": false,
+    "host": "129.28.97.247",
+    "host_key_fingerprint_sha256": "SHA256:oLhxE/lEXpnkIF5eFE59kTaK7PcaRDZTCwA/2Si2i5k",
+    "remote_hostname": "VM-0-8-debian",
+    "server_principal": "siyuan",
+    "server_root": "/srv/pcdb/data/imports/proteingym/v1.3/four-assay-unified-v1",
+    "target_formal_execution_host": "protein-6000/ps"
+  },
+  "preflight_attempt": {
+    "attempt_id": "m5c-summary-preflight-20260907T071812Z",
+    "automatic_retries": 0,
+    "content_bytes_read": 91898,
+    "resource_usage_upper_bounds": {
+      "cost_cny": 0,
+      "cpu_seconds": 10,
+      "peak_rss_bytes": 268435456,
+      "read_and_network_bytes": 1048576,
+      "scratch_bytes": 1048576,
+      "wall_seconds": 180
+    }
+  },
+  "prohibited_access": {
+    "cos_writes": 0,
+    "dms_truth_values_read": false,
+    "held_out_accessed": false,
+    "performance_analysis_performed": false,
+    "raw_score_data_rows_read": 0,
+    "server_writes": 0,
+    "truth_files_opened": 0
+  },
+  "schema_version": "pcdb-m5c-input-capability-manifest-v1",
+  "selected_proxy": {
+    "column": "ESM1v_single",
+    "direction": 1,
+    "finite_in_all_assays": true,
+    "imputation": "none",
+    "ratification_comment_ids": [
+      5566509712,
+      5566572994
+    ],
+    "upstream_input_score_name": "esm1v_t33_650M_UR90S_1"
+  },
+  "whitelist_capability": {
+    "authorized_files_read": 9,
+    "raw_score_data_rows_read": 0,
+    "server_data_writes": 0,
+    "truth_files_opened": 0
+  }
+}

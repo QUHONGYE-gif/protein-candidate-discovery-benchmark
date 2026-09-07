@@ -1,4 +1,4 @@
-# M5C Gate A review packet v5
+# M5C Gate A review packet v6
 
 ## Status and authority
 
@@ -10,20 +10,61 @@ authority; no GitHub parent Issue is created.
 The candidate manifest remains at the legacy proposal path
 `manifests/experiments/m5c/gate-a-proposal-v3/milestone-contract-manifest.json`. Its
 `manifest_status: example` and the referenced Gate A record's `record_status: example` mean the
-packet is schema-testable but **does not authorize execution**. After technical review and the
-confirmations below, the final decision record must be regenerated, bound to fresh authenticated
+packet is schema-testable but **does not authorize execution**. After revision 6 technical review,
+the final decision record must be regenerated, bound to fresh authenticated
 GitHub comments from both scientific authorities, and only then may the manifest become
 `authorized`.
 
 Contract identity:
 
-- ID/version: `m5c-proteingym-prospective-v1` / `5`;
-- scientific-contract digest: `0e5bd957e5450605cd418eab8768cef404142bf4548fb17864520727b3bfeadd`;
-- proposal decision digest: `10c5356964be425e0c201627ebea043f2a5f5571f96f179871561a811d383c0c`;
-- Gate proposal SHA-256: `eaaac2511a06267614e741b44fb97fb8e14e719167ba8ed2f73cb19b0efb4e8f`;
+- ID/version: `m5c-proteingym-prospective-v1` / `6`;
+- scientific-contract digest: `abc16ed38664d63efede535de3ecd8b8552031e52b156c37023e7b7e717d5278`;
+- proposal decision digest: `ad21acf9e1a051f36074448007918e8ce3dd5f612ff4d507d1de28848129e906`;
+- Gate proposal SHA-256: `f6a2f4a20f0a091150a04c502ad348f65410f6549e91db95d7f545f84f4bdc8a`;
 - base: `origin/main@9f332c2935b53ab1697688d0024944bc12a99161`;
 - PR class: `Major / semantic PR`;
 - authorities: `github:QUHONGYE-gif`, `github:willzhang`.
+
+## Revision 6 pre-final result
+
+Both authorities published native GitHub comments against exact PR HEAD `77ccde1c` before the
+authorized deadline:
+
+- `github:willzhang`: [comment 5566509712](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/103#issuecomment-5566509712), exact body SHA-256
+  `3ee865f6aea498b99ede0a49e29c44e7e3720864019894cb9f4e80a81ff8f6ef`;
+- `github:QUHONGYE-gif`: [comment 5566572994](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/103#issuecomment-5566572994), exact body SHA-256
+  `fd0875072d3e089c54a5e09f47064c7dc2ac37573939cc381a59a6758df115fd`.
+
+They ratify the outcome-independent `ESM1v_single` / direction `+1` identity, authenticate the
+migration receipt's 45 path/size/SHA-256 tuples as the accepted Issue #11 terminal inventory,
+authorize one zero-retry summary-only continuation within a specifically attested remaining cap,
+and conditionally approve the proposed main, aggregate-only reproduction and terminal archive
+operations. Both comments explicitly remain pre-final decisions, not Gate A attestations.
+
+Moka then ran one bounded attempt as ordinary server user `siyuan` on `129.28.97.247`. It read only
+the migration receipt, four `score-coverage.json` files and four paired processing manifests. The
+receipt remained exact at 12,282 bytes / SHA-256 `c0a9e9916572eba22054b8bdc1cfb64eee199abe5a8102017dd45a5bf8eb55e8`.
+All four summary/manifest pairs matched the authenticated receipt tuples; `ESM1v_single` was present
+and finite for 4,783 / 42,328 / 51,714 / 536,962 candidates, with each finite count equal to both
+truth-candidate and score-row counts and all three missing/non-finite/alignment counters zero. No
+raw-score data row or truth file was opened; server/COS writes, performance analysis and automatic
+retries were zero.
+
+The attempt read 91,898 content bytes total. Its conservative operation bounds were 180 wall
+seconds, 10 CPU seconds, 256 MiB peak RSS, 1 MiB scratch, 1 MiB combined read/network and 0 CNY,
+inside the specifically attested residual and the unchanged original cumulative bucket. The exact
+passing replacements are:
+
+- input/capability manifest: 15,234 bytes / SHA-256
+  `130d9f3d9086274c7209158cdcbb3a4054ff3742e3711220542adecae14828fc`;
+- finite-coverage report: 3,649 bytes / SHA-256
+  `2d37b203515fd4009c067d6be81e6ff80c878560ee4f1bbe9dfc815fd31e6f0a`.
+
+The v4 blocked artifacts remain immutable historical failure evidence. Revision 6 replaces their
+normative role with the passing v5 pair while retaining both histories. It does not authorize a
+formal run. Mika must now review only this new evidence/binding and its affected contract surface;
+after that PASS, a final decision object and exact marker can be generated for two fresh human
+attestations.
 
 ## Existing decisions used directly
 
@@ -223,50 +264,32 @@ described as final run source. The absent Multica linked-PR display is tracking 
 scientific or contract blocker; PR #103 remains routable by title and branch. No new assay, seed,
 model, beta, round, approval layer, service or subtask is introduced.
 
-## One confirmation list
+## Five-item decision disposition
 
-These are the only unresolved items. The recommendation is part of the proposal, not an
-authorization.
+The original five-item list is fully resolved in authenticated GitHub comments 5566509712 and
+5566572994; no parameter is inferred from the user's Multica message.
 
-1. **Scientific contract and proxy identity.** Both authorities must approve version 5's complete cohort,
-   nested design/bootstrap, exact comparison hashes/counters, recall/tie rule, 99.375% intervals,
-   assay/cohort taxonomy and one-batch stopping. Recommendation: ratify `ESM1v_single` / direction +1
-   as the archive alias for the already-selected ESM1v single-seed baseline. The frozen upstream
-   [config](https://github.com/OATML-Markslab/ProteinGym/blob/144fe22b07dfaeec2b366f2346203a9838a55b4c/config.json#L81-L94)
-   maps it to `input_score_name = esm1v_t33_650M_UR90S_1`; the upstream
-   [constants](https://github.com/OATML-Markslab/ProteinGym/blob/144fe22b07dfaeec2b366f2346203a9838a55b4c/proteingym/constants.json#L9-L17)
-   distinguish `ESM1v_ensemble` as a different five-model method. This recommendation uses identity
-   metadata only, not proxy performance. A departure from single-seed is a semantic revision.
-2. **Summary-only finite/alignment and source identity.** The original outcome-free read stopped
-   correctly and its inability-to-separate authorization ended. Authorize one smaller continuation
-   that may read only the four immutable `score-coverage.json` summaries, their four processing
-   manifests, the migration receipt, and either a read-only copy of the Issue #11 accepted terminal
-   inventory or an authenticated binding of its canonical inventory digest. For every assay it must
-   verify `ESM1v_single` is listed; `finite == truth_candidate_count == score_row_count`; `missing`,
-   `non_finite` and `truth_candidates_without_score_row` are zero; and every summary path/hash/size
-   agrees with its processing manifest, the receipt and the accepted inventory. It must not open any
-   raw-score data row or truth file. The new authorization reuses only the original 5 CNY preflight
-   bucket and other remaining cumulative caps and may not reset or extend the approved
-   `2026-09-07T11:20:44Z` deadline. Recommendation: approve after supplying the independent inventory
-   binding; this is not permission for performance analysis or a new scientific approval stage.
-3. **Provision, stage and run.** Authorize the proposed subject/path/window/rollback policy:
-   `github:willzhang`/`siyuan` provisions `protein-6000`/`ps` and byte-stages exactly the accepted
-   45-object prefix; `service:pcdb-runner` owns one formal slice under `/srv/pcdb/runs/M5C/`.
-   Confirm the main cumulative caps: 24 h wall, 384 CPU h, 48 GB RSS, 30 GiB scratch, 4 GiB network,
-   100 CNY across at most two allowed attempts. Recommendation: approve only conditional on every
-   namespace/ACL/backup/RPO/source/environment/input/expected-peak check passing and the 50% target/
-   70% hard-cap rule; otherwise stop without cap expansion.
-4. **Mika reproduction.** Authorize one capability-limited aggregate-only run on the same host after
-   the first valid main terminal, exact-bound to clean source/environment and a sealed aggregate
-   input, with 1 h wall, 2 CPU h, 4 GB RSS, 2 GiB scratch, 1 GiB network and 5 CNY. Recommendation:
-   approve; it may reproduce only hashes, intervals and taxonomy/roll-up, never candidate-level truth,
-   model/acquisition work or a second scientific result.
-5. **Terminal archive.** Authorize `service:pcdb-archiver` only after valid Gate B to publish at the
-   new digest-keyed M5C prefix: at most 128 non-marker objects, 1 GiB archive/network, 2 h wall,
-   4 CPU h, 4 GB RSS, 2 GiB scratch and 10 CNY; no overwrite/delete, exact fresh readback and
-   `_SUCCESS` last. Recommendation: approve now as the same milestone operation boundary. If it is
-   withheld, archive remains unauthorized and Stage 3 cannot execute until a bounded operation
-   authorization is recorded; that would not be a new scientific Gate or a new project stage.
+1. **Scientific contract and proxy identity — resolved.** Both authorities ratify
+   `ESM1v_single` / direction `+1` as the archive alias for the selected single-seed baseline at
+   upstream commit `144fe22b`; `ESM1v_ensemble` remains distinct. They do not use proxy performance
+   as rationale, and a departure from single-seed remains a semantic revision.
+2. **Summary-only finite/alignment and source identity — resolved and completed.** Willzhang
+   authenticates the 12,282-byte receipt digest as the canonical tuple binding to the accepted
+   Issue #11 inventory; QUHONGYE-gif accepts that binding. Both bound one zero-retry operation to the
+   eight summary/manifest inputs, no raw-score row/truth access, an attested residual of at least
+   600 wall seconds / 600 CPU seconds / 256 MiB RSS / 1 MiB scratch / 1 MiB read-network / 0 CNY,
+   and the unchanged `2026-09-07T11:20:44Z` deadline. The operation passed and ended at its first
+   complete result.
+3. **Provision, stage and run — conditionally resolved.** Both approve the named actors, paths,
+   rollback/stop policy and main cumulative caps of 24 h wall, 384 CPU h, 48 GB RSS, 30 GiB scratch,
+   4 GiB network and 100 CNY across at most two attempts. Permission activates only after valid
+   final Gate A and every namespace/ACL/backup/RPO/source/environment/input/capacity check passes.
+4. **Mika reproduction — conditionally resolved.** Both approve one post-main aggregate-only run on
+   the same host with 1 h wall, 2 CPU h, 4 GB RSS, 2 GiB scratch, 1 GiB network and 5 CNY. It cannot
+   access candidate-level truth or perform model/acquisition work or produce a second result.
+5. **Terminal archive — conditionally resolved.** Both approve `service:pcdb-archiver` only after a
+   valid Gate B, with at most 128 non-marker objects, 1 GiB archive/network, 2 h wall, 4 CPU h,
+   4 GB RSS, 2 GiB scratch and 10 CNY; overwrite/delete remain forbidden and `_SUCCESS` is last.
 
 The monetary ceiling is therefore 120 CNY across disjoint preflight/main/reviewer/archive buckets.
 Everything else remains withheld: M5D/M6, pool-external truth, multi-round, new paid resources,
@@ -274,15 +297,12 @@ raw-data publication, candidate-level reviewer access and evidence promotion bef
 
 ## Gate sequence
 
-1. Mika reviews this exact revision against comment `01a074c0-6e91-7493-892c-45e6c843dc61` and
-   records whether both necessary findings are resolved; optional engineering improvements remain
-   deferred.
-2. The two authorities resolve the single confirmation list. Items 1 and 2 require explicit alias
-   ratification, a bounded summary-only operation and an independent accepted-inventory binding. A
-   replacement outcome-free preflight must exact-bind a passing input/capability manifest by path,
-   SHA-256 and size; any generator source/environment recorded for provenance remains a generator
-   identity, not the execution Run identity. Necessary changes receive findings-focused recheck
-   without creating another approval stage.
+1. Mika reviews revision 6's exact new evidence and binding plus their affected contract surface;
+   resolved historical findings are not reopened without new evidence, and optional engineering
+   improvements remain deferred.
+2. If Mika finds a necessary defect, Moka repairs it and requests only a findings-focused recheck.
+   Otherwise the passing input/capability manifest remains the pre-Gate generator artifact, not a
+   final execution Run identity.
 3. Author the final Gate A JSON, then compute its exact decision marker with
    `pcdb governance-decision-digest`.
 4. Both `github:QUHONGYE-gif` and `github:willzhang` post fresh authenticated comments containing

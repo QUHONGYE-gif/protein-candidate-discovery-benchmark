@@ -1,10 +1,10 @@
 {
-  "contract_digest": "0e5bd957e5450605cd418eab8768cef404142bf4548fb17864520727b3bfeadd",
+  "contract_digest": "abc16ed38664d63efede535de3ecd8b8552031e52b156c37023e7b7e717d5278",
   "contract_id": "m5c-proteingym-prospective-v1",
-  "contract_version": 5,
+  "contract_version": 6,
   "gate_a": {
     "path": "manifests/experiments/m5c/gate-a-proposal-v3/gate-a-decision.proposal.json",
-    "sha256": "eaaac2511a06267614e741b44fb97fb8e14e719167ba8ed2f73cb19b0efb4e8f"
+    "sha256": "f6a2f4a20f0a091150a04c502ad348f65410f6549e91db95d7f545f84f4bdc8a"
   },
   "input_artifacts": [
     {
@@ -23,7 +23,7 @@
         "reporting"
       ],
       "path": "manifests/experiments/m5c/preflight-result-v4/input-capability-manifest.json",
-      "role": "blocked_preflight_input_capability_manifest",
+      "role": "historical_blocked_preflight_input_capability_manifest",
       "sha256": "3197bf3ce0c864b96528bd0c158862d14611776b846f02bf5cbeb6c43c6b1e7a",
       "size_bytes": 12186,
       "visibility": "observable"
@@ -34,9 +34,33 @@
         "reporting"
       ],
       "path": "manifests/experiments/m5c/preflight-result-v4/finite-coverage-report.json",
-      "role": "blocked_preflight_finite_coverage_report",
+      "role": "historical_blocked_preflight_finite_coverage_report",
       "sha256": "b427737c9d5e6e52e51fe7364f3f0e78a5d202ef84db424a2d2ffc27b16c5266",
       "size_bytes": 3453,
+      "visibility": "observable"
+    },
+    {
+      "consumers": [
+        "runner",
+        "evaluator",
+        "reporting"
+      ],
+      "path": "manifests/experiments/m5c/preflight-result-v5/input-capability-manifest.json",
+      "role": "passing_preflight_input_capability_manifest",
+      "sha256": "130d9f3d9086274c7209158cdcbb3a4054ff3742e3711220542adecae14828fc",
+      "size_bytes": 15234,
+      "visibility": "observable"
+    },
+    {
+      "consumers": [
+        "runner",
+        "evaluator",
+        "reporting"
+      ],
+      "path": "manifests/experiments/m5c/preflight-result-v5/finite-coverage-report.json",
+      "role": "passing_preflight_finite_coverage_report",
+      "sha256": "2d37b203515fd4009c067d6be81e6ff80c878560ee4f1bbe9dfc815fd31e6f0a",
+      "size_bytes": 3649,
       "visibility": "observable"
     }
   ],
@@ -46,7 +70,7 @@
     "dataset_inclusion",
     "cost_semantics"
   ],
-  "manifest_revision": 5,
+  "manifest_revision": 6,
   "manifest_status": "example",
   "milestone_id": "M5C",
   "run_policy": {
@@ -80,10 +104,10 @@
     "dataset_split_semantics": "Prospective cohort exact-covers BLAT_ECOLX_Firnberg_2014, CAPSD_AAV2S_Sinai_2021, GFP_AEQVI_Sarkisyan_2016 and SPG1_STRSG_Olson_2014, bound to ProteinGym v1.3 readiness config SHA-256 ee631056538071c7d162fa56609d95b6e7cda4afff4f63281b16b374480b2f4e and accepted Issue #11 COS prefix proteingym/v1.3/four-assay-unified-v1: exactly 45 objects and 1,758,940,765 bytes, with terminal proteingym-server-continuation-5357037808/unified-attempt.json at 33,951 bytes and SHA-256 5dad6220ae74a86a052a45386fd0540995f3e8e5abd7fea0274eb69441164ba1. Each assay remains an independent identity and is never pooled for fitting. Its complete validated candidate-pool is the replay universe; there is no outcome-selected train/test partition. Initial observations are nested, truth-blind SHA-256 selections: sort candidates by SHA256(canonical compact JSON [\"m5c-proteingym-one-step-v2\", assay_id, run_seed, candidate_id]) then candidate_id, and take the first 32 or 64 for seeds 1729..1738. RF and XGBoost share the exact observation prefix within an initial-size/seed state; Greedy, Exploration and all Matched Random branches use branch-local oracle/evaluator state. Model-visible features are only the stateless sequence-composition-420-v1 family (config SHA-256 2b9a9dbfb322f8b34296d208a2b8eb9392cac2b7056508039589fc3a0e34b77d) derived from mutated_sequence. The proposed static proxy is ProteinGym archive export column ESM1v_single with direction +1: at frozen upstream commit 144fe22b07dfaeec2b366f2346203a9838a55b4c, official config maps that export alias to input_score_name esm1v_t33_650M_UR90S_1 and official constants distinguish it from the different five-model ESM1v_ensemble method. Both authorities must ratify this outcome-independent alias mapping before final Gate A; a departure from single-seed is a semantic revision. The baseline is evaluated separately and is not consumed by the RF/XGBoost one-step arms. Coverage audit selects nothing by performance and permits no imputation. Before final Gate A authorization and before any DMS truth read, an outcome-free canonical compact JSON input/capability manifest must be generated from an exact read-only staging of that accepted prefix and added to the final authorized milestone manifest by exact path, SHA-256 and size. It must exact-bind the accepted prefix and per-object identities by comparing the migration receipt with either a read-only copy of the independently accepted Issue #11 terminal inventory or an authenticated binding of that inventory's canonical digest, without rereading all 45 objects; for every assay it must bind candidate, proxy and hidden-truth artifact identities plus alignment/coverage checks, visibility and consumers, and it must bind the finite-coverage report. Candidate/sequence artifacts are observable to runner, surrogate, acquisition and evaluator. Before Gate A, coverage check may read only the four immutable score-coverage summaries and their four processing manifests; it must verify ESM1v_single is listed, finite equals truth_candidate_count and score_row_count, missing/non_finite/truth_candidates_without_score_row are zero, and summary path/hash/size agrees with the processing manifest, migration receipt and accepted inventory. It must not open any raw-score data row. After Gate A, the combined raw score artifact is observable only to the static-proxy evaluator/oracle capability, never Moka, surrogate or acquisition; hidden truth is hidden and consumable only by branch-local oracle/evaluator. A derived candidate-id/proxy-only artifact is not a pre-Gate requirement, but inability to enforce the Stage 2 consumer boundary fails closed and requires that artifact as an engineering repair. The coverage report may expose counts and finite/missing status but no proxy performance, DMS outcome, high-value membership or candidate-level value. If generator provenance is recorded, its source commit/tree and environment digest form a separate generator identity and are explicitly not the final execution source or Run identity. The final contract and Gate A decision must reference the exact input/capability-manifest path, SHA-256 and size. After valid Gate A and before the first DMS-truth read or protected side effect, a separate Run identity must bind the actual final execution source commit/tree and environment digest and reverse-bind the authorized contract digest and input/capability-manifest digest. Any missing object, identity mismatch, non-finite proxy value, consumer drift, missing reverse binding or inability to enforce these capabilities excludes the assay prospectively or fails closed under the cohort rule.",
     "held_out_boundary": "Before final Gate A and successful outcome-free eligibility/input checks: zero DMS truth, high-value membership, static proxy performance or acquisition outcome reads, and no final execution Run identity exists. The failed v4 header-only authorization ended at inability to separate score from truth. A new explicitly recorded pre-Gate continuation may allow only github:willzhang/server user siyuan to read the four immutable score-coverage summaries, their four processing manifests, the migration receipt, and either a read-only accepted Issue #11 terminal inventory or an authenticated binding of its canonical inventory digest. It may use only the original preflight bucket's remaining cumulative caps and expires no later than 2026-09-07T11:20:44Z; it may not reset or enlarge the cap/window. Source/COS/server data planes remain read-only; no raw-score data row or truth file may be opened; and only the generated small manifest/report may be committed to the review branch. That artifact does not bind the branch's own final commit and therefore creates no self-reference; any recorded source/environment is generator identity only. Any missing accepted-inventory binding, summary mismatch, non-finite/missing value or score-versus-DMS/ranking operation stops the check. After final authorization and creation of a valid Run identity, full per-assay DMS truth may be read only inside the hidden-oracle/evaluator capability to derive frozen high-value definitions, evaluate the sealed M2-static proxy baseline and reveal initial/selected branch labels. Surrogates and acquisitions receive only sequence-composition features plus the branch's revealed observations; the proxy column is isolated from those arms. M2 results remain sealed until every one-step arm reaches the same terminal, so they cannot tune methods or eligibility. Mika's reproduction receives only the exact sealed aggregate manifest named in budget_cost_model and cannot resolve or access any candidate-level artifact. Public reporting is aggregate-only and excludes candidate IDs, raw labels, membership, boundary scores and score distributions. No external assay, M5D/M6, pool-external label, multi-round continuation, ordinary-run COS write, raw-data publication or evidence promotion before valid Gate B is authorized.",
     "known_risks": [
-      "The authorized outcome-free preflight stopped before every raw-score data row: all four whitelisted raw score headers omit the frozen exact column esm1v_t33_650M_UR90S_1 and co-locate related proxy columns with DMS_score and DMS_score_bin. The resulting exact-bound input/capability manifest and finite-coverage report are blocked artifacts, not a passing final input manifest. The official frozen-upstream identity metadata maps ESM1v_single to the already-selected single-seed input name and distinguishes ESM1v_ensemble as a different method, but both authorities must still ratify that outcome-independent alias mapping. A new summary-only operation authorization and an independent accepted-inventory binding are also required before a passing replacement preflight; no derived proxy-only artifact is required unless Stage 2 cannot enforce the static-evaluator consumer boundary. Until ratification, authorization, binding and passing preflight are complete, every assay fails closed and Gate A/formal execution remain blocked.",
+      "The v4 outcome-free preflight stopped correctly before every raw-score data row when the requested input-name column was absent and related proxy columns were co-located with DMS_score and DMS_score_bin; its exact-bound blocked artifacts remain retained failure evidence. Both authorities then ratified the official outcome-independent ESM1v_single export alias and direction +1, authenticated the migration-receipt binding to the accepted Issue #11 terminal inventory, and bounded one no-retry summary-only continuation in GitHub comments 5566509712 and 5566572994. The v5 replacement manifest/report exact-check all four allowed summary/processing-manifest pairs against that binding and pass ESM1v_single finite/alignment checks without opening a raw-score data row or truth file. A derived proxy-only artifact remains unnecessary before Gate A, but Stage 2 must fail closed and add it as an engineering repair if the static-evaluator consumer boundary cannot be enforced. Final digest-bound authority attestations and a passing final production contract Check are still required before formal execution.",
       "protein-6000 was observed with 192 CPUs, 263,713,240 kB total RAM, 203,107,364 kB available RAM and 122,686,394,368 bytes free on its current filesystem, but /srv/pcdb and group pcdb are absent; it is not execution-ready.",
       "SPG1 dominates candidate count; the 30 GiB scratch and 48 GB RSS proposal requires target-host expected-peak and 50%/70% capacity preflight before Gate A can cover execution.",
-      "While verifying the upstream score-column name, the drafting context inadvertently received published assay-level zero-shot benchmark table excerpts. No such outcome was used in the proxy rationale or contract; fresh reviewers must treat proxy identity as requiring explicit outcome-independent ratification.",
+      "While verifying the upstream score-column name, the drafting context inadvertently received published assay-level zero-shot benchmark table excerpts. No such outcome was used in the proxy rationale or contract; the explicit outcome-independent proxy-identity ratification is separately recorded in authenticated GitHub comments 5566509712 and 5566572994.",
       "M5B is accepted only as an exploratory INCONCLUSIVE terminal with a disclosed source-authorization deviation. No M5B execution identity, budget, authorization or behavioral-redundancy claim carries into M5C."
     ],
     "primary_metrics": [
