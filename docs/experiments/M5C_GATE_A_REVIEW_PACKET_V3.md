@@ -7,23 +7,25 @@ This packet materializes the smallest reviewable M5C Governance v2 contract for
 [MIRA-10](https://multica-server.tail8b7421.ts.net/issues/MIRA-10). Multica is the sole tracking
 authority; no GitHub parent Issue is created.
 
-The candidate manifest remains at the legacy proposal path
+The authorized manifest remains at the legacy proposal path
 `manifests/experiments/m5c/gate-a-proposal-v3/milestone-contract-manifest.json`. Its
-`manifest_status: example` and the final decision carrier's pending placeholder attestations mean
-the packet is schema-testable but **does not authorize execution**. Mika passed revision 6 at exact
-HEAD `1542008c043cc5bbdc1fc9e30ca9188f1b0f29fa`; manifest revision 7 now contains the stable final
-decision payload and marker. Both scientific authorities must still publish fresh authenticated
-GitHub comments for that marker. Only after their exact envelopes replace the placeholders and the
-production contract Check passes may the manifest become `authorized`.
+`manifest_status: authorized` and final decision carrier bind both authorities' fresh GitHub
+attestations for the same stable marker. Mika passed revision 6 at exact HEAD
+`1542008c043cc5bbdc1fc9e30ca9188f1b0f29fa`; manifest revision 8 changes no scientific field and
+adds only the authenticated transport envelopes and authorized state. The production contract
+Check fresh-read both comments and passed at `2026-09-07T12:34:37.889341Z`, making Gate A effective.
 
 Contract identity:
 
 - ID/version: `m5c-proteingym-prospective-v1` / `6`;
 - scientific-contract digest: `abc16ed38664d63efede535de3ecd8b8552031e52b156c37023e7b7e717d5278`;
 - final decision digest: `2d7b6e869a56e364383e3f84ba4496a95e239a7766743af24cb3e3f8a1d7a7f0`;
-- current final-decision carrier SHA-256: `8213cb52e512340a4d70880ee4be1637fcb34187bbed6eb5d039449ce79a8361`
-  (pending envelopes; its file SHA-256 will change when the authenticated transport evidence is
-  inserted, while the decision digest remains stable);
+- final-decision carrier: 13,620 bytes / SHA-256
+  `5ea3c8d2e7f0ccc3f74ffdd3d2f0ec26817278060631521ebf64d0dd46e94ca9`;
+- authorized manifest revision 8: 25,907 bytes / SHA-256
+  `c2ca11b6e4f92619752f439818e4d269d3383c36f31fb76c8c3169b03cf4ec3b`;
+- production Check report ID:
+  `81305abdf8de6bce47de47fa7af6de7f7458963dc9c82765e8c98e70309d9641`;
 - base: `origin/main@9f332c2935b53ab1697688d0024944bc12a99161`;
 - PR class: `Major / semantic PR`;
 - authorities: `github:QUHONGYE-gif`, `github:willzhang`.
@@ -68,9 +70,20 @@ normative role with the passing v5 pair while retaining both histories. It does 
 formal run. Mika's findings-focused review passed exact HEAD `1542008c043cc5bbdc1fc9e30ca9188f1b0f29fa`,
 tree `04d7034fe9d694a9336e309ee778aeb5bec252df`, scientific-contract digest
 `abc16ed38664d63efede535de3ecd8b8552031e52b156c37023e7b7e717d5278`, with no remaining necessary
-finding. Manifest revision 7 therefore changes only the Gate finalization carrier: it fixes the
-stable final decision payload/marker and keeps the manifest fail-closed pending two human
-attestations and a production contract Check.
+finding. Manifest revision 7 therefore changed only the Gate finalization carrier and fixed the
+stable final decision payload/marker. The later fresh attestations are:
+
+- `github:willzhang`: [comment 5567817563](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/103#issuecomment-5567817563), node
+  `IC_kwDOTdCmcM8AAAABS94nWw`, body SHA-256
+  `2d485129954ae3aaa6b571d3da90710e6688d59747c04e18d27ed8fd0f8cee4c`;
+- `github:QUHONGYE-gif`: [comment 5569831071](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/103#issuecomment-5569831071), node
+  `IC_kwDOTdCmcM8AAAABS_zgnw`, body SHA-256
+  `c20891a0bfc18e98d2d4a20d3b7018cbeb3655daaa04a7710c96d854397b727f`.
+
+Manifest revision 8 exact-binds those envelopes without changing the final decision digest. The
+production contract Check fresh-authenticated both comments and passed all five contract checks;
+Gate A is therefore effective, while formal execution remains subject to the separate post-Gate
+server, source, environment, input, Run-identity and cap checks.
 
 ## Existing decisions used directly
 
@@ -87,9 +100,9 @@ attestations and a production contract Check.
 - Governance v2 and ADR-0005 make M5C server-first, append-only and zero-COS-write during ordinary
   runs; Gate A must bind all four major boundaries and both configured authorities.
 
-## Frozen proposal
+## Frozen contract
 
-The candidate manifest is normative for review; this section is a navigation summary.
+The authorized manifest is normative; this section is a navigation summary.
 
 1. **Question and cohort.** Test whether the frozen same-state one-step intervention has immediate
    discovery value relative to Greedy and overlap-matched Random, and whether mechanism labels
@@ -100,11 +113,11 @@ The candidate manifest is normative for review; this section is a navigation sum
 3. **Split and features.** Each assay's complete candidate-pool is its independent replay universe.
    Initial 32/64 observations are nested truth-blind SHA-256 samples for seeds 1729–1738. RF and
    XGBoost use only stateless `sequence-composition-420-v1`; there is no cross-assay fitting.
-4. **Static proxy baseline.** The proposed archive column is `ESM1v_single`, direction +1. At the
+4. **Static proxy baseline.** The frozen archive column is `ESM1v_single`, direction +1. At the
    frozen ProteinGym upstream commit, the official config maps that export alias to
    `input_score_name = esm1v_t33_650M_UR90S_1`, while the official constants distinguish it from
-   the five-model `ESM1v_ensemble`. This outcome-independent identity mapping still requires both
-   authorities' ratification; it requires 100% finite coverage with no imputation and never enters
+   the five-model `ESM1v_ensemble`. Both authorities ratified this outcome-independent identity
+   mapping; it requires 100% finite coverage with no imputation and never enters
    the RF/XGBoost one-step arms.
 5. **One-step arms.** Exact-bind RF `418b0fd…`, XGBoost `31eb5bc…`, Greedy `3c7c537…`,
    Uncertainty `7748917…`, UCB `9b132ec…`, and the full M5C Matched Random state/counter tuples.
@@ -301,22 +314,19 @@ The monetary ceiling is therefore 120 CNY across disjoint preflight/main/reviewe
 Everything else remains withheld: M5D/M6, pool-external truth, multi-round, new paid resources,
 raw-data publication, candidate-level reviewer access and evidence promotion before valid Gate B.
 
-## Gate sequence
+## Gate sequence and effective state
 
-1. Mika's findings-focused revision 6 review is complete and PASS; the passing input/capability
+1. Mika's findings-focused revision 6 review completed with PASS; the passing input/capability
    manifest remains a pre-Gate generator artifact, not a final execution Run identity.
-2. The final Gate A payload has been authored and its stable marker computed with
-   `pcdb governance-decision-digest`; placeholder envelopes remain explicitly non-authorizing.
-3. Both `github:QUHONGYE-gif` and `github:willzhang` post fresh authenticated comments containing
-   the exact marker and explicit approval of all four major boundaries. GitHub review or CI alone is
-   insufficient.
-4. Bind both attestations and the input/capability-manifest digest, change the manifest to
-   `authorized`, run the final production contract check, and update `docs/STATUS.md` for the Gate A
-   scientific transition.
-5. Only after valid Gate A may the parent barrier promote Stage 2. Stage 2 must create the final Run
+2. The final Gate A payload and stable marker were generated; both authorities then published fresh
+   authenticated comments containing that marker and explicit approval of all four major boundaries.
+3. Manifest revision 8 binds both exact envelopes and is `authorized`. The production contract
+   Check fresh-authenticated both comments and passed all exact-byte, leakage and cross-link checks.
+4. Gate A is effective. The parent barrier may promote Stage 2 without another scientific approval.
+   Stage 2 must create the final Run
    identity from the actual execution commit/tree/environment and reverse-bind the authorized
    contract and input/capability-manifest digests before its first truth read or protected side
    effect.
 
 No formal experiment, held-out access, label reveal, COS write, server provisioning, M5D/M6 start or
-evidence promotion is performed by this packet.
+evidence promotion was performed during Stage 1.
