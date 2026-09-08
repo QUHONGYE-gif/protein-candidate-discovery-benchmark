@@ -12,6 +12,13 @@ Direct user instructions and accepted ADRs take precedence over general conventi
 file. If instructions conflict, stop and surface the conflict before changing code or scientific
 contracts.
 
+## 评论与说明语言
+
+面向用户和协作者的评论与说明尽量使用简体中文，包括 GitHub Issue / PR 的标题、正文、
+评论、评审说明、执行记录和结果解释。新增或修改的解释性代码注释也尽量使用中文。
+用户明确要求其他语言，或引用原文、工具兼容性确有需要时，可使用相应语言。
+技术名称、代码标识符、命令、路径、哈希、JSON 键和机器状态值保留原样，确保准确和可复现。
+
 ## Project mission
 
 This repository implements a reproducible public-data benchmark for cost-aware, multi-fidelity
