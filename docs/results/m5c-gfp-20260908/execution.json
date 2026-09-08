@@ -1,0 +1,45 @@
+{
+  "authorization": "user-approved results-first GFP exploration",
+  "base_commit": "d563147a1b036066f01bf17bcf6ece14d0246126",
+  "entry_sha256": "e4c434e2cf29ff10ee50afc9060653fb4b132a25994662bc2e7cac28a3927860",
+  "input_manifest_sha256": "130d9f3d9086274c7209158cdcbb3a4054ff3742e3711220542adecae14828fc",
+  "limits": {
+    "model_threads": 1,
+    "rss_bytes": 1610612736,
+    "wall_seconds": 7200,
+    "workers": 1
+  },
+  "matrix": {
+    "assay": "GFP_AEQVI_Sarkisyan_2016",
+    "batch_size": 16,
+    "initial_sizes": [
+      32,
+      64
+    ],
+    "matched_replicates": 64,
+    "models": [
+      "random-forest-sklearn-v1",
+      "xgboost-cpu-v1"
+    ],
+    "seeds": [
+      1729,
+      1730,
+      1731,
+      1732,
+      1733,
+      1734,
+      1735,
+      1736,
+      1737,
+      1738
+    ]
+  },
+  "mode": "full",
+  "publication": "none",
+  "started_at": "2026-09-07T16:32:05.997422+00:00",
+  "versions": {
+    "numpy": "2.4.6",
+    "scikit-learn": "1.9.0",
+    "xgboost-cpu": "3.2.0"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "server_files_verified": 10,
+  "primary_bootstrap_exact_match": true,
+  "taxonomy_exact_match": true,
+  "aggregate_inputs_exact_match": true,
+  "sensitivity_absolute_tolerance": 1e-17,
+  "assay_report_sha256": "ee984f448a412f8a6df5d941a30a23eb1ec5b7a2183baaf33a6bc32512511407"
+}
