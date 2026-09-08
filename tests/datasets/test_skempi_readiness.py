@@ -150,6 +150,8 @@ def test_original_cleaned_mapping_and_wildtype(tmp_path: Path) -> None:
         "PDBs/1ABC.pdb": (
             b"ATOM      1  CA  TRP A   9      16.783  48.812  26.416  1.00 30.15           C  \n"
             b"ATOM      2  CA  ARG A  11      16.783  48.812  26.416  1.00 30.15           C  \n"
+            b"ATOM      3  CA  TRP B   9      16.783  48.812  26.416  1.00 30.15           C  \n"
+            b"ATOM      4  CA  TRP B  10      16.783  48.812  26.416  1.00 30.15           C  \n"
         ),
     }
     with tarfile.open(archive, "w:gz") as bundle:
