@@ -80,6 +80,7 @@ CONTRACT: dict[str, object] = {
     "partition": "external-candidate",
     "features": "mutation_residue_counts_40_plus_mutation_count",
     "mapping": "publisher_mapping_and_cleaned_pdb_wildtype_check",
+    "ambiguous_mapping": "exclude_every_candidate_touching_an_ambiguous_site",
     "feasibility_pool_sizes": [48, 80],
     "formal_held_out": False,
 }
@@ -162,6 +163,8 @@ def load_residue_map(archive: Path) -> ResidueMap:
     """Read publisher mapping and residue names, never structural feature values."""
     mappings: ResidueMap = {}
     residues: dict[tuple[str, str, str], str] = {}
+    ambiguous_mapping = set()
+    ambiguous_residues = set()
     seen = set()
     total = 0
     with tarfile.open(archive, "r|gz") as bundle:
@@ -194,7 +197,7 @@ def load_residue_map(archive: Path) -> ResidueMap:
                         key = (pdb, chain, original)
                         value = (THREE_TO_ONE[residue], cleaned)
                         if key in mappings and mappings[key] != value:
-                            raise ReadinessError("ambiguous publisher residue mapping")
+                            ambiguous_mapping.add(key)
                         mappings[key] = value
                     elif member.name.endswith(".pdb") and line.startswith(("ATOM  ", "HETATM")):
                         residue = line[17:20].strip()
@@ -203,12 +206,14 @@ def load_residue_map(archive: Path) -> ResidueMap:
                         key = (pdb, line[21], line[22:27].strip())
                         value_aa = THREE_TO_ONE[residue]
                         if key in residues and residues[key] != value_aa:
-                            raise ReadinessError("ambiguous cleaned PDB residue")
+                            ambiguous_residues.add(key)
                         residues[key] = value_aa
     return {
         key: value
         for key, value in mappings.items()
-        if residues.get((key[0], key[1], value[1])) == value[0]
+        if key not in ambiguous_mapping
+        and (key[0], key[1], value[1]) not in ambiguous_residues
+        and residues.get((key[0], key[1], value[1])) == value[0]
     }
 
 

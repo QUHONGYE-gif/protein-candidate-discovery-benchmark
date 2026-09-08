@@ -48,7 +48,9 @@ No room-temperature imputation or complex-level label normalization is allowed.
 Candidate identity uses the original PDB complex and sorted original mutation
 tokens (including insertion codes). Original-to-cleaned positions and wild-type
 residues are checked against the publisher mapping and cleaned PDB residue names;
-no positional conversion or structure repair is invented. Repeated measurements of the same candidate
+no positional conversion or structure repair is invented. Conflicting mappings never
+choose a first/last match: every candidate touching an ambiguous or missing residue
+mapping is excluded and counted. Repeated measurements of the same candidate
 are aggregated only at an identical temperature, by the median binding-improvement
 target; candidates measured at multiple temperatures are excluded conservatively.
 All duplicate source counts and exclusions remain auditable.
