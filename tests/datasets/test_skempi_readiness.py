@@ -144,7 +144,7 @@ def test_existing_manifest_schemas_and_observable_contract() -> None:
 def test_original_cleaned_mapping_and_wildtype(tmp_path: Path) -> None:
     archive = tmp_path / "structures.tgz"
     members = {
-        "PDBs/1ABC.mapping": b"TRP A  10  9\nLYS A 12 11\n",
+        "PDBs/1ABC.mapping": b"TRP A  10  9\nLYS A 12 11\nLYS A1000 674\nM3L P 9 5\n",
         "PDBs/1ABC.pdb": (
             b"ATOM      1  CA  TRP A   9      16.783  48.812  26.416  1.00 30.15           C  \n"
             b"ATOM      2  CA  ARG A  11      16.783  48.812  26.416  1.00 30.15           C  \n"

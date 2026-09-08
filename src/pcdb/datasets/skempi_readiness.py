@@ -183,7 +183,7 @@ def load_residue_map(archive: Path) -> ResidueMap:
                     line = raw.decode("ascii")
                     if member.name.endswith(".mapping"):
                         match = re.fullmatch(
-                            r"([A-Z]{3})\s+([A-Za-z0-9])\s*(-?\d+[A-Za-z]?)\s+(-?\d+[A-Za-z]?)\s*",
+                            r"([A-Z0-9]{3})\s+([A-Za-z0-9])\s*(-?\d+[A-Za-z]?)\s+(-?\d+[A-Za-z]?)\s*",
                             line,
                         )
                         if match is None:
