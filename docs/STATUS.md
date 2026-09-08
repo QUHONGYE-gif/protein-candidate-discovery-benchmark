@@ -1,6 +1,6 @@
 # Current project status
 
-> Snapshot last verified: 2026-09-03. Update this file only when one of the nine project-level
+> Snapshot last verified: 2026-09-08. Update this file only when one of the nine project-level
 > fields below changes materially. PID, individual attempts, routine Issue comments and code-review
 > events do not trigger an update. Prefer lifecycle closeout before taking a new snapshot, but do
 > not require this file to be transactionally synchronized with every GitHub event.
@@ -9,30 +9,28 @@
 
 | Field | Current fact |
 |---|---|
-| Verified upstream base | [`main@747b009`](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/commit/747b009357583df0f9a5c5027c0ba8f12baf82c1); PRs #95-#97 and #99 are merged, including the bounded M5B adapter, retry/source-provenance guards and actual-source feature-root binding fix |
-| Current scientific stage | M4 has an accepted negative terminal; M5A is governance-accepted and integrated; M5B has an independently accepted L1 exploratory ITERATION terminal with a permanently disclosed source-authorization deviation; M5C has not started |
+| Verified upstream base | [`main@9f332c2`](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/commit/9f332c2935b53ab1697688d0024944bc12a99161); Governance v2 migration rehearsal PR #102 is merged; PRs #103 and #105 remain open Drafts |
+| Current scientific stage | M4 retains its accepted negative terminal; M5A is accepted; M5B retains its accepted L1 exploratory terminal and disclosed source deviation. M5C has a GFP-only L1 result in #103; its four-assay formal cohort is incomplete. Owner-authorized formal M5D external execution is complete, pending independent review |
 | Latest accepted scientific result | M5B `attempt-002` is the first complete terminal over the frozen 80 Alpha/IRED development same-states: all four primary contrasts are inside their frozen 98.75% equivalence intervals, while both task taxonomies and the overall taxonomy are `INCONCLUSIVE` |
-| Current decision question | M5B is closed within its directional one-batch scope. The next planned slice is M5C ProteinGym four-assay prospective disambiguation, which must not assume M5B established behavioral redundancy |
-| Active implementation PR | None. PR #99 integrated the exact feature-root binding used by M5B `attempt-002`; no M5C implementation has been opened |
-| Active experiment | None. M5B stopped at its first complete terminal; no `attempt-003` exists and executable authority is 0 |
-| Next promotion gate | No M5B promotion is approved. Before M5C, a new Issue must prospectively freeze the experiment split and leakage boundary, zero-shot proxy identity, coverage eligibility, observable feature family and minimum M2 baseline |
-| Known blockers | None for M5B closeout. M5C remains unscoped and unauthorized; no held-out, COS publication, server execution or evidence promotion is permitted |
-| Superseded plans | For M4 onward, [`M4_TO_M7_REVISED_EXPERIMENT_PLAN.md`](M4_TO_M7_REVISED_EXPERIMENT_PLAN.md) supersedes the corresponding forward-looking sections of [`EXECUTION_ROADMAP.md`](EXECUTION_ROADMAP.md). The old roadmap remains historical context |
+| Current decision question | Evaluate the existing M5D external result: neither fixed model has both primary E-G and E-Matched lower bounds above zero. Four conservative groups limit interpretation; no outcome-driven rerun or method selection |
+| Active implementation PR | [M5C #103](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/103) and [M5D #105](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/105); M5D readiness, execution code and compact results are proposed for review |
+| Active experiment | None running. M5D `formal-20260908-001` completed 360 states / 23,760 branches on sole server `129.28.97.247`, with successful fresh-process disk reconstruction |
+| Next promotion gate | Independent code/scientific review of M5D #104/#105, then a separate acceptance decision. Execution completion and `_SUCCESS` do not confer scientific Gate acceptance or COS archival permission |
+| Known blockers | No M5D execution blocker remains. M5D independent review/evaluation is pending. M5C four-assay formal restrictions remain recorded in #103 and are not changed by this M5D authorization |
+| Superseded plans | [`M4_TO_M7_REVISED_EXPERIMENT_PLAN.md`](M4_TO_M7_REVISED_EXPERIMENT_PLAN.md) remains the scientific roadmap. The owner explicitly superseded waiting for M5C/prior review for this M5D attempt in [#104](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/104#issuecomment-5583110386); [the prospective M5D contract](experiments/M5D_FORMAL_EXECUTION.md) records the bounded change |
 
-Stage summary: M0-M3 are complete within their accepted engineering/evidence scopes; M4 terminal is
-`STOP`; M5A is accepted and integrated; M5B is complete within its accepted L1 exploratory
-ITERATION scope with overall `INCONCLUSIVE`, no rerun and no evidence promotion; M5C and M6-M7 have
-not started.
+Stage summary: M0–M3 and accepted M4/M5A/M5B results retain their historical scopes.
+The current unreviewed M5D result is recorded in
+[the formal execution report](results/m5d-formal-20260908/README.md).
+The GFP-only result in #103 does not complete the M5C four-assay cohort. M6–M7 have not started.
 
 ## Next bounded queue
 
-1. [Issue #91](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/91)
-   is closed as completed. It closed after PR #99 merged and before this status synchronization;
-   after PR #100 is integrated and read back, publish one compact final closeout record on the
-   already-closed Issue without reopening or reclosing it.
-2. Scope M5C in a new Issue before implementation or execution, retaining the existing development,
-   held-out and claim boundaries.
-3. Defer M5D SKEMPI 2.0 external validation until after M5C, as specified by the revised plan.
+1. Review and evaluate the existing M5D result in #104/#105; keep positive, negative
+   and zero directions and the four-group limitation visible. No rerun is implied.
+2. Continue M5C under its existing #103 authorities and scope; do not infer completion
+   or new execution permission from M5D's separate owner instruction.
+3. Consider later milestone acceptance/promotion only through a separate decision.
 
 The queue records the order visible at the snapshot date. Routine progress within it does not require
 transactional STATUS synchronization. No Issue, PR, experiment, credential, server or COS state is
@@ -53,5 +51,8 @@ changed by this file.
   their frozen 98.75% equivalence intervals. The registered task and overall classifications remain
   `INCONCLUSIVE`; this is not global equivalence, behavioral redundancy, multi-round benefit,
   causal mechanism, cross-assay generalization or benchmark evidence.
-- No experiment is currently active. No held-out evaluation, new COS publication, multi-fidelity
-  run, SKEMPI external validation or final scientific validation is authorized by this file.
+- M5D was prospectively authorized by the owner for execution before review, exact-bound
+  to source `ff9528ca5721c5ebb5397789681065d7af112625`. It is a completed formal external
+  attempt pending independent review, not a newly accepted scientific result.
+- No experiment is currently active. This status record grants no rerun, new COS publication,
+  multi-fidelity run or evidence-promotion authority.

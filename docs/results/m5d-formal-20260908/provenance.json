@@ -1,0 +1,89 @@
+{
+  "attempt_size_bytes": 32729461,
+  "authority_server": "129.28.97.247",
+  "cohort": [
+    {
+      "candidate_count": 93,
+      "candidate_pool_sha256": "253adbbcc4a7993bbc32130eaca73c97b444f0e8f67f081a5524c720138b7a2d",
+      "complex": "1A22_A_B",
+      "group": "skempi-group-b3be43ca13114bdc74afcc3b679f6a854ab1ffcf2f0fead497213a936b13ce60"
+    },
+    {
+      "candidate_count": 138,
+      "candidate_pool_sha256": "8135aa12c0749256a53096b1c64fad111b09e1f7301fffaa9e5eeadc947f8fda",
+      "complex": "1AO7_ABC_DE",
+      "group": "skempi-group-ed3dc92e2678bd173463b2b17d68927a73c75d79c73d64442bcb8ee313a273ec"
+    },
+    {
+      "candidate_count": 275,
+      "candidate_pool_sha256": "bf39b1e0479b3b4cdc6bb5d65c0211bf13e2b9a6477c435da66b050c7c230d81",
+      "complex": "1CHO_EFG_I",
+      "group": "skempi-group-ed3dc92e2678bd173463b2b17d68927a73c75d79c73d64442bcb8ee313a273ec"
+    },
+    {
+      "candidate_count": 89,
+      "candidate_pool_sha256": "44fda9ee037ddb9f586c5def639e0638bdbae09257dd045e02f0458f8dd21b3f",
+      "complex": "1DAN_HL_TU",
+      "group": "skempi-group-ed3dc92e2678bd173463b2b17d68927a73c75d79c73d64442bcb8ee313a273ec"
+    },
+    {
+      "candidate_count": 152,
+      "candidate_pool_sha256": "fb25e321bbcfe08b21885faa635fbee795d652fc65dac456364ea6223629e203",
+      "complex": "1JTG_A_B",
+      "group": "skempi-group-ee0d9e2195764e03c192efd3aecdc32ea2bfc8ea9c8963d4272ef49de2ecf399"
+    },
+    {
+      "candidate_count": 246,
+      "candidate_pool_sha256": "b69e38b0bacb585d3ffb14505b77bb8730e79bac36f09e7ecc011b5db7d0bbb4",
+      "complex": "1PPF_E_I",
+      "group": "skempi-group-ed3dc92e2678bd173463b2b17d68927a73c75d79c73d64442bcb8ee313a273ec"
+    },
+    {
+      "candidate_count": 267,
+      "candidate_pool_sha256": "d699c6bb5cb888b9ed4834cf90169daa46f6085e218a4e4c2b52c5c1b0c54710",
+      "complex": "1R0R_E_I",
+      "group": "skempi-group-ed3dc92e2678bd173463b2b17d68927a73c75d79c73d64442bcb8ee313a273ec"
+    },
+    {
+      "candidate_count": 235,
+      "candidate_pool_sha256": "723603ba807470d33b64cb6e149465353927ee170611616117801351da8b95c4",
+      "complex": "3BT1_A_U",
+      "group": "skempi-group-2ac50be54fe418eda195367670c00633d2f19b8e9a552c83ea334466479c4e07"
+    },
+    {
+      "candidate_count": 279,
+      "candidate_pool_sha256": "0f6cb2a83f314cf38f302248a148bdda2bf3d6a405f0e509f24fefee1bf9188d",
+      "complex": "3SGB_E_I",
+      "group": "skempi-group-ed3dc92e2678bd173463b2b17d68927a73c75d79c73d64442bcb8ee313a273ec"
+    }
+  ],
+  "contract_sha256": "3945691da9165bf10066fa4dd1eb933786421d40f045e461d25c47372dc10894",
+  "environment": {
+    "numpy": "2.4.6",
+    "scikit-learn": "1.9.0",
+    "xgboost-cpu": "3.2.0"
+  },
+  "environment_freeze_sha256": "9de3687d27c73bc6a83250a8011e1272d7f76e8671f6cec3bc0e170a98434e11",
+  "hostname": "VM-0-8-debian",
+  "models": {
+    "random-forest-sklearn-v1": "418b0fd6189fd9b3987620b05021e5ec5ff3018c074024cd13874cd3b9845312",
+    "xgboost-cpu-v1": "31eb5bc146f4e810027de8870fa5632e09a5427bd8dddfee9261572c1e3473f2"
+  },
+  "native_threads": 1,
+  "platform": "Linux-6.1.0-50-amd64-x86_64-with-glibc2.36",
+  "processing_sha256": "4a9f491fa71b3630466de094e19f5e7b51765ff75e7ed10a345eee6cbcb2efdd",
+  "protocol": "m5d-skempi-external-v1",
+  "python": "Python 3.11.2",
+  "rss_bytes_limit": 1610612736,
+  "run_spec_sha256": "5b4c5428ef18921b1f101e9b62598a1fce18b34eb0a1fa21db35643443bd7fb1",
+  "scratch_bytes_limit": 1073741824,
+  "server_attempt_root": "/srv/pcdb/runs/M5D/formal-20260908-001",
+  "source_commit": "ff9528ca5721c5ebb5397789681065d7af112625",
+  "split_sha256": "b11beb72e951878d42f247478ad8e5bd0bca25a8eeb3fdb71350bd44171f7e72",
+  "started_utc": "2026-09-08T09:58:44.545077+00:00",
+  "state_count": 360,
+  "state_inventory_sha256": "572555c6ee7084d927c8b317def04d7a3ccbd5d918868885728072e3d2a85d67",
+  "terminal_sha256": "5e0db1dde3ac38c4cc90b411d326fae82b41554aa7292cb9746ae2a68f192636",
+  "wall_seconds_limit": 7200,
+  "workers": 1
+}

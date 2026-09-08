@@ -1,5 +1,10 @@
 # M5D server-first readiness — Issue #104
 
+> Historical readiness contract. The owner's later 2026-09-08 instruction authorized
+> formal execution before M5C completion/prior review; see
+> [M5D_FORMAL_EXECUTION.md](M5D_FORMAL_EXECUTION.md) and
+> [the completed attempt](../results/m5d-formal-20260908/README.md).
+
 Tracking authority: `github_issue`,
 https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/104.
 The owner approved implementation on 2026-09-08 and selected `129.28.97.247`
