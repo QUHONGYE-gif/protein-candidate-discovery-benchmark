@@ -1,0 +1,25 @@
+{
+  "cos_delete_count": 0,
+  "cos_write_count": 0,
+  "issue": 104,
+  "objects": [
+    {
+      "path": "/srv/pcdb/data/raw/skempi/v2.0/2018-06/source-bundle/SKEMPI2_PDBs.tgz",
+      "sha256": "82418131a3864aa8484ea6ec300e58f9bc0349e21530f83f7ce336b41589a95a",
+      "size_bytes": 30482090
+    },
+    {
+      "path": "/srv/pcdb/data/raw/skempi/v2.0/2018-06/source-bundle/skempi_v2.csv",
+      "sha256": "76f8e60d09eaa4f05fb265063886859a86895c0b2fb225e31fe82928a883972d",
+      "size_bytes": 1602208
+    }
+  ],
+  "prior_attempts": [
+    "m5d-raw-recovery-20260908-001: official download time cap",
+    "m5d-cos-recovery-20260908-002: 403"
+  ],
+  "server": "129.28.97.247",
+  "source": "frozen official source; archive recovered via temporary local relay",
+  "status": "RAW_IDENTITY_VERIFIED",
+  "time": 1788859424.9796224
+}
