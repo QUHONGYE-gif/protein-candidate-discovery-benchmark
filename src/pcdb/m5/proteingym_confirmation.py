@@ -81,11 +81,12 @@ def initial_selection(
     assay_id: str,
     run_seed: int,
     size: int,
+    assay_ids: Sequence[str] = ASSAY_IDS,
 ) -> tuple[str, ...]:
     """Return the nested truth-blind initial prefix frozen by the contract."""
 
     candidates = _candidate_ids(candidate_ids, field="initial selection")
-    if assay_id not in ASSAY_IDS or run_seed not in RUN_SEEDS or size not in INITIAL_SAMPLE_SIZES:
+    if assay_id not in assay_ids or run_seed not in RUN_SEEDS or size not in INITIAL_SAMPLE_SIZES:
         raise ContractValidationError("M5C initial-selection identity drifted")
     if size > len(candidates):
         raise ContractValidationError("M5C initial selection exceeds the candidate pool")
@@ -113,11 +114,12 @@ def state_identity(
     run_seed: int,
     candidate_pool_sha256: str,
     feature_sha256: str,
+    assay_ids: Sequence[str] = ASSAY_IDS,
 ) -> str:
     """Return the exact content-derived state identity from the Gate A rule."""
 
     if (
-        assay_id not in ASSAY_IDS
+        assay_id not in assay_ids
         or model_id not in MODEL_IDS
         or initial_sample_size not in INITIAL_SAMPLE_SIZES
         or run_seed not in RUN_SEEDS
@@ -349,11 +351,15 @@ def _effect_index(
 
 
 def bootstrap_assay_effects(
-    effects: Sequence[StateEffects], *, assay_id: str, delta: float
+    effects: Sequence[StateEffects],
+    *,
+    assay_id: str,
+    delta: float,
+    assay_ids: Sequence[str] = ASSAY_IDS,
 ) -> tuple[ContrastSummary, ...]:
     """Run the exact shared-seed 20,000-draw assay-level bootstrap."""
 
-    if assay_id not in ASSAY_IDS or not math.isfinite(delta) or delta <= 0:
+    if assay_id not in assay_ids or not math.isfinite(delta) or delta <= 0:
         raise ContractValidationError("M5C bootstrap assay or margin is invalid")
     keyed = _effect_index(effects, assay_id)
     greedy_cells: list[float] = []
@@ -450,12 +456,12 @@ def _sign_reversed(primary: float, sensitivities: Sequence[float]) -> bool:
     )
 
 
-def classify_assay(item: AssayTaxonomyInput) -> str:
+def classify_assay(item: AssayTaxonomyInput, *, assay_ids: Sequence[str] = ASSAY_IDS) -> str:
     """Apply the frozen per-assay M5C taxonomy precedence."""
 
     summaries = (item.primary_e_g, item.primary_e_m)
     if (
-        item.assay_id not in ASSAY_IDS
+        item.assay_id not in assay_ids
         or isinstance(item.frozen_candidate_count, bool)
         or item.frozen_candidate_count <= 0
         or isinstance(item.actual_primary_high_value_count, bool)

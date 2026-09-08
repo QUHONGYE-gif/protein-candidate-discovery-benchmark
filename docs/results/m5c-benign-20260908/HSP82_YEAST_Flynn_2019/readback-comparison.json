@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "checks": {
+    "primary_contrasts_exact": true,
+    "taxonomy_exact": true,
+    "definitions_exact": true,
+    "sensitivity_within_existing_arithmetic_tolerance": true
+  },
+  "sensitivity_differences": {
+    "0.005/E-G": 0.0,
+    "0.005/E-M": -2.168404344971009e-19,
+    "0.02/E-G": 0.0,
+    "0.02/E-M": 5.421010862427522e-20
+  },
+  "absolute_tolerance": 1e-17
+}

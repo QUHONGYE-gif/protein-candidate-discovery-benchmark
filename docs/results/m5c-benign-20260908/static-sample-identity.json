@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "rows": 37708,
+      "sequence_field_present": true,
+      "sequence_mismatches": 0,
+      "candidate_sha256": "756876ba330fbd551dc9609a6260e754a593b6d3d303b9822587bcea1c8bb0cc",
+      "static_source_sha256": "a0752a587f9e4094866fe00bb7911daebd3f68ee37b5565e922c3802bbf960cd"
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "rows": 13294,
+      "sequence_field_present": true,
+      "sequence_mismatches": 0,
+      "candidate_sha256": "a812cba47a50dce6a1498e5a249cf22441a02549bb483e0f45c04316c33a5c48",
+      "static_source_sha256": "c6c11c8367a3da87d6b3d2a229cc839d07d3be86628245b6e2124955b808288b"
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "rows": 8570,
+      "sequence_field_present": true,
+      "sequence_mismatches": 0,
+      "candidate_sha256": "287a951786b7e5497a1e9610130f1814809e8228653ae85dd1e5ba4afa49d73d",
+      "static_source_sha256": "edc780db0518e1469d811bed4eb649ac59f637b664be4ced7c18bec730698fd4"
+    }
+  ],
+  "score_values_used": false
+}

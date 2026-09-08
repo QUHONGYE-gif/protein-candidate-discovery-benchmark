@@ -1,0 +1,156 @@
+{
+  "assays": [
+    {
+      "artifacts": {
+        "candidate": {
+          "path": "PABP_YEAST_Melamed_2013/candidates.csv.gz",
+          "row_count": 37708,
+          "sha256": "756876ba330fbd551dc9609a6260e754a593b6d3d303b9822587bcea1c8bb0cc",
+          "size_bytes": 1885235
+        },
+        "hidden_truth": {
+          "path": "PABP_YEAST_Melamed_2013/hidden-truth.csv.gz",
+          "row_count": 37708,
+          "sha256": "f2b7a10ae42437960ae50cb9a157f2ef1147aabcdd3cce248ad232ec89a5a819",
+          "size_bytes": 1661783
+        },
+        "membership": {
+          "path": "PABP_YEAST_Melamed_2013/membership.csv.gz",
+          "row_count": 37708,
+          "sha256": "31779b3456e630dd96ddfa5fba0c6443d35340f9a993740f9af38489409d372b",
+          "size_bytes": 1464948
+        },
+        "proxy_source": {
+          "path": "PABP_YEAST_Melamed_2013/raw-proxy.csv",
+          "row_count": 37708,
+          "sha256": "a0752a587f9e4094866fe00bb7911daebd3f68ee37b5565e922c3802bbf960cd",
+          "size_bytes": 85788661
+        },
+        "truth_source": {
+          "path": "PABP_YEAST_Melamed_2013/raw-truth.csv",
+          "row_count": 37708,
+          "sha256": "ca083e6d93d6192223166836406be185ccaf54108c6f86b90e7b21dc5c5dd3ec",
+          "size_bytes": 22804660
+        }
+      },
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "candidate_count": 37708,
+      "held_out_partitions": [],
+      "id_coverage_check": "PASS",
+      "label_direction": "higher_is_better",
+      "label_field": "DMS_score",
+      "label_provenance": "ProteinGym experimental phenotype; GCK primary-source reconciliation required before replay",
+      "observable_fields": [
+        "mutant",
+        "mutated_sequence"
+      ],
+      "partition": "candidate-pool",
+      "sample_sequence_reference_check": "PASS",
+      "source_paper_doi": "10.1261/rna.040709.113",
+      "source_phenotype_name": "linear"
+    },
+    {
+      "artifacts": {
+        "candidate": {
+          "path": "HSP82_YEAST_Flynn_2019/candidates.csv.gz",
+          "row_count": 13294,
+          "sha256": "a812cba47a50dce6a1498e5a249cf22441a02549bb483e0f45c04316c33a5c48",
+          "size_bytes": 674399
+        },
+        "hidden_truth": {
+          "path": "HSP82_YEAST_Flynn_2019/hidden-truth.csv.gz",
+          "row_count": 13294,
+          "sha256": "07e6ebe7152469d50f3df4084b943973aec82977e65ac35a236496252a8e3766",
+          "size_bytes": 613089
+        },
+        "membership": {
+          "path": "HSP82_YEAST_Flynn_2019/membership.csv.gz",
+          "row_count": 13294,
+          "sha256": "5438d80551de1a6acd36f4d1302ff39b6bfe4481d4cbe92df2d1011b604398c6",
+          "size_bytes": 516749
+        },
+        "proxy_source": {
+          "path": "HSP82_YEAST_Flynn_2019/raw-proxy.csv",
+          "row_count": 13294,
+          "sha256": "c6c11c8367a3da87d6b3d2a229cc839d07d3be86628245b6e2124955b808288b",
+          "size_bytes": 32084972
+        },
+        "truth_source": {
+          "path": "HSP82_YEAST_Flynn_2019/raw-truth.csv",
+          "row_count": 13294,
+          "sha256": "1e22ec6dd5eb2f43d7875e14619b3db661b048bbf00f69a65dc6d9a2c5447bc5",
+          "size_bytes": 9755209
+        }
+      },
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "candidate_count": 13294,
+      "held_out_partitions": [],
+      "id_coverage_check": "PASS",
+      "label_direction": "higher_is_better",
+      "label_field": "DMS_score",
+      "label_provenance": "ProteinGym experimental phenotype; GCK primary-source reconciliation required before replay",
+      "observable_fields": [
+        "mutant",
+        "mutated_sequence"
+      ],
+      "partition": "candidate-pool",
+      "sample_sequence_reference_check": "PASS",
+      "source_paper_doi": "10.7554/eLife.53810",
+      "source_phenotype_name": "s (37\u00b0C)"
+    },
+    {
+      "artifacts": {
+        "candidate": {
+          "path": "HXK4_HUMAN_Gersing_2022_activity/candidates.csv.gz",
+          "row_count": 8570,
+          "sha256": "287a951786b7e5497a1e9610130f1814809e8228653ae85dd1e5ba4afa49d73d",
+          "size_bytes": 425493
+        },
+        "hidden_truth": {
+          "path": "HXK4_HUMAN_Gersing_2022_activity/hidden-truth.csv.gz",
+          "row_count": 8570,
+          "sha256": "3cf992290cb18a455248edec27d5d20c78869d5110738678e4d47ec5c3a85c8b",
+          "size_bytes": 381836
+        },
+        "membership": {
+          "path": "HXK4_HUMAN_Gersing_2022_activity/membership.csv.gz",
+          "row_count": 8570,
+          "sha256": "6edfbce30ac8d8291bbd28d947f1e765dc2302fd3f3492ca9b62e23a8be42acd",
+          "size_bytes": 333283
+        },
+        "proxy_source": {
+          "path": "HXK4_HUMAN_Gersing_2022_activity/raw-proxy.csv",
+          "row_count": 8570,
+          "sha256": "edc780db0518e1469d811bed4eb649ac59f637b664be4ced7c18bec730698fd4",
+          "size_bytes": 18635174
+        },
+        "truth_source": {
+          "path": "HXK4_HUMAN_Gersing_2022_activity/raw-truth.csv",
+          "row_count": 8570,
+          "sha256": "3cb5c29a2bdbc052601e6fc03f7f55ef33c6b0fedee808deff2e8aef79d17b69",
+          "size_bytes": 4172568
+        }
+      },
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "candidate_count": 8570,
+      "held_out_partitions": [],
+      "id_coverage_check": "PASS",
+      "label_direction": "higher_is_better",
+      "label_field": "DMS_score",
+      "label_provenance": "ProteinGym experimental phenotype; GCK primary-source reconciliation required before replay",
+      "observable_fields": [
+        "mutant",
+        "mutated_sequence"
+      ],
+      "partition": "candidate-pool",
+      "sample_sequence_reference_check": "PASS",
+      "source_paper_doi": "10.1101/2022.05.04.490571",
+      "source_phenotype_name": "score"
+    }
+  ],
+  "metadata_sha256": "a8f498011532a74aa9fe556a50555a75e928c5837d19c06a87592ae04049b308",
+  "network_bytes": 47934628,
+  "scientific_results": false,
+  "study_id": "m5c-proteingym-benign-iteration-20260908",
+  "wall_seconds": 1120.9287477922626
+}

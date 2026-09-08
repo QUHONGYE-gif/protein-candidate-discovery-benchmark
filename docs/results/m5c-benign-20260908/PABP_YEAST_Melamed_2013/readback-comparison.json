@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "checks": {
+    "primary_contrasts_exact": true,
+    "taxonomy_exact": true,
+    "definitions_exact": true,
+    "sensitivity_within_existing_arithmetic_tolerance": true
+  },
+  "sensitivity_differences": {
+    "0.005/E-G": 0.0,
+    "0.005/E-M": 0.0,
+    "0.02/E-G": 0.0,
+    "0.02/E-M": -3.3881317890172014e-21
+  },
+  "note": "Initial bit-exact sensitivity comparison failed at 3.388e-21. Count-based verifier averages four cells; runtime averages 40 states. Existing verifier arithmetic tolerance 1e-17 covers this reduction-order rounding, with identical signs and taxonomy. Original artifacts retained; no scientific configuration changed."
+}

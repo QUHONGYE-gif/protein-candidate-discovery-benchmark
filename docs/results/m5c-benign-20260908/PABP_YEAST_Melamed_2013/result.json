@@ -1,0 +1,46 @@
+{
+  "assay_id": "PABP_YEAST_Melamed_2013",
+  "branch_evaluations": 2640,
+  "candidate_count": 37708,
+  "candidate_identity_checks": "PASS",
+  "claim_boundary": "revised benign ProteinGym ITERATION; not original four-assay confirmation",
+  "completed_states": 40,
+  "feature_sha256": "6b4f427466b9ef1c3f38e0538aa89b076cbb0d3d37405d04f56b12269d786c06",
+  "membership_alignment_check": "PASS",
+  "mode": "full",
+  "primary_contrasts": {
+    "E-G": {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "bootstrap_draws": 20000,
+      "cell_point_estimates": [
+        -0.0002645502645502645,
+        -0.0002645502645502645,
+        -0.000529100529100529,
+        0.0
+      ],
+      "ci_lower": -0.0011243386243386243,
+      "ci_upper": 0.0003968253968253968,
+      "contrast": "E-G",
+      "point_estimate": -0.0002645502645502645,
+      "status": "EQUIVALENT"
+    },
+    "E-M": {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "bootstrap_draws": 20000,
+      "cell_point_estimates": [
+        0.0006489748677248677,
+        2.8935185185185183e-05,
+        -0.00026041666666666666,
+        1.240079365079365e-05
+      ],
+      "ci_lower": -0.0003410218253968254,
+      "ci_upper": 0.0007714359343998008,
+      "contrast": "E-M",
+      "point_estimate": 0.00010747354497354498,
+      "status": "EQUIVALENT"
+    }
+  },
+  "scientific_result": true,
+  "taxonomy": "FRAGILE_INCONCLUSIVE",
+  "truth_alignment_check": "PASS"
+}

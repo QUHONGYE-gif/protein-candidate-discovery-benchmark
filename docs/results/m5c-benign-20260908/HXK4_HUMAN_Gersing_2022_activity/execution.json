@@ -1,0 +1,51 @@
+{
+  "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+  "authorization": "user-approved same-dataset three-assay substitution; results first",
+  "base_commit": "5c0119df4d4fdef62ca616e7199b4cb8061eb4a9",
+  "input_sha256": "cfe2e613ed20969ea8a6072e703de6cead9affb745b66a5be4b8d047a6f13d10",
+  "label_evidence_sha256": "c09a7f65e6f64cecc05d7812e4cb92d1f32160a379d1163f2b4c2f5a2e69ba57",
+  "limits": {
+    "model_threads": 1,
+    "rss_bytes": 1610612736,
+    "wall_seconds": 7200,
+    "workers": 1
+  },
+  "matrix": {
+    "batch_size": 16,
+    "initial_sizes": [
+      32,
+      64
+    ],
+    "matched_replicates": 64,
+    "models": [
+      "random-forest-sklearn-v1",
+      "xgboost-cpu-v1"
+    ],
+    "seeds": [
+      1729,
+      1730,
+      1731,
+      1732,
+      1733,
+      1734,
+      1735,
+      1736,
+      1737,
+      1738
+    ]
+  },
+  "mode": "full",
+  "source_sha256": {
+    "m5c_benign_scope.py": "2fb192692ce42af6862dd69d294bf65e081e2abdf541dbaa61783181c4c655fe",
+    "proteingym_confirmation.py": "d5a9715d116649f82645d41a80af92998e628a994d34fd1da090199445739219",
+    "proteingym_runtime.py": "75504878c51f03590329b3e5cdb92e47f7c1be8191bec63c5c33af69763dfce0",
+    "run_m5c_benign_iteration.py": "adc76d2487e2ca3eeebf1e4d34d53c6aa7c25e2076cd54cf250f01129618b3d7"
+  },
+  "started_at": "2026-09-08T09:59:04.666810+00:00",
+  "study_id": "m5c-proteingym-benign-iteration-20260908",
+  "versions": {
+    "numpy": "2.4.6",
+    "scikit-learn": "1.9.0",
+    "xgboost-cpu": "3.2.0"
+  }
+}

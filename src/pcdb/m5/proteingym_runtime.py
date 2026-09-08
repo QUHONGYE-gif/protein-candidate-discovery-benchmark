@@ -301,13 +301,14 @@ def select_state(
     model_id: str,
     observations: Sequence[Observation],
     run_seed: int,
+    assay_ids: Sequence[str] = ASSAY_IDS,
 ) -> StateSelection:
     """Fit one frozen state from revealed labels and select G/E/M branches."""
 
     ids = tuple(candidate_ids)
     values = np.asarray(features, dtype=np.float64)
     if (
-        assay_id not in ASSAY_IDS
+        assay_id not in assay_ids
         or model_id not in MODEL_IDS
         or initial_sample_size not in INITIAL_SAMPLE_SIZES
         or run_seed not in RUN_SEEDS
@@ -320,6 +321,7 @@ def select_state(
         assay_id=assay_id,
         run_seed=run_seed,
         size=initial_sample_size,
+        assay_ids=assay_ids,
     )
     observed = {item.candidate_id: float(item.label) for item in observations}
     if len(observed) != len(observations) or set(observed) != set(expected_initial):
@@ -367,6 +369,7 @@ def select_state(
         run_seed=run_seed,
         candidate_pool_sha256=candidate_pool_sha256,
         feature_sha256=feature_sha256,
+        assay_ids=assay_ids,
     )
     remaining = tuple(str(item) for item in remaining_ids)
     return StateSelection(
@@ -728,6 +731,7 @@ def build_assay_aggregate(
     state_aggregates: Sequence[Mapping[str, object]],
     state_effects: Sequence[StateEffects],
     static_proxy: Mapping[str, object],
+    assay_ids: Sequence[str] = ASSAY_IDS,
 ) -> dict[str, object]:
     """Build one complete, candidate-free assay report and taxonomy."""
 
@@ -737,6 +741,7 @@ def build_assay_aggregate(
         state_effects,
         assay_id=assay_id,
         delta=1 / math.ceil(0.01 * candidate_count),
+        assay_ids=assay_ids,
     )
     by_contrast = {item.contrast: item for item in summaries}
     sensitivity = {
@@ -777,7 +782,7 @@ def build_assay_aggregate(
         },
         "state_aggregates": list(state_aggregates),
         "static_proxy": dict(static_proxy),
-        "taxonomy": classify_assay(taxonomy_input),
+        "taxonomy": classify_assay(taxonomy_input, assay_ids=assay_ids),
         "validity_ok": True,
     }
     encoded = json.dumps(report, allow_nan=False, separators=(",", ":"), sort_keys=True)
@@ -808,7 +813,9 @@ def _effect_from_aggregate(state: Mapping[str, object]) -> StateEffects:
         raise ContractValidationError("M5C aggregate state is invalid") from None
 
 
-def verify_assay_aggregate(report: Mapping[str, object]) -> None:
+def verify_assay_aggregate(
+    report: Mapping[str, object], *, assay_ids: Sequence[str] = ASSAY_IDS
+) -> None:
     """Recompute every registered classifier input from sealed aggregates only."""
 
     try:
@@ -820,12 +827,13 @@ def verify_assay_aggregate(report: Mapping[str, object]) -> None:
         effects = tuple(_effect_from_aggregate(item) for item in states)
     except (KeyError, TypeError, ValueError):
         raise ContractValidationError("M5C aggregate reproduction input is invalid") from None
-    if assay_id not in ASSAY_IDS or type(candidate_count) is not int or candidate_count <= 0:
+    if assay_id not in assay_ids or type(candidate_count) is not int or candidate_count <= 0:
         raise ContractValidationError("M5C aggregate reproduction identity is invalid")
     summaries = bootstrap_assay_effects(
         effects,
         assay_id=assay_id,
         delta=1 / math.ceil(0.01 * candidate_count),
+        assay_ids=assay_ids,
     )
     by_contrast = {item.contrast: item for item in summaries}
     sensitivity = {
@@ -861,7 +869,7 @@ def verify_assay_aggregate(report: Mapping[str, object]) -> None:
         or compact_json_bytes(report.get("primary_contrasts"))
         != compact_json_bytes(expected_primary)
         or report.get("sensitivity_point_estimates") != expected_sensitivity
-        or report.get("taxonomy") != classify_assay(taxonomy_input)
+        or report.get("taxonomy") != classify_assay(taxonomy_input, assay_ids=assay_ids)
         or report.get("validity_ok") is not True
     ):
         raise ContractValidationError("M5C aggregate reproduction mismatch")

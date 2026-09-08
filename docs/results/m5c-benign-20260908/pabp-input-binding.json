@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "executed_input_sha256": "8baa32b5fa990bb890d0bd9c2c185e356e8b0ab082d714f01423ef3ee3800c76",
+  "final_three_assay_input_sha256": "cfe2e613ed20969ea8a6072e703de6cead9affb745b66a5be4b8d047a6f13d10",
+  "artifact_identity_comparison": {
+    "candidate": {
+      "sha256": true,
+      "size_bytes": true,
+      "row_count": true
+    },
+    "hidden_truth": {
+      "sha256": true,
+      "size_bytes": true,
+      "row_count": true
+    },
+    "membership": {
+      "sha256": true,
+      "size_bytes": true,
+      "row_count": true
+    },
+    "proxy_source": {
+      "sha256": true,
+      "size_bytes": true,
+      "row_count": true
+    },
+    "truth_source": {
+      "sha256": true,
+      "size_bytes": true,
+      "row_count": true
+    }
+  },
+  "note": "PABP used the earlier one-assay wrapper while other downloads completed. Every prepared artifact SHA, size and row count is identical to its entry in the final three-assay wrapper. This summary omits absolute server paths; it is not the executed wrapper and does not claim its byte identity."
+}
