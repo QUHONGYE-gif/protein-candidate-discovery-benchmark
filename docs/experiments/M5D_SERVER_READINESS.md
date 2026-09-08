@@ -46,8 +46,9 @@ missing, ambiguous or non-finite values are excluded with reason counts.
 No room-temperature imputation or complex-level label normalization is allowed.
 
 Candidate identity uses the original PDB complex and sorted original mutation
-tokens (including insertion codes). Cleaned mutation tokens are separately checked;
-no positional conversion is invented. Repeated measurements of the same candidate
+tokens (including insertion codes). Original-to-cleaned positions and wild-type
+residues are checked against the publisher mapping and cleaned PDB residue names;
+no positional conversion or structure repair is invented. Repeated measurements of the same candidate
 are aggregated only at an identical temperature, by the median binding-improvement
 target; candidates measured at multiple temperatures are excluded conservatively.
 All duplicate source counts and exclusions remain auditable.
@@ -58,8 +59,9 @@ membership are not features. Candidate, truth, provenance and grouping files are
 separate. Feature encoding consumes an observable object only.
 
 Leakage components conservatively union identical PDB IDs, identical normalized
-protein names, protein-pair identities and publisher hold-out links/types. Unresolved
-hold-out links fail closed. Components are a split constraint, not proof of complete
+protein names, protein-pair identities and publisher hold-out links/types. Malformed
+hold-out links fail closed; syntactically valid absent complexes remain virtual graph
+nodes so shared exclusions still connect. Components are a split constraint, not proof of complete
 sequence-homology separation. Every component is assigned `external_candidate`;
 no development/held-out train/test allocation is invented before review. A later
 partitioner must keep whole components together.
