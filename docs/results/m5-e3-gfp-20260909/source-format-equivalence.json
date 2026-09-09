@@ -1,0 +1,8 @@
+{
+  "changes": "Formatting and import grouping/order only; exact executed source preserved as executed-source.py.txt",
+  "executed_source_sha256": "6e5e12ce84209674f47ef3e7e497e8656c50c66ea17759181e93162d1c111027",
+  "identical_import_set": true,
+  "identical_nonimport_ast": true,
+  "repository_source_sha256": "5f63e1df19c6c0542271b5151f7f84af9848742fd892fc4aae6d996a818eca97",
+  "smoke_full_exact_states": 2
+}

@@ -1,0 +1,442 @@
+{
+  "analysis_source_sha256": "019774b0c42576f7e3d3ad629a18a95563520ff7cc02e026080fd91002ccaab6",
+  "application_delta": null,
+  "auxiliary_method": "nested PCG64 bootstrap; not the legacy SHA-based stream",
+  "executed_source_sha256": "6e5e12ce84209674f47ef3e7e497e8656c50c66ea17759181e93162d1c111027",
+  "input_sha256": "0b148e541f60bd3305d7ddc92e363d1158ca8f310560441a5cc4eca28461d8bb",
+  "limits": [
+    "development data",
+    "not complete joint M5",
+    "no population CI",
+    "no application delta"
+  ],
+  "recall_count_checks": 15840,
+  "states": 40,
+  "status": "AGGREGATE_CHECKS_PASS",
+  "summaries": [
+    {
+      "assay_id": "GFP_AEQVI_Sarkisyan_2016",
+      "auxiliary_contrasts": {
+        "new": {
+          "E-G": {
+            "estimate": -0.0005791505791505792,
+            "interval": [
+              -0.0016409266409266408,
+              0.0002895752895752896
+            ]
+          },
+          "E-M": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -2.4131274131274155e-05,
+            "interval": [
+              -0.00035141167953667957,
+              0.00040269063706563704
+            ],
+            "seed": 10700,
+            "unit": "shared seed slots; matched replicates nested within state occurrence"
+          }
+        },
+        "old": {
+          "E-G": {
+            "estimate": 0.0,
+            "interval": [
+              -0.0004826254826254827,
+              0.0005311896718146016
+            ]
+          },
+          "E-M": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 6.485279922779921e-05,
+            "interval": [
+              -0.0003348214285714286,
+              0.0004924335258807904
+            ],
+            "seed": 10700,
+            "unit": "shared seed slots; matched replicates nested within state occurrence"
+          }
+        }
+      },
+      "fixed_policy_effects": {
+        "exploration_best": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": -0.011912319363499967,
+          "interval": [
+            -0.0430991754934998,
+            0.0035153056784999583
+          ],
+          "seed": 10600
+        },
+        "exploration_recall_0.005": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": -0.00019305019305019305,
+          "interval": [
+            -0.0007722007722007722,
+            0.0
+          ],
+          "seed": 10600
+        },
+        "exploration_recall_0.01": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": -9.652509652509652e-05,
+          "interval": [
+            -0.0005791505791505791,
+            0.0002895752895752896
+          ],
+          "seed": 10600
+        },
+        "exploration_recall_0.02": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": -0.00014492753623188405,
+          "interval": [
+            -0.0005314009661835748,
+            0.0001932367149758454
+          ],
+          "seed": 10600
+        },
+        "greedy_best": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": 0.011735599820999986,
+          "interval": [
+            -0.011111524579499977,
+            0.044309760655993444
+          ],
+          "seed": 10600
+        },
+        "greedy_recall_0.005": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": 0.0009652509652509654,
+          "interval": [
+            0.0,
+            0.0025096525096525097
+          ],
+          "seed": 10600
+        },
+        "greedy_recall_0.01": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": 0.00048262548262548264,
+          "interval": [
+            -0.00019305019305019308,
+            0.0012548262548262548
+          ],
+          "seed": 10600
+        },
+        "greedy_recall_0.02": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": 1.0842021724855045e-20,
+          "interval": [
+            -0.0004830917874396135,
+            0.00043478260869565224
+          ],
+          "seed": 10600
+        }
+      },
+      "mean_hits": {
+        "new": {
+          "exploration": 0.15,
+          "greedy": 0.45
+        },
+        "old": {
+          "exploration": 0.2,
+          "greedy": 0.2
+        }
+      },
+      "model_id": "random-forest-sklearn-v1",
+      "prediction": {
+        "mae": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.011661389029043467,
+            "interval": [
+              0.0015152670276376322,
+              0.027882678984598657
+            ],
+            "seed": 10600
+          },
+          "new": 0.8356797415549861,
+          "old": 0.8240183525259426
+        },
+        "spearman": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.01919077810630774,
+            "interval": [
+              -0.05635326608158324,
+              0.002515000280485938
+            ],
+            "seed": 10600
+          },
+          "new": 0.38128599424500165,
+          "old": 0.4004767723513094
+        },
+        "top1_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0036249758372016326,
+            "interval": [
+              -0.011243300271629788,
+              0.002395430817981673
+            ],
+            "seed": 10600
+          },
+          "new": 0.6466023229140749,
+          "old": 0.6502272987512765
+        },
+        "uq_error_rho": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.027521107445754544,
+            "interval": [
+              -0.07203479165552487,
+              0.010344209409264213
+            ],
+            "seed": 10600
+          },
+          "new": 0.15933914744655656,
+          "old": 0.18686025489231112
+        },
+        "uq_top1_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.003022240620640079,
+            "interval": [
+              -0.01478747081176099,
+              0.008413005001151334
+            ],
+            "seed": 10600
+          },
+          "new": 0.4575384988489809,
+          "old": 0.4605607394696209
+        }
+      },
+      "primary_denominator": 518,
+      "unit": "within-assay shared seed slots"
+    },
+    {
+      "assay_id": "GFP_AEQVI_Sarkisyan_2016",
+      "auxiliary_contrasts": {
+        "new": {
+          "E-G": {
+            "estimate": -9.652509652509652e-05,
+            "interval": [
+              -0.0009652509652509653,
+              0.0007722007722007722
+            ]
+          },
+          "E-M": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.00011311534749034748,
+            "interval": [
+              -0.00030314913127413133,
+              0.0007691937892133183
+            ],
+            "seed": 10701,
+            "unit": "shared seed slots; matched replicates nested within state occurrence"
+          }
+        },
+        "old": {
+          "E-G": {
+            "estimate": 0.0,
+            "interval": [
+              -0.0007722007722007722,
+              0.0006756756756756757
+            ]
+          },
+          "E-M": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 9.652509652509652e-05,
+            "interval": [
+              -0.0003091819498069498,
+              0.0005210894139116784
+            ],
+            "seed": 10701,
+            "unit": "shared seed slots; matched replicates nested within state occurrence"
+          }
+        }
+      },
+      "fixed_policy_effects": {
+        "exploration_best": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": -0.002077702701500006,
+          "interval": [
+            -0.019309824232999963,
+            0.01410470035462028
+          ],
+          "seed": 10601
+        },
+        "exploration_recall_0.005": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": 0.0003861003861003861,
+          "interval": [
+            0.0,
+            0.0011583011583011585
+          ],
+          "seed": 10601
+        },
+        "exploration_recall_0.01": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": 0.0,
+          "interval": [
+            -0.0004826254826254827,
+            0.0004826254826254827
+          ],
+          "seed": 10601
+        },
+        "exploration_recall_0.02": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": 9.661835748792272e-05,
+          "interval": [
+            -0.0002898550724637681,
+            0.0006763285024154589
+          ],
+          "seed": 10601
+        },
+        "greedy_best": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": 0.003553767372000127,
+          "interval": [
+            -0.014736767289999887,
+            0.027201872186434436
+          ],
+          "seed": 10601
+        },
+        "greedy_recall_0.005": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": 0.0,
+          "interval": [
+            -0.0009652509652509654,
+            0.0009652509652509654
+          ],
+          "seed": 10601
+        },
+        "greedy_recall_0.01": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": 9.652509652509652e-05,
+          "interval": [
+            -0.0007722007722007723,
+            0.0009652509652509653
+          ],
+          "seed": 10601
+        },
+        "greedy_recall_0.02": {
+          "coverage": 0.99375,
+          "draws": 20000,
+          "estimate": 4.8309178743961365e-05,
+          "interval": [
+            -0.0006280193236714976,
+            0.0007729468599033817
+          ],
+          "seed": 10601
+        }
+      },
+      "mean_hits": {
+        "new": {
+          "exploration": 0.2,
+          "greedy": 0.25
+        },
+        "old": {
+          "exploration": 0.2,
+          "greedy": 0.2
+        }
+      },
+      "model_id": "xgboost-cpu-v1",
+      "prediction": {
+        "mae": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.01917795665057743,
+            "interval": [
+              -0.004559132388254923,
+              0.07586626807576564
+            ],
+            "seed": 10601
+          },
+          "new": 0.848375812805573,
+          "old": 0.8291978561549955
+        },
+        "spearman": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.01858226978816028,
+            "interval": [
+              -0.06985473120312409,
+              0.0021829698797971625
+            ],
+            "seed": 10601
+          },
+          "new": 0.30841285656253364,
+          "old": 0.32699512635069394
+        },
+        "top1_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.005523560802095029,
+            "interval": [
+              -0.017361662653999233,
+              0.003044482145209087
+            ],
+            "seed": 10601
+          },
+          "new": 0.6153439836472318,
+          "old": 0.6208675444493268
+        },
+        "uq_error_rho": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.01570070375606126,
+            "interval": [
+              -0.029928792727724234,
+              -0.0009965701989176573
+            ],
+            "seed": 10601
+          },
+          "new": 0.18080648912326813,
+          "old": 0.1965071928793294
+        },
+        "uq_top1_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.00674558173899745,
+            "interval": [
+              -0.0015492233379376563,
+              0.01656401996526673
+            ],
+            "seed": 10601
+          },
+          "new": 0.4414858680725725,
+          "old": 0.43474028633357503
+        }
+      },
+      "primary_denominator": 518,
+      "unit": "within-assay shared seed slots"
+    }
+  ]
+}
