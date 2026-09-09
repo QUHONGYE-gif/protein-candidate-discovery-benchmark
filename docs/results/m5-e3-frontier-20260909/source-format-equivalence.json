@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "verified_revision": "e3ee77c6db7202048b8aa007e51fbb24de621a58",
+  "verified_source_sha256": "38cce43bf24f25f85a28f3fd83d2b5a6c2afea399637cb63de2ddd5aca0f74ee",
+  "current_source_sha256": "b7b650f67889888660132d805d629d7e61befa7c80e2a8dad2036308ca637721",
+  "change": "remove one import separator blank line",
+  "non_import_ast_equal": true,
+  "executed_prediction_source_unchanged": true
+}

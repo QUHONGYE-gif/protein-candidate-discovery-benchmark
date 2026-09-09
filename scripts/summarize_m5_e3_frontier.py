@@ -9,7 +9,6 @@ import json
 from pathlib import Path
 
 import numpy as np
-
 from summarize_m5_e3_prediction import ASSAY_IDS, DENOMINATORS, MODELS, bootstrap
 
 
