@@ -1,0 +1,26 @@
+{
+  "application_delta": null,
+  "available_observations": 64,
+  "batch_size": 16,
+  "evidence_stage": "ITERATION",
+  "geometry": "greedy mean nearest squared Euclidean; ID ties",
+  "geometry_columns": 420,
+  "helper_sha256": "92e384e1972f03144706000b84ef900a909127651478593692baa4207f1be0f1",
+  "input_result_sha256": "937febfe04c7f45ff490249fdce1f33b0944d54b7a9a9a9939f3a0776d51eb08",
+  "input_sha256": "cfe2e613ed20969ea8a6072e703de6cead9affb745b66a5be4b8d047a6f13d10",
+  "label_cost": 80,
+  "mode": "full",
+  "model_columns": 421,
+  "plan_sha256": "031cf0c3a0ab720688100c4c54145ed84c49b16fe89cd9ba02681d8922d878c7",
+  "prior_result_sha256": "ba0de452db9012fe0b9960168ea5d9b5422eafbd0c2cd7a456170f327b5dcded",
+  "protocol": "m5-e3-fixed-count-coverage-v1",
+  "runtime_sha256": "75504878c51f03590329b3e5cdb92e47f7c1be8191bec63c5c33af69763dfce0",
+  "source_sha256": "477d9b67b0e2b3985b60e09b356d2585c5d2b1734f06cc9ac1af3e81ec7f131c",
+  "training_count": 32,
+  "truth_boundary": "label-blind subsets; 32-observation workers; evaluator scoring",
+  "versions": {
+    "numpy": "2.4.6",
+    "scikit-learn": "1.9.0",
+    "xgboost-cpu": "3.2.0"
+  }
+}
