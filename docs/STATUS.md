@@ -1,6 +1,6 @@
 # Current project status
 
-> Snapshot last verified: 2026-09-08. Update this file only when one of the nine project-level
+> Snapshot last verified: 2026-09-09 (M5D update; other milestone facts retained from the prior snapshot). Update this file only when one of the nine project-level
 > fields below changes materially. PID, individual attempts, routine Issue comments and code-review
 > events do not trigger an update. Prefer lifecycle closeout before taking a new snapshot, but do
 > not require this file to be transactionally synchronized with every GitHub event.
@@ -10,19 +10,22 @@
 | Field | Current fact |
 |---|---|
 | Verified upstream base | [`main@9f332c2`](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/commit/9f332c2935b53ab1697688d0024944bc12a99161); Governance v2 migration rehearsal PR #102 is merged; PRs #103 and #105 remain open Drafts |
-| Current scientific stage | M4 retains its accepted negative terminal; M5A is accepted; M5B retains its accepted L1 exploratory terminal and disclosed source deviation. M5C has a GFP-only L1 result in #103; its four-assay formal cohort is incomplete. Owner-authorized formal M5D external execution is complete, pending independent review |
+| Current scientific stage | M4/M5A/M5B 保持既有验收状态；M5C GFP-only 与四-assay 状态沿用 #103。正式 M5D 外部执行已完成、待独立审核；新增 M5D 特征消融开发实验完成，整体 unstable，未晋级证据 |
 | Latest accepted scientific result | M5B `attempt-002` is the first complete terminal over the frozen 80 Alpha/IRED development same-states: all four primary contrasts are inside their frozen 98.75% equivalence intervals, while both task taxonomies and the overall taxonomy are `INCONCLUSIVE` |
-| Current decision question | Evaluate the existing M5D external result: neither fixed model has both primary E-G and E-Matched lower bounds above zero. Four conservative groups limit interpretation; no outcome-driven rerun or method selection |
+| Current decision question | 四臂开发比较未出现 positive：F2改善平均预测但探索/Greedy收益不一致，F3收益集中。建议 revise，优先研究固定F2的不确定性目标对齐，不继续盲目增加特征 |
 | Active implementation PR | [M5C #103](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/103) and [M5D #105](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/105); M5D readiness, execution code and compact results are proposed for review |
-| Active experiment | None running. M5D `formal-20260908-001` completed 360 states / 23,760 branches on sole server `129.28.97.247`, with successful fresh-process disk reconstruction |
-| Next promotion gate | Independent code/scientific review of M5D #104/#105, then a separate acceptance decision. Execution completion and `_SUCCESS` do not confer scientific Gate acceptance or COS archival permission |
-| Known blockers | No M5D execution blocker remains. M5D independent review/evaluation is pending. M5C four-assay formal restrictions remain recorded in #103 and are not changed by this M5D authorization |
+| Active experiment | 无运行中实验。原 formal-20260908-001 冻结；feature-iteration-20260909 的 smoke-001/full-001 完成，分别16/1,440臂状态，原F0全部360选择精确复现 |
+| Next promotion gate | 独立审核原正式结果与新开发结果；开发队列已参与优化，后续独立外部确认须另行审计隔离边界。当前不授权证据晋级或COS归档 |
+| Known blockers | 无执行阻塞；本轮停止于完整开发终态，独立审核待补充。没有组合达到预声明positive条件；后续策略实验需另立限定契约 |
 | Superseded plans | [`M4_TO_M7_REVISED_EXPERIMENT_PLAN.md`](M4_TO_M7_REVISED_EXPERIMENT_PLAN.md) remains the scientific roadmap. The owner explicitly superseded waiting for M5C/prior review for this M5D attempt in [#104](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/104#issuecomment-5583110386); [the prospective M5D contract](experiments/M5D_FORMAL_EXECUTION.md) records the bounded change |
 
 Stage summary: M0–M3 and accepted M4/M5A/M5B results retain their historical scopes.
 The current unreviewed M5D result is recorded in
 [the formal execution report](results/m5d-formal-20260908/README.md).
 The GFP-only result in #103 does not complete the M5C four-assay cohort. M6–M7 have not started.
+
+新增开发结果见 [特征消融报告](results/m5d-feature-iteration-20260909/README.md)，
+整体 `unstable / revise`；原正式结果仍保持其执行身份与待审核状态。
 
 ## Next bounded queue
 

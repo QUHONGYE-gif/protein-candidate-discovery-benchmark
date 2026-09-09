@@ -1,0 +1,21 @@
+{
+  "downloaded_checksums": "PASS",
+  "execution_source_ci": 34315768223,
+  "execution_source_ci_status": "success",
+  "formal_terminal_sha256": "5e0db1dde3ac38c4cc90b411d326fae82b41554aa7292cb9746ae2a68f192636",
+  "formal_terminal_unchanged": true,
+  "fresh_full_readback": {
+    "arm_states": 1440,
+    "exit_code": 0,
+    "result": "PASS"
+  },
+  "fresh_smoke_readback": {
+    "arm_states": 16,
+    "exit_code": 0,
+    "result": "PASS"
+  },
+  "full_terminal_sha256": "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac",
+  "independent_review": "PENDING",
+  "local_make_check_seconds": 153.25,
+  "local_make_check_tests": 958
+}
