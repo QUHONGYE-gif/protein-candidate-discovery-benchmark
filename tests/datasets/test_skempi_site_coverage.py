@@ -118,3 +118,15 @@ def test_unsupported_targets_remain_inconclusive_and_groups_null(
     assert r["decision"] == "inconclusive"
     assert all(g["contrast"]["mae_delta"] is None for g in r["groups"])
     assert r["supported_groups_only"][0]["eligible_groups"] == 0
+
+
+def test_pool_singletons_separate_structural_absence_from_sampling(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    m = module(monkeypatch)
+    _, sites = fixture()
+    r = m.pool_audit(sites)[0]
+    assert r["candidates"] == 4
+    assert r["distinct_sites"] == 3
+    assert r["singleton_sites"] == 2
+    assert r["unavoidable_unseen_candidates"] == 2

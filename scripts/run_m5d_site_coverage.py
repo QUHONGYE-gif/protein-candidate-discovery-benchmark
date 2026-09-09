@@ -10,6 +10,7 @@ import subprocess
 import sys
 import threading
 import time
+from collections import Counter
 from datetime import UTC, datetime
 from pathlib import Path
 from types import SimpleNamespace
@@ -59,6 +60,25 @@ def build_masks(metadata, sites):
     return result
 
 
+def pool_audit(sites):
+    """完整可观测池中的单例位点，决定是否可能出现同位点训练候选。"""
+    result = []
+    for complex_id, candidates in sorted(sites.items()):
+        counts = Counter(site for c in candidates.values() for site in set(c["sites"]))
+        result.append(
+            {
+                "complex": complex_id,
+                "candidates": len(candidates),
+                "distinct_sites": len(counts),
+                "singleton_sites": sum(n == 1 for n in counts.values()),
+                "unavoidable_unseen_candidates": sum(
+                    any(counts[site] == 1 for site in c["sites"]) for c in candidates.values()
+                ),
+            }
+        )
+    return result
+
+
 def load_source(args):
     if base.identity(args.oof_root / "terminal.json") != PARENT:
         raise ValueError("OOF终态身份漂移")
@@ -102,7 +122,7 @@ def load_source(args):
         {k: r[k] for k in ("state", "fold_index", "train_ids", "validation_ids")} for r in records
     ]
     masks = build_masks(metadata, sites)
-    return states, records, masks, all_ids
+    return states, records, masks, all_ids, pool_audit(sites)
 
 
 def subset_metrics(rows):
@@ -313,9 +333,11 @@ def summary(rows):
 
 
 def compute(args):
-    states, records, masks, all_ids = load_source(args)
+    states, records, masks, all_ids, audit = load_source(args)
     annotated, rows = evaluate(states, records, masks, base.read_truth(args.input_root, all_ids))
-    return masks, annotated, summary(rows)
+    report = summary(rows)
+    report["pool_coverage_audit"] = audit
+    return masks, annotated, report
 
 
 def verify(args):
