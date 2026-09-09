@@ -1,0 +1,27 @@
+{
+  "server": "129.28.97.247",
+  "new_process_verify": {
+    "smoke-001": {
+      "readback": "PASS",
+      "states": 2,
+      "exit_code": 0
+    },
+    "full-001": {
+      "readback": "PASS",
+      "states": 180,
+      "exit_code": 0
+    }
+  },
+  "download_sha256": "PASS",
+  "terminal_sha256": {
+    "smoke-001": "39518c1014c1331f54bb6a74db8246b8fa368223f5c3f47f50135a076070923c",
+    "full-001": "5cbee9d18b4442087997f7a99137587584c903786f88071532f3b41c1517b5af"
+  },
+  "study_du_bytes": 8841431,
+  "historical_terminal_sha256_unchanged": {
+    "formal": "5e0db1dde3ac38c4cc90b411d326fae82b41554aa7292cb9746ae2a68f192636",
+    "feature": "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac",
+    "beta": "289665091003b0a6d57de1f44acafcd9f419becb40aff51179b46644924b4d53",
+    "oof": "b08bb4d2c56dd8e72dabd920aa7b514a973caa7ee3dbdb9595da507da985437f"
+  }
+}
