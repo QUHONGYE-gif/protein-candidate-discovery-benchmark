@@ -64,10 +64,10 @@ def analyze(result):
     assert result["completed_states"] == 120 and result["evaluated_new_branches"] == 7920
     assert result["baseline_reconstruction"] == result["paired_initials"] == "PASS"
     rows = result["rows"]
-    expected = {(a, m, n, s) for a in ASSAY_IDS for m in MODELS for n in (32, 64)
-                for s in range(1729, 1739)}
-    actual = {(r["assay_id"], r["model_id"], r["initial_sample_size"], r["run_seed"])
-              for r in rows}
+    expected = {
+        (a, m, n, s) for a in ASSAY_IDS for m in MODELS for n in (32, 64) for s in range(1729, 1739)
+    }
+    actual = {(r["assay_id"], r["model_id"], r["initial_sample_size"], r["run_seed"]) for r in rows}
     assert len(rows) == len(actual) == 120 and actual == expected
     checked = 0
     for row in rows:
@@ -77,10 +77,14 @@ def analyze(result):
                 assert state[key] == row[key]
             branches = state["branches"]
             assert len(branches["matched_random"]) == 64
-            for branch in [branches["greedy"], branches["exploration"],
-                           *branches["matched_random"]]:
-                for fraction, denominator in zip(FRACTIONS, DENOMINATORS[row["assay_id"]],
-                                                 strict=True):
+            for branch in [
+                branches["greedy"],
+                branches["exploration"],
+                *branches["matched_random"],
+            ]:
+                for fraction, denominator in zip(
+                    FRACTIONS, DENOMINATORS[row["assay_id"]], strict=True
+                ):
                     metric = branch["high_value"][fraction]
                     assert 0 <= metric["count"] <= 16
                     assert abs(metric["recall"] - metric["count"] / denominator) < 1e-14
@@ -88,15 +92,18 @@ def analyze(result):
         for policy in ("greedy", "exploration"):
             delta = row["decomposition"][policy]
             assert delta["net_hits"] == delta["entered_hits"] - delta["exited_hits"]
-            counts = [row[v]["branches"][policy]["high_value"]["0.01"]["count"]
-                      for v in ("old", "new")]
+            counts = [
+                row[v]["branches"][policy]["high_value"]["0.01"]["count"] for v in ("old", "new")
+            ]
             assert counts[1] - counts[0] == delta["net_hits"]
     summaries = []
     for summary in result["summaries"]:
         assay, model = summary["assay_id"], summary["model_id"]
         mi = MODELS.index(model)
-        selected = sorted([r for r in rows if r["assay_id"] == assay and r["model_id"] == model],
-                          key=lambda r: (r["initial_sample_size"], r["run_seed"]))
+        selected = sorted(
+            [r for r in rows if r["assay_id"] == assay and r["model_id"] == model],
+            key=lambda r: (r["initial_sample_size"], r["run_seed"]),
+        )
         assert len(selected) == 20
         for name, metric in summary["prediction"].items():
             pairs = [(r["old_diagnostics"][name], r["new_diagnostics"][name]) for r in selected]
@@ -104,15 +111,26 @@ def analyze(result):
                 check_summary(metric["change"], bootstrap([b - a for a, b in pairs], 10600 + mi))
         for policy in ("greedy", "exploration"):
             for fraction in FRACTIONS:
-                pairs = [[r[v]["branches"][policy]["high_value"][fraction]["recall"]
-                          for v in ("old", "new")] for r in selected]
+                pairs = [
+                    [
+                        r[v]["branches"][policy]["high_value"][fraction]["recall"]
+                        for v in ("old", "new")
+                    ]
+                    for r in selected
+                ]
                 key = policy + "_recall_" + fraction
-                check_summary(summary["fixed_policy_effects"][key],
-                              bootstrap([b - a for a, b in pairs], 10600 + mi))
-            pairs = [[r[v]["branches"][policy]["best_found_improvement"]
-                      for v in ("old", "new")] for r in selected]
-            check_summary(summary["fixed_policy_effects"][policy + "_best"],
-                          bootstrap([b - a for a, b in pairs], 10600 + mi))
+                check_summary(
+                    summary["fixed_policy_effects"][key],
+                    bootstrap([b - a for a, b in pairs], 10600 + mi),
+                )
+            pairs = [
+                [r[v]["branches"][policy]["best_found_improvement"] for v in ("old", "new")]
+                for r in selected
+            ]
+            check_summary(
+                summary["fixed_policy_effects"][policy + "_best"],
+                bootstrap([b - a for a, b in pairs], 10600 + mi),
+            )
         record = dict(summary)
         record["primary_denominator"] = DENOMINATORS[assay][1]
         record["auxiliary_contrasts"] = {}
@@ -120,23 +138,28 @@ def analyze(result):
         for version in ("old", "new"):
             batches = [r[version]["branches"] for r in selected]
             eg = [recall(b["exploration"]) - recall(b["greedy"]) for b in batches]
-            em = [[recall(b["exploration"]) - recall(m) for m in b["matched_random"]]
-                  for b in batches]
+            em = [
+                [recall(b["exploration"]) - recall(m) for m in b["matched_random"]] for b in batches
+            ]
             record["auxiliary_contrasts"][version] = {
                 "E-G": bootstrap(eg, 10600 + mi),
                 "E-M": matched_interval(em, 10700 + mi),
             }
             record["mean_hits"][version] = {
-                policy: float(np.mean([b[policy]["high_value"]["0.01"]["count"]
-                                       for b in batches]))
+                policy: float(np.mean([b[policy]["high_value"]["0.01"]["count"] for b in batches]))
                 for policy in ("greedy", "exploration")
             }
         summaries.append(record)
     assert len(summaries) == 6
-    return {"status": "AGGREGATE_CHECKS_PASS", "states": 120,
-            "recall_count_checks": checked, "summaries": summaries,
-            "limits": result["limits"], "application_delta": None,
-            "auxiliary_method": "nested PCG64 bootstrap; not the legacy SHA-based stream"}
+    return {
+        "status": "AGGREGATE_CHECKS_PASS",
+        "states": 120,
+        "recall_count_checks": checked,
+        "summaries": summaries,
+        "limits": result["limits"],
+        "application_delta": None,
+        "auxiliary_method": "nested PCG64 bootstrap; not the legacy SHA-based stream",
+    }
 
 
 def main():
@@ -151,8 +174,11 @@ def main():
     sha = hashlib.sha256(raw).hexdigest()
     assert sha == terminal["artifacts"]["result.json.gz"]
     result = analyze(json.loads(gzip.decompress(raw)))
-    result.update(input_sha256=sha, executed_source_sha256=terminal["source_sha256"],
-                  analysis_source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
+    result.update(
+        input_sha256=sha,
+        executed_source_sha256=terminal["source_sha256"],
+        analysis_source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+    )
     with args.output.open("x") as handle:
         json.dump(result, handle, indent=2, sort_keys=True, allow_nan=False)
         handle.write("\n")
