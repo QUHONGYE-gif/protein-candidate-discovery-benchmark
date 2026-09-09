@@ -1,0 +1,20 @@
+{
+  "command": "python3 scripts/analyze_m5_e3_budget.py --output-dir ATTEMPT_DIR --self-test",
+  "environment": "existing local Python; compact public aggregates only",
+  "input_sha256": "67e98445f6c4fe3f6fd46a966b2af321122ea4c1cc8371a7eac81fef164715ba",
+  "limits": {
+    "cumulative_seconds": 900,
+    "output_mib": 256,
+    "peak_mib": 1536
+  },
+  "mode": "synthetic-smoke",
+  "numpy": "2.4.2",
+  "python": "3.14.3",
+  "source_sha256": {
+    "docs/experiments/M5_E3_BUDGET_EFFECTS.md": "7724c0f4c1f20c2b992d7d0a19c6574d4c303798831639ca5b6f923b555fa930",
+    "scripts/analyze_m5_e3_budget.py": "ed3facef16fb85ce9d1084cc85b0c61529051692622f0e59f0aabefbc5442d1b",
+    "scripts/m5c_benign_scope.py": "2fb192692ce42af6862dd69d294bf65e081e2abdf541dbaa61783181c4c655fe",
+    "scripts/summarize_m5_e3_prediction.py": "a23933679e9f026421b7c085427adb4d49084eb2c6e74caddd850c1c135e45f1"
+  },
+  "started_at": "2026-09-09T16:11:13.098268+00:00"
+}
