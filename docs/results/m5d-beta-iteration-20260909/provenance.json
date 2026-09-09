@@ -1,0 +1,194 @@
+{
+  "attempt_events": [
+    {
+      "attempt_id": "smoke-001",
+      "command": [
+        "/home/siyuan/pcdb-env-issue76-m4-0994a73f/bin/python",
+        "scripts/run_m5d_beta_iteration.py",
+        "--input-root",
+        "/srv/pcdb/data/processed/skempi/skempi-readiness-72bc80dd1524f7815039160bc095045308f4d56c9e819a84203a6fe70e508ec6",
+        "--parent-root",
+        "/srv/pcdb/runs/M5D/feature-iteration-20260909/full-001",
+        "--mode",
+        "smoke",
+        "--output",
+        "/srv/pcdb/runs/M5D/beta-iteration-20260909/smoke-001"
+      ],
+      "config_identity": "a94b45b22142ab0c48dec46a8db418acde21f95c466dcb24c93aa321abed46c1",
+      "data_identities": [
+        "4a9f491fa71b3630466de094e19f5e7b51765ff75e7ed10a345eee6cbcb2efdd",
+        "b11beb72e951878d42f247478ad8e5bd0bca25a8eeb3fdb71350bd44171f7e72",
+        "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac"
+      ],
+      "executed_git_commit": "e43e2460d54cb67570823525157ba90668c96cb2",
+      "mode": "smoke",
+      "parent_attempt_id": null,
+      "source_terminal_sha256": "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac",
+      "started_at": "2026-09-09T06:24:37.860777+00:00",
+      "status": "running",
+      "study_id": "m5d-beta-iteration-v1"
+    },
+    {
+      "artifacts": {
+        "private/metrics.json": "d9bcaa815cd35b193079a3c793afd4f16504092f90aa7fe996b8302975b3a4b8",
+        "private/selections.json": "614ed2855d28cfbdc5fe287c526534c226d04b0cc3074047711d2b70dcd805c3",
+        "report.json": "7bcd0da53765931371dae82cf22ae8db347e0eb847428d21f0b21f87a9b7bd6c",
+        "run-spec.json": "2c8c2b2bb689ce32d451085445c59eda166384f7133fd14b81e35aeaacaf53a4"
+      },
+      "attempt_id": "smoke-001",
+      "command": [
+        "/home/siyuan/pcdb-env-issue76-m4-0994a73f/bin/python",
+        "scripts/run_m5d_beta_iteration.py",
+        "--input-root",
+        "/srv/pcdb/data/processed/skempi/skempi-readiness-72bc80dd1524f7815039160bc095045308f4d56c9e819a84203a6fe70e508ec6",
+        "--parent-root",
+        "/srv/pcdb/runs/M5D/feature-iteration-20260909/full-001",
+        "--mode",
+        "smoke",
+        "--output",
+        "/srv/pcdb/runs/M5D/beta-iteration-20260909/smoke-001"
+      ],
+      "config_identity": "a94b45b22142ab0c48dec46a8db418acde21f95c466dcb24c93aa321abed46c1",
+      "cos_writes": 0,
+      "data_identities": [
+        "4a9f491fa71b3630466de094e19f5e7b51765ff75e7ed10a345eee6cbcb2efdd",
+        "b11beb72e951878d42f247478ad8e5bd0bca25a8eeb3fdb71350bd44171f7e72",
+        "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac"
+      ],
+      "elapsed_seconds": 6.2617543349042535,
+      "executed_git_commit": "e43e2460d54cb67570823525157ba90668c96cb2",
+      "failure_class": "none",
+      "failure_reason": null,
+      "finished_at": "2026-09-09T06:24:44.122714+00:00",
+      "mode": "smoke",
+      "parent_attempt_id": null,
+      "peak_tree_rss_bytes": 425467904,
+      "result_summary": {
+        "arm_states": 10,
+        "branches": 660,
+        "disposition": "stop",
+        "readback": "PASS"
+      },
+      "selection_disposition": "diagnostic",
+      "source_terminal_sha256": "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac",
+      "started_at": "2026-09-09T06:24:37.860777+00:00",
+      "status": "succeeded",
+      "study_id": "m5d-beta-iteration-v1"
+    },
+    {
+      "attempt_id": "full-001",
+      "command": [
+        "/home/siyuan/pcdb-env-issue76-m4-0994a73f/bin/python",
+        "scripts/run_m5d_beta_iteration.py",
+        "--input-root",
+        "/srv/pcdb/data/processed/skempi/skempi-readiness-72bc80dd1524f7815039160bc095045308f4d56c9e819a84203a6fe70e508ec6",
+        "--parent-root",
+        "/srv/pcdb/runs/M5D/feature-iteration-20260909/full-001",
+        "--mode",
+        "full",
+        "--output",
+        "/srv/pcdb/runs/M5D/beta-iteration-20260909/full-001"
+      ],
+      "config_identity": "a94b45b22142ab0c48dec46a8db418acde21f95c466dcb24c93aa321abed46c1",
+      "data_identities": [
+        "4a9f491fa71b3630466de094e19f5e7b51765ff75e7ed10a345eee6cbcb2efdd",
+        "b11beb72e951878d42f247478ad8e5bd0bca25a8eeb3fdb71350bd44171f7e72",
+        "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac"
+      ],
+      "executed_git_commit": "e43e2460d54cb67570823525157ba90668c96cb2",
+      "mode": "full",
+      "parent_attempt_id": "smoke-001",
+      "source_terminal_sha256": "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac",
+      "started_at": "2026-09-09T06:25:19.042922+00:00",
+      "status": "running",
+      "study_id": "m5d-beta-iteration-v1"
+    },
+    {
+      "artifacts": {
+        "private/metrics.json": "fc8104d66a54aed472dec29231d7ff303ed16674e6f87b81ed2bc134f28b3d68",
+        "private/selections.json": "ec4802b77344a4004d41fea1ec9721a3f00a0d5c030fb35fe898ad477ee1404f",
+        "report.json": "96a972dd0933c5a3891dd5507b35d803622c734298621c8fdde814bef03c43ab",
+        "run-spec.json": "dabb8b8d48eecd672e121eaf67466789a08180479a0bc2fce1d97dda3704a922"
+      },
+      "attempt_id": "full-001",
+      "command": [
+        "/home/siyuan/pcdb-env-issue76-m4-0994a73f/bin/python",
+        "scripts/run_m5d_beta_iteration.py",
+        "--input-root",
+        "/srv/pcdb/data/processed/skempi/skempi-readiness-72bc80dd1524f7815039160bc095045308f4d56c9e819a84203a6fe70e508ec6",
+        "--parent-root",
+        "/srv/pcdb/runs/M5D/feature-iteration-20260909/full-001",
+        "--mode",
+        "full",
+        "--output",
+        "/srv/pcdb/runs/M5D/beta-iteration-20260909/full-001"
+      ],
+      "config_identity": "a94b45b22142ab0c48dec46a8db418acde21f95c466dcb24c93aa321abed46c1",
+      "cos_writes": 0,
+      "data_identities": [
+        "4a9f491fa71b3630466de094e19f5e7b51765ff75e7ed10a345eee6cbcb2efdd",
+        "b11beb72e951878d42f247478ad8e5bd0bca25a8eeb3fdb71350bd44171f7e72",
+        "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac"
+      ],
+      "elapsed_seconds": 231.6275964039378,
+      "executed_git_commit": "e43e2460d54cb67570823525157ba90668c96cb2",
+      "failure_class": "none",
+      "failure_reason": null,
+      "finished_at": "2026-09-09T06:29:10.670646+00:00",
+      "mode": "full",
+      "parent_attempt_id": "smoke-001",
+      "peak_tree_rss_bytes": 428630016,
+      "result_summary": {
+        "arm_states": 900,
+        "branches": 59400,
+        "disposition": "revise",
+        "readback": "PASS"
+      },
+      "selection_disposition": "diagnostic",
+      "source_terminal_sha256": "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac",
+      "started_at": "2026-09-09T06:25:19.042922+00:00",
+      "status": "succeeded",
+      "study_id": "m5d-beta-iteration-v1"
+    }
+  ],
+  "attempt_id": "full-001",
+  "betas": [
+    0,
+    0.25,
+    0.5,
+    1,
+    2
+  ],
+  "command": [
+    "/home/siyuan/pcdb-env-issue76-m4-0994a73f/bin/python",
+    "scripts/run_m5d_beta_iteration.py",
+    "--input-root",
+    "/srv/pcdb/data/processed/skempi/skempi-readiness-72bc80dd1524f7815039160bc095045308f4d56c9e819a84203a6fe70e508ec6",
+    "--parent-root",
+    "/srv/pcdb/runs/M5D/feature-iteration-20260909/full-001",
+    "--mode",
+    "full",
+    "--output",
+    "/srv/pcdb/runs/M5D/beta-iteration-20260909/full-001"
+  ],
+  "config_identity": "a94b45b22142ab0c48dec46a8db418acde21f95c466dcb24c93aa321abed46c1",
+  "data_identities": [
+    "4a9f491fa71b3630466de094e19f5e7b51765ff75e7ed10a345eee6cbcb2efdd",
+    "b11beb72e951878d42f247478ad8e5bd0bca25a8eeb3fdb71350bd44171f7e72",
+    "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac"
+  ],
+  "environment_freeze_sha256": "9de3687d27c73bc6a83250a8011e1272d7f76e8671f6cec3bc0e170a98434e11",
+  "executed_git_commit": "e43e2460d54cb67570823525157ba90668c96cb2",
+  "feature": "F2",
+  "hostname": "VM-0-8-debian",
+  "mode": "full",
+  "model": "xgboost-cpu-v1",
+  "parent_attempt_id": "smoke-001",
+  "prior_seconds": 6.2617543349042535,
+  "python": "3.11.2 (main, May 12 2026, 05:17:27) [GCC 12.2.0]",
+  "run_spec_sha256": "dabb8b8d48eecd672e121eaf67466789a08180479a0bc2fce1d97dda3704a922",
+  "source_terminal_sha256": "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac",
+  "started_at": "2026-09-09T06:25:19.042922+00:00",
+  "study_bytes": 83216076,
+  "study_id": "m5d-beta-iteration-v1"
+}
