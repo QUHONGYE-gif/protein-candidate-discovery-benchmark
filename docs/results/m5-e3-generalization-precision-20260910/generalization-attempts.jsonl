@@ -1,0 +1,4 @@
+{"time": "2026-09-10T15:25:03.575726+00:00", "event": "started", "attempt": "generalization-smoke-001", "wall_limit": 90}
+{"time": "2026-09-10T15:25:15.454367+00:00", "event": "finished", "attempt": "generalization-smoke-001", "returncode": 0, "elapsed_seconds": 11.874477371107787}
+{"time": "2026-09-10T15:25:15.458468+00:00", "event": "started", "attempt": "generalization-full-001", "wall_limit": 800}
+{"time": "2026-09-10T15:26:40.214497+00:00", "event": "finished", "attempt": "generalization-full-001", "returncode": 0, "elapsed_seconds": 84.75358563708141}

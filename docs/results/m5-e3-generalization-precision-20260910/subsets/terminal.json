@@ -1,0 +1,11 @@
+{
+  "artifacts": {
+    "attempts.jsonl": "ca52138f18603f73483a112c05f7cc1ea1765248c6af6f0df18191705dfc9d13",
+    "execution.json": "1fb55356b607ca81e010b09edfbb2a06d5c82a5296c81d840e08b7ccbaa292a4",
+    "result.json": "5ce3a6b81e5220c02ec8557c7ce28625dd873aa37a99520466830282c98e6154"
+  },
+  "failure_class": null,
+  "peak_rss_bytes": 71155712,
+  "status": "succeeded",
+  "wall_seconds": 0.2809458749834448
+}
