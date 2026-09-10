@@ -1,0 +1,11 @@
+{
+  "coverage_terms": 72,
+  "intervals": 180,
+  "numeric_checks": 3566,
+  "result_sha256": "5cbdedb4e35b2595345c992e1ba7d1573a12dd972ce2a30fc090f524d959cdec",
+  "scope": "independent arithmetic implementation; not independent scientific approval",
+  "source_endpoints": 2520,
+  "states": 180,
+  "status": "PASS",
+  "verifier_sha256": "f42aff2a0d6362edf214694c5492d3ebfed0fe5ae8812277d4f2417c6a9e8a38"
+}
