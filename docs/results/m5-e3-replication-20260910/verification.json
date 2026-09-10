@@ -1,0 +1,16 @@
+{
+  "arm_mean_checks": 270,
+  "count_rate_checks": 3024,
+  "full_sha256": "4f8063f48e5671f9d3008751a05fde7072f26feafe932a7722f6c766209481e8",
+  "full_states": 120,
+  "independent_intervals": 135,
+  "old_metric_reconstructions": 180,
+  "raw_truth_or_candidate_access": false,
+  "reported_exact_historical_point_arrays": 12,
+  "scope": "independent arithmetic implementation, not independent scientific review",
+  "smoke_states": 6,
+  "source_sha256": "f00feb1ebac4e2493e10c71fbb4d164339b6f468de92a314f1b7fbf84ea49e10",
+  "status": "PASS",
+  "undefined_summary_metrics": 0,
+  "wall_seconds": 0.11554270912893116
+}

@@ -1,0 +1,4 @@
+{"event": "started", "attempt": "replication-smoke-001", "time": "2026-09-10T03:24:35.313042+00:00"}
+{"event": "exited", "attempt": "replication-smoke-001", "exit_code": 0, "time": "2026-09-10T03:24:52.972212+00:00"}
+{"event": "started", "attempt": "replication-full-001", "time": "2026-09-10T03:25:53.915698+00:00"}
+{"event": "exited", "attempt": "replication-full-001", "exit_code": 0, "time": "2026-09-10T03:27:39.157941+00:00"}

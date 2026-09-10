@@ -1,0 +1,12 @@
+{"time": "2026-09-10T03:24:43.954563+00:00", "event": "predictions_saved", "assay_id": "PABP_YEAST_Melamed_2013", "index": 0}
+{"time": "2026-09-10T03:24:44.991882+00:00", "event": "predictions_saved", "assay_id": "PABP_YEAST_Melamed_2013", "index": 1}
+{"time": "2026-09-10T03:24:45.007047+00:00", "event": "workers_exited", "assay_id": "PABP_YEAST_Melamed_2013"}
+{"time": "2026-09-10T03:24:46.067053+00:00", "event": "assay_scored", "assay_id": "PABP_YEAST_Melamed_2013", "states": 2}
+{"time": "2026-09-10T03:24:49.210413+00:00", "event": "predictions_saved", "assay_id": "HSP82_YEAST_Flynn_2019", "index": 0}
+{"time": "2026-09-10T03:24:49.628187+00:00", "event": "predictions_saved", "assay_id": "HSP82_YEAST_Flynn_2019", "index": 1}
+{"time": "2026-09-10T03:24:49.639504+00:00", "event": "workers_exited", "assay_id": "HSP82_YEAST_Flynn_2019"}
+{"time": "2026-09-10T03:24:49.950526+00:00", "event": "assay_scored", "assay_id": "HSP82_YEAST_Flynn_2019", "states": 4}
+{"time": "2026-09-10T03:24:52.256251+00:00", "event": "predictions_saved", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "index": 0}
+{"time": "2026-09-10T03:24:52.572119+00:00", "event": "predictions_saved", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "index": 1}
+{"time": "2026-09-10T03:24:52.582415+00:00", "event": "workers_exited", "assay_id": "HXK4_HUMAN_Gersing_2022_activity"}
+{"time": "2026-09-10T03:24:52.785897+00:00", "event": "assay_scored", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "states": 6}
