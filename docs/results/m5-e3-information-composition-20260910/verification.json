@@ -1,0 +1,16 @@
+{
+  "arm_mean_checks": 474,
+  "baseline_aggregate_checks": 264,
+  "boundary": "compact arithmetic and identities; not independent raw-data reconstruction",
+  "count_rate_and_intervention_checks": 1287,
+  "full_sha256": "95e1e4fc3de6ce894c090ac360e0399e7c0afdb1d006e2feaf3ab6ae59958a8d",
+  "full_states": 30,
+  "independent_intervals": 237,
+  "raw_truth_or_candidate_access": false,
+  "smoke_full_exact_scientific_states": 3,
+  "smoke_states": 3,
+  "source_sha256": "2a3ab1d9be34d6144136f44c0898bb83cc7c7bb028fc28a513bbe2a29dd35c8c",
+  "status": "PASS",
+  "undefined_summary_metrics": 6,
+  "wall_seconds": 0.09788650018163025
+}

@@ -1,0 +1,4 @@
+{"time": "2026-09-10T13:21:53.732261+00:00", "event": "started", "attempt": "information-composition-smoke-001", "wall_limit": 90}
+{"time": "2026-09-10T13:22:04.947022+00:00", "event": "finished", "attempt": "information-composition-smoke-001", "returncode": 0, "elapsed_seconds": 11.202424996998161}
+{"time": "2026-09-10T13:22:27.700003+00:00", "event": "started", "attempt": "information-composition-full-001", "wall_limit": 800}
+{"time": "2026-09-10T13:23:05.253097+00:00", "event": "finished", "attempt": "information-composition-full-001", "returncode": 0, "elapsed_seconds": 37.54808892402798}

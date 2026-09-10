@@ -1,0 +1,38 @@
+{"time": "2026-09-10T13:22:28.960185+00:00", "event": "attempt_started", "mode": "full", "source_sha256": "be47886791d37e4900f72e49c26da54d8a5b81d5aaefcfb113b998d64609722c"}
+{"time": "2026-09-10T13:22:33.262570+00:00", "event": "predictions_and_selection_saved", "assay_id": "PABP_YEAST_Melamed_2013", "index": 20}
+{"time": "2026-09-10T13:22:34.762546+00:00", "event": "predictions_and_selection_saved", "assay_id": "PABP_YEAST_Melamed_2013", "index": 21}
+{"time": "2026-09-10T13:22:36.306971+00:00", "event": "predictions_and_selection_saved", "assay_id": "PABP_YEAST_Melamed_2013", "index": 22}
+{"time": "2026-09-10T13:22:37.677491+00:00", "event": "predictions_and_selection_saved", "assay_id": "PABP_YEAST_Melamed_2013", "index": 23}
+{"time": "2026-09-10T13:22:39.046309+00:00", "event": "predictions_and_selection_saved", "assay_id": "PABP_YEAST_Melamed_2013", "index": 24}
+{"time": "2026-09-10T13:22:40.562447+00:00", "event": "predictions_and_selection_saved", "assay_id": "PABP_YEAST_Melamed_2013", "index": 25}
+{"time": "2026-09-10T13:22:42.193965+00:00", "event": "predictions_and_selection_saved", "assay_id": "PABP_YEAST_Melamed_2013", "index": 26}
+{"time": "2026-09-10T13:22:43.549060+00:00", "event": "predictions_and_selection_saved", "assay_id": "PABP_YEAST_Melamed_2013", "index": 27}
+{"time": "2026-09-10T13:22:44.896517+00:00", "event": "predictions_and_selection_saved", "assay_id": "PABP_YEAST_Melamed_2013", "index": 28}
+{"time": "2026-09-10T13:22:46.290617+00:00", "event": "predictions_and_selection_saved", "assay_id": "PABP_YEAST_Melamed_2013", "index": 29}
+{"time": "2026-09-10T13:22:46.306345+00:00", "event": "fit_workers_exited", "assay_id": "PABP_YEAST_Melamed_2013"}
+{"time": "2026-09-10T13:22:49.609670+00:00", "event": "assay_scored", "assay_id": "PABP_YEAST_Melamed_2013", "completed_states": 10}
+{"time": "2026-09-10T13:22:52.278478+00:00", "event": "predictions_and_selection_saved", "assay_id": "HSP82_YEAST_Flynn_2019", "index": 20}
+{"time": "2026-09-10T13:22:52.826450+00:00", "event": "predictions_and_selection_saved", "assay_id": "HSP82_YEAST_Flynn_2019", "index": 21}
+{"time": "2026-09-10T13:22:53.356240+00:00", "event": "predictions_and_selection_saved", "assay_id": "HSP82_YEAST_Flynn_2019", "index": 22}
+{"time": "2026-09-10T13:22:54.025396+00:00", "event": "predictions_and_selection_saved", "assay_id": "HSP82_YEAST_Flynn_2019", "index": 23}
+{"time": "2026-09-10T13:22:54.600805+00:00", "event": "predictions_and_selection_saved", "assay_id": "HSP82_YEAST_Flynn_2019", "index": 24}
+{"time": "2026-09-10T13:22:55.131733+00:00", "event": "predictions_and_selection_saved", "assay_id": "HSP82_YEAST_Flynn_2019", "index": 25}
+{"time": "2026-09-10T13:22:55.670467+00:00", "event": "predictions_and_selection_saved", "assay_id": "HSP82_YEAST_Flynn_2019", "index": 26}
+{"time": "2026-09-10T13:22:56.203046+00:00", "event": "predictions_and_selection_saved", "assay_id": "HSP82_YEAST_Flynn_2019", "index": 27}
+{"time": "2026-09-10T13:22:56.730485+00:00", "event": "predictions_and_selection_saved", "assay_id": "HSP82_YEAST_Flynn_2019", "index": 28}
+{"time": "2026-09-10T13:22:57.257668+00:00", "event": "predictions_and_selection_saved", "assay_id": "HSP82_YEAST_Flynn_2019", "index": 29}
+{"time": "2026-09-10T13:22:57.268966+00:00", "event": "fit_workers_exited", "assay_id": "HSP82_YEAST_Flynn_2019"}
+{"time": "2026-09-10T13:22:58.174366+00:00", "event": "assay_scored", "assay_id": "HSP82_YEAST_Flynn_2019", "completed_states": 20}
+{"time": "2026-09-10T13:23:00.069697+00:00", "event": "predictions_and_selection_saved", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "index": 20}
+{"time": "2026-09-10T13:23:00.494898+00:00", "event": "predictions_and_selection_saved", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "index": 21}
+{"time": "2026-09-10T13:23:00.901137+00:00", "event": "predictions_and_selection_saved", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "index": 22}
+{"time": "2026-09-10T13:23:01.360161+00:00", "event": "predictions_and_selection_saved", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "index": 23}
+{"time": "2026-09-10T13:23:01.854785+00:00", "event": "predictions_and_selection_saved", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "index": 24}
+{"time": "2026-09-10T13:23:02.251014+00:00", "event": "predictions_and_selection_saved", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "index": 25}
+{"time": "2026-09-10T13:23:02.702492+00:00", "event": "predictions_and_selection_saved", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "index": 26}
+{"time": "2026-09-10T13:23:03.073840+00:00", "event": "predictions_and_selection_saved", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "index": 27}
+{"time": "2026-09-10T13:23:03.570719+00:00", "event": "predictions_and_selection_saved", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "index": 28}
+{"time": "2026-09-10T13:23:03.930654+00:00", "event": "predictions_and_selection_saved", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "index": 29}
+{"time": "2026-09-10T13:23:03.940801+00:00", "event": "fit_workers_exited", "assay_id": "HXK4_HUMAN_Gersing_2022_activity"}
+{"time": "2026-09-10T13:23:04.602829+00:00", "event": "assay_scored", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "completed_states": 30}
+{"time": "2026-09-10T13:23:05.095675+00:00", "event": "attempt_finished", "status": "succeeded", "failure_class": null}
