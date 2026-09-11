@@ -1,0 +1,4 @@
+{"attempt": "selection-region-smoke-001", "event": "started", "time": "2026-09-11T15:56:35.110782+00:00", "source_sha256": "7255c6e31e4e283f4548d4d415e08492404257cde85574117b5df79240b1dbcc"}
+{"attempt": "selection-region-smoke-001", "event": "finished", "time": "2026-09-11T15:56:40.238017+00:00", "source_sha256": "7255c6e31e4e283f4548d4d415e08492404257cde85574117b5df79240b1dbcc", "returncode": 0, "wall_seconds": 5.12708032829687}
+{"attempt": "selection-region-full-001", "event": "started", "time": "2026-09-11T15:57:20.990939+00:00", "source_sha256": "7255c6e31e4e283f4548d4d415e08492404257cde85574117b5df79240b1dbcc"}
+{"attempt": "selection-region-full-001", "event": "finished", "time": "2026-09-11T15:57:54.750603+00:00", "source_sha256": "7255c6e31e4e283f4548d4d415e08492404257cde85574117b5df79240b1dbcc", "returncode": 0, "wall_seconds": 33.75949968677014}
