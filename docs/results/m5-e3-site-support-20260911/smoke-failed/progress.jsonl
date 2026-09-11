@@ -1,0 +1,4 @@
+{"time": "2026-09-11T10:24:05.232012+00:00", "event": "attempt_started", "mode": "smoke", "source_sha256": "eda5692a80086606f105d5506d76adda50aa2a0fd182ceec88d96ba3e99a3c57"}
+{"time": "2026-09-11T10:24:07.202519+00:00", "event": "predictions_saved", "index": 0, "run_seed": 3000}
+{"time": "2026-09-11T10:24:07.211661+00:00", "event": "workers_exited"}
+{"time": "2026-09-11T10:24:07.340544+00:00", "event": "attempt_finished", "status": "failed", "failure_class": "ValueError"}

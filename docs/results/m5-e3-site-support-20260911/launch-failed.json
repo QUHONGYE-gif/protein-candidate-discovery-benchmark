@@ -1,0 +1,10 @@
+{
+  "attempt": "site-support-smoke-002",
+  "cause": "launcher incorrectly changed three existing helper directory suffixes v1 to v2",
+  "corrected": "restored original helper v1 paths; experimental source v2 unchanged; new attempt smoke003",
+  "failure_class": "ModuleNotFoundError",
+  "missing_module": "run_m5_e3_ridge_strength",
+  "output_directory_exists": false,
+  "stage": "module import, before main/data loading/fitting",
+  "stderr_sha256": "492b6282c921e40c446f3e1395877089970a8b988c0c5f5becdb3ccde33f46d6"
+}

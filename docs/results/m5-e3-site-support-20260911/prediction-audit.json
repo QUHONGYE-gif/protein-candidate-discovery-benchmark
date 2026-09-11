@@ -1,0 +1,22 @@
+{
+  "models": {
+    "ridge": {
+      "new_union_size": 143,
+      "old_union_size": 123,
+      "point_predictions_exact": true,
+      "reference_reconstruction_record": "EXACT",
+      "symmetric_difference": 128
+    },
+    "xgb": {
+      "new_union_size": 166,
+      "old_union_size": 123,
+      "point_predictions_exact": true,
+      "reference_reconstruction_record": "EXACT",
+      "symmetric_difference": 147
+    }
+  },
+  "prediction_sha256": "239a52b55a77fe60e2d45dba17ccc2b0d5358641bb45e536de3dc384d253a862",
+  "remaining_exact": true,
+  "scope": "saved predictions and aggregate references only; no evaluator, labels or truth access",
+  "source_sha256": "eda5692a80086606f105d5506d76adda50aa2a0fd182ceec88d96ba3e99a3c57"
+}
