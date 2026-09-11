@@ -1,0 +1,5 @@
+{"time": "2026-09-11T11:36:44.388025+00:00", "event": "attempt_started", "mode": "smoke", "source_sha256": "239485d48468bcfc467fb6f464a81e23469b3797d7830a706c0f48c1323af080"}
+{"time": "2026-09-11T11:36:46.464023+00:00", "event": "predictions_saved", "index": 0, "run_seed": 3000}
+{"time": "2026-09-11T11:36:46.472980+00:00", "event": "workers_exited"}
+{"time": "2026-09-11T11:36:46.833582+00:00", "event": "scoring_complete", "states": 1}
+{"time": "2026-09-11T11:36:46.836679+00:00", "event": "attempt_finished", "status": "succeeded", "failure_class": null}
