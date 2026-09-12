@@ -6,7 +6,7 @@ from dataclasses import FrozenInstanceError, replace
 
 import pytest
 
-from pcdb.m6._replay import Action, Costs, State, evaluate, replay
+from pcdb.replay._m6_engine import Action, Costs, State, evaluate, replay
 
 HF = {"a": 1.0, "b": 9.0, "c": 5.0}
 LF = {"a": 99.0, "b": -4.0, "c": 0.0}

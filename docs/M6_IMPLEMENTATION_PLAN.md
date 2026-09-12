@@ -27,7 +27,7 @@ onboarding 的完成证据。M4 STOP、既有成功产物与冻结协议保持�
 
 ## S1 行为与限制
 
-内部模块 `pcdb.m6._replay` 复用既有 `HiddenOracle` / `Observation`，每次 replay 新建
+内部模块 `pcdb.replay._m6_engine` 复用既有 `HiddenOracle` / `Observation`，每次 replay 新建
 隔离的 LF/HF oracle。策略只接收不可变候选 ID、已购买 LF/HF observations、成本和预算，
 不接收隐藏表、oracle、全池排序、evaluator 或指标。模型特征接口不在本切片中。
 

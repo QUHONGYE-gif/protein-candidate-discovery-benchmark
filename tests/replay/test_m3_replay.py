@@ -1128,7 +1128,10 @@ def test_only_replay_engine_calls_hidden_oracle_reveal() -> None:
         ):
             call_sites.append(path.relative_to(ROOT))
 
-    assert call_sites == [Path("src/pcdb/replay/engine.py")]
+    # 两个回放引擎拥有揭示权限；策略、模型和其他模块仍禁止调用。
+    assert sorted(call_sites) == sorted(
+        [Path("src/pcdb/replay/engine.py"), Path("src/pcdb/replay/_m6_engine.py")]
+    )
 
 
 def test_uncertainty_member_failure_has_no_fallback() -> None:

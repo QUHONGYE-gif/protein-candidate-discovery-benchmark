@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import random
 
-from pcdb.m6._replay import Action, Costs, State, evaluate, replay
+from pcdb.replay._m6_engine import Action, Costs, State, evaluate, replay
 
 
 def smoke(seed: int = 1729) -> dict[str, object]:
