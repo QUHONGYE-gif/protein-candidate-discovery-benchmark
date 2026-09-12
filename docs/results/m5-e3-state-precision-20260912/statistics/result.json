@@ -1,0 +1,7987 @@
+{
+  "bootstrap": {
+    "draws": 20000,
+    "old_gap_seed": 20002,
+    "quantiles": [
+      0.3125,
+      99.6875
+    ],
+    "seed": 20001
+  },
+  "candidate_or_raw_truth_access": false,
+  "cells": [
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 5,
+      "cohort": "original",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.30000000000000004,
+          "interval": [
+            0.0,
+            0.75
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.24000000000000005,
+          "interval": [
+            -0.25,
+            0.74
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": 0.2,
+          "interval": [
+            -0.3,
+            0.7
+          ]
+        },
+        "variance": {
+          "estimate": 0.36000000000000004,
+          "interval": [
+            0.0,
+            0.76
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.24000000000000005,
+          "interval": [
+            -0.25,
+            0.74
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.06,
+          "interval": [
+            0.0,
+            0.25
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": 0.5,
+      "new_mean_hits": 0.4,
+      "nonzero_fraction": {
+        "estimate": 0.4,
+        "interval": [
+          0.06746480022404983,
+          0.8253792715651012
+        ]
+      },
+      "nonzero_mean": 0.5,
+      "old_mean_hits": 0.2,
+      "positive_given_nonzero": {
+        "denominator": 4,
+        "estimate": 0.75,
+        "interval": [
+          0.09438251966962291,
+          0.9992178328001322
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.6324555320336759,
+      "seed_effects": [
+        0.0,
+        -1.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      "seed_ids": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733,
+        1734,
+        1735,
+        1736,
+        1737,
+        1738
+      ],
+      "seed_slots": 10,
+      "sign_counts": {
+        "negative": 1,
+        "positive": 3,
+        "zero": 6
+      },
+      "standard_error": 0.19999999999999998,
+      "states": 10,
+      "variance_component_fraction": {
+        "direction_component": 0.8333333333333334,
+        "magnitude_component": 0.0,
+        "zero_component": 0.16666666666666663
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 5,
+      "cohort": "original",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.675,
+          "interval": [
+            0.0,
+            2.1
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.30000000000000004,
+          "interval": [
+            -1.89,
+            1.8900000000000001
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.2,
+          "interval": [
+            0.0,
+            0.6
+          ]
+        },
+        "mean": {
+          "estimate": 0.5,
+          "interval": [
+            -0.3,
+            1.6
+          ]
+        },
+        "variance": {
+          "estimate": 1.25,
+          "interval": [
+            0.0,
+            2.61
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.5,
+          "interval": [
+            -1.89,
+            2.1066666666666665
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.375,
+          "interval": [
+            0.0,
+            1.89
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": 0.7142857142857143,
+      "new_mean_hits": 0.7,
+      "nonzero_fraction": {
+        "estimate": 0.4,
+        "interval": [
+          0.06746480022404983,
+          0.8253792715651012
+        ]
+      },
+      "nonzero_mean": 1.25,
+      "old_mean_hits": 0.2,
+      "positive_given_nonzero": {
+        "denominator": 4,
+        "estimate": 0.75,
+        "interval": [
+          0.09438251966962291,
+          0.9992178328001322
+        ]
+      },
+      "positive_mean": 2.0,
+      "sample_sd": 1.1785113019775793,
+      "seed_effects": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        3.0,
+        -1.0,
+        0.0,
+        2.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733,
+        1734,
+        1735,
+        1736,
+        1737,
+        1738
+      ],
+      "seed_slots": 10,
+      "sign_counts": {
+        "negative": 1,
+        "positive": 3,
+        "zero": 6
+      },
+      "standard_error": 0.37267799624996495,
+      "states": 10,
+      "variance_component_fraction": {
+        "direction_component": 0.54,
+        "magnitude_component": 0.16,
+        "zero_component": 0.3
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 10,
+      "cohort": "original",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.27999999999999997,
+          "interval": [
+            0.0,
+            0.8802083333333337
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.22749999999999998,
+          "interval": [
+            -0.42666666666666664,
+            0.81
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.17,
+          "interval": [
+            0.0,
+            0.421875
+          ]
+        },
+        "mean": {
+          "estimate": 0.35,
+          "interval": [
+            -0.15,
+            1.0
+          ]
+        },
+        "variance": {
+          "estimate": 0.5024999999999998,
+          "interval": [
+            0.06,
+            1.1
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.39749999999999996,
+          "interval": [
+            -0.24250000000000002,
+            0.99
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.052500000000000005,
+          "interval": [
+            0.0,
+            0.4285714285714286
+          ]
+        }
+      },
+      "negative_mean": -0.5,
+      "net_over_gross": 0.6363636363636364,
+      "new_mean_hits": 0.55,
+      "nonzero_fraction": {
+        "estimate": 0.7,
+        "interval": [
+          0.245392143660494,
+          0.9686771550286513
+        ]
+      },
+      "nonzero_mean": 0.5,
+      "old_mean_hits": 0.2,
+      "positive_given_nonzero": {
+        "denominator": 7,
+        "estimate": 0.7142857142857143,
+        "interval": [
+          0.18333565842019628,
+          0.9875448407273455
+        ]
+      },
+      "positive_mean": 0.9,
+      "sample_sd": 0.747217059048663,
+      "seed_effects": [
+        0.0,
+        -0.5,
+        0.5,
+        0.5,
+        2.0,
+        -0.5,
+        0.0,
+        1.0,
+        0.5,
+        0.0
+      ],
+      "seed_ids": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733,
+        1734,
+        1735,
+        1736,
+        1737,
+        1738
+      ],
+      "seed_slots": 10,
+      "sign_counts": {
+        "negative": 2,
+        "positive": 5,
+        "zero": 3
+      },
+      "standard_error": 0.23629078131263034,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.5572139303482588,
+        "magnitude_component": 0.3383084577114429,
+        "zero_component": 0.10447761194029855
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 12,
+      "cohort": "replication",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.3,
+          "interval": [
+            0.0,
+            0.5496765734265674
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.3,
+          "interval": [
+            -0.22749999999999998,
+            0.543409090909091
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": 0.0,
+          "interval": [
+            -0.35,
+            0.35
+          ]
+        },
+        "variance": {
+          "estimate": 0.3,
+          "interval": [
+            0.04749999999999999,
+            0.5738359374999801
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.3,
+          "interval": [
+            -0.22749999999999998,
+            0.543409090909091
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.22749999999999998
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": 0.0,
+      "new_mean_hits": 0.35,
+      "nonzero_fraction": {
+        "estimate": 0.3,
+        "interval": [
+          0.07694146241861763,
+          0.6263134548016007
+        ]
+      },
+      "nonzero_mean": 0.0,
+      "old_mean_hits": 0.35,
+      "positive_given_nonzero": {
+        "denominator": 6,
+        "estimate": 0.5,
+        "interval": [
+          0.05622480862240352,
+          0.9437751913775965
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.5619514869490163,
+      "seed_effects": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 3,
+        "positive": 3,
+        "zero": 14
+      },
+      "standard_error": 0.12565617248750863,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 1.0,
+        "magnitude_component": 0.0,
+        "zero_component": 0.0
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 8,
+      "cohort": "replication",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 1.2629761904761907,
+          "interval": [
+            0.0,
+            2.6281250000000003
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 1.261309523809524,
+          "interval": [
+            -0.26723958333333336,
+            2.591190476190476
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.28285714285714286,
+          "interval": [
+            0.0,
+            0.5437500000000001
+          ]
+        },
+        "mean": {
+          "estimate": -0.05,
+          "interval": [
+            -0.9,
+            0.65
+          ]
+        },
+        "variance": {
+          "estimate": 1.5474999999999999,
+          "interval": [
+            0.30999999999999994,
+            2.9875
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 1.544166666666667,
+          "interval": [
+            -0.23583333333333328,
+            2.8814285714285717
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0016666666666666666,
+          "interval": [
+            0.0,
+            0.5392355769230758
+          ]
+        }
+      },
+      "negative_mean": -1.8,
+      "net_over_gross": -0.058823529411764705,
+      "new_mean_hits": 0.45,
+      "nonzero_fraction": {
+        "estimate": 0.6,
+        "interval": [
+          0.284078391959098,
+          0.8644660843822047
+        ]
+      },
+      "nonzero_mean": -0.08333333333333333,
+      "old_mean_hits": 0.5,
+      "positive_given_nonzero": {
+        "denominator": 12,
+        "estimate": 0.5833333333333334,
+        "interval": [
+          0.19270048852996036,
+          0.9071424432504529
+        ]
+      },
+      "positive_mean": 1.1428571428571428,
+      "sample_sd": 1.2763022245616642,
+      "seed_effects": [
+        -3.0,
+        1.0,
+        -3.0,
+        1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        -1.0,
+        0.0,
+        2.0,
+        -1.0,
+        1.0
+      ],
+      "seed_ids": [
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 5,
+        "positive": 7,
+        "zero": 8
+      },
+      "standard_error": 0.2853898533954083,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.8161397030540813,
+        "magnitude_component": 0.18278329102238636,
+        "zero_component": 0.0010770059235325794
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 20,
+      "cohort": "replication",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.29029017857142864,
+          "interval": [
+            0.08461538461538462,
+            0.5281250000000001
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.2901339285714286,
+          "interval": [
+            0.05735576923076924,
+            0.5221527777777779
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.04642857142857143,
+          "interval": [
+            0.0,
+            0.12045454545454547
+          ]
+        },
+        "mean": {
+          "estimate": -0.025,
+          "interval": [
+            -0.4,
+            0.3
+          ]
+        },
+        "variance": {
+          "estimate": 0.33687500000000004,
+          "interval": [
+            0.108427734375,
+            0.6118750000000002
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.33656250000000004,
+          "interval": [
+            0.05749999999999999,
+            0.600625
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.00015624999999999998,
+          "interval": [
+            0.0,
+            0.05041666666666666
+          ]
+        }
+      },
+      "negative_mean": -0.7142857142857143,
+      "net_over_gross": -0.05263157894736842,
+      "new_mean_hits": 0.4,
+      "nonzero_fraction": {
+        "estimate": 0.8,
+        "interval": [
+          0.475473301334034,
+          0.9686574560668559
+        ]
+      },
+      "nonzero_mean": -0.03125,
+      "old_mean_hits": 0.425,
+      "positive_given_nonzero": {
+        "denominator": 16,
+        "estimate": 0.5625,
+        "interval": [
+          0.2213536848923095,
+          0.8644250878186666
+        ]
+      },
+      "positive_mean": 0.5,
+      "sample_sd": 0.5954874164563805,
+      "seed_effects": [
+        -1.5,
+        0.5,
+        -1.0,
+        0.5,
+        -0.5,
+        -0.5,
+        0.5,
+        0.0,
+        0.5,
+        0.0,
+        0.5,
+        0.0,
+        0.5,
+        -0.5,
+        0.5,
+        -0.5,
+        0.0,
+        0.5,
+        -0.5,
+        0.5
+      ],
+      "seed_ids": [
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 7,
+        "positive": 9,
+        "zero": 4
+      },
+      "standard_error": 0.13315503429421935,
+      "states": 40,
+      "variance_component_fraction": {
+        "direction_component": 0.8617148157964486,
+        "magnitude_component": 0.1378213623111582,
+        "zero_component": 0.00046382189239332086
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 31,
+      "cohort": "new60",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.9278929765886291,
+          "interval": [
+            0.26748428743299224,
+            1.9488288551537507
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.9207432181345229,
+          "interval": [
+            0.08478361742424238,
+            1.9132211620835622
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.39384615384615385,
+          "interval": [
+            0.027272727272727275,
+            0.977743175148349
+          ]
+        },
+        "mean": {
+          "estimate": 0.06666666666666667,
+          "interval": [
+            -0.3333333333333333,
+            0.5
+          ]
+        },
+        "variance": {
+          "estimate": 1.3288888888888892,
+          "interval": [
+            0.36666666666666664,
+            2.8965425347222187
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 1.3145893719806767,
+          "interval": [
+            0.25559026650432903,
+            2.793492187499995
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.00714975845410628,
+          "interval": [
+            0.0,
+            0.3756831597222221
+          ]
+        }
+      },
+      "negative_mean": -1.6,
+      "net_over_gross": 0.1111111111111111,
+      "new_mean_hits": 0.5166666666666667,
+      "nonzero_fraction": {
+        "estimate": 0.38333333333333336,
+        "interval": [
+          0.2203310036744235,
+          0.5674030675821751
+        ]
+      },
+      "nonzero_mean": 0.17391304347826086,
+      "old_mean_hits": 0.45,
+      "positive_given_nonzero": {
+        "denominator": 23,
+        "estimate": 0.5652173913043478,
+        "interval": [
+          0.2745106282816898,
+          0.8264138592823684
+        ]
+      },
+      "positive_mean": 1.5384615384615385,
+      "sample_sd": 1.1625026577941795,
+      "seed_effects": [
+        1.0,
+        0.0,
+        -1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.0,
+        -2.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        -1.0,
+        0.0,
+        2.0,
+        -2.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        5.0,
+        -4.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        2.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -2.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019,
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039,
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 60,
+      "sign_counts": {
+        "negative": 10,
+        "positive": 13,
+        "zero": 37
+      },
+      "standard_error": 0.15007844778529056,
+      "states": 60,
+      "variance_component_fraction": {
+        "direction_component": 0.6982472231854231,
+        "magnitude_component": 0.29637252379727286,
+        "zero_component": 0.0053802530173040555
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 21,
+      "cohort": "new60",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 1.0286313686313686,
+          "interval": [
+            0.43717621450410976,
+            1.760473422863568
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 1.0000599400599401,
+          "interval": [
+            0.2435651154401155,
+            1.7273227050386943
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.30279720279720285,
+          "interval": [
+            0.04368923611111112,
+            0.6715511485042734
+          ]
+        },
+        "mean": {
+          "estimate": 0.2,
+          "interval": [
+            -0.2,
+            0.6250520833333212
+          ]
+        },
+        "variance": {
+          "estimate": 1.36,
+          "interval": [
+            0.6122222222222222,
+            2.3831953125
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 1.302857142857143,
+          "interval": [
+            0.4264136772133096,
+            2.295272244695352
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.028571428571428574,
+          "interval": [
+            0.0,
+            0.26371351207386223
+          ]
+        }
+      },
+      "negative_mean": -1.3846153846153846,
+      "net_over_gross": 0.25,
+      "new_mean_hits": 0.7666666666666667,
+      "nonzero_fraction": {
+        "estimate": 0.5833333333333334,
+        "interval": [
+          0.4000403451093346,
+          0.7515880757831159
+        ]
+      },
+      "nonzero_mean": 0.34285714285714286,
+      "old_mean_hits": 0.5666666666666667,
+      "positive_given_nonzero": {
+        "denominator": 35,
+        "estimate": 0.6285714285714286,
+        "interval": [
+          0.38577841053816164,
+          0.8321378291965562
+        ]
+      },
+      "positive_mean": 1.3636363636363635,
+      "sample_sd": 1.1760318224680943,
+      "seed_effects": [
+        1.0,
+        0.0,
+        -2.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.0,
+        -1.0,
+        1.0,
+        1.0,
+        2.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -3.0,
+        0.0,
+        -2.0,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        2.0,
+        -1.0,
+        2.0,
+        1.0,
+        0.0,
+        -2.0,
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        4.0,
+        1.0,
+        -1.0,
+        3.0
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019,
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039,
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 60,
+      "sign_counts": {
+        "negative": 13,
+        "positive": 22,
+        "zero": 25
+      },
+      "standard_error": 0.15182505543429622,
+      "states": 60,
+      "variance_component_fraction": {
+        "direction_component": 0.7563465945818887,
+        "magnitude_component": 0.2226450020567668,
+        "zero_component": 0.02100840336134454
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 52,
+      "cohort": "new60",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.5117654839713662,
+          "interval": [
+            0.24506600383589958,
+            0.8641461009217354
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.5058395580454403,
+          "interval": [
+            0.20611289132559943,
+            0.8603370069359646
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.18953081232492996,
+          "interval": [
+            0.05614599673202614,
+            0.3632740728319206
+          ]
+        },
+        "mean": {
+          "estimate": 0.13333333333333333,
+          "interval": [
+            -0.15833333333333333,
+            0.4166666666666667
+          ]
+        },
+        "variance": {
+          "estimate": 0.7072222222222223,
+          "interval": [
+            0.3497222222222221,
+            1.191813368055554
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.6953703703703703,
+          "interval": [
+            0.29895408042478355,
+            1.1819517536569146
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0059259259259259265,
+          "interval": [
+            0.0,
+            0.062453748337765895
+          ]
+        }
+      },
+      "negative_mean": -0.8823529411764706,
+      "net_over_gross": 0.21052631578947367,
+      "new_mean_hits": 0.6416666666666667,
+      "nonzero_fraction": {
+        "estimate": 0.75,
+        "interval": [
+          0.5711988727602555,
+          0.8833997707731527
+        ]
+      },
+      "nonzero_mean": 0.17777777777777778,
+      "old_mean_hits": 0.5083333333333333,
+      "positive_given_nonzero": {
+        "denominator": 45,
+        "estimate": 0.6222222222222222,
+        "interval": [
+          0.40877285882661263,
+          0.8064218478342171
+        ]
+      },
+      "positive_mean": 0.8214285714285714,
+      "sample_sd": 0.8480619314342689,
+      "seed_effects": [
+        1.0,
+        0.0,
+        -1.5,
+        0.5,
+        0.5,
+        -0.5,
+        0.0,
+        0.5,
+        -0.5,
+        0.5,
+        0.5,
+        1.0,
+        1.5,
+        -0.5,
+        0.5,
+        0.5,
+        0.0,
+        -1.5,
+        -0.5,
+        -1.0,
+        -1.0,
+        0.0,
+        1.0,
+        -0.5,
+        0.0,
+        0.5,
+        0.5,
+        0.5,
+        0.0,
+        0.5,
+        2.5,
+        -2.5,
+        0.0,
+        0.5,
+        0.5,
+        0.5,
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        -0.5,
+        1.0,
+        1.0,
+        -0.5,
+        -1.5,
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.5,
+        0.5,
+        -0.5,
+        1.5
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019,
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039,
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 60,
+      "sign_counts": {
+        "negative": 17,
+        "positive": 28,
+        "zero": 15
+      },
+      "standard_error": 0.10948432456658065,
+      "states": 120,
+      "variance_component_fraction": {
+        "direction_component": 0.7236275499987895,
+        "magnitude_component": 0.26799329315386794,
+        "zero_component": 0.008379156847342237
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 10,
+      "cohort": "new_first20",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.6016666666666666,
+          "interval": [
+            0.0,
+            1.3104545454545458
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.5866666666666666,
+          "interval": [
+            -0.46428571428571425,
+            1.2980013020833299
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.07333333333333335,
+          "interval": [
+            0.0,
+            0.1457142857142857
+          ]
+        },
+        "mean": {
+          "estimate": 0.1,
+          "interval": [
+            -0.4,
+            0.6
+          ]
+        },
+        "variance": {
+          "estimate": 0.69,
+          "interval": [
+            0.1275,
+            1.4600000000000002
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.6599999999999999,
+          "interval": [
+            -0.37857142857142856,
+            1.4330967261904757
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.015,
+          "interval": [
+            0.0,
+            0.46428571428571425
+          ]
+        }
+      },
+      "negative_mean": -1.3333333333333333,
+      "net_over_gross": 0.2,
+      "new_mean_hits": 0.4,
+      "nonzero_fraction": {
+        "estimate": 0.4,
+        "interval": [
+          0.13553391561779532,
+          0.7159216080409021
+        ]
+      },
+      "nonzero_mean": 0.25,
+      "old_mean_hits": 0.3,
+      "positive_given_nonzero": {
+        "denominator": 8,
+        "estimate": 0.625,
+        "interval": [
+          0.15300822565062772,
+          0.9597941675019037
+        ]
+      },
+      "positive_mean": 1.2,
+      "sample_sd": 0.8522416262267903,
+      "seed_effects": [
+        1.0,
+        0.0,
+        -1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.0,
+        -2.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 3,
+        "positive": 5,
+        "zero": 12
+      },
+      "standard_error": 0.19056702094980707,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.8719806763285023,
+        "magnitude_component": 0.106280193236715,
+        "zero_component": 0.021739130434782608
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 6,
+      "cohort": "new_first20",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 1.31625,
+          "interval": [
+            0.0,
+            2.506354631696422
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 1.31625,
+          "interval": [
+            -0.2475,
+            2.4805555555555556
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.18375,
+          "interval": [
+            0.0,
+            0.4
+          ]
+        },
+        "mean": {
+          "estimate": 0.0,
+          "interval": [
+            -0.8,
+            0.7
+          ]
+        },
+        "variance": {
+          "estimate": 1.5,
+          "interval": [
+            0.34,
+            2.8274999999999997
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 1.5,
+          "interval": [
+            -0.23583333333333328,
+            2.7295476190476133
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.3890384615384615
+          ]
+        }
+      },
+      "negative_mean": -1.8,
+      "net_over_gross": 0.0,
+      "new_mean_hits": 0.55,
+      "nonzero_fraction": {
+        "estimate": 0.65,
+        "interval": [
+          0.3275165810379742,
+          0.8951960435367441
+        ]
+      },
+      "nonzero_mean": 0.0,
+      "old_mean_hits": 0.55,
+      "positive_given_nonzero": {
+        "denominator": 13,
+        "estimate": 0.6153846153846154,
+        "interval": [
+          0.22877555686972906,
+          0.9153837865255514
+        ]
+      },
+      "positive_mean": 1.125,
+      "sample_sd": 1.2565617248750864,
+      "seed_effects": [
+        1.0,
+        0.0,
+        -2.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.0,
+        -1.0,
+        1.0,
+        1.0,
+        2.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -3.0,
+        0.0,
+        -2.0
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 5,
+        "positive": 8,
+        "zero": 7
+      },
+      "standard_error": 0.28097574347450816,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.8775,
+        "magnitude_component": 0.1225,
+        "zero_component": 0.0
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 16,
+      "cohort": "new_first20",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.4992016806722688,
+          "interval": [
+            0.12368324303405573,
+            0.9360450360928351
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.49876050420168055,
+          "interval": [
+            0.07479892828525643,
+            0.9345833333333333
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.12285714285714285,
+          "interval": [
+            0.011249999999999998,
+            0.2
+          ]
+        },
+        "mean": {
+          "estimate": 0.05,
+          "interval": [
+            -0.45,
+            0.5
+          ]
+        },
+        "variance": {
+          "estimate": 0.6224999999999999,
+          "interval": [
+            0.18687500000000004,
+            1.081875
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.6216176470588234,
+          "interval": [
+            0.13572460937500003,
+            1.0794786879595581
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0004411764705882353,
+          "interval": [
+            0.0,
+            0.06249999999999999
+          ]
+        }
+      },
+      "negative_mean": -0.8571428571428571,
+      "net_over_gross": 0.07692307692307693,
+      "new_mean_hits": 0.475,
+      "nonzero_fraction": {
+        "estimate": 0.85,
+        "interval": [
+          0.532236116946093,
+          0.9850896586720213
+        ]
+      },
+      "nonzero_mean": 0.058823529411764705,
+      "old_mean_hits": 0.425,
+      "positive_given_nonzero": {
+        "denominator": 17,
+        "estimate": 0.5882352941176471,
+        "interval": [
+          0.2502437888910972,
+          0.8737154170730705
+        ]
+      },
+      "positive_mean": 0.7,
+      "sample_sd": 0.8094832659757314,
+      "seed_effects": [
+        1.0,
+        0.0,
+        -1.5,
+        0.5,
+        0.5,
+        -0.5,
+        0.0,
+        0.5,
+        -0.5,
+        0.5,
+        0.5,
+        1.0,
+        1.5,
+        -0.5,
+        0.5,
+        0.5,
+        0.0,
+        -1.5,
+        -0.5,
+        -1.0
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 7,
+        "positive": 10,
+        "zero": 3
+      },
+      "standard_error": 0.18100596093702778,
+      "states": 40,
+      "variance_component_fraction": {
+        "direction_component": 0.8019304107185041,
+        "magnitude_component": 0.19736087205966724,
+        "zero_component": 0.0007087172218284906
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 10,
+      "cohort": "new_middle20",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 1.760416666666667,
+          "interval": [
+            0.0,
+            5.295091145833326
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 1.726666666666667,
+          "interval": [
+            -1.89,
+            5.17854296875
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.8333333333333333,
+          "interval": [
+            0.0,
+            1.8214508928571378
+          ]
+        },
+        "mean": {
+          "estimate": 0.15,
+          "interval": [
+            -0.85,
+            1.2
+          ]
+        },
+        "variance": {
+          "estimate": 2.6275,
+          "interval": [
+            0.16000000000000006,
+            6.667624999999972
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 2.56,
+          "interval": [
+            -1.0641666666666665,
+            6.444166666666667
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.03375,
+          "interval": [
+            0.0,
+            2.0475
+          ]
+        }
+      },
+      "negative_mean": -2.3333333333333335,
+      "net_over_gross": 0.17647058823529413,
+      "new_mean_hits": 0.7,
+      "nonzero_fraction": {
+        "estimate": 0.4,
+        "interval": [
+          0.13553391561779532,
+          0.7159216080409021
+        ]
+      },
+      "nonzero_mean": 0.375,
+      "old_mean_hits": 0.55,
+      "positive_given_nonzero": {
+        "denominator": 8,
+        "estimate": 0.625,
+        "interval": [
+          0.15300822565062772,
+          0.9597941675019037
+        ]
+      },
+      "positive_mean": 2.0,
+      "sample_sd": 1.6630662866176473,
+      "seed_effects": [
+        -1.0,
+        0.0,
+        2.0,
+        -2.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        5.0,
+        -4.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "seed_ids": [
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 3,
+        "positive": 5,
+        "zero": 12
+      },
+      "standard_error": 0.3718729267965208,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.6699968284173804,
+        "magnitude_component": 0.31715826197272434,
+        "zero_component": 0.012844909609895339
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 7,
+      "cohort": "new_middle20",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.42000000000000004,
+          "interval": [
+            0.0,
+            0.7466666666666667
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.38,
+          "interval": [
+            -0.25,
+            0.74
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": 0.2,
+          "interval": [
+            -0.2,
+            0.6
+          ]
+        },
+        "variance": {
+          "estimate": 0.4600000000000001,
+          "interval": [
+            0.1875,
+            0.7474999999999998
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.38,
+          "interval": [
+            -0.25,
+            0.74
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.04000000000000001,
+          "interval": [
+            0.0,
+            0.25
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": 0.4,
+      "new_mean_hits": 0.85,
+      "nonzero_fraction": {
+        "estimate": 0.5,
+        "interval": [
+          0.2048257413052833,
+          0.7951742586947168
+        ]
+      },
+      "nonzero_mean": 0.4,
+      "old_mean_hits": 0.65,
+      "positive_given_nonzero": {
+        "denominator": 10,
+        "estimate": 0.7,
+        "interval": [
+          0.245392143660494,
+          0.9686771550286513
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.6958523739384594,
+      "seed_effects": [
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0
+      ],
+      "seed_ids": [
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 3,
+        "positive": 7,
+        "zero": 10
+      },
+      "standard_error": 0.15559732104309984,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.9130434782608695,
+        "magnitude_component": 0.0,
+        "zero_component": 0.08695652173913043
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 17,
+      "cohort": "new_middle20",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.5008012820512818,
+          "interval": [
+            0.0,
+            1.5732293738162844
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.4843108974358972,
+          "interval": [
+            -0.25,
+            1.5642757936507934
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.2895833333333333,
+          "interval": [
+            0.0,
+            0.644755326704545
+          ]
+        },
+        "mean": {
+          "estimate": 0.175,
+          "interval": [
+            -0.4,
+            0.725
+          ]
+        },
+        "variance": {
+          "estimate": 0.8068750000000001,
+          "interval": [
+            0.0625,
+            2.046875
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.7738942307692305,
+          "interval": [
+            -0.06499999999999999,
+            2.0283189287069807
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.01649038461538461,
+          "interval": [
+            0.0,
+            0.2757638888888889
+          ]
+        }
+      },
+      "negative_mean": -1.3333333333333333,
+      "net_over_gross": 0.30434782608695654,
+      "new_mean_hits": 0.775,
+      "nonzero_fraction": {
+        "estimate": 0.65,
+        "interval": [
+          0.3275165810379742,
+          0.8951960435367441
+        ]
+      },
+      "nonzero_mean": 0.2692307692307692,
+      "old_mean_hits": 0.6,
+      "positive_given_nonzero": {
+        "denominator": 13,
+        "estimate": 0.7692307692307693,
+        "interval": [
+          0.35896769510614845,
+          0.9764600195710869
+        ]
+      },
+      "positive_mean": 0.75,
+      "sample_sd": 0.9215975831474158,
+      "seed_effects": [
+        -1.0,
+        0.0,
+        1.0,
+        -0.5,
+        0.0,
+        0.5,
+        0.5,
+        0.5,
+        0.0,
+        0.5,
+        2.5,
+        -2.5,
+        0.0,
+        0.5,
+        0.5,
+        0.5,
+        0.0,
+        0.5,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 3,
+        "positive": 10,
+        "zero": 7
+      },
+      "standard_error": 0.2060754843817136,
+      "states": 40,
+      "variance_component_fraction": {
+        "direction_component": 0.6206677391805197,
+        "magnitude_component": 0.35889491350374375,
+        "zero_component": 0.020437347315736154
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 11,
+      "cohort": "new_last20",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.5720238095238094,
+          "interval": [
+            0.0,
+            1.3104545454545455
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.5673809523809522,
+          "interval": [
+            -0.4725,
+            1.2813888888888887
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.07083333333333333,
+          "interval": [
+            0.0,
+            0.1360409902597398
+          ]
+        },
+        "mean": {
+          "estimate": -0.05,
+          "interval": [
+            -0.55,
+            0.45
+          ]
+        },
+        "variance": {
+          "estimate": 0.6474999999999999,
+          "interval": [
+            0.09000000000000001,
+            1.4475
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.6382142857142855,
+          "interval": [
+            -0.39749999999999996,
+            1.4000000000000004
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.004642857142857142,
+          "interval": [
+            0.0,
+            0.4725
+          ]
+        }
+      },
+      "negative_mean": -1.25,
+      "net_over_gross": -0.1111111111111111,
+      "new_mean_hits": 0.45,
+      "nonzero_fraction": {
+        "estimate": 0.35,
+        "interval": [
+          0.10480395646325594,
+          0.6724834189620259
+        ]
+      },
+      "nonzero_mean": -0.14285714285714285,
+      "old_mean_hits": 0.5,
+      "positive_given_nonzero": {
+        "denominator": 7,
+        "estimate": 0.42857142857142855,
+        "interval": [
+          0.046871157729668336,
+          0.8962964674493212
+        ]
+      },
+      "positive_mean": 1.3333333333333333,
+      "sample_sd": 0.8255779474818964,
+      "seed_effects": [
+        1.0,
+        2.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -2.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 4,
+        "positive": 3,
+        "zero": 13
+      },
+      "standard_error": 0.18460484112942716,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.8834344548630263,
+        "magnitude_component": 0.10939510939510942,
+        "zero_component": 0.007170435741864314
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 8,
+      "cohort": "new_last20",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 1.4933333333333336,
+          "interval": [
+            0.08281250000000046,
+            3.134024305555543
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 1.386666666666667,
+          "interval": [
+            -0.6411111111111114,
+            3.0388563988095223
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.43999999999999995,
+          "interval": [
+            0.0,
+            0.9909374999999933
+          ]
+        },
+        "mean": {
+          "estimate": 0.4,
+          "interval": [
+            -0.4,
+            1.3
+          ]
+        },
+        "variance": {
+          "estimate": 2.04,
+          "interval": [
+            0.45999999999999985,
+            3.8950312499999935
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 1.8266666666666669,
+          "interval": [
+            -0.23999999999999977,
+            3.5458333333333334
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.10666666666666666,
+          "interval": [
+            0.0,
+            1.1025
+          ]
+        }
+      },
+      "negative_mean": -1.2,
+      "net_over_gross": 0.4,
+      "new_mean_hits": 0.9,
+      "nonzero_fraction": {
+        "estimate": 0.6,
+        "interval": [
+          0.284078391959098,
+          0.8644660843822047
+        ]
+      },
+      "nonzero_mean": 0.6666666666666666,
+      "old_mean_hits": 0.5,
+      "positive_given_nonzero": {
+        "denominator": 12,
+        "estimate": 0.5833333333333334,
+        "interval": [
+          0.19270048852996036,
+          0.9071424432504529
+        ]
+      },
+      "positive_mean": 2.0,
+      "sample_sd": 1.465390194130093,
+      "seed_effects": [
+        1.0,
+        0.0,
+        0.0,
+        2.0,
+        -1.0,
+        2.0,
+        1.0,
+        0.0,
+        -2.0,
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        4.0,
+        1.0,
+        -1.0,
+        3.0
+      ],
+      "seed_ids": [
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 5,
+        "positive": 7,
+        "zero": 8
+      },
+      "standard_error": 0.32767120876365013,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.7320261437908498,
+        "magnitude_component": 0.2156862745098039,
+        "zero_component": 0.0522875816993464
+      }
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "both_arms_zero_states": 19,
+      "cohort": "new_last20",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.5893005952380953,
+          "interval": [
+            0.18409090909090906,
+            1.0125
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.5790922619047619,
+          "interval": [
+            0.04983603050595243,
+            1.0075324928977263
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.08236607142857143,
+          "interval": [
+            0.0,
+            0.1571946304563487
+          ]
+        },
+        "mean": {
+          "estimate": 0.175,
+          "interval": [
+            -0.325,
+            0.675
+          ]
+        },
+        "variance": {
+          "estimate": 0.681875,
+          "interval": [
+            0.286875,
+            1.1275000000000002
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.6614583333333334,
+          "interval": [
+            0.08486893770292209,
+            1.1217471277573527
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.010208333333333333,
+          "interval": [
+            0.0,
+            0.1674107142857143
+          ]
+        }
+      },
+      "negative_mean": -0.7142857142857143,
+      "net_over_gross": 0.25925925925925924,
+      "new_mean_hits": 0.675,
+      "nonzero_fraction": {
+        "estimate": 0.75,
+        "interval": [
+          0.42286035894597207,
+          0.9477172848882336
+        ]
+      },
+      "nonzero_mean": 0.23333333333333334,
+      "old_mean_hits": 0.5,
+      "positive_given_nonzero": {
+        "denominator": 15,
+        "estimate": 0.5333333333333333,
+        "interval": [
+          0.19091031274032205,
+          0.8536341381436303
+        ]
+      },
+      "positive_mean": 1.0625,
+      "sample_sd": 0.8472090402579147,
+      "seed_effects": [
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        -0.5,
+        1.0,
+        1.0,
+        -0.5,
+        -1.5,
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.5,
+        0.5,
+        -0.5,
+        1.5
+      ],
+      "seed_ids": [
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 7,
+        "positive": 8,
+        "zero": 5
+      },
+      "standard_error": 0.18944170051690531,
+      "states": 40,
+      "variance_component_fraction": {
+        "direction_component": 0.8642355200558685,
+        "magnitude_component": 0.1207935053031295,
+        "zero_component": 0.014970974641002138
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 6,
+      "cohort": "original",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": -0.3600000000000001,
+          "interval": [
+            -0.96,
+            0.0
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.05,
+          "interval": [
+            0.0,
+            0.13333333333333333
+          ]
+        },
+        "mean": {
+          "estimate": -0.3,
+          "interval": [
+            -0.9503124999999997,
+            0.0
+          ]
+        },
+        "variance": {
+          "estimate": 0.41,
+          "interval": [
+            0.0,
+            0.96
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": -0.3100000000000001,
+          "interval": [
+            -0.96,
+            0.0
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.3600000000000001,
+          "interval": [
+            0.0,
+            0.96
+          ]
+        }
+      },
+      "negative_mean": -1.5,
+      "net_over_gross": -1.0,
+      "new_mean_hits": 0.2,
+      "nonzero_fraction": {
+        "estimate": 0.2,
+        "interval": [
+          0.008525012128926951,
+          0.6706174698401266
+        ]
+      },
+      "nonzero_mean": -1.5,
+      "old_mean_hits": 0.5,
+      "positive_given_nonzero": {
+        "denominator": 2,
+        "estimate": 0.0,
+        "interval": [
+          0.0,
+          0.9440983005625052
+        ]
+      },
+      "positive_mean": null,
+      "sample_sd": 0.6749485577105528,
+      "seed_effects": [
+        -2.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733,
+        1734,
+        1735,
+        1736,
+        1737,
+        1738
+      ],
+      "seed_slots": 10,
+      "sign_counts": {
+        "negative": 2,
+        "positive": 0,
+        "zero": 8
+      },
+      "standard_error": 0.21343747458109494,
+      "states": 10,
+      "variance_component_fraction": {
+        "direction_component": 0.0,
+        "magnitude_component": 0.12195121951219513,
+        "zero_component": 0.8780487804878052
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 5,
+      "cohort": "original",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 1.0083333333333335,
+          "interval": [
+            0.0,
+            3.243005952380918
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.8733333333333335,
+          "interval": [
+            -1.89,
+            3.2
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.2666666666666667,
+          "interval": [
+            0.0,
+            0.6857142857142857
+          ]
+        },
+        "mean": {
+          "estimate": -0.3,
+          "interval": [
+            -1.4,
+            0.7
+          ]
+        },
+        "variance": {
+          "estimate": 1.41,
+          "interval": [
+            0.0,
+            3.6900000000000004
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 1.1400000000000003,
+          "interval": [
+            -1.89,
+            3.3066666666666666
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.135,
+          "interval": [
+            0.0,
+            1.89
+          ]
+        }
+      },
+      "negative_mean": -1.6666666666666667,
+      "net_over_gross": -0.42857142857142855,
+      "new_mean_hits": 1.7,
+      "nonzero_fraction": {
+        "estimate": 0.4,
+        "interval": [
+          0.06746480022404983,
+          0.8253792715651012
+        ]
+      },
+      "nonzero_mean": -0.75,
+      "old_mean_hits": 2.0,
+      "positive_given_nonzero": {
+        "denominator": 4,
+        "estimate": 0.25,
+        "interval": [
+          0.0007821671998678201,
+          0.9056174803303771
+        ]
+      },
+      "positive_mean": 2.0,
+      "sample_sd": 1.2516655570345725,
+      "seed_effects": [
+        -3.0,
+        -1.0,
+        2.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "seed_ids": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733,
+        1734,
+        1735,
+        1736,
+        1737,
+        1738
+      ],
+      "seed_slots": 10,
+      "sign_counts": {
+        "negative": 3,
+        "positive": 1,
+        "zero": 6
+      },
+      "standard_error": 0.3958114029012639,
+      "states": 10,
+      "variance_component_fraction": {
+        "direction_component": 0.7151300236406621,
+        "magnitude_component": 0.18912529550827428,
+        "zero_component": 0.09574468085106384
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 11,
+      "cohort": "original",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.32000000000000006,
+          "interval": [
+            0.0,
+            1.47
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.23000000000000007,
+          "interval": [
+            -1.0000000000000002,
+            1.2912500000000002
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.30000000000000004,
+          "interval": [
+            0.0,
+            0.75
+          ]
+        },
+        "mean": {
+          "estimate": -0.3,
+          "interval": [
+            -1.15,
+            0.3
+          ]
+        },
+        "variance": {
+          "estimate": 0.7100000000000001,
+          "interval": [
+            0.022500000000000003,
+            1.9063515624999763
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.5300000000000001,
+          "interval": [
+            -0.7825,
+            1.64
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.09,
+          "interval": [
+            0.0,
+            1.0000000000000002
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": -0.6,
+      "new_mean_hits": 0.95,
+      "nonzero_fraction": {
+        "estimate": 0.5,
+        "interval": [
+          0.11543239105779862,
+          0.8845676089422014
+        ]
+      },
+      "nonzero_mean": -0.6,
+      "old_mean_hits": 1.25,
+      "positive_given_nonzero": {
+        "denominator": 5,
+        "estimate": 0.2,
+        "interval": [
+          0.000625782718055725,
+          0.836236775087071
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.8881941729649485,
+      "seed_effects": [
+        -2.5,
+        -0.5,
+        1.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0
+      ],
+      "seed_ids": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733,
+        1734,
+        1735,
+        1736,
+        1737,
+        1738
+      ],
+      "seed_slots": 10,
+      "sign_counts": {
+        "negative": 4,
+        "positive": 1,
+        "zero": 5
+      },
+      "standard_error": 0.2808716591058786,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.45070422535211274,
+        "magnitude_component": 0.4225352112676056,
+        "zero_component": 0.12676056338028166
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 15,
+      "cohort": "replication",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": -0.22666666666666666,
+          "interval": [
+            -0.6400000000000001,
+            0.0
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.03333333333333333,
+          "interval": [
+            0.0,
+            0.08975725446427987
+          ]
+        },
+        "mean": {
+          "estimate": 0.2,
+          "interval": [
+            0.0,
+            0.55
+          ]
+        },
+        "variance": {
+          "estimate": 0.26000000000000006,
+          "interval": [
+            0.0,
+            0.65
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": -0.19333333333333333,
+          "interval": [
+            -0.6400000000000001,
+            0.0
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.22666666666666666,
+          "interval": [
+            0.0,
+            0.6400000000000001
+          ]
+        }
+      },
+      "negative_mean": null,
+      "net_over_gross": 1.0,
+      "new_mean_hits": 0.3,
+      "nonzero_fraction": {
+        "estimate": 0.15,
+        "interval": [
+          0.0149103413279787,
+          0.4677638830539069
+        ]
+      },
+      "nonzero_mean": 1.3333333333333333,
+      "old_mean_hits": 0.1,
+      "positive_given_nonzero": {
+        "denominator": 3,
+        "estimate": 1.0,
+        "interval": [
+          0.1462008869106433,
+          1.0
+        ]
+      },
+      "positive_mean": 1.3333333333333333,
+      "sample_sd": 0.523148363780597,
+      "seed_effects": [
+        0.0,
+        2.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "seed_ids": [
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 0,
+        "positive": 3,
+        "zero": 17
+      },
+      "standard_error": 0.11697953037312038,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.0,
+        "magnitude_component": 0.12820512820512817,
+        "zero_component": 0.8717948717948716
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 13,
+      "cohort": "replication",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.13333333333333333,
+          "interval": [
+            0.0,
+            0.34285714285714286
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.11916666666666667,
+          "interval": [
+            -0.21,
+            0.33821428571428575
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": -0.05,
+          "interval": [
+            -0.3,
+            0.2
+          ]
+        },
+        "variance": {
+          "estimate": 0.14749999999999996,
+          "interval": [
+            0.0,
+            0.3875
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.11916666666666667,
+          "interval": [
+            -0.21,
+            0.33821428571428575
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.014166666666666666,
+          "interval": [
+            0.0,
+            0.21
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": -0.3333333333333333,
+      "new_mean_hits": 0.35,
+      "nonzero_fraction": {
+        "estimate": 0.15,
+        "interval": [
+          0.0149103413279787,
+          0.4677638830539069
+        ]
+      },
+      "nonzero_mean": -0.3333333333333333,
+      "old_mean_hits": 0.4,
+      "positive_given_nonzero": {
+        "denominator": 3,
+        "estimate": 0.3333333333333333,
+        "interval": [
+          0.0010427536238458313,
+          0.96736824323747
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.3940344628262061,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 2,
+        "positive": 1,
+        "zero": 17
+      },
+      "standard_error": 0.08810878443570107,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.9039548022598872,
+        "magnitude_component": 0.0,
+        "zero_component": 0.09604519774011301
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 28,
+      "cohort": "replication",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.084375,
+          "interval": [
+            0.0,
+            0.19471153846153846
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.07125000000000001,
+          "interval": [
+            -0.1275,
+            0.1882142857142857
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.009375,
+          "interval": [
+            0.0,
+            0.025
+          ]
+        },
+        "mean": {
+          "estimate": 0.075,
+          "interval": [
+            -0.1,
+            0.275
+          ]
+        },
+        "variance": {
+          "estimate": 0.10687499999999998,
+          "interval": [
+            0.011874999999999997,
+            0.23500000000000004
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.080625,
+          "interval": [
+            -0.11312500000000003,
+            0.20504807692307694
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.013125,
+          "interval": [
+            0.0,
+            0.1275
+          ]
+        }
+      },
+      "negative_mean": -0.5,
+      "net_over_gross": 0.42857142857142855,
+      "new_mean_hits": 0.325,
+      "nonzero_fraction": {
+        "estimate": 0.3,
+        "interval": [
+          0.07694146241861763,
+          0.6263134548016007
+        ]
+      },
+      "nonzero_mean": 0.25,
+      "old_mean_hits": 0.25,
+      "positive_given_nonzero": {
+        "denominator": 6,
+        "estimate": 0.6666666666666666,
+        "interval": [
+          0.12671936964962832,
+          0.9852792598134159
+        ]
+      },
+      "positive_mean": 0.625,
+      "sample_sd": 0.33541019662496846,
+      "seed_effects": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "seed_ids": [
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 2,
+        "positive": 4,
+        "zero": 14
+      },
+      "standard_error": 0.075,
+      "states": 40,
+      "variance_component_fraction": {
+        "direction_component": 0.7894736842105264,
+        "magnitude_component": 0.08771929824561404,
+        "zero_component": 0.12280701754385966
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 39,
+      "cohort": "new60",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.22,
+          "interval": [
+            0.0,
+            0.43548654513888874
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.22,
+          "interval": [
+            -0.10305555555555555,
+            0.4270702917331201
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.013333333333333332,
+          "interval": [
+            0.0,
+            0.04000000000000001
+          ]
+        },
+        "mean": {
+          "estimate": 0.0,
+          "interval": [
+            -0.16666666666666666,
+            0.16666666666666666
+          ]
+        },
+        "variance": {
+          "estimate": 0.23333333333333334,
+          "interval": [
+            0.06555555555555556,
+            0.48305555555555557
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.23333333333333334,
+          "interval": [
+            -0.10305555555555555,
+            0.4607602339181286
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.13452430555555545
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": 0.0,
+      "new_mean_hits": 0.2833333333333333,
+      "nonzero_fraction": {
+        "estimate": 0.18333333333333332,
+        "interval": [
+          0.07117361085082655,
+          0.3533364595166929
+        ]
+      },
+      "nonzero_mean": 0.0,
+      "old_mean_hits": 0.2833333333333333,
+      "positive_given_nonzero": {
+        "denominator": 11,
+        "estimate": 0.45454545454545453,
+        "interval": [
+          0.10290343875323582,
+          0.8453001477308921
+        ]
+      },
+      "positive_mean": 1.2,
+      "sample_sd": 0.4871223004474547,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019,
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039,
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 60,
+      "sign_counts": {
+        "negative": 6,
+        "positive": 5,
+        "zero": 49
+      },
+      "standard_error": 0.06288721857330792,
+      "states": 60,
+      "variance_component_fraction": {
+        "direction_component": 0.9428571428571428,
+        "magnitude_component": 0.05714285714285714,
+        "zero_component": 0.0
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 33,
+      "cohort": "new60",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.6868131868131866,
+          "interval": [
+            0.16227539062500002,
+            1.4814614642687556
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.668241758241758,
+          "interval": [
+            -0.07466449652777779,
+            1.4588692680775972
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.21794871794871795,
+          "interval": [
+            0.014285714285714287,
+            0.4967836100786463
+          ]
+        },
+        "mean": {
+          "estimate": -0.1,
+          "interval": [
+            -0.43333333333333335,
+            0.25
+          ]
+        },
+        "variance": {
+          "estimate": 0.9233333333333333,
+          "interval": [
+            0.28222222222222215,
+            1.9519583333333301
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.886190476190476,
+          "interval": [
+            0.014999999999999986,
+            1.9009997996794858
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.01857142857142857,
+          "interval": [
+            0.0,
+            0.3170906432748538
+          ]
+        }
+      },
+      "negative_mean": -1.3846153846153846,
+      "net_over_gross": -0.2,
+      "new_mean_hits": 0.36666666666666664,
+      "nonzero_fraction": {
+        "estimate": 0.35,
+        "interval": [
+          0.19305121456352314,
+          0.5340602523488225
+        ]
+      },
+      "nonzero_mean": -0.2857142857142857,
+      "old_mean_hits": 0.4666666666666667,
+      "positive_given_nonzero": {
+        "denominator": 21,
+        "estimate": 0.38095238095238093,
+        "interval": [
+          0.12814166121657933,
+          0.6923856556722661
+        ]
+      },
+      "positive_mean": 1.5,
+      "sample_sd": 0.9690113780794618,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        -3.0,
+        0.0,
+        0.0,
+        -2.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -2.0,
+        -2.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        -1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        -1.0,
+        4.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.0,
+        0.0,
+        2.0,
+        0.0,
+        0.0,
+        -1.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019,
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039,
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 60,
+      "sign_counts": {
+        "negative": 13,
+        "positive": 8,
+        "zero": 39
+      },
+      "standard_error": 0.1250988309862418,
+      "states": 60,
+      "variance_component_fraction": {
+        "direction_component": 0.7438409965485775,
+        "magnitude_component": 0.2360455429047487,
+        "zero_component": 0.02011346054667354
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 72,
+      "cohort": "new60",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.21024000509294632,
+          "interval": [
+            0.07538173057568438,
+            0.3969612774884255
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.20738286223580346,
+          "interval": [
+            0.03367943393640351,
+            0.39367695910859934
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.05940285204991088,
+          "interval": [
+            0.0038888888888888888,
+            0.13528962418300652
+          ]
+        },
+        "mean": {
+          "estimate": -0.05,
+          "interval": [
+            -0.23333333333333334,
+            0.13333333333333333
+          ]
+        },
+        "variance": {
+          "estimate": 0.27249999999999996,
+          "interval": [
+            0.10833333333333334,
+            0.5285416666666667
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.26678571428571435,
+          "interval": [
+            0.058345335144927554,
+            0.5177860501567388
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0028571428571428567,
+          "interval": [
+            0.0,
+            0.054870978242607185
+          ]
+        }
+      },
+      "negative_mean": -0.6470588235294118,
+      "net_over_gross": -0.15789473684210525,
+      "new_mean_hits": 0.325,
+      "nonzero_fraction": {
+        "estimate": 0.4666666666666667,
+        "interval": [
+          0.29196478352940325,
+          0.6473804975106436
+        ]
+      },
+      "nonzero_mean": -0.10714285714285714,
+      "old_mean_hits": 0.375,
+      "positive_given_nonzero": {
+        "denominator": 28,
+        "estimate": 0.39285714285714285,
+        "interval": [
+          0.16343612560770887,
+          0.6626648702441689
+        ]
+      },
+      "positive_mean": 0.7272727272727273,
+      "sample_sd": 0.5264205961660282,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.5,
+        -1.5,
+        0.0,
+        0.0,
+        -0.5,
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        -0.5,
+        -1.0,
+        0.5,
+        0.0,
+        0.0,
+        0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        -0.5,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.5,
+        -1.0,
+        2.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.5,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.5,
+        0.0,
+        -0.5,
+        -0.5,
+        0.5
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019,
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039,
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 60,
+      "sign_counts": {
+        "negative": 17,
+        "positive": 11,
+        "zero": 32
+      },
+      "standard_error": 0.06796060673505357,
+      "states": 120,
+      "variance_component_fraction": {
+        "direction_component": 0.7715229544695279,
+        "magnitude_component": 0.2179921176143519,
+        "zero_component": 0.010484927916120577
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 12,
+      "cohort": "new_first20",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.32666666666666655,
+          "interval": [
+            0.0,
+            0.7854545454545454
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.2966666666666665,
+          "interval": [
+            -0.5617857142857142,
+            0.7528571428571428
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.03333333333333333,
+          "interval": [
+            0.0,
+            0.08571428571428573
+          ]
+        },
+        "mean": {
+          "estimate": 0.1,
+          "interval": [
+            -0.25,
+            0.55
+          ]
+        },
+        "variance": {
+          "estimate": 0.38999999999999996,
+          "interval": [
+            0.0,
+            0.9400000000000002
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.32999999999999985,
+          "interval": [
+            -0.51,
+            0.8033541666666618
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.030000000000000006,
+          "interval": [
+            0.0,
+            0.5617857142857142
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": 0.3333333333333333,
+      "new_mean_hits": 0.35,
+      "nonzero_fraction": {
+        "estimate": 0.25,
+        "interval": [
+          0.05228271511176637,
+          0.5771396410540279
+        ]
+      },
+      "nonzero_mean": 0.4,
+      "old_mean_hits": 0.25,
+      "positive_given_nonzero": {
+        "denominator": 5,
+        "estimate": 0.6,
+        "interval": [
+          0.07035281076200853,
+          0.9819997861068059
+        ]
+      },
+      "positive_mean": 1.3333333333333333,
+      "sample_sd": 0.6407232755171874,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 2,
+        "positive": 3,
+        "zero": 15
+      },
+      "standard_error": 0.14327007988227577,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.8376068376068374,
+        "magnitude_component": 0.08547008547008547,
+        "zero_component": 0.07692307692307694
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 13,
+      "cohort": "new_first20",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.3600000000000001,
+          "interval": [
+            0.0,
+            1.2053571428571426
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": -0.00749999999999984,
+          "interval": [
+            -1.35375,
+            0.9890338541666653
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.1,
+          "interval": [
+            0.0,
+            0.3
+          ]
+        },
+        "mean": {
+          "estimate": -0.35,
+          "interval": [
+            -0.95,
+            0.1
+          ]
+        },
+        "variance": {
+          "estimate": 0.8275,
+          "interval": [
+            0.04749999999999999,
+            1.7875
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.09250000000000014,
+          "interval": [
+            -1.2560714285714283,
+            1.1
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.36749999999999994,
+          "interval": [
+            0.0,
+            1.35375
+          ]
+        }
+      },
+      "negative_mean": -2.0,
+      "net_over_gross": -0.7777777777777778,
+      "new_mean_hits": 0.15,
+      "nonzero_fraction": {
+        "estimate": 0.25,
+        "interval": [
+          0.05228271511176637,
+          0.5771396410540279
+        ]
+      },
+      "nonzero_mean": -1.4,
+      "old_mean_hits": 0.5,
+      "positive_given_nonzero": {
+        "denominator": 5,
+        "estimate": 0.2,
+        "interval": [
+          0.000625782718055725,
+          0.836236775087071
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.9333020044867296,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        -3.0,
+        0.0,
+        0.0,
+        -2.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -2.0
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 4,
+        "positive": 1,
+        "zero": 15
+      },
+      "standard_error": 0.2086926725569141,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.4350453172205439,
+        "magnitude_component": 0.12084592145015106,
+        "zero_component": 0.44410876132930505
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 25,
+      "cohort": "new_first20",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.15052083333333333,
+          "interval": [
+            0.0,
+            0.4334027777777778
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.12708333333333333,
+          "interval": [
+            -0.2025,
+            0.41728915550595175
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.04791666666666668,
+          "interval": [
+            0.0,
+            0.12000000000000002
+          ]
+        },
+        "mean": {
+          "estimate": -0.125,
+          "interval": [
+            -0.425,
+            0.15
+          ]
+        },
+        "variance": {
+          "estimate": 0.221875,
+          "interval": [
+            0.031875,
+            0.5375
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.175,
+          "interval": [
+            -0.135,
+            0.49382654389880903
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0234375,
+          "interval": [
+            0.0,
+            0.21
+          ]
+        }
+      },
+      "negative_mean": -0.6666666666666666,
+      "net_over_gross": -0.45454545454545453,
+      "new_mean_hits": 0.25,
+      "nonzero_fraction": {
+        "estimate": 0.4,
+        "interval": [
+          0.13553391561779532,
+          0.7159216080409021
+        ]
+      },
+      "nonzero_mean": -0.3125,
+      "old_mean_hits": 0.375,
+      "positive_given_nonzero": {
+        "denominator": 8,
+        "estimate": 0.25,
+        "interval": [
+          0.01079531082524152,
+          0.7634115170708604
+        ]
+      },
+      "positive_mean": 0.75,
+      "sample_sd": 0.48327283347913047,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.5,
+        -1.5,
+        0.0,
+        0.0,
+        -0.5,
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        -0.5
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 6,
+        "positive": 2,
+        "zero": 12
+      },
+      "standard_error": 0.1080630907338272,
+      "states": 40,
+      "variance_component_fraction": {
+        "direction_component": 0.6784037558685446,
+        "magnitude_component": 0.21596244131455405,
+        "zero_component": 0.10563380281690142
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 13,
+      "cohort": "new_middle20",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.13333333333333333,
+          "interval": [
+            0.0,
+            0.34285714285714286
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.11916666666666667,
+          "interval": [
+            -0.21,
+            0.33821428571428575
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": -0.05,
+          "interval": [
+            -0.3,
+            0.2
+          ]
+        },
+        "variance": {
+          "estimate": 0.1475,
+          "interval": [
+            0.0,
+            0.3875
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.11916666666666667,
+          "interval": [
+            -0.21,
+            0.33821428571428575
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.014166666666666666,
+          "interval": [
+            0.0,
+            0.21
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": -0.3333333333333333,
+      "new_mean_hits": 0.25,
+      "nonzero_fraction": {
+        "estimate": 0.15,
+        "interval": [
+          0.0149103413279787,
+          0.4677638830539069
+        ]
+      },
+      "nonzero_mean": -0.3333333333333333,
+      "old_mean_hits": 0.3,
+      "positive_given_nonzero": {
+        "denominator": 3,
+        "estimate": 0.3333333333333333,
+        "interval": [
+          0.0010427536238458313,
+          0.96736824323747
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.39403446282620613,
+      "seed_effects": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 2,
+        "positive": 1,
+        "zero": 17
+      },
+      "standard_error": 0.08810878443570108,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.903954802259887,
+        "magnitude_component": 0.0,
+        "zero_component": 0.096045197740113
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 12,
+      "cohort": "new_middle20",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.3375,
+          "interval": [
+            0.0,
+            0.8366874999999951
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.28500000000000003,
+          "interval": [
+            -0.4900000000000001,
+            0.7834090909090909
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0375,
+          "interval": [
+            0.0,
+            0.09999999999999999
+          ]
+        },
+        "mean": {
+          "estimate": -0.15,
+          "interval": [
+            -0.55,
+            0.2
+          ]
+        },
+        "variance": {
+          "estimate": 0.42750000000000005,
+          "interval": [
+            0.04749999999999999,
+            0.9475000000000001
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.3225,
+          "interval": [
+            -0.4525000000000001,
+            0.834722222222222
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0525,
+          "interval": [
+            0.0,
+            0.4900000000000001
+          ]
+        }
+      },
+      "negative_mean": -1.25,
+      "net_over_gross": -0.42857142857142855,
+      "new_mean_hits": 0.35,
+      "nonzero_fraction": {
+        "estimate": 0.3,
+        "interval": [
+          0.07694146241861763,
+          0.6263134548016007
+        ]
+      },
+      "nonzero_mean": -0.5,
+      "old_mean_hits": 0.5,
+      "positive_given_nonzero": {
+        "denominator": 6,
+        "estimate": 0.3333333333333333,
+        "interval": [
+          0.014720740186584123,
+          0.8732806303503717
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.6708203932499369,
+      "seed_effects": [
+        -2.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        -1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 4,
+        "positive": 2,
+        "zero": 14
+      },
+      "standard_error": 0.15,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.7894736842105263,
+        "magnitude_component": 0.08771929824561402,
+        "zero_component": 0.12280701754385963
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 25,
+      "cohort": "new_middle20",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.135,
+          "interval": [
+            0.0,
+            0.2784033203124958
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.12000000000000001,
+          "interval": [
+            -0.14583333333333334,
+            0.2675
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.015,
+          "interval": [
+            0.0,
+            0.03125
+          ]
+        },
+        "mean": {
+          "estimate": -0.1,
+          "interval": [
+            -0.35,
+            0.125
+          ]
+        },
+        "variance": {
+          "estimate": 0.16499999999999998,
+          "interval": [
+            0.031875,
+            0.311875
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.135,
+          "interval": [
+            -0.12916666666666668,
+            0.2816666666666666
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.015,
+          "interval": [
+            0.0,
+            0.14972222222222226
+          ]
+        }
+      },
+      "negative_mean": -0.7,
+      "net_over_gross": -0.4,
+      "new_mean_hits": 0.3,
+      "nonzero_fraction": {
+        "estimate": 0.4,
+        "interval": [
+          0.13553391561779532,
+          0.7159216080409021
+        ]
+      },
+      "nonzero_mean": -0.25,
+      "old_mean_hits": 0.4,
+      "positive_given_nonzero": {
+        "denominator": 8,
+        "estimate": 0.375,
+        "interval": [
+          0.04020583249809637,
+          0.8469917743493722
+        ]
+      },
+      "positive_mean": 0.5,
+      "sample_sd": 0.4167543767332453,
+      "seed_effects": [
+        -1.0,
+        0.5,
+        0.0,
+        0.0,
+        0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        -0.5,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 5,
+        "positive": 3,
+        "zero": 12
+      },
+      "standard_error": 0.09318911162960931,
+      "states": 40,
+      "variance_component_fraction": {
+        "direction_component": 0.8181818181818183,
+        "magnitude_component": 0.09090909090909091,
+        "zero_component": 0.09090909090909091
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 14,
+      "cohort": "new_last20",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.13333333333333333,
+          "interval": [
+            0.0,
+            0.34285714285714286
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.11916666666666667,
+          "interval": [
+            -0.21,
+            0.33821428571428575
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": -0.05,
+          "interval": [
+            -0.3,
+            0.2
+          ]
+        },
+        "variance": {
+          "estimate": 0.1475,
+          "interval": [
+            0.0,
+            0.3875
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.11916666666666667,
+          "interval": [
+            -0.21,
+            0.33821428571428575
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.014166666666666666,
+          "interval": [
+            0.0,
+            0.21
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": -0.3333333333333333,
+      "new_mean_hits": 0.25,
+      "nonzero_fraction": {
+        "estimate": 0.15,
+        "interval": [
+          0.0149103413279787,
+          0.4677638830539069
+        ]
+      },
+      "nonzero_mean": -0.3333333333333333,
+      "old_mean_hits": 0.3,
+      "positive_given_nonzero": {
+        "denominator": 3,
+        "estimate": 0.3333333333333333,
+        "interval": [
+          0.0010427536238458313,
+          0.96736824323747
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.39403446282620613,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "seed_ids": [
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 2,
+        "positive": 1,
+        "zero": 17
+      },
+      "standard_error": 0.08810878443570108,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.903954802259887,
+        "magnitude_component": 0.0,
+        "zero_component": 0.096045197740113
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 8,
+      "cohort": "new_last20",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.9799999999999999,
+          "interval": [
+            0.0,
+            2.5563713304924187
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.9399999999999998,
+          "interval": [
+            -0.476666666666667,
+            2.3912578124999984
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.34,
+          "interval": [
+            0.0,
+            0.9236590909090856
+          ]
+        },
+        "mean": {
+          "estimate": 0.2,
+          "interval": [
+            -0.4,
+            1.0
+          ]
+        },
+        "variance": {
+          "estimate": 1.3599999999999999,
+          "interval": [
+            0.20496875,
+            3.3475
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 1.2799999999999998,
+          "interval": [
+            -0.24416666666666673,
+            2.8336328124999994
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.04000000000000001,
+          "interval": [
+            0.0,
+            0.96
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": 0.2857142857142857,
+      "new_mean_hits": 0.6,
+      "nonzero_fraction": {
+        "estimate": 0.5,
+        "interval": [
+          0.2048257413052833,
+          0.7951742586947168
+        ]
+      },
+      "nonzero_mean": 0.4,
+      "old_mean_hits": 0.4,
+      "positive_given_nonzero": {
+        "denominator": 10,
+        "estimate": 0.5,
+        "interval": [
+          0.11543239105779862,
+          0.8845676089422014
+        ]
+      },
+      "positive_mean": 1.8,
+      "sample_sd": 1.1964860832322377,
+      "seed_effects": [
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        -1.0,
+        4.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.0,
+        0.0,
+        2.0,
+        0.0,
+        0.0,
+        -1.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "seed_ids": [
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 5,
+        "positive": 5,
+        "zero": 10
+      },
+      "standard_error": 0.26754242162397546,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.7205882352941176,
+        "magnitude_component": 0.25000000000000006,
+        "zero_component": 0.029411764705882363
+      }
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "both_arms_zero_states": 22,
+      "cohort": "new_last20",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.3010416666666667,
+          "interval": [
+            0.044720486111111124,
+            0.7154318576388877
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.29729166666666673,
+          "interval": [
+            -0.05535677083333333,
+            0.7014583333333333
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.10208333333333332,
+          "interval": [
+            0.0,
+            0.2594798177083332
+          ]
+        },
+        "mean": {
+          "estimate": 0.075,
+          "interval": [
+            -0.275,
+            0.5
+          ]
+        },
+        "variance": {
+          "estimate": 0.406875,
+          "interval": [
+            0.08499999999999999,
+            0.9297011718749967
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.39937500000000004,
+          "interval": [
+            0.010832031250000006,
+            0.8696650855654744
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.00375,
+          "interval": [
+            0.0,
+            0.17187500000000003
+          ]
+        }
+      },
+      "negative_mean": -0.5833333333333334,
+      "net_over_gross": 0.17647058823529413,
+      "new_mean_hits": 0.425,
+      "nonzero_fraction": {
+        "estimate": 0.6,
+        "interval": [
+          0.284078391959098,
+          0.8644660843822047
+        ]
+      },
+      "nonzero_mean": 0.125,
+      "old_mean_hits": 0.35,
+      "positive_given_nonzero": {
+        "denominator": 12,
+        "estimate": 0.5,
+        "interval": [
+          0.13894424909281322,
+          0.8610557509071868
+        ]
+      },
+      "positive_mean": 0.8333333333333334,
+      "sample_sd": 0.6544382886752658,
+      "seed_effects": [
+        0.0,
+        -0.5,
+        0.0,
+        0.5,
+        -1.0,
+        2.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.5,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.5,
+        0.0,
+        -0.5,
+        -0.5,
+        0.5
+      ],
+      "seed_ids": [
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 6,
+        "positive": 6,
+        "zero": 8
+      },
+      "standard_error": 0.1463368500556525,
+      "states": 40,
+      "variance_component_fraction": {
+        "direction_component": 0.7398873527905787,
+        "magnitude_component": 0.25089605734767023,
+        "zero_component": 0.009216589861751152
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 10,
+      "cohort": "original",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "variance": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "negative_mean": null,
+      "net_over_gross": null,
+      "new_mean_hits": 0.0,
+      "nonzero_fraction": {
+        "estimate": 0.0,
+        "interval": [
+          0.0,
+          0.438325118738521
+        ]
+      },
+      "nonzero_mean": null,
+      "old_mean_hits": 0.0,
+      "positive_given_nonzero": {
+        "denominator": 0,
+        "estimate": null,
+        "interval": null
+      },
+      "positive_mean": null,
+      "sample_sd": 0.0,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733,
+        1734,
+        1735,
+        1736,
+        1737,
+        1738
+      ],
+      "seed_slots": 10,
+      "sign_counts": {
+        "negative": 0,
+        "positive": 0,
+        "zero": 10
+      },
+      "standard_error": 0.0,
+      "states": 10,
+      "variance_component_fraction": {
+        "direction_component": null,
+        "magnitude_component": null,
+        "zero_component": null
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 6,
+      "cohort": "original",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": -0.16000000000000003,
+          "interval": [
+            -0.25,
+            0.0
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": -0.2,
+          "interval": [
+            -0.6,
+            0.0
+          ]
+        },
+        "variance": {
+          "estimate": 0.16000000000000006,
+          "interval": [
+            0.0,
+            0.25
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": -0.16000000000000003,
+          "interval": [
+            -0.25,
+            0.0
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.16000000000000003,
+          "interval": [
+            0.0,
+            0.25
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": -1.0,
+      "new_mean_hits": 0.3,
+      "nonzero_fraction": {
+        "estimate": 0.2,
+        "interval": [
+          0.008525012128926951,
+          0.6706174698401266
+        ]
+      },
+      "nonzero_mean": -1.0,
+      "old_mean_hits": 0.5,
+      "positive_given_nonzero": {
+        "denominator": 2,
+        "estimate": 0.0,
+        "interval": [
+          0.0,
+          0.9440983005625052
+        ]
+      },
+      "positive_mean": null,
+      "sample_sd": 0.42163702135578396,
+      "seed_effects": [
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733,
+        1734,
+        1735,
+        1736,
+        1737,
+        1738
+      ],
+      "seed_slots": 10,
+      "sign_counts": {
+        "negative": 2,
+        "positive": 0,
+        "zero": 8
+      },
+      "standard_error": 0.13333333333333333,
+      "states": 10,
+      "variance_component_fraction": {
+        "direction_component": 0.0,
+        "magnitude_component": 0.0,
+        "zero_component": 0.9999999999999998
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 16,
+      "cohort": "original",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": -0.04000000000000001,
+          "interval": [
+            -0.0625,
+            0.0
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": -0.1,
+          "interval": [
+            -0.3,
+            0.0
+          ]
+        },
+        "variance": {
+          "estimate": 0.040000000000000015,
+          "interval": [
+            0.0,
+            0.0625
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": -0.04000000000000001,
+          "interval": [
+            -0.0625,
+            0.0
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.04000000000000001,
+          "interval": [
+            0.0,
+            0.0625
+          ]
+        }
+      },
+      "negative_mean": -0.5,
+      "net_over_gross": -1.0,
+      "new_mean_hits": 0.15,
+      "nonzero_fraction": {
+        "estimate": 0.2,
+        "interval": [
+          0.008525012128926951,
+          0.6706174698401266
+        ]
+      },
+      "nonzero_mean": -0.5,
+      "old_mean_hits": 0.25,
+      "positive_given_nonzero": {
+        "denominator": 2,
+        "estimate": 0.0,
+        "interval": [
+          0.0,
+          0.9440983005625052
+        ]
+      },
+      "positive_mean": null,
+      "sample_sd": 0.21081851067789198,
+      "seed_effects": [
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733,
+        1734,
+        1735,
+        1736,
+        1737,
+        1738
+      ],
+      "seed_slots": 10,
+      "sign_counts": {
+        "negative": 2,
+        "positive": 0,
+        "zero": 8
+      },
+      "standard_error": 0.06666666666666667,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.0,
+        "magnitude_component": 0.0,
+        "zero_component": 0.9999999999999998
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 12,
+      "cohort": "replication",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.5357142857142857,
+          "interval": [
+            0.0,
+            1.47
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.49392857142857144,
+          "interval": [
+            -0.7846428571428571,
+            1.345227272727273
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.15,
+          "interval": [
+            0.0,
+            0.4
+          ]
+        },
+        "mean": {
+          "estimate": 0.15,
+          "interval": [
+            -0.3,
+            0.75
+          ]
+        },
+        "variance": {
+          "estimate": 0.7275,
+          "interval": [
+            0.09000000000000001,
+            1.9099999999999997
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.6439285714285714,
+          "interval": [
+            -0.54,
+            1.585227272727273
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.04178571428571428,
+          "interval": [
+            0.0,
+            0.84
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": 0.3333333333333333,
+      "new_mean_hits": 0.4,
+      "nonzero_fraction": {
+        "estimate": 0.35,
+        "interval": [
+          0.10480395646325594,
+          0.6724834189620259
+        ]
+      },
+      "nonzero_mean": 0.42857142857142855,
+      "old_mean_hits": 0.25,
+      "positive_given_nonzero": {
+        "denominator": 7,
+        "estimate": 0.5714285714285714,
+        "interval": [
+          0.10370353255067882,
+          0.9531288422703317
+        ]
+      },
+      "positive_mean": 1.5,
+      "sample_sd": 0.8750939799154206,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        -1.0,
+        3.0,
+        1.0,
+        0.0
+      ],
+      "seed_ids": [
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 3,
+        "positive": 4,
+        "zero": 13
+      },
+      "standard_error": 0.1956769625791716,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.7363770250368188,
+        "magnitude_component": 0.20618556701030927,
+        "zero_component": 0.05743740795287186
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 12,
+      "cohort": "replication",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.4339285714285714,
+          "interval": [
+            0.0,
+            0.916531808035711
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.4153571428571428,
+          "interval": [
+            -0.4725,
+            0.905
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0375,
+          "interval": [
+            0.0,
+            0.1
+          ]
+        },
+        "mean": {
+          "estimate": -0.1,
+          "interval": [
+            -0.55,
+            0.3
+          ]
+        },
+        "variance": {
+          "estimate": 0.49000000000000005,
+          "interval": [
+            0.09000000000000001,
+            1.0275
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.4528571428571428,
+          "interval": [
+            -0.39749999999999996,
+            0.9448076923076922
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.01857142857142857,
+          "interval": [
+            0.0,
+            0.4725
+          ]
+        }
+      },
+      "negative_mean": -1.25,
+      "net_over_gross": -0.25,
+      "new_mean_hits": 0.25,
+      "nonzero_fraction": {
+        "estimate": 0.35,
+        "interval": [
+          0.10480395646325594,
+          0.6724834189620259
+        ]
+      },
+      "nonzero_mean": -0.2857142857142857,
+      "old_mean_hits": 0.35,
+      "positive_given_nonzero": {
+        "denominator": 7,
+        "estimate": 0.42857142857142855,
+        "interval": [
+          0.046871157729668336,
+          0.8962964674493212
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.7181848464596079,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        1.0,
+        -1.0,
+        -2.0,
+        0.0,
+        1.0,
+        -1.0,
+        0.0
+      ],
+      "seed_ids": [
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 4,
+        "positive": 3,
+        "zero": 13
+      },
+      "standard_error": 0.16059101370939324,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.8855685131195333,
+        "magnitude_component": 0.07653061224489795,
+        "zero_component": 0.0379008746355685
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 24,
+      "cohort": "replication",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.32111111111111107,
+          "interval": [
+            0.0,
+            0.8714929978875238
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.32034722222222217,
+          "interval": [
+            -0.16941889880952377,
+            0.846475319602271
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.11500000000000002,
+          "interval": [
+            0.0,
+            0.23611111111111113
+          ]
+        },
+        "mean": {
+          "estimate": 0.025,
+          "interval": [
+            -0.3625781249999999,
+            0.45
+          ]
+        },
+        "variance": {
+          "estimate": 0.43687499999999996,
+          "interval": [
+            0.046875,
+            1.0625
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.4353472222222222,
+          "interval": [
+            -0.09,
+            1.0177187499999978
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0007638888888888889,
+          "interval": [
+            0.0,
+            0.24698242187499922
+          ]
+        }
+      },
+      "negative_mean": -0.7,
+      "net_over_gross": 0.06666666666666667,
+      "new_mean_hits": 0.325,
+      "nonzero_fraction": {
+        "estimate": 0.45,
+        "interval": [
+          0.16891640686462933,
+          0.7567912736016391
+        ]
+      },
+      "nonzero_mean": 0.05555555555555555,
+      "old_mean_hits": 0.3,
+      "positive_given_nonzero": {
+        "denominator": 9,
+        "estimate": 0.4444444444444444,
+        "interval": [
+          0.07631771649512878,
+          0.8684776850351621
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.6781359900879996,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        1.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.5,
+        -0.5,
+        -1.5,
+        -0.5,
+        2.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 5,
+        "positive": 4,
+        "zero": 11
+      },
+      "standard_error": 0.15163581718258906,
+      "states": 40,
+      "variance_component_fraction": {
+        "direction_component": 0.7350182800826578,
+        "magnitude_component": 0.26323319027181696,
+        "zero_component": 0.0017485296455253538
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 48,
+      "cohort": "new60",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.11428571428571427,
+          "interval": [
+            0.0,
+            0.2285714285714286
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.11218253968253966,
+          "interval": [
+            -0.10305555555555555,
+            0.22492063492063494
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": -0.016666666666666666,
+          "interval": [
+            -0.13333333333333333,
+            0.1
+          ]
+        },
+        "variance": {
+          "estimate": 0.1163888888888889,
+          "interval": [
+            0.016388888888888894,
+            0.23333333333333334
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.11218253968253966,
+          "interval": [
+            -0.10305555555555555,
+            0.22492063492063494
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.002103174603174603,
+          "interval": [
+            0.0,
+            0.11055902777777699
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": -0.14285714285714285,
+      "new_mean_hits": 0.18333333333333332,
+      "nonzero_fraction": {
+        "estimate": 0.11666666666666667,
+        "interval": [
+          0.03222927968649601,
+          0.271836400210712
+        ]
+      },
+      "nonzero_mean": -0.14285714285714285,
+      "old_mean_hits": 0.2,
+      "positive_given_nonzero": {
+        "denominator": 7,
+        "estimate": 0.42857142857142855,
+        "interval": [
+          0.046871157729668336,
+          0.8962964674493212
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.34403718101522685,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019,
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039,
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 60,
+      "sign_counts": {
+        "negative": 4,
+        "positive": 3,
+        "zero": 53
+      },
+      "standard_error": 0.04441500908493733,
+      "states": 60,
+      "variance_component_fraction": {
+        "direction_component": 0.9819297647459936,
+        "magnitude_component": 0.0,
+        "zero_component": 0.018070235254006133
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 39,
+      "cohort": "new60",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.3085714285714286,
+          "interval": [
+            0.0,
+            0.5901587301587302
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.304920634920635,
+          "interval": [
+            -0.1388888888888889,
+            0.5794179894179895
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.02,
+          "interval": [
+            0.0,
+            0.04545454545454546
+          ]
+        },
+        "mean": {
+          "estimate": -0.03333333333333333,
+          "interval": [
+            -0.23333333333333334,
+            0.18333333333333332
+          ]
+        },
+        "variance": {
+          "estimate": 0.33222222222222225,
+          "interval": [
+            0.1,
+            0.6488888888888891
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.324920634920635,
+          "interval": [
+            -0.1388888888888889,
+            0.6152341922514619
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.00365079365079365,
+          "interval": [
+            0.0,
+            0.1580882352941176
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": -0.125,
+      "new_mean_hits": 0.4,
+      "nonzero_fraction": {
+        "estimate": 0.23333333333333334,
+        "interval": [
+          0.10476297213143693,
+          0.41038952844307264
+        ]
+      },
+      "nonzero_mean": -0.14285714285714285,
+      "old_mean_hits": 0.43333333333333335,
+      "positive_given_nonzero": {
+        "denominator": 14,
+        "estimate": 0.35714285714285715,
+        "interval": [
+          0.07772945591617153,
+          0.7373313058360209
+        ]
+      },
+      "positive_mean": 1.4,
+      "sample_sd": 0.5812513288970897,
+      "seed_effects": [
+        0.0,
+        0.0,
+        2.0,
+        0.0,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        2.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019,
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039,
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 60,
+      "sign_counts": {
+        "negative": 9,
+        "positive": 5,
+        "zero": 46
+      },
+      "standard_error": 0.07503922389264528,
+      "states": 60,
+      "variance_component_fraction": {
+        "direction_component": 0.928810320114668,
+        "magnitude_component": 0.060200668896321065,
+        "zero_component": 0.010989010989010986
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 87,
+      "cohort": "new60",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.11623068086883875,
+          "interval": [
+            0.018064539627039626,
+            0.20857251082251083
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.11488199665831243,
+          "interval": [
+            -0.017380952380952372,
+            0.20643854929792432
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.010962301587301587,
+          "interval": [
+            0.0,
+            0.02179300820707069
+          ]
+        },
+        "mean": {
+          "estimate": -0.025,
+          "interval": [
+            -0.15,
+            0.10833333333333334
+          ]
+        },
+        "variance": {
+          "estimate": 0.12854166666666667,
+          "interval": [
+            0.04972222222222222,
+            0.2290972222222222
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.12584429824561402,
+          "interval": [
+            -0.014997345753205134,
+            0.225
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0013486842105263157,
+          "interval": [
+            0.0,
+            0.04461616161616151
+          ]
+        }
+      },
+      "negative_mean": -0.5416666666666666,
+      "net_over_gross": -0.13043478260869565,
+      "new_mean_hits": 0.2916666666666667,
+      "nonzero_fraction": {
+        "estimate": 0.31666666666666665,
+        "interval": [
+          0.16662081516547073,
+          0.49988887793214964
+        ]
+      },
+      "nonzero_mean": -0.07894736842105263,
+      "old_mean_hits": 0.31666666666666665,
+      "positive_given_nonzero": {
+        "denominator": 19,
+        "estimate": 0.3684210526315789,
+        "interval": [
+          0.11109533711785702,
+          0.6967187916333897
+        ]
+      },
+      "positive_mean": 0.7142857142857143,
+      "sample_sd": 0.36155267801947044,
+      "seed_effects": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -0.5,
+        1.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.5,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        -0.5,
+        -0.5,
+        -0.5,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.5,
+        0.0
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019,
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039,
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 60,
+      "sign_counts": {
+        "negative": 12,
+        "positive": 7,
+        "zero": 41
+      },
+      "standard_error": 0.046676250024870046,
+      "states": 120,
+      "variance_component_fraction": {
+        "direction_component": 0.9042257182664928,
+        "magnitude_component": 0.08528208690283244,
+        "zero_component": 0.010492194830674742
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 15,
+      "cohort": "new_first20",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.13333333333333333,
+          "interval": [
+            0.0,
+            0.375
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.11916666666666667,
+          "interval": [
+            -0.21,
+            0.36
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": 0.05,
+          "interval": [
+            -0.2,
+            0.3
+          ]
+        },
+        "variance": {
+          "estimate": 0.1475,
+          "interval": [
+            0.0,
+            0.38999999999999996
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.11916666666666667,
+          "interval": [
+            -0.21,
+            0.36
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.014166666666666666,
+          "interval": [
+            0.0,
+            0.21
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": 0.3333333333333333,
+      "new_mean_hits": 0.2,
+      "nonzero_fraction": {
+        "estimate": 0.15,
+        "interval": [
+          0.0149103413279787,
+          0.4677638830539069
+        ]
+      },
+      "nonzero_mean": 0.3333333333333333,
+      "old_mean_hits": 0.15,
+      "positive_given_nonzero": {
+        "denominator": 3,
+        "estimate": 0.6666666666666666,
+        "interval": [
+          0.032631756762529954,
+          0.9989572463761542
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.39403446282620613,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 1,
+        "positive": 2,
+        "zero": 17
+      },
+      "standard_error": 0.08810878443570108,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.903954802259887,
+        "magnitude_component": 0.0,
+        "zero_component": 0.096045197740113
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 11,
+      "cohort": "new_first20",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.4166666666666667,
+          "interval": [
+            0.0,
+            1.0
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.41083333333333333,
+          "interval": [
+            -0.35416666666666674,
+            0.9725
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.024999999999999998,
+          "interval": [
+            0.0,
+            0.075
+          ]
+        },
+        "mean": {
+          "estimate": -0.05,
+          "interval": [
+            -0.45,
+            0.4
+          ]
+        },
+        "variance": {
+          "estimate": 0.4474999999999999,
+          "interval": [
+            0.04749999999999999,
+            1.06
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.43583333333333335,
+          "interval": [
+            -0.3208333333333334,
+            0.9852272727272732
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.005833333333333333,
+          "interval": [
+            0.0,
+            0.3600000000000001
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": -0.14285714285714285,
+      "new_mean_hits": 0.5,
+      "nonzero_fraction": {
+        "estimate": 0.3,
+        "interval": [
+          0.07694146241861763,
+          0.6263134548016007
+        ]
+      },
+      "nonzero_mean": -0.16666666666666666,
+      "old_mean_hits": 0.55,
+      "positive_given_nonzero": {
+        "denominator": 6,
+        "estimate": 0.3333333333333333,
+        "interval": [
+          0.014720740186584123,
+          0.8732806303503717
+        ]
+      },
+      "positive_mean": 1.5,
+      "sample_sd": 0.6863327411532596,
+      "seed_effects": [
+        0.0,
+        0.0,
+        2.0,
+        0.0,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 4,
+        "positive": 2,
+        "zero": 14
+      },
+      "standard_error": 0.15346866644024557,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.9310986964618252,
+        "magnitude_component": 0.05586592178770951,
+        "zero_component": 0.013035381750465551
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 26,
+      "cohort": "new_first20",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.1666666666666667,
+          "interval": [
+            0.0,
+            0.3241987179487179
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.1666666666666667,
+          "interval": [
+            -0.0625,
+            0.31881410256410253
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.008333333333333333,
+          "interval": [
+            0.0,
+            0.0234375
+          ]
+        },
+        "mean": {
+          "estimate": 0.0,
+          "interval": [
+            -0.225,
+            0.275
+          ]
+        },
+        "variance": {
+          "estimate": 0.175,
+          "interval": [
+            0.031875,
+            0.34
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.17500000000000004,
+          "interval": [
+            -0.0625,
+            0.32437499999999997
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.11505681818181816
+          ]
+        }
+      },
+      "negative_mean": -0.5,
+      "net_over_gross": 0.0,
+      "new_mean_hits": 0.35,
+      "nonzero_fraction": {
+        "estimate": 0.4,
+        "interval": [
+          0.13553391561779532,
+          0.7159216080409021
+        ]
+      },
+      "nonzero_mean": 0.0,
+      "old_mean_hits": 0.35,
+      "positive_given_nonzero": {
+        "denominator": 8,
+        "estimate": 0.375,
+        "interval": [
+          0.04020583249809637,
+          0.8469917743493722
+        ]
+      },
+      "positive_mean": 0.8333333333333334,
+      "sample_sd": 0.42919753763947605,
+      "seed_effects": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -0.5,
+        1.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.5
+      ],
+      "seed_ids": [
+        4000,
+        4001,
+        4002,
+        4003,
+        4004,
+        4005,
+        4006,
+        4007,
+        4008,
+        4009,
+        4010,
+        4011,
+        4012,
+        4013,
+        4014,
+        4015,
+        4016,
+        4017,
+        4018,
+        4019
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 5,
+        "positive": 3,
+        "zero": 12
+      },
+      "standard_error": 0.09597148699373931,
+      "states": 40,
+      "variance_component_fraction": {
+        "direction_component": 0.9523809523809527,
+        "magnitude_component": 0.04761904761904762,
+        "zero_component": 0.0
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 17,
+      "cohort": "new_middle20",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": -0.0475,
+          "interval": [
+            -0.16000000000000003,
+            0.0
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": -0.05,
+          "interval": [
+            -0.2,
+            0.0
+          ]
+        },
+        "variance": {
+          "estimate": 0.04749999999999999,
+          "interval": [
+            0.0,
+            0.16000000000000006
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": -0.0475,
+          "interval": [
+            -0.16000000000000003,
+            0.0
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0475,
+          "interval": [
+            0.0,
+            0.16000000000000003
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": -1.0,
+      "new_mean_hits": 0.2,
+      "nonzero_fraction": {
+        "estimate": 0.05,
+        "interval": [
+          0.00015648240579732293,
+          0.3355254249337568
+        ]
+      },
+      "nonzero_mean": -1.0,
+      "old_mean_hits": 0.25,
+      "positive_given_nonzero": {
+        "denominator": 1,
+        "estimate": 0.0,
+        "interval": [
+          0.0,
+          0.996875
+        ]
+      },
+      "positive_mean": null,
+      "sample_sd": 0.22360679774997894,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 1,
+        "positive": 0,
+        "zero": 19
+      },
+      "standard_error": 0.04999999999999999,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.0,
+        "magnitude_component": 0.0,
+        "zero_component": 1.0000000000000002
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 16,
+      "cohort": "new_middle20",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.13333333333333333,
+          "interval": [
+            0.0,
+            0.34285714285714286
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.11916666666666667,
+          "interval": [
+            -0.21,
+            0.33821428571428575
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": -0.05,
+          "interval": [
+            -0.3,
+            0.2
+          ]
+        },
+        "variance": {
+          "estimate": 0.1475,
+          "interval": [
+            0.0,
+            0.37383593749998006
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.11916666666666667,
+          "interval": [
+            -0.21,
+            0.33821428571428575
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.014166666666666666,
+          "interval": [
+            0.0,
+            0.21
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": -0.3333333333333333,
+      "new_mean_hits": 0.3,
+      "nonzero_fraction": {
+        "estimate": 0.15,
+        "interval": [
+          0.0149103413279787,
+          0.4677638830539069
+        ]
+      },
+      "nonzero_mean": -0.3333333333333333,
+      "old_mean_hits": 0.35,
+      "positive_given_nonzero": {
+        "denominator": 3,
+        "estimate": 0.3333333333333333,
+        "interval": [
+          0.0010427536238458313,
+          0.96736824323747
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.39403446282620613,
+      "seed_effects": [
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 2,
+        "positive": 1,
+        "zero": 17
+      },
+      "standard_error": 0.08810878443570108,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.903954802259887,
+        "magnitude_component": 0.0,
+        "zero_component": 0.096045197740113
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 33,
+      "cohort": "new_middle20",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.037500000000000006,
+          "interval": [
+            0.0,
+            0.1
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.027500000000000004,
+          "interval": [
+            -0.056874999999999995,
+            0.1
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": -0.05,
+          "interval": [
+            -0.2,
+            0.075
+          ]
+        },
+        "variance": {
+          "estimate": 0.0475,
+          "interval": [
+            0.0,
+            0.10687500000000001
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.027500000000000004,
+          "interval": [
+            -0.056874999999999995,
+            0.1
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.010000000000000002,
+          "interval": [
+            0.0,
+            0.056874999999999995
+          ]
+        }
+      },
+      "negative_mean": -0.5,
+      "net_over_gross": -0.5,
+      "new_mean_hits": 0.25,
+      "nonzero_fraction": {
+        "estimate": 0.2,
+        "interval": [
+          0.03134254393314406,
+          0.524526698665966
+        ]
+      },
+      "nonzero_mean": -0.25,
+      "old_mean_hits": 0.3,
+      "positive_given_nonzero": {
+        "denominator": 4,
+        "estimate": 0.25,
+        "interval": [
+          0.0007821671998678201,
+          0.9056174803303771
+        ]
+      },
+      "positive_mean": 0.5,
+      "sample_sd": 0.22360679774997896,
+      "seed_effects": [
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        4020,
+        4021,
+        4022,
+        4023,
+        4024,
+        4025,
+        4026,
+        4027,
+        4028,
+        4029,
+        4030,
+        4031,
+        4032,
+        4033,
+        4034,
+        4035,
+        4036,
+        4037,
+        4038,
+        4039
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 3,
+        "positive": 1,
+        "zero": 16
+      },
+      "standard_error": 0.049999999999999996,
+      "states": 40,
+      "variance_component_fraction": {
+        "direction_component": 0.7894736842105264,
+        "magnitude_component": 0.0,
+        "zero_component": 0.21052631578947373
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 16,
+      "cohort": "new_last20",
+      "initial_sample_size": 32,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.13333333333333333,
+          "interval": [
+            0.0,
+            0.375
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.11916666666666667,
+          "interval": [
+            -0.21,
+            0.36
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "mean": {
+          "estimate": -0.05,
+          "interval": [
+            -0.3,
+            0.17515624999996363
+          ]
+        },
+        "variance": {
+          "estimate": 0.1475,
+          "interval": [
+            0.0,
+            0.39
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.11916666666666667,
+          "interval": [
+            -0.21,
+            0.36
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.014166666666666666,
+          "interval": [
+            0.0,
+            0.21
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": -0.3333333333333333,
+      "new_mean_hits": 0.15,
+      "nonzero_fraction": {
+        "estimate": 0.15,
+        "interval": [
+          0.0149103413279787,
+          0.4677638830539069
+        ]
+      },
+      "nonzero_mean": -0.3333333333333333,
+      "old_mean_hits": 0.2,
+      "positive_given_nonzero": {
+        "denominator": 3,
+        "estimate": 0.3333333333333333,
+        "interval": [
+          0.0010427536238458313,
+          0.96736824323747
+        ]
+      },
+      "positive_mean": 1.0,
+      "sample_sd": 0.39403446282620613,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      "seed_ids": [
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 2,
+        "positive": 1,
+        "zero": 17
+      },
+      "standard_error": 0.08810878443570108,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.903954802259887,
+        "magnitude_component": 0.0,
+        "zero_component": 0.096045197740113
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 12,
+      "cohort": "new_last20",
+      "initial_sample_size": 64,
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.375,
+          "interval": [
+            0.0,
+            0.9
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.375,
+          "interval": [
+            -0.4800000000000001,
+            0.9
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.025,
+          "interval": [
+            0.0,
+            0.075
+          ]
+        },
+        "mean": {
+          "estimate": 0.0,
+          "interval": [
+            -0.35,
+            0.4
+          ]
+        },
+        "variance": {
+          "estimate": 0.4,
+          "interval": [
+            0.04749999999999999,
+            0.99
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.4,
+          "interval": [
+            -0.4200000000000001,
+            0.9
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0,
+          "interval": [
+            0.0,
+            0.4800000000000001
+          ]
+        }
+      },
+      "negative_mean": -1.0,
+      "net_over_gross": 0.0,
+      "new_mean_hits": 0.4,
+      "nonzero_fraction": {
+        "estimate": 0.25,
+        "interval": [
+          0.05228271511176637,
+          0.5771396410540279
+        ]
+      },
+      "nonzero_mean": 0.0,
+      "old_mean_hits": 0.4,
+      "positive_given_nonzero": {
+        "denominator": 5,
+        "estimate": 0.4,
+        "interval": [
+          0.018000213893194006,
+          0.9296471892379914
+        ]
+      },
+      "positive_mean": 1.5,
+      "sample_sd": 0.6488856845230502,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        2.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_ids": [
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 3,
+        "positive": 2,
+        "zero": 15
+      },
+      "standard_error": 0.14509525002200233,
+      "states": 20,
+      "variance_component_fraction": {
+        "direction_component": 0.9375,
+        "magnitude_component": 0.0625,
+        "zero_component": 0.0
+      }
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "both_arms_zero_states": 28,
+      "cohort": "new_last20",
+      "initial_sample_size": "combined",
+      "metrics": {
+        "direction_component": {
+          "estimate": 0.14300595238095234,
+          "interval": [
+            0.0,
+            0.3214691558441559
+          ]
+        },
+        "direction_minus_zero": {
+          "estimate": 0.14184523809523805,
+          "interval": [
+            -0.12000000000000002,
+            0.3168668831168832
+          ]
+        },
+        "magnitude_component": {
+          "estimate": 0.017708333333333333,
+          "interval": [
+            0.0,
+            0.034523809523809526
+          ]
+        },
+        "mean": {
+          "estimate": -0.025,
+          "interval": [
+            -0.275,
+            0.225
+          ]
+        },
+        "variance": {
+          "estimate": 0.16187499999999996,
+          "interval": [
+            0.022500000000000003,
+            0.356875
+          ]
+        },
+        "within_active_minus_zero": {
+          "estimate": 0.15955357142857138,
+          "interval": [
+            -0.10131944444444445,
+            0.3448076923076923
+          ]
+        },
+        "zero_component": {
+          "estimate": 0.0011607142857142855,
+          "interval": [
+            0.0,
+            0.12000000000000002
+          ]
+        }
+      },
+      "negative_mean": -0.625,
+      "net_over_gross": -0.1111111111111111,
+      "new_mean_hits": 0.275,
+      "nonzero_fraction": {
+        "estimate": 0.35,
+        "interval": [
+          0.10480395646325594,
+          0.6724834189620259
+        ]
+      },
+      "nonzero_mean": -0.07142857142857142,
+      "old_mean_hits": 0.3,
+      "positive_given_nonzero": {
+        "denominator": 7,
+        "estimate": 0.42857142857142855,
+        "interval": [
+          0.046871157729668336,
+          0.8962964674493212
+        ]
+      },
+      "positive_mean": 0.6666666666666666,
+      "sample_sd": 0.4127889737409482,
+      "seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        -0.5,
+        -0.5,
+        -0.5,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.5,
+        0.0
+      ],
+      "seed_ids": [
+        4040,
+        4041,
+        4042,
+        4043,
+        4044,
+        4045,
+        4046,
+        4047,
+        4048,
+        4049,
+        4050,
+        4051,
+        4052,
+        4053,
+        4054,
+        4055,
+        4056,
+        4057,
+        4058,
+        4059
+      ],
+      "seed_slots": 20,
+      "sign_counts": {
+        "negative": 4,
+        "positive": 3,
+        "zero": 13
+      },
+      "standard_error": 0.09230242056471358,
+      "states": 40,
+      "variance_component_fraction": {
+        "direction_component": 0.8834344548630263,
+        "magnitude_component": 0.10939510939510942,
+        "zero_component": 0.007170435741864314
+      }
+    }
+  ],
+  "inputs": {
+    "docs/results/m5-e3-state-diagnosis-20260910/full-001/result.json": "5cbdedb4e35b2595345c992e1ba7d1573a12dd972ce2a30fc090f524d959cdec",
+    "new_full_result": "59a419b2486dbbe671fb42fcb0ad6f9945316f1c083cb9f7305988a347f4754a"
+  },
+  "new60_minus_replication20": [
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "estimate": 0.06666666666666667,
+      "initial_sample_size": 32,
+      "interval": [
+        -0.44999999999999996,
+        0.6000000000000001
+      ]
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "estimate": 0.25,
+      "initial_sample_size": 64,
+      "interval": [
+        -0.5333333333333333,
+        1.1666666666666665
+      ]
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "estimate": 0.15833333333333333,
+      "initial_sample_size": "combined",
+      "interval": [
+        -0.2916666666666667,
+        0.6333333333333333
+      ]
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "estimate": -0.2,
+      "initial_sample_size": 32,
+      "interval": [
+        -0.6,
+        0.1
+      ]
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "estimate": -0.05,
+      "initial_sample_size": 64,
+      "interval": [
+        -0.45,
+        0.3833333333333333
+      ]
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "estimate": -0.125,
+      "initial_sample_size": "combined",
+      "interval": [
+        -0.4,
+        0.14585937499999393
+      ]
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "estimate": -0.16666666666666666,
+      "initial_sample_size": 32,
+      "interval": [
+        -0.7833333333333333,
+        0.3
+      ]
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "estimate": 0.06666666666666668,
+      "initial_sample_size": 64,
+      "interval": [
+        -0.3833333333333333,
+        0.5666666666666667
+      ]
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "estimate": -0.05,
+      "initial_sample_size": "combined",
+      "interval": [
+        -0.5166666666666667,
+        0.3541927083333273
+      ]
+    }
+  ],
+  "new_fits_in_this_aggregation": 0,
+  "plan_sha256": "8327992e24ffab6505187c48f43add12d6718ff5f2ef5e7da66a3028dd96d0ce",
+  "protocol": "m5-e3-state-precision-analysis-v1",
+  "source_sha256": "df69f9469881a09f5166aff7c9c82e3908169fcfb4c0d4965b7c490aade4f1fb",
+  "unique_states": 540
+}
