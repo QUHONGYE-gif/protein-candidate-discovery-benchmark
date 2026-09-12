@@ -1,0 +1,16 @@
+{
+  "failure_class": "ValueError",
+  "frames": [
+    {
+      "file": "run_m5_e3_site_support.py",
+      "function": "main",
+      "line": 712
+    },
+    {
+      "file": "run_m5_e3_site_support.py",
+      "function": "run",
+      "line": 611
+    }
+  ],
+  "message": "all64 metrics mismatch"
+}

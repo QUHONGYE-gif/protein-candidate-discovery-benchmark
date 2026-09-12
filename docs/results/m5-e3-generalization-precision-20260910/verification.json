@@ -1,0 +1,22 @@
+{
+  "full_sha256": "3baa407c62c56ec72d6f096c8352317c64377eb481f7d71b68b72e72c99e2c54",
+  "generalization": {
+    "arm_mean_checks": 470,
+    "count_rate_checks": 4032,
+    "historical_metric_checks": 1890,
+    "independent_intervals": 235,
+    "smoke_full_scientific_states": 6,
+    "undefined_summaries": 8
+  },
+  "raw_truth_or_candidate_access": false,
+  "scope": "independent compact arithmetic, not raw-data or scientific approval",
+  "source_sha256": "0050bff1271a6fd315f49b08d8aedd23bda0ae7c0a9c67aa7fde27b53c475aa9",
+  "status": "PASS",
+  "subsets": {
+    "enumeration_used_by_verifier": false,
+    "independent_dynamic_program_distributions": 108,
+    "source_block_effects": 1080
+  },
+  "subsets_sha256": "5ce3a6b81e5220c02ec8557c7ce28625dd873aa37a99520466830282c98e6154",
+  "wall_seconds": 0.14111849991604686
+}

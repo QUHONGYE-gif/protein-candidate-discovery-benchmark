@@ -1,0 +1,2763 @@
+{
+  "independently_recomputed_intervals": 192,
+  "input_sha256": "67e98445f6c4fe3f6fd46a966b2af321122ea4c1cc8371a7eac81fef164715ba",
+  "metric_checks": 4560,
+  "raw_candidate_or_truth_access": false,
+  "smoke_full_exact_states": 6,
+  "source_sha256": "38cce43bf24f25f85a28f3fd83d2b5a6c2afea399637cb63de2ddd5aca0f74ee",
+  "states": 120,
+  "status": "PASS",
+  "summaries": [
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "factorial": null,
+      "frontier": {
+        "auc_all": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.07255514688135503,
+            "interval": [
+              0.05654124984018245,
+              0.08852401266757844
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.733294562428203,
+          "old": 0.6607394155468481
+        },
+        "auc_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.07356641436290894,
+            "interval": [
+              0.05742710529897875,
+              0.08969390442208645
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.7357028083058352,
+          "old": 0.6621363939429263
+        },
+        "auc_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.026639716212352994,
+            "interval": [
+              -0.04172185858572612,
+              -0.008589715937571135
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.49704438646861593,
+          "old": 0.523684102680969
+        },
+        "auc_reconstructed": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.07255514688135506,
+            "interval": [
+              0.05654124984018249,
+              0.08852401266757844
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.7332945624282031,
+          "old": 0.6607394155468481
+        },
+        "first_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -18.55,
+            "interval": [
+              -67.4,
+              30.875156249999964
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 50.3,
+          "old": 68.85
+        },
+        "hits_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.25,
+            "interval": [
+              -0.6,
+              1.3
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.7,
+          "old": 0.45
+        },
+        "hits_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.5,
+            "interval": [
+              -0.75,
+              2.0
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 1.2,
+          "old": 0.7
+        },
+        "hits_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.8,
+            "interval": [
+              -1.05,
+              2.45
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 2.3,
+          "old": 1.5
+        },
+        "hits_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.1,
+            "interval": [
+              -0.4,
+              0.6
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.35,
+          "old": 0.25
+        },
+        "median_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -2837.55,
+            "interval": [
+              -3792.62515625,
+              -1637.6846875000035
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 8325.575,
+          "old": 11163.125
+        },
+        "precision_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.015625,
+            "interval": [
+              -0.0375,
+              0.08125
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.04375,
+          "old": 0.028125
+        },
+        "precision_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.015625,
+            "interval": [
+              -0.0234375,
+              0.0625
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.0375,
+          "old": 0.021875
+        },
+        "precision_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0125,
+            "interval": [
+              -0.01640625,
+              0.03828125
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.0359375,
+          "old": 0.0234375
+        },
+        "precision_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0125,
+            "interval": [
+              -0.05,
+              0.075
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.04375,
+          "old": 0.03125
+        },
+        "recall_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0006613756613756613,
+            "interval": [
+              -0.0015873015873015873,
+              0.003439153439153439
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.0018518518518518517,
+          "old": 0.0011904761904761904
+        },
+        "recall_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0013227513227513227,
+            "interval": [
+              -0.001984126984126984,
+              0.005291005291005291
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.0031746031746031746,
+          "old": 0.0018518518518518517
+        },
+        "recall_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.002116402116402116,
+            "interval": [
+              -0.0027777777777777775,
+              0.006481481481481481
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.006084656084656084,
+          "old": 0.003968253968253968
+        },
+        "recall_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0002645502645502645,
+            "interval": [
+              -0.001058201058201058,
+              0.0015873015873015873
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.0009259259259259259,
+          "old": 0.0006613756613756613
+        },
+        "remaining_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 36906.05,
+          "old": 36906.05
+        },
+        "remaining_high": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 377.75,
+          "old": 377.75
+        },
+        "remaining_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 376.2,
+          "old": 376.2
+        },
+        "top16_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.15,
+            "interval": [
+              -1.25,
+              0.7
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 15.1,
+          "old": 15.25
+        },
+        "top16_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.1,
+            "interval": [
+              -0.55,
+              0.4
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.2,
+          "old": 0.3
+        }
+      },
+      "model_id": "random-forest-sklearn-v1",
+      "states": 20
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "factorial": {
+        "best_found_improvement": {
+          "branch_means": {
+            "00": 0.053926798349999985,
+            "01": 0.06892174409999999,
+            "10": 0.1442037007,
+            "11": 0.08314747414999998
+          },
+          "effects": {
+            "interaction": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.0760511723,
+              "interval": [
+                -0.231733267605,
+                0.07323944209999997
+              ],
+              "seed": 10901
+            },
+            "mean_given_new_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.014225730050000007,
+              "interval": [
+                -0.09456294956703123,
+                0.1251111261559375
+              ],
+              "seed": 10901
+            },
+            "mean_given_old_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.09027690235000001,
+              "interval": [
+                -0.08162235109546874,
+                0.25336949681890614
+              ],
+              "seed": 10901
+            },
+            "total": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.029220675800000005,
+              "interval": [
+                -0.09009545208406251,
+                0.13539060806468722
+              ],
+              "seed": 10901
+            },
+            "uq_given_new_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.06105622655,
+              "interval": [
+                -0.20455144072359377,
+                0.07228353249999998
+              ],
+              "seed": 10901
+            },
+            "uq_given_old_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.014994945749999999,
+              "interval": [
+                -0.02365128350000003,
+                0.07399033016609362
+              ],
+              "seed": 10901
+            }
+          }
+        },
+        "hits": {
+          "branch_means": {
+            "00": 0.1,
+            "01": 0.2,
+            "10": 0.45,
+            "11": 0.35
+          },
+          "effects": {
+            "interaction": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.2,
+              "interval": [
+                -0.8,
+                0.5
+              ],
+              "seed": 10901
+            },
+            "mean_given_new_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.15,
+              "interval": [
+                -0.25,
+                0.75
+              ],
+              "seed": 10901
+            },
+            "mean_given_old_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.35,
+              "interval": [
+                -0.15,
+                0.85
+              ],
+              "seed": 10901
+            },
+            "total": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.25,
+              "interval": [
+                -0.15,
+                0.8
+              ],
+              "seed": 10901
+            },
+            "uq_given_new_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.1,
+              "interval": [
+                -0.65,
+                0.55
+              ],
+              "seed": 10901
+            },
+            "uq_given_old_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.1,
+              "interval": [
+                0.0,
+                0.3
+              ],
+              "seed": 10901
+            }
+          }
+        },
+        "recall": {
+          "branch_means": {
+            "00": 0.0002645502645502645,
+            "01": 0.000529100529100529,
+            "10": 0.0011904761904761904,
+            "11": 0.0009259259259259259
+          },
+          "effects": {
+            "interaction": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.000529100529100529,
+              "interval": [
+                -0.002116402116402116,
+                0.0013227513227513227
+              ],
+              "seed": 10901
+            },
+            "mean_given_new_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.0003968253968253968,
+              "interval": [
+                -0.0006613756613756613,
+                0.001984126984126984
+              ],
+              "seed": 10901
+            },
+            "mean_given_old_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.0009259259259259259,
+              "interval": [
+                -0.0003968253968253968,
+                0.0022486772486772486
+              ],
+              "seed": 10901
+            },
+            "total": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.0006613756613756613,
+              "interval": [
+                -0.0003968253968253968,
+                0.002116402116402116
+              ],
+              "seed": 10901
+            },
+            "uq_given_new_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.0002645502645502645,
+              "interval": [
+                -0.0017195767195767194,
+                0.001455026455026455
+              ],
+              "seed": 10901
+            },
+            "uq_given_old_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.0002645502645502645,
+              "interval": [
+                0.0,
+                0.0007936507936507937
+              ],
+              "seed": 10901
+            }
+          }
+        }
+      },
+      "frontier": {
+        "auc_all": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.059996656270648055,
+            "interval": [
+              0.04969135595707794,
+              0.07372876020851858
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.704897315648524,
+          "old": 0.6449006593778759
+        },
+        "auc_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.06085537298832196,
+            "interval": [
+              0.05049012569948299,
+              0.07467879621554777
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.7070477330767321,
+          "old": 0.6461923600884101
+        },
+        "auc_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.024225650101675697,
+            "interval": [
+              -0.03834745246560379,
+              -0.0072619977625549975
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.4939470868408747,
+          "old": 0.5181727369425504
+        },
+        "auc_reconstructed": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.059996656270648076,
+            "interval": [
+              0.049691355957077944,
+              0.07372876020851861
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.7048973156485241,
+          "old": 0.6449006593778759
+        },
+        "first_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -14.3,
+            "interval": [
+              -45.57515625,
+              11.975156249999964
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 34.15,
+          "old": 48.45
+        },
+        "hits_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.35,
+            "interval": [
+              -0.2,
+              1.0
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.55,
+          "old": 0.2
+        },
+        "hits_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.75,
+            "interval": [
+              0.05,
+              1.55
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 1.3,
+          "old": 0.55
+        },
+        "hits_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 1.35,
+            "interval": [
+              0.25,
+              2.6
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 2.55,
+          "old": 1.2
+        },
+        "hits_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.1,
+            "interval": [
+              -0.15,
+              0.35
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.2,
+          "old": 0.1
+        },
+        "median_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -2119.35,
+            "interval": [
+              -3243.569609375,
+              -1168.1346875000036
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 9779.9,
+          "old": 11899.25
+        },
+        "precision_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.021875,
+            "interval": [
+              -0.0125,
+              0.0625
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.034375,
+          "old": 0.0125
+        },
+        "precision_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0234375,
+            "interval": [
+              0.0015625,
+              0.0484375
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.040625,
+          "old": 0.0171875
+        },
+        "precision_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.02109375,
+            "interval": [
+              0.00390625,
+              0.040625
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.03984375,
+          "old": 0.01875
+        },
+        "precision_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0125,
+            "interval": [
+              -0.01875,
+              0.04375
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.025,
+          "old": 0.0125
+        },
+        "recall_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0009259259259259259,
+            "interval": [
+              -0.000529100529100529,
+              0.0026455026455026454
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.001455026455026455,
+          "old": 0.000529100529100529
+        },
+        "recall_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.001984126984126984,
+            "interval": [
+              0.00013227513227513226,
+              0.0041005291005291
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.003439153439153439,
+          "old": 0.001455026455026455
+        },
+        "recall_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0035714285714285713,
+            "interval": [
+              0.0006613756613756613,
+              0.006878306878306878
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.0067460317460317455,
+          "old": 0.0031746031746031746
+        },
+        "recall_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0002645502645502645,
+            "interval": [
+              -0.0003968253968253968,
+              0.0009259259259259259
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.000529100529100529,
+          "old": 0.0002645502645502645
+        },
+        "remaining_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 36906.05,
+          "old": 36906.05
+        },
+        "remaining_high": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 377.75,
+          "old": 377.75
+        },
+        "remaining_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 376.2,
+          "old": 376.2
+        },
+        "top16_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.8,
+            "interval": [
+              -1.4,
+              -0.3
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 14.6,
+          "old": 15.4
+        },
+        "top16_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.45,
+            "interval": [
+              0.1,
+              0.9
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.85,
+          "old": 0.4
+        }
+      },
+      "model_id": "xgboost-cpu-v1",
+      "states": 20
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "factorial": null,
+      "frontier": {
+        "auc_all": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.03531930903945516,
+            "interval": [
+              0.02516033907000648,
+              0.049413092741388456
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.5691648413196827,
+          "old": 0.5338455322802276
+        },
+        "auc_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.03499712313090662,
+            "interval": [
+              0.024772745143296453,
+              0.04929511771798524
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.5692758160974816,
+          "old": 0.534278692966575
+        },
+        "auc_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.06688343335887127,
+            "interval": [
+              0.049555700779597964,
+              0.08326547278550553
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.5582971787065037,
+          "old": 0.4914137453476326
+        },
+        "auc_reconstructed": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.035319309039455175,
+            "interval": [
+              0.025160339070006504,
+              0.049413092741388435
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.5691648413196827,
+          "old": 0.5338455322802276
+        },
+        "first_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 11.25,
+            "interval": [
+              -50.85,
+              63.05
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 65.25,
+          "old": 54.0
+        },
+        "hits_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.35,
+            "interval": [
+              -1.7,
+              0.5
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.9,
+          "old": 1.25
+        },
+        "hits_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.2,
+            "interval": [
+              -1.0,
+              0.7
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 1.65,
+          "old": 1.85
+        },
+        "hits_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.4,
+            "interval": [
+              -1.45,
+              0.8
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 2.65,
+          "old": 3.05
+        },
+        "hits_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.2,
+            "interval": [
+              -0.9,
+              0.25
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.45,
+          "old": 0.65
+        },
+        "median_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -677.95,
+            "interval": [
+              -943.439140625,
+              -439.06179687500014
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 5506.95,
+          "old": 6184.9
+        },
+        "precision_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.021875,
+            "interval": [
+              -0.10625,
+              0.03125
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.05625,
+          "old": 0.078125
+        },
+        "precision_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.00625,
+            "interval": [
+              -0.03125,
+              0.021875
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.0515625,
+          "old": 0.0578125
+        },
+        "precision_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.00625,
+            "interval": [
+              -0.02265625,
+              0.0125
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.04140625,
+          "old": 0.04765625
+        },
+        "precision_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.025,
+            "interval": [
+              -0.1125,
+              0.03125
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.05625,
+          "old": 0.08125
+        },
+        "recall_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.002631578947368421,
+            "interval": [
+              -0.012781954887218044,
+              0.0037593984962406013
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.006766917293233083,
+          "old": 0.009398496240601503
+        },
+        "recall_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0015037593984962405,
+            "interval": [
+              -0.007518796992481203,
+              0.005263157894736842
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.012406015037593985,
+          "old": 0.013909774436090224
+        },
+        "recall_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.003007518796992481,
+            "interval": [
+              -0.010902255639097743,
+              0.006015037593984962
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.019924812030075185,
+          "old": 0.02293233082706767
+        },
+        "recall_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0015037593984962405,
+            "interval": [
+              -0.006766917293233083,
+              0.0018796992481203006
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.0033834586466165413,
+          "old": 0.004887218045112782
+        },
+        "remaining_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 12980.8,
+          "old": 12980.8
+        },
+        "remaining_high": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 132.65,
+          "old": 132.65
+        },
+        "remaining_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 132.55,
+          "old": 132.55
+        },
+        "top16_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.25,
+            "interval": [
+              -0.95,
+              1.9
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 14.15,
+          "old": 13.9
+        },
+        "top16_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.1,
+            "interval": [
+              -0.3,
+              0.6
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.95,
+          "old": 0.85
+        }
+      },
+      "model_id": "random-forest-sklearn-v1",
+      "states": 20
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "factorial": {
+        "best_found_improvement": {
+          "branch_means": {
+            "00": 0.11856619889855,
+            "01": 0.09561357935270001,
+            "10": 0.08325270757925002,
+            "11": 0.06003444189245001
+          },
+          "effects": {
+            "interaction": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.0002656461409500127,
+              "interval": [
+                -0.0833380885290797,
+                0.1344439282122984
+              ],
+              "seed": 10901
+            },
+            "mean_given_new_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.03557913746025,
+              "interval": [
+                -0.09292128297344346,
+                0.016547772143249994
+              ],
+              "seed": 10901
+            },
+            "mean_given_old_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.03531349131929999,
+              "interval": [
+                -0.16121688866820033,
+                0.060804136717750985
+              ],
+              "seed": 10901
+            },
+            "total": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.05853175700609999,
+              "interval": [
+                -0.17418993354796547,
+                0.02496439345480001
+              ],
+              "seed": 10901
+            },
+            "uq_given_new_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.0232182656868,
+              "interval": [
+                -0.05803139069305001,
+                0.010667080260199996
+              ],
+              "seed": 10901
+            },
+            "uq_given_old_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.02295261954584999,
+              "interval": [
+                -0.14123736734963185,
+                0.043807031065800014
+              ],
+              "seed": 10901
+            }
+          }
+        },
+        "hits": {
+          "branch_means": {
+            "00": 1.1,
+            "01": 1.1,
+            "10": 0.85,
+            "11": 0.95
+          },
+          "effects": {
+            "interaction": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.1,
+              "interval": [
+                -0.4,
+                0.7
+              ],
+              "seed": 10901
+            },
+            "mean_given_new_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.15,
+              "interval": [
+                -0.45,
+                0.2
+              ],
+              "seed": 10901
+            },
+            "mean_given_old_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.25,
+              "interval": [
+                -0.95,
+                0.25
+              ],
+              "seed": 10901
+            },
+            "total": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.15,
+              "interval": [
+                -0.6,
+                0.25
+              ],
+              "seed": 10901
+            },
+            "uq_given_new_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.1,
+              "interval": [
+                -0.2,
+                0.45
+              ],
+              "seed": 10901
+            },
+            "uq_given_old_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.0,
+              "interval": [
+                -0.4,
+                0.35
+              ],
+              "seed": 10901
+            }
+          }
+        },
+        "recall": {
+          "branch_means": {
+            "00": 0.008270676691729323,
+            "01": 0.008270676691729323,
+            "10": 0.006390977443609022,
+            "11": 0.007142857142857143
+          },
+          "effects": {
+            "interaction": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.0007518796992481202,
+              "interval": [
+                -0.003007518796992481,
+                0.005263157894736842
+              ],
+              "seed": 10901
+            },
+            "mean_given_new_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.0011278195488721803,
+              "interval": [
+                -0.0033834586466165413,
+                0.0015037593984962405
+              ],
+              "seed": 10901
+            },
+            "mean_given_old_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.0018796992481203006,
+              "interval": [
+                -0.007142857142857143,
+                0.0018796992481203006
+              ],
+              "seed": 10901
+            },
+            "total": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.0011278195488721803,
+              "interval": [
+                -0.004511278195488721,
+                0.0018796992481203006
+              ],
+              "seed": 10901
+            },
+            "uq_given_new_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.0007518796992481202,
+              "interval": [
+                -0.0015037593984962405,
+                0.0033834586466165413
+              ],
+              "seed": 10901
+            },
+            "uq_given_old_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.0,
+              "interval": [
+                -0.003007518796992481,
+                0.002631578947368421
+              ],
+              "seed": 10901
+            }
+          }
+        }
+      },
+      "frontier": {
+        "auc_all": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.03950160286786767,
+            "interval": [
+              0.02818036718058338,
+              0.05189559230417812
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.5705556090039414,
+          "old": 0.5310540061360738
+        },
+        "auc_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.039318458498406206,
+            "interval": [
+              0.028010436188068845,
+              0.0516551007260699
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.5705816319676973,
+          "old": 0.531263173469291
+        },
+        "auc_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.057387020204671305,
+            "interval": [
+              0.03583814027700057,
+              0.07992812840070941
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.567986965833785,
+          "old": 0.5105999456291136
+        },
+        "auc_reconstructed": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.039501602867867705,
+            "interval": [
+              0.028180367180583414,
+              0.05189559230417818
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.5705556090039414,
+          "old": 0.5310540061360738
+        },
+        "first_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -20.55,
+            "interval": [
+              -83.75,
+              43.62578124999982
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 56.5,
+          "old": 77.05
+        },
+        "hits_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.3,
+            "interval": [
+              -1.15,
+              0.3
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.95,
+          "old": 1.25
+        },
+        "hits_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.35,
+            "interval": [
+              -1.2,
+              0.3
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 1.15,
+          "old": 1.5
+        },
+        "hits_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.2,
+            "interval": [
+              -1.6,
+              0.7
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 2.1,
+          "old": 2.3
+        },
+        "hits_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              -0.25,
+              0.25
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.65,
+          "old": 0.65
+        },
+        "median_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -682.725,
+            "interval": [
+              -988.516484375,
+              -310.4725000000006
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 5556.35,
+          "old": 6239.075
+        },
+        "precision_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.01875,
+            "interval": [
+              -0.071875,
+              0.01875
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.059375,
+          "old": 0.078125
+        },
+        "precision_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0109375,
+            "interval": [
+              -0.0375,
+              0.009375
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.0359375,
+          "old": 0.046875
+        },
+        "precision_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.003125,
+            "interval": [
+              -0.025,
+              0.0109375
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.0328125,
+          "old": 0.0359375
+        },
+        "precision_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              -0.03125,
+              0.03125
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.08125,
+          "old": 0.08125
+        },
+        "recall_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0022556390977443606,
+            "interval": [
+              -0.008646616541353383,
+              0.0022556390977443606
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.007142857142857143,
+          "old": 0.009398496240601503
+        },
+        "recall_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.002631578947368421,
+            "interval": [
+              -0.009022556390977442,
+              0.0022556390977443606
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.008646616541353383,
+          "old": 0.011278195488721804
+        },
+        "recall_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0015037593984962405,
+            "interval": [
+              -0.012030075187969924,
+              0.005263157894736842
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.015789473684210527,
+          "old": 0.017293233082706767
+        },
+        "recall_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              -0.0018796992481203006,
+              0.0018796992481203006
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.004887218045112782,
+          "old": 0.004887218045112782
+        },
+        "remaining_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 12980.8,
+          "old": 12980.8
+        },
+        "remaining_high": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 132.65,
+          "old": 132.65
+        },
+        "remaining_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 132.55,
+          "old": 132.55
+        },
+        "top16_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.45,
+            "interval": [
+              -0.15,
+              1.1
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 14.7,
+          "old": 14.25
+        },
+        "top16_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.15,
+            "interval": [
+              -0.55,
+              0.2
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.35,
+          "old": 0.5
+        }
+      },
+      "model_id": "xgboost-cpu-v1",
+      "states": 20
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "factorial": null,
+      "frontier": {
+        "auc_all": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.07148403493684173,
+            "interval": [
+              0.0425171192165972,
+              0.09990125374597728
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.5611924088285263,
+          "old": 0.48970837389168453
+        },
+        "auc_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.07172613404512547,
+            "interval": [
+              0.04268730753968506,
+              0.10020019589151845
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.5619386236536305,
+          "old": 0.49021248960850505
+        },
+        "auc_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.047935481918724286,
+            "interval": [
+              0.020427784233623136,
+              0.07279602246753512
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.4884154059597307,
+          "old": 0.4404799240410064
+        },
+        "auc_reconstructed": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.07148403493684174,
+            "interval": [
+              0.0425171192165972,
+              0.09990125374597729
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.5611924088285263,
+          "old": 0.48970837389168453
+        },
+        "first_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -1.4,
+            "interval": [
+              -81.35,
+              85.15031249999993
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 105.65,
+          "old": 107.05
+        },
+        "hits_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.05,
+            "interval": [
+              -0.55,
+              0.5
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.85,
+          "old": 0.8
+        },
+        "hits_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.05,
+            "interval": [
+              -0.6,
+              0.75
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 1.15,
+          "old": 1.1
+        },
+        "hits_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.35,
+            "interval": [
+              -0.55,
+              1.3
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 1.75,
+          "old": 1.4
+        },
+        "hits_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.4,
+            "interval": [
+              0.0,
+              1.0
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.6,
+          "old": 0.2
+        },
+        "median_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -967.025,
+            "interval": [
+              -1501.915390625,
+              -370.3102343750005
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 3380.925,
+          "old": 4347.95
+        },
+        "precision_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.003125,
+            "interval": [
+              -0.034375,
+              0.03125
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.053125,
+          "old": 0.05
+        },
+        "precision_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0015625,
+            "interval": [
+              -0.01875,
+              0.0234375
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.0359375,
+          "old": 0.034375
+        },
+        "precision_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.00546875,
+            "interval": [
+              -0.00859375,
+              0.0203125
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.02734375,
+          "old": 0.021875
+        },
+        "precision_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.05,
+            "interval": [
+              0.0,
+              0.125
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.075,
+          "old": 0.025
+        },
+        "recall_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0005813953488372096,
+            "interval": [
+              -0.006395348837209302,
+              0.005813953488372095
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.009883720930232558,
+          "old": 0.009302325581395349
+        },
+        "recall_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0005813953488372093,
+            "interval": [
+              -0.0069767441860465115,
+              0.008720930232558138
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.013372093023255816,
+          "old": 0.012790697674418604
+        },
+        "recall_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.004069767441860464,
+            "interval": [
+              -0.006395348837209302,
+              0.015116279069767443
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.020348837209302327,
+          "old": 0.01627906976744186
+        },
+        "recall_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.004651162790697675,
+            "interval": [
+              0.0,
+              0.011627906976744188
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.0069767441860465115,
+          "old": 0.002325581395348837
+        },
+        "remaining_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 8350.95,
+          "old": 8350.95
+        },
+        "remaining_high": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 85.4,
+          "old": 85.4
+        },
+        "remaining_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 85.65,
+          "old": 85.65
+        },
+        "top16_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              -0.95,
+              1.2
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 14.75,
+          "old": 14.75
+        },
+        "top16_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.05,
+            "interval": [
+              -0.65,
+              0.45
+            ],
+            "seed": 10800
+          },
+          "defined_pairs": 20,
+          "new": 0.4,
+          "old": 0.45
+        }
+      },
+      "model_id": "random-forest-sklearn-v1",
+      "states": 20
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "factorial": {
+        "best_found_improvement": {
+          "branch_means": {
+            "00": 0.3235500695,
+            "01": 0.34783511910000003,
+            "10": 0.2429264797,
+            "11": 0.24586763095000003
+          },
+          "effects": {
+            "interaction": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.02134389835000001,
+              "interval": [
+                -0.07935405985000002,
+                0.008516743199999977
+              ],
+              "seed": 10901
+            },
+            "mean_given_new_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.10196748814999998,
+              "interval": [
+                -0.325386742376875,
+                0.06396591420000004
+              ],
+              "seed": 10901
+            },
+            "mean_given_old_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.08062358979999998,
+              "interval": [
+                -0.31459634679999987,
+                0.08904978960000003
+              ],
+              "seed": 10901
+            },
+            "total": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.07768243854999994,
+              "interval": [
+                -0.33957976174593746,
+                0.18025382515000005
+              ],
+              "seed": 10901
+            },
+            "uq_given_new_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.002941151250000018,
+              "interval": [
+                -0.12383209005,
+                0.19827107145000006
+              ],
+              "seed": 10901
+            },
+            "uq_given_old_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.024285049600000032,
+              "interval": [
+                -0.09632889274999996,
+                0.20507669305000004
+              ],
+              "seed": 10901
+            }
+          }
+        },
+        "hits": {
+          "branch_means": {
+            "00": 0.35,
+            "01": 0.35,
+            "10": 0.15,
+            "11": 0.15
+          },
+          "effects": {
+            "interaction": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.0,
+              "interval": [
+                -0.2,
+                0.2
+              ],
+              "seed": 10901
+            },
+            "mean_given_new_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.2,
+              "interval": [
+                -0.5,
+                0.0
+              ],
+              "seed": 10901
+            },
+            "mean_given_old_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.2,
+              "interval": [
+                -0.55,
+                0.0
+              ],
+              "seed": 10901
+            },
+            "total": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.2,
+              "interval": [
+                -0.55,
+                0.1
+              ],
+              "seed": 10901
+            },
+            "uq_given_new_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.0,
+              "interval": [
+                -0.2,
+                0.2
+              ],
+              "seed": 10901
+            },
+            "uq_given_old_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.0,
+              "interval": [
+                -0.2,
+                0.2
+              ],
+              "seed": 10901
+            }
+          }
+        },
+        "recall": {
+          "branch_means": {
+            "00": 0.004069767441860465,
+            "01": 0.004069767441860465,
+            "10": 0.0017441860465116279,
+            "11": 0.0017441860465116279
+          },
+          "effects": {
+            "interaction": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.0,
+              "interval": [
+                -0.002325581395348837,
+                0.002325581395348837
+              ],
+              "seed": 10901
+            },
+            "mean_given_new_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.002325581395348837,
+              "interval": [
+                -0.005813953488372094,
+                0.0
+              ],
+              "seed": 10901
+            },
+            "mean_given_old_uq": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.002325581395348837,
+              "interval": [
+                -0.006395348837209302,
+                0.0
+              ],
+              "seed": 10901
+            },
+            "total": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": -0.002325581395348837,
+              "interval": [
+                -0.006395348837209302,
+                0.0011627906976744186
+              ],
+              "seed": 10901
+            },
+            "uq_given_new_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.0,
+              "interval": [
+                -0.002325581395348837,
+                0.002325581395348837
+              ],
+              "seed": 10901
+            },
+            "uq_given_old_mean": {
+              "coverage": 0.99375,
+              "draws": 20000,
+              "estimate": 0.0,
+              "interval": [
+                -0.002325581395348837,
+                0.002325581395348837
+              ],
+              "seed": 10901
+            }
+          }
+        }
+      },
+      "frontier": {
+        "auc_all": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.04917053204913914,
+            "interval": [
+              0.020718240567816064,
+              0.07987366873360963
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.5359392412008271,
+          "old": 0.48676870915168813
+        },
+        "auc_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.04933117041136591,
+            "interval": [
+              0.02093378100132196,
+              0.08003877611190709
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.5365345782035746,
+          "old": 0.48720340779220866
+        },
+        "auc_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.03354864179788926,
+            "interval": [
+              -0.010475936453035798,
+              0.07048864016848143
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.4778994397157585,
+          "old": 0.44435079791786913
+        },
+        "auc_reconstructed": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.04917053204913915,
+            "interval": [
+              0.020718240567816057,
+              0.07987366873360964
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.5359392412008271,
+          "old": 0.48676870915168813
+        },
+        "first_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 23.95,
+            "interval": [
+              -42.17515625,
+              113.35124999999971
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 147.45,
+          "old": 123.5
+        },
+        "hits_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.1,
+            "interval": [
+              -0.3,
+              0.0
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.15,
+          "old": 0.25
+        },
+        "hits_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.2,
+            "interval": [
+              -0.55,
+              0.1
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.2,
+          "old": 0.4
+        },
+        "hits_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.25,
+            "interval": [
+              -0.65,
+              0.25
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.6,
+          "old": 0.85
+        },
+        "hits_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.05,
+            "interval": [
+              -0.2,
+              0.3
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.1,
+          "old": 0.05
+        },
+        "median_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -617.875,
+            "interval": [
+              -1175.55390625,
+              -162.2
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 3811.775,
+          "old": 4429.65
+        },
+        "precision_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.00625,
+            "interval": [
+              -0.01875,
+              0.0
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.009375,
+          "old": 0.015625
+        },
+        "precision_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.00625,
+            "interval": [
+              -0.0171875,
+              0.003125
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.00625,
+          "old": 0.0125
+        },
+        "precision_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.00390625,
+            "interval": [
+              -0.01015625,
+              0.00390625
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.009375,
+          "old": 0.01328125
+        },
+        "precision_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.00625,
+            "interval": [
+              -0.025,
+              0.0375
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.0125,
+          "old": 0.00625
+        },
+        "recall_16": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0011627906976744186,
+            "interval": [
+              -0.0034883720930232558,
+              0.0
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.0017441860465116279,
+          "old": 0.0029069767441860465
+        },
+        "recall_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.002325581395348837,
+            "interval": [
+              -0.006395348837209302,
+              0.0011627906976744186
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.002325581395348837,
+          "old": 0.004651162790697674
+        },
+        "recall_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0029069767441860465,
+            "interval": [
+              -0.007558139534883721,
+              0.0029069767441860465
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.0069767441860465115,
+          "old": 0.009883720930232556
+        },
+        "recall_8": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0005813953488372093,
+            "interval": [
+              -0.002325581395348837,
+              0.0034883720930232558
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.0011627906976744186,
+          "old": 0.0005813953488372093
+        },
+        "remaining_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 8350.95,
+          "old": 8350.95
+        },
+        "remaining_high": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 85.4,
+          "old": 85.4
+        },
+        "remaining_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 85.65,
+          "old": 85.65
+        },
+        "top16_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.05,
+            "interval": [
+              -0.3,
+              0.2
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 15.55,
+          "old": 15.6
+        },
+        "top16_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.15,
+            "interval": [
+              -0.15,
+              0.4
+            ],
+            "seed": 10801
+          },
+          "defined_pairs": 20,
+          "new": 0.3,
+          "old": 0.15
+        }
+      },
+      "model_id": "xgboost-cpu-v1",
+      "states": 20
+    }
+  ]
+}

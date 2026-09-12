@@ -1,0 +1,37 @@
+--- a/run_m5_e3_site_support.py
++++ b/run_m5_e3_site_support.py
+@@ -22,6 +22,8 @@
+ hx, e3, rep, gen, cov = rs.hx, rs.e3, rs.rep, rs.gen, rs.cov
+ PROTOCOL = "m5-e3-same-site-support-development-v1"
+ RS_SHA = "552110cc332e26446ce8728451f3d265177e21c1cd3697059a091889ea2ba0c8"
++DESIGN_SOURCE_SHA = "eda5692a80086606f105d5506d76adda50aa2a0fd182ceec88d96ba3e99a3c57"
++DESIGN_RESULT_SHA = "adb22c0eadfb813651fc05d3b0cbd17c81891a8118dee363e195e3089483cf5d"
+ SUBSETS = ("random32", "support32", "all64")
+ MODELS = ("xgb", "ridge")
+ POSITIONS = None
+@@ -448,7 +450,11 @@
+         ):
+             raise ValueError("diagnostic terminal mismatch")
+         de = read(diagnostic / "execution.json")
+-        if de["source_sha256"] != e3.digest(__file__) or de["plan_sha256"] != e3.digest(args.plan):
++        if (
++            de["source_sha256"] != DESIGN_SOURCE_SHA
++            or e3.digest(diagnostic / "result.json.gz") != DESIGN_RESULT_SHA
++            or de["plan_sha256"] != e3.digest(args.plan)
++        ):
+             raise ValueError("diagnostic design source changed")
+         design_refs = {r["run_seed"]: r for r in read(diagnostic / "result.json.gz")["rows"]}
+         if not any(r["subset_overlap"] < 32 for r in design_refs.values()):
+@@ -599,9 +605,9 @@
+                         fixed_pool_high=int(hh[fixed].sum()),
+                         fixed_high_rank_sum=int((np.flatnonzero(hh[fixed_order]) + 1).sum()),
+                         fixed_auc=e3.auc(values[fixed], hh[fixed]),
+-                        common_frontier_auc=e3.auc(values[union], hh[union]),
+-                        common_frontier_high=int(hh[union].sum()),
+-                        common_frontier_size=len(union),
++                        subset_frontier_auc=e3.auc(values[union], hh[union]),
++                        subset_frontier_high=int(hh[union].sum()),
++                        subset_frontier_size=len(union),
+                     )
+                     if m["hits_16"] != ev["high_value"]["0.01"]["count"]:
+                         raise ValueError("oracle hits")

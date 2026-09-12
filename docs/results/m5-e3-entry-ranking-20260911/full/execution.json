@@ -1,0 +1,122 @@
+{
+  "application_delta": null,
+  "arms": [
+    "pair_low",
+    "pair_high",
+    "composition_matched",
+    "original_support",
+    "original_random"
+  ],
+  "batch_size": 16,
+  "contrasts": [
+    [
+      "pair_low",
+      "pair_high",
+      "primary_A"
+    ],
+    [
+      "original_support",
+      "composition_matched",
+      "primary_B"
+    ],
+    [
+      "original_random",
+      "composition_matched",
+      "auxiliary"
+    ],
+    [
+      "original_random",
+      "original_support",
+      "historical_reconstruction"
+    ]
+  ],
+  "evidence_stage": "ITERATION",
+  "helper_sha256": {
+    "proteingym_runtime.py": "75504878c51f03590329b3e5cdb92e47f7c1be8191bec63c5c33af69763dfce0",
+    "run_m5_e3_fixed_count_coverage.py": "477d9b67b0e2b3985b60e09b356d2585c5d2b1734f06cc9ac1af3e81ec7f131c",
+    "run_m5_e3_generalization.py": "f188cbabccd41d77aa223586d9cca788d9d00bb202d6f9d51d8e48d36135a700",
+    "run_m5_e3_hxk4_followup.py": "945ea08a455c29630ea7bd80262298fe74e2c4ef8f705bb79fec68b1498b095a",
+    "run_m5_e3_prediction.py": "92e384e1972f03144706000b84ef900a909127651478593692baa4207f1be0f1",
+    "run_m5_e3_replication.py": "4d2a595e00a349851e833b366dca19b2d34572715a8765f4789fd5a4b16c3382",
+    "run_m5_e3_ridge_strength.py": "552110cc332e26446ce8728451f3d265177e21c1cd3697059a091889ea2ba0c8",
+    "run_m5_e3_site_support.py": "b3904c118bc8d9ca1c4a2b20cbdb7a81b944b5ba1db342c6c7dc60cb13513198"
+  },
+  "high_denominator": 86,
+  "initial_sample_size": 64,
+  "input_identity": {
+    "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+    "baseline_feature_sha256": "1a7213fce0447662e2b9a2b54f5939d363e2883883da41fe2aad49f2b15ff58c",
+    "candidate_sha256": "287a951786b7e5497a1e9610130f1814809e8228653ae85dd1e5ba4afa49d73d",
+    "column": "ESM1v_single",
+    "dimension": 421,
+    "new_feature_sha256": "404c45e1d86a145903aab19f37c20bb7a64366d3cab8e8d7f252fff253efae57",
+    "proxy_source_sha256": "edc780db0518e1469d811bed4eb649ac59f637b664be4ced7c18bec730698fd4"
+  },
+  "input_sha256": "cfe2e613ed20969ea8a6072e703de6cead9affb745b66a5be4b8d047a6f13d10",
+  "label_cost": 80,
+  "mode": "full",
+  "models": [
+    "xgb",
+    "ridge"
+  ],
+  "new_fits": 0,
+  "new_labels": 0,
+  "plan_sha256": "11b3748c28469a238a8c50a4de051ac4cd0772dcd65f16da31430b3208f1350b",
+  "pool_size": 64,
+  "prior_execution_sha256": "d89cca88a90b31850f43d21a7fbe1fabece4c7260f0ea50cbea8cd85a0c9c363",
+  "prior_result_sha256": "3dd011bd63f5d9c844d3678a4368c8830a4af17add3158a1a227ea2517a88b95",
+  "prior_source_sha256": "239485d48468bcfc467fb6f464a81e23469b3797d7830a706c0f48c1323af080",
+  "protocol": "m5-e3-entry-ranking-development-v1",
+  "remaining_size": 8506,
+  "scoring": "public evaluate_batch after locked choices and worker exit; no reveal",
+  "source_sha256": "15b24fd125d8362cc90f16ae226fa04233f8b479cb01a78678f01c6ee382d323",
+  "state_seeds": [
+    3000,
+    3001,
+    3002,
+    3003,
+    3004,
+    3005,
+    3006,
+    3007,
+    3008,
+    3009,
+    3010,
+    3011,
+    3012,
+    3013,
+    3014,
+    3015,
+    3016,
+    3017,
+    3018,
+    3019,
+    3020,
+    3021,
+    3022,
+    3023,
+    3024,
+    3025,
+    3026,
+    3027,
+    3028,
+    3029,
+    3030,
+    3031,
+    3032,
+    3033,
+    3034,
+    3035,
+    3036,
+    3037,
+    3038,
+    3039
+  ],
+  "training_size": 32,
+  "versions": {
+    "numpy": "2.4.6",
+    "scikit-learn": "1.9.0",
+    "xgboost-cpu": "3.2.0"
+  },
+  "worker_inputs": "candidate IDs, cache paths, seed/index, three identity hashes only"
+}

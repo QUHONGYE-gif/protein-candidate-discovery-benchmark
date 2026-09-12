@@ -1,0 +1,9 @@
+{
+  "artifacts": {
+    "attempts.jsonl": "37d6460a4b1cd6653a600b6752071c5c921b575ce335a7cc317feb108a4284c9",
+    "result.json": "cf8253c909f87a7d673c7d12ea41aed4377a9ac94f29e97bdbe04b021e347b1e"
+  },
+  "raw_ru_maxrss": 104775680,
+  "status": "succeeded",
+  "wall_seconds": 0.43733454099856317
+}

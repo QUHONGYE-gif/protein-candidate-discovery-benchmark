@@ -1,0 +1,14 @@
+{
+  "artifacts": {
+    "execution.json": "30f23833216dcd460fc7d0d9d4b8d6a2481c943e864ad256e0f01f89f87a5866",
+    "failure.json": "f4c32f3b1e5936d62d8f10003df5f5cadd07ecf4fb2a40497f28d1034547ccd7",
+    "progress.jsonl": "acbe2e4dee290f3c2ce10b215fc769b0a5328bd7c49ebaf8ac302ad7e793586f"
+  },
+  "failure_class": "ValueError",
+  "mode": "smoke",
+  "peak_disk_bytes": 560248,
+  "peak_rss_bytes": 257429504,
+  "source_sha256": "eda5692a80086606f105d5506d76adda50aa2a0fd182ceec88d96ba3e99a3c57",
+  "status": "failed",
+  "wall_seconds": 2.1088762059807777
+}

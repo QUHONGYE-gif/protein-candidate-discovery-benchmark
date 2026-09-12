@@ -1,0 +1,11 @@
+{"unix_time": 1789142241.0994952, "event": "started", "mode": "full"}
+{"unix_time": 1789142252.9478362, "event": "assay_worker_exited", "assay_id": "PABP_YEAST_Melamed_2013", "states": 80}
+{"unix_time": 1789142257.3340938, "event": "assay_worker_exited", "assay_id": "HSP82_YEAST_Flynn_2019", "states": 80}
+{"unix_time": 1789142259.9997168, "event": "assay_worker_exited", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "states": 80}
+{"unix_time": 1789142259.9998806, "event": "all_orders_locked_all_workers_exited", "states": 240}
+{"unix_time": 1789142259.9999356, "event": "evaluator_constructed", "assay_id": "PABP_YEAST_Melamed_2013"}
+{"unix_time": 1789142269.6597512, "event": "assay_scored", "assay_id": "PABP_YEAST_Melamed_2013", "completed_states": 80}
+{"unix_time": 1789142269.6598654, "event": "evaluator_constructed", "assay_id": "HSP82_YEAST_Flynn_2019"}
+{"unix_time": 1789142272.6251664, "event": "assay_scored", "assay_id": "HSP82_YEAST_Flynn_2019", "completed_states": 160}
+{"unix_time": 1789142272.625274, "event": "evaluator_constructed", "assay_id": "HXK4_HUMAN_Gersing_2022_activity"}
+{"unix_time": 1789142274.5165172, "event": "assay_scored", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "completed_states": 240}

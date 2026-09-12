@@ -1,0 +1,14 @@
+{"time": "2026-09-10T15:25:04.820431+00:00", "event": "attempt_started", "mode": "smoke", "source_sha256": "f188cbabccd41d77aa223586d9cca788d9d00bb202d6f9d51d8e48d36135a700"}
+{"time": "2026-09-10T15:25:08.543418+00:00", "event": "predictions_saved", "assay_id": "PABP_YEAST_Melamed_2013", "index": 0}
+{"time": "2026-09-10T15:25:09.203210+00:00", "event": "predictions_saved", "assay_id": "PABP_YEAST_Melamed_2013", "index": 20}
+{"time": "2026-09-10T15:25:09.218410+00:00", "event": "workers_exited", "assay_id": "PABP_YEAST_Melamed_2013"}
+{"time": "2026-09-10T15:25:10.234594+00:00", "event": "assay_scored", "assay_id": "PABP_YEAST_Melamed_2013", "states": 2}
+{"time": "2026-09-10T15:25:12.502558+00:00", "event": "predictions_saved", "assay_id": "HSP82_YEAST_Flynn_2019", "index": 0}
+{"time": "2026-09-10T15:25:12.786462+00:00", "event": "predictions_saved", "assay_id": "HSP82_YEAST_Flynn_2019", "index": 20}
+{"time": "2026-09-10T15:25:12.798296+00:00", "event": "workers_exited", "assay_id": "HSP82_YEAST_Flynn_2019"}
+{"time": "2026-09-10T15:25:13.183327+00:00", "event": "assay_scored", "assay_id": "HSP82_YEAST_Flynn_2019", "states": 4}
+{"time": "2026-09-10T15:25:14.875138+00:00", "event": "predictions_saved", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "index": 0}
+{"time": "2026-09-10T15:25:15.064515+00:00", "event": "predictions_saved", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "index": 20}
+{"time": "2026-09-10T15:25:15.075589+00:00", "event": "workers_exited", "assay_id": "HXK4_HUMAN_Gersing_2022_activity"}
+{"time": "2026-09-10T15:25:15.296856+00:00", "event": "assay_scored", "assay_id": "HXK4_HUMAN_Gersing_2022_activity", "states": 6}
+{"time": "2026-09-10T15:25:15.300483+00:00", "event": "attempt_finished", "status": "succeeded", "failure_class": null}

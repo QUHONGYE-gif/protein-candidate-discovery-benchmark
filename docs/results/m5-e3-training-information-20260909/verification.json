@@ -1,0 +1,2576 @@
+{
+  "count_recall_checks": 480,
+  "input_sha256": "ba0de452db9012fe0b9960168ea5d9b5422eafbd0c2cd7a456170f327b5dcded",
+  "interval_checks": 198,
+  "limits": [
+    "development information ablation",
+    "not a measurement-efficiency comparison",
+    "sample amount and coverage not separated",
+    "no population CI",
+    "no application delta",
+    "joint M5 incomplete"
+  ],
+  "paired_seed_blocks": 60,
+  "smoke_full_exact_pairs": 6,
+  "source_sha256": "08adda7de52ca268e06250c4cb7d69363fb9f7a711d4f1c2a5b7cde6e5e9d2ac",
+  "status": "AGGREGATE_CHECKS_PASS",
+  "summaries": [
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "effects": {
+        "exploration_best": {
+          "arm_means": {
+            "new32": 0.006109284299999995,
+            "new64": 0.0621119204,
+            "old32": 0.08411049480000002,
+            "old64": 0.0696721379
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.07044099300000002,
+            "interval": [
+              -0.13026619156875,
+              0.26642669778593736
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0560026361,
+            "interval": [
+              -0.018327852899999986,
+              0.1863357612
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.014438356900000015,
+            "interval": [
+              -0.23971316899656253,
+              0.16144540723156242
+            ],
+            "seed": 11000
+          }
+        },
+        "exploration_hits": {
+          "arm_means": {
+            "new32": 0.1,
+            "new64": 0.2,
+            "old32": 0.4,
+            "old64": 0.3
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.2,
+            "interval": [
+              -0.5,
+              1.0
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.1,
+            "interval": [
+              -0.4,
+              0.6
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.1,
+            "interval": [
+              -1.3,
+              0.7
+            ],
+            "seed": 11000
+          }
+        },
+        "exploration_recall": {
+          "arm_means": {
+            "new32": 0.0002645502645502645,
+            "new64": 0.000529100529100529,
+            "old32": 0.001058201058201058,
+            "old64": 0.0007936507936507937
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.000529100529100529,
+            "interval": [
+              -0.0013227513227513227,
+              0.0026455026455026454
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0002645502645502645,
+            "interval": [
+              -0.001058201058201058,
+              0.0015873015873015873
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0002645502645502645,
+            "interval": [
+              -0.003439153439153439,
+              0.0018518518518518517
+            ],
+            "seed": 11000
+          }
+        },
+        "far_auc": {
+          "arm_means": {
+            "new32": 0.7258235023748071,
+            "new64": 0.7455855212520973,
+            "old32": 0.6484969132243402,
+            "old64": 0.675685724231599
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.007426792129968551,
+            "interval": [
+              -0.02271279393466664,
+              0.007826346998735256
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.019762018877290177,
+            "interval": [
+              0.00460752567872753,
+              0.04358894735191922
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.02718881100725873,
+            "interval": [
+              0.00968852179237838,
+              0.044355450196640694
+            ],
+            "seed": 11000
+          }
+        },
+        "greedy_best": {
+          "arm_means": {
+            "new32": 0.1617513862,
+            "new64": 0.11436975079999998,
+            "old32": 0.09584840269999999,
+            "old64": 0.10258059909999999
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.054113831800000026,
+            "interval": [
+              -0.26313285998781255,
+              0.14639733531218738
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.047381635400000024,
+            "interval": [
+              -0.2332565291396875,
+              0.14212592330499982
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.006732196400000001,
+            "interval": [
+              -0.20479463139999998,
+              0.21111479227718752
+            ],
+            "seed": 11000
+          }
+        },
+        "greedy_hits": {
+          "arm_means": {
+            "new32": 0.8,
+            "new64": 0.6,
+            "old32": 0.5,
+            "old64": 0.4
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.1,
+            "interval": [
+              -1.5,
+              1.3
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.2,
+            "interval": [
+              -1.2,
+              0.6
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.1,
+            "interval": [
+              -1.3,
+              0.9
+            ],
+            "seed": 11000
+          }
+        },
+        "greedy_recall": {
+          "arm_means": {
+            "new32": 0.002116402116402116,
+            "new64": 0.0015873015873015873,
+            "old32": 0.0013227513227513227,
+            "old64": 0.001058201058201058
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0002645502645502645,
+            "interval": [
+              -0.003968253968253968,
+              0.003439153439153439
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.000529100529100529,
+            "interval": [
+              -0.0031746031746031746,
+              0.0015873015873015873
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0002645502645502645,
+            "interval": [
+              -0.003439153439153439,
+              0.0023809523809523807
+            ],
+            "seed": 11000
+          }
+        },
+        "mae": {
+          "arm_means": {
+            "new32": 0.24546335326359953,
+            "new64": 0.23529029594061202,
+            "old32": 0.32227314607714164,
+            "old64": 0.2979917336393141
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.014108355114840054,
+            "interval": [
+              0.002302546669465717,
+              0.02770714392422405
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.010173057322987528,
+            "interval": [
+              -0.01881079652878219,
+              -0.0030623179402724117
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.024281412437827582,
+            "interval": [
+              -0.03483470583665428,
+              -0.015185739481369396
+            ],
+            "seed": 11000
+          }
+        },
+        "near_auc": {
+          "arm_means": {
+            "new32": 0.5015289737284173,
+            "new64": 0.4925155377133305,
+            "old32": 0.5262270741791835,
+            "old64": 0.5213244120541198
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.004110773890023084,
+            "interval": [
+              -0.011255556413924252,
+              0.003374445250183785
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.009013436015086768,
+            "interval": [
+              -0.019936975885885312,
+              -0.00041745527085805756
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.004902662125063684,
+            "interval": [
+              -0.013315659970951957,
+              0.00528180802972662
+            ],
+            "seed": 11000
+          }
+        },
+        "spearman": {
+          "arm_means": {
+            "new32": 0.622822489568652,
+            "new64": 0.6570384398517388,
+            "old32": 0.3542963750887105,
+            "old64": 0.4346503648483896
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.04613803947659234,
+            "interval": [
+              -0.0818251536897966,
+              0.0008475853169551214
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.03421595028308685,
+            "interval": [
+              0.008238763535735357,
+              0.07332344825151656
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0803539897596792,
+            "interval": [
+              0.05343410149569563,
+              0.10500849828297996
+            ],
+            "seed": 11000
+          }
+        },
+        "top1_auc": {
+          "arm_means": {
+            "new32": 0.7235603493692062,
+            "new64": 0.7430322138837755,
+            "old32": 0.6472633778142841,
+            "old64": 0.6741284845169675
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.007393242188114291,
+            "interval": [
+              -0.02256029465506518,
+              0.007769167086741535
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.019471864514569205,
+            "interval": [
+              0.0044265868707981885,
+              0.04306516752625876
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.026865106702683494,
+            "interval": [
+              0.009484867538529267,
+              0.0438668811331869
+            ],
+            "seed": 11000
+          }
+        }
+      },
+      "model_id": "random-forest-sklearn-v1",
+      "paired_seed_blocks": 10,
+      "total_label_cost_all_arms": 80
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "effects": {
+        "exploration_best": {
+          "arm_means": {
+            "new32": 0.07216606909999998,
+            "new64": 0.06262853149999999,
+            "old32": 0.004000735100000008,
+            "old64": 0.08344583239999996
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.08898263489999995,
+            "interval": [
+              -0.294526795624375,
+              0.04652591310000007
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.009537537600000002,
+            "interval": [
+              -0.10251177980625004,
+              0.0735426422
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.07944509729999996,
+            "interval": [
+              -0.0016893873000000115,
+              0.24796565922843702
+            ],
+            "seed": 11001
+          }
+        },
+        "exploration_hits": {
+          "arm_means": {
+            "new32": 0.3,
+            "new64": 0.4,
+            "old32": 0.0,
+            "old64": 0.2
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.1,
+            "interval": [
+              -0.9,
+              0.5
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.1,
+            "interval": [
+              -0.4,
+              0.6
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.2,
+            "interval": [
+              0.0,
+              0.6
+            ],
+            "seed": 11001
+          }
+        },
+        "exploration_recall": {
+          "arm_means": {
+            "new32": 0.0007936507936507937,
+            "new64": 0.001058201058201058,
+            "old32": 0.0,
+            "old64": 0.000529100529100529
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0002645502645502645,
+            "interval": [
+              -0.0023809523809523807,
+              0.0013227513227513227
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0002645502645502645,
+            "interval": [
+              -0.001058201058201058,
+              0.0015873015873015873
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.000529100529100529,
+            "interval": [
+              0.0,
+              0.0015873015873015873
+            ],
+            "seed": 11001
+          }
+        },
+        "far_auc": {
+          "arm_means": {
+            "new32": 0.6929417818630064,
+            "new64": 0.7211303100494193,
+            "old32": 0.6323845865336736,
+            "old64": 0.6599273295848438
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0006457851352427047,
+            "interval": [
+              -0.04623484553967791,
+              0.0501068588339366
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.02818852818641291,
+            "interval": [
+              0.0015532378021564709,
+              0.06015843340277797
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.027542743051170205,
+            "interval": [
+              -0.00045416003038449326,
+              0.057858316713485874
+            ],
+            "seed": 11001
+          }
+        },
+        "greedy_best": {
+          "arm_means": {
+            "new32": 0.0829189377,
+            "new64": 0.1416480491,
+            "old32": 0.03376412799999999,
+            "old64": 0.08447591389999998
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.008017325500000005,
+            "interval": [
+              -0.17216261240187503,
+              0.2038144613
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.05872911139999999,
+            "interval": [
+              -0.10569916007625,
+              0.26188054571999825
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.05071178589999999,
+            "interval": [
+              0.0065655519000000105,
+              0.10600829700000003
+            ],
+            "seed": 11001
+          }
+        },
+        "greedy_hits": {
+          "arm_means": {
+            "new32": 0.4,
+            "new64": 0.7,
+            "old32": 0.2,
+            "old64": 0.2
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.3,
+            "interval": [
+              -0.6,
+              1.3
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.3,
+            "interval": [
+              -0.6,
+              1.3
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 11001
+          }
+        },
+        "greedy_recall": {
+          "arm_means": {
+            "new32": 0.001058201058201058,
+            "new64": 0.0018518518518518517,
+            "old32": 0.000529100529100529,
+            "old64": 0.000529100529100529
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0007936507936507937,
+            "interval": [
+              -0.0015873015873015873,
+              0.003439153439153439
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0007936507936507937,
+            "interval": [
+              -0.0015873015873015873,
+              0.003439153439153439
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              0.0,
+              0.0
+            ],
+            "seed": 11001
+          }
+        },
+        "mae": {
+          "arm_means": {
+            "new32": 0.2704749839174744,
+            "new64": 0.24986546828812733,
+            "old32": 0.3261134203080235,
+            "old64": 0.3048584854274685
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0006454192512080237,
+            "interval": [
+              -0.016762929198608563,
+              0.020830830394543018
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.020609515629347014,
+            "interval": [
+              -0.033812176440699414,
+              -0.0065053273632497376
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.021254934880555038,
+            "interval": [
+              -0.03511464027765475,
+              -0.010075239486508613
+            ],
+            "seed": 11001
+          }
+        },
+        "near_auc": {
+          "arm_means": {
+            "new32": 0.4964790751824012,
+            "new64": 0.49130792009951946,
+            "old32": 0.5212299096875155,
+            "old64": 0.5151310361922797
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0009277184123540283,
+            "interval": [
+              -0.024092678231693865,
+              0.022103597294348062
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.005171155082881657,
+            "interval": [
+              -0.022743943902063368,
+              0.009490803134996785
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.006098873495235685,
+            "interval": [
+              -0.022032721892112927,
+              0.012125720805783162
+            ],
+            "seed": 11001
+          }
+        },
+        "spearman": {
+          "arm_means": {
+            "new32": 0.5531479103036516,
+            "new64": 0.6098159171124953,
+            "old32": 0.3239925918757721,
+            "old64": 0.4010546054849044
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.020394006800288668,
+            "interval": [
+              -0.09118705251552418,
+              0.04543208330331268
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.05666800680884369,
+            "interval": [
+              0.010313664327174994,
+              0.10266331852918338
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.07706201360913235,
+            "interval": [
+              0.03395871896668475,
+              0.12601119779410697
+            ],
+            "seed": 11001
+          }
+        },
+        "top1_auc": {
+          "arm_means": {
+            "new32": 0.6909594788631949,
+            "new64": 0.718811451738139,
+            "old32": 0.6312633366615767,
+            "old64": 0.6584664428098227
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0006488667266981496,
+            "interval": [
+              -0.04585162050332029,
+              0.04977146585687397
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0278519728749441,
+            "interval": [
+              0.001425962542160291,
+              0.059587793424065
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.027203106148245948,
+            "interval": [
+              -0.0006093961454371304,
+              0.05726497248341994
+            ],
+            "seed": 11001
+          }
+        }
+      },
+      "model_id": "xgboost-cpu-v1",
+      "paired_seed_blocks": 10,
+      "total_label_cost_all_arms": 80
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "effects": {
+        "exploration_best": {
+          "arm_means": {
+            "new32": 0.019687947420500007,
+            "new64": 0.03661793281730001,
+            "old32": 0.009027210948800001,
+            "old64": 0.013551918052700018
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.012405278292899984,
+            "interval": [
+              -0.06383441577197721,
+              0.12009267299230002
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0169299853968,
+            "interval": [
+              -0.04401320418980004,
+              0.0933762589851427
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.004524707103900016,
+            "interval": [
+              -0.036108843795200005,
+              0.04613837331680002
+            ],
+            "seed": 11000
+          }
+        },
+        "exploration_hits": {
+          "arm_means": {
+            "new32": 0.3,
+            "new64": 0.3,
+            "old32": 0.1,
+            "old64": 0.4
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.3,
+            "interval": [
+              -1.8,
+              0.8
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              -0.5,
+              0.6
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.3,
+            "interval": [
+              -0.4,
+              1.6
+            ],
+            "seed": 11000
+          }
+        },
+        "exploration_recall": {
+          "arm_means": {
+            "new32": 0.0022556390977443606,
+            "new64": 0.0022556390977443606,
+            "old32": 0.0007518796992481202,
+            "old64": 0.003007518796992481
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0022556390977443606,
+            "interval": [
+              -0.013533834586466165,
+              0.006015037593984962
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              -0.0037593984962406013,
+              0.004511278195488721
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0022556390977443606,
+            "interval": [
+              -0.003007518796992481,
+              0.012030075187969924
+            ],
+            "seed": 11000
+          }
+        },
+        "far_auc": {
+          "arm_means": {
+            "new32": 0.5569546372163414,
+            "new64": 0.5814435167895663,
+            "old32": 0.5233708282819269,
+            "old64": 0.5449716803070901
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.002888027548061778,
+            "interval": [
+              -0.023612612557887425,
+              0.03158735139686707
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.024488879573224865,
+            "interval": [
+              -0.003342283339129391,
+              0.06301212582331642
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.021600852025163087,
+            "interval": [
+              -0.015405215484337636,
+              0.07808808061683031
+            ],
+            "seed": 11000
+          }
+        },
+        "greedy_best": {
+          "arm_means": {
+            "new32": 0.07878826646550001,
+            "new64": 0.1334590352329,
+            "old32": 0.06975946956970001,
+            "old64": 0.07402090945360001
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.05040932888350001,
+            "interval": [
+              -0.023621096252799963,
+              0.17566267377039999
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.05467076876740003,
+            "interval": [
+              -0.03071503767469999,
+              0.1874288153777
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.004261439883899998,
+            "interval": [
+              -0.04414642374720003,
+              0.07859478091820002
+            ],
+            "seed": 11000
+          }
+        },
+        "greedy_hits": {
+          "arm_means": {
+            "new32": 0.5,
+            "new64": 1.3,
+            "old32": 1.0,
+            "old64": 1.5
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.3,
+            "interval": [
+              -0.6,
+              1.3
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.8,
+            "interval": [
+              -0.1,
+              1.8
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.5,
+            "interval": [
+              0.0,
+              1.2
+            ],
+            "seed": 11000
+          }
+        },
+        "greedy_recall": {
+          "arm_means": {
+            "new32": 0.0037593984962406013,
+            "new64": 0.009774436090225564,
+            "old32": 0.007518796992481203,
+            "old64": 0.011278195488721804
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0022556390977443606,
+            "interval": [
+              -0.004511278195488721,
+              0.009774436090225564
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.006015037593984962,
+            "interval": [
+              -0.0007518796992481202,
+              0.013533834586466165
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0037593984962406013,
+            "interval": [
+              0.0,
+              0.009022556390977442
+            ],
+            "seed": 11000
+          }
+        },
+        "mae": {
+          "arm_means": {
+            "new32": 0.2525026020096101,
+            "new64": 0.2448434919335957,
+            "old32": 0.262005401638734,
+            "old64": 0.2621763102182802
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.007830018655560603,
+            "interval": [
+              -0.02141394964708008,
+              -0.0015848106252754053
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.007659110076014405,
+            "interval": [
+              -0.023404477885721923,
+              0.0009910964957140762
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.00017090857954619733,
+            "interval": [
+              -0.005960970301291614,
+              0.005890431282149613
+            ],
+            "seed": 11000
+          }
+        },
+        "near_auc": {
+          "arm_means": {
+            "new32": 0.5485424177873689,
+            "new64": 0.5676456656220129,
+            "old32": 0.48306058941499186,
+            "old64": 0.4991123501439552
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0030514871056804616,
+            "interval": [
+              -0.042195862055776134,
+              0.05469347078704649
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.019103247834643754,
+            "interval": [
+              -0.02562751565482464,
+              0.0547077157392343
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.016051760728963294,
+            "interval": [
+              -0.03745687573522012,
+              0.07403546293402262
+            ],
+            "seed": 11000
+          }
+        },
+        "spearman": {
+          "arm_means": {
+            "new32": 0.28954369146935066,
+            "new64": 0.31985007426642265,
+            "old32": 0.08683784891045591,
+            "old64": 0.12992484434003898
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.012780612632511092,
+            "interval": [
+              -0.07887073515268304,
+              0.04464017226440618
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.030306382797071957,
+            "interval": [
+              -0.012695988675625049,
+              0.06429977270496323
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.04308699542958305,
+            "interval": [
+              0.0035050334178694416,
+              0.08031806656980467
+            ],
+            "seed": 11000
+          }
+        },
+        "top1_auc": {
+          "arm_means": {
+            "new32": 0.5568690359136884,
+            "new64": 0.5813043198503307,
+            "old32": 0.5229631236973278,
+            "old64": 0.5445083131198324
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.002890094514137781,
+            "interval": [
+              -0.02379348977889013,
+              0.03167419767943481
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.024435283936642294,
+            "interval": [
+              -0.003434377313075296,
+              0.0628067279356174
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.021545189422504513,
+            "interval": [
+              -0.015543065847372204,
+              0.07795758668637082
+            ],
+            "seed": 11000
+          }
+        }
+      },
+      "model_id": "random-forest-sklearn-v1",
+      "paired_seed_blocks": 10,
+      "total_label_cost_all_arms": 80
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "effects": {
+        "exploration_best": {
+          "arm_means": {
+            "new32": 0.034589506463800004,
+            "new64": 0.07687244235650002,
+            "old32": 0.09663651523870001,
+            "old64": 0.09628284903280002
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.042636602098600006,
+            "interval": [
+              -0.010728932197699987,
+              0.11786124540859999
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.04228293589270002,
+            "interval": [
+              -0.03562578412998313,
+              0.12950712266307812
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.00035366620589998845,
+            "interval": [
+              -0.05898777627331688,
+              0.07654732319790006
+            ],
+            "seed": 11001
+          }
+        },
+        "exploration_hits": {
+          "arm_means": {
+            "new32": 0.2,
+            "new64": 1.7,
+            "old32": 0.7,
+            "old64": 1.5
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.7,
+            "interval": [
+              0.0,
+              1.9
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 1.5,
+            "interval": [
+              -0.2,
+              5.2
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.8,
+            "interval": [
+              -0.9,
+              4.4
+            ],
+            "seed": 11001
+          }
+        },
+        "exploration_recall": {
+          "arm_means": {
+            "new32": 0.0015037593984962405,
+            "new64": 0.012781954887218044,
+            "old32": 0.005263157894736842,
+            "old64": 0.011278195488721804
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.005263157894736842,
+            "interval": [
+              0.0,
+              0.014285714285714285
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.011278195488721804,
+            "interval": [
+              -0.0015037593984962405,
+              0.039097744360902256
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.006015037593984962,
+            "interval": [
+              -0.006766917293233083,
+              0.03308270676691729
+            ],
+            "seed": 11001
+          }
+        },
+        "far_auc": {
+          "arm_means": {
+            "new32": 0.5585771372693794,
+            "new64": 0.5823364866718704,
+            "old32": 0.5228569874386865,
+            "old64": 0.5397549671008586
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.006861369740318685,
+            "interval": [
+              -0.03165862732242021,
+              0.05976964169368176
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.023759349402490904,
+            "interval": [
+              0.011512018692285136,
+              0.04176460552208455
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.01689797966217222,
+            "interval": [
+              -0.03309215440747838,
+              0.06689312373940631
+            ],
+            "seed": 11001
+          }
+        },
+        "greedy_best": {
+          "arm_means": {
+            "new32": 0.064765322121,
+            "new64": 0.11595335103500001,
+            "old32": 0.12458248925970002,
+            "old64": 0.11997531290540002
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.055795205268299994,
+            "interval": [
+              -0.06937725631660002,
+              0.2164976647330863
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.051188028914000004,
+            "interval": [
+              -0.11063408442950003,
+              0.2300162531161
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.004607176354299991,
+            "interval": [
+              -0.12860986317473283,
+              0.1076105307800791
+            ],
+            "seed": 11001
+          }
+        },
+        "greedy_hits": {
+          "arm_means": {
+            "new32": 0.2,
+            "new64": 1.7,
+            "old32": 0.5,
+            "old64": 2.0
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              -0.7,
+              0.9
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 1.5,
+            "interval": [
+              -0.4,
+              5.6
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 1.5,
+            "interval": [
+              -0.5,
+              5.9
+            ],
+            "seed": 11001
+          }
+        },
+        "greedy_recall": {
+          "arm_means": {
+            "new32": 0.0015037593984962405,
+            "new64": 0.012781954887218044,
+            "old32": 0.0037593984962406013,
+            "old64": 0.015037593984962405
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              -0.005263157894736842,
+              0.006766917293233083
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.011278195488721804,
+            "interval": [
+              -0.003007518796992481,
+              0.042105263157894736
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.011278195488721804,
+            "interval": [
+              -0.0037593984962406013,
+              0.044360902255639094
+            ],
+            "seed": 11001
+          }
+        },
+        "mae": {
+          "arm_means": {
+            "new32": 0.3093785599040091,
+            "new64": 0.2821662930890355,
+            "old32": 0.3260009826482381,
+            "old64": 0.3170741270370225
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.01828541120375793,
+            "interval": [
+              -0.04413148307634974,
+              0.008609799987875727
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.027212266814973584,
+            "interval": [
+              -0.05508878270364259,
+              0.0031375138095032663
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.008926855611215655,
+            "interval": [
+              -0.02724530486403759,
+              0.01995095499307819
+            ],
+            "seed": 11001
+          }
+        },
+        "near_auc": {
+          "arm_means": {
+            "new32": 0.5593333923631698,
+            "new64": 0.5762682123110789,
+            "old32": 0.5065447846429123,
+            "old64": 0.5143572977614985
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.00912230682932294,
+            "interval": [
+              -0.0334233678124618,
+              0.06431797370429036
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.016934819947909192,
+            "interval": [
+              -0.018872595071497623,
+              0.04954317813528185
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.00781251311858625,
+            "interval": [
+              -0.03688444573371976,
+              0.05280631072627613
+            ],
+            "seed": 11001
+          }
+        },
+        "spearman": {
+          "arm_means": {
+            "new32": 0.2729891251746124,
+            "new64": 0.3035432521838811,
+            "old32": 0.08383155889193056,
+            "old64": 0.12179201311352801
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.007406327212328673,
+            "interval": [
+              -0.06218395958126007,
+              0.05135490739686418
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.030554127009268774,
+            "interval": [
+              -0.004158342377022228,
+              0.07058582032747816
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.03796045422159744,
+            "interval": [
+              -0.0005906634556238778,
+              0.07129490397377984
+            ],
+            "seed": 11001
+          }
+        },
+        "top1_auc": {
+          "arm_means": {
+            "new32": 0.558584443771055,
+            "new64": 0.5822752465390113,
+            "old32": 0.5226911987350852,
+            "old64": 0.5394978234459703
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.006884178057071371,
+            "interval": [
+              -0.03158973128626218,
+              0.059832221776268506
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.023690802767956477,
+            "interval": [
+              0.011487927210334693,
+              0.041641009220830354
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.016806624710885103,
+            "interval": [
+              -0.03304345480986959,
+              0.06674601030880681
+            ],
+            "seed": 11001
+          }
+        }
+      },
+      "model_id": "xgboost-cpu-v1",
+      "paired_seed_blocks": 10,
+      "total_label_cost_all_arms": 80
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "effects": {
+        "exploration_best": {
+          "arm_means": {
+            "new32": 0.032443447000000035,
+            "new64": 0.34310264989999995,
+            "old32": 0.16309346809999997,
+            "old64": 0.1627286569
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.3110240140999999,
+            "interval": [
+              0.0,
+              0.8920857328999998
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.31065920289999993,
+            "interval": [
+              -0.09733034100000011,
+              0.9678284855999999
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0003648112000000037,
+            "interval": [
+              -0.5550435313999997,
+              0.6065342156
+            ],
+            "seed": 11000
+          }
+        },
+        "exploration_hits": {
+          "arm_means": {
+            "new32": 0.0,
+            "new64": 0.7,
+            "old32": 0.1,
+            "old64": 0.8
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              -0.8,
+              0.6
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.7,
+            "interval": [
+              0.0,
+              2.0
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.7,
+            "interval": [
+              -0.3,
+              2.4
+            ],
+            "seed": 11000
+          }
+        },
+        "exploration_recall": {
+          "arm_means": {
+            "new32": 0.0,
+            "new64": 0.00813953488372093,
+            "old32": 0.0011627906976744186,
+            "old64": 0.009302325581395349
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              -0.009302325581395349,
+              0.0069767441860465115
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.00813953488372093,
+            "interval": [
+              0.0,
+              0.023255813953488372
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.00813953488372093,
+            "interval": [
+              -0.0034883720930232558,
+              0.027906976744186046
+            ],
+            "seed": 11000
+          }
+        },
+        "far_auc": {
+          "arm_means": {
+            "new32": 0.5461020926706117,
+            "new64": 0.5781246190762847,
+            "old32": 0.4828900753000733,
+            "old64": 0.4969498694182426
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.01796273228750365,
+            "interval": [
+              -0.02298776390469284,
+              0.06088960168365968
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.03202252640567297,
+            "interval": [
+              0.0029407395393744856,
+              0.06518885657449656
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.014059794118169317,
+            "interval": [
+              -0.043239235776375784,
+              0.07161615253282784
+            ],
+            "seed": 11000
+          }
+        },
+        "greedy_best": {
+          "arm_means": {
+            "new32": 0.23706477649999994,
+            "new64": 0.1714319561,
+            "old32": 0.1709759413,
+            "old64": 0.6787510947
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.5734079738,
+            "interval": [
+              -1.7649202308,
+              0.0
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.06563282039999993,
+            "interval": [
+              -0.6655358684999999,
+              0.3079026172
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.5077751534,
+            "interval": [
+              -0.5319272012,
+              1.7872371253000001
+            ],
+            "seed": 11000
+          }
+        },
+        "greedy_hits": {
+          "arm_means": {
+            "new32": 0.3,
+            "new64": 1.4,
+            "old32": 0.1,
+            "old64": 1.5
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.3,
+            "interval": [
+              -1.3,
+              0.5
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 1.1,
+            "interval": [
+              -0.6,
+              4.0
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 1.4,
+            "interval": [
+              -0.2,
+              4.0
+            ],
+            "seed": 11000
+          }
+        },
+        "greedy_recall": {
+          "arm_means": {
+            "new32": 0.0034883720930232558,
+            "new64": 0.01627906976744186,
+            "old32": 0.0011627906976744186,
+            "old64": 0.01744186046511628
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.003488372093023255,
+            "interval": [
+              -0.015116279069767443,
+              0.005813953488372095
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.012790697674418604,
+            "interval": [
+              -0.0069767441860465115,
+              0.04651162790697675
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.01627906976744186,
+            "interval": [
+              -0.002325581395348837,
+              0.046511627906976744
+            ],
+            "seed": 11000
+          }
+        },
+        "mae": {
+          "arm_means": {
+            "new32": 0.5353195231373602,
+            "new64": 0.5249131937253371,
+            "old32": 0.6125331086397554,
+            "old64": 0.5959982044998654
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.006128574727866864,
+            "interval": [
+              -0.014135292445129807,
+              0.026412393968919323
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.01040632941202314,
+            "interval": [
+              -0.02635998980623885,
+              0.004305380576464934
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.016534904139890005,
+            "interval": [
+              -0.04564588712484353,
+              0.0029673161250428066
+            ],
+            "seed": 11000
+          }
+        },
+        "near_auc": {
+          "arm_means": {
+            "new32": 0.4770218973600957,
+            "new64": 0.5012265561555007,
+            "old32": 0.4416939106218633,
+            "old64": 0.4379149331988068
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.02798363621846156,
+            "interval": [
+              -0.015538648194729086,
+              0.06658960971957181
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.024204658795405037,
+            "interval": [
+              -0.008729753477431663,
+              0.0578343982378686
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.003778977423056523,
+            "interval": [
+              -0.07210728302824766,
+              0.05965924171267339
+            ],
+            "seed": 11000
+          }
+        },
+        "spearman": {
+          "arm_means": {
+            "new32": 0.40396749412059985,
+            "new64": 0.4135839275299902,
+            "old32": 0.10076407535002192,
+            "old64": 0.12351653015784439
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.013136021398432169,
+            "interval": [
+              -0.03964253787367546,
+              0.020348028807476937
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.009616433409390274,
+            "interval": [
+              -0.016303920697159247,
+              0.04727627972504439
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.022752454807822443,
+            "interval": [
+              0.0010189345115681453,
+              0.04269820768833979
+            ],
+            "seed": 11000
+          }
+        },
+        "top1_auc": {
+          "arm_means": {
+            "new32": 0.545400576052893,
+            "new64": 0.5773453587384336,
+            "old32": 0.4824716699678862,
+            "old64": 0.4963525851901345
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.018063867463292332,
+            "interval": [
+              -0.022757849323176736,
+              0.06089827857049088
+            ],
+            "seed": 11000
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.03194478268554052,
+            "interval": [
+              0.002887652786565759,
+              0.06503669342465643
+            ],
+            "seed": 11000
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.013880915222248186,
+            "interval": [
+              -0.04351736045786579,
+              0.07133882732683058
+            ],
+            "seed": 11000
+          }
+        }
+      },
+      "model_id": "random-forest-sklearn-v1",
+      "paired_seed_blocks": 10,
+      "total_label_cost_all_arms": 80
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "effects": {
+        "exploration_best": {
+          "arm_means": {
+            "new32": 0.0005662661000000125,
+            "new64": 0.23052092100000005,
+            "old32": 0.05565557050000001,
+            "old64": 0.3824574516
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.09684722619999997,
+            "interval": [
+              -0.5563810581999998,
+              0.2503492446
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.22995465490000006,
+            "interval": [
+              0.0,
+              0.6963212703000001
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.3268018811,
+            "interval": [
+              -0.13873203439999998,
+              0.9205098772046856
+            ],
+            "seed": 11001
+          }
+        },
+        "exploration_hits": {
+          "arm_means": {
+            "new32": 0.1,
+            "new64": 0.2,
+            "old32": 0.0,
+            "old64": 0.7
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.6,
+            "interval": [
+              -1.2,
+              -0.1
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.1,
+            "interval": [
+              -0.4,
+              0.6
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.7,
+            "interval": [
+              0.0,
+              1.6
+            ],
+            "seed": 11001
+          }
+        },
+        "exploration_recall": {
+          "arm_means": {
+            "new32": 0.0011627906976744186,
+            "new64": 0.002325581395348837,
+            "old32": 0.0,
+            "old64": 0.00813953488372093
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0069767441860465115,
+            "interval": [
+              -0.013953488372093023,
+              -0.0011627906976744186
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0011627906976744186,
+            "interval": [
+              -0.004651162790697674,
+              0.0069767441860465115
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.00813953488372093,
+            "interval": [
+              0.0,
+              0.018604651162790697
+            ],
+            "seed": 11001
+          }
+        },
+        "far_auc": {
+          "arm_means": {
+            "new32": 0.531104104026732,
+            "new64": 0.5421834701743916,
+            "old32": 0.4843685104514403,
+            "old64": 0.48930309269092404
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.006144783908175883,
+            "interval": [
+              -0.024125609888433062,
+              0.035884496123161046
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.011079366147659548,
+            "interval": [
+              -0.007791308983629634,
+              0.029057561843328607
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0049345822394836645,
+            "interval": [
+              -0.029277041245346302,
+              0.04100341079968095
+            ],
+            "seed": 11001
+          }
+        },
+        "greedy_best": {
+          "arm_means": {
+            "new32": 0.08063141109999998,
+            "new64": 0.32966843860000006,
+            "old32": 0.09305629099999994,
+            "old64": 0.44685058689999996
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.10475726839999999,
+            "interval": [
+              -0.5563810581999998,
+              0.2203572176
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.24903702750000006,
+            "interval": [
+              0.0,
+              0.7549791702000002
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.35379429590000006,
+            "interval": [
+              -0.13759950219999997,
+              0.9454260947000002
+            ],
+            "seed": 11001
+          }
+        },
+        "greedy_hits": {
+          "arm_means": {
+            "new32": 0.0,
+            "new64": 0.3,
+            "old32": 0.0,
+            "old64": 0.5
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.2,
+            "interval": [
+              -0.6,
+              0.0
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.3,
+            "interval": [
+              0.0,
+              0.7
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.5,
+            "interval": [
+              0.0,
+              1.1
+            ],
+            "seed": 11001
+          }
+        },
+        "greedy_recall": {
+          "arm_means": {
+            "new32": 0.0,
+            "new64": 0.0034883720930232558,
+            "old32": 0.0,
+            "old64": 0.005813953488372093
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.002325581395348837,
+            "interval": [
+              -0.0069767441860465115,
+              0.0
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0034883720930232558,
+            "interval": [
+              0.0,
+              0.00813953488372093
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.005813953488372093,
+            "interval": [
+              0.0,
+              0.012790697674418604
+            ],
+            "seed": 11001
+          }
+        },
+        "mae": {
+          "arm_means": {
+            "new32": 0.597536185503859,
+            "new64": 0.5900306510420871,
+            "old32": 0.6583077421527624,
+            "old64": 0.6635026143855002
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.012700406694509569,
+            "interval": [
+              -0.051507563502057575,
+              0.016376599494732497
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.007505534461771801,
+            "interval": [
+              -0.03539926750546164,
+              0.019123232579363974
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.005194872232737768,
+            "interval": [
+              -0.023766228467644115,
+              0.032759122776777415
+            ],
+            "seed": 11001
+          }
+        },
+        "near_auc": {
+          "arm_means": {
+            "new32": 0.4764962179571667,
+            "new64": 0.48094385550485264,
+            "old32": 0.4489989733175744,
+            "old64": 0.4396344155293269
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.013812195335933485,
+            "interval": [
+              -0.035401679782799775,
+              0.058031464850031286
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.004447637547686012,
+            "interval": [
+              -0.035781943893492485,
+              0.043054149771487124
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.009364557788247473,
+            "interval": [
+              -0.08032705554076448,
+              0.0561603054358911
+            ],
+            "seed": 11001
+          }
+        },
+        "spearman": {
+          "arm_means": {
+            "new32": 0.3277297567583168,
+            "new64": 0.34720989125793217,
+            "old32": 0.08949075971119277,
+            "old64": 0.12634536524315979
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.017374471032351558,
+            "interval": [
+              -0.05360296851913005,
+              0.022975682378366384
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.01948013449961545,
+            "interval": [
+              -0.012618444973374438,
+              0.05152071169786012
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.03685460553196701,
+            "interval": [
+              -0.011385746493318352,
+              0.07719258233915624
+            ],
+            "seed": 11001
+          }
+        },
+        "top1_auc": {
+          "arm_means": {
+            "new32": 0.5305505434428907,
+            "new64": 0.5415624204821399,
+            "old32": 0.4840102726077145,
+            "old64": 0.48879997221983584
+          },
+          "effect_interaction": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.006222177427127712,
+            "interval": [
+              -0.024130022771092333,
+              0.036012208728861884
+            ],
+            "seed": 11001
+          },
+          "information_effect_new": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.011011877039249152,
+            "interval": [
+              -0.007974344000141268,
+              0.029030521492148572
+            ],
+            "seed": 11001
+          },
+          "information_effect_old": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.00478969961212144,
+            "interval": [
+              -0.029720737513993685,
+              0.04090298978068015
+            ],
+            "seed": 11001
+          }
+        }
+      },
+      "model_id": "xgboost-cpu-v1",
+      "paired_seed_blocks": 10,
+      "total_label_cost_all_arms": 80
+    }
+  ],
+  "verifier_sha256": "12c66b295a1669ed8ff50b7bbc971c30621746897958e1cb790cb22d16302c9d"
+}

@@ -1,0 +1,17 @@
+{
+  "data_boundary": "all prediction-only workers exit before evaluator reads existing membership; no reveal; aggregate-only export",
+  "frontier_result_sha256": "67e98445f6c4fe3f6fd46a966b2af321122ea4c1cc8371a7eac81fef164715ba",
+  "helper_sha256": "92e384e1972f03144706000b84ef900a909127651478593692baa4207f1be0f1",
+  "input_sha256": "cfe2e613ed20969ea8a6072e703de6cead9affb745b66a5be4b8d047a6f13d10",
+  "k": 16,
+  "mode": "full",
+  "new_fits": 0,
+  "new_labels": 0,
+  "new_states": 0,
+  "original_result_sha256": "937febfe04c7f45ff490249fdce1f33b0944d54b7a9a9a9939f3a0776d51eb08",
+  "plan_sha256": "13d53596e794ce2eaa5ec8961c374a03c4fa4f1dc311e33dd04cba54236188ca",
+  "protocol": "m5-e3-selection-region-v1",
+  "replication_result_sha256": "4f8063f48e5671f9d3008751a05fde7072f26feafe932a7722f6c766209481e8",
+  "runtime_sha256": "75504878c51f03590329b3e5cdb92e47f7c1be8191bec63c5c33af69763dfce0",
+  "source_sha256": "7255c6e31e4e283f4548d4d415e08492404257cde85574117b5df79240b1dbcc"
+}

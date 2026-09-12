@@ -1,0 +1,27 @@
+{
+  "artifacts": {
+    "README.md": "aa961e650eead0c5a14b1fa651976d3cbff4369ccc76d024acc6d8642c27d4e2",
+    "advisory-review.md": "ee1c282feb032b3266175dda861daa02cd2278df6d9328c935e6809196a301cd",
+    "all-endpoints.md": "7efb147597216189b8fd02a3ec4d3640d00fbe3f9108379967aa10778528b76e",
+    "attempts.jsonl": "d0595d732fa66b3722b44d05593e3f76c4e572279096910f51fcfca553ac76e7",
+    "commands.md": "2f1c622fece65398915cb851f8910ed8cd16357cd91904491cef7c9e1ca150ba",
+    "full/execution.json": "ae96b2842f5dd1b21b4962e6d120d83ab4d1ec479903559c90bead8da08ba23a",
+    "full/progress.jsonl": "83ba194718aacd709a21ed1b68f0c2d39059e04cb0b461ddecd55318706f7c24",
+    "full/result.json.gz": "59a419b2486dbbe671fb42fcb0ad6f9945316f1c083cb9f7305988a347f4754a",
+    "full/terminal.json": "3a0208fae5432c1bb69d0fee1a84234e94555deba447097afbcf024b7f182772",
+    "smoke/execution.json": "af9659f9ef377d96276d8d0a03e3b50ed707d10f1a7b7da9686a258b6949dce9",
+    "smoke/progress.jsonl": "df0695a27e4b68fac13cc14263d71be2fe03f32de1e8338e473a088fb783536b",
+    "smoke/result.json.gz": "fd00bfce5eb2ca2865ab88c81fad6e4ed0c9452185e8f6d2f2f6b0a0626bea6b",
+    "smoke/terminal.json": "4f788080ab4031420847c8edf7adf24ea18c04f12adac3dc6b2d047a656c83cd",
+    "statistics/attempts.jsonl": "37d6460a4b1cd6653a600b6752071c5c921b575ce335a7cc317feb108a4284c9",
+    "statistics/result.json": "cf8253c909f87a7d673c7d12ea41aed4377a9ac94f29e97bdbe04b021e347b1e",
+    "statistics/terminal.json": "3a7aad895107beef002efba40a26f3150b7662ff2c93bc3098b958137f1fa981",
+    "verification.json": "80ceb6b713d1591cd5a8fbdc68a29fb93b790ee2987c804377ca3b5649866130"
+  },
+  "source_and_note": {
+    "docs/experiments/M5_E3_STATE_PRECISION.md": "8327992e24ffab6505187c48f43add12d6718ff5f2ef5e7da66a3028dd96d0ce",
+    "scripts/analyze_m5_e3_state_precision.py": "df69f9469881a09f5166aff7c9c82e3908169fcfb4c0d4965b7c490aade4f1fb",
+    "scripts/run_m5_e3_state_precision.py": "45e3d8ffd122b98ce238e413328a8aa7656c72a7a3c103a29f96b18cfcb1b161",
+    "scripts/verify_m5_e3_state_precision.py": "f63139120d4d0531ad08674606bc0807309c7345be7b45ce125698cdc15a7778"
+  }
+}

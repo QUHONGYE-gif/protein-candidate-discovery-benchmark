@@ -1,0 +1,18 @@
+{
+  "input_sha256": "5cbdedb4e35b2595345c992e1ba7d1573a12dd972ce2a30fc090f524d959cdec",
+  "numpy": "2.4.2",
+  "plan_sha256": "2033a4783a3f20d4721d1699370807c52de2a8b79564467af64bf71dcae2bfc7",
+  "protocol": "m5-e3-finite-state-subsets-development-v1",
+  "python": "3.14.3",
+  "range_quantiles": [
+    0.025,
+    0.975
+  ],
+  "source_sha256": "8b621ef2614232f8289ce8f05377149a284a0161f96af2f261b0573644a53420",
+  "subset_sizes": [
+    5,
+    10,
+    15
+  ],
+  "wall_cap_seconds": 60
+}

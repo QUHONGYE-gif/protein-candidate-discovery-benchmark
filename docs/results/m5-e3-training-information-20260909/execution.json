@@ -1,0 +1,26 @@
+{
+  "application_delta": null,
+  "arms": [
+    "old32",
+    "old64",
+    "new32",
+    "new64"
+  ],
+  "batch_size": 16,
+  "common_initial_count": 64,
+  "evidence_stage": "ITERATION",
+  "frontier_sha256": "67e98445f6c4fe3f6fd46a966b2af321122ea4c1cc8371a7eac81fef164715ba",
+  "frontier_source_sha256": "5c4b1cc26f70134db894981373cee6c79bf20f8092e72b173a9d204aaceda449",
+  "helper_sha256": "92e384e1972f03144706000b84ef900a909127651478593692baa4207f1be0f1",
+  "input_sha256": "cfe2e613ed20969ea8a6072e703de6cead9affb745b66a5be4b8d047a6f13d10",
+  "label_cost_all_arms": 80,
+  "mode": "full",
+  "new_fits": 0,
+  "new_measurements": 0,
+  "plan_sha256": "3950a48d532aca788cbd183d6b88639df2933ff692405ca956d0060be0040b08",
+  "prior_result_sha256": "937febfe04c7f45ff490249fdce1f33b0944d54b7a9a9a9939f3a0776d51eb08",
+  "protocol": "m5-e3-common-pool-information-v1",
+  "runtime_sha256": "75504878c51f03590329b3e5cdb92e47f7c1be8191bec63c5c33af69763dfce0",
+  "source_sha256": "08adda7de52ca268e06250c4cb7d69363fb9f7a711d4f1c2a5b7cde6e5e9d2ac",
+  "truth_boundary": "prediction-only worker exits before evaluator; not OS isolation"
+}

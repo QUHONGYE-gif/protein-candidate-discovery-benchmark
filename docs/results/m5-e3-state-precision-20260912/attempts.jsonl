@@ -1,0 +1,4 @@
+{"attempt": "precision-state-smoke-001", "status": "started", "time": "2026-09-12T12:51:56.643423+00:00"}
+{"attempt": "precision-state-smoke-001", "status": "exited", "time": "2026-09-12T12:52:12.611657+00:00", "exit_code": 0, "wall_seconds": 15.968038247898221}
+{"attempt": "precision-state-full-001", "status": "started", "time": "2026-09-12T12:55:02.957291+00:00"}
+{"attempt": "precision-state-full-001", "status": "exited", "time": "2026-09-12T13:00:05.787513+00:00", "exit_code": 0, "wall_seconds": 302.83006064919755}

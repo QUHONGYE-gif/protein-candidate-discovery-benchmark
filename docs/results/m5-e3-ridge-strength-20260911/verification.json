@@ -1,0 +1,37 @@
+{
+  "advisory": {
+    "additional_auc_rank_sum_checks": 273,
+    "additional_auc_rank_sum_max_error": 0.0,
+    "claim_sha256": "00a1688e915ebbc3aa6c7c1b1065ea60df2591d676a0775e6b20d25bf9373f0b",
+    "conclusion_bearing_defects": [],
+    "independently_reconstructed_raw_arrays": false,
+    "limits": [
+      "single selected seen landscape and reference-conditioned pools",
+      "sparse outcomes and descriptive non-simultaneous intervals",
+      "no upstream mechanism or noise attribution",
+      "formal non-author review pending"
+    ],
+    "recommendation": "accept current exploratory claim",
+    "reviewer_reexecuted_compact_verifier": true,
+    "type": "fresh-context agent; not formal scientific approval"
+  },
+  "checks": [
+    "synthetic primal/dual reference checks",
+    "all original lambda1 models/predictions/choices exactly reconstructed by server",
+    "source Ruff format/lint and syntax",
+    "compact privacy and relative links"
+  ],
+  "ci": "See PR106 current-head checks; not part of scientific evidence",
+  "formal_scientific_gate": "pending QUHONGYE-gif",
+  "implementation": "complete",
+  "independent_compact_arithmetic": {
+    "checks": 4755,
+    "record": "independent-verification.json",
+    "status": "PASS"
+  },
+  "promotion": "none",
+  "result_sha256": "c7e412149923531e121e3c3640bda9985e2c5e2001cee3b23f5c2dec892a1efa",
+  "server_execution": "smoke/full first attempts succeeded",
+  "source_sha256": "552110cc332e26446ce8728451f3d265177e21c1cd3697059a091889ea2ba0c8",
+  "stage": "ITERATION/L1"
+}

@@ -1,0 +1,9 @@
+{
+  "artifacts": {
+    "result.json.gz": "b0747457eb6568e5363e5b38dd8c9b626bceb6c879c01c274ec00ea9be343ae7"
+  },
+  "finished_at": "2026-09-09T16:11:13.126703+00:00",
+  "peak_mib": 43.515625,
+  "status": "succeeded",
+  "wall_seconds": 0.02829983294941485
+}

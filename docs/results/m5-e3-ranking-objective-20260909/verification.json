@@ -1,0 +1,1386 @@
+{
+  "count_checks": 720,
+  "endpoint_checks": 420,
+  "input_sha256": "2fa605028a65b5ac5e7a94cbd6f2ac9347c00de4114b8129f3963a3b928cdeaf",
+  "interval_checks": 91,
+  "limits": [
+    "development",
+    "one ranking implementation",
+    "ordinal scores not calibrated",
+    "no new E/UQ claim",
+    "conditional frontier not independent",
+    "no application delta",
+    "no population CI",
+    "joint M5 incomplete"
+  ],
+  "smoke_full_exact_states": 6,
+  "source_sha256": "9875a93dbff467f97f6593b8e2da6b9e38dbea08706253d683d0d7eaef580812",
+  "states": 60,
+  "status": "AGGREGATE_CHECKS_PASS",
+  "summaries": [
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "effects": {
+        "common_frontier_auc": {
+          "defined_pairs": 8
+        },
+        "far_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.03214594167437897,
+            "interval": [
+              -0.0001571817539659259,
+              0.06265156095747175
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.7250877235373854,
+          "regression": 0.6929417818630064
+        },
+        "first_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 3.9,
+            "interval": [
+              -25.1,
+              31.3
+            ],
+            "seed": 11232
+          },
+          "ranking": 45.5,
+          "regression": 41.6
+        },
+        "greedy_best": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.02837822750000003,
+            "interval": [
+              -0.12910664142250003,
+              0.08167802604312473
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.054540710199999974,
+          "regression": 0.0829189377
+        },
+        "greedy_hits": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.2,
+            "interval": [
+              -0.6,
+              0.0
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.2,
+          "regression": 0.4
+        },
+        "greedy_recall": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.000529100529100529,
+            "interval": [
+              -0.0015873015873015873,
+              0.0
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.000529100529100529,
+          "regression": 0.001058201058201058
+        },
+        "hits_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.5,
+            "interval": [
+              -1.5,
+              0.6
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.7,
+          "regression": 1.2
+        },
+        "hits_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -1.1,
+            "interval": [
+              -3.6,
+              0.8
+            ],
+            "seed": 11232
+          },
+          "ranking": 1.3,
+          "regression": 2.4
+        },
+        "median_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -1610.4,
+            "interval": [
+              -3196.6549999999997,
+              144.08265624999822
+            ],
+            "seed": 11232
+          },
+          "ranking": 8920.35,
+          "regression": 10530.75
+        },
+        "near_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0021144303268355426,
+            "interval": [
+              -0.015612328800819164,
+              0.010681574639038759
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.4943646448555657,
+          "regression": 0.4964790751824012
+        },
+        "spearman": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.06196174983547627,
+            "interval": [
+              0.015978101876021236,
+              0.10665722858135933
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.6151096601391279,
+          "regression": 0.5531479103036516
+        },
+        "top16_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.8,
+            "interval": [
+              -0.1,
+              1.7
+            ],
+            "seed": 11232
+          },
+          "ranking": 15.4,
+          "regression": 14.6
+        },
+        "top16_high": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.2,
+            "interval": [
+              -0.6,
+              0.0
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.2,
+          "regression": 0.4
+        },
+        "top16_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.6,
+            "interval": [
+              -1.4,
+              0.2
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.4,
+          "regression": 1.0
+        },
+        "top1_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.031800435334853695,
+            "interval": [
+              -0.00022254393207260108,
+              0.0620173131303604
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.7227599141980485,
+          "regression": 0.6909594788631949
+        },
+        "training_spearman": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.001026392961876832,
+            "interval": [
+              -0.0016495601173020513,
+              -0.0005865102639296182
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.998790322580645,
+          "regression": 0.9998167155425219
+        }
+      },
+      "paired_states": 10,
+      "training_count": 32
+    },
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "effects": {
+        "common_frontier_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.054995040324976444,
+            "interval": [
+              -0.3528977633352206,
+              0.23693133409027595
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.46496401582171176,
+          "regression": 0.5199590561466881
+        },
+        "far_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.01666454243687514,
+            "interval": [
+              -0.010766096830925772,
+              0.0458964893628024
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.7377948524862944,
+          "regression": 0.7211303100494193
+        },
+        "first_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 31.7,
+            "interval": [
+              -27.8,
+              111.05093749999979
+            ],
+            "seed": 11264
+          },
+          "ranking": 58.4,
+          "regression": 26.7
+        },
+        "greedy_best": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.02385480860000002,
+            "interval": [
+              -0.1975557291546875,
+              0.11046275611687494
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.11779324049999998,
+          "regression": 0.1416480491
+        },
+        "greedy_hits": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.1,
+            "interval": [
+              -1.3,
+              1.2
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.8,
+          "regression": 0.7
+        },
+        "greedy_recall": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0002645502645502645,
+            "interval": [
+              -0.003439153439153439,
+              0.0031746031746031746
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.002116402116402116,
+          "regression": 0.0018518518518518517
+        },
+        "hits_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.1,
+            "interval": [
+              -1.6,
+              0.8
+            ],
+            "seed": 11264
+          },
+          "ranking": 1.3,
+          "regression": 1.4
+        },
+        "hits_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.7,
+            "interval": [
+              -2.2,
+              0.7
+            ],
+            "seed": 11264
+          },
+          "ranking": 2.0,
+          "regression": 2.7
+        },
+        "median_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -575.1,
+            "interval": [
+              -2020.8267187499998,
+              697.5515624999996
+            ],
+            "seed": 11264
+          },
+          "ranking": 8445.9,
+          "regression": 9021.0
+        },
+        "near_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.004624437316214053,
+            "interval": [
+              -0.016273431440927952,
+              0.020691710962697257
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.49593235741573355,
+          "regression": 0.49130792009951946
+        },
+        "spearman": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.030061279157481403,
+            "interval": [
+              -0.002543325600072881,
+              0.06777853344817603
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.6398771962699767,
+          "regression": 0.6098159171124953
+        },
+        "top16_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.1,
+            "interval": [
+              -1.5,
+              1.2
+            ],
+            "seed": 11264
+          },
+          "ranking": 14.7,
+          "regression": 14.6
+        },
+        "top16_high": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.1,
+            "interval": [
+              -1.3,
+              1.2
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.8,
+          "regression": 0.7
+        },
+        "top16_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.2,
+            "interval": [
+              -1.0,
+              0.8
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.5,
+          "regression": 0.7
+        },
+        "top1_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.016543081826290072,
+            "interval": [
+              -0.010769593359600543,
+              0.04560381671406298
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.735354533564429,
+          "regression": 0.718811451738139
+        },
+        "training_spearman": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.002202383573050126,
+            "interval": [
+              -0.0026556776556776462,
+              -0.0017032967032966973
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.997631636514505,
+          "regression": 0.9998340200875552
+        }
+      },
+      "paired_states": 10,
+      "training_count": 64
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "effects": {
+        "common_frontier_auc": {
+          "defined_pairs": 8
+        },
+        "far_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0034503336400862174,
+            "interval": [
+              -0.03198547372277344,
+              0.024667679828909717
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.5551268036292933,
+          "regression": 0.5585771372693794
+        },
+        "first_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -17.9,
+            "interval": [
+              -68.7,
+              52.15031249999993
+            ],
+            "seed": 11232
+          },
+          "ranking": 57.9,
+          "regression": 75.8
+        },
+        "greedy_best": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.042111653605299997,
+            "interval": [
+              -0.12562517018705968,
+              0.041003076575600025
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.022653668515700005,
+          "regression": 0.064765322121
+        },
+        "greedy_hits": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              -0.5,
+              0.5
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.2,
+          "regression": 0.2
+        },
+        "greedy_recall": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              -0.0037593984962406013,
+              0.0037593984962406013
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.0015037593984962405,
+          "regression": 0.0015037593984962405
+        },
+        "hits_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.2,
+            "interval": [
+              -0.5,
+              0.8
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.4,
+          "regression": 0.2
+        },
+        "hits_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.3,
+            "interval": [
+              -0.6,
+              1.1
+            ],
+            "seed": 11232
+          },
+          "ranking": 1.2,
+          "regression": 0.9
+        },
+        "median_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -59.85,
+            "interval": [
+              -740.23640625,
+              794.4785937499992
+            ],
+            "seed": 11232
+          },
+          "ranking": 5694.0,
+          "regression": 5753.85
+        },
+        "near_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.002516710964019253,
+            "interval": [
+              -0.03654227890191732,
+              0.030266114279943367
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.5568166813991505,
+          "regression": 0.5593333923631698
+        },
+        "spearman": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.01269470959911155,
+            "interval": [
+              -0.01443311640349267,
+              0.04060280243875208
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.28568383477372394,
+          "regression": 0.2729891251746124
+        },
+        "top16_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.4,
+            "interval": [
+              -0.5,
+              1.5
+            ],
+            "seed": 11232
+          },
+          "ranking": 15.7,
+          "regression": 15.3
+        },
+        "top16_high": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0,
+            "interval": [
+              -0.5,
+              0.5
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.2,
+          "regression": 0.2
+        },
+        "top16_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.4,
+            "interval": [
+              -1.4,
+              0.3
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.1,
+          "regression": 0.5
+        },
+        "top1_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0034401988727633228,
+            "interval": [
+              -0.03201461849513708,
+              0.024588304479611956
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.5551442448982915,
+          "regression": 0.558584443771055
+        },
+        "training_spearman": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.001063049853372433,
+            "interval": [
+              -0.0017228739002932536,
+              -0.0004765395894428148
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.9986070381231672,
+          "regression": 0.9996700879765396
+        }
+      },
+      "paired_states": 10,
+      "training_count": 32
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "effects": {
+        "common_frontier_auc": {
+          "defined_pairs": 9
+        },
+        "far_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.009353748415430702,
+            "interval": [
+              -0.03963262370243671,
+              0.022210699081116368
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.5729827382564399,
+          "regression": 0.5823364866718704
+        },
+        "first_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 46.9,
+            "interval": [
+              -18.8,
+              150.40062499999985
+            ],
+            "seed": 11264
+          },
+          "ranking": 84.0,
+          "regression": 37.1
+        },
+        "greedy_best": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.11282269144040002,
+            "interval": [
+              -0.2805302545084,
+              0.0
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.0031306595945999995,
+          "regression": 0.11595335103500001
+        },
+        "greedy_hits": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -1.6,
+            "interval": [
+              -5.6,
+              0.2
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.1,
+          "regression": 1.7
+        },
+        "greedy_recall": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.012030075187969924,
+            "interval": [
+              -0.042105263157894736,
+              0.0015037593984962405
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.0007518796992481202,
+          "regression": 0.012781954887218044
+        },
+        "hits_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -1.8,
+            "interval": [
+              -6.4,
+              0.2
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.3,
+          "regression": 2.1
+        },
+        "hits_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -2.0,
+            "interval": [
+              -8.2,
+              1.4
+            ],
+            "seed": 11264
+          },
+          "ranking": 1.3,
+          "regression": 3.3
+        },
+        "median_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -91.8,
+            "interval": [
+              -660.4,
+              461.0068749999984
+            ],
+            "seed": 11264
+          },
+          "ranking": 5244.0,
+          "regression": 5335.8
+        },
+        "near_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.01788049867494072,
+            "interval": [
+              -0.050433481619351433,
+              0.018641897408876236
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.5583877136361381,
+          "regression": 0.5762682123110789
+        },
+        "spearman": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.022170072617335567,
+            "interval": [
+              -0.04170913366223694,
+              -0.0037697622988168253
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.28137317956654556,
+          "regression": 0.3035432521838811
+        },
+        "top16_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 1.7,
+            "interval": [
+              -0.4,
+              5.8
+            ],
+            "seed": 11264
+          },
+          "ranking": 15.8,
+          "regression": 14.1
+        },
+        "top16_high": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -1.6,
+            "interval": [
+              -5.6,
+              0.2
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.1,
+          "regression": 1.7
+        },
+        "top16_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.1,
+            "interval": [
+              -0.8,
+              0.4
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.1,
+          "regression": 0.2
+        },
+        "top1_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.009439633640962924,
+            "interval": [
+              -0.039604815357273136,
+              0.022112162086361853
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.5728356128980485,
+          "regression": 0.5822752465390113
+        },
+        "training_spearman": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.004258241758241743,
+            "interval": [
+              -0.0048809523809523634,
+              -0.0035851648351648223
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.9955769230769231,
+          "regression": 0.9998351648351648
+        }
+      },
+      "paired_states": 10,
+      "training_count": 64
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "effects": {
+        "common_frontier_auc": {
+          "defined_pairs": 6
+        },
+        "far_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0026077434082049378,
+            "interval": [
+              -0.023201794137579255,
+              0.02348600199327377
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.5337118474349369,
+          "regression": 0.531104104026732
+        },
+        "first_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -53.7,
+            "interval": [
+              -184.6515625,
+              119.70062499999985
+            ],
+            "seed": 11232
+          },
+          "ranking": 116.0,
+          "regression": 169.7
+        },
+        "greedy_best": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.17424174530000003,
+            "interval": [
+              0.0,
+              0.5722092853999999
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.2548731564,
+          "regression": 0.08063141109999998
+        },
+        "greedy_hits": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.3,
+            "interval": [
+              0.0,
+              0.7
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.3,
+          "regression": 0.0
+        },
+        "greedy_recall": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0034883720930232558,
+            "interval": [
+              0.0,
+              0.00813953488372093
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.0034883720930232558,
+          "regression": 0.0
+        },
+        "hits_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.4,
+            "interval": [
+              0.0,
+              0.8
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.4,
+          "regression": 0.0
+        },
+        "hits_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.6,
+            "interval": [
+              -0.2,
+              1.6
+            ],
+            "seed": 11232
+          },
+          "ranking": 1.0,
+          "regression": 0.4
+        },
+        "median_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -107.05,
+            "interval": [
+              -462.8021875,
+              179.7279687499993
+            ],
+            "seed": 11232
+          },
+          "ranking": 3813.0,
+          "regression": 3920.05
+        },
+        "near_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0013031399942663945,
+            "interval": [
+              -0.02671443971720652,
+              0.03493413339933711
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.477799357951433,
+          "regression": 0.4764962179571667
+        },
+        "spearman": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.028708261329177708,
+            "interval": [
+              0.003049942943234351,
+              0.053446776356402353
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.3564380180874944,
+          "regression": 0.3277297567583168
+        },
+        "top16_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.5,
+            "interval": [
+              -1.1,
+              0.0
+            ],
+            "seed": 11232
+          },
+          "ranking": 15.4,
+          "regression": 15.9
+        },
+        "top16_high": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.3,
+            "interval": [
+              0.0,
+              0.7
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.3,
+          "regression": 0.0
+        },
+        "top16_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.2,
+            "interval": [
+              0.0,
+              0.6
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.3,
+          "regression": 0.1
+        },
+        "top1_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0025933687429186393,
+            "interval": [
+              -0.02317007087433424,
+              0.023490655200588954
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.5331439121858093,
+          "regression": 0.5305505434428907
+        },
+        "training_spearman": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.00128299120234604,
+            "interval": [
+              -0.0016862170087976525,
+              -0.0007697947214076239
+            ],
+            "seed": 11232
+          },
+          "ranking": 0.9986070381231672,
+          "regression": 0.9998900293255131
+        }
+      },
+      "paired_states": 10,
+      "training_count": 32
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "effects": {
+        "common_frontier_auc": {
+          "defined_pairs": 7
+        },
+        "far_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.007013708044885636,
+            "interval": [
+              -0.01651086566543056,
+              0.03073170127597239
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.549197178219277,
+          "regression": 0.5421834701743916
+        },
+        "first_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -5.2,
+            "interval": [
+              -152.8509375,
+              144.4
+            ],
+            "seed": 11264
+          },
+          "ranking": 119.7,
+          "regression": 124.9
+        },
+        "greedy_best": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.31021304650000003,
+            "interval": [
+              -0.8392657446000003,
+              0.0
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.019455392100000024,
+          "regression": 0.32966843860000006
+        },
+        "greedy_hits": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.2,
+            "interval": [
+              -0.6,
+              0.0
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.1,
+          "regression": 0.3
+        },
+        "greedy_recall": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.002325581395348837,
+            "interval": [
+              -0.0069767441860465115,
+              0.0
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.0011627906976744186,
+          "regression": 0.0034883720930232558
+        },
+        "hits_32": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.2,
+            "interval": [
+              -0.7,
+              0.3
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.2,
+          "regression": 0.4
+        },
+        "hits_64": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.2,
+            "interval": [
+              -1.2,
+              1.1
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.7,
+          "regression": 0.9
+        },
+        "median_high_rank": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -49.7,
+            "interval": [
+              -522.22640625,
+              402.229218749999
+            ],
+            "seed": 11264
+          },
+          "ranking": 3644.55,
+          "regression": 3694.25
+        },
+        "near_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.004586472886485426,
+            "interval": [
+              -0.021748964733389622,
+              0.03218405141515096
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.4855303283913381,
+          "regression": 0.48094385550485264
+        },
+        "spearman": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.0021529538125811044,
+            "interval": [
+              -0.020838962659140238,
+              0.025430093242947815
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.3493628450705134,
+          "regression": 0.34720989125793217
+        },
+        "top16_far": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.5,
+            "interval": [
+              -0.2,
+              1.3
+            ],
+            "seed": 11264
+          },
+          "ranking": 15.7,
+          "regression": 15.2
+        },
+        "top16_high": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.2,
+            "interval": [
+              -0.6,
+              0.0
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.1,
+          "regression": 0.3
+        },
+        "top16_near": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.3,
+            "interval": [
+              -0.8,
+              0.3
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.2,
+          "regression": 0.5
+        },
+        "top1_auc": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": 0.006989003514769015,
+            "interval": [
+              -0.016519262731817475,
+              0.030722659627588616
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.5485514239969089,
+          "regression": 0.5415624204821399
+        },
+        "training_spearman": {
+          "change": {
+            "coverage": 0.99375,
+            "draws": 20000,
+            "estimate": -0.0033882783882783762,
+            "interval": [
+              -0.004207875457875443,
+              -0.0027197802197802103
+            ],
+            "seed": 11264
+          },
+          "ranking": 0.9964697802197803,
+          "regression": 0.9998580586080585
+        }
+      },
+      "paired_states": 10,
+      "training_count": 64
+    }
+  ],
+  "undefined_cells": [
+    {
+      "assay_id": "PABP_YEAST_Melamed_2013",
+      "defined_pairs": 8,
+      "metric": "common_frontier_auc",
+      "training_count": 32
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "defined_pairs": 8,
+      "metric": "common_frontier_auc",
+      "training_count": 32
+    },
+    {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "defined_pairs": 9,
+      "metric": "common_frontier_auc",
+      "training_count": 64
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "defined_pairs": 6,
+      "metric": "common_frontier_auc",
+      "training_count": 32
+    },
+    {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "defined_pairs": 7,
+      "metric": "common_frontier_auc",
+      "training_count": 64
+    }
+  ],
+  "verifier_sha256": "3d513f8d0a94f3a4a0617dbdb9fbb91748d599cfbf6fc68eb3f8cdc06f42bcdf"
+}

@@ -1,0 +1,13 @@
+{
+  "arm_mean_checks": 684,
+  "candidate_or_raw_truth_access": false,
+  "independent_intervals": 348,
+  "input_sha256": "67e98445f6c4fe3f6fd46a966b2af321122ea4c1cc8371a7eac81fef164715ba",
+  "old_endpoint_reconstructions": 72,
+  "result_sha256": "9230b53af3ddf27d1d6e0f12873cb56dd1399498b47ac6eb20a61e688552eb79",
+  "source_sha256": "f6da9bcc0834f963cf040a6f663f6723b6bcb8f05242499abe8b6607bac33d02",
+  "states": 120,
+  "status": "PASS",
+  "summary_cells": 18,
+  "wall_seconds": 1.2058828331064433
+}
