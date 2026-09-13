@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 from collections.abc import Sequence
+from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
 from numpy.typing import NDArray
@@ -61,6 +62,7 @@ class RFScorer:
         seed: int,
         initial_ids: tuple[str, ...],
         warmup_ids: tuple[str, ...],
+        member_jobs: int = 1,
     ) -> None:
         if (
             not ids
@@ -72,6 +74,9 @@ class RFScorer:
             or not set(warmup_ids).issubset(ids)
         ):
             raise ValueError("invalid observable feature or initial identity")
+        if type(member_jobs) is not int or not 1 <= member_jobs <= 5:
+            raise ValueError("member_jobs must be an integer in [1, 5]")
+        self.member_jobs = member_jobs
         self.ids = ids
         self.x = features.copy()
         self.x.flags.writeable = False
@@ -103,23 +108,33 @@ class RFScorer:
         li, ly, lh = self._rows(state.low)
         if not hi:
             raise ValueError("HF observations required")
-        h, lf_samples = np.zeros((5, len(self.ids))), np.zeros((5, len(self.ids)))
-        for member in range(5):
+
+        def fit_member(member: int) -> tuple[Array, Array]:
+            # 每个任务独立持有模型和数组；森林内部 n_jobs=1，避免嵌套并行。
+            low_prediction = np.zeros(len(self.ids))
             if li:
                 draw = self._draw("low", lh, member, len(li))
                 model = RandomForestRegressor(**dict(_RANDOM_FOREST_PARAMETERS))
                 model.fit(self.x[li][draw], ly[draw])
-                lf_samples[member] = model.predict(self.x)
-                lf_samples[member, li] = ly
+                low_prediction = np.asarray(model.predict(self.x), dtype=np.float64)
+                low_prediction[li] = ly
             paid = np.zeros(len(self.ids))
             paid[li] = 1
-            xh = np.column_stack((self.x, lf_samples[member], paid))
+            xh = np.column_stack((self.x, low_prediction, paid))
             draw = self._draw("high", hh, member, len(hi))
             model = RandomForestRegressor(**dict(_RANDOM_FOREST_PARAMETERS))
             model.fit(xh[hi][draw], hy[draw])
-            h[member] = model.predict(xh)
-            h[member, hi] = hy
-        return h, lf_samples
+            high_prediction = np.asarray(model.predict(xh), dtype=np.float64)
+            high_prediction[hi] = hy
+            return high_prediction, low_prediction
+
+        if self.member_jobs == 1:
+            members = [fit_member(member) for member in range(5)]
+        else:
+            with ThreadPoolExecutor(max_workers=self.member_jobs) as pool:
+                # map 保留 member 次序，后续均值和 covariance 的浮点归约顺序不变。
+                members = list(pool.map(fit_member, range(5)))
+        return np.stack([m[0] for m in members]), np.stack([m[1] for m in members])
 
     def __call__(self, state: State) -> Scores:
         h, lf_samples = self.samples(state)

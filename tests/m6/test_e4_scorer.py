@@ -89,3 +89,47 @@ def test_hf_observation_changes_do_not_train_lf_model() -> None:
         replace(state, high=(Observation("c0", -100.0), Observation("c1", 100.0)))
     )
     np.testing.assert_array_equal(before, after)
+
+
+def test_threaded_members_preserve_exact_predictions_scores_and_action() -> None:
+    from pcdb.m6.e4_policy import make_e4_policy
+
+    state = _state()
+    features = np.random.default_rng(27).normal(size=(8, 420))
+    serial = RFScorer(
+        state.candidate_ids,
+        features,
+        task="t",
+        seed=1729,
+        initial_ids=("c0", "c1"),
+        warmup_ids=("c0", "c1"),
+    )
+    parallel = RFScorer(
+        state.candidate_ids,
+        features,
+        task="t",
+        seed=1729,
+        initial_ids=("c0", "c1"),
+        warmup_ids=("c0", "c1"),
+        member_jobs=2,
+    )
+    for first, second in zip(serial.samples(state), parallel.samples(state), strict=True):
+        np.testing.assert_array_equal(first, second)
+    assert serial(state) == parallel(state)
+    a = make_e4_policy("cost_aware", serial, seed=1729, initial_ids=("c0", "c1"))
+    b = make_e4_policy("cost_aware", parallel, seed=1729, initial_ids=("c0", "c1"))
+    assert a(state) == b(state)
+
+
+@pytest.mark.parametrize("jobs", [0, -1, 6, True])
+def test_invalid_thread_count_fails_closed(jobs: int) -> None:
+    with pytest.raises(ValueError, match="member_jobs"):
+        RFScorer(
+            ("c0", "c1"),
+            np.zeros((2, 420)),
+            task="t",
+            seed=1,
+            initial_ids=("c0",),
+            warmup_ids=(),
+            member_jobs=jobs,
+        )
