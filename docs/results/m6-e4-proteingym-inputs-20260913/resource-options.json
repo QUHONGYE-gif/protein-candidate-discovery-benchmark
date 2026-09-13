@@ -1,0 +1,36 @@
+{
+  "assays": 4,
+  "not_runtime_guarantee": true,
+  "options": [
+    {
+      "hf_only_references": 60,
+      "logical_rows": 320,
+      "projected_hours": 60.08304786483447,
+      "projected_seconds": 216298.97231340408,
+      "scientific_change_accepted": true,
+      "scorer_call_bound": 39360,
+      "seeds_per_assay": 5,
+      "status": "RESOURCE_STOP",
+      "unique_trajectories": 260
+    },
+    {
+      "hf_only_references": 36,
+      "logical_rows": 192,
+      "projected_hours": 36.04982871890068,
+      "projected_seconds": 129779.38338804245,
+      "scientific_change_accepted": false,
+      "scorer_call_bound": 23616,
+      "seeds_per_assay": 3,
+      "status": "PASS",
+      "unique_trajectories": 156
+    }
+  ],
+  "preflight_fraction": 0.8,
+  "preflight_threshold_seconds_before_preparation": 155520.0,
+  "probe_max_member_jobs_2_seconds": 5.495400719344616,
+  "probe_sha256": "81e1c6f3772cb67e9693009bbb164d6775582c4d03380ee356b873294d948ab1",
+  "projection_only": true,
+  "schema_version": "m6-e4-proteingym-resource-options-v1",
+  "selected_alternative": null,
+  "wall_budget_seconds": 194400
+}
