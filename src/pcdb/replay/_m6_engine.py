@@ -1,7 +1,7 @@
-"""两保真成本回放的内部原型，仅用于 synthetic 工程验证。
+"""两保真成本回放的实验内部引擎。
 
 成本为调用方明确给出的整数单位；没有默认科学成本模型。LF 和 HF 分别收费，
-HF 揭示才计为发现。尚不接入 RunSpec、真实数据入口或正式 M6 协议。
+HF 揭示才计为发现。调用方负责真实输入绑定；本模块不注册公共 RunSpec。
 """
 
 from __future__ import annotations
@@ -97,6 +97,7 @@ def replay(
     policy: Policy,
     *,
     initial_high: tuple[str, ...] = (),
+    on_event: Callable[[Event], None] | None = None,
 ) -> Trace:
     """每次调用建立独立 oracle；整批校验后才揭示和记账。"""
     _positive_integer(budget, "budget")
@@ -126,7 +127,10 @@ def replay(
             observation = oracle.reveal((action.candidate_id,))[0]
             spent += costs.price(action.fidelity)
             purchased.add(action)
-            events.append(Event(action, observation.label, spent))
+            event = Event(action, observation.label, spent)
+            events.append(event)
+            if on_event is not None:
+                on_event(event)
 
     buy(tuple(Action(candidate, "high") for candidate in initial_high))
     while True:
