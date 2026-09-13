@@ -1,0 +1,22 @@
+{
+  "artifact_bytes": 2147483648,
+  "authority": "github_issue",
+  "automatic_scientific_retries": 0,
+  "cos_writes": 0,
+  "docker_stop_authorized": true,
+  "execution_authority": "user-directed-exception-20260913",
+  "gate_a": "PENDING",
+  "held_out_authorized": false,
+  "issue_number": 107,
+  "member_jobs": 2,
+  "native_threads": 1,
+  "peak_rss_bytes": 1610612736,
+  "preflight_fraction": 0.8,
+  "proposal_id": "m6-e4-development-v1",
+  "proposal_sha256": "337c56e5786503a08f637d345758e7606fdcda2fa998112b0b4ad44d714ceeae",
+  "rf_n_jobs": 1,
+  "schema_version": "m6-e4-operation-v2",
+  "transfer_bytes": 104857600,
+  "user_instruction": "使用服务器进行运算，调整时间预算为54小时，允许多线程，可先关闭服务器docker服务",
+  "wall_budget_seconds": 194400
+}

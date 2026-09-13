@@ -1,0 +1,94 @@
+{
+  "environment": {
+    "cpu_count": 2,
+    "packages": {
+      "numpy": "2.4.6",
+      "scikit-learn": "1.9.0",
+      "xgboost-cpu": "3.2.0"
+    },
+    "platform": "Linux-6.1.0-50-amd64-x86_64-with-glibc2.36",
+    "python": "3.11.2 (main, May 12 2026, 05:17:27) [GCC 12.2.0]"
+  },
+  "evidence_scope": "synthetic-thread-performance-only",
+  "finished_at": "2026-09-13T15:15:24.264732+00:00",
+  "gate_a": "PENDING",
+  "median_speedup": 1.6406721109945908,
+  "recommended_member_jobs": 2,
+  "rows": [
+    {
+      "cumulative_peak_rss_bytes": 142995456,
+      "member_jobs": 1,
+      "process_cpu_seconds": 9.237944366999999,
+      "repetition": 1,
+      "scores_sha256": "3d010c82e2ee4e7aa36cef255927702c7b17da39083d8c82e99c059537ecc749",
+      "wall_seconds": 9.270174940116704
+    },
+    {
+      "cumulative_peak_rss_bytes": 151310336,
+      "member_jobs": 2,
+      "process_cpu_seconds": 9.00125499,
+      "repetition": 1,
+      "scores_sha256": "3d010c82e2ee4e7aa36cef255927702c7b17da39083d8c82e99c059537ecc749",
+      "wall_seconds": 5.495400719344616
+    },
+    {
+      "cumulative_peak_rss_bytes": 151310336,
+      "member_jobs": 2,
+      "process_cpu_seconds": 9.016535215000001,
+      "repetition": 2,
+      "scores_sha256": "3d010c82e2ee4e7aa36cef255927702c7b17da39083d8c82e99c059537ecc749",
+      "wall_seconds": 5.484966171905398
+    },
+    {
+      "cumulative_peak_rss_bytes": 151310336,
+      "member_jobs": 1,
+      "process_cpu_seconds": 8.935260449000001,
+      "repetition": 2,
+      "scores_sha256": "3d010c82e2ee4e7aa36cef255927702c7b17da39083d8c82e99c059537ecc749",
+      "wall_seconds": 8.942732252180576
+    },
+    {
+      "cumulative_peak_rss_bytes": 151310336,
+      "member_jobs": 1,
+      "process_cpu_seconds": 9.005295139000005,
+      "repetition": 3,
+      "scores_sha256": "3d010c82e2ee4e7aa36cef255927702c7b17da39083d8c82e99c059537ecc749",
+      "wall_seconds": 9.013828873168677
+    },
+    {
+      "cumulative_peak_rss_bytes": 151310336,
+      "member_jobs": 2,
+      "process_cpu_seconds": 9.018707595999999,
+      "repetition": 3,
+      "scores_sha256": "3d010c82e2ee4e7aa36cef255927702c7b17da39083d8c82e99c059537ecc749",
+      "wall_seconds": 5.493985551875085
+    }
+  ],
+  "schema_version": "m6-e4-thread-probe-v1",
+  "scientific_trajectories": 0,
+  "scorer_call_bound": 19680,
+  "scores_exactly_equal": true,
+  "six_hour_cap_feasible": false,
+  "source_commit": "e1fd7a8dbfd5b38f9430464bc2aba23670ecc2f5",
+  "started_at": "2026-09-13T15:14:40.546494+00:00",
+  "status": "BENCHMARK_COMPLETE",
+  "summaries": [
+    {
+      "max_seconds": 9.270174940116704,
+      "median_seconds": 9.013828873168677,
+      "member_jobs": 1,
+      "min_seconds": 8.942732252180576,
+      "projected_max_hours": 50.676956339304645,
+      "projected_median_hours": 49.27559783998877
+    },
+    {
+      "max_seconds": 5.495400719344616,
+      "median_seconds": 5.493985551875085,
+      "member_jobs": 2,
+      "min_seconds": 5.484966171905398,
+      "projected_max_hours": 30.041523932417235,
+      "projected_median_hours": 30.033787683583796
+    }
+  ],
+  "truth_read": false
+}

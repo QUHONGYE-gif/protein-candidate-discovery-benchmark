@@ -1,0 +1,16 @@
+{
+  "acceptance_limit_seconds": 155485.0254096,
+  "legacy_six_hour_field_is_not_current_budget": true,
+  "max_peak_rss_bytes": 151310336,
+  "member_jobs": 2,
+  "operation_sha256": "f791b2a4f3311f4dc510bcf15745f5640c5fe560c1ab74ddf2719e3d046eda05",
+  "probe_wall_seconds": 43.718238,
+  "projected_scorer_seconds": 108149.48615670204,
+  "report_sha256": "81e1c6f3772cb67e9693009bbb164d6775582c4d03380ee356b873294d948ab1",
+  "report_source_commit": "e1fd7a8dbfd5b38f9430464bc2aba23670ecc2f5",
+  "schema_version": "m6-e4-operation-resource-check-v2",
+  "scientific_trajectories": 0,
+  "scores_exactly_equal": true,
+  "status": "PASS",
+  "wall_budget_seconds": 194400
+}
