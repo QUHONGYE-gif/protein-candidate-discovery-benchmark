@@ -1,6 +1,6 @@
 # M6 拆分与首个实现切片
 
-状态：S1 synthetic implementation；S2–S4 待定义/执行。
+状态：S1 与 S2 的四策略 synthetic 工程切片已实现；真实 S2/E4、S3/E5 与 S4 科学终态尚未完成。
 Authority：[GitHub Issue #107](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/107)。
 本文为实现范围与待审方案，不是冻结科学协议或 Gate A。
 
@@ -61,6 +61,72 @@ PYTHONPATH=src make check
 smoke 没有真实数据/文件读取参数，使用 8 个虚构候选，独立运行 HF-only toy 与
 screen-then-confirm toy。它不是正式 E4 的完整四策略比较，输出标记
 `synthetic-engineering-only`，两个干净进程 stdout 应 byte-identical。
+
+## S2 新增工程切片（2026-09-13）
+
+本轮继续实现可控代理生成、四策略选择器、单任务配对汇总和完整 synthetic 演示。
+它们是实验内部 Python 接口，不注册 schema、RunSpec、正式模型身份或真实数据入口。
+原 S1 两分支 smoke 保留，新增四策略入口：
+
+```sh
+PYTHONPATH=src python -m pcdb.m6.e4_smoke
+PYTHONPATH=src python -m pytest tests/m6 tests/replay/test_hidden_oracle.py tests/replay/test_m3_replay.py
+```
+
+### 可控代理
+
+生成器由 input/evaluator owner 调用。HF truth 按候选 ID 排序，中心化并除以 L2 norm 得到
+z；PCG64(seed) 高斯噪声先去均值，再去除 z 方向并归一化，得到正交向量 e。
+代理为 `rho*z + sqrt(1-rho**2)*e`，偏差前有限样本 Pearson 为配置的 rho。
+常数 truth、退化噪声和非法数值直接拒绝；不会通过重抽噪声寻找所需结果。
+
+高值区按 HF top-fraction 含并列定义，偏差开关将该区 LF 围绕区内 LF 均值做镜像。
+它反转区内 LF 原有排序，其余 LF 保持不变；并不保证偏差后 LF 与 HF 的局部相关性为 -1。
+返回实际全局 Pearson 和高值区 Spearman（并列使用平均秩，未定义返回 None）。
+偏差后不再强行调回 rho。truth、代理完整表和诊断都不能传给 scorer。
+
+### 四策略与评分接口
+
+所有策略仅把 S1 State 传给显式 scorer，后者返回全候选 predictive mean 和两种 fidelity
+的非负 information value。三张表必须 exact-cover 且有限。两种 value 必须在相同效用单位；
+数值校验不能证明这一科学语义，正式 scorer 仍需审查。没有默认真实 surrogate。
+
+- `hf_only`：只买 HF，按预测均值选择。
+- `fixed_ratio`：每 low_per_high 次 LF 后确认一次 HF；这是购买次数节奏，不是成本比例。
+  LF 选择依据信息价值，HF 优先在已筛候选中按均值选择。初始 HF 不计为筛选确认；预算末端
+  保留一次 HF 费用，不能凑足完整节奏时可提前 HF。状态重新计算，不使用共享可变计数器。
+- `hard_prescreen`：支付完整候选池 LF（包括初始 HF 候选），按 LF 排序固定保留比例，再在
+  该固定子集中按预测均值购买 HF。必须预先负担全池 LF 和至少一次追加 HF，否则 fail closed。
+  保留集不随 HF 购买向外扩张，子集耗尽允许提前停止。
+- `cost_aware`：在可购买 candidate/fidelity 中最大化 `information_value / explicit_cost`。
+  LF 之后必须仍能支付 HF。它依赖 scorer 给出的同单位期望信息收益，绝非 LF 原始分数除成本。
+  并列优先 HF，再按 seed 与 ID 的 SHA-256 确定顺序。
+
+所有策略共用初始 HF、总预算、候选池和 scorer；每条轨迹建立独立 oracle。硬筛和固定比例
+本身的信息可见性、节奏不同，因此不能声称它们沿途 observation states 相同。
+
+### 配对汇总
+
+Pair 显式携带 task、condition 和 seed；汇总拒绝跨 task/condition 混合、重复 seed 或预算
+不匹配。相同检查点比较 recall、已定义 regret 和 seed 内负向比例，保留 regret 有效对数。
+达到目标的时间晚于检查点仍为删失。节省率 `1 - treatment_cost / baseline_cost` 仅在双方
+截至该检查点均已达到目标时计算，同时报告双达标数和双方删失数。该条件子集均值不能
+外推成总体节省率，seed 负向比例也不是跨 assay 的负收益概率。
+
+### synthetic 演示的具体范围
+
+12 个虚构候选、3 个共同 seed、4 个稀疏条件（rho 0.8 基准、rho 0.2、高值区镜像、LF 成本
+从 1 增至 2），每条件四策略，共 48 条轨迹。HF 成本 4、总预算 40、初始 HF 2、top fraction
+0.25、目标 recall 0.5、LF/HF 次数节奏 2:1、硬筛保留 0.5。它们只定义此内置测试例子。
+
+scorer 使用明确标记的独立候选二元高斯 toy 信念：先验 LF/HF 方差 1、协方差 0.5；
+可观察 prior 单独给定，读取已购买 LF 后更新该候选 HF 均值和方差。以固定三点幻想估算最优
+后验均值提升，作为两个 fidelity 的同单位 value。该信念在四条件间完全一致，不读取代理
+生成器的实际 rho、未购买 LF/HF 或高值 membership。它没有跨候选拟合，不是已校准或正式
+选定的多保真 surrogate；48 条结果只验证工程链路，不是 Alpha/IRED 或 ProteinGym 证据。
+
+尚需完成正式 surrogate/scorer 对接、真实输入身份、运行/产物回读、统计规则和科学批准。
+不把本次新增选择器标为完整 S2 科学验收，也不由 toy 参数反推正式 M6 已冻结。
 
 ## S2 待审设计方向
 
