@@ -230,3 +230,29 @@ def test_prepare_pins_inputs_and_rejects_truth_hash_drift(tmp_path: Path) -> Non
     feature.write_bytes(feature.read_bytes() + b"drift")
     with pytest.raises(ValueError, match="input bytes drifted"):
         rt["validate_inputs"](output)
+
+
+def test_explicit_logical_index_and_four_of_five_direction() -> None:
+    rt = runpy.run_path(str(RUNTIME))
+    tasks, seeds = ["t1", "t2", "t3", "t4"], list(range(1729, 1734))
+    index = rt["logical_index"](tasks, seeds)
+    assert len(index) == 320
+    assert len({r["trajectory"] for r in index}) == 260
+    assert len({r["baseline"] for r in index}) == 20
+    evaluations: dict[tuple[str, int, str, str], Any] = {}
+    for key in rt["matrix"](tasks, seeds):
+        _, seed, condition, strategy = key
+        recall = 0.5
+        if strategy == "cost_aware" and seed < 1733:
+            recall = 0.8 if condition == "C0" else 0.2 if condition == "C2" else 0.5
+        evaluations[key] = {
+            "0.01": {"checkpoints": {"6400": {"recall": recall}}, "cost_to_target": None}
+        }
+    result = rt["summary"](evaluations, tasks, seeds)
+    assert result["verdict"] == "SUPPORTS_BOUNDED_HYPOTHESIS"
+    assert all(r["supports"] for r in result["mechanisms"])
+    # 3/5同向不满足用户选择的4/5，不能因mean跨门槛而宣称支持。
+    evaluations[("t1", 1732, "C0", "cost_aware")]["0.01"]["checkpoints"]["6400"]["recall"] = 0.5
+    result = rt["summary"](evaluations, tasks, seeds)
+    assert result["verdict"] == "UNSTABLE / REVISE"
+    assert not result["mechanisms"][0]["supports"]

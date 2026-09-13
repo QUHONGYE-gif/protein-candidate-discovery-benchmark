@@ -92,6 +92,23 @@ def matrix(tasks, seeds):
     ]
 
 
+def logical_index(tasks, seeds):
+    return [
+        dict(
+            task=t,
+            seed=s,
+            condition=c,
+            strategy=a,
+            trajectory="-".join(map(str, (t, s, "HF" if a == "hf_only" else c, a))),
+            baseline="-".join(map(str, (t, s, "HF", "hf_only"))),
+        )
+        for t in tasks
+        for s in seeds
+        for c, *_ in CONDITIONS
+        for a in STRATEGIES
+    ]
+
+
 def initial_ids(ids, task, seed):
     return tuple(
         sorted(
@@ -523,6 +540,16 @@ def execute(args):
             (output / "trajectories").mkdir()
         validate_inputs(output)
         keys = matrix(operation["assays"], operation["seeds"])
+        index = logical_index(operation["assays"], operation["seeds"])
+        if args.verify:
+            if read(output / "logical-index.json") != index:
+                raise ValueError("logical comparison index mismatch")
+            if {p.name for p in (output / "trajectories").iterdir()} != {
+                "-".join(map(str, k)) for k in keys
+            }:
+                raise ValueError("trajectory exact cover mismatch")
+        else:
+            write(output / "logical-index.json", index)
         evaluations = {}
         for key in keys:
             if args.verify:
