@@ -1,0 +1,94 @@
+{
+  "environment": {
+    "cpu_count": 2,
+    "packages": {
+      "numpy": "2.4.6",
+      "scikit-learn": "1.9.0",
+      "xgboost-cpu": "3.2.0"
+    },
+    "platform": "Linux-6.1.0-50-amd64-x86_64-with-glibc2.36",
+    "python": "3.11.2 (main, May 12 2026, 05:17:27) [GCC 12.2.0]"
+  },
+  "evidence_scope": "synthetic-thread-performance-only",
+  "finished_at": "2026-09-13T06:54:59.503980+00:00",
+  "gate_a": "PENDING",
+  "median_speedup": 1.0416552216264912,
+  "recommended_member_jobs": 2,
+  "rows": [
+    {
+      "cumulative_peak_rss_bytes": 143794176,
+      "member_jobs": 1,
+      "process_cpu_seconds": 9.989838137,
+      "repetition": 1,
+      "scores_sha256": "3d010c82e2ee4e7aa36cef255927702c7b17da39083d8c82e99c059537ecc749",
+      "wall_seconds": 10.337308614049107
+    },
+    {
+      "cumulative_peak_rss_bytes": 148901888,
+      "member_jobs": 2,
+      "process_cpu_seconds": 9.239250966,
+      "repetition": 1,
+      "scores_sha256": "3d010c82e2ee4e7aa36cef255927702c7b17da39083d8c82e99c059537ecc749",
+      "wall_seconds": 9.548662432003766
+    },
+    {
+      "cumulative_peak_rss_bytes": 150093824,
+      "member_jobs": 2,
+      "process_cpu_seconds": 9.457414941,
+      "repetition": 2,
+      "scores_sha256": "3d010c82e2ee4e7aa36cef255927702c7b17da39083d8c82e99c059537ecc749",
+      "wall_seconds": 9.282131645828485
+    },
+    {
+      "cumulative_peak_rss_bytes": 150093824,
+      "member_jobs": 1,
+      "process_cpu_seconds": 9.609945324999998,
+      "repetition": 2,
+      "scores_sha256": "3d010c82e2ee4e7aa36cef255927702c7b17da39083d8c82e99c059537ecc749",
+      "wall_seconds": 9.946414081845433
+    },
+    {
+      "cumulative_peak_rss_bytes": 150093824,
+      "member_jobs": 1,
+      "process_cpu_seconds": 9.651628430999999,
+      "repetition": 3,
+      "scores_sha256": "3d010c82e2ee4e7aa36cef255927702c7b17da39083d8c82e99c059537ecc749",
+      "wall_seconds": 9.899712643120438
+    },
+    {
+      "cumulative_peak_rss_bytes": 150921216,
+      "member_jobs": 2,
+      "process_cpu_seconds": 9.831201497000002,
+      "repetition": 3,
+      "scores_sha256": "3d010c82e2ee4e7aa36cef255927702c7b17da39083d8c82e99c059537ecc749",
+      "wall_seconds": 9.903636623173952
+    }
+  ],
+  "schema_version": "m6-e4-thread-probe-v1",
+  "scientific_trajectories": 0,
+  "scorer_call_bound": 19680,
+  "scores_exactly_equal": true,
+  "six_hour_cap_feasible": false,
+  "source_commit": "e1fd7a8dbfd5b38f9430464bc2aba23670ecc2f5",
+  "started_at": "2026-09-13T06:54:00.565399+00:00",
+  "status": "BENCHMARK_COMPLETE",
+  "summaries": [
+    {
+      "max_seconds": 10.337308614049107,
+      "median_seconds": 9.946414081845433,
+      "member_jobs": 1,
+      "min_seconds": 9.899712643120438,
+      "projected_max_hours": 56.51062042346845,
+      "projected_median_hours": 54.37373031408836
+    },
+    {
+      "max_seconds": 9.903636623173952,
+      "median_seconds": 9.548662432003766,
+      "member_jobs": 2,
+      "min_seconds": 9.282131645828485,
+      "projected_max_hours": 54.139880206684275,
+      "projected_median_hours": 52.19935462828725
+    }
+  ],
+  "truth_read": false
+}
