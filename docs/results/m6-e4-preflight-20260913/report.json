@@ -1,0 +1,27 @@
+{
+  "environment": {
+    "packages": {
+      "numpy": "2.4.6",
+      "scikit-learn": "1.9.0",
+      "xgboost-cpu": "3.2.0"
+    },
+    "platform": "Linux-6.1.0-50-amd64-x86_64-with-glibc2.36",
+    "python": "3.11.2 (main, May 12 2026, 05:17:27) [GCC 12.2.0]"
+  },
+  "environment_sha256": "21194a7a0e251e54f0d90973c62dbeeafc5685424f4ce8b945614a96e3a96377",
+  "evidence_scope": "synthetic-resource-preflight-only",
+  "execution_authority": "user-directed-exception-20260913",
+  "finished_at": "2026-09-13T06:42:00.056097+00:00",
+  "gate_a": "PENDING",
+  "peak_rss_bytes": 145788928,
+  "projected_seconds": 196042.2508417815,
+  "remaining_wall_seconds": 21590.038503514137,
+  "schema_version": "m6-e4-preflight-v1",
+  "scientific_trajectories": 0,
+  "scorer_call_bound": 19680,
+  "single_scorer_seconds": 9.961496485862881,
+  "source_commit": "3823c58259131046e0bf806c7c51417c17badbc3",
+  "started_at": "2026-09-13T06:41:50.084801+00:00",
+  "status": "RESOURCE_STOP",
+  "truth_read": false
+}
