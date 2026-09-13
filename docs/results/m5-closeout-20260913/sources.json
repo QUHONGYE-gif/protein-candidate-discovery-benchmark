@@ -1,0 +1,422 @@
+{
+  "kind": "m5_closeout_public_report_sources",
+  "date": "2026-09-13",
+  "new_experiments": false,
+  "evidence_promotion": false,
+  "sources": [
+    {
+      "id": "P",
+      "original_report_sha256": "953972d967e47917bc60b75fffcd80eba109fec30f66464cfe3c6e5f8e97c60a",
+      "original_report_bytes": 25499,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/M4_TO_M7_REVISED_EXPERIMENT_PLAN.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/M4_TO_M7_REVISED_EXPERIMENT_PLAN.md"
+    },
+    {
+      "id": "C0",
+      "original_report_sha256": "afcdf77816b728767401d53ae59df03aebedffc142924253a23683a342a1a6a9",
+      "original_report_bytes": 6489,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5c-gfp-20260908/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5c-gfp-20260908/README.md"
+    },
+    {
+      "id": "C1",
+      "original_report_sha256": "b162a7b7537b4c325bfa7d7ca730cd867a4a70355d56f6053aac09945a38f0ee",
+      "original_report_bytes": 10882,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5c-benign-20260908/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5c-benign-20260908/README.md"
+    },
+    {
+      "id": "D0",
+      "original_report_sha256": "5b6debeef1297646fd8419f5463bb3cb9ba328606a3733d14e188e3c9c9c3a50",
+      "original_report_bytes": 6766,
+      "kind": "existing_pinned_report",
+      "source_commit": "30517e24ca543a123b308f80d199227bf7703215",
+      "repository_path": "docs/results/m5d-formal-20260908/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/30517e24ca543a123b308f80d199227bf7703215/docs/results/m5d-formal-20260908/README.md"
+    },
+    {
+      "id": "D1",
+      "original_report_sha256": "99195a1a644665fa606800a80c61d7cf19b0f1b08ba623899d34c6f7f3703125",
+      "original_report_bytes": 7146,
+      "kind": "existing_pinned_report",
+      "source_commit": "30517e24ca543a123b308f80d199227bf7703215",
+      "repository_path": "docs/results/m5d-feature-iteration-20260909/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/30517e24ca543a123b308f80d199227bf7703215/docs/results/m5d-feature-iteration-20260909/README.md"
+    },
+    {
+      "id": "D2",
+      "original_report_sha256": "05219b4bff67aa0be70254e73230da65e15196a4105cd72a8c10c0a7f822b3e3",
+      "original_report_bytes": 6252,
+      "kind": "existing_pinned_report",
+      "source_commit": "30517e24ca543a123b308f80d199227bf7703215",
+      "repository_path": "docs/results/m5d-beta-iteration-20260909/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/30517e24ca543a123b308f80d199227bf7703215/docs/results/m5d-beta-iteration-20260909/README.md"
+    },
+    {
+      "id": "D3",
+      "original_report_sha256": "7d8adb4e13193dbe37d37279be4ea336b7f7473623d2daa4e5a75cd32ec44894",
+      "original_report_bytes": 6133,
+      "kind": "existing_pinned_report",
+      "source_commit": "30517e24ca543a123b308f80d199227bf7703215",
+      "repository_path": "docs/results/m5d-oof-diagnostic-20260909/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/30517e24ca543a123b308f80d199227bf7703215/docs/results/m5d-oof-diagnostic-20260909/README.md"
+    },
+    {
+      "id": "D4",
+      "original_report_sha256": "75bc4d7af2af0752c45c41b6d326113b76aeb27d553c8376e66315576e63fdda",
+      "original_report_bytes": 9175,
+      "kind": "existing_pinned_report",
+      "source_commit": "30517e24ca543a123b308f80d199227bf7703215",
+      "repository_path": "docs/results/m5d-site-coverage-20260909/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/30517e24ca543a123b308f80d199227bf7703215/docs/results/m5d-site-coverage-20260909/README.md"
+    },
+    {
+      "id": "E0",
+      "original_report_sha256": "da8b38ffd5e62feb3af32f0592d0ae789c0167020014e20e15b1d83cf8bc284b",
+      "original_report_bytes": 5085,
+      "kind": "curated_historical_report",
+      "reading_copy": "notes/E0.md",
+      "additional_claim_sources": [],
+      "reference": "notes/E0.md"
+    },
+    {
+      "id": "E1",
+      "original_report_sha256": "bd2edf78605a74223ce3c72842e60d5dee5b88deca925982f716a9a7a89333c7",
+      "original_report_bytes": 6494,
+      "kind": "curated_historical_report",
+      "reading_copy": "notes/E1.md",
+      "additional_claim_sources": [],
+      "reference": "notes/E1.md"
+    },
+    {
+      "id": "E2",
+      "original_report_sha256": "7c89eb843f82146f09650610c8e22af68d10440377090a868c3eeeef202e9438",
+      "original_report_bytes": 6604,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-input-intervention-20260909/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-input-intervention-20260909/README.md"
+    },
+    {
+      "id": "E3",
+      "original_report_sha256": "181a7bd4034caaf369484ec888f781a21e232c7fba5c042f6c2bfffc74cd59fb",
+      "original_report_bytes": 4209,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-gfp-20260909/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-gfp-20260909/README.md"
+    },
+    {
+      "id": "E4",
+      "original_report_sha256": "46c259b12c7dee6052fbfeea08a4984b1499ad0716ba0d033ee4bdb4d2238747",
+      "original_report_bytes": 11969,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-frontier-20260909/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-frontier-20260909/README.md"
+    },
+    {
+      "id": "E5",
+      "original_report_sha256": "fc89dc5f1058f4d52dc87e22e2d40e3219a1b610a5e4b2c70fee462d485e045d",
+      "original_report_bytes": 8125,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-budget-20260910/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-budget-20260910/README.md"
+    },
+    {
+      "id": "E6",
+      "original_report_sha256": "8b1c288f324e0cb0927b0c5dd77893ca59b28918b72362a274625e6f084adefd",
+      "original_report_bytes": 7535,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-replication-20260910/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-replication-20260910/README.md"
+    },
+    {
+      "id": "E7",
+      "original_report_sha256": "23c2ad023c03f91a5d1ea42c41e62a85f4e44e4a19a38be89633b8643212c2d9",
+      "original_report_bytes": 7708,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-state-diagnosis-20260910/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-state-diagnosis-20260910/README.md"
+    },
+    {
+      "id": "E8",
+      "original_report_sha256": "c649ecd6795ffe6a113b2764a97053305dca166c93bb639f70eb601394de25cf",
+      "original_report_bytes": 10772,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-generalization-precision-20260910/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-generalization-precision-20260910/README.md"
+    },
+    {
+      "id": "E9",
+      "original_report_sha256": "4aa62f0eb06589e7c60f255f3380fa5f22e6a6c09c25d4d0fbda04da9ea7861c",
+      "original_report_bytes": 8992,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-hxk4-followup-20260910/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-hxk4-followup-20260910/README.md"
+    },
+    {
+      "id": "E10",
+      "original_report_sha256": "00a1688e915ebbc3aa6c7c1b1065ea60df2591d676a0775e6b20d25bf9373f0b",
+      "original_report_bytes": 8635,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-ridge-strength-20260911/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-ridge-strength-20260911/README.md"
+    },
+    {
+      "id": "E11",
+      "original_report_sha256": "d25b0efc66817a25772a209c2d1e9d240fca724cd0eea9c229cb4a9e6cfd8399",
+      "original_report_bytes": 9055,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-entry-ranking-20260911/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-entry-ranking-20260911/README.md"
+    },
+    {
+      "id": "E12",
+      "original_report_sha256": "9bbb5eeed94f773f6cbe28c979c113857eba7afdb0c6e22cc6ec5950a50dca92",
+      "original_report_bytes": 8614,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-selection-region-20260911/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-selection-region-20260911/README.md"
+    },
+    {
+      "id": "E13",
+      "original_report_sha256": "aa961e650eead0c5a14b1fa651976d3cbff4369ccc76d024acc6d8642c27d4e2",
+      "original_report_bytes": 8840,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-state-precision-20260912/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-state-precision-20260912/README.md"
+    },
+    {
+      "id": "E14",
+      "original_report_sha256": "0b92741a828eca01d302265972af61fa5569c17e7b0ce0510448b1ed2ac6b85e",
+      "original_report_bytes": 4987,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-training-information-20260909/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-training-information-20260909/README.md"
+    },
+    {
+      "id": "E15",
+      "original_report_sha256": "af966fc7bfd6cf4b041097e64fcec096bf5103eb9a32a80f14d05e3e950e1198",
+      "original_report_bytes": 6024,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-fixed-count-coverage-20260909/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-fixed-count-coverage-20260909/README.md"
+    },
+    {
+      "id": "E16",
+      "original_report_sha256": "3bdf1ddf6c3c259d0ae06d28e9b3f2cc31c55d3d475fd519062a11c04b905a50",
+      "original_report_bytes": 9461,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-information-composition-20260910/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-information-composition-20260910/README.md"
+    },
+    {
+      "id": "E17",
+      "original_report_sha256": "26d3eb7f049b8bf3d093296bd7ff18886d5b3b9723bcfa13e1823fdf576abf14",
+      "original_report_bytes": 9821,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-site-support-20260911/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-site-support-20260911/README.md"
+    },
+    {
+      "id": "E18",
+      "original_report_sha256": "be92b7d36a36f07e0c676e81d29a3cf424e1263a69dd332f32b424bd4338bf3c",
+      "original_report_bytes": 10721,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-label-balanced-support-20260911/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-label-balanced-support-20260911/README.md"
+    },
+    {
+      "id": "E19",
+      "original_report_sha256": "ac08f46bd66668679bb6699777b706b31dc1d8379d0a509942c0e32a74269d74",
+      "original_report_bytes": 10620,
+      "kind": "curated_historical_report",
+      "reading_copy": "notes/E19.md",
+      "additional_claim_sources": [],
+      "reference": "notes/E19.md"
+    },
+    {
+      "id": "E20",
+      "original_report_sha256": "6713f3950419f09174c0f54a21b05950afc01f60b4453772eacca083aacfea0e",
+      "original_report_bytes": 6297,
+      "kind": "existing_pinned_report",
+      "source_commit": "8d844c1d384524ee072662562680187a4c2a7a99",
+      "repository_path": "docs/results/m5-e3-ranking-objective-20260909/README.md",
+      "reference": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/8d844c1d384524ee072662562680187a4c2a7a99/docs/results/m5-e3-ranking-objective-20260909/README.md"
+    },
+    {
+      "id": "E21",
+      "original_report_sha256": "a36747c72521580368b0c040dacc8225b0b1cd07cc3a95e2870182bdc5dd7dad",
+      "original_report_bytes": 10789,
+      "kind": "curated_historical_report",
+      "reading_copy": "notes/E21.md",
+      "additional_claim_sources": [],
+      "reference": "notes/E21.md"
+    },
+    {
+      "id": "E22",
+      "original_report_sha256": "09fa3e02b91b824e636b205a8c37b5612f92ea1ff71d194d5699e2fb27d7905c",
+      "original_report_bytes": 1114,
+      "kind": "curated_historical_report",
+      "reading_copy": "notes/E22.md",
+      "additional_claim_sources": [
+        {
+          "name": "M5_INFORMATION_POLICY_CLAIM.md",
+          "sha256": "5167c71dac87d3b8dc6ecca604a902e6f47181602d255eacaec5cf610b6e1bcc",
+          "bytes": 4079
+        }
+      ],
+      "reference": "notes/E22.md"
+    },
+    {
+      "id": "E23",
+      "original_report_sha256": "c5b5ad40bbde210689d6528fd624934d88fcb3d1e1b19e99c7adacae42964d8e",
+      "original_report_bytes": 1270,
+      "kind": "curated_historical_report",
+      "reading_copy": "notes/E23.md",
+      "additional_claim_sources": [
+        {
+          "name": "M5_LABEL_QUANTITY_CLAIM.md",
+          "sha256": "09ed1eb2dd809bce1232e2f72e68d44748962ba8f241a6d57961a41ff3afb1a6",
+          "bytes": 2969
+        }
+      ],
+      "reference": "notes/E23.md"
+    },
+    {
+      "id": "E24",
+      "original_report_sha256": "52810a57167f972dab1831141622571745740d350e2675895ca2cb7e8f8c00ac",
+      "original_report_bytes": 844,
+      "kind": "curated_historical_report",
+      "reading_copy": "notes/E24.md",
+      "additional_claim_sources": [
+        {
+          "name": "M5_BUDGET_ALLOCATION_CLAIM.md",
+          "sha256": "5f72b88f09c1ff4e51725fadb5ca019ec72c4cdcc089e5719e6b0222aa335608",
+          "bytes": 3476
+        }
+      ],
+      "reference": "notes/E24.md"
+    },
+    {
+      "id": "E25",
+      "original_report_sha256": "0f164fcb0456b67e9ef2c8f92b70b1f73f4b188fd145000797722931f59cd166",
+      "original_report_bytes": 926,
+      "kind": "curated_historical_report",
+      "reading_copy": "notes/E25.md",
+      "additional_claim_sources": [
+        {
+          "name": "M5_OBJECTIVE_EQUIVALENCE_CLAIM.md",
+          "sha256": "82d63742dc3c9f0650630ef40ccd89d628513cfaaf8bc7eb0a69f1fa48bb9852",
+          "bytes": 3076
+        }
+      ],
+      "reference": "notes/E25.md"
+    },
+    {
+      "id": "E26",
+      "original_report_sha256": "3228025d9f893856be7ca6478117e80ad4ae037bca682012bed90d6c74720034",
+      "original_report_bytes": 3926,
+      "kind": "curated_historical_report",
+      "reading_copy": "notes/E26.md",
+      "additional_claim_sources": [
+        {
+          "name": "M5_CROSS_TASK_RESOLUTION_CLAIM.md",
+          "sha256": "db94fdcae452e6609baf674b7a3d367707f0c5496ce315d924bb43e95e951320",
+          "bytes": 3971
+        }
+      ],
+      "reference": "notes/E26.md"
+    },
+    {
+      "id": "E27",
+      "original_report_sha256": "08c106d79acde877887cb161c1c6446565442b3a2e7ab29701342f456e54fb0c",
+      "original_report_bytes": 4195,
+      "kind": "curated_historical_report",
+      "reading_copy": "notes/E27.md",
+      "additional_claim_sources": [
+        {
+          "name": "M5_QUANTITY_RESOLUTION_CLAIM.md",
+          "sha256": "925b43993d79c7ee480f60837e6434c9f5340e37bb211ff9ad037ba1ccb7c2fd",
+          "bytes": 3826
+        }
+      ],
+      "reference": "notes/E27.md"
+    },
+    {
+      "id": "E28",
+      "original_report_sha256": "ef9cc778d42ec85a789c4c83274b5fa6b360673a68339f786248876b6bfbd9fa",
+      "original_report_bytes": 4464,
+      "kind": "curated_historical_report",
+      "reading_copy": "notes/E28.md",
+      "additional_claim_sources": [
+        {
+          "name": "M5_LEARNER_RESOLUTION_CLAIM.md",
+          "sha256": "85e7e17f5961214df2826e5ba4b432a737b6d25a197fa54a962b352d7bb51d9a",
+          "bytes": 4384
+        }
+      ],
+      "reference": "notes/E28.md"
+    },
+    {
+      "id": "E29",
+      "original_report_sha256": "73c7e17c5c172b6e134799a0e5a2cb432e8f0cdb85508fe94540cc54e39fdcd6",
+      "original_report_bytes": 9745,
+      "kind": "curated_historical_report",
+      "reading_copy": "notes/E29.md",
+      "additional_claim_sources": [
+        {
+          "name": "M5_CONDITIONAL_INFORMATION_CLAIM.md",
+          "sha256": "5db84eb9e73baef27c78401e94a3e9a079c042749a02de150301214764fc049e",
+          "bytes": 7033
+        }
+      ],
+      "reference": "notes/E29.md"
+    },
+    {
+      "id": "E30",
+      "original_report_sha256": "68e9c16836e5338295692929d29630a6ed2e2535166d967cac9f772ad46f84bb",
+      "original_report_bytes": 6024,
+      "kind": "curated_historical_report",
+      "reading_copy": "notes/E30.md",
+      "additional_claim_sources": [
+        {
+          "name": "claim.md",
+          "sha256": "0132b2f3b7d4f1b6c3401915c8736d26bfc618f583eb5ac775a354525ac3beee",
+          "bytes": 7765
+        }
+      ],
+      "reference": "notes/E30.md"
+    },
+    {
+      "id": "C6_validity",
+      "original_report_sha256": "61c5959887dcf77a0df033dab7008c0e92ed8c1fd54f8a541b5789e680003e91",
+      "original_report_bytes": 8616,
+      "kind": "curated_historical_report",
+      "reading_copy": "notes/C6_validity.md",
+      "additional_claim_sources": [],
+      "reference": "notes/C6_validity.md"
+    }
+  ]
+}
