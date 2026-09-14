@@ -1,0 +1,197 @@
+{
+  "attempt_events": [
+    {
+      "attempt_id": "smoke-001",
+      "command": [
+        "/home/siyuan/pcdb-env-issue76-m4-0994a73f/bin/python",
+        "scripts/run_m5d_oof_diagnostic.py",
+        "--input-root",
+        "/srv/pcdb/data/processed/skempi/skempi-readiness-72bc80dd1524f7815039160bc095045308f4d56c9e819a84203a6fe70e508ec6",
+        "--parent-root",
+        "/srv/pcdb/runs/M5D/feature-iteration-20260909/full-001",
+        "--mode",
+        "smoke",
+        "--output",
+        "/srv/pcdb/runs/M5D/oof-diagnostic-20260909/smoke-001"
+      ],
+      "config_identity": "fc2a173278a65dcb068dd838e37185d6ef4231b1e8144425f441d3bb21de4b00",
+      "data_identities": [
+        "4a9f491fa71b3630466de094e19f5e7b51765ff75e7ed10a345eee6cbcb2efdd",
+        "b11beb72e951878d42f247478ad8e5bd0bca25a8eeb3fdb71350bd44171f7e72",
+        "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac"
+      ],
+      "executed_git_commit": "a8e97b6ea39f799039e57a783df50550715756f7",
+      "mode": "smoke",
+      "parent_attempt_id": null,
+      "source_terminal_sha256": "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac",
+      "started_at": "2026-09-09T07:13:00.097481+00:00",
+      "status": "running",
+      "study_id": "m5d-oof-diagnostic-v1"
+    },
+    {
+      "artifacts": {
+        "private/metrics.json": "b97a60f498155ac42a399cd8305d701542a73bcaaf9a7512583d9d2b58cd78c6",
+        "private/records.json": "170c285d74a2be771181ac32b9478856e2a5e90556fdf41a38eda1e21dcdd1ad",
+        "progress.jsonl": "bd1a2847e8b78f51dd06a52a3b41c0bd082826cf84858c5f6b9b344174dae9a1",
+        "report.json": "7d43c8c0dac470b5d8a98e9f337d404d08e609ad2979f338c49a6c9ce5207ec0",
+        "run-spec.json": "3c24c773f9b1a8449821dc938d18b4ce8a3e40d3f2d4b5dcd6ab1da1a8615789"
+      },
+      "attempt_id": "smoke-001",
+      "command": [
+        "/home/siyuan/pcdb-env-issue76-m4-0994a73f/bin/python",
+        "scripts/run_m5d_oof_diagnostic.py",
+        "--input-root",
+        "/srv/pcdb/data/processed/skempi/skempi-readiness-72bc80dd1524f7815039160bc095045308f4d56c9e819a84203a6fe70e508ec6",
+        "--parent-root",
+        "/srv/pcdb/runs/M5D/feature-iteration-20260909/full-001",
+        "--mode",
+        "smoke",
+        "--output",
+        "/srv/pcdb/runs/M5D/oof-diagnostic-20260909/smoke-001"
+      ],
+      "config_identity": "fc2a173278a65dcb068dd838e37185d6ef4231b1e8144425f441d3bb21de4b00",
+      "cos_writes": 0,
+      "data_identities": [
+        "4a9f491fa71b3630466de094e19f5e7b51765ff75e7ed10a345eee6cbcb2efdd",
+        "b11beb72e951878d42f247478ad8e5bd0bca25a8eeb3fdb71350bd44171f7e72",
+        "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac"
+      ],
+      "elapsed_seconds": 6.032385214231908,
+      "executed_git_commit": "a8e97b6ea39f799039e57a783df50550715756f7",
+      "failure_class": "none",
+      "failure_reason": null,
+      "finished_at": "2026-09-09T07:13:06.130068+00:00",
+      "mode": "smoke",
+      "parent_attempt_id": null,
+      "peak_tree_rss_bytes": 328704000,
+      "result_summary": {
+        "decision": "inconclusive",
+        "disposition": "revise",
+        "fits": 96,
+        "folds": 8,
+        "readback": "PASS",
+        "states": 2
+      },
+      "selection_disposition": "diagnostic",
+      "source_terminal_sha256": "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac",
+      "started_at": "2026-09-09T07:13:00.097481+00:00",
+      "status": "succeeded",
+      "study_id": "m5d-oof-diagnostic-v1"
+    },
+    {
+      "attempt_id": "full-001",
+      "command": [
+        "/home/siyuan/pcdb-env-issue76-m4-0994a73f/bin/python",
+        "scripts/run_m5d_oof_diagnostic.py",
+        "--input-root",
+        "/srv/pcdb/data/processed/skempi/skempi-readiness-72bc80dd1524f7815039160bc095045308f4d56c9e819a84203a6fe70e508ec6",
+        "--parent-root",
+        "/srv/pcdb/runs/M5D/feature-iteration-20260909/full-001",
+        "--mode",
+        "full",
+        "--output",
+        "/srv/pcdb/runs/M5D/oof-diagnostic-20260909/full-001"
+      ],
+      "config_identity": "fc2a173278a65dcb068dd838e37185d6ef4231b1e8144425f441d3bb21de4b00",
+      "data_identities": [
+        "4a9f491fa71b3630466de094e19f5e7b51765ff75e7ed10a345eee6cbcb2efdd",
+        "b11beb72e951878d42f247478ad8e5bd0bca25a8eeb3fdb71350bd44171f7e72",
+        "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac"
+      ],
+      "executed_git_commit": "a8e97b6ea39f799039e57a783df50550715756f7",
+      "mode": "full",
+      "parent_attempt_id": "smoke-001",
+      "source_terminal_sha256": "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac",
+      "started_at": "2026-09-09T07:14:06.013305+00:00",
+      "status": "running",
+      "study_id": "m5d-oof-diagnostic-v1"
+    },
+    {
+      "artifacts": {
+        "private/metrics.json": "d70b00f655a395e672764732b1313aaee54300d2d4890f4b379ee436f39964fc",
+        "private/records.json": "2c7a41f081bf6dd41b0dc3aca2be3af8a764d320557240764fec9b1aed1ec7c5",
+        "progress.jsonl": "e3c9812fe957bd626a319d4e450ebf483af7e96ecac34d876ed7b2e60895de81",
+        "report.json": "adb92cdc4805179fc2f2c68da3266340dc21165e6f6e235320662afe542a3d68",
+        "run-spec.json": "24c391e50d3b29c542ec35fe2b574b48aa74989b3d496e2fe0937774759c8a39"
+      },
+      "attempt_id": "full-001",
+      "command": [
+        "/home/siyuan/pcdb-env-issue76-m4-0994a73f/bin/python",
+        "scripts/run_m5d_oof_diagnostic.py",
+        "--input-root",
+        "/srv/pcdb/data/processed/skempi/skempi-readiness-72bc80dd1524f7815039160bc095045308f4d56c9e819a84203a6fe70e508ec6",
+        "--parent-root",
+        "/srv/pcdb/runs/M5D/feature-iteration-20260909/full-001",
+        "--mode",
+        "full",
+        "--output",
+        "/srv/pcdb/runs/M5D/oof-diagnostic-20260909/full-001"
+      ],
+      "config_identity": "fc2a173278a65dcb068dd838e37185d6ef4231b1e8144425f441d3bb21de4b00",
+      "cos_writes": 0,
+      "data_identities": [
+        "4a9f491fa71b3630466de094e19f5e7b51765ff75e7ed10a345eee6cbcb2efdd",
+        "b11beb72e951878d42f247478ad8e5bd0bca25a8eeb3fdb71350bd44171f7e72",
+        "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac"
+      ],
+      "elapsed_seconds": 163.0884803510271,
+      "executed_git_commit": "a8e97b6ea39f799039e57a783df50550715756f7",
+      "failure_class": "none",
+      "failure_reason": null,
+      "finished_at": "2026-09-09T07:16:49.101913+00:00",
+      "mode": "full",
+      "parent_attempt_id": "smoke-001",
+      "peak_tree_rss_bytes": 332947456,
+      "result_summary": {
+        "decision": "unstable",
+        "disposition": "revise",
+        "fits": 4320,
+        "folds": 720,
+        "readback": "PASS",
+        "states": 180
+      },
+      "selection_disposition": "diagnostic",
+      "source_terminal_sha256": "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac",
+      "started_at": "2026-09-09T07:14:06.013305+00:00",
+      "status": "succeeded",
+      "study_id": "m5d-oof-diagnostic-v1"
+    }
+  ],
+  "attempt_id": "full-001",
+  "bootstrap_members": 5,
+  "command": [
+    "/home/siyuan/pcdb-env-issue76-m4-0994a73f/bin/python",
+    "scripts/run_m5d_oof_diagnostic.py",
+    "--input-root",
+    "/srv/pcdb/data/processed/skempi/skempi-readiness-72bc80dd1524f7815039160bc095045308f4d56c9e819a84203a6fe70e508ec6",
+    "--parent-root",
+    "/srv/pcdb/runs/M5D/feature-iteration-20260909/full-001",
+    "--mode",
+    "full",
+    "--output",
+    "/srv/pcdb/runs/M5D/oof-diagnostic-20260909/full-001"
+  ],
+  "config_identity": "fc2a173278a65dcb068dd838e37185d6ef4231b1e8144425f441d3bb21de4b00",
+  "data_identities": [
+    "4a9f491fa71b3630466de094e19f5e7b51765ff75e7ed10a345eee6cbcb2efdd",
+    "b11beb72e951878d42f247478ad8e5bd0bca25a8eeb3fdb71350bd44171f7e72",
+    "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac"
+  ],
+  "environment_freeze_sha256": "9de3687d27c73bc6a83250a8011e1272d7f76e8671f6cec3bc0e170a98434e11",
+  "executed_git_commit": "a8e97b6ea39f799039e57a783df50550715756f7",
+  "feature": "F2",
+  "features_sha256": "b6447fbdf4133da9a37c9f1285cfe8244ab13f62c47f912e0dcea1a712ea395f",
+  "folds": 4,
+  "hostname": "VM-0-8-debian",
+  "mode": "full",
+  "model": "xgboost-cpu-v1",
+  "model_config_sha256": "31eb5bc146f4e810027de8870fa5632e09a5427bd8dddfee9261572c1e3473f2",
+  "parent_attempt_id": "smoke-001",
+  "prior_seconds": 6.032385214231908,
+  "python": "3.11.2 (main, May 12 2026, 05:17:27) [GCC 12.2.0]",
+  "run_spec_sha256": "24c391e50d3b29c542ec35fe2b574b48aa74989b3d496e2fe0937774759c8a39",
+  "source_terminal_sha256": "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac",
+  "started_at": "2026-09-09T07:14:06.013305+00:00",
+  "study_bytes": 4630416,
+  "study_id": "m5d-oof-diagnostic-v1"
+}

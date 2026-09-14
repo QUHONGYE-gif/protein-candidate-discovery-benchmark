@@ -1,0 +1,11 @@
+{
+  "active_root": "/srv/pcdb/data/processed/skempi/skempi-readiness-72bc80dd1524f7815039160bc095045308f4d56c9e819a84203a6fe70e508ec6",
+  "cos_write_count": 0,
+  "output_count": 9,
+  "processing_manifest_sha256": "4a9f491fa71b3630466de094e19f5e7b51765ff75e7ed10a345eee6cbcb2efdd",
+  "scope": "readiness candidates only; no formal held-out or scientific promotion",
+  "server": "129.28.97.247",
+  "source_attempt": "/srv/pcdb/runs/M5D/readiness-20260908-003",
+  "split_manifest_sha256": "b11beb72e951878d42f247478ad8e5bd0bca25a8eeb3fdb71350bd44171f7e72",
+  "status": "ACTIVE_SERVER_DATA_READBACK_VERIFIED"
+}

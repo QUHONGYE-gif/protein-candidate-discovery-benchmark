@@ -1,0 +1,16 @@
+{
+  "executed_git_commit": "bcb719987ebddd4d87b76326a84b82120844dfe3",
+  "server": "129.28.97.247",
+  "evidence_stage": "ITERATION",
+  "independent_review": "PENDING",
+  "local_make_check": {
+    "passed": 983,
+    "elapsed_seconds": 220.94,
+    "exit_code": 0
+  },
+  "execution_ci": {
+    "run_id": 34328968231,
+    "conclusion": "success"
+  },
+  "candidate_records_location": "server_only"
+}

@@ -1,0 +1,13 @@
+{
+  "downloaded_report_terminal_marker_checksums": "PASS",
+  "execution_source": "ff9528ca5721c5ebb5397789681065d7af112625",
+  "execution_source_ci_conclusion": "success",
+  "execution_source_ci_run": 34212555607,
+  "fresh_process_disk_reconstruction": "PASS",
+  "fresh_process_exit_code": 0,
+  "independent_review": "PENDING",
+  "make_check_seconds": 224.17,
+  "make_check_tests": 950,
+  "states": 360,
+  "targeted_formal_tests": 6
+}

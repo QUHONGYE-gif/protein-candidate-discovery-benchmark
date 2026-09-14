@@ -1,0 +1,29 @@
+{
+  "downloaded_checksums": "PASS",
+  "execution_ci": {
+    "conclusion": "success",
+    "run_id": 34318696520
+  },
+  "formal_terminal_sha256_unchanged": "5e0db1dde3ac38c4cc90b411d326fae82b41554aa7292cb9746ae2a68f192636",
+  "fresh_process_verify": {
+    "full": {
+      "arm_states": 900,
+      "exit_code": 0,
+      "readback": "PASS"
+    },
+    "smoke": {
+      "arm_states": 10,
+      "exit_code": 0,
+      "readback": "PASS"
+    }
+  },
+  "full_terminal_sha256": "289665091003b0a6d57de1f44acafcd9f419becb40aff51179b46644924b4d53",
+  "independent_review": "PENDING",
+  "make_check": {
+    "exit_code": 0,
+    "seconds": 233.43,
+    "tests_passed": 966
+  },
+  "smoke_terminal_sha256": "d5c1591b3a35957efdf902e340b7f548d4aaaaa0f44aecfb4c6ee81dfa15c559",
+  "source_terminal_sha256_unchanged": "69fabeba628fa813a9a6d5b5c08785b86396797ea0a54e66ffff608026acf1ac"
+}
