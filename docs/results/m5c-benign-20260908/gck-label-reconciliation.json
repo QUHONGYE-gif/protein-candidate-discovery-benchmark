@@ -1,0 +1,16 @@
+{
+  "entry_sha256": "29528f9c7d5f93f6922811ab8b8e6b06fcdf3d12ccdbe1be246a58674e0ff442",
+  "exact_missense_identity_cover": true,
+  "matched_count": 8570,
+  "measured_missense_count": 8570,
+  "mismatched_count": 0,
+  "missing_count": 0,
+  "processed_count": 8570,
+  "proteingym_truth_sha256": "3cb5c29a2bdbc052601e6fc03f7f55ef33c6b0fedee808deff2e8aef79d17b69",
+  "score_comparison": "identity-joined, higher-is-better, absolute/relative tolerance 1e-9",
+  "source_role": "measured amino-acid score table; separate imputation table not used",
+  "source_sha256": "f5a6737cc4c39a777d3a4f71bc2612757d70af428229e666c3b6b728959c164e",
+  "source_url": "https://raw.githubusercontent.com/KULL-Centre/_2023_Gersing_GCK/8315af464b5875469cf2780f12ccf61c8411c347/input_notebook_SI/select_t1_simple_aa.csv",
+  "status": "PASS",
+  "variant_values_disclosed": false
+}

@@ -1,0 +1,46 @@
+{
+  "assay_id": "HSP82_YEAST_Flynn_2019",
+  "branch_evaluations": 2640,
+  "candidate_count": 13294,
+  "candidate_identity_checks": "PASS",
+  "claim_boundary": "revised benign ProteinGym ITERATION; not original four-assay confirmation",
+  "completed_states": 40,
+  "feature_sha256": "f55aa51622ca4f1230e956f9ec510e09526cbed13eade1841bf11320cd7be2dc",
+  "membership_alignment_check": "PASS",
+  "mode": "full",
+  "primary_contrasts": {
+    "E-G": {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "bootstrap_draws": 20000,
+      "cell_point_estimates": [
+        -0.006766917293233083,
+        -0.008270676691729323,
+        0.0015037593984962405,
+        -0.0037593984962406013
+      ],
+      "ci_lower": -0.013533834586466164,
+      "ci_upper": 0.0011278195488721803,
+      "contrast": "E-G",
+      "point_estimate": -0.004323308270676692,
+      "status": "INCONCLUSIVE"
+    },
+    "E-M": {
+      "assay_id": "HSP82_YEAST_Flynn_2019",
+      "bootstrap_draws": 20000,
+      "cell_point_estimates": [
+        -0.00048167293233082706,
+        0.00193843984962406,
+        0.0013980263157894735,
+        0.0006931390977443608
+      ],
+      "ci_lower": -0.0010015272556390977,
+      "ci_upper": 0.004396734022556391,
+      "contrast": "E-M",
+      "point_estimate": 0.0008869830827067668,
+      "status": "EQUIVALENT"
+    }
+  },
+  "scientific_result": true,
+  "taxonomy": "INCONCLUSIVE",
+  "truth_alignment_check": "PASS"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "checks": {
+    "primary_contrasts_exact": true,
+    "taxonomy_exact": true,
+    "definitions_exact": true,
+    "sensitivity_within_existing_arithmetic_tolerance": true
+  },
+  "sensitivity_differences": {
+    "0.005/E-G": 0.0,
+    "0.005/E-M": 2.710505431213761e-20,
+    "0.02/E-G": -2.168404344971009e-19,
+    "0.02/E-M": -2.710505431213761e-20
+  },
+  "note": "Count-based arithmetic uses the existing 1e-17 tolerance for reduction-order rounding; primary contrasts, intervals and taxonomy match exactly."
+}

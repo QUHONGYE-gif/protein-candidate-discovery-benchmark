@@ -1,0 +1,296 @@
+{
+  "assays": [
+    {
+      "artifacts": {
+        "candidate": {
+          "consumers": [
+            "runner",
+            "surrogate_model",
+            "acquisition_strategy",
+            "evaluator"
+          ],
+          "path": "processed/BLAT_ECOLX_Firnberg_2014/proteingym-blat_ecolx_firnberg_2014-5658aa768b28c9c061031829f0df1c54443a3d25e4530acd882340aa7f72d815/candidates.csv.gz",
+          "sha256": "3e11ee04c09c87931549cebcaef49d4ca3f022d472f0a1df0e3616ee2d59e7d7",
+          "size_bytes": 231558,
+          "visibility": "observable"
+        },
+        "finite_coverage_summary": {
+          "path": "processed/BLAT_ECOLX_Firnberg_2014/proteingym-blat_ecolx_firnberg_2014-5658aa768b28c9c061031829f0df1c54443a3d25e4530acd882340aa7f72d815/score-coverage.json",
+          "read_status": "not_read_after_boundary_stop",
+          "sha256": "47806f68acd0bfbd561567dbea7c0cf7e18ff8226a96ba41b4527b66a5cfe7f4",
+          "size_bytes": 10910
+        },
+        "hidden_truth": {
+          "consumers": [
+            "hidden_oracle",
+            "evaluator"
+          ],
+          "path": "processed/BLAT_ECOLX_Firnberg_2014/proteingym-blat_ecolx_firnberg_2014-5658aa768b28c9c061031829f0df1c54443a3d25e4530acd882340aa7f72d815/hidden-truth.csv.gz",
+          "readable_by_preflight_principal": false,
+          "sha256": "fd99db9919e05539eeeb5b7bfafa849e784b6166fdfb2e3c8a7da37cd057da01",
+          "size_bytes": 195982,
+          "visibility": "hidden_truth"
+        },
+        "proxy_source": {
+          "capability_separable": false,
+          "consumers_if_separated": [
+            "coverage_check",
+            "static_proxy_evaluator"
+          ],
+          "path": "raw/BLAT_ECOLX_Firnberg_2014/zero-shot-scores.csv",
+          "prohibited_columns_present": [
+            "DMS_score",
+            "DMS_score_bin"
+          ],
+          "selected_proxy_column_present": false,
+          "sha256": "f3a26f3bb475224c2e306e990024dbc223c8a1dcd77f507da29557b7e9b2dd42",
+          "size_bytes": 9445772
+        }
+      },
+      "assay_id": "BLAT_ECOLX_Firnberg_2014",
+      "eligibility": "failed_closed"
+    },
+    {
+      "artifacts": {
+        "candidate": {
+          "consumers": [
+            "runner",
+            "surrogate_model",
+            "acquisition_strategy",
+            "evaluator"
+          ],
+          "path": "processed/CAPSD_AAV2S_Sinai_2021/proteingym-capsd_aav2s_sinai_2021-90ba135b25bcae0e92f7925a7edd2648d624fb482343a8fa27dc73163a024b74/candidates.csv.gz",
+          "sha256": "9f5c4e3c08906fc707026cfd6d7d88c30f4fee7fcee92e3fee0f58181d494489",
+          "size_bytes": 2415066,
+          "visibility": "observable"
+        },
+        "finite_coverage_summary": {
+          "path": "processed/CAPSD_AAV2S_Sinai_2021/proteingym-capsd_aav2s_sinai_2021-90ba135b25bcae0e92f7925a7edd2648d624fb482343a8fa27dc73163a024b74/score-coverage.json",
+          "read_status": "not_read_after_boundary_stop",
+          "sha256": "6855effd12db919fa0f9f91601365f6c2758414bc817db72b51a580bd3fbadd9",
+          "size_bytes": 11005
+        },
+        "hidden_truth": {
+          "consumers": [
+            "hidden_oracle",
+            "evaluator"
+          ],
+          "path": "processed/CAPSD_AAV2S_Sinai_2021/proteingym-capsd_aav2s_sinai_2021-90ba135b25bcae0e92f7925a7edd2648d624fb482343a8fa27dc73163a024b74/hidden-truth.csv.gz",
+          "readable_by_preflight_principal": false,
+          "sha256": "96870aede289f50912a9457232e8987e411508cfe68154ef89dd72c2e39952f7",
+          "size_bytes": 1958481,
+          "visibility": "hidden_truth"
+        },
+        "proxy_source": {
+          "capability_separable": false,
+          "consumers_if_separated": [
+            "coverage_check",
+            "static_proxy_evaluator"
+          ],
+          "path": "raw/CAPSD_AAV2S_Sinai_2021/zero-shot-scores.csv",
+          "prohibited_columns_present": [
+            "DMS_score",
+            "DMS_score_bin"
+          ],
+          "selected_proxy_column_present": false,
+          "sha256": "a32ef39cdfbdc27148efabbe7805510c1f693c5227c2e250dc2e6d32eea3416e",
+          "size_bytes": 103766443
+        }
+      },
+      "assay_id": "CAPSD_AAV2S_Sinai_2021",
+      "eligibility": "failed_closed"
+    },
+    {
+      "artifacts": {
+        "candidate": {
+          "consumers": [
+            "runner",
+            "surrogate_model",
+            "acquisition_strategy",
+            "evaluator"
+          ],
+          "path": "processed/GFP_AEQVI_Sarkisyan_2016/proteingym-gfp_aeqvi_sarkisyan_2016-35096aae85a1a6599626135de22f3fae9eb4dc181822103f9cb65fbbf0c94bd2/candidates.csv.gz",
+          "sha256": "39594bc0eb279284b6886a10f454ab24d760dbc7068d65b6014f60cfe76b8102",
+          "size_bytes": 3150440,
+          "visibility": "observable"
+        },
+        "finite_coverage_summary": {
+          "path": "processed/GFP_AEQVI_Sarkisyan_2016/proteingym-gfp_aeqvi_sarkisyan_2016-35096aae85a1a6599626135de22f3fae9eb4dc181822103f9cb65fbbf0c94bd2/score-coverage.json",
+          "read_status": "not_read_after_boundary_stop",
+          "sha256": "51d7d2556c2b522b3fcd5dda587aaf2e1e6c393b97d31a1f2a38737473be1dd9",
+          "size_bytes": 11007
+        },
+        "hidden_truth": {
+          "consumers": [
+            "hidden_oracle",
+            "evaluator"
+          ],
+          "path": "processed/GFP_AEQVI_Sarkisyan_2016/proteingym-gfp_aeqvi_sarkisyan_2016-35096aae85a1a6599626135de22f3fae9eb4dc181822103f9cb65fbbf0c94bd2/hidden-truth.csv.gz",
+          "readable_by_preflight_principal": false,
+          "sha256": "e0d0daa17b9c2df6d6f53becad344639d45d1ed077d2ffe9d27e591751d946c7",
+          "size_bytes": 2330406,
+          "visibility": "hidden_truth"
+        },
+        "proxy_source": {
+          "capability_separable": false,
+          "consumers_if_separated": [
+            "coverage_check",
+            "static_proxy_evaluator"
+          ],
+          "path": "raw/GFP_AEQVI_Sarkisyan_2016/zero-shot-scores.csv",
+          "prohibited_columns_present": [
+            "DMS_score",
+            "DMS_score_bin"
+          ],
+          "selected_proxy_column_present": false,
+          "sha256": "112f862df40720855e1d6df902b0797f14b52e1ca97192fc441ccbd3b8bc80b9",
+          "size_bytes": 100611316
+        }
+      },
+      "assay_id": "GFP_AEQVI_Sarkisyan_2016",
+      "eligibility": "failed_closed"
+    },
+    {
+      "artifacts": {
+        "candidate": {
+          "consumers": [
+            "runner",
+            "surrogate_model",
+            "acquisition_strategy",
+            "evaluator"
+          ],
+          "path": "processed/SPG1_STRSG_Olson_2014/proteingym-spg1_strsg_olson_2014-8d8e4be68b080bd3fe9c4f339c5d9b0d744d7f6c4aabcbbf512f6989e7599f26/candidates.csv.gz",
+          "sha256": "9db91d18805875e85400be6976bed541cb0054ddf18377610fa5d95aaed03c23",
+          "size_bytes": 26185692,
+          "visibility": "observable"
+        },
+        "finite_coverage_summary": {
+          "path": "processed/SPG1_STRSG_Olson_2014/proteingym-spg1_strsg_olson_2014-8d8e4be68b080bd3fe9c4f339c5d9b0d744d7f6c4aabcbbf512f6989e7599f26/score-coverage.json",
+          "read_status": "not_read_after_boundary_stop",
+          "sha256": "af0721261771ad2f38e99c3a769c38e3f91489db889f0b6bd890385cd55b1824",
+          "size_bytes": 11101
+        },
+        "hidden_truth": {
+          "consumers": [
+            "hidden_oracle",
+            "evaluator"
+          ],
+          "path": "processed/SPG1_STRSG_Olson_2014/proteingym-spg1_strsg_olson_2014-8d8e4be68b080bd3fe9c4f339c5d9b0d744d7f6c4aabcbbf512f6989e7599f26/hidden-truth.csv.gz",
+          "readable_by_preflight_principal": false,
+          "sha256": "4f8a72c7e435879ef19ea6a35318b7302c1a407848877a432bdffafd60137350",
+          "size_bytes": 24384966,
+          "visibility": "hidden_truth"
+        },
+        "proxy_source": {
+          "capability_separable": false,
+          "consumers_if_separated": [
+            "coverage_check",
+            "static_proxy_evaluator"
+          ],
+          "path": "raw/SPG1_STRSG_Olson_2014/zero-shot-scores.csv",
+          "prohibited_columns_present": [
+            "DMS_score",
+            "DMS_score_bin"
+          ],
+          "selected_proxy_column_present": false,
+          "sha256": "cabd24c6e22d23e77d2bb602f6bd3ea60b12b31e849bd9bda44ab5b618b28ab1",
+          "size_bytes": 1152181940
+        }
+      },
+      "assay_id": "SPG1_STRSG_Olson_2014",
+      "eligibility": "failed_closed"
+    }
+  ],
+  "authorization": {
+    "ended_on_boundary_failure": true,
+    "expires_at": "2026-09-07T11:20:44Z",
+    "scope_comment_id": "01a0714c-aa7b-7b0d-835d-40b703549198",
+    "source_comment_id": "01a071fb-dd2c-707a-b07b-cb6d280e5b47"
+  },
+  "contract_id": "m5c-proteingym-prospective-v1",
+  "contract_version": 4,
+  "finite_coverage_report": {
+    "path": "manifests/experiments/m5c/preflight-result-v4/finite-coverage-report.json",
+    "sha256": "b427737c9d5e6e52e51fe7364f3f0e78a5d202ef84db424a2d2ffc27b16c5266",
+    "size_bytes": 3453,
+    "status": "blocked_not_run"
+  },
+  "generated_at": "2026-09-05T17:07:15Z",
+  "generator_identity": {
+    "agent": "multica-agent:51906483-af16-4d8f-8e79-f0c1c5b50425",
+    "environment": {
+      "local": {
+        "os": "Darwin 25.5.0 arm64",
+        "python": "3.14.3",
+        "ssh": "OpenSSH_10.2p1 LibreSSL 3.3.6"
+      },
+      "remote": {
+        "hostname": "VM-0-8-debian",
+        "principal": "siyuan",
+        "python_major_minor": "3.11"
+      },
+      "transport": {
+        "host": "129.28.97.247",
+        "host_key_alias": "1.14.72.82",
+        "strict_host_key_checking": true
+      }
+    },
+    "environment_sha256": "3d1b633ca515100d493e93f9620ad30221584314635a4285a947febdb22ecd17",
+    "generation_method": "bounded header-only SSH preflight; no standalone generator script",
+    "source_commit": "6e18a5dbcaa51f73df038f7d0c35de87b3bf9baf",
+    "source_tree": "a3478a5b361213719b9896736767251885335698"
+  },
+  "inventory_binding": {
+    "accepted_issue_11_reference": {
+      "completion_comment_id": 5357846394,
+      "independent_review_comment_id": 5357910563,
+      "object_count": 45,
+      "source_prefix": "proteingym/v1.3/four-assay-unified-v1/",
+      "terminal_object": {
+        "path": "evidence/unified-attempt.json",
+        "sha256": "5dad6220ae74a86a052a45386fd0540995f3e8e5abd7fea0274eb69441164ba1",
+        "size_bytes": 33951
+      },
+      "total_size_bytes": 1758940765
+    },
+    "independent_per_object_cross_source_status": "blocked_no_separately_readable_accepted_inventory",
+    "migration_receipt": {
+      "object_count": 45,
+      "path": "/srv/pcdb/scratch/proteingym-migration-20260905-01/migration-receipt.json",
+      "readable": true,
+      "sha256": "c0a9e9916572eba22054b8bdc1cfb64eee199abe5a8102017dd45a5bf8eb55e8",
+      "size_bytes": 12282,
+      "total_size_bytes": 1758940765,
+      "writable": false
+    },
+    "object_identity_binding": "The exact migration-receipt bytes transitively bind all 45 relative path, size and SHA-256 records; this is not an independent re-read of all object bytes.",
+    "server_path_mapping": "join(/srv/pcdb/data/imports/proteingym/v1.3/four-assay-unified-v1, receipt.objects[].path)"
+  },
+  "manifest_status": "blocked",
+  "physical_source": {
+    "formal_execution_host_change_authorized": false,
+    "host": "129.28.97.247",
+    "host_key_fingerprint_sha256": "SHA256:oLhxE/lEXpnkIF5eFE59kTaK7PcaRDZTCwA/2Si2i5k",
+    "remote_hostname": "VM-0-8-debian",
+    "server_principal": "siyuan",
+    "server_root": "/srv/pcdb/data/imports/proteingym/v1.3/four-assay-unified-v1",
+    "target_formal_execution_host": "protein-6000/ps"
+  },
+  "schema_version": "pcdb-m5c-input-capability-manifest-v1",
+  "selected_proxy": {
+    "column": "esm1v_t33_650M_UR90S_1",
+    "direction": 1,
+    "present_in_all_assay_headers": false
+  },
+  "stop_reasons": [
+    "selected_proxy_column_absent_in_all_four_raw_score_headers",
+    "raw_score_rows_co_locate_proxy_columns_with_dms_truth_columns",
+    "independent_45_object_cross_source_inventory_not_available_to_preflight_principal"
+  ],
+  "whitelist_capability": {
+    "raw_truth_readable": false,
+    "raw_truth_writable": false,
+    "readable_not_writable_object_count": 24,
+    "server_data_writes": 0
+  }
+}

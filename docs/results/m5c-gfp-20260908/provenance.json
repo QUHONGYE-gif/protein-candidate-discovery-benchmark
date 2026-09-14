@@ -1,0 +1,64 @@
+{
+  "base_commit": "d563147a1b036066f01bf17bcf6ece14d0246126",
+  "data_publication_boundary": "Aggregate branches only; no sequence, candidate ID, raw label or feature matrix in this package.",
+  "entry_changes": "Post-run formatting and import-name order only; normalized AST equality checked.",
+  "evidence_stage": "ITERATION / L1 GFP exploration",
+  "executed_entry_sha256": "e4c434e2cf29ff10ee50afc9060653fb4b132a25994662bc2e7cac28a3927860",
+  "feature_sha256": "c8cbad76b202b7043ef6bdddc295d7f28e28bb5b64aba4e21f24ee03217e5704",
+  "formal_four_assay_confirmation": "NOT_COMPLETED",
+  "independent_review": "NOT_PERFORMED",
+  "input_manifest_sha256": "130d9f3d9086274c7209158cdcbb3a4054ff3742e3711220542adecae14828fc",
+  "packaged_aggregates": {
+    "aggregate-input.json.gz": {
+      "sha256": "717904c76332cbcfcda11a3eaee65e0d0939c9a1a20467acdd665f893083f78a",
+      "size_bytes": 22731
+    },
+    "connection-state.json.gz": {
+      "sha256": "a1962c87811b3d5bf699dd805f43187033c9a8d68d03523370df4f08a4f434b3",
+      "size_bytes": 991
+    }
+  },
+  "published_entry_sha256": "8d01e9d540b93cb29d3f4aa8a98594133e9f92912bca5cf2d8e04c693dc4f30e",
+  "server_artifact_inventory": {
+    "full-001/aggregate-input.json": {
+      "sha256": "c2fd3cc0d802612653c65bd064cf3a49c9093deb19a70ceee0fd3737fa98c74d",
+      "size_bytes": 1265065
+    },
+    "full-001/assay-report.json": {
+      "sha256": "ee984f448a412f8a6df5d941a30a23eb1ec5b7a2183baaf33a6bc32512511407",
+      "size_bytes": 1266986
+    },
+    "full-001/execution.json": {
+      "sha256": "809bcab63bb0587c81ed88f4ae937cd355ece43892739eb1003db4a123683570",
+      "size_bytes": 1001
+    },
+    "full-001/progress.jsonl": {
+      "sha256": "d61c6fcb293f40dbff0a5dc2f9456d7dadccb994dd33d27823b8f1d34429db1c",
+      "size_bytes": 4081
+    },
+    "full-001/result.json": {
+      "sha256": "84c556b103bf62a2ab6a71bdb8c47f8cdd28a997aea39b002572d6ce4b1d456e",
+      "size_bytes": 1755
+    },
+    "full-001/terminal.json": {
+      "sha256": "a6b0b449c82d6915c5c7944a5d52b8125e537bc18703a287889ac886bb34e7b0",
+      "size_bytes": 187
+    },
+    "one-state-001/execution.json": {
+      "sha256": "4a2bb662ed48bb9245761eab857a10c223851279f78aebedb75a0651bfc90f16",
+      "size_bytes": 624
+    },
+    "one-state-001/result.json": {
+      "sha256": "2ed86d4821ea1efc3913d655887b23d5a8c2b0028fd9f619dcf65e7541f91418",
+      "size_bytes": 842
+    },
+    "one-state-001/state-aggregate.json": {
+      "sha256": "3c9667990b6b1da14713c54d11c28e8bac9ec12055277955d0fc59c45a5049d7",
+      "size_bytes": 26449
+    },
+    "one-state-001/terminal.json": {
+      "sha256": "a7de39479cb126d04e0e07e542d3440511eceac78d6928ba03644752edf486c1",
+      "size_bytes": 187
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "targeted_scientific_validity": {
+    "status": "PASS",
+    "tests": 10,
+    "wall_seconds": 5.9,
+    "environment": "existing server project environment, run-source-v1; method and scientific entry unchanged in actual v2/v3"
+  },
+  "aggregate_verification": {
+    "status": "PASS",
+    "assays": 3,
+    "states": 120,
+    "branches": 7920,
+    "recall_entries": 23760,
+    "primary_effects_intervals_taxonomy": "exact match to server reports",
+    "sensitivity": "Within existing 1e-17 arithmetic tolerance; PABP top-2% E-M initial exact-bit comparison differed by 3.388e-21 due to reduction order, with no change to sign/classification/configuration."
+  },
+  "compact_packaging": {
+    "status": "PASS",
+    "gzip_roundtrip": "Exact original bytes and SHA for all three aggregates and three connection states"
+  },
+  "wider_repository_check": {
+    "status": "pending",
+    "note": "Exact post-run commit CI will be linked in the PR; prior GFP CI is not evidence for the new code."
+  },
+  "ruff": {
+    "status": "PASS",
+    "formatted_files": 175
+  },
+  "local_mypy": {
+    "status": "blocked_by_environment",
+    "note": "Local lightweight Python lacks NumPy/scikit-learn/XGBoost; 19 import/related errors. No source type-error conclusion or full-check PASS inferred. Exact-commit CI uses project dependencies."
+  },
+  "figures": {
+    "status": "PASS",
+    "renderer": "ReportLab",
+    "visual_inspection": "Two SVGs rendered to PNG for inspection; separated GFP reference and adjusted divider placement."
+  },
+  "local_repository_check": {
+    "status": "PASS",
+    "report_id": "35b260e93577173e095cc00f2aa1280cd41d87bbfd753ea9a5ce3413180baada",
+    "note": "Repository consistency check; not a production gate authorization."
+  }
+}

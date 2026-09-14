@@ -1,0 +1,48 @@
+{
+  "figures": "Two SVG charts rendered with ReportLab, PNG previews inspected.",
+  "make_check": {
+    "reason": "Server code export has no Git metadata; repository-check stopped the command. Remaining pytest run later lost SSH before a complete terminal.",
+    "status": "INCOMPLETE"
+  },
+  "mypy": {
+    "files": 141,
+    "status": "PASS"
+  },
+  "published_entry_vs_executed_entry": "AST identical after normalizing import-name order; actual execution source SHA retained separately.",
+  "repository_check": {
+    "environment": "local worktree with existing development Python",
+    "status": "PASS"
+  },
+  "review_and_release": "Executor checks only; no independent scientific review, merge, formal confirmation or evidence promotion.",
+  "ruff_check": "PASS",
+  "ruff_format": {
+    "files": 225,
+    "status": "PASS"
+  },
+  "science": {
+    "arithmetic_recall_entries": 7920,
+    "branches": 2640,
+    "connection_state_exact_match": true,
+    "packaged_compressed_input_reproduction": "PASS",
+    "primary_bootstrap_and_taxonomy_exact_match": true,
+    "states": 40
+  },
+  "server_followup": {
+    "available_memory_mib": 2619,
+    "own_test_or_experiment_processes": 0,
+    "status": "PASS"
+  },
+  "targeted_synthetic_validity": {
+    "passed": 6,
+    "seconds": 4.36,
+    "status": "PASS"
+  },
+  "wide_pytest": {
+    "cached_failures": [
+      "tests/governance/test_cli.py::test_repository_check_cli_emits_common_report",
+      "tests/m5/test_reconstruction_smoke.py::test_worker_reconstructs_twice_from_prefix_only_fixture"
+    ],
+    "context": "Both cached failures require repository Git metadata, which was absent in the server code export. No complete full-suite result is claimed.",
+    "status": "INTERRUPTED_NOT_PASSED"
+  }
+}

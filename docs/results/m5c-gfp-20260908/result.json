@@ -1,0 +1,56 @@
+{
+  "assay_id": "GFP_AEQVI_Sarkisyan_2016",
+  "branch_evaluations": 2640,
+  "candidate_count": 51714,
+  "candidate_identity_checks": "PASS",
+  "claim_boundary": "GFP-only fixed one-step exploration; not original four-assay confirmation",
+  "completed_states": 40,
+  "evidence_stage": "ITERATION / L1 GFP exploration",
+  "feature_sha256": "c8cbad76b202b7043ef6bdddc295d7f28e28bb5b64aba4e21f24ee03217e5704",
+  "feature_shape": [
+    51714,
+    420
+  ],
+  "hidden_truth_read": true,
+  "label_direction_from_manifest": "higher_is_better",
+  "membership_alignment_check": "PASS",
+  "mode": "full",
+  "primary_contrasts": {
+    "E-G": {
+      "assay_id": "GFP_AEQVI_Sarkisyan_2016",
+      "bootstrap_draws": 20000,
+      "cell_point_estimates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ci_lower": -0.00043436293436293434,
+      "ci_upper": 0.00043436293436293434,
+      "contrast": "E-G",
+      "point_estimate": 0.0,
+      "status": "EQUIVALENT"
+    },
+    "E-M": {
+      "assay_id": "GFP_AEQVI_Sarkisyan_2016",
+      "bootstrap_draws": 20000,
+      "cell_point_estimates": [
+        7.842664092664093e-05,
+        5.127895752895754e-05,
+        8.747586872586875e-05,
+        0.0001055743243243243
+      ],
+      "ci_lower": -0.00021793556949806952,
+      "ci_upper": 0.00040495294401544403,
+      "contrast": "E-M",
+      "point_estimate": 8.068894787644788e-05,
+      "status": "EQUIVALENT"
+    }
+  },
+  "processing_manifest_sha256": "8e3e9b2d027e6f141ec95a208b4d212fa7761beaad0318f25e4423fcf90095cd",
+  "scientific_result": true,
+  "split_manifest_sha256": "6dd4d95ae37c367be900746268818f34ee2439c152f0cede6b94538f342eeae3",
+  "static_proxy_read": true,
+  "taxonomy": "FRAGILE_INCONCLUSIVE",
+  "truth_alignment_check": "PASS"
+}

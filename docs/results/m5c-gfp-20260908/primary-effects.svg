@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="880" height="385" preserveAspectRatio="xMinYMin meet" viewBox="0 0 880 385" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="880" height="385"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-385)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="880" height="385" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="32" y="350" style="font-family: Helvetica-Bold; font-size: 20px;fill: rgb(9%,18%,25%); stroke:none;" transform="translate(0,700) scale(1,-1)">GFP: exploration has no established discovery advantage</text>
+			<text x="32" y="327" style="font-family: Helvetica; font-size: 12px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,654) scale(1,-1)">Top 1% discovery recall | 40 paired states | batch size 16</text>
+			<rect x="248.04826254826253" y="125" width="474.90347490347494" height="147" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(91%,94%,95%); fill-rule: evenodd;"/>
+			<path d="M 485.5,125 L 485.5,272 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1; stroke-dasharray: 3, 3;"/>
+			<text x="32" y="229.0" style="font-family: Helvetica-Bold; font-size: 10px;fill: rgb(9%,18%,25%); stroke:none;" transform="translate(0,458) scale(1,-1)">Exploration - Greedy</text>
+			<text x="32" y="213.0" style="font-family: Helvetica; font-size: 9px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,426) scale(1,-1)">EQUIVALENT</text>
+			<text x="32" y="180.0" style="font-family: Helvetica-Bold; font-size: 10px;fill: rgb(9%,18%,25%); stroke:none;" transform="translate(0,360) scale(1,-1)">Exploration - Matched Random</text>
+			<text x="32" y="164.0" style="font-family: Helvetica; font-size: 9px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,328) scale(1,-1)">EQUIVALENT</text>
+			<g transform="">
+				<g transform="">
+					<g transform="">
+						<path d="M 178,125 L 793,125 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1;"/>
+					</g>
+					<g transform="">
+						<path d="M 178,125 L 178,120 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 331.75,125 L 331.75,120 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 485.5,125 L 485.5,120 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 639.25,125 L 639.25,120 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 793,125 L 793,120 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1;"/>
+					</g>
+					<g transform="">
+						<g transform=" matrix(1,0,0,1,178,120)">
+							<text x="-10.415000000000001" y="-10.0" style="font-family: Times-Roman; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,-20) scale(1,-1)">-0.25</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,331.75,120)">
+							<text x="-10.415000000000001" y="-10.0" style="font-family: Times-Roman; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,-20) scale(1,-1)">-0.12</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,485.5,120)">
+							<text x="-8.75" y="-10.0" style="font-family: Times-Roman; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,-20) scale(1,-1)">0.00</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,639.25,120)">
+							<text x="-8.75" y="-10.0" style="font-family: Times-Roman; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,-20) scale(1,-1)">0.12</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,793,120)">
+							<text x="-8.75" y="-10.0" style="font-family: Times-Roman; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,-20) scale(1,-1)">0.25</text>
+						</g>
+					</g>
+				</g>
+				<g transform=""/>
+				<g transform="">
+					<polyline points="432.0734 223, 538.9266 223" style="stroke: rgb(8%,41%,65%); stroke-linecap: round; stroke-width: 2; fill: None; fill-rule: evenodd;"/>
+					<polyline points="485.5 223" style="stroke: rgb(8%,41%,65%); stroke-linecap: round; stroke-width: 1; fill: None; fill-rule: evenodd;"/>
+					<circle cx="485.5" cy="223.0" r="4.5" style="stroke: rgb(8%,41%,65%); stroke-linecap: butt; stroke-width: 0.1; fill: rgb(8%,41%,65%); fill-rule: evenodd;"/>
+					<polyline points="458.6939 174, 535.3092 174" style="stroke: rgb(74%,34%,10%); stroke-linecap: round; stroke-width: 2; fill: None; fill-rule: evenodd;"/>
+					<polyline points="495.4247 174" style="stroke: rgb(74%,34%,10%); stroke-linecap: round; stroke-width: 1; fill: None; fill-rule: evenodd;"/>
+					<circle cx="495.42474058880305" cy="174.0" r="4.5" style="stroke: rgb(74%,34%,10%); stroke-linecap: butt; stroke-width: 0.1; fill: rgb(74%,34%,10%); fill-rule: evenodd;"/>
+				</g>
+			</g>
+			<text x="382.462" y="85" style="font-family: Helvetica; font-size: 12px;fill: rgb(9%,18%,25%); stroke:none;" transform="translate(0,170) scale(1,-1)">Difference in recall (percentage points)</text>
+			<text x="32" y="55" style="font-family: Helvetica; font-size: 11px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,110) scale(1,-1)">Bars: 99.375% intervals, 20,000 shared-seed bootstrap draws. Shaded band: +/-0.193 pp.</text>
+			<text x="32" y="34" style="font-family: Helvetica; font-size: 11px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,68) scale(1,-1)">Intervals describe variation within one GFP assay. Overall taxonomy: FRAGILE_INCONCLUSIVE.</text>
+		</g>
+	</g>
+</svg>

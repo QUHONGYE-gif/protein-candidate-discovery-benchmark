@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="1100" height="585" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1100 585" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1100" height="585"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-585)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="1100" height="585" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="30" y="548" style="font-family: Helvetica-Bold; font-size: 21px;fill: rgb(9%,18%,25%); stroke:none;" transform="translate(0,1096) scale(1,-1)">ProteinGym: no established exploration advantage in three new assays</text>
+			<text x="30" y="522" style="font-family: Helvetica; font-size: 12px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,1044) scale(1,-1)">Top 1% new-batch recall | 40 paired states per assay | batch 16</text>
+			<text x="351.066" y="480" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(9%,18%,25%); stroke:none;" transform="translate(0,960) scale(1,-1)">Exploration - Greedy</text>
+			<rect x="386.0648148148148" y="400" width="57.87037037037044" height="50" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(91%,94%,95%); fill-rule: evenodd;"/>
+			<path d="M 402.702546,425 L 419.340278,425 Z" style="stroke: rgb(8%,41%,65%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 402.702546,420 L 402.702546,430 Z" style="stroke: rgb(8%,41%,65%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<path d="M 419.340278,420 L 419.340278,430 Z" style="stroke: rgb(8%,41%,65%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<circle cx="412.10648148148147" cy="425" r="4" style="stroke: rgb(8%,41%,65%); stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,65%); fill-rule: evenodd;"/>
+			<text x="386.4925" y="386" style="font-family: Helvetica; font-size: 9px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,772) scale(1,-1)">EQUIVALENT</text>
+			<text x="30" y="431" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(9%,18%,25%); stroke:none;" transform="translate(0,862) scale(1,-1)">PAB1</text>
+			<text x="30" y="412" style="font-family: Helvetica; font-size: 9px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,824) scale(1,-1)">FRAGILE_INCONCLUSIVE</text>
+			<rect x="332.7631578947369" y="320" width="164.47368421052624" height="50" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(91%,94%,95%); fill-rule: evenodd;"/>
+			<path d="M 266.973684,345 L 427.335526,345 Z" style="stroke: rgb(8%,41%,65%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 266.973684,340 L 266.973684,350 Z" style="stroke: rgb(8%,41%,65%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<path d="M 427.335526,340 L 427.335526,350 Z" style="stroke: rgb(8%,41%,65%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<circle cx="367.7138157894737" cy="345" r="4" style="stroke: rgb(8%,41%,65%); stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,65%); fill-rule: evenodd;"/>
+			<text x="381.2455" y="306" style="font-family: Helvetica; font-size: 9px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,612) scale(1,-1)">INCONCLUSIVE</text>
+			<text x="30" y="351" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(9%,18%,25%); stroke:none;" transform="translate(0,702) scale(1,-1)">Hsp90</text>
+			<text x="30" y="332" style="font-family: Helvetica; font-size: 9px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,664) scale(1,-1)">INCONCLUSIVE</text>
+			<rect x="287.81976744186045" y="240" width="254.3604651162791" height="50" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(91%,94%,95%); fill-rule: evenodd;"/>
+			<path d="M 351.409884,265 L 437.256541,265 Z" style="stroke: rgb(8%,41%,65%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 351.409884,260 L 351.409884,270 Z" style="stroke: rgb(8%,41%,65%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<path d="M 437.256541,260 L 437.256541,270 Z" style="stroke: rgb(8%,41%,65%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<circle cx="399.1024709302326" cy="265" r="4" style="stroke: rgb(8%,41%,65%); stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,65%); fill-rule: evenodd;"/>
+			<text x="386.4925" y="226" style="font-family: Helvetica; font-size: 9px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,452) scale(1,-1)">EQUIVALENT</text>
+			<text x="30" y="271" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(9%,18%,25%); stroke:none;" transform="translate(0,542) scale(1,-1)">GCK</text>
+			<text x="30" y="252" style="font-family: Helvetica; font-size: 9px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,504) scale(1,-1)">INCONCLUSIVE</text>
+			<rect x="393.8851351351351" y="160" width="42.2297297297298" height="50" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(91%,94%,95%); fill-rule: evenodd;"/>
+			<path d="M 410.249155,185 L 419.750845,185 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 410.249155,180 L 410.249155,190 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<path d="M 419.750845,180 L 419.750845,190 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<circle cx="415.0" cy="185" r="4" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1; fill: rgb(32%,40%,47%); fill-rule: evenodd;"/>
+			<text x="386.4925" y="146" style="font-family: Helvetica; font-size: 9px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,292) scale(1,-1)">EQUIVALENT</text>
+			<text x="30" y="191" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(9%,18%,25%); stroke:none;" transform="translate(0,382) scale(1,-1)">GFP (prior exploration)</text>
+			<text x="30" y="172" style="font-family: Helvetica; font-size: 9px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,344) scale(1,-1)">FRAGILE_INCONCLUSIVE</text>
+			<path d="M 415,156 L 415,453 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1; stroke-dasharray: 3, 3;"/>
+			<text x="242.3225" y="122" style="font-family: Helvetica; font-size: 10px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,244) scale(1,-1)">-1.5</text>
+			<text x="301.18" y="122" style="font-family: Helvetica; font-size: 10px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,244) scale(1,-1)">-1</text>
+			<text x="351.6975" y="122" style="font-family: Helvetica; font-size: 10px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,244) scale(1,-1)">-0.5</text>
+			<text x="412.22" y="122" style="font-family: Helvetica; font-size: 10px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,244) scale(1,-1)">0</text>
+			<text x="462.7375" y="122" style="font-family: Helvetica; font-size: 10px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,244) scale(1,-1)">0.5</text>
+			<text x="521.595" y="122" style="font-family: Helvetica; font-size: 10px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,244) scale(1,-1)">1</text>
+			<text x="572.1125" y="122" style="font-family: Helvetica; font-size: 10px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,244) scale(1,-1)">1.5</text>
+			<text x="325.13" y="100" style="font-family: Helvetica; font-size: 11px;fill: rgb(9%,18%,25%); stroke:none;" transform="translate(0,200) scale(1,-1)">Recall difference (percentage points)</text>
+			<text x="739.294" y="480" style="font-family: Helvetica-Bold; font-size: 13px;fill: rgb(9%,18%,25%); stroke:none;" transform="translate(0,960) scale(1,-1)">Exploration - Matched Random</text>
+			<rect x="806.0648148148148" y="400" width="57.87037037037044" height="50" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(91%,94%,95%); fill-rule: evenodd;"/>
+			<path d="M 831.270074,425 L 843.437581,425 Z" style="stroke: rgb(74%,34%,10%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 831.270074,420 L 831.270074,430 Z" style="stroke: rgb(74%,34%,10%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<path d="M 843.437581,420 L 843.437581,430 Z" style="stroke: rgb(74%,34%,10%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<circle cx="836.1754918981482" cy="425" r="4" style="stroke: rgb(74%,34%,10%); stroke-linecap: butt; stroke-width: 1; fill: rgb(74%,34%,10%); fill-rule: evenodd;"/>
+			<text x="806.4925" y="386" style="font-family: Helvetica; font-size: 9px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,772) scale(1,-1)">EQUIVALENT</text>
+			<rect x="752.7631578947369" y="320" width="164.47368421052624" height="50" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(91%,94%,95%); fill-rule: evenodd;"/>
+			<path d="M 824.045796,345 L 883.089278,345 Z" style="stroke: rgb(74%,34%,10%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 824.045796,340 L 824.045796,350 Z" style="stroke: rgb(74%,34%,10%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<path d="M 883.089278,340 L 883.089278,350 Z" style="stroke: rgb(74%,34%,10%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<circle cx="844.7013774671052" cy="345" r="4" style="stroke: rgb(74%,34%,10%); stroke-linecap: butt; stroke-width: 1; fill: rgb(74%,34%,10%); fill-rule: evenodd;"/>
+			<text x="806.4925" y="306" style="font-family: Helvetica; font-size: 9px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,612) scale(1,-1)">EQUIVALENT</text>
+			<rect x="707.8197674418604" y="240" width="254.3604651162791" height="50" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(91%,94%,95%); fill-rule: evenodd;"/>
+			<path d="M 823.72269,265 L 866.844738,265 Z" style="stroke: rgb(74%,34%,10%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 823.72269,260 L 823.72269,270 Z" style="stroke: rgb(74%,34%,10%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<path d="M 866.844738,260 L 866.844738,270 Z" style="stroke: rgb(74%,34%,10%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<circle cx="842.7500454215116" cy="265" r="4" style="stroke: rgb(74%,34%,10%); stroke-linecap: butt; stroke-width: 1; fill: rgb(74%,34%,10%); fill-rule: evenodd;"/>
+			<text x="806.4925" y="226" style="font-family: Helvetica; font-size: 9px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,452) scale(1,-1)">EQUIVALENT</text>
+			<rect x="813.8851351351351" y="160" width="42.2297297297298" height="50" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(91%,94%,95%); fill-rule: evenodd;"/>
+			<path d="M 832.61633,185 L 839.429173,185 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 2;"/>
+			<path d="M 832.61633,180 L 832.61633,190 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<path d="M 839.429173,180 L 839.429173,190 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<circle cx="835.8825353673986" cy="185" r="4" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1; fill: rgb(32%,40%,47%); fill-rule: evenodd;"/>
+			<text x="806.4925" y="146" style="font-family: Helvetica; font-size: 9px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,292) scale(1,-1)">EQUIVALENT</text>
+			<path d="M 835,156 L 835,453 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1; stroke-dasharray: 3, 3;"/>
+			<text x="662.3225" y="122" style="font-family: Helvetica; font-size: 10px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,244) scale(1,-1)">-1.5</text>
+			<text x="721.18" y="122" style="font-family: Helvetica; font-size: 10px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,244) scale(1,-1)">-1</text>
+			<text x="771.6975" y="122" style="font-family: Helvetica; font-size: 10px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,244) scale(1,-1)">-0.5</text>
+			<text x="832.22" y="122" style="font-family: Helvetica; font-size: 10px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,244) scale(1,-1)">0</text>
+			<text x="882.7375" y="122" style="font-family: Helvetica; font-size: 10px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,244) scale(1,-1)">0.5</text>
+			<text x="941.595" y="122" style="font-family: Helvetica; font-size: 10px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,244) scale(1,-1)">1</text>
+			<text x="992.1125" y="122" style="font-family: Helvetica; font-size: 10px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,244) scale(1,-1)">1.5</text>
+			<text x="745.13" y="100" style="font-family: Helvetica; font-size: 11px;fill: rgb(9%,18%,25%); stroke:none;" transform="translate(0,200) scale(1,-1)">Recall difference (percentage points)</text>
+			<path d="M 30,215 L 1050,215 Z" style="stroke: rgb(32%,40%,47%); stroke-linecap: butt; stroke-width: 1; stroke-dasharray: 3, 3;"/>
+			<text x="30" y="67" style="font-family: Helvetica; font-size: 11px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,134) scale(1,-1)">Bars: 99.375% intervals from 20,000 shared-seed bootstrap draws within each assay. No pooled estimate.</text>
+			<text x="30" y="46" style="font-family: Helvetica; font-size: 11px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,92) scale(1,-1)">Shading: preset equivalence band (+/-1 high-value hit per batch). GFP is shown separately as an already-seen reference.</text>
+			<text x="30" y="25" style="font-family: Helvetica; font-size: 11px;fill: rgb(32%,40%,47%); stroke:none;" transform="translate(0,50) scale(1,-1)">Models: RF + Uncertainty and XGBoost + UCB; model and exploration rule are interpreted as a combination.</text>
+		</g>
+	</g>
+</svg>

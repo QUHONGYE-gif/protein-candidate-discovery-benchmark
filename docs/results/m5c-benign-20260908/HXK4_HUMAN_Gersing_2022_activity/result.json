@@ -1,0 +1,46 @@
+{
+  "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+  "branch_evaluations": 2640,
+  "candidate_count": 8570,
+  "candidate_identity_checks": "PASS",
+  "claim_boundary": "revised benign ProteinGym ITERATION; not original four-assay confirmation",
+  "completed_states": 40,
+  "feature_sha256": "1a7213fce0447662e2b9a2b54f5939d363e2883883da41fe2aad49f2b15ff58c",
+  "membership_alignment_check": "PASS",
+  "mode": "full",
+  "primary_contrasts": {
+    "E-G": {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "bootstrap_draws": 20000,
+      "cell_point_estimates": [
+        0.0,
+        -0.00813953488372093,
+        0.0,
+        0.002325581395348837
+      ],
+      "ci_lower": -0.005813953488372093,
+      "ci_upper": 0.0020348837209302325,
+      "contrast": "E-G",
+      "point_estimate": -0.0014534883720930232,
+      "status": "EQUIVALENT"
+    },
+    "E-M": {
+      "assay_id": "HXK4_HUMAN_Gersing_2022_activity",
+      "bootstrap_draws": 20000,
+      "cell_point_estimates": [
+        -0.0006722383720930232,
+        0.0013263081395348836,
+        -0.0007449127906976745,
+        0.002925145348837209
+      ],
+      "ci_lower": -0.0010310683139534884,
+      "ci_upper": 0.0029115188953488373,
+      "contrast": "E-M",
+      "point_estimate": 0.0007085755813953488,
+      "status": "EQUIVALENT"
+    }
+  },
+  "scientific_result": true,
+  "taxonomy": "INCONCLUSIVE",
+  "truth_alignment_check": "PASS"
+}
