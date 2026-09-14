@@ -1,6 +1,6 @@
 # Current project status
 
-> Snapshot last verified: 2026-09-13. This update records the M5 milestone closeout requested in
+> Snapshot last verified: 2026-09-14. This update records the M5 milestone closeout requested in
 > [Issue #109](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/109).
 > It does not turn documentation, CI or PR approval into a scientific Gate or evidence promotion.
 
@@ -8,12 +8,12 @@
 
 | Field | Current fact |
 |---|---|
-| Verified upstream base | `main@9f332c2935b53ab1697688d0024944bc12a99161`; accepted M5A/B integration remains unchanged |
+| Verified upstream base | `main@d372f7d54315cdbf028cd8a30affe766e3bcbf7e` after the approved M6 implementation PR #108 merge; accepted M5A/B evidence remains unchanged |
 | Current scientific stage | M5 experiments and cause investigations are stopped for closeout. A/B are accepted; C/D and later cause studies have bounded development results. The cross-stage closeout awaits the designated collaborator |
 | Latest accepted scientific result | Accepted A/B remain unchanged. Later C/D and cause results retain their individual review/evidence boundaries; the latest C6 advisory review accepts only narrow development claims, not a common mechanism or formal promotion |
 | Current decision question | Review whether the M5 closeout faithfully presents the completed work and its limitations; unresolved causes are retained rather than used to trigger automatic new experiments |
-| Active implementation PR | M5: #103 (C), #105 (D), #106 (prediction/discovery) retain their original source/evidence scope; the new closeout branch is tracked by #109. M6: #108 / #107 is a separate bounded development effort |
-| Active experiment | No M5 experiment is active; additional D9 information-intervention transfer is paused. M6 has synthetic/component evidence, with zero real E4/E5 scientific trajectories reported |
+| Active implementation PR | M5: #103 (C), #105 (D), #106 (prediction/discovery) retain their original source/evidence scope; closeout PR #110 is tracked by #109 and awaits QUHONGYE-gif review. M6 implementation PR #108 is merged; Issue #107 remains open for the separate experiment and result acceptance |
+| Active experiment | No M5 experiment is active; additional D9 information-intervention transfer is paused. M6 E4 has a recorded real launch on four ProteinGym assays, with 5 seeds and a 76-hour cap. Its published launch counts are historical snapshots; complete terminal results and readback are not yet accepted. E5 is not approved |
 | Next promotion gate | No M5 candidate/frozen promotion is approved. Review of the closeout is separate from any future publication-evidence or new-experiment decision |
 | Known blockers | No need to continue experiments to finish this closeout. Designated collaborator approval is pending; common exploration value, a unified cause and broad generalization remain scientifically unresolved |
 | Superseded plans | M4 onward follows [the revised plan](M4_TO_M7_REVISED_EXPERIMENT_PLAN.md). Its forward queue must be read with this closeout: original C four-assay confirmation was not completed as written, and replacement development assays do not retrospectively satisfy it |
@@ -37,13 +37,21 @@ statistics, not a complete independently executable reproduction release.
   Complete six-task generalization is not established.
 
 Next: the designated non-author collaborator reviews the new closeout PR and the corresponding
-disposition of #103/#105/#106. Pending Issues and PRs remain open; historical closed objects stay
-closed. No automatic closing keyword is used before acceptance. A/B acceptance is not reopened.
+disposition of #103/#105/#106. Unapproved M5 Issues and PRs remain open. The user now authorizes
+closing approved objects after verifying their accepted scope; approval of an implementation
+alone does not close an unfinished research objective. A/B acceptance is not reopened.
 No additional seeds, assays, training, D9 access or resource expansion is queued by this snapshot.
 
-M6 scientific review of #108 at `f708730d2506ce740249e4b98ec7dc7feb675a56` accepted the bounded
-E4 design and existing scientific components, with [two explicit attribution limits](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/108#pullrequestreview-5190883496).
-It did not approve real E4/E5 results, Gate B, complete real-input execution readiness or promotion.
+M6 PR #108 at `c89b189d05d887c986013c1cf4c41e4fb326b4fc` received a
+[fresh scientific approval](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/108#pullrequestreview-5194105109)
+for the four-assay E4 design, actual runtime and launch record, and was merged as
+`d372f7d54315cdbf028cd8a30affe766e3bcbf7e`. The older `f708730d` approval was dismissed and
+is historical. The two attribution limits remain: the main contrast is a net strategy effect,
+not an isolated LF effect; C2 is the total mirror intervention, which also changes Pearson.
+The running source remains `fd68935bf97cd7811c66f733066aa8e3677cb1dc`; this status update does
+not alter it. Saved-score replay is not independent RF retraining. Issue #107 remains open;
+complete E4 results, Gate B, E5 and evidence promotion are not approved. Gate A remains PENDING
+with the recorded user execution exception; approval is not backdated.
 
 ## Permanent evidence boundaries
 
