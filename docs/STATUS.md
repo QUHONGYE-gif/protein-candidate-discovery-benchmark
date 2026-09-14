@@ -1,57 +1,70 @@
 # Current project status
 
-> Snapshot last verified: 2026-09-03. Update this file only when one of the nine project-level
-> fields below changes materially. PID, individual attempts, routine Issue comments and code-review
-> events do not trigger an update. Prefer lifecycle closeout before taking a new snapshot, but do
-> not require this file to be transactionally synchronized with every GitHub event.
+> Snapshot last verified: 2026-09-14. This update records the M5 milestone closeout requested in
+> [Issue #109](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/109).
+> It does not turn documentation, CI or PR approval into a scientific Gate or evidence promotion.
 
 ## Live state
 
 | Field | Current fact |
 |---|---|
-| Verified upstream base | [`main@747b009`](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/commit/747b009357583df0f9a5c5027c0ba8f12baf82c1); PRs #95-#97 and #99 are merged, including the bounded M5B adapter, retry/source-provenance guards and actual-source feature-root binding fix |
-| Current scientific stage | M4 has an accepted negative terminal; M5A is governance-accepted and integrated; M5B has an independently accepted L1 exploratory ITERATION terminal with a permanently disclosed source-authorization deviation; M5C has not started |
-| Latest accepted scientific result | M5B `attempt-002` is the first complete terminal over the frozen 80 Alpha/IRED development same-states: all four primary contrasts are inside their frozen 98.75% equivalence intervals, while both task taxonomies and the overall taxonomy are `INCONCLUSIVE` |
-| Current decision question | M5B is closed within its directional one-batch scope. The next planned slice is M5C ProteinGym four-assay prospective disambiguation, which must not assume M5B established behavioral redundancy |
-| Active implementation PR | None. PR #99 integrated the exact feature-root binding used by M5B `attempt-002`; no M5C implementation has been opened |
-| Active experiment | None. M5B stopped at its first complete terminal; no `attempt-003` exists and executable authority is 0 |
-| Next promotion gate | No M5B promotion is approved. Before M5C, a new Issue must prospectively freeze the experiment split and leakage boundary, zero-shot proxy identity, coverage eligibility, observable feature family and minimum M2 baseline |
-| Known blockers | None for M5B closeout. M5C remains unscoped and unauthorized; no held-out, COS publication, server execution or evidence promotion is permitted |
-| Superseded plans | For M4 onward, [`M4_TO_M7_REVISED_EXPERIMENT_PLAN.md`](M4_TO_M7_REVISED_EXPERIMENT_PLAN.md) supersedes the corresponding forward-looking sections of [`EXECUTION_ROADMAP.md`](EXECUTION_ROADMAP.md). The old roadmap remains historical context |
+| Verified upstream base | `main@d372f7d54315cdbf028cd8a30affe766e3bcbf7e` after the approved M6 implementation PR #108 merge; accepted M5A/B evidence remains unchanged |
+| Current scientific stage | M5 experiments and cause investigations are stopped for closeout. A/B are accepted; C/D and later cause studies have bounded development results. The cross-stage closeout awaits the designated collaborator |
+| Latest accepted scientific result | Accepted A/B remain unchanged. Later C/D and cause results retain their individual review/evidence boundaries; the latest C6 advisory review accepts only narrow development claims, not a common mechanism or formal promotion |
+| Current decision question | Review whether the M5 closeout faithfully presents the completed work and its limitations; unresolved causes are retained rather than used to trigger automatic new experiments |
+| Active implementation PR | M5: #103 (C), #105 (D), #106 (prediction/discovery) retain their original source/evidence scope; closeout PR #110 is tracked by #109 and awaits QUHONGYE-gif review. M6 implementation PR #108 is merged; Issue #107 remains open for the separate experiment and result acceptance |
+| Active experiment | No M5 experiment is active; additional D9 information-intervention transfer is paused. M6 E4 has a recorded real launch on four ProteinGym assays, with 5 seeds and a 76-hour cap. Its published launch counts are historical snapshots; complete terminal results and readback are not yet accepted. E5 is not approved |
+| Next promotion gate | No M5 candidate/frozen promotion is approved. Review of the closeout is separate from any future publication-evidence or new-experiment decision |
+| Known blockers | No need to continue experiments to finish this closeout. Designated collaborator approval is pending; common exploration value, a unified cause and broad generalization remain scientifically unresolved |
+| Superseded plans | M4 onward follows [the revised plan](M4_TO_M7_REVISED_EXPERIMENT_PLAN.md). Its forward queue must be read with this closeout: original C four-assay confirmation was not completed as written, and replacement development assays do not retrospectively satisfy it |
 
-Stage summary: M0-M3 are complete within their accepted engineering/evidence scopes; M4 terminal is
-`STOP`; M5A is accepted and integrated; M5B is complete within its accepted L1 exploratory
-ITERATION scope with overall `INCONCLUSIVE`, no rerun and no evidence promotion; M5C and M6-M7 have
-not started.
+## M5 results and current queue
 
-## Next bounded queue
+The authoritative result entry is [M5 closeout: core questions, A/B/C/D and cause analysis](results/m5-closeout-20260913/README.md).
+It includes the complete attempt-level scientific narrative, fixed contrasts, failed replications,
+task limits and immutable source pointers. The public package contains compact reports and aggregate
+statistics, not a complete independently executable reproduction release.
 
-1. [Issue #91](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/91)
-   is closed as completed. It closed after PR #99 merged and before this status synchronization;
-   after PR #100 is integrated and read back, publish one compact final closeout record on the
-   already-closed Issue without reopening or reclosing it.
-2. Scope M5C in a new Issue before implementation or execution, retaining the existing development,
-   held-out and claim boundaries.
-3. Defer M5D SKEMPI 2.0 external validation until after M5C, as specified by the revised plan.
+- A: 800/800 historical selections reconstructed; same implementation/environment repeatability.
+- B: four primary contrasts meet the original 98.75% equivalence rules, while both task and overall
+  mechanism classifications remain INCONCLUSIVE.
+- C: GFP plus three approved replacement development assays; no common stable exploration advantage.
+- D: original nine-complex external study and four follow-up developments executed; no stable
+  cross-group winner. The additional M/U/L/F D9 transfer was not executed and is paused.
+- Cause studies: global prediction improvements do not substitute for direct discovery evaluation.
+  Information-detail interventions show limited conditional benefits. In the latest six-task R/S
+  matrix only Alpha passes both primary contrasts in both batches; HXK4's S batch remains unclear.
+  Complete six-task generalization is not established.
 
-The queue records the order visible at the snapshot date. Routine progress within it does not require
-transactional STATUS synchronization. No Issue, PR, experiment, credential, server or COS state is
-changed by this file.
+Next: the designated non-author collaborator reviews the new closeout PR and the corresponding
+disposition of #103/#105/#106. Unapproved M5 Issues and PRs remain open. The user now authorizes
+closing approved objects after verifying their accepted scope; approval of an implementation
+alone does not close an unfinished research objective. A/B acceptance is not reopened.
+No additional seeds, assays, training, D9 access or resource expansion is queued by this snapshot.
 
-## Evidence boundaries
+M6 PR #108 at `c89b189d05d887c986013c1cf4c41e4fb326b4fc` received a
+[fresh scientific approval](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/108#pullrequestreview-5194105109)
+for the four-assay E4 design, actual runtime and launch record, and was merged as
+`d372f7d54315cdbf028cd8a30affe766e3bcbf7e`. The older `f708730d` approval was dismissed and
+is historical. The two attribution limits remain: the main contrast is a net strategy effect,
+not an isolated LF effect; C2 is the total mirror intervention, which also changes Pearson.
+The running source remains `fd68935bf97cd7811c66f733066aa8e3677cb1dc`; this status update does
+not alter it. Saved-score replay is not independent RF retraining. Issue #107 remains open;
+complete E4 results, Gate B, E5 and evidence promotion are not approved. Gate A remains PENDING
+with the recorded user execution exception; approval is not backdated.
 
-- `Gate 3 = STOP` is not a runtime failure and is not `FROZEN/PASS`.
-- The accepted M5A artifact token `RECONSTRUCTION_VALID` records same-implementation,
-  same-environment repeatability and 800/800 historical selection matching. It is not an
-  independent implementation replication, statistical significance result or causal mechanism
-  claim.
-- M5B `attempt-002` is accepted only as an L1 exploratory ITERATION terminal with the actual-source
-  deviation permanently disclosed: authorization named `a797efa` / `e8a01ce`, while the attempt
-  used the pre-attempt feature-root correction `2aefbe0` / `00aaf06`. This is not retrospective
-  exact-source authorization and does not permit a rerun.
-- On the frozen 80 development same-states, the four primary immediate recall contrasts are inside
-  their frozen 98.75% equivalence intervals. The registered task and overall classifications remain
-  `INCONCLUSIVE`; this is not global equivalence, behavioral redundancy, multi-round benefit,
-  causal mechanism, cross-assay generalization or benchmark evidence.
-- No experiment is currently active. No held-out evaluation, new COS publication, multi-fidelity
-  run, SKEMPI external validation or final scientific validation is authorized by this file.
+## Permanent evidence boundaries
+
+- M4 Gate 3 remains STOP.
+- M5A RECONSTRUCTION_VALID means same-implementation, same-environment repeatability and exact
+  historical selection matching; it is not an independent laboratory replication or causal result.
+- M5B attempt-002 retains the accepted source-authorization deviation: authorization named
+  `a797efa` / `e8a01ce`, while execution used the pre-attempt feature-root correction
+  `2aefbe0` / `00aaf06`. This is not retrospective exact-source authorization.
+- An interval containing zero does not establish no effect or equivalence. Different significance
+  labels do not substitute for direct interaction tests. Seeds and random branches are not
+  independent biological tasks; historical analyses do not share one global error-rate guarantee.
+- E−G and E−MR answer different immediate contrasts; neither alone establishes multi-round
+  information value, uncertainty-specific causal value or universal strategy superiority.
+- This closeout changes no frozen protocol, successful artifact, license, split, held-out authority,
+  server/COS permission, model or scientific execution configuration.
