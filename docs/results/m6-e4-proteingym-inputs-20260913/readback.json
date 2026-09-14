@@ -1,0 +1,11 @@
+{
+  "assays_exactly_equal": true,
+  "first_checked_at": "2026-09-13T15:44:37.975539+00:00",
+  "first_report_sha256": "832a3a83ffed4f5a69958afc27f165234028c27d1b63452830f4a4a13f62a0ca",
+  "receipt_hash_equal": true,
+  "script_hash_equal": true,
+  "second_checked_at": "2026-09-13T15:45:43.095603+00:00",
+  "second_report_sha256": "629337b20f6d86c27f5ee4c2d2bebd14023070c66d86149ffe71a403f792973c",
+  "status": "PASS",
+  "truth_read": false
+}

@@ -1,0 +1,165 @@
+{
+  "assays": [
+    {
+      "assay_id": "BLAT_ECOLX_Firnberg_2014",
+      "candidate_count": 4783,
+      "feature_matrix_generated": false,
+      "files": [
+        {
+          "relative_path": "manifests/BLAT_ECOLX_Firnberg_2014/dataset-manifest-v1.json",
+          "sha256": "ee54487f1c9b67efed2f18b24943ae31a82344bf24152c45c2d52b78e78f5ee3",
+          "size_bytes": 1088
+        },
+        {
+          "relative_path": "processed/BLAT_ECOLX_Firnberg_2014/proteingym-blat_ecolx_firnberg_2014-5658aa768b28c9c061031829f0df1c54443a3d25e4530acd882340aa7f72d815/processing-manifest.json",
+          "sha256": "7e074b72b0a92707002d2060712cee0c29b506f1b82320b6a1a58ed06ba933e0",
+          "size_bytes": 2486
+        },
+        {
+          "relative_path": "processed/BLAT_ECOLX_Firnberg_2014/proteingym-blat_ecolx_firnberg_2014-5658aa768b28c9c061031829f0df1c54443a3d25e4530acd882340aa7f72d815/split-manifest.json",
+          "sha256": "8c60a670127415cad6e9c9fcfdde42375cb949a2f8120d03c19e89b73c3dcc36",
+          "size_bytes": 1451
+        },
+        {
+          "relative_path": "processed/BLAT_ECOLX_Firnberg_2014/proteingym-blat_ecolx_firnberg_2014-5658aa768b28c9c061031829f0df1c54443a3d25e4530acd882340aa7f72d815/candidates.csv.gz",
+          "sha256": "3e11ee04c09c87931549cebcaef49d4ca3f022d472f0a1df0e3616ee2d59e7d7",
+          "size_bytes": 231558
+        },
+        {
+          "relative_path": "processed/BLAT_ECOLX_Firnberg_2014/proteingym-blat_ecolx_firnberg_2014-5658aa768b28c9c061031829f0df1c54443a3d25e4530acd882340aa7f72d815/membership.csv.gz",
+          "sha256": "41af7417ea649b27eb36571e8f17fcfad1ac1cd42c0bc90a47fcb9c407aea903",
+          "size_bytes": 185888
+        }
+      ],
+      "held_out_partitions": [],
+      "label_direction": "higher_is_better",
+      "ordered_subset_ids_sha256": "dfe6211e27936df3450e8abe3068e79a2ab5228d13b02da9b72936c43d7b1873",
+      "subset_count": 256,
+      "subset_ids_persisted": false,
+      "truth_hash_verified": false
+    },
+    {
+      "assay_id": "CAPSD_AAV2S_Sinai_2021",
+      "candidate_count": 42328,
+      "feature_matrix_generated": false,
+      "files": [
+        {
+          "relative_path": "manifests/CAPSD_AAV2S_Sinai_2021/dataset-manifest-v1.json",
+          "sha256": "61e60fd61e5986b973eb7749edf137ffb84aa014c160bd584d7a5942e4cee269",
+          "size_bytes": 1085
+        },
+        {
+          "relative_path": "processed/CAPSD_AAV2S_Sinai_2021/proteingym-capsd_aav2s_sinai_2021-90ba135b25bcae0e92f7925a7edd2648d624fb482343a8fa27dc73163a024b74/processing-manifest.json",
+          "sha256": "4132a1a8f150ee6080e2a3b4a73539f6d392894d515d88ab802c0cdace41a80a",
+          "size_bytes": 2472
+        },
+        {
+          "relative_path": "processed/CAPSD_AAV2S_Sinai_2021/proteingym-capsd_aav2s_sinai_2021-90ba135b25bcae0e92f7925a7edd2648d624fb482343a8fa27dc73163a024b74/split-manifest.json",
+          "sha256": "d08d924dd5849a001a9e70e82e62f854cb90d1feb1da8b07b036cf3608708d1e",
+          "size_bytes": 1449
+        },
+        {
+          "relative_path": "processed/CAPSD_AAV2S_Sinai_2021/proteingym-capsd_aav2s_sinai_2021-90ba135b25bcae0e92f7925a7edd2648d624fb482343a8fa27dc73163a024b74/candidates.csv.gz",
+          "sha256": "9f5c4e3c08906fc707026cfd6d7d88c30f4fee7fcee92e3fee0f58181d494489",
+          "size_bytes": 2415066
+        },
+        {
+          "relative_path": "processed/CAPSD_AAV2S_Sinai_2021/proteingym-capsd_aav2s_sinai_2021-90ba135b25bcae0e92f7925a7edd2648d624fb482343a8fa27dc73163a024b74/membership.csv.gz",
+          "sha256": "9a164b031a0fdafbd55934bb4e2ff248d93ecafb9b7a865e2c8d210ad404e7f0",
+          "size_bytes": 1641092
+        }
+      ],
+      "held_out_partitions": [],
+      "label_direction": "higher_is_better",
+      "ordered_subset_ids_sha256": "62a5fcd6e8671633e9e207d43bea4095bd8c4a5ab69d8f33194b14c32b6c92b6",
+      "subset_count": 256,
+      "subset_ids_persisted": false,
+      "truth_hash_verified": false
+    },
+    {
+      "assay_id": "GFP_AEQVI_Sarkisyan_2016",
+      "candidate_count": 51714,
+      "feature_matrix_generated": false,
+      "files": [
+        {
+          "relative_path": "manifests/GFP_AEQVI_Sarkisyan_2016/dataset-manifest-v1.json",
+          "sha256": "4830e732adbaeb70845a5a86596eee951d17e92837ffd38be0d0611d6d2e7314",
+          "size_bytes": 1091
+        },
+        {
+          "relative_path": "processed/GFP_AEQVI_Sarkisyan_2016/proteingym-gfp_aeqvi_sarkisyan_2016-35096aae85a1a6599626135de22f3fae9eb4dc181822103f9cb65fbbf0c94bd2/processing-manifest.json",
+          "sha256": "8e3e9b2d027e6f141ec95a208b4d212fa7761beaad0318f25e4423fcf90095cd",
+          "size_bytes": 2490
+        },
+        {
+          "relative_path": "processed/GFP_AEQVI_Sarkisyan_2016/proteingym-gfp_aeqvi_sarkisyan_2016-35096aae85a1a6599626135de22f3fae9eb4dc181822103f9cb65fbbf0c94bd2/split-manifest.json",
+          "sha256": "6dd4d95ae37c367be900746268818f34ee2439c152f0cede6b94538f342eeae3",
+          "size_bytes": 1455
+        },
+        {
+          "relative_path": "processed/GFP_AEQVI_Sarkisyan_2016/proteingym-gfp_aeqvi_sarkisyan_2016-35096aae85a1a6599626135de22f3fae9eb4dc181822103f9cb65fbbf0c94bd2/candidates.csv.gz",
+          "sha256": "39594bc0eb279284b6886a10f454ab24d760dbc7068d65b6014f60cfe76b8102",
+          "size_bytes": 3150440
+        },
+        {
+          "relative_path": "processed/GFP_AEQVI_Sarkisyan_2016/proteingym-gfp_aeqvi_sarkisyan_2016-35096aae85a1a6599626135de22f3fae9eb4dc181822103f9cb65fbbf0c94bd2/membership.csv.gz",
+          "sha256": "d440742cdd7a57a617cf068d02b193fad8a542de73db54b5f93159e9d732294a",
+          "size_bytes": 2005098
+        }
+      ],
+      "held_out_partitions": [],
+      "label_direction": "higher_is_better",
+      "ordered_subset_ids_sha256": "0c7ec6a71fc762dfa3e37af608cb1085276dc039878bfe95a2769d4e6f8fe9fa",
+      "subset_count": 256,
+      "subset_ids_persisted": false,
+      "truth_hash_verified": false
+    },
+    {
+      "assay_id": "SPG1_STRSG_Olson_2014",
+      "candidate_count": 536962,
+      "feature_matrix_generated": false,
+      "files": [
+        {
+          "relative_path": "manifests/SPG1_STRSG_Olson_2014/dataset-manifest-v1.json",
+          "sha256": "98603abba2ff66abe471932b21953a787b58bdfe452ef0527745dc72a00b74a0",
+          "size_bytes": 1084
+        },
+        {
+          "relative_path": "processed/SPG1_STRSG_Olson_2014/proteingym-spg1_strsg_olson_2014-8d8e4be68b080bd3fe9c4f339c5d9b0d744d7f6c4aabcbbf512f6989e7599f26/processing-manifest.json",
+          "sha256": "15e474f649af97e94b17dbe85634db1d232e49795edc62e3e11ab4fc2386d0c8",
+          "size_bytes": 2467
+        },
+        {
+          "relative_path": "processed/SPG1_STRSG_Olson_2014/proteingym-spg1_strsg_olson_2014-8d8e4be68b080bd3fe9c4f339c5d9b0d744d7f6c4aabcbbf512f6989e7599f26/split-manifest.json",
+          "sha256": "b1ab86723ce6b355dfabe148a28aaa3f12687066eedd535c72f2e8a06b47bc6b",
+          "size_bytes": 1450
+        },
+        {
+          "relative_path": "processed/SPG1_STRSG_Olson_2014/proteingym-spg1_strsg_olson_2014-8d8e4be68b080bd3fe9c4f339c5d9b0d744d7f6c4aabcbbf512f6989e7599f26/candidates.csv.gz",
+          "sha256": "9db91d18805875e85400be6976bed541cb0054ddf18377610fa5d95aaed03c23",
+          "size_bytes": 26185692
+        },
+        {
+          "relative_path": "processed/SPG1_STRSG_Olson_2014/proteingym-spg1_strsg_olson_2014-8d8e4be68b080bd3fe9c4f339c5d9b0d744d7f6c4aabcbbf512f6989e7599f26/membership.csv.gz",
+          "sha256": "10bf99559d9a311a5fd30a72bc9ac372fe7cec5a39bff3ff69022a53d4d6e631",
+          "size_bytes": 20814196
+        }
+      ],
+      "held_out_partitions": [],
+      "label_direction": "higher_is_better",
+      "ordered_subset_ids_sha256": "02e67a590f5e2e051bf39655b07f1acd168253cf962ec0d9f00596f630adb70e",
+      "subset_count": 256,
+      "subset_ids_persisted": false,
+      "truth_hash_verified": false
+    }
+  ],
+  "audit_script_sha256": "8523b5a92f918b46cd008eb2b6d1de5c701173aede5e6e0485991321b039b9aa",
+  "checked_at": "2026-09-13T15:44:37.975539+00:00",
+  "gate_a": "PENDING",
+  "receipt_sha256": "5dad6220ae74a86a052a45386fd0540995f3e8e5abd7fea0274eb69441164ba1",
+  "schema_version": "m6-e4-proteingym-observable-audit-v1",
+  "scientific_trajectories": 0,
+  "status": "OBSERVABLE_INPUTS_VERIFIED",
+  "truth_read": false,
+  "zero_shot_read": false
+}

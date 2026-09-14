@@ -1,0 +1,11 @@
+{
+  "report_sha256": "cc7ec9c640fb87ac7f9526ec242383689057c041d1c023b1fee62d6096c91a14",
+  "download_matches_server_checksum": true,
+  "projection_recomputed": true,
+  "environment_digest_recomputed": true,
+  "resource_stop_rule_verified": true,
+  "truth_read": false,
+  "scientific_trajectories": 0,
+  "execution_exit_code": 2,
+  "scope": "preflight-readback-only"
+}

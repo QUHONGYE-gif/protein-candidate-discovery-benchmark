@@ -1,0 +1,8 @@
+{
+  "report_sha256": "89b202fdf77227a28ccd8d5f531f1e8eae95c3aa9810650f35b0355edb9aecad",
+  "download_checksum_verified": true,
+  "six_rows_exact_score_hash": true,
+  "medians_and_projection_recomputed": true,
+  "execution_exit_code": 0,
+  "scope": "synthetic-performance-readback-only"
+}

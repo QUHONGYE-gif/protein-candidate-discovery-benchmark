@@ -1,0 +1,56 @@
+{
+  "archive_sha256": "d1e8d6440b56f97ee7bacf343ba8413cb49863e8bdc009800c84b1748d5e5ed5",
+  "automatic_retries": 0,
+  "checked_at": "2026-09-13T16:29:04.540113+00:00",
+  "completed_trajectories": 2,
+  "cos_writes": 0,
+  "environment_sha256": "ee8353aee9b289e68c2ad2a7414fd2a960ec10089ea1376a1c797dfc309aa8c5",
+  "gate_a": "PENDING",
+  "hard_deadline_utc": "2026-09-16T20:27:06.074570+00:00",
+  "independent_readback_complete": false,
+  "input_assays": [
+    {
+      "assay_id": "BLAT_ECOLX_Firnberg_2014",
+      "candidate_ids_sha256": "8f2ae534e900eb86d8434a0002262df8aaaad064f454f1129eb13e2094b5c537",
+      "features_sha256": "d32c32dc6c0f2f1d6e26bab09787eaaf3a7f5a7e325b4fdaa410ea7454600c7d",
+      "hf_parent_sha256": "fd99db9919e05539eeeb5b7bfafa849e784b6166fdfb2e3c8a7da37cd057da01",
+      "hf_subset_sha256": "b248c4c4b141ccc9a96c30917f6cd68846ad033d17046c6997fb27027e74dcf1"
+    },
+    {
+      "assay_id": "CAPSD_AAV2S_Sinai_2021",
+      "candidate_ids_sha256": "0fd19329881a9351a0952a1bad2b7ca64fa664fa414a180ec7ffa9116cb6de79",
+      "features_sha256": "5a7ce28cb56255d120671dabe4b1ebefa98bb683e70072ea84b3bc2afa0245fe",
+      "hf_parent_sha256": "96870aede289f50912a9457232e8987e411508cfe68154ef89dd72c2e39952f7",
+      "hf_subset_sha256": "728f6f0c16432c2ff6c2f433ddac0a93d7d87e25d933934eaded7f920a0734a3"
+    },
+    {
+      "assay_id": "GFP_AEQVI_Sarkisyan_2016",
+      "candidate_ids_sha256": "9f0a5d4608852190bfd753c8db38d51dbdd3ec1f181e30a923fe6480b480a549",
+      "features_sha256": "b0f5465936c2e950296cbe6cbff1c7213a9ea9a3cc0f76f0ccd27227ac560d64",
+      "hf_parent_sha256": "e0d0daa17b9c2df6d6f53becad344639d45d1ed077d2ffe9d27e591751d946c7",
+      "hf_subset_sha256": "fd461840f7e16105ec7e36bc8b2df66dabe0958157d19d92e7f71cabab6cfc40"
+    },
+    {
+      "assay_id": "SPG1_STRSG_Olson_2014",
+      "candidate_ids_sha256": "2b6f399cf0fd50357929a25179afe9f635cfff4110e9a4d813fb9ffffe352a16",
+      "features_sha256": "5c9696923be46094ea11c4b83fea854742028fc0be0dd15913569eac12abb870",
+      "hf_parent_sha256": "4f8a72c7e435879ef19ea6a35318b7302c1a407848877a432bdffafd60137350",
+      "hf_subset_sha256": "5c5e73233bd77c331a4025ab38546ccdc16bd7fa2278c5a0fa68faf7572d4c9a"
+    }
+  ],
+  "operation_sha256": "5892ff342359349da76133c3ed1c6deead76f69553597e7aab9093ab03149b23",
+  "planned_logical_comparisons": 320,
+  "planned_unique_trajectories": 260,
+  "probe_sha256": "4c9edaeba3dfca41d0eaf927186dd4f045cc83492419bad2ee9596f8218f0253",
+  "probe_status": "PASS",
+  "projected_model_finish_utc": "2026-09-16T05:11:00.430397+00:00",
+  "projected_model_hours": 60.73176550740997,
+  "purchase_events_written": 176,
+  "runtime_rss_bytes": 187510784,
+  "schema_version": "m6-e4-launch-readback-v1",
+  "source_commit": "fd68935bf97cd7811c66f733066aa8e3677cb1dc",
+  "started_at": "2026-09-13T16:27:06.074570+00:00",
+  "started_trajectories": 3,
+  "status": "RUNNING",
+  "truth_read": true
+}
