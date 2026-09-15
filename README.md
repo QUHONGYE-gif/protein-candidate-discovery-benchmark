@@ -6,6 +6,9 @@
 项目当前所处阶段、最新 accepted result、活跃 PR/实验、阻塞项与下一 promotion gate 统一见
 [Current project status](docs/STATUS.md)。README 只作为稳定入口，不复制易漂移的运行状态。
 
+研究结果补充见 [M6 E4 原因核查与 BLAT C0 评分消融](docs/results/m6-e4-diagnosis-20260915/README.md)，
+包含完整消融终点、原 E4 紧凑诊断、曲线、来源与复核边界。该结果入口不替代里程碑 Gate。
+
 ## 研究问题
 
 - 预测指标更好的 surrogate model 是否一定具有更好的 decision value？
