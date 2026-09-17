@@ -1,0 +1,1301 @@
+{
+  "checks": 96,
+  "contrasts": [
+    {
+      "conditional_savings": [
+        0.20358306188925082,
+        0.08410428931875526,
+        0.4649890590809628,
+        0.4102844638949672
+      ],
+      "direction": "inconclusive",
+      "fraction": "0.005",
+      "joint_achieved": 4,
+      "left": "full_lf_mean",
+      "left_achieved": 5,
+      "losses": 0,
+      "mean_conditional_savings": 0.29074021854598403,
+      "mean_delta": 0.1,
+      "paired_delta": [
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        0.0
+      ],
+      "right": "full_lf_value",
+      "right_achieved": 4,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "BLAT_ECOLX_Firnberg_2014",
+      "ties": 4,
+      "wins": 1
+    },
+    {
+      "conditional_savings": [
+        0.2801120448179272,
+        0.437636761487965,
+        0.5821271239773442
+      ],
+      "direction": "unstable",
+      "fraction": "0.01",
+      "joint_achieved": 3,
+      "left": "full_lf_mean",
+      "left_achieved": 4,
+      "losses": 1,
+      "mean_conditional_savings": 0.4332919767610788,
+      "mean_delta": 0.0,
+      "paired_delta": [
+        0.0,
+        -0.3333333333333333,
+        0.0,
+        0.3333333333333333,
+        0.0
+      ],
+      "right": "full_lf_value",
+      "right_achieved": 4,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "BLAT_ECOLX_Firnberg_2014",
+      "ties": 3,
+      "wins": 1
+    },
+    {
+      "conditional_savings": [
+        0.43898156277436345,
+        0.07987220447284345,
+        0.5821271239773442
+      ],
+      "direction": "unstable",
+      "fraction": "0.02",
+      "joint_achieved": 3,
+      "left": "full_lf_mean",
+      "left_achieved": 4,
+      "losses": 1,
+      "mean_conditional_savings": 0.3669936304081837,
+      "mean_delta": -1.1102230246251566e-17,
+      "paired_delta": [
+        0.0,
+        -0.5,
+        0.16666666666666663,
+        0.3333333333333333,
+        0.0
+      ],
+      "right": "full_lf_value",
+      "right_achieved": 4,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "BLAT_ECOLX_Firnberg_2014",
+      "ties": 2,
+      "wins": 2
+    },
+    {
+      "conditional_savings": [
+        0.0,
+        -0.704225352112676,
+        0.0,
+        -0.023496240601503758,
+        0.0
+      ],
+      "direction": "inconclusive",
+      "fraction": "0.005",
+      "joint_achieved": 5,
+      "left": "full_lf_mean",
+      "left_achieved": 5,
+      "losses": 1,
+      "mean_conditional_savings": -0.14554431854283595,
+      "mean_delta": -0.1,
+      "paired_delta": [
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "right": "hard25",
+      "right_achieved": 5,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "BLAT_ECOLX_Firnberg_2014",
+      "ties": 4,
+      "wins": 0
+    },
+    {
+      "conditional_savings": [
+        0.0,
+        0.0,
+        -0.023496240601503758,
+        0.0
+      ],
+      "direction": "inconclusive",
+      "fraction": "0.01",
+      "joint_achieved": 4,
+      "left": "full_lf_mean",
+      "left_achieved": 4,
+      "losses": 1,
+      "mean_conditional_savings": -0.0058740601503759395,
+      "mean_delta": -0.06666666666666667,
+      "paired_delta": [
+        0.0,
+        -0.3333333333333333,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "right": "hard25",
+      "right_achieved": 5,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "BLAT_ECOLX_Firnberg_2014",
+      "ties": 4,
+      "wins": 0
+    },
+    {
+      "conditional_savings": [
+        0.2604166666666667,
+        -0.09505703422053231,
+        -0.09398496240601503,
+        0.0
+      ],
+      "direction": "unstable",
+      "fraction": "0.02",
+      "joint_achieved": 4,
+      "left": "full_lf_mean",
+      "left_achieved": 4,
+      "losses": 1,
+      "mean_conditional_savings": 0.01784366751002984,
+      "mean_delta": -2.2204460492503132e-17,
+      "paired_delta": [
+        0.0,
+        -0.33333333333333337,
+        0.16666666666666663,
+        0.16666666666666663,
+        0.0
+      ],
+      "right": "hard25",
+      "right_achieved": 5,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "BLAT_ECOLX_Firnberg_2014",
+      "ties": 2,
+      "wins": 2
+    },
+    {
+      "conditional_savings": [
+        -0.39026629935720847,
+        0.28797696184305255
+      ],
+      "direction": "unstable",
+      "fraction": "0.005",
+      "joint_achieved": 2,
+      "left": "full_lf_mean",
+      "left_achieved": 4,
+      "losses": 1,
+      "mean_conditional_savings": -0.05114466875707796,
+      "mean_delta": 0.1,
+      "paired_delta": [
+        0.5,
+        0.0,
+        0.5,
+        -0.5,
+        0.0
+      ],
+      "right": "full_lf_value",
+      "right_achieved": 3,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "CAPSD_AAV2S_Sinai_2021",
+      "ties": 2,
+      "wins": 2
+    },
+    {
+      "conditional_savings": [],
+      "direction": "unstable",
+      "fraction": "0.01",
+      "joint_achieved": 0,
+      "left": "full_lf_mean",
+      "left_achieved": 3,
+      "losses": 2,
+      "mean_conditional_savings": null,
+      "mean_delta": 0.06666666666666667,
+      "paired_delta": [
+        0.3333333333333333,
+        -0.3333333333333333,
+        0.6666666666666666,
+        -0.6666666666666666,
+        0.3333333333333333
+      ],
+      "right": "full_lf_value",
+      "right_achieved": 2,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "CAPSD_AAV2S_Sinai_2021",
+      "ties": 0,
+      "wins": 3
+    },
+    {
+      "conditional_savings": [],
+      "direction": "positive",
+      "fraction": "0.02",
+      "joint_achieved": 0,
+      "left": "full_lf_mean",
+      "left_achieved": 4,
+      "losses": 1,
+      "mean_conditional_savings": null,
+      "mean_delta": 0.23333333333333334,
+      "paired_delta": [
+        0.5,
+        0.16666666666666669,
+        0.5,
+        -0.33333333333333337,
+        0.3333333333333333
+      ],
+      "right": "full_lf_value",
+      "right_achieved": 1,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "CAPSD_AAV2S_Sinai_2021",
+      "ties": 0,
+      "wins": 4
+    },
+    {
+      "conditional_savings": [
+        -0.42539267015706805,
+        -0.39026629935720847,
+        -0.5805515239477503,
+        0.3127171646977067
+      ],
+      "direction": "inconclusive",
+      "fraction": "0.005",
+      "joint_achieved": 4,
+      "left": "full_lf_mean",
+      "left_achieved": 4,
+      "losses": 1,
+      "mean_conditional_savings": -0.27087333219108,
+      "mean_delta": -0.1,
+      "paired_delta": [
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0
+      ],
+      "right": "hard25",
+      "right_achieved": 5,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "CAPSD_AAV2S_Sinai_2021",
+      "ties": 4,
+      "wins": 0
+    },
+    {
+      "conditional_savings": [],
+      "direction": "unstable",
+      "fraction": "0.01",
+      "joint_achieved": 0,
+      "left": "full_lf_mean",
+      "left_achieved": 3,
+      "losses": 1,
+      "mean_conditional_savings": null,
+      "mean_delta": 0.13333333333333333,
+      "paired_delta": [
+        0.3333333333333333,
+        0.0,
+        0.3333333333333333,
+        -0.3333333333333333,
+        0.3333333333333333
+      ],
+      "right": "hard25",
+      "right_achieved": 0,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "CAPSD_AAV2S_Sinai_2021",
+      "ties": 1,
+      "wins": 3
+    },
+    {
+      "conditional_savings": [
+        -0.8507853403141361,
+        -0.39026629935720847,
+        -0.09861932938856016,
+        0.273224043715847
+      ],
+      "direction": "unstable",
+      "fraction": "0.02",
+      "joint_achieved": 4,
+      "left": "full_lf_mean",
+      "left_achieved": 4,
+      "losses": 1,
+      "mean_conditional_savings": -0.2666117313360144,
+      "mean_delta": 0.033333333333333305,
+      "paired_delta": [
+        0.16666666666666663,
+        0.0,
+        0.16666666666666663,
+        -0.33333333333333337,
+        0.16666666666666663
+      ],
+      "right": "hard25",
+      "right_achieved": 5,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "CAPSD_AAV2S_Sinai_2021",
+      "ties": 1,
+      "wins": 3
+    },
+    {
+      "conditional_savings": [
+        -0.6366723259762309,
+        0.0
+      ],
+      "direction": "inconclusive",
+      "fraction": "0.005",
+      "joint_achieved": 2,
+      "left": "full_lf_mean",
+      "left_achieved": 2,
+      "losses": 2,
+      "mean_conditional_savings": -0.31833616298811546,
+      "mean_delta": -0.2,
+      "paired_delta": [
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "right": "full_lf_value",
+      "right_achieved": 3,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "GFP_AEQVI_Sarkisyan_2016",
+      "ties": 3,
+      "wins": 0
+    },
+    {
+      "conditional_savings": [
+        -0.19249278152069296,
+        -0.2677100494233937
+      ],
+      "direction": "inconclusive",
+      "fraction": "0.01",
+      "joint_achieved": 2,
+      "left": "full_lf_mean",
+      "left_achieved": 2,
+      "losses": 0,
+      "mean_conditional_savings": -0.23010141547204332,
+      "mean_delta": 0.06666666666666667,
+      "paired_delta": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.3333333333333333
+      ],
+      "right": "full_lf_value",
+      "right_achieved": 2,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "GFP_AEQVI_Sarkisyan_2016",
+      "ties": 4,
+      "wins": 1
+    },
+    {
+      "conditional_savings": [
+        -0.2471169686985173
+      ],
+      "direction": "unstable",
+      "fraction": "0.02",
+      "joint_achieved": 1,
+      "left": "full_lf_mean",
+      "left_achieved": 3,
+      "losses": 1,
+      "mean_conditional_savings": -0.2471169686985173,
+      "mean_delta": 0.09999999999999999,
+      "paired_delta": [
+        -0.16666666666666669,
+        0.0,
+        0.3333333333333333,
+        0.16666666666666666,
+        0.16666666666666669
+      ],
+      "right": "full_lf_value",
+      "right_achieved": 2,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "GFP_AEQVI_Sarkisyan_2016",
+      "ties": 1,
+      "wins": 3
+    },
+    {
+      "conditional_savings": [
+        -0.3991291727140784,
+        0.0
+      ],
+      "direction": "unstable",
+      "fraction": "0.005",
+      "joint_achieved": 2,
+      "left": "full_lf_mean",
+      "left_achieved": 2,
+      "losses": 3,
+      "mean_conditional_savings": -0.1995645863570392,
+      "mean_delta": -0.2,
+      "paired_delta": [
+        -0.5,
+        0.0,
+        0.5,
+        -0.5,
+        -0.5
+      ],
+      "right": "hard25",
+      "right_achieved": 5,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "GFP_AEQVI_Sarkisyan_2016",
+      "ties": 1,
+      "wins": 1
+    },
+    {
+      "conditional_savings": [],
+      "direction": "unstable",
+      "fraction": "0.01",
+      "joint_achieved": 0,
+      "left": "full_lf_mean",
+      "left_achieved": 2,
+      "losses": 1,
+      "mean_conditional_savings": null,
+      "mean_delta": 0.06666666666666667,
+      "paired_delta": [
+        0.0,
+        0.3333333333333333,
+        0.3333333333333333,
+        -0.3333333333333333,
+        0.0
+      ],
+      "right": "hard25",
+      "right_achieved": 1,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "GFP_AEQVI_Sarkisyan_2016",
+      "ties": 2,
+      "wins": 2
+    },
+    {
+      "conditional_savings": [],
+      "direction": "positive",
+      "fraction": "0.02",
+      "joint_achieved": 0,
+      "left": "full_lf_mean",
+      "left_achieved": 3,
+      "losses": 0,
+      "mean_conditional_savings": null,
+      "mean_delta": 0.2666666666666667,
+      "paired_delta": [
+        0.16666666666666666,
+        0.33333333333333337,
+        0.5,
+        0.0,
+        0.33333333333333337
+      ],
+      "right": "hard25",
+      "right_achieved": 0,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "GFP_AEQVI_Sarkisyan_2016",
+      "ties": 1,
+      "wins": 4
+    },
+    {
+      "conditional_savings": [
+        0.0,
+        0.18796992481203006,
+        0.0
+      ],
+      "direction": "inconclusive",
+      "fraction": "0.005",
+      "joint_achieved": 3,
+      "left": "full_lf_mean",
+      "left_achieved": 5,
+      "losses": 0,
+      "mean_conditional_savings": 0.06265664160401002,
+      "mean_delta": 0.4,
+      "paired_delta": [
+        0.0,
+        0.5,
+        0.5,
+        1.0,
+        0.0
+      ],
+      "right": "full_lf_value",
+      "right_achieved": 3,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "SPG1_STRSG_Olson_2014",
+      "ties": 2,
+      "wins": 3
+    },
+    {
+      "conditional_savings": [
+        0.13297872340425532,
+        0.4944620253164557
+      ],
+      "direction": "positive",
+      "fraction": "0.01",
+      "joint_achieved": 2,
+      "left": "full_lf_mean",
+      "left_achieved": 4,
+      "losses": 0,
+      "mean_conditional_savings": 0.3137203743603555,
+      "mean_delta": 0.4666666666666667,
+      "paired_delta": [
+        0.33333333333333337,
+        0.3333333333333333,
+        0.6666666666666667,
+        1.0,
+        0.0
+      ],
+      "right": "full_lf_value",
+      "right_achieved": 2,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "SPG1_STRSG_Olson_2014",
+      "ties": 1,
+      "wins": 4
+    },
+    {
+      "conditional_savings": [],
+      "direction": "positive",
+      "fraction": "0.02",
+      "joint_achieved": 0,
+      "left": "full_lf_mean",
+      "left_achieved": 3,
+      "losses": 0,
+      "mean_conditional_savings": null,
+      "mean_delta": 0.4,
+      "paired_delta": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.5,
+        0.8333333333333334,
+        0.0
+      ],
+      "right": "full_lf_value",
+      "right_achieved": 0,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "SPG1_STRSG_Olson_2014",
+      "ties": 1,
+      "wins": 4
+    },
+    {
+      "conditional_savings": [
+        0.0,
+        0.0
+      ],
+      "direction": "positive",
+      "fraction": "0.005",
+      "joint_achieved": 2,
+      "left": "full_lf_mean",
+      "left_achieved": 5,
+      "losses": 0,
+      "mean_conditional_savings": 0.0,
+      "mean_delta": 0.7,
+      "paired_delta": [
+        0.5,
+        0.5,
+        1.0,
+        1.0,
+        0.5
+      ],
+      "right": "hard25",
+      "right_achieved": 2,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "SPG1_STRSG_Olson_2014",
+      "ties": 0,
+      "wins": 5
+    },
+    {
+      "conditional_savings": [],
+      "direction": "positive",
+      "fraction": "0.01",
+      "joint_achieved": 0,
+      "left": "full_lf_mean",
+      "left_achieved": 4,
+      "losses": 0,
+      "mean_conditional_savings": null,
+      "mean_delta": 0.6666666666666667,
+      "paired_delta": [
+        0.6666666666666667,
+        0.3333333333333333,
+        1.0,
+        1.0,
+        0.3333333333333333
+      ],
+      "right": "hard25",
+      "right_achieved": 0,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "SPG1_STRSG_Olson_2014",
+      "ties": 0,
+      "wins": 5
+    },
+    {
+      "conditional_savings": [],
+      "direction": "positive",
+      "fraction": "0.02",
+      "joint_achieved": 0,
+      "left": "full_lf_mean",
+      "left_achieved": 3,
+      "losses": 0,
+      "mean_conditional_savings": null,
+      "mean_delta": 0.33333333333333337,
+      "paired_delta": [
+        0.3333333333333333,
+        0.16666666666666666,
+        0.5,
+        0.6666666666666667,
+        0.0
+      ],
+      "right": "hard25",
+      "right_achieved": 0,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "SPG1_STRSG_Olson_2014",
+      "ties": 1,
+      "wins": 4
+    }
+  ],
+  "forest_fits": 18000,
+  "new_trajectories": 40,
+  "primary_directions": {
+    "full_lf_value": {
+      "inconclusive": 1,
+      "positive": 1,
+      "unstable": 2
+    },
+    "hard25": {
+      "inconclusive": 1,
+      "positive": 1,
+      "unstable": 2
+    }
+  },
+  "reused_trajectories": 20,
+  "scorer_calls": 1800,
+  "seconds": 1458.0544245773926,
+  "status": "PASS",
+  "summary_sha256": "df1a643e1daeda8c68da74ff7575891c1d813127d9d6f6eb2599b3ca4e42059f",
+  "table": [
+    {
+      "achieved": 4,
+      "arm": "full_lf_mean",
+      "cost_to_target": [
+        2056,
+        null,
+        2056,
+        4356,
+        2656
+      ],
+      "diagnostic_totals": {
+        "hf_non_mean": 0,
+        "mean_rank_sum": 225,
+        "zero_value_state": 0
+      },
+      "final_recall": [
+        0.6666666666666666,
+        0.3333333333333333,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666
+      ],
+      "mean_best": 1.6130600000000002,
+      "mean_recall": 0.6,
+      "mean_recall_at_cost": {
+        "1600": 0.0,
+        "1856": 0.0,
+        "3200": 0.4666666666666666,
+        "4800": 0.6,
+        "6400": 0.6
+      },
+      "mean_regret": 0.001440000000000019,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "BLAT_ECOLX_Firnberg_2014"
+    },
+    {
+      "achieved": 4,
+      "arm": "full_lf_value",
+      "cost_to_target": [
+        2856,
+        5956,
+        3656,
+        null,
+        6356
+      ],
+      "diagnostic_totals": {
+        "hf_non_mean": 212,
+        "mean_rank_sum": 14673,
+        "zero_value_state": 3
+      },
+      "final_recall": [
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.3333333333333333,
+        0.6666666666666666
+      ],
+      "mean_best": 1.5578400000000001,
+      "mean_recall": 0.6,
+      "mean_recall_at_cost": {
+        "1600": 0.0,
+        "1856": 0.0,
+        "3200": 0.2,
+        "4800": 0.4666666666666666,
+        "6400": 0.6
+      },
+      "mean_regret": 0.05666000000000002,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "BLAT_ECOLX_Firnberg_2014"
+    },
+    {
+      "achieved": 5,
+      "arm": "hard25",
+      "cost_to_target": [
+        2056,
+        5556,
+        2056,
+        4256,
+        2656
+      ],
+      "diagnostic_totals": {
+        "hf_non_mean": 51,
+        "scored_high": 225,
+        "zero_value_state": 223
+      },
+      "final_recall": [
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666
+      ],
+      "mean_best": 1.6145,
+      "mean_recall": 0.6666666666666666,
+      "mean_recall_at_cost": {
+        "1600": 0.0,
+        "1856": 0.0,
+        "3200": 0.4666666666666666,
+        "4800": 0.6,
+        "6400": 0.6666666666666666
+      },
+      "mean_regret": 0.0,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "BLAT_ECOLX_Firnberg_2014"
+    },
+    {
+      "achieved": 3,
+      "arm": "full_lf_mean",
+      "cost_to_target": [
+        5656,
+        null,
+        6256,
+        null,
+        4156
+      ],
+      "diagnostic_totals": {
+        "hf_non_mean": 0,
+        "mean_rank_sum": 225,
+        "zero_value_state": 0
+      },
+      "final_recall": [
+        0.6666666666666666,
+        0.3333333333333333,
+        0.6666666666666666,
+        0.0,
+        0.6666666666666666
+      ],
+      "mean_best": 4.64665385365,
+      "mean_recall": 0.4666666666666666,
+      "mean_recall_at_cost": {
+        "1600": 0.0,
+        "1856": 0.0,
+        "3200": 0.0,
+        "4800": 0.26666666666666666,
+        "6400": 0.4666666666666666
+      },
+      "mean_regret": 0.27287200677000023,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "CAPSD_AAV2S_Sinai_2021"
+    },
+    {
+      "achieved": 2,
+      "arm": "full_lf_value",
+      "cost_to_target": [
+        null,
+        5856,
+        null,
+        4056,
+        null
+      ],
+      "diagnostic_totals": {
+        "hf_non_mean": 219,
+        "mean_rank_sum": 18233,
+        "zero_value_state": 0
+      },
+      "final_recall": [
+        0.3333333333333333,
+        0.6666666666666666,
+        0.0,
+        0.6666666666666666,
+        0.3333333333333333
+      ],
+      "mean_best": 4.4580727327959995,
+      "mean_recall": 0.4,
+      "mean_recall_at_cost": {
+        "1600": 0.0,
+        "1856": 0.0,
+        "3200": 0.0,
+        "4800": 0.26666666666666666,
+        "6400": 0.4
+      },
+      "mean_regret": 0.46145312762400026,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "CAPSD_AAV2S_Sinai_2021"
+    },
+    {
+      "achieved": 0,
+      "arm": "hard25",
+      "cost_to_target": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "diagnostic_totals": {
+        "hf_non_mean": 176,
+        "scored_high": 225,
+        "zero_value_state": 218
+      },
+      "final_recall": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "mean_best": 4.91952586042,
+      "mean_recall": 0.3333333333333333,
+      "mean_recall_at_cost": {
+        "1600": 0.0,
+        "1856": 0.0,
+        "3200": 0.13333333333333333,
+        "4800": 0.26666666666666666,
+        "6400": 0.3333333333333333
+      },
+      "mean_regret": 0.0,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "CAPSD_AAV2S_Sinai_2021"
+    },
+    {
+      "achieved": 2,
+      "arm": "full_lf_mean",
+      "cost_to_target": [
+        null,
+        4956,
+        6156,
+        null,
+        null
+      ],
+      "diagnostic_totals": {
+        "hf_non_mean": 0,
+        "mean_rank_sum": 225,
+        "zero_value_state": 0
+      },
+      "final_recall": [
+        0.3333333333333333,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "mean_best": 3.891034163434,
+      "mean_recall": 0.4666666666666666,
+      "mean_recall_at_cost": {
+        "1600": 0.13333333333333333,
+        "1856": 0.13333333333333333,
+        "3200": 0.2,
+        "4800": 0.3333333333333333,
+        "6400": 0.4666666666666666
+      },
+      "mean_regret": 0.036082464655999846,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "GFP_AEQVI_Sarkisyan_2016"
+    },
+    {
+      "achieved": 2,
+      "arm": "full_lf_value",
+      "cost_to_target": [
+        null,
+        4156,
+        4856,
+        null,
+        null
+      ],
+      "diagnostic_totals": {
+        "hf_non_mean": 225,
+        "mean_rank_sum": 24391,
+        "zero_value_state": 0
+      },
+      "final_recall": [
+        0.3333333333333333,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.3333333333333333,
+        0.0
+      ],
+      "mean_best": 3.9042036363759998,
+      "mean_recall": 0.4,
+      "mean_recall_at_cost": {
+        "1600": 0.13333333333333333,
+        "1856": 0.13333333333333333,
+        "3200": 0.26666666666666666,
+        "4800": 0.3333333333333333,
+        "6400": 0.4
+      },
+      "mean_regret": 0.022912991713999898,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "GFP_AEQVI_Sarkisyan_2016"
+    },
+    {
+      "achieved": 1,
+      "arm": "hard25",
+      "cost_to_target": [
+        null,
+        null,
+        null,
+        3956,
+        null
+      ],
+      "diagnostic_totals": {
+        "hf_non_mean": 225,
+        "scored_high": 225,
+        "zero_value_state": 126
+      },
+      "final_recall": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.6666666666666666,
+        0.3333333333333333
+      ],
+      "mean_best": 3.92711662809,
+      "mean_recall": 0.4,
+      "mean_recall_at_cost": {
+        "1600": 0.13333333333333333,
+        "1856": 0.13333333333333333,
+        "3200": 0.26666666666666666,
+        "4800": 0.3333333333333333,
+        "6400": 0.4
+      },
+      "mean_regret": 0.0,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "GFP_AEQVI_Sarkisyan_2016"
+    },
+    {
+      "achieved": 4,
+      "arm": "full_lf_mean",
+      "cost_to_target": [
+        1956,
+        null,
+        5956,
+        4056,
+        2556
+      ],
+      "diagnostic_totals": {
+        "hf_non_mean": 0,
+        "mean_rank_sum": 225,
+        "zero_value_state": 0
+      },
+      "final_recall": [
+        1.0,
+        0.3333333333333333,
+        1.0,
+        1.0,
+        0.6666666666666666
+      ],
+      "mean_best": 1.85859731839206,
+      "mean_recall": 0.8,
+      "mean_recall_at_cost": {
+        "1600": 0.13333333333333333,
+        "1856": 0.13333333333333333,
+        "3200": 0.3333333333333333,
+        "4800": 0.6,
+        "6400": 0.8
+      },
+      "mean_regret": 0.027349365895699983,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "SPG1_STRSG_Olson_2014"
+    },
+    {
+      "achieved": 2,
+      "arm": "full_lf_value",
+      "cost_to_target": [
+        2256,
+        null,
+        null,
+        null,
+        5056
+      ],
+      "diagnostic_totals": {
+        "hf_non_mean": 223,
+        "mean_rank_sum": 19820,
+        "zero_value_state": 0
+      },
+      "final_recall": [
+        0.6666666666666666,
+        0.0,
+        0.3333333333333333,
+        0.0,
+        0.6666666666666666
+      ],
+      "mean_best": 1.622839991067736,
+      "mean_recall": 0.3333333333333333,
+      "mean_recall_at_cost": {
+        "1600": 0.13333333333333333,
+        "1856": 0.13333333333333333,
+        "3200": 0.2,
+        "4800": 0.26666666666666666,
+        "6400": 0.3333333333333333
+      },
+      "mean_regret": 0.263106693220024,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "SPG1_STRSG_Olson_2014"
+    },
+    {
+      "achieved": 0,
+      "arm": "hard25",
+      "cost_to_target": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "diagnostic_totals": {
+        "hf_non_mean": 139,
+        "scored_high": 225,
+        "zero_value_state": 207
+      },
+      "final_recall": [
+        0.3333333333333333,
+        0.0,
+        0.0,
+        0.0,
+        0.3333333333333333
+      ],
+      "mean_best": 1.623686133198722,
+      "mean_recall": 0.13333333333333333,
+      "mean_recall_at_cost": {
+        "1600": 0.13333333333333333,
+        "1856": 0.13333333333333333,
+        "3200": 0.13333333333333333,
+        "4800": 0.13333333333333333,
+        "6400": 0.13333333333333333
+      },
+      "mean_regret": 0.2622605510890379,
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "task": "SPG1_STRSG_Olson_2014"
+    }
+  ]
+}
