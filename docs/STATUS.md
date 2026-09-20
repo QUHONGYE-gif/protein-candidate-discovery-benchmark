@@ -1,25 +1,27 @@
 # Current project status
 
-> M6 execution/results last verified: 2026-09-17. This scoped update supersedes the old statements
+> M6 development-results progress last verified: 2026-09-20. This scoped update supersedes the old statements
 > below that M6 has not started or E5 is pending. It does not change historical accepted M0–M5
 > results. The separate M5 closeout remains under [PR110](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/110).
 
 ## Current M6 state
 
-September 20 workflow update: subsequent bounded development execution, readback checks and
-local reconciliation are complete. Detailed materials await confirmation of sharing scope and
-collaborator review. This status-only note reports no new scientific result, changes no prior
-claim or Gate, and authorizes no follow-up execution. PR111 remains Draft and Issue107 Open.
+September 20 development closeout: the [latest progress package](results/m6-progress-20260920/README.md)
+adds the completed independent-pool study, learning/randomness/content diagnostics, dynamic-release
+iterations and pre-purchase VOI trial. The older SPG1 result remains valid in its original setting;
+the independent-pool study did not meet the eight predeclared cross-pool criteria. Added release
+controllers and the VOI reliability rule have not demonstrated incremental primary benefit over
+their simple controls. Individual L1 blocks are complete; formal milestone acceptance remains pending.
 
 | Axis | Current fact |
 |---|---|
 | Implementation | Original E4 implementation PR108 merged as d372f7d; actual E4/E5 model/runtime source is fd68935. Later scoring and policy ablations are separately bound development scripts, not silent replacements of the original protocol |
-| Execution | E4, four-task scoring replication, simulated full-LF policy ablation, real ESM1v E5 (140 unique / 160 logical), and real-proxy policy bridge (40 new + 20 reused references) are complete. No M6 job remains active; completed host permissions do not authorize another task |
+| Execution | E4, four-task scoring replication, simulated full-LF policy ablation, real ESM1v E5 (140 unique / 160 logical), and real-proxy policy bridge (40 new + 20 reused references) are complete. Subsequent development blocks listed above are also complete; no study remains active under these completed run authorizations |
 | Verification | Raw artifact identity, event/state/formula/cost/metric checks and readback completed for each unit; independent scientific advisory coverage is reported separately in the result package. This is not full independent-implementation retraining |
 | Scientific result | Removing the incumbent floor changes behavior but is not a general repair. Real-proxy bridge supports mean-over-B and removal-of-hard-filter benefits in SPG1 at the primary endpoint; other tasks are mixed/inconclusive, and recall/best-value outcomes differ. Known development pools, not unseen-assay generalization |
 | Evidence and Gate | Completed L1 development results are ready for collaborator consideration; formal M6 result acceptance / Gate B remains pending. Original Gate A execution exception is not backfilled. No candidate/frozen promotion or COS archive is approved by this file |
 | Active result PR | [PR111](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/111), authored by willzhang, awaiting designated non-author QUHONGYE-gif review; [Issue107](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/107) remains open |
-| Next bounded action | Review the completed [M6 results and scientific limits](results/m6-results-20260917/README.md), decide accepted development terminal and any remaining S4 scope. No new experiment is a default prerequisite, and no automatic M7/merge/closure follows |
+| Next bounded action | Review the completed [September 20 progress and limits](results/m6-progress-20260920/README.md) together with the prior result package, and decide the accepted development terminal and any remaining S4 scope. No new experiment is a default prerequisite, and no automatic M7/merge/closure follows |
 
 The dated snapshot below is retained as historical context, not current execution authority.
 
