@@ -6,6 +6,11 @@
 
 ## Current M6 state
 
+September 20 workflow update: subsequent bounded development execution, readback checks and
+local reconciliation are complete. Detailed materials await confirmation of sharing scope and
+collaborator review. This status-only note reports no new scientific result, changes no prior
+claim or Gate, and authorizes no follow-up execution. PR111 remains Draft and Issue107 Open.
+
 | Axis | Current fact |
 |---|---|
 | Implementation | Original E4 implementation PR108 merged as d372f7d; actual E4/E5 model/runtime source is fd68935. Later scoring and policy ablations are separately bound development scripts, not silent replacements of the original protocol |
