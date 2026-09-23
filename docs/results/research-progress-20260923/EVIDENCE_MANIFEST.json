@@ -1,0 +1,293 @@
+{
+  "date": "2026-09-23",
+  "scope": "compact report synchronization; not raw-data publication or evidence promotion",
+  "source_count": 12,
+  "sources": [
+    {
+      "source_unit": "patent-cache-diagnostic-20260921",
+      "files": {
+        "REPORT.md": {
+          "sha256": "f381f864cc9902d88cd1f167421bdb06619f947f165d299a42b27da9574f6f3f",
+          "bytes": 8792
+        },
+        "CLOSEOUT.json": {
+          "sha256": "d48f9f7351f8e1d6de8c061c00395be4a55bce5cc1aac0d1cbc1ccbfd3f87319",
+          "bytes": 1885
+        }
+      },
+      "review_scope": "author checks / no fresh advisory recorded for this unit"
+    },
+    {
+      "source_unit": "patent-group-predictiveness-20260921",
+      "files": {
+        "REPORT.md": {
+          "sha256": "2d250eb9fb6826ddfd1bac2bf16ba32e2a355be013d638b34a5a313f3c99bda9",
+          "bytes": 6244
+        },
+        "CLAIM.md": {
+          "sha256": "c07573e1c18cca10e09521d3877df7f33d90c4c16e265b84f3b35030fb78f3c4",
+          "bytes": 1176
+        },
+        "REVIEW.md": {
+          "sha256": "d2bebb3c0686f5fe719df36b25eaf9e3c9efeb45df4b1ca6ff91767e92aeb1a8",
+          "bytes": 5559
+        },
+        "CLOSEOUT.json": {
+          "sha256": "97bc89185f4d933d297dca123942b0e2f743554d5fed516a392f030cc84784e2",
+          "bytes": 3163
+        }
+      },
+      "review_scope": "fresh advisory available"
+    },
+    {
+      "source_unit": "patent-global-release-20260921",
+      "files": {
+        "REPORT.md": {
+          "sha256": "8eaea5952590594f36fc89301f973504a61e5148cb7778cb268f845830cba798",
+          "bytes": 6026
+        },
+        "CLAIM.md": {
+          "sha256": "f72b722f87bf4069fffd4e0f118bb77004b78f8762d7b1c87576e7b757034117",
+          "bytes": 1301
+        },
+        "REVIEW.md": {
+          "sha256": "278a3887e7883ef9a092db457a0d7b93376ed6ce7efc73f6013bb202da469567",
+          "bytes": 5559
+        },
+        "CLOSEOUT.json": {
+          "sha256": "25ac77f057c6fc9846f876ed0047ada751d269db7d40d274e7715a40230c878e",
+          "bytes": 9271
+        }
+      },
+      "review_scope": "fresh advisory available"
+    },
+    {
+      "source_unit": "patent-tail-signal-20260921",
+      "files": {
+        "REPORT.md": {
+          "sha256": "409dc240a0c5d88d6d26d69efbea32266a8165b95a505abf3021f9136dd401ac",
+          "bytes": 6148
+        },
+        "CLAIM.md": {
+          "sha256": "cbdcd71e3248b7f02a7d4dde6159f143b64f1d88096d3ad856c3e6ada33b7d07",
+          "bytes": 1345
+        },
+        "REVIEW.md": {
+          "sha256": "060bb1c223078d003ee2a34e1875f2cf9d4ab4a72f1b0136a41f32fa15bfd62c",
+          "bytes": 10721
+        },
+        "CLOSEOUT.json": {
+          "sha256": "5579d8439da8170e14c7d9dc6b274e838db846d9673881ed0e3763549544f125",
+          "bytes": 4194
+        }
+      },
+      "review_scope": "fresh advisory available"
+    },
+    {
+      "source_unit": "detection-routing-plan-20260921",
+      "files": {
+        "PLAN.md": {
+          "sha256": "1fdb88b2c1b6aaafc14c30f1301ba4b89584ca17713a922e341e240840c31f1b",
+          "bytes": 19867
+        },
+        "MANIFEST.json": {
+          "sha256": "7982ceb9d1a21770c0f440d7f3568c95b267b4185efed7d2c598d54a3d9a8b2c",
+          "bytes": 603
+        },
+        "DATA_READINESS.json": {
+          "sha256": "e4e60da70f38e3da47637d41dced63b03e863e64d4b17a7e87c295f5ff29d180",
+          "bytes": 14047
+        }
+      },
+      "review_scope": "author checks / no fresh advisory recorded for this unit"
+    },
+    {
+      "source_unit": "detection-a-20260921",
+      "files": {
+        "REPORT.md": {
+          "sha256": "cb18b0b6ccabfc4c679288682edee30e3c4930fa658ddeed77e49572fa7893fd",
+          "bytes": 5576
+        },
+        "CLAIM.md": {
+          "sha256": "16674acffda22ea1f5c2c8bcacfae38dc6e3bb1558879b842a52a17cb63d8133",
+          "bytes": 1806
+        },
+        "REVIEW.md": {
+          "sha256": "e8dd7dd930e810e15710950e9de4237ffa32fa8c0ea7712b764a44cd50fa5242",
+          "bytes": 2823
+        },
+        "CLOSEOUT.json": {
+          "sha256": "c99684975451a58ea1d8295e45e8dc429cfeef92e22ee6c6f9aaf5bfe9db86fe",
+          "bytes": 1785
+        },
+        "VALIDITY_SCOPE.json": {
+          "sha256": "4248991626974c59c42d81db13c459521f1044d2f3121e05dd8d5cb2d176d5c6",
+          "bytes": 40341
+        }
+      },
+      "review_scope": "fresh advisory available"
+    },
+    {
+      "source_unit": "source-complementarity-20260922",
+      "files": {
+        "REPORT.md": {
+          "sha256": "56c8ee8a9b34dbc69885eded734a72a356f6151319173d47a914c653e7461a11",
+          "bytes": 4942
+        },
+        "CLAIM.md": {
+          "sha256": "245f44c6842b859b4c0025474b42f3ec10918d27b850552afafd37a264401984",
+          "bytes": 2195
+        },
+        "REVIEW.md": {
+          "sha256": "ad4fd1dc3f84cf331680ff83c1dc38147145c45da79a41a3d2bb633a10b6ceae",
+          "bytes": 1970
+        },
+        "CLOSEOUT.json": {
+          "sha256": "a914ec3552dfd8a16fe3afa528c5cd4e52e119879258c006254a7d8d2514cd8d",
+          "bytes": 6878
+        },
+        "VERIFIED.json": {
+          "sha256": "ce3b5fe34d73697ea5463bf72376c7a6dee28beef0d27dccb516aef185bf8b06",
+          "bytes": 447
+        }
+      },
+      "review_scope": "fresh advisory available"
+    },
+    {
+      "source_unit": "source-threshold-sensitivity-20260922",
+      "files": {
+        "REPORT.md": {
+          "sha256": "9924344c80c751eef55ecd86f02957b546802d9298c652e4e8a4db6b2db33fe7",
+          "bytes": 5362
+        },
+        "CLAIM.md": {
+          "sha256": "f271f5a8a607db3c6a3e3aaecad67637c821906a52e52d42055c96dc0e7140fd",
+          "bytes": 2433
+        },
+        "REVIEW.md": {
+          "sha256": "1a85f143dc8f0faf31d57c44babc56cea7d0546c241c90e1642ecdbb2cc9671a",
+          "bytes": 2155
+        },
+        "CLOSEOUT.json": {
+          "sha256": "4ad715c78330dbf34d7cd362f7b8e63bbc8a7730398b1d1c1f1d623bd1c76d38",
+          "bytes": 6104
+        },
+        "VERIFIED.json": {
+          "sha256": "d46a22aa7cf597b6d615fa251418ea14089b069737dea57469869a7ccb03540b",
+          "bytes": 359
+        }
+      },
+      "review_scope": "fresh advisory available"
+    },
+    {
+      "source_unit": "source-threshold-gradient-20260922",
+      "files": {
+        "REPORT.md": {
+          "sha256": "5ad893ad42e689f64c4b7e26939efeaf1d119184b12894426b004ee01565a9c3",
+          "bytes": 6616
+        },
+        "CLAIM.md": {
+          "sha256": "f67f4c4b0a73b2413674de8b02196a2bf966d9b35727581f7519f713df671d09",
+          "bytes": 2439
+        },
+        "REVIEW.md": {
+          "sha256": "2efa063ad69f87cc1db36e66568406ecd0701f9475a452b6a76861a895b9e9b7",
+          "bytes": 2949
+        },
+        "CLOSEOUT.json": {
+          "sha256": "96ab1317ffabb4031f4a2d427dec308b98bf8a7bd49108e1227cf48fa7d766b5",
+          "bytes": 2952
+        },
+        "VERIFIED.json": {
+          "sha256": "068bec85a191969d3bb5c83916faf747e49ac7e54757bdfd974b90841050b772",
+          "bytes": 364
+        }
+      },
+      "review_scope": "fresh advisory available"
+    },
+    {
+      "source_unit": "acs-mfbo-reproduction-20260922",
+      "files": {
+        "REPORT.md": {
+          "sha256": "adf4fc06e618b15ad05b39441fde37804709b82e1f2971fd1528be8dd0a2b795",
+          "bytes": 6064
+        },
+        "CLOSEOUT.json": {
+          "sha256": "7e9807e6c8be9f47a5b636df397ba758b1bc7ac69a94963cc4d113ae94b16786",
+          "bytes": 3620
+        },
+        "VERIFIED.json": {
+          "sha256": "a9e8a7d51a1a0ba067281919be968e346cccb869ea44d0c37aa8d0471e21a2d9",
+          "bytes": 1119
+        }
+      },
+      "review_scope": "author checks / no fresh advisory recorded for this unit"
+    },
+    {
+      "source_unit": "acs-mfbo-rebuild-20260922",
+      "files": {
+        "REPORT.md": {
+          "sha256": "6646ff2313aadfc53d99a0919e4ebc528ffdfafe06e80954b590ef8efe11acad",
+          "bytes": 8011
+        },
+        "CLAIM.md": {
+          "sha256": "055e3eefbc81ef3330dda5094848f70de9293ba975e5a506d8368bd9483fceb6",
+          "bytes": 1234
+        },
+        "REVIEW.md": {
+          "sha256": "d8a523d5b0109740205575ae29b0e92bc5101038efb5f976cd8e7c9e73a28977",
+          "bytes": 7868
+        },
+        "CLOSEOUT.json": {
+          "sha256": "c1541ade55db63ae9a7531de471da299fa30a4cc2bd617b8330d0d451773d443",
+          "bytes": 11399
+        },
+        "results/SUMMARY.json": {
+          "sha256": "ed711197b7de76a9ab2aaf51bc3737e72238861f708c6a8d26fd891f4a5f5714",
+          "bytes": 7320
+        },
+        "results/VERIFIED.json": {
+          "sha256": "0206e42fa747c50d8d48ba28a34543e3fdeefee7e9f863ee1ebd0d48a6000e7f",
+          "bytes": 429
+        }
+      },
+      "review_scope": "fresh advisory available"
+    },
+    {
+      "source_unit": "acs-nr1a2-sp-fit-20260922",
+      "files": {
+        "REPORT.md": {
+          "sha256": "bec99dd6ae6ad00eb9016902b484011079e77b60c3367d2c75cbc0de73fa9ed0",
+          "bytes": 7461
+        },
+        "CLAIM.md": {
+          "sha256": "c5a7030e71c3fecc835ce9a0598d74bd808926622fc862bf6bd0cde9d35a22a9",
+          "bytes": 1439
+        },
+        "REVIEW.md": {
+          "sha256": "39dd18fad486dfcb3092bd61a41487cd2eac2c305d294e5766f3444c7b2c4d00",
+          "bytes": 8191
+        },
+        "CLOSEOUT.json": {
+          "sha256": "7592408545730a4110bcba04c61410b66a6db3b82c3c63faaf351ef48dfafbef",
+          "bytes": 9453
+        },
+        "results/SUMMARY.json": {
+          "sha256": "9eae5aa07df48bde88ed580197fd314fd2784f1cc259b83db31edc361094c486",
+          "bytes": 7234
+        },
+        "results/VERIFIED.json": {
+          "sha256": "d214c807c1f7878d261d0de38cffe1bf4b14f92b84999e002056e9cc7d8e38f0",
+          "bytes": 343
+        }
+      },
+      "review_scope": "fresh advisory available"
+    }
+  ],
+  "binding_semantics": "Hashes identify local source documents. This sync does not independently rerun experiments or assert formal scientific acceptance.",
+  "upstream_commits": {
+    "PR111_before_sync": "36bf63dc8aaeab14c71f20406739323099e75fd8",
+    "PR116_reviewed": "bdf04ccce79af53d76111f6cc029dc2c0270c040",
+    "PR117_reviewed": "9bb42da0efecb1ba33aad794327e891afceb189a"
+  }
+}

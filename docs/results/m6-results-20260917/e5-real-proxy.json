@@ -1,0 +1,4114 @@
+{
+  "e4_comparison": [
+    {
+      "e4_direction": "inconclusive",
+      "e4_mean_delta": 0.3333333333333333,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": 0.2,
+      "e5_minus_e4_paired_policy_advantage": [
+        0.0,
+        -0.33333333333333337,
+        0.0,
+        0.0,
+        -0.3333333333333333
+      ],
+      "low_cost": 1,
+      "mean_change": -0.13333333333333336,
+      "old_condition": "C0",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "fixed_ratio",
+      "task": "BLAT_ECOLX_Firnberg_2014"
+    },
+    {
+      "e4_direction": "positive",
+      "e4_mean_delta": 0.6666666666666667,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": 0.4,
+      "e5_minus_e4_paired_policy_advantage": [
+        -0.33333333333333337,
+        -0.33333333333333337,
+        0.0,
+        -0.33333333333333337,
+        -0.33333333333333337
+      ],
+      "low_cost": 1,
+      "mean_change": -0.2666666666666667,
+      "old_condition": "C0",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "hard_prescreen",
+      "task": "BLAT_ECOLX_Firnberg_2014"
+    },
+    {
+      "e4_direction": "inconclusive",
+      "e4_mean_delta": 0.0,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": 0.0,
+      "e5_minus_e4_paired_policy_advantage": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "low_cost": 1,
+      "mean_change": 0.0,
+      "old_condition": "C0",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "cost_aware",
+      "task": "BLAT_ECOLX_Firnberg_2014"
+    },
+    {
+      "e4_direction": "inconclusive",
+      "e4_mean_delta": 0.3333333333333333,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": 0.2,
+      "e5_minus_e4_paired_policy_advantage": [
+        0.0,
+        -0.33333333333333337,
+        0.0,
+        0.0,
+        -0.3333333333333333
+      ],
+      "low_cost": 4,
+      "mean_change": -0.13333333333333336,
+      "old_condition": "C3",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "fixed_ratio",
+      "task": "BLAT_ECOLX_Firnberg_2014"
+    },
+    {
+      "e4_direction": "positive",
+      "e4_mean_delta": 0.6666666666666667,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": 0.4,
+      "e5_minus_e4_paired_policy_advantage": [
+        -0.33333333333333337,
+        -0.33333333333333337,
+        0.0,
+        -0.33333333333333337,
+        -0.33333333333333337
+      ],
+      "low_cost": 4,
+      "mean_change": -0.2666666666666667,
+      "old_condition": "C3",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "hard_prescreen",
+      "task": "BLAT_ECOLX_Firnberg_2014"
+    },
+    {
+      "e4_direction": "inconclusive",
+      "e4_mean_delta": 0.0,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": 0.0,
+      "e5_minus_e4_paired_policy_advantage": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "low_cost": 4,
+      "mean_change": 0.0,
+      "old_condition": "C3",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "cost_aware",
+      "task": "BLAT_ECOLX_Firnberg_2014"
+    },
+    {
+      "e4_direction": "unstable",
+      "e4_mean_delta": 0.2666666666666667,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": -0.2,
+      "e5_minus_e4_paired_policy_advantage": [
+        -0.6666666666666667,
+        -0.3333333333333333,
+        0.3333333333333333,
+        -1.0,
+        -0.6666666666666667
+      ],
+      "low_cost": 1,
+      "mean_change": -0.4666666666666667,
+      "old_condition": "C0",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "fixed_ratio",
+      "task": "CAPSD_AAV2S_Sinai_2021"
+    },
+    {
+      "e4_direction": "inconclusive",
+      "e4_mean_delta": 0.33333333333333337,
+      "e5_direction": "negative",
+      "e5_mean_delta": -0.2,
+      "e5_minus_e4_paired_policy_advantage": [
+        -0.6666666666666667,
+        -0.6666666666666667,
+        -0.3333333333333333,
+        -0.6666666666666667,
+        -0.3333333333333333
+      ],
+      "low_cost": 1,
+      "mean_change": -0.5333333333333334,
+      "old_condition": "C0",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "hard_prescreen",
+      "task": "CAPSD_AAV2S_Sinai_2021"
+    },
+    {
+      "e4_direction": "unstable",
+      "e4_mean_delta": 0.06666666666666667,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": -0.2,
+      "e5_minus_e4_paired_policy_advantage": [
+        0.0,
+        -0.6666666666666666,
+        0.0,
+        -0.6666666666666666,
+        0.0
+      ],
+      "low_cost": 1,
+      "mean_change": -0.26666666666666666,
+      "old_condition": "C0",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "cost_aware",
+      "task": "CAPSD_AAV2S_Sinai_2021"
+    },
+    {
+      "e4_direction": "unstable",
+      "e4_mean_delta": 0.2,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": -0.2,
+      "e5_minus_e4_paired_policy_advantage": [
+        -0.6666666666666667,
+        -0.3333333333333333,
+        0.3333333333333333,
+        -1.0,
+        -0.3333333333333333
+      ],
+      "low_cost": 4,
+      "mean_change": -0.4,
+      "old_condition": "C3",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "fixed_ratio",
+      "task": "CAPSD_AAV2S_Sinai_2021"
+    },
+    {
+      "e4_direction": "unstable",
+      "e4_mean_delta": 0.2,
+      "e5_direction": "negative",
+      "e5_mean_delta": -0.2666666666666667,
+      "e5_minus_e4_paired_policy_advantage": [
+        -0.3333333333333333,
+        -0.6666666666666667,
+        0.0,
+        -0.6666666666666667,
+        -0.6666666666666666
+      ],
+      "low_cost": 4,
+      "mean_change": -0.4666666666666667,
+      "old_condition": "C3",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "hard_prescreen",
+      "task": "CAPSD_AAV2S_Sinai_2021"
+    },
+    {
+      "e4_direction": "unstable",
+      "e4_mean_delta": 0.06666666666666667,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": -0.2,
+      "e5_minus_e4_paired_policy_advantage": [
+        0.0,
+        -0.6666666666666666,
+        0.0,
+        -0.6666666666666666,
+        0.0
+      ],
+      "low_cost": 4,
+      "mean_change": -0.26666666666666666,
+      "old_condition": "C3",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "cost_aware",
+      "task": "CAPSD_AAV2S_Sinai_2021"
+    },
+    {
+      "e4_direction": "unstable",
+      "e4_mean_delta": 0.13333333333333333,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": -0.13333333333333333,
+      "e5_minus_e4_paired_policy_advantage": [
+        -0.6666666666666666,
+        0.3333333333333333,
+        -0.3333333333333333,
+        -0.3333333333333333,
+        -0.3333333333333333
+      ],
+      "low_cost": 1,
+      "mean_change": -0.26666666666666666,
+      "old_condition": "C0",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "fixed_ratio",
+      "task": "GFP_AEQVI_Sarkisyan_2016"
+    },
+    {
+      "e4_direction": "unstable",
+      "e4_mean_delta": 1.1102230246251566e-17,
+      "e5_direction": "unstable",
+      "e5_mean_delta": -0.06666666666666667,
+      "e5_minus_e4_paired_policy_advantage": [
+        -0.3333333333333333,
+        0.3333333333333333,
+        -0.6666666666666667,
+        0.0,
+        0.3333333333333333
+      ],
+      "low_cost": 1,
+      "mean_change": -0.06666666666666668,
+      "old_condition": "C0",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "hard_prescreen",
+      "task": "GFP_AEQVI_Sarkisyan_2016"
+    },
+    {
+      "e4_direction": "unstable",
+      "e4_mean_delta": -0.06666666666666665,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": -0.06666666666666667,
+      "e5_minus_e4_paired_policy_advantage": [
+        0.0,
+        0.6666666666666666,
+        -0.6666666666666667,
+        0.0,
+        0.0
+      ],
+      "low_cost": 1,
+      "mean_change": -2.2204460492503132e-17,
+      "old_condition": "C0",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "cost_aware",
+      "task": "GFP_AEQVI_Sarkisyan_2016"
+    },
+    {
+      "e4_direction": "unstable",
+      "e4_mean_delta": 0.0,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": -0.13333333333333333,
+      "e5_minus_e4_paired_policy_advantage": [
+        -0.3333333333333333,
+        0.3333333333333333,
+        -0.3333333333333333,
+        -0.3333333333333333,
+        0.0
+      ],
+      "low_cost": 4,
+      "mean_change": -0.13333333333333333,
+      "old_condition": "C3",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "fixed_ratio",
+      "task": "GFP_AEQVI_Sarkisyan_2016"
+    },
+    {
+      "e4_direction": "unstable",
+      "e4_mean_delta": 1.1102230246251566e-17,
+      "e5_direction": "unstable",
+      "e5_mean_delta": -0.13333333333333333,
+      "e5_minus_e4_paired_policy_advantage": [
+        -0.3333333333333333,
+        0.3333333333333333,
+        -0.6666666666666667,
+        0.0,
+        0.0
+      ],
+      "low_cost": 4,
+      "mean_change": -0.13333333333333336,
+      "old_condition": "C3",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "hard_prescreen",
+      "task": "GFP_AEQVI_Sarkisyan_2016"
+    },
+    {
+      "e4_direction": "unstable",
+      "e4_mean_delta": 1.1102230246251566e-17,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": 0.0,
+      "e5_minus_e4_paired_policy_advantage": [
+        0.0,
+        0.6666666666666666,
+        -0.33333333333333337,
+        0.0,
+        -0.3333333333333333
+      ],
+      "low_cost": 4,
+      "mean_change": -1.1102230246251566e-17,
+      "old_condition": "C3",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "cost_aware",
+      "task": "GFP_AEQVI_Sarkisyan_2016"
+    },
+    {
+      "e4_direction": "positive",
+      "e4_mean_delta": 0.4,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": 0.06666666666666668,
+      "e5_minus_e4_paired_policy_advantage": [
+        -0.33333333333333337,
+        -0.6666666666666666,
+        -1.0,
+        0.33333333333333337,
+        0.0
+      ],
+      "low_cost": 1,
+      "mean_change": -0.3333333333333333,
+      "old_condition": "C0",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "fixed_ratio",
+      "task": "SPG1_STRSG_Olson_2014"
+    },
+    {
+      "e4_direction": "unstable",
+      "e4_mean_delta": 0.4,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": -0.3333333333333333,
+      "e5_minus_e4_paired_policy_advantage": [
+        -0.3333333333333333,
+        -1.0,
+        -1.0,
+        -0.6666666666666666,
+        -0.6666666666666667
+      ],
+      "low_cost": 1,
+      "mean_change": -0.7333333333333333,
+      "old_condition": "C0",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "hard_prescreen",
+      "task": "SPG1_STRSG_Olson_2014"
+    },
+    {
+      "e4_direction": "inconclusive",
+      "e4_mean_delta": 0.2666666666666667,
+      "e5_direction": "unstable",
+      "e5_mean_delta": -0.06666666666666668,
+      "e5_minus_e4_paired_policy_advantage": [
+        0.0,
+        -0.6666666666666667,
+        0.3333333333333333,
+        -1.0,
+        -0.33333333333333337
+      ],
+      "low_cost": 1,
+      "mean_change": -0.33333333333333337,
+      "old_condition": "C0",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "cost_aware",
+      "task": "SPG1_STRSG_Olson_2014"
+    },
+    {
+      "e4_direction": "positive",
+      "e4_mean_delta": 0.4,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": 0.06666666666666668,
+      "e5_minus_e4_paired_policy_advantage": [
+        -0.33333333333333337,
+        -0.6666666666666666,
+        -1.0,
+        0.33333333333333337,
+        0.0
+      ],
+      "low_cost": 4,
+      "mean_change": -0.3333333333333333,
+      "old_condition": "C3",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "fixed_ratio",
+      "task": "SPG1_STRSG_Olson_2014"
+    },
+    {
+      "e4_direction": "unstable",
+      "e4_mean_delta": 0.2666666666666666,
+      "e5_direction": "inconclusive",
+      "e5_mean_delta": -0.3333333333333333,
+      "e5_minus_e4_paired_policy_advantage": [
+        -0.3333333333333333,
+        -0.6666666666666666,
+        -1.0,
+        -0.33333333333333326,
+        -0.6666666666666667
+      ],
+      "low_cost": 4,
+      "mean_change": -0.6,
+      "old_condition": "C3",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "hard_prescreen",
+      "task": "SPG1_STRSG_Olson_2014"
+    },
+    {
+      "e4_direction": "unstable",
+      "e4_mean_delta": 0.2,
+      "e5_direction": "unstable",
+      "e5_mean_delta": -0.06666666666666668,
+      "e5_minus_e4_paired_policy_advantage": [
+        0.0,
+        -0.6666666666666667,
+        0.3333333333333333,
+        -0.6666666666666666,
+        -0.33333333333333337
+      ],
+      "low_cost": 4,
+      "mean_change": -0.2666666666666667,
+      "old_condition": "C3",
+      "scope": "descriptive original E4 C0/C3 synthetic rho0.8 versus real ESM1v; not an isolated correlation manipulation",
+      "strategy": "cost_aware",
+      "task": "SPG1_STRSG_Olson_2014"
+    }
+  ],
+  "forest_fits": 111370,
+  "logical_entries": 160,
+  "primary_by_strategy": {
+    "cost_aware": {
+      "inconclusive": 6,
+      "unstable": 2
+    },
+    "fixed_ratio": {
+      "inconclusive": 8
+    },
+    "hard_prescreen": {
+      "inconclusive": 4,
+      "negative": 2,
+      "unstable": 2
+    }
+  },
+  "primary_directions": {
+    "inconclusive": 18,
+    "negative": 2,
+    "unstable": 4
+  },
+  "proxy_descriptors": [
+    {
+      "pearson": 0.6742478247227339,
+      "spearman": 0.7033117402972924,
+      "tails": {
+        "0.005": [
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              29,
+              44
+            ],
+            "seed": 1729,
+            "top25_hits": 2
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              29,
+              44
+            ],
+            "seed": 1730,
+            "top25_hits": 2
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              29,
+              44
+            ],
+            "seed": 1731,
+            "top25_hits": 2
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              29,
+              44
+            ],
+            "seed": 1732,
+            "top25_hits": 2
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              29,
+              44
+            ],
+            "seed": 1733,
+            "top25_hits": 2
+          }
+        ],
+        "0.01": [
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              6,
+              29,
+              44
+            ],
+            "seed": 1729,
+            "top25_hits": 3
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              6,
+              29,
+              44
+            ],
+            "seed": 1730,
+            "top25_hits": 3
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              6,
+              29,
+              44
+            ],
+            "seed": 1731,
+            "top25_hits": 3
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              6,
+              29,
+              44
+            ],
+            "seed": 1732,
+            "top25_hits": 3
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              6,
+              29,
+              44
+            ],
+            "seed": 1733,
+            "top25_hits": 3
+          }
+        ],
+        "0.02": [
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              6,
+              29,
+              38,
+              44,
+              110,
+              122
+            ],
+            "seed": 1729,
+            "top25_hits": 4
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              6,
+              29,
+              38,
+              44,
+              110,
+              122
+            ],
+            "seed": 1730,
+            "top25_hits": 4
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              6,
+              29,
+              38,
+              44,
+              110,
+              122
+            ],
+            "seed": 1731,
+            "top25_hits": 4
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              6,
+              29,
+              38,
+              44,
+              110,
+              122
+            ],
+            "seed": 1732,
+            "top25_hits": 4
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              6,
+              29,
+              38,
+              44,
+              110,
+              122
+            ],
+            "seed": 1733,
+            "top25_hits": 4
+          }
+        ]
+      },
+      "task": "BLAT_ECOLX_Firnberg_2014"
+    },
+    {
+      "pearson": 0.20768665788479893,
+      "spearman": 0.16709344243533986,
+      "tails": {
+        "0.005": [
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              26,
+              92
+            ],
+            "seed": 1729,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              26,
+              92
+            ],
+            "seed": 1730,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              26,
+              92
+            ],
+            "seed": 1731,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              26,
+              92
+            ],
+            "seed": 1732,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              26,
+              92
+            ],
+            "seed": 1733,
+            "top25_hits": 1
+          }
+        ],
+        "0.01": [
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              26,
+              92,
+              186
+            ],
+            "seed": 1729,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              26,
+              92,
+              186
+            ],
+            "seed": 1730,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              26,
+              92,
+              186
+            ],
+            "seed": 1731,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              26,
+              92,
+              186
+            ],
+            "seed": 1732,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              26,
+              92,
+              186
+            ],
+            "seed": 1733,
+            "top25_hits": 1
+          }
+        ],
+        "0.02": [
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              3,
+              26,
+              44,
+              92,
+              186,
+              212
+            ],
+            "seed": 1729,
+            "top25_hits": 3
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              3,
+              26,
+              44,
+              92,
+              186,
+              212
+            ],
+            "seed": 1730,
+            "top25_hits": 3
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              3,
+              26,
+              44,
+              92,
+              186,
+              212
+            ],
+            "seed": 1731,
+            "top25_hits": 3
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              3,
+              26,
+              44,
+              92,
+              186,
+              212
+            ],
+            "seed": 1732,
+            "top25_hits": 3
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              3,
+              26,
+              44,
+              92,
+              186,
+              212
+            ],
+            "seed": 1733,
+            "top25_hits": 3
+          }
+        ]
+      },
+      "task": "CAPSD_AAV2S_Sinai_2021"
+    },
+    {
+      "pearson": 0.12834822832471016,
+      "spearman": 0.041913910505836566,
+      "tails": {
+        "0.005": [
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              39,
+              197
+            ],
+            "seed": 1729,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              39,
+              197
+            ],
+            "seed": 1730,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              39,
+              197
+            ],
+            "seed": 1731,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              39,
+              197
+            ],
+            "seed": 1732,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              39,
+              197
+            ],
+            "seed": 1733,
+            "top25_hits": 1
+          }
+        ],
+        "0.01": [
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              39,
+              132,
+              197
+            ],
+            "seed": 1729,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              39,
+              132,
+              197
+            ],
+            "seed": 1730,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              39,
+              132,
+              197
+            ],
+            "seed": 1731,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              39,
+              132,
+              197
+            ],
+            "seed": 1732,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              39,
+              132,
+              197
+            ],
+            "seed": 1733,
+            "top25_hits": 1
+          }
+        ],
+        "0.02": [
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              39,
+              113,
+              132,
+              197,
+              199,
+              211
+            ],
+            "seed": 1729,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              39,
+              113,
+              132,
+              197,
+              199,
+              211
+            ],
+            "seed": 1730,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              39,
+              113,
+              132,
+              197,
+              199,
+              211
+            ],
+            "seed": 1731,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              39,
+              113,
+              132,
+              197,
+              199,
+              211
+            ],
+            "seed": 1732,
+            "top25_hits": 1
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              39,
+              113,
+              132,
+              197,
+              199,
+              211
+            ],
+            "seed": 1733,
+            "top25_hits": 1
+          }
+        ]
+      },
+      "task": "GFP_AEQVI_Sarkisyan_2016"
+    },
+    {
+      "pearson": 0.1299807363623767,
+      "spearman": 0.11556044731309735,
+      "tails": {
+        "0.005": [
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              105,
+              106
+            ],
+            "seed": 1729,
+            "top25_hits": 0
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              105,
+              106
+            ],
+            "seed": 1730,
+            "top25_hits": 0
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              105,
+              106
+            ],
+            "seed": 1731,
+            "top25_hits": 0
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              105,
+              106
+            ],
+            "seed": 1732,
+            "top25_hits": 0
+          },
+          {
+            "high_value_count": 2,
+            "high_value_proxy_ranks": [
+              105,
+              106
+            ],
+            "seed": 1733,
+            "top25_hits": 0
+          }
+        ],
+        "0.01": [
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              67,
+              105,
+              106
+            ],
+            "seed": 1729,
+            "top25_hits": 0
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              67,
+              105,
+              106
+            ],
+            "seed": 1730,
+            "top25_hits": 0
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              67,
+              105,
+              106
+            ],
+            "seed": 1731,
+            "top25_hits": 0
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              67,
+              105,
+              106
+            ],
+            "seed": 1732,
+            "top25_hits": 0
+          },
+          {
+            "high_value_count": 3,
+            "high_value_proxy_ranks": [
+              67,
+              105,
+              106
+            ],
+            "seed": 1733,
+            "top25_hits": 0
+          }
+        ],
+        "0.02": [
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              33,
+              48,
+              67,
+              92,
+              105,
+              106
+            ],
+            "seed": 1729,
+            "top25_hits": 2
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              33,
+              48,
+              67,
+              92,
+              105,
+              106
+            ],
+            "seed": 1730,
+            "top25_hits": 2
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              33,
+              48,
+              67,
+              92,
+              105,
+              106
+            ],
+            "seed": 1731,
+            "top25_hits": 2
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              33,
+              48,
+              67,
+              92,
+              105,
+              106
+            ],
+            "seed": 1732,
+            "top25_hits": 2
+          },
+          {
+            "high_value_count": 6,
+            "high_value_proxy_ranks": [
+              33,
+              48,
+              67,
+              92,
+              105,
+              106
+            ],
+            "seed": 1733,
+            "top25_hits": 2
+          }
+        ]
+      },
+      "task": "SPG1_STRSG_Olson_2014"
+    }
+  ],
+  "scope": "E5 development-directional fixed ESM1v_single +1, original E4 source/model/policies/seeds/pools",
+  "scorer_calls": 11617,
+  "seconds": 6897.382728965953,
+  "status": "PASS",
+  "summary_sha256": "1e75bec06949f39465e547b499b59300c2fb9a7fc4699c101b8f7f17887513e0",
+  "table": [
+    {
+      "achieved": 2,
+      "censored": 3,
+      "cost": 1,
+      "cost_to_target": [
+        2800,
+        null,
+        2300,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.0,
+        0.6666666666666666,
+        0.0,
+        0.0
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        64,
+        64,
+        64,
+        64,
+        64
+      ],
+      "low_purchases": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_recall": 0.26666666666666666,
+      "mean_regret": 0.21350000000000008,
+      "regrets": [
+        0.0,
+        0.37180000000000013,
+        0.0,
+        0.37180000000000013,
+        0.3239000000000001
+      ],
+      "score_calls": [
+        48,
+        48,
+        48,
+        48,
+        48
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hf_only",
+      "task": "BLAT_ECOLX_Firnberg_2014",
+      "zero_value_states": [
+        48,
+        48,
+        48,
+        48,
+        48
+      ]
+    },
+    {
+      "achieved": 3,
+      "censored": 2,
+      "comparison": {
+        "conditional_savings": [
+          -0.23285714285714285,
+          -0.2791304347826087
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 2,
+        "joint_achieved": 2,
+        "losses": 0,
+        "low_cost": 1,
+        "mean_conditional_savings": -0.2559937888198758,
+        "mean_delta": 0.2,
+        "negative_seed_fraction": 0.0,
+        "paired_delta": [
+          0.0,
+          0.6666666666666666,
+          0.0,
+          0.3333333333333333,
+          0.0
+        ],
+        "strategy": "fixed_ratio",
+        "strategy_achieved": 3,
+        "task": "BLAT_ECOLX_Firnberg_2014",
+        "ties": 3,
+        "wins": 2
+      },
+      "cost": 1,
+      "cost_to_target": [
+        3452,
+        4064,
+        2942,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.3333333333333333,
+        0.0
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        62,
+        62,
+        62,
+        62,
+        62
+      ],
+      "low_purchases": [
+        108,
+        108,
+        108,
+        108,
+        108
+      ],
+      "mean_recall": 0.4666666666666666,
+      "mean_regret": 0.06766000000000005,
+      "regrets": [
+        0.0,
+        0.007200000000000095,
+        0.0,
+        0.007200000000000095,
+        0.3239000000000001
+      ],
+      "score_calls": [
+        138,
+        138,
+        138,
+        138,
+        138
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "fixed_ratio",
+      "task": "BLAT_ECOLX_Firnberg_2014",
+      "zero_value_states": [
+        120,
+        138,
+        138,
+        137,
+        137
+      ]
+    },
+    {
+      "achieved": 5,
+      "censored": 0,
+      "comparison": {
+        "conditional_savings": [
+          0.26571428571428574,
+          0.10608695652173913
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 2,
+        "joint_achieved": 2,
+        "losses": 0,
+        "low_cost": 1,
+        "mean_conditional_savings": 0.18590062111801242,
+        "mean_delta": 0.4,
+        "negative_seed_fraction": 0.0,
+        "paired_delta": [
+          0.0,
+          0.6666666666666666,
+          0.0,
+          0.6666666666666666,
+          0.6666666666666666
+        ],
+        "strategy": "hard_prescreen",
+        "strategy_achieved": 5,
+        "task": "BLAT_ECOLX_Firnberg_2014",
+        "ties": 2,
+        "wins": 3
+      },
+      "cost": 1,
+      "cost_to_target": [
+        2056,
+        5556,
+        2056,
+        4256,
+        2656
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666
+      ],
+      "hf_non_mean": [
+        6,
+        25,
+        5,
+        15,
+        0
+      ],
+      "high_purchases": [
+        61,
+        61,
+        61,
+        61,
+        61
+      ],
+      "low_purchases": [
+        256,
+        256,
+        256,
+        256,
+        256
+      ],
+      "mean_recall": 0.6666666666666666,
+      "mean_regret": 0.0,
+      "regrets": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "score_calls": [
+        45,
+        45,
+        45,
+        45,
+        45
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hard_prescreen",
+      "task": "BLAT_ECOLX_Firnberg_2014",
+      "zero_value_states": [
+        45,
+        45,
+        45,
+        44,
+        44
+      ]
+    },
+    {
+      "achieved": 2,
+      "censored": 3,
+      "comparison": {
+        "conditional_savings": [
+          -0.8271428571428572,
+          -0.007391304347826087
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 2,
+        "joint_achieved": 2,
+        "losses": 0,
+        "low_cost": 1,
+        "mean_conditional_savings": -0.41726708074534163,
+        "mean_delta": 0.0,
+        "negative_seed_fraction": 0.0,
+        "paired_delta": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "strategy": "cost_aware",
+        "strategy_achieved": 2,
+        "task": "BLAT_ECOLX_Firnberg_2014",
+        "ties": 5,
+        "wins": 0
+      },
+      "cost": 1,
+      "cost_to_target": [
+        5116,
+        null,
+        2317,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.0,
+        0.6666666666666666,
+        0.0,
+        0.0
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        63,
+        63,
+        63,
+        63,
+        63
+      ],
+      "low_purchases": [
+        16,
+        16,
+        17,
+        16,
+        16
+      ],
+      "mean_recall": 0.26666666666666666,
+      "mean_regret": 0.21802000000000005,
+      "regrets": [
+        0.0,
+        0.3944000000000001,
+        0.0,
+        0.37180000000000013,
+        0.3239000000000001
+      ],
+      "score_calls": [
+        47,
+        47,
+        48,
+        47,
+        47
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "cost_aware",
+      "task": "BLAT_ECOLX_Firnberg_2014",
+      "zero_value_states": [
+        47,
+        47,
+        46,
+        47,
+        47
+      ]
+    },
+    {
+      "achieved": 2,
+      "censored": 3,
+      "cost": 4,
+      "cost_to_target": [
+        2800,
+        null,
+        2300,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.0,
+        0.6666666666666666,
+        0.0,
+        0.0
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        64,
+        64,
+        64,
+        64,
+        64
+      ],
+      "low_purchases": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_recall": 0.26666666666666666,
+      "mean_regret": 0.21350000000000008,
+      "regrets": [
+        0.0,
+        0.37180000000000013,
+        0.0,
+        0.37180000000000013,
+        0.3239000000000001
+      ],
+      "score_calls": [
+        48,
+        48,
+        48,
+        48,
+        48
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hf_only",
+      "task": "BLAT_ECOLX_Firnberg_2014",
+      "zero_value_states": [
+        48,
+        48,
+        48,
+        48,
+        48
+      ]
+    },
+    {
+      "achieved": 3,
+      "censored": 2,
+      "comparison": {
+        "conditional_savings": [
+          -0.2885714285714286,
+          -0.3339130434782609
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 2,
+        "joint_achieved": 2,
+        "losses": 0,
+        "low_cost": 4,
+        "mean_conditional_savings": -0.31124223602484474,
+        "mean_delta": 0.2,
+        "negative_seed_fraction": 0.0,
+        "paired_delta": [
+          0.0,
+          0.6666666666666666,
+          0.0,
+          0.3333333333333333,
+          0.0
+        ],
+        "strategy": "fixed_ratio",
+        "strategy_achieved": 3,
+        "task": "BLAT_ECOLX_Firnberg_2014",
+        "ties": 3,
+        "wins": 2
+      },
+      "cost": 4,
+      "cost_to_target": [
+        3608,
+        4256,
+        3068,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.3333333333333333,
+        0.0
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        59,
+        59,
+        59,
+        59,
+        59
+      ],
+      "low_purchases": [
+        102,
+        102,
+        102,
+        102,
+        102
+      ],
+      "mean_recall": 0.4666666666666666,
+      "mean_regret": 0.06766000000000005,
+      "regrets": [
+        0.0,
+        0.007200000000000095,
+        0.0,
+        0.007200000000000095,
+        0.3239000000000001
+      ],
+      "score_calls": [
+        129,
+        129,
+        129,
+        129,
+        129
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "fixed_ratio",
+      "task": "BLAT_ECOLX_Firnberg_2014",
+      "zero_value_states": [
+        111,
+        129,
+        129,
+        128,
+        128
+      ]
+    },
+    {
+      "achieved": 5,
+      "censored": 0,
+      "comparison": {
+        "conditional_savings": [
+          -0.008571428571428572,
+          -0.22782608695652173
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 2,
+        "joint_achieved": 2,
+        "losses": 0,
+        "low_cost": 4,
+        "mean_conditional_savings": -0.11819875776397515,
+        "mean_delta": 0.4,
+        "negative_seed_fraction": 0.0,
+        "paired_delta": [
+          0.0,
+          0.6666666666666666,
+          0.0,
+          0.6666666666666666,
+          0.6666666666666666
+        ],
+        "strategy": "hard_prescreen",
+        "strategy_achieved": 5,
+        "task": "BLAT_ECOLX_Firnberg_2014",
+        "ties": 2,
+        "wins": 3
+      },
+      "cost": 4,
+      "cost_to_target": [
+        2824,
+        6324,
+        2824,
+        5024,
+        3424
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666
+      ],
+      "hf_non_mean": [
+        4,
+        25,
+        4,
+        13,
+        0
+      ],
+      "high_purchases": [
+        53,
+        53,
+        53,
+        53,
+        53
+      ],
+      "low_purchases": [
+        256,
+        256,
+        256,
+        256,
+        256
+      ],
+      "mean_recall": 0.6666666666666666,
+      "mean_regret": 0.0,
+      "regrets": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "score_calls": [
+        37,
+        37,
+        37,
+        37,
+        37
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hard_prescreen",
+      "task": "BLAT_ECOLX_Firnberg_2014",
+      "zero_value_states": [
+        37,
+        37,
+        37,
+        36,
+        36
+      ]
+    },
+    {
+      "achieved": 2,
+      "censored": 3,
+      "comparison": {
+        "conditional_savings": [
+          -0.8442857142857143,
+          -0.029565217391304348
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 2,
+        "joint_achieved": 2,
+        "losses": 0,
+        "low_cost": 4,
+        "mean_conditional_savings": -0.43692546583850933,
+        "mean_delta": 0.0,
+        "negative_seed_fraction": 0.0,
+        "paired_delta": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "strategy": "cost_aware",
+        "strategy_achieved": 2,
+        "task": "BLAT_ECOLX_Firnberg_2014",
+        "ties": 5,
+        "wins": 0
+      },
+      "cost": 4,
+      "cost_to_target": [
+        5164,
+        null,
+        2368,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.0,
+        0.6666666666666666,
+        0.0,
+        0.0
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        63,
+        63,
+        63,
+        63,
+        63
+      ],
+      "low_purchases": [
+        16,
+        16,
+        17,
+        16,
+        16
+      ],
+      "mean_recall": 0.26666666666666666,
+      "mean_regret": 0.21802000000000005,
+      "regrets": [
+        0.0,
+        0.3944000000000001,
+        0.0,
+        0.37180000000000013,
+        0.3239000000000001
+      ],
+      "score_calls": [
+        47,
+        47,
+        48,
+        47,
+        47
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "cost_aware",
+      "task": "BLAT_ECOLX_Firnberg_2014",
+      "zero_value_states": [
+        47,
+        47,
+        46,
+        47,
+        47
+      ]
+    },
+    {
+      "achieved": 4,
+      "censored": 1,
+      "cost": 1,
+      "cost_to_target": [
+        4400,
+        3700,
+        3800,
+        null,
+        4600
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.0,
+        0.6666666666666666
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        64,
+        64,
+        64,
+        64,
+        64
+      ],
+      "low_purchases": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_recall": 0.5333333333333333,
+      "mean_regret": 0.27287200677000023,
+      "regrets": [
+        0.0,
+        0.0,
+        0.0,
+        1.364360033850001,
+        0.0
+      ],
+      "score_calls": [
+        48,
+        48,
+        48,
+        48,
+        48
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hf_only",
+      "task": "CAPSD_AAV2S_Sinai_2021",
+      "zero_value_states": [
+        48,
+        48,
+        48,
+        47,
+        46
+      ]
+    },
+    {
+      "achieved": 1,
+      "censored": 4,
+      "comparison": {
+        "conditional_savings": [
+          0.011052631578947368
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 4,
+        "joint_achieved": 1,
+        "losses": 3,
+        "low_cost": 1,
+        "mean_conditional_savings": 0.011052631578947368,
+        "mean_delta": -0.2,
+        "negative_seed_fraction": 0.6,
+        "paired_delta": [
+          -0.3333333333333333,
+          -0.3333333333333333,
+          0.0,
+          0.0,
+          -0.3333333333333333
+        ],
+        "strategy": "fixed_ratio",
+        "strategy_achieved": 1,
+        "task": "CAPSD_AAV2S_Sinai_2021",
+        "ties": 2,
+        "wins": 0
+      },
+      "cost": 1,
+      "cost_to_target": [
+        null,
+        null,
+        3758,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.6666666666666666,
+        0.0,
+        0.3333333333333333
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        62,
+        62,
+        62,
+        62,
+        62
+      ],
+      "low_purchases": [
+        108,
+        108,
+        108,
+        108,
+        108
+      ],
+      "mean_recall": 0.3333333333333333,
+      "mean_regret": 0.3970932046280001,
+      "regrets": [
+        0.4880989168800003,
+        0.0,
+        0.0,
+        1.49736710626,
+        0.0
+      ],
+      "score_calls": [
+        138,
+        138,
+        138,
+        138,
+        138
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "fixed_ratio",
+      "task": "CAPSD_AAV2S_Sinai_2021",
+      "zero_value_states": [
+        134,
+        132,
+        135,
+        133,
+        135
+      ]
+    },
+    {
+      "achieved": 0,
+      "censored": 5,
+      "comparison": {
+        "conditional_savings": [],
+        "direction": "negative",
+        "fraction": "0.01",
+        "hf_achieved": 4,
+        "joint_achieved": 0,
+        "losses": 4,
+        "low_cost": 1,
+        "mean_conditional_savings": null,
+        "mean_delta": -0.2,
+        "negative_seed_fraction": 0.8,
+        "paired_delta": [
+          -0.3333333333333333,
+          -0.3333333333333333,
+          -0.3333333333333333,
+          0.3333333333333333,
+          -0.3333333333333333
+        ],
+        "strategy": "hard_prescreen",
+        "strategy_achieved": 0,
+        "task": "CAPSD_AAV2S_Sinai_2021",
+        "ties": 0,
+        "wins": 1
+      },
+      "cost": 1,
+      "cost_to_target": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "hf_non_mean": [
+        21,
+        42,
+        41,
+        39,
+        33
+      ],
+      "high_purchases": [
+        61,
+        61,
+        61,
+        61,
+        61
+      ],
+      "low_purchases": [
+        256,
+        256,
+        256,
+        256,
+        256
+      ],
+      "mean_recall": 0.3333333333333333,
+      "mean_regret": 0.0,
+      "regrets": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "score_calls": [
+        45,
+        45,
+        45,
+        45,
+        45
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hard_prescreen",
+      "task": "CAPSD_AAV2S_Sinai_2021",
+      "zero_value_states": [
+        44,
+        44,
+        44,
+        42,
+        44
+      ]
+    },
+    {
+      "achieved": 2,
+      "censored": 3,
+      "comparison": {
+        "conditional_savings": [
+          -0.5042105263157894,
+          -0.35130434782608694
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 4,
+        "joint_achieved": 2,
+        "losses": 2,
+        "low_cost": 1,
+        "mean_conditional_savings": -0.42775743707093816,
+        "mean_delta": -0.2,
+        "negative_seed_fraction": 0.4,
+        "paired_delta": [
+          -0.3333333333333333,
+          -0.6666666666666666,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "strategy": "cost_aware",
+        "strategy_achieved": 2,
+        "task": "CAPSD_AAV2S_Sinai_2021",
+        "ties": 3,
+        "wins": 0
+      },
+      "cost": 1,
+      "cost_to_target": [
+        null,
+        null,
+        5716,
+        null,
+        6216
+      ],
+      "final_recalls": [
+        0.3333333333333333,
+        0.0,
+        0.6666666666666666,
+        0.0,
+        0.6666666666666666
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        1,
+        1,
+        2
+      ],
+      "high_purchases": [
+        63,
+        63,
+        63,
+        63,
+        63
+      ],
+      "low_purchases": [
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "mean_recall": 0.3333333333333333,
+      "mean_regret": 0.6433637969160004,
+      "regrets": [
+        0.4880989168800003,
+        1.364360033850001,
+        0.0,
+        1.364360033850001,
+        0.0
+      ],
+      "score_calls": [
+        47,
+        47,
+        47,
+        47,
+        47
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "cost_aware",
+      "task": "CAPSD_AAV2S_Sinai_2021",
+      "zero_value_states": [
+        47,
+        47,
+        46,
+        45,
+        45
+      ]
+    },
+    {
+      "achieved": 4,
+      "censored": 1,
+      "cost": 4,
+      "cost_to_target": [
+        4400,
+        3700,
+        3800,
+        null,
+        4600
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.0,
+        0.6666666666666666
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        64,
+        64,
+        64,
+        64,
+        64
+      ],
+      "low_purchases": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_recall": 0.5333333333333333,
+      "mean_regret": 0.27287200677000023,
+      "regrets": [
+        0.0,
+        0.0,
+        0.0,
+        1.364360033850001,
+        0.0
+      ],
+      "score_calls": [
+        48,
+        48,
+        48,
+        48,
+        48
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hf_only",
+      "task": "CAPSD_AAV2S_Sinai_2021",
+      "zero_value_states": [
+        48,
+        48,
+        48,
+        47,
+        46
+      ]
+    },
+    {
+      "achieved": 1,
+      "censored": 4,
+      "comparison": {
+        "conditional_savings": [
+          -0.034736842105263156
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 4,
+        "joint_achieved": 1,
+        "losses": 3,
+        "low_cost": 4,
+        "mean_conditional_savings": -0.034736842105263156,
+        "mean_delta": -0.2,
+        "negative_seed_fraction": 0.6,
+        "paired_delta": [
+          -0.3333333333333333,
+          -0.3333333333333333,
+          0.0,
+          0.0,
+          -0.3333333333333333
+        ],
+        "strategy": "fixed_ratio",
+        "strategy_achieved": 1,
+        "task": "CAPSD_AAV2S_Sinai_2021",
+        "ties": 2,
+        "wins": 0
+      },
+      "cost": 4,
+      "cost_to_target": [
+        null,
+        null,
+        3932,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.6666666666666666,
+        0.0,
+        0.3333333333333333
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        59,
+        59,
+        59,
+        59,
+        59
+      ],
+      "low_purchases": [
+        102,
+        102,
+        102,
+        102,
+        102
+      ],
+      "mean_recall": 0.3333333333333333,
+      "mean_regret": 0.3970932046280001,
+      "regrets": [
+        0.4880989168800003,
+        0.0,
+        0.0,
+        1.49736710626,
+        0.0
+      ],
+      "score_calls": [
+        129,
+        129,
+        129,
+        129,
+        129
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "fixed_ratio",
+      "task": "CAPSD_AAV2S_Sinai_2021",
+      "zero_value_states": [
+        125,
+        123,
+        126,
+        124,
+        126
+      ]
+    },
+    {
+      "achieved": 0,
+      "censored": 5,
+      "comparison": {
+        "conditional_savings": [],
+        "direction": "negative",
+        "fraction": "0.01",
+        "hf_achieved": 4,
+        "joint_achieved": 0,
+        "losses": 4,
+        "low_cost": 4,
+        "mean_conditional_savings": null,
+        "mean_delta": -0.2666666666666667,
+        "negative_seed_fraction": 0.8,
+        "paired_delta": [
+          -0.3333333333333333,
+          -0.3333333333333333,
+          -0.3333333333333333,
+          0.3333333333333333,
+          -0.6666666666666666
+        ],
+        "strategy": "hard_prescreen",
+        "strategy_achieved": 0,
+        "task": "CAPSD_AAV2S_Sinai_2021",
+        "ties": 0,
+        "wins": 1
+      },
+      "cost": 4,
+      "cost_to_target": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.0
+      ],
+      "hf_non_mean": [
+        13,
+        34,
+        33,
+        31,
+        25
+      ],
+      "high_purchases": [
+        53,
+        53,
+        53,
+        53,
+        53
+      ],
+      "low_purchases": [
+        256,
+        256,
+        256,
+        256,
+        256
+      ],
+      "mean_recall": 0.26666666666666666,
+      "mean_regret": 0.27287200677000023,
+      "regrets": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.364360033850001
+      ],
+      "score_calls": [
+        37,
+        37,
+        37,
+        37,
+        37
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hard_prescreen",
+      "task": "CAPSD_AAV2S_Sinai_2021",
+      "zero_value_states": [
+        36,
+        36,
+        36,
+        34,
+        36
+      ]
+    },
+    {
+      "achieved": 2,
+      "censored": 3,
+      "comparison": {
+        "conditional_savings": [
+          -0.5168421052631579,
+          -0.3617391304347826
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 4,
+        "joint_achieved": 2,
+        "losses": 2,
+        "low_cost": 4,
+        "mean_conditional_savings": -0.4392906178489703,
+        "mean_delta": -0.2,
+        "negative_seed_fraction": 0.4,
+        "paired_delta": [
+          -0.3333333333333333,
+          -0.6666666666666666,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "strategy": "cost_aware",
+        "strategy_achieved": 2,
+        "task": "CAPSD_AAV2S_Sinai_2021",
+        "ties": 3,
+        "wins": 0
+      },
+      "cost": 4,
+      "cost_to_target": [
+        null,
+        null,
+        5764,
+        null,
+        6264
+      ],
+      "final_recalls": [
+        0.3333333333333333,
+        0.0,
+        0.6666666666666666,
+        0.0,
+        0.6666666666666666
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        1,
+        1,
+        2
+      ],
+      "high_purchases": [
+        63,
+        63,
+        63,
+        63,
+        63
+      ],
+      "low_purchases": [
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "mean_recall": 0.3333333333333333,
+      "mean_regret": 0.6433637969160004,
+      "regrets": [
+        0.4880989168800003,
+        1.364360033850001,
+        0.0,
+        1.364360033850001,
+        0.0
+      ],
+      "score_calls": [
+        47,
+        47,
+        47,
+        47,
+        47
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "cost_aware",
+      "task": "CAPSD_AAV2S_Sinai_2021",
+      "zero_value_states": [
+        47,
+        47,
+        46,
+        45,
+        45
+      ]
+    },
+    {
+      "achieved": 2,
+      "censored": 3,
+      "cost": 1,
+      "cost_to_target": [
+        null,
+        3400,
+        5200,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.3333333333333333,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        64,
+        64,
+        64,
+        64,
+        64
+      ],
+      "low_purchases": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_recall": 0.4666666666666666,
+      "mean_regret": 0.036082464655999846,
+      "regrets": [
+        0.04959332252999982,
+        0.03163235568999978,
+        0.0,
+        0.04959332252999982,
+        0.04959332252999982
+      ],
+      "score_calls": [
+        48,
+        48,
+        48,
+        48,
+        48
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hf_only",
+      "task": "GFP_AEQVI_Sarkisyan_2016",
+      "zero_value_states": [
+        8,
+        20,
+        35,
+        24,
+        23
+      ]
+    },
+    {
+      "achieved": 1,
+      "censored": 4,
+      "comparison": {
+        "conditional_savings": [
+          -0.1952941176470588
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 2,
+        "joint_achieved": 1,
+        "losses": 2,
+        "low_cost": 1,
+        "mean_conditional_savings": -0.1952941176470588,
+        "mean_delta": -0.13333333333333333,
+        "negative_seed_fraction": 0.4,
+        "paired_delta": [
+          -0.3333333333333333,
+          0.0,
+          -0.3333333333333333,
+          0.0,
+          0.0
+        ],
+        "strategy": "fixed_ratio",
+        "strategy_achieved": 1,
+        "task": "GFP_AEQVI_Sarkisyan_2016",
+        "ties": 3,
+        "wins": 0
+      },
+      "cost": 1,
+      "cost_to_target": [
+        null,
+        4064,
+        null,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.0,
+        0.6666666666666666,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        62,
+        62,
+        62,
+        62,
+        62
+      ],
+      "low_purchases": [
+        108,
+        108,
+        108,
+        108,
+        108
+      ],
+      "mean_recall": 0.3333333333333333,
+      "mean_regret": 0.056675254127999876,
+      "regrets": [
+        0.15255726988999996,
+        0.03163235568999978,
+        0.0,
+        0.04959332252999982,
+        0.04959332252999982
+      ],
+      "score_calls": [
+        138,
+        138,
+        138,
+        138,
+        138
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "fixed_ratio",
+      "task": "GFP_AEQVI_Sarkisyan_2016",
+      "zero_value_states": [
+        20,
+        61,
+        72,
+        22,
+        32
+      ]
+    },
+    {
+      "achieved": 1,
+      "censored": 4,
+      "comparison": {
+        "conditional_savings": [],
+        "direction": "unstable",
+        "fraction": "0.01",
+        "hf_achieved": 2,
+        "joint_achieved": 0,
+        "losses": 2,
+        "low_cost": 1,
+        "mean_conditional_savings": null,
+        "mean_delta": -0.06666666666666667,
+        "negative_seed_fraction": 0.4,
+        "paired_delta": [
+          0.0,
+          -0.3333333333333333,
+          -0.3333333333333333,
+          0.3333333333333333,
+          0.0
+        ],
+        "strategy": "hard_prescreen",
+        "strategy_achieved": 1,
+        "task": "GFP_AEQVI_Sarkisyan_2016",
+        "ties": 2,
+        "wins": 1
+      },
+      "cost": 1,
+      "cost_to_target": [
+        null,
+        null,
+        null,
+        3956,
+        null
+      ],
+      "final_recalls": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.6666666666666666,
+        0.3333333333333333
+      ],
+      "hf_non_mean": [
+        45,
+        45,
+        45,
+        45,
+        45
+      ],
+      "high_purchases": [
+        61,
+        61,
+        61,
+        61,
+        61
+      ],
+      "low_purchases": [
+        256,
+        256,
+        256,
+        256,
+        256
+      ],
+      "mean_recall": 0.4,
+      "mean_regret": 0.0,
+      "regrets": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "score_calls": [
+        45,
+        45,
+        45,
+        45,
+        45
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hard_prescreen",
+      "task": "GFP_AEQVI_Sarkisyan_2016",
+      "zero_value_states": [
+        17,
+        37,
+        37,
+        25,
+        10
+      ]
+    },
+    {
+      "achieved": 1,
+      "censored": 4,
+      "comparison": {
+        "conditional_savings": [
+          -0.2411764705882353
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 2,
+        "joint_achieved": 1,
+        "losses": 1,
+        "low_cost": 1,
+        "mean_conditional_savings": -0.2411764705882353,
+        "mean_delta": -0.06666666666666667,
+        "negative_seed_fraction": 0.2,
+        "paired_delta": [
+          0.0,
+          0.0,
+          -0.3333333333333333,
+          0.0,
+          0.0
+        ],
+        "strategy": "cost_aware",
+        "strategy_achieved": 1,
+        "task": "GFP_AEQVI_Sarkisyan_2016",
+        "ties": 4,
+        "wins": 0
+      },
+      "cost": 1,
+      "cost_to_target": [
+        null,
+        4220,
+        null,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.3333333333333333,
+        0.6666666666666666,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "hf_non_mean": [
+        37,
+        20,
+        19,
+        19,
+        22
+      ],
+      "high_purchases": [
+        61,
+        61,
+        62,
+        62,
+        61
+      ],
+      "low_purchases": [
+        245,
+        220,
+        137,
+        166,
+        241
+      ],
+      "mean_recall": 0.4,
+      "mean_regret": 0.036082464655999846,
+      "regrets": [
+        0.04959332252999982,
+        0.03163235568999978,
+        0.0,
+        0.04959332252999982,
+        0.04959332252999982
+      ],
+      "score_calls": [
+        274,
+        249,
+        167,
+        196,
+        270
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "cost_aware",
+      "task": "GFP_AEQVI_Sarkisyan_2016",
+      "zero_value_states": [
+        8,
+        25,
+        27,
+        27,
+        23
+      ]
+    },
+    {
+      "achieved": 2,
+      "censored": 3,
+      "cost": 4,
+      "cost_to_target": [
+        null,
+        3400,
+        5200,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.3333333333333333,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        64,
+        64,
+        64,
+        64,
+        64
+      ],
+      "low_purchases": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_recall": 0.4666666666666666,
+      "mean_regret": 0.036082464655999846,
+      "regrets": [
+        0.04959332252999982,
+        0.03163235568999978,
+        0.0,
+        0.04959332252999982,
+        0.04959332252999982
+      ],
+      "score_calls": [
+        48,
+        48,
+        48,
+        48,
+        48
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hf_only",
+      "task": "GFP_AEQVI_Sarkisyan_2016",
+      "zero_value_states": [
+        8,
+        20,
+        35,
+        24,
+        23
+      ]
+    },
+    {
+      "achieved": 1,
+      "censored": 4,
+      "comparison": {
+        "conditional_savings": [
+          -0.25176470588235295
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 2,
+        "joint_achieved": 1,
+        "losses": 2,
+        "low_cost": 4,
+        "mean_conditional_savings": -0.25176470588235295,
+        "mean_delta": -0.13333333333333333,
+        "negative_seed_fraction": 0.4,
+        "paired_delta": [
+          -0.3333333333333333,
+          0.0,
+          -0.3333333333333333,
+          0.0,
+          0.0
+        ],
+        "strategy": "fixed_ratio",
+        "strategy_achieved": 1,
+        "task": "GFP_AEQVI_Sarkisyan_2016",
+        "ties": 3,
+        "wins": 0
+      },
+      "cost": 4,
+      "cost_to_target": [
+        null,
+        4256,
+        null,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.0,
+        0.6666666666666666,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        59,
+        59,
+        59,
+        59,
+        59
+      ],
+      "low_purchases": [
+        102,
+        102,
+        102,
+        102,
+        102
+      ],
+      "mean_recall": 0.3333333333333333,
+      "mean_regret": 0.056675254127999876,
+      "regrets": [
+        0.15255726988999996,
+        0.03163235568999978,
+        0.0,
+        0.04959332252999982,
+        0.04959332252999982
+      ],
+      "score_calls": [
+        129,
+        129,
+        129,
+        129,
+        129
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "fixed_ratio",
+      "task": "GFP_AEQVI_Sarkisyan_2016",
+      "zero_value_states": [
+        20,
+        55,
+        67,
+        21,
+        31
+      ]
+    },
+    {
+      "achieved": 1,
+      "censored": 4,
+      "comparison": {
+        "conditional_savings": [],
+        "direction": "unstable",
+        "fraction": "0.01",
+        "hf_achieved": 2,
+        "joint_achieved": 0,
+        "losses": 3,
+        "low_cost": 4,
+        "mean_conditional_savings": null,
+        "mean_delta": -0.13333333333333333,
+        "negative_seed_fraction": 0.6,
+        "paired_delta": [
+          0.0,
+          -0.3333333333333333,
+          -0.3333333333333333,
+          0.3333333333333333,
+          -0.3333333333333333
+        ],
+        "strategy": "hard_prescreen",
+        "strategy_achieved": 1,
+        "task": "GFP_AEQVI_Sarkisyan_2016",
+        "ties": 1,
+        "wins": 1
+      },
+      "cost": 4,
+      "cost_to_target": [
+        null,
+        null,
+        null,
+        4724,
+        null
+      ],
+      "final_recalls": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.6666666666666666,
+        0.0
+      ],
+      "hf_non_mean": [
+        37,
+        37,
+        37,
+        37,
+        37
+      ],
+      "high_purchases": [
+        53,
+        53,
+        53,
+        53,
+        53
+      ],
+      "low_purchases": [
+        256,
+        256,
+        256,
+        256,
+        256
+      ],
+      "mean_recall": 0.3333333333333333,
+      "mean_regret": 0.030980699856000004,
+      "regrets": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.15490349928000002
+      ],
+      "score_calls": [
+        37,
+        37,
+        37,
+        37,
+        37
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hard_prescreen",
+      "task": "GFP_AEQVI_Sarkisyan_2016",
+      "zero_value_states": [
+        13,
+        29,
+        29,
+        17,
+        7
+      ]
+    },
+    {
+      "achieved": 2,
+      "censored": 3,
+      "comparison": {
+        "conditional_savings": [
+          -0.43529411764705883,
+          0.4076923076923077
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 2,
+        "joint_achieved": 2,
+        "losses": 0,
+        "low_cost": 4,
+        "mean_conditional_savings": -0.013800904977375572,
+        "mean_delta": 0.0,
+        "negative_seed_fraction": 0.0,
+        "paired_delta": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "strategy": "cost_aware",
+        "strategy_achieved": 2,
+        "task": "GFP_AEQVI_Sarkisyan_2016",
+        "ties": 5,
+        "wins": 0
+      },
+      "cost": 4,
+      "cost_to_target": [
+        null,
+        4880,
+        3080,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.3333333333333333,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "hf_non_mean": [
+        31,
+        17,
+        23,
+        15,
+        21
+      ],
+      "high_purchases": [
+        54,
+        55,
+        59,
+        57,
+        54
+      ],
+      "low_purchases": [
+        245,
+        220,
+        121,
+        163,
+        241
+      ],
+      "mean_recall": 0.4666666666666666,
+      "mean_regret": 0.036082464655999846,
+      "regrets": [
+        0.04959332252999982,
+        0.03163235568999978,
+        0.0,
+        0.04959332252999982,
+        0.04959332252999982
+      ],
+      "score_calls": [
+        267,
+        243,
+        148,
+        188,
+        263
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "cost_aware",
+      "task": "GFP_AEQVI_Sarkisyan_2016",
+      "zero_value_states": [
+        7,
+        22,
+        20,
+        26,
+        17
+      ]
+    },
+    {
+      "achieved": 3,
+      "censored": 2,
+      "cost": 1,
+      "cost_to_target": [
+        1700,
+        null,
+        null,
+        5300,
+        2200
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.0,
+        0.0,
+        1.0,
+        0.6666666666666666
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        64,
+        64,
+        64,
+        64,
+        64
+      ],
+      "low_purchases": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_recall": 0.4666666666666666,
+      "mean_regret": 0.17484036739269193,
+      "regrets": [
+        0.0,
+        0.4371009184817298,
+        0.4371009184817298,
+        0.0,
+        0.0
+      ],
+      "score_calls": [
+        48,
+        48,
+        48,
+        48,
+        48
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hf_only",
+      "task": "SPG1_STRSG_Olson_2014",
+      "zero_value_states": [
+        47,
+        44,
+        47,
+        41,
+        48
+      ]
+    },
+    {
+      "achieved": 3,
+      "censored": 2,
+      "comparison": {
+        "conditional_savings": [
+          -0.7305882352941176,
+          -0.036226415094339624,
+          -0.2909090909090909
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 3,
+        "joint_achieved": 3,
+        "losses": 0,
+        "low_cost": 1,
+        "mean_conditional_savings": -0.35257458043251605,
+        "mean_delta": 0.06666666666666668,
+        "negative_seed_fraction": 0.0,
+        "paired_delta": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.33333333333333337
+        ],
+        "strategy": "fixed_ratio",
+        "strategy_achieved": 3,
+        "task": "SPG1_STRSG_Olson_2014",
+        "ties": 4,
+        "wins": 1
+      },
+      "cost": 1,
+      "cost_to_target": [
+        2942,
+        null,
+        null,
+        5492,
+        2840
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        62,
+        62,
+        62,
+        62,
+        62
+      ],
+      "low_purchases": [
+        108,
+        108,
+        108,
+        108,
+        108
+      ],
+      "mean_recall": 0.5333333333333333,
+      "mean_regret": 0.19210420302632197,
+      "regrets": [
+        0.0,
+        0.4371009184817298,
+        0.5234200966498801,
+        0.0,
+        0.0
+      ],
+      "score_calls": [
+        138,
+        138,
+        138,
+        138,
+        138
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "fixed_ratio",
+      "task": "SPG1_STRSG_Olson_2014",
+      "zero_value_states": [
+        130,
+        121,
+        111,
+        108,
+        138
+      ]
+    },
+    {
+      "achieved": 0,
+      "censored": 5,
+      "comparison": {
+        "conditional_savings": [],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 3,
+        "joint_achieved": 0,
+        "losses": 3,
+        "low_cost": 1,
+        "mean_conditional_savings": null,
+        "mean_delta": -0.3333333333333333,
+        "negative_seed_fraction": 0.6,
+        "paired_delta": [
+          -0.3333333333333333,
+          0.0,
+          0.0,
+          -1.0,
+          -0.3333333333333333
+        ],
+        "strategy": "hard_prescreen",
+        "strategy_achieved": 0,
+        "task": "SPG1_STRSG_Olson_2014",
+        "ties": 2,
+        "wins": 0
+      },
+      "cost": 1,
+      "cost_to_target": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.3333333333333333,
+        0.0,
+        0.0,
+        0.0,
+        0.3333333333333333
+      ],
+      "hf_non_mean": [
+        45,
+        14,
+        15,
+        20,
+        45
+      ],
+      "high_purchases": [
+        61,
+        61,
+        61,
+        61,
+        61
+      ],
+      "low_purchases": [
+        256,
+        256,
+        256,
+        256,
+        256
+      ],
+      "mean_recall": 0.13333333333333333,
+      "mean_regret": 0.2622605510890379,
+      "regrets": [
+        0.0,
+        0.4371009184817298,
+        0.4371009184817298,
+        0.4371009184817298,
+        0.0
+      ],
+      "score_calls": [
+        45,
+        45,
+        45,
+        45,
+        45
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hard_prescreen",
+      "task": "SPG1_STRSG_Olson_2014",
+      "zero_value_states": [
+        42,
+        43,
+        37,
+        41,
+        44
+      ]
+    },
+    {
+      "achieved": 2,
+      "censored": 3,
+      "comparison": {
+        "conditional_savings": [
+          -0.5388235294117647,
+          -0.14363636363636365
+        ],
+        "direction": "unstable",
+        "fraction": "0.01",
+        "hf_achieved": 3,
+        "joint_achieved": 2,
+        "losses": 1,
+        "low_cost": 1,
+        "mean_conditional_savings": -0.3412299465240642,
+        "mean_delta": -0.06666666666666668,
+        "negative_seed_fraction": 0.2,
+        "paired_delta": [
+          0.0,
+          0.3333333333333333,
+          0.3333333333333333,
+          -1.0,
+          0.0
+        ],
+        "strategy": "cost_aware",
+        "strategy_achieved": 2,
+        "task": "SPG1_STRSG_Olson_2014",
+        "ties": 2,
+        "wins": 2
+      },
+      "cost": 1,
+      "cost_to_target": [
+        2616,
+        null,
+        null,
+        null,
+        2516
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.0,
+        0.6666666666666666
+      ],
+      "hf_non_mean": [
+        1,
+        3,
+        5,
+        6,
+        1
+      ],
+      "high_purchases": [
+        63,
+        63,
+        63,
+        63,
+        63
+      ],
+      "low_purchases": [
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "mean_recall": 0.4,
+      "mean_regret": 0.14211891548774594,
+      "regrets": [
+        0.0,
+        0.13674682947849992,
+        0.13674682947849992,
+        0.4371009184817298,
+        0.0
+      ],
+      "score_calls": [
+        47,
+        47,
+        47,
+        47,
+        47
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "cost_aware",
+      "task": "SPG1_STRSG_Olson_2014",
+      "zero_value_states": [
+        46,
+        44,
+        42,
+        41,
+        46
+      ]
+    },
+    {
+      "achieved": 3,
+      "censored": 2,
+      "cost": 4,
+      "cost_to_target": [
+        1700,
+        null,
+        null,
+        5300,
+        2200
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.0,
+        0.0,
+        1.0,
+        0.6666666666666666
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        64,
+        64,
+        64,
+        64,
+        64
+      ],
+      "low_purchases": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mean_recall": 0.4666666666666666,
+      "mean_regret": 0.17484036739269193,
+      "regrets": [
+        0.0,
+        0.4371009184817298,
+        0.4371009184817298,
+        0.0,
+        0.0
+      ],
+      "score_calls": [
+        48,
+        48,
+        48,
+        48,
+        48
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hf_only",
+      "task": "SPG1_STRSG_Olson_2014",
+      "zero_value_states": [
+        47,
+        44,
+        47,
+        41,
+        48
+      ]
+    },
+    {
+      "achieved": 3,
+      "censored": 2,
+      "comparison": {
+        "conditional_savings": [
+          -0.8047058823529412,
+          -0.08830188679245284,
+          -0.34545454545454546
+        ],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 3,
+        "joint_achieved": 3,
+        "losses": 0,
+        "low_cost": 4,
+        "mean_conditional_savings": -0.4128207715333132,
+        "mean_delta": 0.06666666666666668,
+        "negative_seed_fraction": 0.0,
+        "paired_delta": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.33333333333333337
+        ],
+        "strategy": "fixed_ratio",
+        "strategy_achieved": 3,
+        "task": "SPG1_STRSG_Olson_2014",
+        "ties": 4,
+        "wins": 1
+      },
+      "cost": 4,
+      "cost_to_target": [
+        3068,
+        null,
+        null,
+        5768,
+        2960
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "hf_non_mean": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_purchases": [
+        59,
+        59,
+        59,
+        59,
+        59
+      ],
+      "low_purchases": [
+        102,
+        102,
+        102,
+        102,
+        102
+      ],
+      "mean_recall": 0.5333333333333333,
+      "mean_regret": 0.19210420302632197,
+      "regrets": [
+        0.0,
+        0.4371009184817298,
+        0.5234200966498801,
+        0.0,
+        0.0
+      ],
+      "score_calls": [
+        129,
+        129,
+        129,
+        129,
+        129
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "fixed_ratio",
+      "task": "SPG1_STRSG_Olson_2014",
+      "zero_value_states": [
+        122,
+        112,
+        102,
+        99,
+        129
+      ]
+    },
+    {
+      "achieved": 0,
+      "censored": 5,
+      "comparison": {
+        "conditional_savings": [],
+        "direction": "inconclusive",
+        "fraction": "0.01",
+        "hf_achieved": 3,
+        "joint_achieved": 0,
+        "losses": 3,
+        "low_cost": 4,
+        "mean_conditional_savings": null,
+        "mean_delta": -0.3333333333333333,
+        "negative_seed_fraction": 0.6,
+        "paired_delta": [
+          -0.3333333333333333,
+          0.0,
+          0.0,
+          -1.0,
+          -0.3333333333333333
+        ],
+        "strategy": "hard_prescreen",
+        "strategy_achieved": 0,
+        "task": "SPG1_STRSG_Olson_2014",
+        "ties": 2,
+        "wins": 0
+      },
+      "cost": 4,
+      "cost_to_target": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "final_recalls": [
+        0.3333333333333333,
+        0.0,
+        0.0,
+        0.0,
+        0.3333333333333333
+      ],
+      "hf_non_mean": [
+        37,
+        10,
+        10,
+        13,
+        37
+      ],
+      "high_purchases": [
+        53,
+        53,
+        53,
+        53,
+        53
+      ],
+      "low_purchases": [
+        256,
+        256,
+        256,
+        256,
+        256
+      ],
+      "mean_recall": 0.13333333333333333,
+      "mean_regret": 0.2622605510890379,
+      "regrets": [
+        0.0,
+        0.4371009184817298,
+        0.4371009184817298,
+        0.4371009184817298,
+        0.0
+      ],
+      "score_calls": [
+        37,
+        37,
+        37,
+        37,
+        37
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "hard_prescreen",
+      "task": "SPG1_STRSG_Olson_2014",
+      "zero_value_states": [
+        34,
+        35,
+        30,
+        33,
+        36
+      ]
+    },
+    {
+      "achieved": 2,
+      "censored": 3,
+      "comparison": {
+        "conditional_savings": [
+          -0.5670588235294117,
+          -0.16545454545454547
+        ],
+        "direction": "unstable",
+        "fraction": "0.01",
+        "hf_achieved": 3,
+        "joint_achieved": 2,
+        "losses": 1,
+        "low_cost": 4,
+        "mean_conditional_savings": -0.36625668449197857,
+        "mean_delta": -0.06666666666666668,
+        "negative_seed_fraction": 0.2,
+        "paired_delta": [
+          0.0,
+          0.3333333333333333,
+          0.3333333333333333,
+          -1.0,
+          0.0
+        ],
+        "strategy": "cost_aware",
+        "strategy_achieved": 2,
+        "task": "SPG1_STRSG_Olson_2014",
+        "ties": 2,
+        "wins": 2
+      },
+      "cost": 4,
+      "cost_to_target": [
+        2664,
+        null,
+        null,
+        null,
+        2564
+      ],
+      "final_recalls": [
+        0.6666666666666666,
+        0.3333333333333333,
+        0.3333333333333333,
+        0.0,
+        0.6666666666666666
+      ],
+      "hf_non_mean": [
+        1,
+        3,
+        5,
+        6,
+        1
+      ],
+      "high_purchases": [
+        63,
+        63,
+        63,
+        63,
+        63
+      ],
+      "low_purchases": [
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "mean_recall": 0.4,
+      "mean_regret": 0.14211891548774594,
+      "regrets": [
+        0.0,
+        0.13674682947849992,
+        0.13674682947849992,
+        0.4371009184817298,
+        0.0
+      ],
+      "score_calls": [
+        47,
+        47,
+        47,
+        47,
+        47
+      ],
+      "seeds": [
+        1729,
+        1730,
+        1731,
+        1732,
+        1733
+      ],
+      "strategy": "cost_aware",
+      "task": "SPG1_STRSG_Olson_2014",
+      "zero_value_states": [
+        46,
+        44,
+        42,
+        41,
+        46
+      ]
+    }
+  ],
+  "unique_trajectories": 140
+}

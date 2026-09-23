@@ -1,0 +1,362 @@
+{
+  "status": "PASS",
+  "summary_sha256": "466c54e5ac9e2b42fd12c90069969ec849b06f3072b1d3a41660a3083393563d",
+  "local_audit_checks": {
+    "complete row matrix": 1,
+    "fixed target count": 24,
+    "origin": 24,
+    "charged fidelity": 4662,
+    "recall monotonic": 4662,
+    "integer hits": 4662,
+    "best/regret monotonic": 4638,
+    "LF does not reveal HF metric": 3168,
+    "purchase arithmetic": 24,
+    "final cost arithmetic": 24,
+    "checkpoint prefix": 96,
+    "censored target arithmetic": 24,
+    "matched HF count point": 96,
+    "behavior purchases": 8,
+    "same initial HF metrics": 24,
+    "primary contrast": 5
+  },
+  "total_local_audit_checks": 22142,
+  "rows": [
+    {
+      "mode": "original",
+      "HF": [
+        63,
+        63
+      ],
+      "LF": [
+        16,
+        16
+      ],
+      "final_hits": {
+        "0.005": [
+          1,
+          0
+        ],
+        "0.01": [
+          2,
+          0
+        ],
+        "0.02": [
+          3,
+          1
+        ]
+      },
+      "top1_hits_by_budget": {
+        "1600": [
+          0,
+          0
+        ],
+        "3200": [
+          2,
+          0
+        ],
+        "4800": [
+          2,
+          0
+        ],
+        "6400": [
+          2,
+          0
+        ]
+      },
+      "top1_cost_to_50pct": [
+        2816,
+        null
+      ],
+      "best_found": [
+        1.6145,
+        1.2906
+      ],
+      "simple_regret": [
+        0.0,
+        0.3239000000000001
+      ],
+      "fallback": [
+        null,
+        null
+      ],
+      "HF_non_greedy": [
+        null,
+        null
+      ],
+      "first_post_initial_HF_cost": [
+        1716,
+        1716
+      ]
+    },
+    {
+      "mode": "hf_only",
+      "HF": [
+        64,
+        64
+      ],
+      "LF": [
+        0,
+        0
+      ],
+      "final_hits": {
+        "0.005": [
+          1,
+          0
+        ],
+        "0.01": [
+          2,
+          0
+        ],
+        "0.02": [
+          3,
+          1
+        ]
+      },
+      "top1_hits_by_budget": {
+        "1600": [
+          0,
+          0
+        ],
+        "3200": [
+          2,
+          0
+        ],
+        "4800": [
+          2,
+          0
+        ],
+        "6400": [
+          2,
+          0
+        ]
+      },
+      "top1_cost_to_50pct": [
+        2800,
+        null
+      ],
+      "best_found": [
+        1.6145,
+        1.2427
+      ],
+      "simple_regret": [
+        0.0,
+        0.37180000000000013
+      ],
+      "fallback": [
+        null,
+        null
+      ],
+      "HF_non_greedy": [
+        null,
+        null
+      ],
+      "first_post_initial_HF_cost": [
+        1700,
+        1700
+      ]
+    },
+    {
+      "mode": "no_incumbent_max",
+      "HF": [
+        61,
+        61
+      ],
+      "LF": [
+        256,
+        256
+      ],
+      "final_hits": {
+        "0.005": [
+          2,
+          1
+        ],
+        "0.01": [
+          3,
+          2
+        ],
+        "0.02": [
+          6,
+          4
+        ]
+      },
+      "top1_hits_by_budget": {
+        "1600": [
+          0,
+          0
+        ],
+        "3200": [
+          2,
+          1
+        ],
+        "4800": [
+          3,
+          2
+        ],
+        "6400": [
+          3,
+          2
+        ]
+      },
+      "top1_cost_to_50pct": [
+        2456,
+        3456
+      ],
+      "best_found": [
+        1.6145,
+        1.6145
+      ],
+      "simple_regret": [
+        0.0,
+        0.0
+      ],
+      "fallback": [
+        1,
+        1
+      ],
+      "HF_non_greedy": [
+        41,
+        38
+      ],
+      "first_post_initial_HF_cost": [
+        1956,
+        1935
+      ]
+    },
+    {
+      "mode": "no_incumbent_top3",
+      "HF": [
+        61,
+        61
+      ],
+      "LF": [
+        256,
+        256
+      ],
+      "final_hits": {
+        "0.005": [
+          2,
+          1
+        ],
+        "0.01": [
+          3,
+          1
+        ],
+        "0.02": [
+          6,
+          1
+        ]
+      },
+      "top1_hits_by_budget": {
+        "1600": [
+          0,
+          0
+        ],
+        "3200": [
+          2,
+          0
+        ],
+        "4800": [
+          3,
+          0
+        ],
+        "6400": [
+          3,
+          1
+        ]
+      },
+      "top1_cost_to_50pct": [
+        2356,
+        null
+      ],
+      "best_found": [
+        1.6145,
+        1.6145
+      ],
+      "simple_regret": [
+        0.0,
+        0.0
+      ],
+      "fallback": [
+        1,
+        0
+      ],
+      "HF_non_greedy": [
+        42,
+        44
+      ],
+      "first_post_initial_HF_cost": [
+        1956,
+        1956
+      ]
+    }
+  ],
+  "contrasts": [
+    {
+      "contrast": "no_incumbent_max minus original",
+      "mean_delta_recall": 0.5,
+      "paired_delta_recall": [
+        0.33333333333333337,
+        0.6666666666666666
+      ],
+      "seeds": [
+        1729,
+        1730
+      ],
+      "small_sample_direction": "positive"
+    },
+    {
+      "contrast": "no_incumbent_top3 minus original",
+      "mean_delta_recall": 0.33333333333333337,
+      "paired_delta_recall": [
+        0.33333333333333337,
+        0.3333333333333333
+      ],
+      "seeds": [
+        1729,
+        1730
+      ],
+      "small_sample_direction": "positive"
+    },
+    {
+      "contrast": "no_incumbent_top3 minus no_incumbent_max",
+      "mean_delta_recall": -0.16666666666666666,
+      "paired_delta_recall": [
+        0.0,
+        -0.3333333333333333
+      ],
+      "seeds": [
+        1729,
+        1730
+      ],
+      "small_sample_direction": "inconclusive"
+    },
+    {
+      "contrast": "no_incumbent_max minus hf_only",
+      "mean_delta_recall": 0.5,
+      "paired_delta_recall": [
+        0.33333333333333337,
+        0.6666666666666666
+      ],
+      "seeds": [
+        1729,
+        1730
+      ],
+      "small_sample_direction": "positive"
+    },
+    {
+      "contrast": "no_incumbent_top3 minus hf_only",
+      "mean_delta_recall": 0.33333333333333337,
+      "paired_delta_recall": [
+        0.33333333333333337,
+        0.3333333333333333
+      ],
+      "seeds": [
+        1729,
+        1730
+      ],
+      "small_sample_direction": "positive"
+    }
+  ],
+  "scope": "within two preselected seeds on one observed development subset; no significance/generalization",
+  "plot_source": "all recorded top1% cost trajectories, no smoothing/mean or error bands"
+}

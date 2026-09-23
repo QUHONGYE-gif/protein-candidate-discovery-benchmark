@@ -1,11 +1,52 @@
 # Current project status
 
+> Latest scoped development supplement: 2026-09-23; original M6 result snapshot: 2026-09-20. This scoped update supersedes the old statements
+> below that M6 has not started or E5 is pending. It does not change historical accepted M0–M5
+> results. The separate M5 closeout remains under [PR110](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/110).
+
+## September 23 development supplement
+
+The [September 21–22 progress and GB1 audit](results/research-progress-20260923/README.md)
+synchronizes 12 completed local units. Release/group/tail components have not established stable
+incremental primary discovery benefit. The detection study has 144 valid static trajectories and
+36 invalid HF-only trajectories. Wider-target sensitivity retains conditional BLAT/low-price GFP
+combination gains; it is post hoc and does not change the original Top1% stop. ACS small-molecule
+reconstruction and the NR1A2 follow-up do not establish a stable MF applicability condition.
+
+The new GB1 metadata audit maps all 536,962 variant keys and the 768 existing development identities,
+but does not analyze numeric counts or labels. Decision-time availability, realistic batch costs
+and independent prediction of LF false negatives remain unresolved. #113 is not execution-ready;
+#114/#115 have not started. This documentation sync changes no prior result, formal Gate, frozen
+contract, visibility or execution authorization. PR111 remains Draft, pending collaborator review.
+
+## Current M6 state
+
+September 20 development closeout: the [latest progress package](results/m6-progress-20260920/README.md)
+adds the completed independent-pool study, learning/randomness/content diagnostics, dynamic-release
+iterations and pre-purchase VOI trial. The older SPG1 result remains valid in its original setting;
+the independent-pool study did not meet the eight predeclared cross-pool criteria. Added release
+controllers and the VOI reliability rule have not demonstrated incremental primary benefit over
+their simple controls. Individual L1 blocks are complete; formal milestone acceptance remains pending.
+
+| Axis | Current fact |
+|---|---|
+| Implementation | Original E4 implementation PR108 merged as d372f7d; actual E4/E5 model/runtime source is fd68935. Later scoring and policy ablations are separately bound development scripts, not silent replacements of the original protocol |
+| Execution | E4, four-task scoring replication, simulated full-LF policy ablation, real ESM1v E5 (140 unique / 160 logical), and real-proxy policy bridge (40 new + 20 reused references) are complete. Subsequent development blocks listed above are also complete; no study remains active under these completed run authorizations |
+| Verification | Raw artifact identity, event/state/formula/cost/metric checks and readback completed for each unit; independent scientific advisory coverage is reported separately in the result package. This is not full independent-implementation retraining |
+| Scientific result | Removing the incumbent floor changes behavior but is not a general repair. Real-proxy bridge supports mean-over-B and removal-of-hard-filter benefits in SPG1 at the primary endpoint; other tasks are mixed/inconclusive, and recall/best-value outcomes differ. Known development pools, not unseen-assay generalization |
+| Evidence and Gate | Completed L1 development results are ready for collaborator consideration; formal M6 result acceptance / Gate B remains pending. Original Gate A execution exception is not backfilled. No candidate/frozen promotion or COS archive is approved by this file |
+| Active result PR | [PR111](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/111), authored by willzhang, awaiting designated non-author QUHONGYE-gif review; [Issue107](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/107) remains open |
+| Next bounded action | Review the completed [September 20 progress and limits](results/m6-progress-20260920/README.md) together with the prior result package, and decide the accepted development terminal and any remaining S4 scope. No new experiment is a default prerequisite, and no automatic M7/merge/closure follows |
+
+The dated snapshot below is retained as historical context, not current execution authority.
+
+
 > Snapshot last verified: 2026-09-03. Update this file only when one of the nine project-level
 > fields below changes materially. PID, individual attempts, routine Issue comments and code-review
 > events do not trigger an update. Prefer lifecycle closeout before taking a new snapshot, but do
 > not require this file to be transactionally synchronized with every GitHub event.
 
-## Live state
+## Historical 2026-09-03 snapshot
 
 | Field | Current fact |
 |---|---|
@@ -24,7 +65,7 @@ Stage summary: M0-M3 are complete within their accepted engineering/evidence sco
 ITERATION scope with overall `INCONCLUSIVE`, no rerun and no evidence promotion; M5C and M6-M7 have
 not started.
 
-## Next bounded queue
+## Historical bounded queue (2026-09-03)
 
 1. [Issue #91](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/91)
    is closed as completed. It closed after PR #99 merged and before this status synchronization;

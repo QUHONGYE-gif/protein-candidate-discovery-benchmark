@@ -1,0 +1,110 @@
+{
+  "workbook": {
+    "file_bytes": 28090836,
+    "sha256": "e912c93cf3d1d95a7d8fc5bb8e8d50a523eb9398c51613b2a74693f07a50fe29",
+    "sheets": [
+      {
+        "name": "DoubleSub.xls",
+        "sheetId": "1",
+        "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id": "rId1"
+      }
+    ],
+    "metadata": {
+      "xl/worksheets/sheet1.xml": [
+        {
+          "row": 2,
+          "text_cells": {
+            "B2": "DOUBLE MUTANTS",
+            "N2": "SINGLE MUTANTS",
+            "U2": "WILD TYPE"
+          }
+        },
+        {
+          "row": 3,
+          "text_cells": {
+            "B3": "Mut1 WT amino acid",
+            "C3": "Mut1 Position",
+            "D3": "Mut1 Mutation",
+            "E3": "Mut2 WT amino acid",
+            "F3": "Mut2 Position",
+            "G3": "Mut2 Mutation",
+            "H3": "Input Count",
+            "I3": "Selection Count",
+            "J3": "Mut1 Fitness",
+            "K3": "Mut2 Fitness",
+            "N3": "WT amino acid",
+            "O3": "Position",
+            "P3": "Mutation",
+            "Q3": "Input Count",
+            "R3": "Selection Count",
+            "U3": "Input Count",
+            "V3": "Selection Count"
+          }
+        }
+      ]
+    }
+  },
+  "mapping": {
+    "status": "PASS",
+    "source_xlsx_sha256": "e912c93cf3d1d95a7d8fc5bb8e8d50a523eb9398c51613b2a74693f07a50fe29",
+    "source_csv_sha256": "cabd24c6e22d23e77d2bb602f6bd3ea60b12b31e849bd9bda44ab5b618b28ab1",
+    "source_csv_bytes": 1152181940,
+    "xlsx_keys": {
+      "single": 1045,
+      "double": 535917,
+      "duplicate_keys": 0
+    },
+    "project_rows": 536962,
+    "matched_unique_keys": 536962,
+    "project_unmatched": 0,
+    "xlsx_keys_unused": 0,
+    "position_offset": 226,
+    "source_position_range": [
+      2,
+      56
+    ],
+    "project_position_range": [
+      228,
+      282
+    ],
+    "sequence_lengths": [
+      448
+    ],
+    "existing_pool_identity_matches": {
+      "P1": 256,
+      "P2": 256,
+      "P3": 256
+    },
+    "pool_inputs": {
+      "P1": {
+        "ids_sha256": "5e3e2be616ae8699dd39dd4ff6df64d5178ae5723425f13e54eafcf1ca5fa4c9",
+        "sequence_hashes_sha256": "530f56c674d89e7173892ac35d677f25b3d9804cd88dff2d93d487da4fc5f96d"
+      },
+      "P2": {
+        "ids_sha256": "c5318ab749de2b767e4e04c233badf3a7ea3bfff447506c7053e14363451db1c",
+        "sequence_hashes_sha256": "aa82182f087ce2c0228f7fc824ab019ba812c58c8b44fdd84e49738682268ec5"
+      },
+      "P3": {
+        "ids_sha256": "4557d37ea6ff28510c572c7e0496a4de80fc2272e94b46ba5a924b3763002fa9",
+        "sequence_hashes_sha256": "b874400d0a1ea3bd7cc93efc5e177477c2f9ce9c19b14cac17fedbb6abdb8e52"
+      }
+    },
+    "numeric_counts_decoded": 0,
+    "numeric_HF_or_LF_scores_decoded": 0,
+    "fits": 0,
+    "trajectories": 0,
+    "limitations": [
+      "only keys and existing candidate identities; no count distribution, outcome correlation or new candidate onboarding",
+      "raw numeric columns transported as bytes and hashed, never decoded"
+    ],
+    "seconds": 12.830054207937792,
+    "peak_rss_bytes": 137396224
+  },
+  "method_pdf": {
+    "url": "https://ars.els-cdn.com/content/image/1-s2.0-S0960982214012688-mmc1.pdf",
+    "sha256": "bcf095426bda66c70a9e3afb1b2f66e09fc9117b027ebe58ff1edb777721ed90",
+    "bytes": 3128525
+  },
+  "counts_or_label_numeric_analysis": false,
+  "new_scientific_fits_or_replays": 0
+}

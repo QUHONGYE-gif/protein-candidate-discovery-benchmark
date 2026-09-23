@@ -1,0 +1,28 @@
+{
+  "files": {
+    "PROVENANCE.md": "f507398f4e53ab033762439bdacc52bab19fd920a2b34302fe41b480ab92d9c7",
+    "README.md": "f9eb7c717e68e8249b3cf64c720249afcd4e581d43632240efe043f0421019a5",
+    "REVIEW_SUMMARY.md": "2b6152fad05d15113bfeb7dbc091591718b82adfd865154531f5af5ae4911ff3",
+    "SOURCE_IDENTITIES.json": "90dcb8c06864b401e8fedf41ddae4e8d3581cc5e47f1c8c2c49c1c3fba9dee1f",
+    "bridge-claim.md": "347c55fa29d2f29f403d2eb70631787e53c7826be6e07c08e84881891f95d224",
+    "bridge-curves.pdf": "7490ca25afe77835e91c905363435186780ea9c5fac93d7cef66a70ae0b4198c",
+    "bridge-curves.svg": "5699662fd1674826b731b5c8b2669d5c9c5e7e4a02a84da6a854e1c6008aded4",
+    "bridge-paired-effects.pdf": "20b1a005dae7109832fcbdc52f4c770f1f6cb4e7acf89ef0531c336d20ddc1ab",
+    "bridge-paired-effects.svg": "5ade8ee74cba3c41993778a9a0acb7f6e877164f9b88cc33ba5b211bf6cb0610",
+    "bridge-report.md": "8d855c8f4df2e8a2457c585217c88e90bba55e18af83d20bbe76252bdf54833d",
+    "bridge-review.md": "68b7f283708ef3aafe0c15cbfe425314220d3ad627f0a38d652e9075e16d3635",
+    "bridge-tables.md": "18117c69d8d87ebd5d30dffa186b542cb0da2f84fba588e83ab39758b1ff7a3f",
+    "bridge.json": "93e038caac74ffb9e51ca3a4dea68f4d1f2d0aad6dda87dda0f7fbbb4d895648",
+    "e5-prescreen-reachability.json": "4788584dfd877593538e41d8f6d79f687fe945f14167d2530bfc891a4411d3aa",
+    "e5-real-proxy.json": "e556167794e7a5c86e2e6be09b3b8e1003fa4d2c2391c0778f1bf8055bd32d0a",
+    "e5-real-proxy.md": "ac061bb0cea615b270f19438187b555235cf284a39384f635a2f6c45968966d2",
+    "e5-recall-curves.pdf": "95fce9b289c8ea0ce08900769b834f834e31297401d444879d1e783512994cf2",
+    "e5-recall-curves.svg": "b0f58379483c79ab4d0c99fdc3c58ddfc21dadd5de4af41ec1de7b952b05313d",
+    "e5-tables.md": "cc9b52a8a54685806d9a1058b1dfecfec9b22f78221c1c4eeb3fb6dff085043c",
+    "score-replication.json": "a2800f86412d05c020bf9ed49eb3fcb0f91ae3ed6125ed57a03c5ab742537768",
+    "score-replication.md": "0d2c8625e7b79bea137eb7ee539d00f4ea21499fb4f32e55f619017a97bd9457",
+    "synthetic-policy.json": "53cc6e1ad7d23812c8ddfd4d0bbc9309584c3c57e2f9b9b42805c0863faf9090",
+    "synthetic-policy.md": "8369117e08f84eef21ac3b1a1e679c091727210bb615ef309506b1db6982df5a"
+  },
+  "scope": "compact completed M6 development results; no raw inputs/trajectories or formal promotion"
+}

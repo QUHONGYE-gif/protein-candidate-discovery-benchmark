@@ -6,6 +6,12 @@
 项目当前所处阶段、最新 accepted result、活跃 PR/实验、阻塞项与下一 promotion gate 统一见
 [Current project status](docs/STATUS.md)。README 只作为稳定入口，不复制易漂移的运行状态。
 
+最新开发进度见 [9月21–22日后续结果与GB1四缺口审计](docs/results/research-progress-20260923/README.md)。
+[9月20日进度](docs/results/m6-progress-20260920/README.md)保留独立池、信息价值诊断和已停止候选规则的原始结论。
+
+研究结果补充见 [M6 评分复验、真实代理 E5 与原因分析](docs/results/m6-results-20260917/README.md)，
+包含完整配对结果、成本/阈值/最佳值边界与来源核验；[原 E4 与 BLAT 两 seed 报告](docs/results/m6-e4-diagnosis-20260915/README.md)保留历史身份。结果入口不替代里程碑 Gate。
+
 ## 研究问题
 
 - 预测指标更好的 surrogate model 是否一定具有更好的 decision value？

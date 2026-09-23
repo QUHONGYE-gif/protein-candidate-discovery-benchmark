@@ -1,0 +1,276 @@
+{
+  "snapshot_date": "2026-09-20",
+  "evidence_level": "ITERATION/L1",
+  "metric": "new top-1-percent hits, including threshold ties",
+  "unit_note": "Paired initialization states are not independent proteins. Different unit contrasts must not be pooled.",
+  "dynamic_release": [
+    {
+      "unit_id": "patent-stage1-20260919",
+      "comparison": "adaptive_local-minus-random_audit",
+      "decision": "stop_v1",
+      "seed_order": [
+        3729,
+        3730,
+        3731
+      ],
+      "primary_differences": {
+        "CAPSD_AAV2S_Sinai_2021": [
+          0,
+          -1,
+          0
+        ],
+        "GFP_AEQVI_Sarkisyan_2016": [
+          0,
+          0,
+          0
+        ]
+      },
+      "directions": {
+        "CAPSD_AAV2S_Sinai_2021": "inconclusive",
+        "GFP_AEQVI_Sarkisyan_2016": "inconclusive"
+      },
+      "source_result_sha256": "fcf95791a10427b929a8e83384bfa9d656d15532fe705304d3e4137ea1277d3e"
+    },
+    {
+      "unit_id": "patent-stage1-v2-20260919",
+      "comparison": "support_v2-minus-random_audit",
+      "decision": "revise",
+      "seed_order": [
+        3729,
+        3730,
+        3731
+      ],
+      "primary_differences": {
+        "CAPSD_AAV2S_Sinai_2021": [
+          0,
+          0,
+          1
+        ],
+        "GFP_AEQVI_Sarkisyan_2016": [
+          0,
+          0,
+          0
+        ]
+      },
+      "directions": {
+        "CAPSD_AAV2S_Sinai_2021": "inconclusive",
+        "GFP_AEQVI_Sarkisyan_2016": "inconclusive"
+      },
+      "source_result_sha256": "6bcc2c7f24b6ab730181b362b078523801c2f74d1fbebfffcca06e9831726dc2"
+    },
+    {
+      "unit_id": "patent-stage1-simple-control-20260919",
+      "comparison": "support_v2-minus-balanced_fixed_audit",
+      "decision": "stop_added_controller",
+      "seed_order": [
+        3729,
+        3730,
+        3731
+      ],
+      "primary_differences": {
+        "CAPSD_AAV2S_Sinai_2021": [
+          0,
+          0,
+          0
+        ],
+        "GFP_AEQVI_Sarkisyan_2016": [
+          0,
+          0,
+          0
+        ]
+      },
+      "directions": {
+        "CAPSD_AAV2S_Sinai_2021": "inconclusive",
+        "GFP_AEQVI_Sarkisyan_2016": "inconclusive"
+      },
+      "source_result_sha256": "1ff65ef08988798993f30e4ab76c035ec43d46bd9d90bd20e646b8fb6468697d"
+    },
+    {
+      "unit_id": "patent-bounded-reopen-l1-20260920",
+      "comparison": "bounded_reopen-minus-balanced_fixed_audit",
+      "decision": "stop_current_version",
+      "seed_order": [
+        3729,
+        3730,
+        3731
+      ],
+      "primary_differences": {
+        "CAPSD_AAV2S_Sinai_2021": [
+          0,
+          0,
+          -1
+        ],
+        "GFP_AEQVI_Sarkisyan_2016": [
+          0,
+          0,
+          0
+        ]
+      },
+      "directions": {
+        "CAPSD_AAV2S_Sinai_2021": "inconclusive",
+        "GFP_AEQVI_Sarkisyan_2016": "inconclusive"
+      },
+      "source_result_sha256": "203a3e13c98cdf2a67d4831de4a4a7c22a30ffa6cbd2117c0138834c235706d7"
+    }
+  ],
+  "prepurchase_voi": {
+    "unit_id": "patent-voi-l1-20260919",
+    "decision": "stop_added_rule",
+    "primary": [
+      {
+        "contrast": "reliable_minus_paired",
+        "direction": "inconclusive",
+        "fraction": 0.01,
+        "losses": 0,
+        "mean": 0.0,
+        "metric": "total_new_hits",
+        "task": "BLAT_ECOLX_Firnberg_2014",
+        "ties": 6,
+        "trajectory_means": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wins": 0
+      },
+      {
+        "contrast": "reliable_minus_G",
+        "direction": "inconclusive",
+        "fraction": 0.01,
+        "losses": 1,
+        "mean": -0.1111111111111111,
+        "metric": "total_new_hits",
+        "task": "BLAT_ECOLX_Firnberg_2014",
+        "ties": 5,
+        "trajectory_means": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.6666666666666666,
+          0.0
+        ],
+        "wins": 0
+      },
+      {
+        "contrast": "reliable_minus_paired",
+        "direction": "inconclusive",
+        "fraction": 0.01,
+        "losses": 0,
+        "mean": 0.0,
+        "metric": "total_new_hits",
+        "task": "CAPSD_AAV2S_Sinai_2021",
+        "ties": 6,
+        "trajectory_means": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wins": 0
+      },
+      {
+        "contrast": "reliable_minus_G",
+        "direction": "inconclusive",
+        "fraction": 0.01,
+        "losses": 0,
+        "mean": 0.0,
+        "metric": "total_new_hits",
+        "task": "CAPSD_AAV2S_Sinai_2021",
+        "ties": 6,
+        "trajectory_means": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wins": 0
+      },
+      {
+        "contrast": "reliable_minus_paired",
+        "direction": "inconclusive",
+        "fraction": 0.01,
+        "losses": 0,
+        "mean": 0.0,
+        "metric": "total_new_hits",
+        "task": "GFP_AEQVI_Sarkisyan_2016",
+        "ties": 6,
+        "trajectory_means": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wins": 0
+      },
+      {
+        "contrast": "reliable_minus_G",
+        "direction": "inconclusive",
+        "fraction": 0.01,
+        "losses": 0,
+        "mean": 0.0,
+        "metric": "total_new_hits",
+        "task": "GFP_AEQVI_Sarkisyan_2016",
+        "ties": 6,
+        "trajectory_means": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wins": 0
+      },
+      {
+        "contrast": "reliable_minus_paired",
+        "direction": "inconclusive",
+        "fraction": 0.01,
+        "losses": 0,
+        "mean": 0.0,
+        "metric": "total_new_hits",
+        "task": "SPG1_STRSG_Olson_2014",
+        "ties": 6,
+        "trajectory_means": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wins": 0
+      },
+      {
+        "contrast": "reliable_minus_G",
+        "direction": "inconclusive",
+        "fraction": 0.01,
+        "losses": 1,
+        "mean": -0.05555555555555555,
+        "metric": "total_new_hits",
+        "task": "SPG1_STRSG_Olson_2014",
+        "ties": 5,
+        "trajectory_means": [
+          0.0,
+          0.0,
+          0.0,
+          -0.3333333333333333,
+          0.0,
+          0.0
+        ],
+        "wins": 0
+      }
+    ],
+    "source_result_sha256": "a1deb8a62f0288a6ac2075cb776b038f38e6b30d7af6dab18c7a1ad33c579afb",
+    "scope": "24 known development initial states; q plus eight HF; three training repeats averaged inside each state; not LF purchasing or long-horizon policy"
+  }
+}

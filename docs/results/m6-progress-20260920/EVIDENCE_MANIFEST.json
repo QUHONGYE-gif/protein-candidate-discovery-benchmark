@@ -1,0 +1,329 @@
+{
+  "recorded_date": "2026-09-20",
+  "kind": "compact progress source identities",
+  "evidence_level": "ITERATION/L1",
+  "formal_approval": false,
+  "note": "Hashes identify retained source artifacts; this compact package does not contain raw data, original trajectories or an independently executable reproduction bundle.",
+  "units": [
+    {
+      "unit_id": "m6-independent-pools-20260917",
+      "source_artifacts": [
+        {
+          "artifact": "REPORT.md",
+          "bytes": 9448,
+          "sha256": "aa72c1e804297eead5e88281af3b4a118fdfb67ee7fef2236f9c1cf6a86d5f96"
+        },
+        {
+          "artifact": "CLAIM.md",
+          "bytes": 3875,
+          "sha256": "f704cd14df056d0c75a50f0d99d740d6678f9206e0576e8beb9e2aad1bfe2a34"
+        },
+        {
+          "artifact": "review-001/REVIEW.md",
+          "bytes": 11085,
+          "sha256": "f67be3ea618121e302f989c0f625d66901891ce98720dcec68e0a89ba1c7ec48"
+        },
+        {
+          "artifact": "CLOSEOUT.md",
+          "bytes": 3056,
+          "sha256": "c0f4210de39d02581ca2c8e9579528df929f626d96640c733f517c433f930bad"
+        }
+      ]
+    },
+    {
+      "unit_id": "m6-real-learning-value-20260918",
+      "source_artifacts": [
+        {
+          "artifact": "REPORT.md",
+          "bytes": 7326,
+          "sha256": "1b044376f28089052869d7c2c83ec648eecab6ae04b30227a601c661d8c98025"
+        },
+        {
+          "artifact": "CLAIM.md",
+          "bytes": 3121,
+          "sha256": "a38cc84e4461b4cca20402b4ea72ad9ca3f68e176bd2a35f103107ee217b982d"
+        },
+        {
+          "artifact": "review-001/REVIEW.md",
+          "bytes": 10131,
+          "sha256": "05030c76d193e3eaeef98aa02ef093af5285a0bf1a80ab6048c118d95a867d9d"
+        },
+        {
+          "artifact": "CLOSEOUT.md",
+          "bytes": 2885,
+          "sha256": "609bbbbc2301d749902e8352549ace7d58d114d5e51622e4a169612bdc264bf3"
+        }
+      ]
+    },
+    {
+      "unit_id": "m6-bootstrap-factorial-20260918",
+      "source_artifacts": [
+        {
+          "artifact": "REPORT.md",
+          "bytes": 7567,
+          "sha256": "a700f4befecb0c56b94d9ebb6947f17d10b11ae20daa85f89e511a6e254b9349"
+        },
+        {
+          "artifact": "CLAIM.md",
+          "bytes": 3966,
+          "sha256": "9ab9dc20f28794e072e62cd492f7c87527db7ee32074b72dba30f27a28b19537"
+        },
+        {
+          "artifact": "review-001/REVIEW.md",
+          "bytes": 10403,
+          "sha256": "781006b0c921d71b4274460a2442d202feffd994ff33eea8b940fc9e659410d8"
+        },
+        {
+          "artifact": "CLOSEOUT.md",
+          "bytes": 2629,
+          "sha256": "0a42191754cef828d19ff7bdbcef41d57e47ede7c2a1d1c012082a82e808d773"
+        }
+      ]
+    },
+    {
+      "unit_id": "m6-information-content-20260918",
+      "source_artifacts": [
+        {
+          "artifact": "REPORT.md",
+          "bytes": 6985,
+          "sha256": "ce4f254ce28319c96b14c79c54763874739713225e61d8d731130bce49cbca9e"
+        },
+        {
+          "artifact": "CLAIM.md",
+          "bytes": 5080,
+          "sha256": "fc85e27373eddf077837907dc997c201671cb9a90c03ebd12b34c38381753ae9"
+        },
+        {
+          "artifact": "review-001/REVIEW.md",
+          "bytes": 9130,
+          "sha256": "d416cd714e414a709cce6cc67f7a450149d0030d68833ea3e11f127c58f41363"
+        },
+        {
+          "artifact": "CLOSEOUT.md",
+          "bytes": 2856,
+          "sha256": "6ea4106630a7109278857003319022b6b6af57719a4511093eb7f761cfbdd604"
+        }
+      ]
+    },
+    {
+      "unit_id": "patent-stage1-20260919",
+      "source_artifacts": [
+        {
+          "artifact": "REPORT.md",
+          "bytes": 7493,
+          "sha256": "3d6b4ddeaf8808c9ef5bd1df6bc2462d706d412425f1e631a63ac9299878ef26"
+        },
+        {
+          "artifact": "CLAIM.md",
+          "bytes": 1195,
+          "sha256": "ae7e0adc1a789f49accf5ad82fe29129c1797cb4ad63b11610c63b4b31d2a851"
+        },
+        {
+          "artifact": "review-001/REVIEW.md",
+          "bytes": 8108,
+          "sha256": "e9d5dd399051c3af336df7c95fb51b2ad892c41c6a61c104156ea0309de8f149"
+        },
+        {
+          "artifact": "CLOSEOUT.json",
+          "bytes": 3507,
+          "sha256": "b6de75764f3ce82e57270ada986550ff1b6eaadfd660bed09b8305a74fc92263"
+        },
+        {
+          "artifact": "NOTE.md",
+          "bytes": 7835,
+          "sha256": "2750729eb434827b14f4ea29ceacf3c879de3f1ac79bbbcbb92a483806d969a8"
+        },
+        {
+          "artifact": "SERVER_PACKAGE.json",
+          "bytes": 1098,
+          "sha256": "1d661eb5ab1a77b0219b600a80fa1b0c2bbfed0bb210c50921cbeff8df689d4c"
+        },
+        {
+          "artifact": "READBACK_VERIFIED.json",
+          "bytes": 340,
+          "sha256": "59d420201f5d8992fd6e7068bc6fb940d1f7b9f96955d970dd40a3a83ea8e5c7"
+        },
+        {
+          "artifact": "LOCAL_FORMULA_AUDIT.json",
+          "bytes": 12558,
+          "sha256": "2713b734aee161d2322cfd858dc475980f15b05a2bf622f206b9f736b422baba"
+        }
+      ]
+    },
+    {
+      "unit_id": "patent-stage1-v2-20260919",
+      "source_artifacts": [
+        {
+          "artifact": "REPORT.md",
+          "bytes": 9005,
+          "sha256": "922b436613627b3a02107e2dd97301736b430bc7307bfdc0011f6cac2b465e60"
+        },
+        {
+          "artifact": "CLAIM.md",
+          "bytes": 1631,
+          "sha256": "8dcb0ec21a171b3eb90e882214d8c7927571e1fb49d8108aa88ed66b668b7737"
+        },
+        {
+          "artifact": "review-001/REVIEW.md",
+          "bytes": 9539,
+          "sha256": "e358226310aa64918f5795c7bfd4d906c031da037ef37aafa61b75fd8b6e2230"
+        },
+        {
+          "artifact": "CLOSEOUT.json",
+          "bytes": 4802,
+          "sha256": "9eb8402cf9da882851c5996af092822d7c55876d59903a32a13b0194fb53e74d"
+        },
+        {
+          "artifact": "NOTE.md",
+          "bytes": 10725,
+          "sha256": "38880e80622b96c02aa5a19a3f44acbfa731765d84bc3c9c1610c9438b586b4f"
+        },
+        {
+          "artifact": "SERVER_PACKAGE.json",
+          "bytes": 1244,
+          "sha256": "ae1b74078100fc5066feb4d8c0a92a1812b4b21d45a4be706fe68e51f67da579"
+        },
+        {
+          "artifact": "READBACK_VERIFIED.json",
+          "bytes": 341,
+          "sha256": "286905577083a308980b7490a9ed2318c5d3d6508d5e686f4e8bc3bbf5f32a46"
+        },
+        {
+          "artifact": "LOCAL_FORMULA_AUDIT.json",
+          "bytes": 20903,
+          "sha256": "1e2232b28bcd9deb0501f795551f010cdb5c17c1220859d0da5d339916f76e0f"
+        }
+      ]
+    },
+    {
+      "unit_id": "patent-stage1-simple-control-20260919",
+      "source_artifacts": [
+        {
+          "artifact": "REPORT.md",
+          "bytes": 8004,
+          "sha256": "584ece2684ea655d57da4f3f4339eafa378fc3dd2551709601e4201a4e9bcbc1"
+        },
+        {
+          "artifact": "CLAIM.md",
+          "bytes": 1751,
+          "sha256": "3b1b46eb4d4c609a807d8db20bd1221d002b02140f8534fbd8c10a440f97eafc"
+        },
+        {
+          "artifact": "review-001/REVIEW.md",
+          "bytes": 8238,
+          "sha256": "7fce5565e68393df954f98d6009f0e513965da5601a7a5d762b1e55f4738d4c3"
+        },
+        {
+          "artifact": "CLOSEOUT.json",
+          "bytes": 5239,
+          "sha256": "8868b7ff25049e517d10d1ecd70507765c48bf360b1fafa6d40841c05ff30d22"
+        },
+        {
+          "artifact": "NOTE.md",
+          "bytes": 8486,
+          "sha256": "4a3f238cac3829b3e59cd03ed3c2d86cb312c65edfd71d28218c8d7ec4c5bce4"
+        },
+        {
+          "artifact": "SERVER_PACKAGE.json",
+          "bytes": 1435,
+          "sha256": "b2a1002f488d6dc338d62d33d3714501d937cc35ef6ba2dc776b4daac8cd9943"
+        },
+        {
+          "artifact": "READBACK_VERIFIED.json",
+          "bytes": 340,
+          "sha256": "046d816bbd507dbb4cd608b54cd34310385b7cca24b3b6c68702a3d1a88a8e17"
+        },
+        {
+          "artifact": "LOCAL_FORMULA_AUDIT.json",
+          "bytes": 23351,
+          "sha256": "eabc7633250b1981867095356adbcfab0742d53ad0b103c656508d2a80744659"
+        }
+      ]
+    },
+    {
+      "unit_id": "patent-voi-l1-20260919",
+      "source_artifacts": [
+        {
+          "artifact": "REPORT.md",
+          "bytes": 4084,
+          "sha256": "95849ea05dd01334a30ff74986935369f95da2e6e354493a9f181d3c8e30dc70"
+        },
+        {
+          "artifact": "CLAIM.md",
+          "bytes": 1696,
+          "sha256": "8d66d1bd926be5d99d866052ba48a82b65c8a82cec9c40cbf3476b0e72aba6d4"
+        },
+        {
+          "artifact": "review-001/REVIEW.md",
+          "bytes": 5210,
+          "sha256": "1165d56d364fe813ccab6869106bb59afd4bcfee8ba3f842477a5d26e04c91d4"
+        },
+        {
+          "artifact": "CLOSEOUT.json",
+          "bytes": 1683,
+          "sha256": "c7c7968bab6bec28e183e36beafae07586a7f82f0d317d345009503f887de0ae"
+        },
+        {
+          "artifact": "NOTE.md",
+          "bytes": 7628,
+          "sha256": "ac75dc6219f622d2e5991af34516a9c9a7a42631090939a43eaeb06062913722"
+        },
+        {
+          "artifact": "SERVER_PACKAGE.json",
+          "bytes": 1174,
+          "sha256": "70f949abdd218e11149ddd4ebd6eaec80e701b78e4782ca8832b3b3e7d2675ec"
+        },
+        {
+          "artifact": "READBACK_VERIFIED.json",
+          "bytes": 341,
+          "sha256": "69a3cba476074ba46f06dbeb2d73a50eef4bd9f151d9b565bb397883d5fae752"
+        }
+      ]
+    },
+    {
+      "unit_id": "patent-bounded-reopen-l1-20260920",
+      "source_artifacts": [
+        {
+          "artifact": "REPORT.md",
+          "bytes": 5368,
+          "sha256": "3b9afe185811d01f8c23fc601798a2f5e191c04492d08e5a1cb5ec42107e2d9d"
+        },
+        {
+          "artifact": "CLAIM.md",
+          "bytes": 1223,
+          "sha256": "799e1a56d03813d6ecb995f7348fec4b890560d7b3aa033f858d745b3cfd2dff"
+        },
+        {
+          "artifact": "review-001/REVIEW.md",
+          "bytes": 3910,
+          "sha256": "080209b1c9ee93b69e8e6f096b76503ebb2a7caf3f57331b5d190573f2b69586"
+        },
+        {
+          "artifact": "CLOSEOUT.json",
+          "bytes": 3893,
+          "sha256": "64661e8639b9be3051dbdba1a361b43d7d39b012cec26be30913a0c2c632f672"
+        },
+        {
+          "artifact": "NOTE.md",
+          "bytes": 8307,
+          "sha256": "a423f20ecfa757eb705868abf067a108e43b1a728d08194a3d2df9f4f5b19f80"
+        },
+        {
+          "artifact": "SERVER_PACKAGE.json",
+          "bytes": 1600,
+          "sha256": "b83f86f7552b3d9616678c65014d2f3cdaa3d6af009d3aac951ca06d075f254b"
+        },
+        {
+          "artifact": "READBACK_VERIFIED.json",
+          "bytes": 339,
+          "sha256": "4b7e27f1fcb1cea1e4abcf81c93eca83a59bd74277b57286f65d8b999adb6a35"
+        },
+        {
+          "artifact": "LOCAL_FORMULA_AUDIT.json",
+          "bytes": 15030,
+          "sha256": "8146ad8ca8fe372d73d7da704112d7c35475b5536c92129342e0f01dbf0142f1"
+        }
+      ]
+    }
+  ]
+}

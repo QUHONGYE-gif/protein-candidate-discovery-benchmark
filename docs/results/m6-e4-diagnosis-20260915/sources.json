@@ -1,0 +1,110 @@
+{
+  "document_date": "2026-09-15",
+  "evidence_level": "ITERATION/L1 posthoc; limited advisory acceptance, not promotion",
+  "study_id": "e4-proteingym-20260914-001",
+  "executed_source_commit": "fd68935bf97cd7811c66f733066aa8e3677cb1dc",
+  "issue_url": "https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/issues/107#issuecomment-5673275091",
+  "original_e4_summary_sha256": "8d08a4711a720a9af0b099d66710df23ae811b3017f4d71b8b93fbe1bbd2f0a3",
+  "retained_source_identities": [
+    {
+      "role": "completed_analysis_report",
+      "sha256": "4f7858317adb9d41c2786dae702f91db5f4e6a644a418dba64f01cd89bc533a9",
+      "included_in_this_directory": false
+    },
+    {
+      "role": "reviewed_claim",
+      "sha256": "6a7b9debb4998d1f64af2805704fbc8f589c467a99551ce48a4ddae980c0203c",
+      "included_in_this_directory": false
+    },
+    {
+      "role": "independent_scientific_review",
+      "sha256": "4df48a3a01d6db229a99139d39cb161d609540e1d54bd975965fcaab8dc28119",
+      "included_in_this_directory": false
+    },
+    {
+      "role": "completion_summary",
+      "sha256": "466c54e5ac9e2b42fd12c90069969ec849b06f3072b1d3a41660a3083393563d",
+      "included_in_this_directory": false
+    },
+    {
+      "role": "completion_checksums",
+      "sha256": "50abca448ba97bad766bb4481846b54e5f745cb0f3c4cc4a0d4598e9f3555e13",
+      "included_in_this_directory": false
+    },
+    {
+      "role": "completion_marker",
+      "sha256": "aedb591b9e925051a1f57f9990ebb8e63ef5d04e3f11cdf732626a685f62cfd6",
+      "included_in_this_directory": false
+    },
+    {
+      "role": "completion_runner",
+      "sha256": "5c06b725837ac65e1d7e02393d624e61cf77de19bc32b488786806174c726988",
+      "included_in_this_directory": false
+    },
+    {
+      "role": "continuation_note",
+      "sha256": "1705e9163fc53194315f6628e78d1d63609b58f111a5c0f31de2177c34d4a567",
+      "included_in_this_directory": false
+    },
+    {
+      "role": "original_ablation_runner",
+      "sha256": "6d4625ad5a8014fbbc21bf20c37ac52f91b4040ab303bc37ee23f124176b3285",
+      "included_in_this_directory": false
+    },
+    {
+      "role": "original_ablation_note",
+      "sha256": "40c7d6ff1824c3e1dc6d0511ff678f8578e36dcf9127e7f6a2f1abc176aca3a2",
+      "included_in_this_directory": false
+    },
+    {
+      "role": "e4_saved_artifact_report",
+      "sha256": "3156ca3549a78a885bf3eba7c43c53dd8cc90b5bb83b97ad742073b6055910a9",
+      "included_in_this_directory": false
+    }
+  ],
+  "local_result_copy": {
+    "path": "results.json",
+    "source_role": "completed analysis.json",
+    "sha256": "bf38bb8eedde1d23474f4d9ab5fd4ed64287e3634242e166dea786c1821f2cf7",
+    "byte_identical": true
+  },
+  "scope": {
+    "assay": "BLAT_ECOLX_Firnberg_2014",
+    "condition": "C0",
+    "candidate_count": 256,
+    "feature_count": 420,
+    "trajectory_seeds": [
+      1729,
+      1730
+    ],
+    "same_state_seeds": [
+      1729,
+      1730,
+      1731,
+      1732,
+      1733
+    ],
+    "same_state_score_positions": [
+      0,
+      16,
+      32,
+      46
+    ],
+    "LF_cost": 1,
+    "HF_cost": 100,
+    "budget": 6400,
+    "same_state_units_are_independent_replicates": false,
+    "baseline_trajectories_reused": true,
+    "new_seed_replication": false,
+    "cross_assay_generalization": false,
+    "full_independent_raw_pipeline_reproduction": false
+  },
+  "review_boundary": "Reviewer independently recomputed compact arithmetic and plot data; did not reconstruct raw ensemble/truth arrays. The 2400-vector alternative-formula check ran within the completed server continuation.",
+  "package_boundary": "Compact documentation only; raw data/events/ensemble/models and full execution reports are not included.",
+  "e4_diagnostic_copy": {
+    "path": "e4-diagnostics.json",
+    "source_role": "descriptive-summary.json from reviewed saved-artifact audit",
+    "sha256": "1bc135bc55a13faa880b6b5da5cb58a5bfe5f9759f1810b5186d27d9f14a4a8a",
+    "byte_identical": true
+  }
+}
