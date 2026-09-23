@@ -1,8 +1,23 @@
 # Current project status
 
-> M6 development-results progress last verified: 2026-09-20. This scoped update supersedes the old statements
+> Latest scoped development supplement: 2026-09-23; original M6 result snapshot: 2026-09-20. This scoped update supersedes the old statements
 > below that M6 has not started or E5 is pending. It does not change historical accepted M0–M5
 > results. The separate M5 closeout remains under [PR110](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/110).
+
+## September 23 development supplement
+
+The [September 21–22 progress and GB1 audit](results/research-progress-20260923/README.md)
+synchronizes 12 completed local units. Release/group/tail components have not established stable
+incremental primary discovery benefit. The detection study has 144 valid static trajectories and
+36 invalid HF-only trajectories. Wider-target sensitivity retains conditional BLAT/low-price GFP
+combination gains; it is post hoc and does not change the original Top1% stop. ACS small-molecule
+reconstruction and the NR1A2 follow-up do not establish a stable MF applicability condition.
+
+The new GB1 metadata audit maps all 536,962 variant keys and the 768 existing development identities,
+but does not analyze numeric counts or labels. Decision-time availability, realistic batch costs
+and independent prediction of LF false negatives remain unresolved. #113 is not execution-ready;
+#114/#115 have not started. This documentation sync changes no prior result, formal Gate, frozen
+contract, visibility or execution authorization. PR111 remains Draft, pending collaborator review.
 
 ## Current M6 state
 
