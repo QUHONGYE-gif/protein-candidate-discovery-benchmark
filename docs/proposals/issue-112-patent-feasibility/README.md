@@ -1,6 +1,6 @@
 # #112 专利方向可行性初筛：技术证据、现有技术与披露边界
 
-记录日期：2026-09-23。对象：当前公开数据蛋白候选发现 benchmark；拟申请地区暂按中国发明专利。**结论：优先路线为“特定测定场景中的漏筛修正”，但状态仅为 REVISE／有条件继续；通用“达标候选数驱动选点”在当前定义下暂缓。现在没有可据以主张稳定增量效果的新增技术步骤。** 这是一轮有限初筛，不是新颖性、创造性、权属或自由实施法律意见。
+初筛记录日期：2026-09-23；证据补充核对：2026-09-25（覆盖截至 2026-09-22 的开发单元）。对象：当前公开数据蛋白候选发现 benchmark；拟申请地区暂按中国发明专利。**结论：优先路线为“特定测定场景中的漏筛修正”，但状态仅为 REVISE／有条件继续；通用“达标候选数驱动选点”在当前定义下暂缓。现在没有可据以主张稳定增量效果的新增技术步骤。** 这是一轮有限初筛，不是新颖性、创造性、权属或自由实施法律意见。
 
 ## 1. 证据层级与原始入口
 
@@ -10,8 +10,9 @@
 | M5 | A/B/C/D、原因分析及六任务 R/S 已整理于 [PR #110 的固定阅读包](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/03aad1694f9d070c1d9da95cb3b0fe78470d2326/docs/results/m5-closeout-20260913/README.md)；PR #110 未合并 | 最新六任务仅 Alpha 满足两主比较×两批完整标准；旧阳性、失败复现及 HXK4 S 批不明确均保留 | 预测改善不能替代发现评价；存在有限训练信息条件效应，不证明普适探索收益或统一机制。 |
 | M6 E4/E5 | 执行源码 `fd68935bf97cd7811c66f733066aa8e3677cb1dc`；[综合结果](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/36bf63dc8aaeab14c71f20406739323099e75fd8/docs/results/m6-results-20260917/README.md) 随 PR #111 审阅 | E4 的 48 主比较：5 positive、1 negative、27 unstable、15 inconclusive；E5 的 24 主比较：0 positive、2 negative、4 unstable、18 inconclusive。SPG1 去硬筛选在原开发池主终点 +66.7pp、五 seed 同向，其他任务和终点反例保留 | 局部筛选损失可观察；通用多保真或取消筛选优势未建立。购买单位不是现实货币。 |
 | 独立池与新增规则 | [2026-09-20 开发进度](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/36bf63dc8aaeab14c71f20406739323099e75fd8/docs/results/m6-progress-20260920/README.md) 及 [九单元来源身份](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/36bf63dc8aaeab14c71f20406739323099e75fd8/docs/results/m6-progress-20260920/EVIDENCE_MANIFEST.json) | 180 条独立池轨迹的八项预列跨池标准均未通过；CAPSD 有筛选阻断迹象，GFP/P2 去筛选五次均变差。动态放行四轮、简单组合对照及购买前可靠性规则都已执行；新控制器没有增量主发现收益，可靠性规则与普通估值 24 次主差全为 0 | 可定位风险，不具备运行前稳定预报器；已停止版本不得作为“待实现新方法”。 |
+| 9 月 21–22 日后续开发 | [12 单元固定摘要](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/235134cb2bafb2f6cc54f71adf1b644023ab77da/docs/results/research-progress-20260923/RESULTS.md) 与 [来源身份](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/235134cb2bafb2f6cc54f71adf1b644023ab77da/docs/results/research-progress-20260923/EVIDENCE_MANIFEST.json) 随 PR #111 审阅 | 分组预测、整体偏差释放及上尾信号均未建立稳定新诊断器；检测 A 的 36 条 HF-only 轨迹有实现缺陷，排除其比较，原 Top1% 下组合未超单源。事后阈值梯度显示 BLAT 较宽阈值、低价 GFP 的静态组合条件性正差；ACS 原图精确复现暂停，独立重建主结果负/不稳，NR1A2 旧正差随优化延长反转。 | 不能把已失败组件重命名为新方法，也不能抹掉特定任务/价格/目标下的组合收益。阈值格点和 seed 均非独立实验；无购买前适用性规则或正式科学验收。 |
 
-PR #111 及 #107 的正式科学验收仍待指定协作者；各单元为 ITERATION/L1。上述数字来自绑定的紧凑摘要，本次未打开原始 truth、重跑模型或独立复算全部 ensemble。[来源与复验边界](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/36bf63dc8aaeab14c71f20406739323099e75fd8/docs/results/m6-results-20260917/PROVENANCE.md)已经区分 260 条唯一 E4 轨迹、140 条唯一 E5 轨迹和被复用的引用。种子/检查断言不是独立蛋白样本。
+PR #111 及 #107 的正式科学验收仍待指定协作者；原 E4/E5 单元为 ITERATION/L1，新增 12 单元为后续开发资料。上述数字来自绑定的紧凑摘要，本次未打开原始 truth、重跑模型或独立复算全部 ensemble。[来源与复验边界](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/36bf63dc8aaeab14c71f20406739323099e75fd8/docs/results/m6-results-20260917/PROVENANCE.md)已经区分 260 条唯一 E4 轨迹、140 条唯一 E5 轨迹和被复用的引用。种子/检查断言不是独立蛋白样本。
 
 ## 2. 检索记录与范围
 
@@ -47,11 +48,11 @@ PR #111 及 #107 的正式科学验收仍待指定协作者；各单元为 ITERA
 
 **可能的处理/动作**：由额外信号诊断一种具体失配，并在同一 HF 预算下决定候选资格或核查；与当前简单“全池均值”“硬筛选＋固定核查”和现有专利流程对照。此处只是可检验的研究框架，未形成具体算法，也没有可主张的技术效果。
 
-**进入 #113 的必要条件**：找到一种明确的蛋白测定、公开可用且许可清楚的配对数据、运行前确实可观测的额外信号、和对现有专利有实质区别的处理。当前已登记的 [ProteinGym 四 assay 标准化对象](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/main/docs/data/PROTEINGYM_FOUR_ASSAY_DATA_READINESS.md)包含 DMS truth、zero-shot 分数与候选序列，但其标准化输出没有独立表达量、检测限或批次层信号；不能据此推断原始来源永远没有其他元数据。若不能满足条件，A 应停止，不再叠加第五版释放控制器。
+**进入 #113 的必要条件**：找到一种明确的蛋白测定、公开可用且许可清楚的配对数据、运行前确实可观测的额外信号、和对现有专利有实质区别的处理。[GB1 四缺口资料审计](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/235134cb2bafb2f6cc54f71adf1b644023ab77da/docs/results/research-progress-20260923/GB1_AUDIT.md)已将原始表与 536,962 个候选键及三个各含 256 个候选的开发池的**身份映射**核为 PASS；这不证明计数先于决策可得、成本可省或计数能独立预报 ESM 漏筛，因此当前执行仍为 NO-GO。当前已登记的 [ProteinGym 四 assay 标准化对象](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/main/docs/data/PROTEINGYM_FOUR_ASSAY_DATA_READINESS.md)包含 DMS truth、zero-shot 分数与候选序列，但其标准化输出没有独立表达量、检测限或批次层信号；不能据此推断原始来源永远没有其他元数据。若不能满足条件，A 应停止，不再叠加第五版释放控制器。
 
 ### B. 预定义达标候选数驱动 HF 选点：当前 STOP／仅保留备选问题
 
-当前没有经实验证实优于“固定 LF 后按均值选择 HF”的区别步骤。已有 M5 的二值上尾代理及排序目标也未建立稳定增益，见 [M5 收尾](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/03aad1694f9d070c1d9da95cb3b0fe78470d2326/docs/results/m5-closeout-20260913/README.md) 中 E19/E20；现有专利/论文已经使用达标定义或阈值评价。全池 top1% 的定义属于 evaluator，不是运行时可输入的“技术阈值”。若未来独立出现非事后、与测定技术需求相连的阈值及具体新步骤，须重新对比现有技术，另作明确决定；本次不启动 B 的拟合或选点实验。
+当前没有经实验证实优于“固定 LF 后按均值选择 HF”的区别步骤。已有 M5 的二值上尾代理及排序目标也未建立稳定增益，见 [M5 收尾](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/blob/03aad1694f9d070c1d9da95cb3b0fe78470d2326/docs/results/m5-closeout-20260913/README.md) 中 E19/E20；现有专利/论文已经使用达标定义或阈值评价。9 月 21–22 日的阈值梯度在 BLAT 较宽事后阈值和低价 GFP 见静态组合正差，但原预设 Top1% 条件未翻转；事后格点不能当独立重复，更不能回填为预定命中阈值或稳定适用条件。全池 top1% 的定义属于 evaluator，不是运行时可输入的“技术阈值”。若未来独立出现非事后、与测定技术需求相连的阈值及具体新步骤，须重新对比现有技术，另作明确决定；本次不启动 B 的拟合或选点实验。
 
 ## 5. 披露与权属台账
 
@@ -66,6 +67,6 @@ PR #111 及 #107 的正式科学验收仍待指定协作者；各单元为 ITERA
 
 ## 6. 交给 #113 的边界
 
-建议 **只做一次有界的数据/场景可行性审计**：先不读 held-out、不拟合、不运行服务器；检查 A 的额外信号是否存在、可合法使用、与漏筛机制相关、且可在决策时取得。若无，#113 给出 NO-GO 记录，#114/#115 不启动。若有，再提出一个方法和强简单对照，前瞻冻结预算、效果及止损。B 当前停止，不因 A 失败自动转入 B。
+已完成一次有界的 GB1 元数据/身份审计：不读 held-out、不拟合、不运行服务器；身份映射 PASS，决策时序、真实共享/边际成本和漏筛独立信息价值未闭合，见 [#113 审核结论](https://github.com/QUHONGYE-gif/protein-candidate-discovery-benchmark/pull/117#issuecomment-5794609176)。#113 当前执行 NO-GO，#114/#115 不启动。只有另有具体决策时点、合法可见信号、成本单位及可验证区别步骤，才可提出一个方法和强简单对照，前瞻冻结预算、效果及止损。B 当前停止，不因 A 失败自动转入 B。
 
 本报告完成的是资料初筛与有限建议。正式检索、申请范围、发明人/申请人及提交时机仍须实际负责人和专利代理师核实；没有任何方法被认定可授权。
